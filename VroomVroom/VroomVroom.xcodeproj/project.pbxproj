@@ -13,18 +13,19 @@
 		E537688A1BA6D63C00D0BC14 /* imgui_draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E53768851BA6D63C00D0BC14 /* imgui_draw.cpp */; };
 		E537688B1BA6D63C00D0BC14 /* imgui_impl_sdl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E53768861BA6D63C00D0BC14 /* imgui_impl_sdl.cpp */; };
 		E537688C1BA6D63C00D0BC14 /* imgui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E53768871BA6D63C00D0BC14 /* imgui.cpp */; };
-		E537688D1BA6D63C00D0BC14 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E53768881BA6D63C00D0BC14 /* main.cpp */; };
+		E55044041BA9792A00677B51 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E55044031BA9792A00677B51 /* main.cpp */; };
+		E550441B1BA98C2600677B51 /* libGLEW.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E550441A1BA98C2600677B51 /* libGLEW.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		E537686D1BA6D3B600D0BC14 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 10;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -36,7 +37,6 @@
 		E53768851BA6D63C00D0BC14 /* imgui_draw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = imgui_draw.cpp; sourceTree = "<group>"; };
 		E53768861BA6D63C00D0BC14 /* imgui_impl_sdl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = imgui_impl_sdl.cpp; sourceTree = "<group>"; };
 		E53768871BA6D63C00D0BC14 /* imgui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = imgui.cpp; sourceTree = "<group>"; };
-		E53768881BA6D63C00D0BC14 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		E53768951BA6D6A200D0BC14 /* imconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imconfig.h; sourceTree = "<group>"; };
 		E53768961BA6D6A200D0BC14 /* imgui_impl_sdl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imgui_impl_sdl.h; sourceTree = "<group>"; };
 		E53768971BA6D6A200D0BC14 /* imgui_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imgui_internal.h; sourceTree = "<group>"; };
@@ -44,6 +44,8 @@
 		E53768991BA6D6A200D0BC14 /* stb_rect_pack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_rect_pack.h; sourceTree = "<group>"; };
 		E537689A1BA6D6A200D0BC14 /* stb_textedit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_textedit.h; sourceTree = "<group>"; };
 		E537689B1BA6D6A200D0BC14 /* stb_truetype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_truetype.h; sourceTree = "<group>"; };
+		E55044031BA9792A00677B51 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		E550441A1BA98C2600677B51 /* libGLEW.dylib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLEW.dylib; path = ../../../../usr/lib/libGLEW.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E550441B1BA98C2600677B51 /* libGLEW.dylib in Frameworks */,
 				E537687C1BA6D3FE00D0BC14 /* SDL2.framework in Frameworks */,
 				E537687A1BA6D3CE00D0BC14 /* OpenGL.framework in Frameworks */,
 			);
@@ -62,6 +65,7 @@
 		E53768661BA6D3B600D0BC14 = {
 			isa = PBXGroup;
 			children = (
+				E550441A1BA98C2600677B51 /* libGLEW.dylib */,
 				E537687B1BA6D3FE00D0BC14 /* SDL2.framework */,
 				E53768791BA6D3CE00D0BC14 /* OpenGL.framework */,
 				E53768711BA6D3B600D0BC14 /* VroomVroom */,
@@ -80,11 +84,11 @@
 		E53768711BA6D3B600D0BC14 /* VroomVroom */ = {
 			isa = PBXGroup;
 			children = (
+				E55044031BA9792A00677B51 /* main.cpp */,
 				E53768841BA6D63C00D0BC14 /* imgui_demo.cpp */,
 				E53768851BA6D63C00D0BC14 /* imgui_draw.cpp */,
 				E53768861BA6D63C00D0BC14 /* imgui_impl_sdl.cpp */,
 				E53768871BA6D63C00D0BC14 /* imgui.cpp */,
-				E53768881BA6D63C00D0BC14 /* main.cpp */,
 				E53768951BA6D6A200D0BC14 /* imconfig.h */,
 				E53768961BA6D6A200D0BC14 /* imgui_impl_sdl.h */,
 				E53768971BA6D6A200D0BC14 /* imgui_internal.h */,
@@ -155,7 +159,7 @@
 				E53768891BA6D63C00D0BC14 /* imgui_demo.cpp in Sources */,
 				E537688C1BA6D63C00D0BC14 /* imgui.cpp in Sources */,
 				E537688A1BA6D63C00D0BC14 /* imgui_draw.cpp in Sources */,
-				E537688D1BA6D63C00D0BC14 /* main.cpp in Sources */,
+				E55044041BA9792A00677B51 /* main.cpp in Sources */,
 				E537688B1BA6D63C00D0BC14 /* imgui_impl_sdl.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -246,8 +250,24 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Framework",
+					/usr/lib,
+					/usr/local/lib,
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/Include/GL/,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/lib,
+					/usr/local/lib,
+				);
+				OTHER_CFLAGS = "-DGLEW_STATIC";
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				OTHER_LDFLAGS = "-lGLEW";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = /usr/Include/GL;
 			};
 			name = Debug;
 		};
@@ -257,8 +277,24 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Framework",
+					/usr/lib,
+					/usr/local/lib,
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/Include/GL/,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/lib,
+					/usr/local/lib,
+				);
+				OTHER_CFLAGS = "-DGLEW_STATIC";
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				OTHER_LDFLAGS = "-lGLEW";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = /usr/Include/GL;
 			};
 			name = Release;
 		};
@@ -281,6 +317,7 @@
 				E53768781BA6D3B600D0BC14 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

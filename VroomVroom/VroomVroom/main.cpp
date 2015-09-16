@@ -1,5 +1,6 @@
 // ImGui - standalone example application for SDL2 + OpenGL
 
+#include <glew.h>
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
 #include <stdio.h>
@@ -14,18 +15,28 @@ int main(int, char**)
         printf("Error: %s\n", SDL_GetError());
         return -1;
 	}
-
+	
     // Setup window
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	SDL_DisplayMode current;
 	SDL_GetCurrentDisplayMode(0, &current);
 	SDL_Window *window = SDL_CreateWindow("ImGui SDL2+OpenGL example", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_OPENGL|SDL_WINDOW_RESIZABLE);
 	SDL_GLContext glcontext = SDL_GL_CreateContext(window);
-
+	
+	glewExperimental = true;
+	
+	GLenum glewError = glewInit();
+	if( glewError != GLEW_OK )
+	{
+		printf( "Error initializing GLEW! %s\n", glewGetErrorString( glewError ) );
+	}
+	
+	printf("GL version %s \n", glGetString(GL_VERSION));
+	printf("GL version %s.%s \n", glewGetString(GLEW_VERSION_MAJOR),glewGetString(GLEW_VERSION_MINOR));
+	
     // Setup ImGui binding
     ImGui_ImplSdl_Init(window);
 
@@ -61,7 +72,7 @@ int main(int, char**)
                 done = true;
         }
         ImGui_ImplSdl_NewFrame(window);
-
+		
         // 1. Show a simple window
         // Tip: if we don't call ImGui::Begin()/ImGui::End() the widgets appears in a window automatically called "Debug"
         {
@@ -91,6 +102,8 @@ int main(int, char**)
         }
 
         // Rendering
+		//int display_w, display_h;
+		//glfwGetFramebufferSize(window, &display_w, &display_h);
         glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
         glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT);

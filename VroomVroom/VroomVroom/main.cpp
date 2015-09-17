@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
+#include <iostream>
 
 int main(int, char**)
 {
@@ -20,7 +21,10 @@ int main(int, char**)
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 	SDL_DisplayMode current;
 	SDL_GetCurrentDisplayMode(0, &current);
 	SDL_Window *window = SDL_CreateWindow("ImGui SDL2+OpenGL example", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_OPENGL|SDL_WINDOW_RESIZABLE);
@@ -31,11 +35,13 @@ int main(int, char**)
 	GLenum glewError = glewInit();
 	if( glewError != GLEW_OK )
 	{
-		printf( "Error initializing GLEW! %s\n", glewGetErrorString( glewError ) );
+		printf( "Error initializing GLEW! %p\n", glewGetErrorString( glewError ) );
 	}
 	
-	printf("GL version %s \n", glGetString(GL_VERSION));
-	printf("GL version %s.%s \n", glewGetString(GLEW_VERSION_MAJOR),glewGetString(GLEW_VERSION_MINOR));
+	//printf("GL version %s \n", glGetString(GL_VERSION));
+	std::cout << "GL version " << glGetString(GL_VERSION) << std::endl;
+	std::cout << "GLEW version " << glewGetString(GLEW_VERSION_MAJOR) << glewGetString(GLEW_VERSION_MINOR) << std::endl;
+	//printf("GL version %p.%p \n", glewGetString(GLEW_VERSION_MAJOR),glewGetString(GLEW_VERSION_MINOR));
 	
     // Setup ImGui binding
     ImGui_ImplSdl_Init(window);

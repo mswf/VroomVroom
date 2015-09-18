@@ -33,3 +33,4 @@ unsuccessfulbuild/
 !*.lib
 
 vs_proj/Debug/
+vs_proj/VroomVroom/imgui.ini

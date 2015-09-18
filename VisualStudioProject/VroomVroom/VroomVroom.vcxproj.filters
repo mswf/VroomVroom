@@ -18,42 +18,42 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\VroomVroom\imconfig.h">
+    <ClInclude Include="..\..\src\imconfig.h">
       <Filter>VroomVroom</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\VroomVroom\imgui.h">
+    <ClInclude Include="..\..\src\imgui.h">
       <Filter>VroomVroom</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\VroomVroom\imgui_impl_sdl.h">
+    <ClInclude Include="..\..\src\imgui_impl_sdl.h">
       <Filter>VroomVroom</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\VroomVroom\imgui_internal.h">
+    <ClInclude Include="..\..\src\imgui_internal.h">
       <Filter>VroomVroom</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\VroomVroom\stb_rect_pack.h">
+    <ClInclude Include="..\..\src\stb_rect_pack.h">
       <Filter>VroomVroom</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\VroomVroom\stb_textedit.h">
+    <ClInclude Include="..\..\src\stb_textedit.h">
       <Filter>VroomVroom</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\VroomVroom\stb_truetype.h">
+    <ClInclude Include="..\..\src\stb_truetype.h">
       <Filter>VroomVroom</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\VroomVroom\imgui.cpp">
+    <ClCompile Include="..\..\src\imgui.cpp">
       <Filter>VroomVroom</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\VroomVroom\imgui_demo.cpp">
+    <ClCompile Include="..\..\src\imgui_demo.cpp">
       <Filter>VroomVroom</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\VroomVroom\imgui_draw.cpp">
+    <ClCompile Include="..\..\src\imgui_draw.cpp">
       <Filter>VroomVroom</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\VroomVroom\imgui_impl_sdl.cpp">
+    <ClCompile Include="..\..\src\imgui_impl_sdl.cpp">
       <Filter>VroomVroom</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\VroomVroom\main.cpp">
+    <ClCompile Include="..\..\src\main.cpp">
       <Filter>VroomVroom</Filter>
     </ClCompile>
   </ItemGroup>

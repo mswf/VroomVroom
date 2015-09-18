@@ -19,3 +19,12 @@ xcuserdata
 *.xccheckout
 *.moved-aside
 *.xcuserstate
+
+
+## Visual Studio
+*.tlog/
+unsuccessfulbuild/
+*.obj
+*.idb
+*.sdf
+*.opensdf

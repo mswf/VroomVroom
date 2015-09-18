@@ -3,6 +3,7 @@ tignore contributors: remember to update Global/Xcode.gitignore, Objective-C.git
 ## Build generated
 build/
 DerivedData
+*imgui.ini
 
 ## Various settings
 *.pbxuser
@@ -33,4 +34,3 @@ unsuccessfulbuild/
 !*.lib
 
 vs_proj/Debug/
-vs_proj/VroomVroom/imgui.ini

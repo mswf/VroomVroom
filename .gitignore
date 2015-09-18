@@ -28,3 +28,8 @@ unsuccessfulbuild/
 *.idb
 *.sdf
 *.opensdf
+
+!*.dll
+!*.lib
+
+VisualStudioProject/Debug/

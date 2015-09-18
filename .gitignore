@@ -32,4 +32,4 @@ unsuccessfulbuild/
 !*.dll
 !*.lib
 
-VisualStudioProject/Debug/
+vs_proj/Debug/

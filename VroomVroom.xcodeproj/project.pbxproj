@@ -8,14 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		E537687A1BA6D3CE00D0BC14 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E53768791BA6D3CE00D0BC14 /* OpenGL.framework */; };
-		E550441B1BA98C2600677B51 /* libGLEW.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E550441A1BA98C2600677B51 /* libGLEW.dylib */; };
 		E567A8F51BB1470200B8F6C3 /* imgui_demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8E81BB1470200B8F6C3 /* imgui_demo.cpp */; settings = {ASSET_TAGS = (); }; };
 		E567A8F61BB1470200B8F6C3 /* imgui_draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8E91BB1470200B8F6C3 /* imgui_draw.cpp */; settings = {ASSET_TAGS = (); }; };
 		E567A8F71BB1470200B8F6C3 /* imgui_impl_sdl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8EA1BB1470200B8F6C3 /* imgui_impl_sdl.cpp */; settings = {ASSET_TAGS = (); }; };
 		E567A8F81BB1470200B8F6C3 /* imgui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8ED1BB1470200B8F6C3 /* imgui.cpp */; settings = {ASSET_TAGS = (); }; };
 		E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8EF1BB1470200B8F6C3 /* main.cpp */; settings = {ASSET_TAGS = (); }; };
 		E567A8FA1BB1470200B8F6C3 /* renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8F01BB1470200B8F6C3 /* renderer.cpp */; settings = {ASSET_TAGS = (); }; };
-		E567A8FC1BB1472700B8F6C3 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E567A8FB1BB1472700B8F6C3 /* SDL2.framework */; };
+		E567A9001BB185FC00B8F6C3 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E567A8FF1BB185FC00B8F6C3 /* SDL2.framework */; };
+		E567A9021BB186C900B8F6C3 /* libGLEW.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E567A9011BB186C900B8F6C3 /* libGLEW.dylib */; };
+		E567A9031BB186EB00B8F6C3 /* libGLEW.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E567A9011BB186C900B8F6C3 /* libGLEW.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,8 +24,9 @@
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
 			dstPath = "";
-			dstSubfolderSpec = 10;
+			dstSubfolderSpec = 16;
 			files = (
+				E567A9031BB186EB00B8F6C3 /* libGLEW.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -33,7 +35,6 @@
 /* Begin PBXFileReference section */
 		E537686F1BA6D3B600D0BC14 /* VroomVroom */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VroomVroom; sourceTree = BUILT_PRODUCTS_DIR; };
 		E53768791BA6D3CE00D0BC14 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		E550441A1BA98C2600677B51 /* libGLEW.dylib */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLEW.dylib; path = ../../../../usr/lib/libGLEW.dylib; sourceTree = "<group>"; };
 		E567A8E71BB1470200B8F6C3 /* imconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = imconfig.h; path = src/imconfig.h; sourceTree = SOURCE_ROOT; };
 		E567A8E81BB1470200B8F6C3 /* imgui_demo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_demo.cpp; path = src/imgui_demo.cpp; sourceTree = SOURCE_ROOT; };
 		E567A8E91BB1470200B8F6C3 /* imgui_draw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_draw.cpp; path = src/imgui_draw.cpp; sourceTree = SOURCE_ROOT; };
@@ -48,7 +49,8 @@
 		E567A8F21BB1470200B8F6C3 /* stb_rect_pack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_rect_pack.h; path = src/stb_rect_pack.h; sourceTree = SOURCE_ROOT; };
 		E567A8F31BB1470200B8F6C3 /* stb_textedit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_textedit.h; path = src/stb_textedit.h; sourceTree = SOURCE_ROOT; };
 		E567A8F41BB1470200B8F6C3 /* stb_truetype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_truetype.h; path = src/stb_truetype.h; sourceTree = SOURCE_ROOT; };
-		E567A8FB1BB1472700B8F6C3 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
+		E567A8FF1BB185FC00B8F6C3 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
+		E567A9011BB186C900B8F6C3 /* libGLEW.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.dylib; path = ../../../usr/lib/glew/MinSizeRel/libGLEW.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,8 +58,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E567A8FC1BB1472700B8F6C3 /* SDL2.framework in Frameworks */,
-				E550441B1BA98C2600677B51 /* libGLEW.dylib in Frameworks */,
+				E567A9021BB186C900B8F6C3 /* libGLEW.dylib in Frameworks */,
+				E567A9001BB185FC00B8F6C3 /* SDL2.framework in Frameworks */,
 				E537687A1BA6D3CE00D0BC14 /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -68,8 +70,8 @@
 		E53768661BA6D3B600D0BC14 = {
 			isa = PBXGroup;
 			children = (
-				E567A8FB1BB1472700B8F6C3 /* SDL2.framework */,
-				E550441A1BA98C2600677B51 /* libGLEW.dylib */,
+				E567A9011BB186C900B8F6C3 /* libGLEW.dylib */,
+				E567A8FF1BB185FC00B8F6C3 /* SDL2.framework */,
 				E53768791BA6D3CE00D0BC14 /* OpenGL.framework */,
 				E53768711BA6D3B600D0BC14 /* VroomVroom */,
 				E53768701BA6D3B600D0BC14 /* Products */,
@@ -256,26 +258,21 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Framework",
-					/usr/lib,
-					/usr/local/lib,
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					/usr/Include/GL/,
+					/usr/Include/glew,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/lib,
-					/usr/local/lib,
+					/usr/lib/glew/Release,
+					/usr/lib/glew/Debug,
+					/usr/lib/glew/MinSizeRel,
 				);
-				OTHER_CFLAGS = "-DGLEW_STATIC";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
-				OTHER_LDFLAGS = "-lGLEW";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = /usr/Include/GL;
 			};
 			name = Debug;
 		};
@@ -284,26 +281,21 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Framework",
-					/usr/lib,
-					/usr/local/lib,
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					/usr/Include/GL/,
+					/usr/Include/glew,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/usr/lib,
-					/usr/local/lib,
+					/usr/lib/glew/Release,
+					/usr/lib/glew/Debug,
+					/usr/lib/glew/MinSizeRel,
 				);
-				OTHER_CFLAGS = "-DGLEW_STATIC";
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
-				OTHER_LDFLAGS = "-lGLEW";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = /usr/Include/GL;
 			};
 			name = Release;
 		};

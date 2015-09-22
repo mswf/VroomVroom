@@ -38,10 +38,8 @@ int main(int, char**)
 		printf( "Error initializing GLEW! %p\n", glewGetErrorString( glewError ) );
 	}
 	
-	//printf("GL version %s \n", glGetString(GL_VERSION));
 	std::cout << "GL version " << glGetString(GL_VERSION) << std::endl;
-	std::cout << "GLEW version " << glewGetString(GLEW_VERSION_MAJOR) << glewGetString(GLEW_VERSION_MINOR) << std::endl;
-	//printf("GL version %p.%p \n", glewGetString(GLEW_VERSION_MAJOR),glewGetString(GLEW_VERSION_MINOR));
+	std::cout << "GLEW version " << glewGetString(GLEW_VERSION_MAJOR) << "." << glewGetString(GLEW_VERSION_MINOR) << std::endl;
 	
     // Setup ImGui binding
     ImGui_ImplSdl_Init(window);
@@ -65,6 +63,7 @@ int main(int, char**)
     bool show_test_window = true;
     bool show_another_window = false;
     ImVec4 clear_color = ImColor(114, 144, 154);
+	
 
     // Main loop
 	bool done = false;
@@ -106,7 +105,7 @@ int main(int, char**)
             ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiSetCond_FirstUseEver);
             ImGui::ShowTestWindow(&show_test_window);
         }
-
+		
         // Rendering
 		//int display_w, display_h;
 		//glfwGetFramebufferSize(window, &display_w, &display_h);

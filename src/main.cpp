@@ -7,10 +7,21 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 #include <iostream>
-#include <lua.hpp>
+
+#include "lua.hpp"
+
+void luaTest()
+{
+    lua_State* L = luaL_newstate();
+    luaL_openlibs(L);
+    
+    lua_close(L);
+}
 
 int main(int, char**)
 {
+    luaTest();
+    
     // Setup SDL
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 	{

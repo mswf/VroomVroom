@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		23CBC8721BB2983F00C02E36 /* libGLEW.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E54D30901BB29675006FBC68 /* libGLEW.dylib */; };
+		23CBC8741BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */; };
 		E537687A1BA6D3CE00D0BC14 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E53768791BA6D3CE00D0BC14 /* OpenGL.framework */; };
 		E54D308F1BB29665006FBC68 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E54D308E1BB29665006FBC68 /* SDL2.framework */; };
 		E54D30911BB29675006FBC68 /* libGLEW.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E54D30901BB29675006FBC68 /* libGLEW.dylib */; };
@@ -32,6 +33,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libluajit-5.1.2.0.4.dylib"; path = "Framework/LJIT/lib/libluajit-5.1.2.0.4.dylib"; sourceTree = "<group>"; };
 		E537686F1BA6D3B600D0BC14 /* VroomVroom */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VroomVroom; sourceTree = BUILT_PRODUCTS_DIR; };
 		E53768791BA6D3CE00D0BC14 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		E54D308E1BB29665006FBC68 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = Framework/SDL2.framework; sourceTree = "<group>"; };
@@ -55,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23CBC8741BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib in Frameworks */,
 				E54D30911BB29675006FBC68 /* libGLEW.dylib in Frameworks */,
 				E54D308F1BB29665006FBC68 /* SDL2.framework in Frameworks */,
 				E537687A1BA6D3CE00D0BC14 /* OpenGL.framework in Frameworks */,
@@ -67,6 +70,7 @@
 		E53768661BA6D3B600D0BC14 = {
 			isa = PBXGroup;
 			children = (
+				23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */,
 				E54D30901BB29675006FBC68 /* libGLEW.dylib */,
 				E54D308E1BB29665006FBC68 /* SDL2.framework */,
 				E53768791BA6D3CE00D0BC14 /* OpenGL.framework */,
@@ -258,13 +262,22 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(PROJECT_DIR)/Framework/glew/Include",
+					"$(PROJECT_DIR)/Framework/LJIT/include",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Framework/glew/Debug",
 					"$(PROJECT_DIR)/Framework/glew/Release",
+					"$(PROJECT_DIR)/Framework/LJIT/lib",
 				);
-				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				OTHER_CFLAGS = "";
+				OTHER_CPLUSPLUSFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-pagezero_size",
+					10000,
+					"-image_base",
+					100000000,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -280,13 +293,22 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(PROJECT_DIR)/Framework/glew/Include",
+					"$(PROJECT_DIR)/Framework/LJIT/include",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Framework/glew/Debug",
 					"$(PROJECT_DIR)/Framework/glew/Release",
+					"$(PROJECT_DIR)/Framework/LJIT/lib",
 				);
-				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				OTHER_CFLAGS = "";
+				OTHER_CPLUSPLUSFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-pagezero_size",
+					10000,
+					"-image_base",
+					100000000,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

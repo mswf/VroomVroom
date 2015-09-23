@@ -1,5 +1,7 @@
 // ImGui - standalone example application for SDL2 + OpenGL
 
+#define GLM_FORCE_RADIANS
+
 #include <glew.h>
 #include "imgui.h"
 #include "imgui_impl_sdl.h"

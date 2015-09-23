@@ -35,3 +35,4 @@ unsuccessfulbuild/
 !*.lib
 
 vs_proj/Debug/
+config.lua

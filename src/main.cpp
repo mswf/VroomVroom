@@ -9,10 +9,13 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 #include <iostream>
+#include <cstring>
 
 #include "lua.hpp"
 
-void luaTest()
+#include "content.h"
+
+void config()
 {
     lua_State* L = luaL_newstate();
     
@@ -26,21 +29,63 @@ void luaTest()
     lua_pcall(L,0,0,0);
     
     lua_getglobal(L, "CONTENT_PATH");
-    if(!lua_isstring(L, -1))
+    if(lua_type(L, -1) != LUA_TSTRING)
     {
         std::cout << "Problem in config.lua - CONTENT_PATH is not set to a valid string" << std::endl;
     }
-    size_t* len_cp;
-    const char* contentPath = lua_tolstring(L, -1, len_cp);
+    size_t len_cp;
+    const char* contentPath = lua_tolstring(L, -1, &len_cp);
     
-    std::cout << "Content path is " << contentPath << std::endl;
+    Content::SetPath(contentPath, len_cp);
 
+    lua_close(L);
+}
+
+void runMainLua()
+{
+    lua_State* L = luaL_newstate();
+    char path[255];
+    Content::CreateFilePath("main.lua", path);
+    
+    luaL_openlibs(L);
+    
+    //tell lua where to find all the files relative to the content root folder
+    {
+        lua_getglobal(L, "package");
+        lua_getfield(L, -1, "path");
+        const char* cur_path = lua_tostring(L, -1);
+        char* new_path = new char[255];
+        std::strcpy(new_path, cur_path);
+        std::strcat(new_path, ";");
+        std::strcat(new_path, Content::GetPath());
+        std::strcat(new_path, "/?.lua");
+        lua_pop(L,1);
+        lua_pushstring(L, new_path);
+        lua_setfield(L, -2, "path");
+        lua_pop(L,1);
+        
+        delete new_path;
+    }
+    
+    if (luaL_loadfile(L, path))
+    {
+        //TODO error handling
+        std::cout << "Could not open main.lua - The program will not run correctly" << std::endl;
+        return;
+    }
+    
+    if (lua_pcall(L,0,0,0)){
+        std::cout << "lua error: " << lua_tostring(L, -1) << std::endl;
+    }
+    
     lua_close(L);
 }
 
 int main(int, char**)
 {
-    luaTest();
+    config();
+    Content::PrintPath();
+    runMainLua();
     
     // Setup SDL
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
@@ -75,7 +120,7 @@ int main(int, char**)
 	
     // Setup ImGui binding
     ImGui_ImplSdl_Init(window);
-
+    
     // Load Fonts
     // (see extra_fonts/README.txt for more details)
     //ImGuiIO& io = ImGui::GetIO();

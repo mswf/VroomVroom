@@ -41,6 +41,7 @@
 		E54D30901BB29675006FBC68 /* libGLEW.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.dylib; path = Framework/glew/Release/libGLEW.dylib; sourceTree = "<group>"; };
 		E54D30971BB2AD45006FBC68 /* renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = renderer.cpp; path = src/renderer.cpp; sourceTree = SOURCE_ROOT; };
 		E54D309A1BB2AD66006FBC68 /* renderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = renderer.hpp; path = src/renderer.hpp; sourceTree = SOURCE_ROOT; };
+		E54D309B1BB2D9C6006FBC68 /* glm */ = {isa = PBXFileReference; lastKnownFileType = folder; name = glm; path = src/glm; sourceTree = SOURCE_ROOT; };
 		E567A8E71BB1470200B8F6C3 /* imconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = imconfig.h; path = src/imconfig.h; sourceTree = SOURCE_ROOT; };
 		E567A8E81BB1470200B8F6C3 /* imgui_demo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_demo.cpp; path = src/imgui_demo.cpp; sourceTree = SOURCE_ROOT; };
 		E567A8E91BB1470200B8F6C3 /* imgui_draw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_draw.cpp; path = src/imgui_draw.cpp; sourceTree = SOURCE_ROOT; };
@@ -93,6 +94,7 @@
 		E53768711BA6D3B600D0BC14 /* VroomVroom */ = {
 			isa = PBXGroup;
 			children = (
+				E54D309B1BB2D9C6006FBC68 /* glm */,
 				E567A8E71BB1470200B8F6C3 /* imconfig.h */,
 				E567A8E81BB1470200B8F6C3 /* imgui_demo.cpp */,
 				E567A8E91BB1470200B8F6C3 /* imgui_draw.cpp */,

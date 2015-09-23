@@ -2,6 +2,7 @@
 
 #define GLM_FORCE_RADIANS
 
+#include "standardIncludes.h"
 #include <glew.h>
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
@@ -44,8 +45,8 @@ void config()
 void runMainLua()
 {
     lua_State* L = luaL_newstate();
-    char path[255];
-    Content::CreateFilePath("main.lua", path);
+    string path;
+    Content::CreateFilePath("main.lua", &path);
     
     luaL_openlibs(L);
     
@@ -54,20 +55,18 @@ void runMainLua()
         lua_getglobal(L, "package");
         lua_getfield(L, -1, "path");
         const char* cur_path = lua_tostring(L, -1);
-        char* new_path = new char[255];
-        std::strcpy(new_path, cur_path);
-        std::strcat(new_path, ";");
-        std::strcat(new_path, Content::GetPath());
-        std::strcat(new_path, "/?.lua");
+        string new_path = string(cur_path);
+		new_path += ";";
+		new_path += Content::GetPath();
+		new_path += "/?.lua";
+
         lua_pop(L,1);
-        lua_pushstring(L, new_path);
+        lua_pushstring(L, new_path.c_str());
         lua_setfield(L, -2, "path");
         lua_pop(L,1);
-        
-        delete new_path;
     }
     
-    if (luaL_loadfile(L, path))
+    if (luaL_loadfile(L, path.c_str()))
     {
         //TODO error handling
         std::cout << "Could not open main.lua - The program will not run correctly" << std::endl;

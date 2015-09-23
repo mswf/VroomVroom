@@ -10,13 +10,14 @@
 #define content_h
 
 #include <stdio.h>
+#include <string>
 
 namespace Content
 {
     void SetPath(const char* path, unsigned long len);
-    const char* GetPath();
+    const std::string GetPath();
     void PrintPath();
-    void CreateFilePath(const char* filename, char* outResult);
+    void CreateFilePath(const char* filename, std::string* outResult);
 }
 
 #endif /* content_h */

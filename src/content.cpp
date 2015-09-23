@@ -5,7 +5,7 @@
 //  Created by Robin Zaagsma on 23/09/15.
 //  Copyright © 2015 Valentinas Rimeika. All rights reserved.
 //
-
+#include "standardIncludes.h"
 #include "content.h"
 #include <cstring>
 #include <iostream>
@@ -15,17 +15,16 @@ namespace Content
 
 namespace
 {
-    char* contentPath = NULL;
+    std::string contentPath = "";
 } //anonymous namespace
     
 void SetPath(const char* path, unsigned long len)
 {
     std::cout << "setting content path to " << path << std::endl;
 
-    if(contentPath == NULL)
+    if(contentPath == "")
     {
-        contentPath = new char[len];
-        std::strcpy(contentPath, path);
+        contentPath = std::string(path);
     }
     else
     {
@@ -33,7 +32,7 @@ void SetPath(const char* path, unsigned long len)
     }
 }
     
-const char* GetPath(){
+const std::string GetPath(){
     return contentPath;
 }
     
@@ -42,11 +41,11 @@ void PrintPath()
     std::cout << "content path is " << contentPath << std::endl;
 }
     
-void CreateFilePath(const char* filename, char* outResult)
+void CreateFilePath(const char* filename, string* outResult)
 {
-    std::strcpy(outResult, contentPath);
-    std::strcat(outResult,"/");
-    std::strcat(outResult, filename);
+    outResult = new string(contentPath);
+	*outResult += "/";
+	*outResult += filename;
 }
     
 }//namespace Content

@@ -12,6 +12,7 @@
 		E537687A1BA6D3CE00D0BC14 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E53768791BA6D3CE00D0BC14 /* OpenGL.framework */; };
 		E54D308F1BB29665006FBC68 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E54D308E1BB29665006FBC68 /* SDL2.framework */; };
 		E54D30911BB29675006FBC68 /* libGLEW.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E54D30901BB29675006FBC68 /* libGLEW.dylib */; };
+		E54D30981BB2AD45006FBC68 /* renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E54D30971BB2AD45006FBC68 /* renderer.cpp */; settings = {ASSET_TAGS = (); }; };
 		E567A8F51BB1470200B8F6C3 /* imgui_demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8E81BB1470200B8F6C3 /* imgui_demo.cpp */; settings = {ASSET_TAGS = (); }; };
 		E567A8F61BB1470200B8F6C3 /* imgui_draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8E91BB1470200B8F6C3 /* imgui_draw.cpp */; settings = {ASSET_TAGS = (); }; };
 		E567A8F71BB1470200B8F6C3 /* imgui_impl_sdl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8EA1BB1470200B8F6C3 /* imgui_impl_sdl.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -38,6 +39,8 @@
 		E53768791BA6D3CE00D0BC14 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		E54D308E1BB29665006FBC68 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = Framework/SDL2.framework; sourceTree = "<group>"; };
 		E54D30901BB29675006FBC68 /* libGLEW.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.dylib; path = Framework/glew/Release/libGLEW.dylib; sourceTree = "<group>"; };
+		E54D30971BB2AD45006FBC68 /* renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = renderer.cpp; path = src/renderer.cpp; sourceTree = SOURCE_ROOT; };
+		E54D309A1BB2AD66006FBC68 /* renderer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = renderer.hpp; path = src/renderer.hpp; sourceTree = SOURCE_ROOT; };
 		E567A8E71BB1470200B8F6C3 /* imconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = imconfig.h; path = src/imconfig.h; sourceTree = SOURCE_ROOT; };
 		E567A8E81BB1470200B8F6C3 /* imgui_demo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_demo.cpp; path = src/imgui_demo.cpp; sourceTree = SOURCE_ROOT; };
 		E567A8E91BB1470200B8F6C3 /* imgui_draw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_draw.cpp; path = src/imgui_draw.cpp; sourceTree = SOURCE_ROOT; };
@@ -102,6 +105,8 @@
 				E567A8F21BB1470200B8F6C3 /* stb_rect_pack.h */,
 				E567A8F31BB1470200B8F6C3 /* stb_textedit.h */,
 				E567A8F41BB1470200B8F6C3 /* stb_truetype.h */,
+				E54D30971BB2AD45006FBC68 /* renderer.cpp */,
+				E54D309A1BB2AD66006FBC68 /* renderer.hpp */,
 			);
 			path = VroomVroom;
 			sourceTree = "<group>";
@@ -166,6 +171,7 @@
 				E567A8F81BB1470200B8F6C3 /* imgui.cpp in Sources */,
 				E567A8F61BB1470200B8F6C3 /* imgui_draw.cpp in Sources */,
 				E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */,
+				E54D30981BB2AD45006FBC68 /* renderer.cpp in Sources */,
 				E567A8F71BB1470200B8F6C3 /* imgui_impl_sdl.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\content.h" />
     <ClInclude Include="..\..\src\glm\common.hpp" />
     <ClInclude Include="..\..\src\glm\detail\func_common.hpp" />
     <ClInclude Include="..\..\src\glm\detail\func_exponential.hpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="..\..\src\typedef.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\content.cpp" />
     <ClCompile Include="..\..\src\glm\detail\dummy.cpp" />
     <ClCompile Include="..\..\src\glm\detail\glm.cpp" />
     <ClCompile Include="..\..\src\imgui.cpp" />
@@ -331,7 +333,8 @@
     <PostBuildEvent>
       <Command>copy $(ProjectDir)..\..\Framework\LJIT\lib\lua51.dll $(OutDir)
 copy $(ProjectDir)..\..\Framework\Win32Libraries\x86d\glew32d.dll $(OutDir)
-copy $(ProjectDir)..\..\Framework\Win32Libraries\x86d\SDL2.dll $(OutDir)</Command>
+copy $(ProjectDir)..\..\Framework\Win32Libraries\x86d\SDL2.dll $(OutDir)
+copy $(ProjectDir)..\..\config.lua $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

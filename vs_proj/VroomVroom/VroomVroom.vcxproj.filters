@@ -483,6 +483,9 @@
     <ClInclude Include="..\..\src\typedef.h">
       <Filter>VroomVroom</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\content.h">
+      <Filter>VroomVroom</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\imgui.cpp">
@@ -505,6 +508,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\glm\detail\glm.cpp">
       <Filter>glm\detail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\content.cpp">
+      <Filter>VroomVroom</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

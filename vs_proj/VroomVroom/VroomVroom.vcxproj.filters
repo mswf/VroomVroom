@@ -477,6 +477,12 @@
     <ClInclude Include="..\..\src\glm\gtx\wrap.hpp">
       <Filter>glm\gtx</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\standardIncludes.h">
+      <Filter>VroomVroom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\typedef.h">
+      <Filter>VroomVroom</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\imgui.cpp">

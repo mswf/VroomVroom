@@ -157,9 +157,11 @@
     <ClInclude Include="..\..\src\imgui.h" />
     <ClInclude Include="..\..\src\imgui_impl_sdl.h" />
     <ClInclude Include="..\..\src\imgui_internal.h" />
+    <ClInclude Include="..\..\src\standardIncludes.h" />
     <ClInclude Include="..\..\src\stb_rect_pack.h" />
     <ClInclude Include="..\..\src\stb_textedit.h" />
     <ClInclude Include="..\..\src\stb_truetype.h" />
+    <ClInclude Include="..\..\src\typedef.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\glm\detail\dummy.cpp" />
@@ -317,7 +319,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\Framework\Win32Libraries\include;..\..\Framework\LJIT\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Framework\Win32Libraries\include;..\..\Framework\LJIT\include;..\..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>

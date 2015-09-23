@@ -1,5 +1,7 @@
 // ImGui - standalone example application for SDL2 + OpenGL
 
+#define GLM_FORCE_RADIANS
+
 #include <glew.h>
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
@@ -13,8 +15,26 @@
 void luaTest()
 {
     lua_State* L = luaL_newstate();
-    luaL_openlibs(L);
     
+    if (luaL_loadfile(L, "config.lua"))
+    {
+        //TODO error handling
+        std::cout << "Could not open config.lua - The program will not run correctly" << std::endl;
+        return;
+    }
+    
+    lua_pcall(L,0,0,0);
+    
+    lua_getglobal(L, "CONTENT_PATH");
+    if(!lua_isstring(L, -1))
+    {
+        std::cout << "Problem in config.lua - CONTENT_PATH is not set to a valid string" << std::endl;
+    }
+    size_t* len_cp;
+    const char* contentPath = lua_tolstring(L, -1, len_cp);
+    
+    std::cout << "Content path is " << contentPath << std::endl;
+
     lua_close(L);
 }
 

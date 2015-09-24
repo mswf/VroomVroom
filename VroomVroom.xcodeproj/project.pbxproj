@@ -19,6 +19,7 @@
 		E567A8F71BB1470200B8F6C3 /* imgui_impl_sdl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8EA1BB1470200B8F6C3 /* imgui_impl_sdl.cpp */; settings = {ASSET_TAGS = (); }; };
 		E567A8F81BB1470200B8F6C3 /* imgui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8ED1BB1470200B8F6C3 /* imgui.cpp */; settings = {ASSET_TAGS = (); }; };
 		E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8EF1BB1470200B8F6C3 /* main.cpp */; settings = {ASSET_TAGS = (); }; };
+		E5E958F51BB42B2600B83D27 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5E958F31BB42B2600B83D27 /* Shader.cpp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -57,6 +58,8 @@
 		E567A8F21BB1470200B8F6C3 /* stb_rect_pack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_rect_pack.h; path = src/stb_rect_pack.h; sourceTree = SOURCE_ROOT; };
 		E567A8F31BB1470200B8F6C3 /* stb_textedit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_textedit.h; path = src/stb_textedit.h; sourceTree = SOURCE_ROOT; };
 		E567A8F41BB1470200B8F6C3 /* stb_truetype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_truetype.h; path = src/stb_truetype.h; sourceTree = SOURCE_ROOT; };
+		E5E958F31BB42B2600B83D27 /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Shader.cpp; path = src/Shader.cpp; sourceTree = SOURCE_ROOT; };
+		E5E958F41BB42B2600B83D27 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shader.h; path = src/Shader.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +117,8 @@
 				E54D309A1BB2AD66006FBC68 /* renderer.h */,
 				23A4AF531BB2DE3100948D72 /* content.cpp */,
 				23A4AF541BB2DE3100948D72 /* content.h */,
+				E5E958F31BB42B2600B83D27 /* Shader.cpp */,
+				E5E958F41BB42B2600B83D27 /* Shader.h */,
 			);
 			path = VroomVroom;
 			sourceTree = "<group>";
@@ -176,6 +181,7 @@
 			files = (
 				E567A8F51BB1470200B8F6C3 /* imgui_demo.cpp in Sources */,
 				E567A8F81BB1470200B8F6C3 /* imgui.cpp in Sources */,
+				E5E958F51BB42B2600B83D27 /* Shader.cpp in Sources */,
 				E567A8F61BB1470200B8F6C3 /* imgui_draw.cpp in Sources */,
 				E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */,
 				E54D30981BB2AD45006FBC68 /* renderer.cpp in Sources */,

@@ -5,6 +5,8 @@
 #include <iostream>	// cout, cerr, endl
 #include <fstream>	// fin,
 
+#include "Shader.h"
+
 #include "glm/vec2.hpp"
 #include "glm/vec3.hpp"
 #include "glm/mat4x4.hpp"
@@ -14,7 +16,7 @@
 namespace Renderer
 {
 
-	enum Projection
+	enum class Projection
 	{
 		ORTHOGONAL,
 		PERSPECTIVE
@@ -29,7 +31,7 @@ namespace Renderer
 	struct RenderData
 	{
 		GLuint framebuffer;
-		GLuint program;
+		Shader * shader;
 		GLuint arraybuffer;
 		GLuint elementbuffer;
 		GLuint vertexbuffer;
@@ -44,16 +46,15 @@ namespace Renderer
 	};
 	
 	void RenderObject( unsigned int, RenderData*, Camera* );
+	void Draw( RenderData* );
+	
 	void GetRenderData( RenderData* );
 	void DeleteData( RenderData* );
-	void Draw( RenderData* );
+	
+	
 	void LoadModel();
 	void LoadTexture();
 	GLuint CreateTexture( unsigned char*, int, int );
-	
-	void SetUniformMat4( const char*, glm::mat4 );
-	void SetUniformInt( const char*, int );
-	void SetUniformFloat( const char*, float );
 	
 	void GetCamera( Camera*, Projection, float, float, float, float);
 	void DeleteCamera( Camera* );
@@ -62,13 +63,6 @@ namespace Renderer
 	void CreateFBO();
 
 	GLuint GetAttribute( const char* );
-	void LoadShader();
-	void CompileShader( GLuint );
-	void LinkShader();
-	void ValidateShader();
-	void DeleteShaderProgram();
-
-	const char* ReadFile( const char* );
 
 }
 

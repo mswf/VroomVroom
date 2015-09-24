@@ -3,7 +3,7 @@
 namespace Renderer
 {
 	glm::ivec2 windowSize;
-	GLuint program;
+GLuint program;
 	GLuint framebuffer_object;
 	GLuint framebuffer_depth;
 	GLuint framebuffer_color;
@@ -18,7 +18,6 @@ namespace Renderer
 	void GetRenderData( RenderData* outRenderData )
 	{
 		LoadModel();
-		LoadShader();
 		CreateFBO();
 		
 		//LoadTexture();
@@ -26,26 +25,27 @@ namespace Renderer
 		outRenderData->arraybuffer = arrayBuffer;
 		outRenderData->elementbuffer = elementArrayBuffer;
 		outRenderData->vertexbuffer = vertexArray_object;
-		outRenderData->program = program;
+		outRenderData->shader = new Shader(vertexArray_object);
 	}
 	
-	void GetCamera(Camera* cam, Projection type, float fov, float aspectRatio, float near, float far)
+	void GetCamera(Camera* cam, Projection type, float fov, float aspectRatio, float near, float far) 
 	{
 		glm::mat4 projection;
 		switch (type)
 		{
-			case ORTHOGONAL:
+			case Projection::ORTHOGONAL:
 			{
 				//projection = glm::ortho(T left, T right, T bottom, T top, near, far);
 				break;
 			}
-			case PERSPECTIVE:
+			case Projection::PERSPECTIVE:
 			{
 				projection = glm::perspective(glm::radians(fov), aspectRatio, near, far);
 				break;
 			}
 			default:
 			{
+				assert(false);
 				break;
 			}
 		}
@@ -55,6 +55,7 @@ namespace Renderer
 	
 	void DeleteData( RenderData* data )
 	{
+		delete data->shader;
 		delete data;
 	}
 	
@@ -65,7 +66,7 @@ namespace Renderer
 	
 	void RenderObject(unsigned int time, RenderData * data, Camera* cam)
 	{
-		program = data->program;
+		program = data->shader->program;
 		
 		//glBindFramebuffer( GL_FRAMEBUFFER, data->framebuffer );
 		
@@ -73,15 +74,15 @@ namespace Renderer
 		glClear(GL_COLOR_BUFFER_BIT); //GL_DEPTH_BUFFER_BIT
 		
 		
-		//glEnable( GL_CULL_FACE );
-		//glCullFace( GL_BACK );
+		glEnable( GL_CULL_FACE );
+		glCullFace( GL_BACK );
 		
 		glm::mat4 model;
 		glUseProgram(program);
-		SetUniformMat4( "model", model );
-		SetUniformMat4( "view", cam->view );
-		SetUniformMat4( "projection", cam->projection );
-		SetUniformFloat( "time", (float)time );
+		data->shader->SetUniformMat4( "model", model );
+		data->shader->SetUniformMat4( "view", cam->view );
+		data->shader->SetUniformMat4( "projection", cam->projection );
+		data->shader->SetUniformFloat( "time", (float)time );
 
 		Draw(data);
 		
@@ -232,127 +233,4 @@ namespace Renderer
 		return texture;
 	}
 
-		
-	void SetUniformInt( const char * uniform, int value )
-	{
-		glUniform1i( glGetUniformLocation ( program, uniform ), value );
-	}
-
-	void SetUniformFloat( const char * uniform, float value )
-	{
-		glUniform1f( glGetUniformLocation( program, uniform ), value );
-	}
-
-	void SetUniformFloat2(const char * uniform, glm::vec2 value)
-	{
-		glUniform2f( glGetUniformLocation( program, uniform ), value.x, value.y );
-	}
-
-	void SetUniformFloat3(const char * uniform, glm::vec3 value)
-	{
-		glUniform3f( glGetUniformLocation( program, uniform ), value.x, value.y, value.z);
-	}
-
-	void SetUniformMat4( const char * uniform, glm::mat4 value )
-	{
-		glUniformMatrix4fv( glGetUniformLocation( program, uniform ), 1, GL_FALSE, glm::value_ptr(value) );
-		
-	}
-
-	// Load and create a shader program
-
-	void LoadShader()
-	{
-		glBindVertexArray( vertexArray_object );
-		const char* src_vertex = ReadFile("vs.txt");
-		const char* src_fragment = ReadFile("fs.txt");
-		program = glCreateProgram();
-		GLuint vertex_shader = glCreateShader(GL_VERTEX_SHADER);
-		GLuint fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource( vertex_shader, 1, &src_vertex, NULL);
-		glShaderSource( fragment_shader, 1, &src_fragment, NULL);
-		CompileShader(vertex_shader);
-		CompileShader(fragment_shader);
-		glAttachShader( program, vertex_shader );
-		glAttachShader( program, fragment_shader );
-		glBindFragDataLocation(program, 0, "outColor");
-		LinkShader();
-		ValidateShader();
-	}
-
-	void CompileShader(GLuint shader)
-	{
-		glCompileShader( shader );
-		GLint status;
-		glGetShaderiv( shader, GL_COMPILE_STATUS, &status );
-		
-		if ( status == GL_FALSE )
-		{
-			std::cout << "Shader compilation failed" << std::endl;
-			GLchar message[255];
-			glGetShaderInfoLog( shader, sizeof(message), 0, &message[0] );
-			std::cout << message << std::endl;
-			assert(false);
-		}
-	}
-
-	void LinkShader()
-	{
-		glLinkProgram( program );
-		GLint linkStatus;
-		glGetProgramiv( program, GL_LINK_STATUS, &linkStatus );
-		
-		if ( linkStatus == GL_FALSE )
-		{
-			std::cout << "Shader linking failed" << std::endl;
-			GLchar message[255];
-			glGetProgramInfoLog( program, sizeof(message), 0, &message[0]);
-			std::cout << message << std::endl;
-			assert(false);
-		}
-		
-	}
-
-	void ValidateShader()
-	{
-		GLint validateStatus;
-		glValidateProgram( program );
-		glGetProgramiv( program, GL_VALIDATE_STATUS, &validateStatus);
-		if (validateStatus == GL_FALSE)
-		{
-			std::cout << "Shader validation failed" << std::endl;
-			GLchar message[255];
-			glGetProgramInfoLog( program, sizeof(message), 0, &message[0]);
-			std::cout << message << std::endl;
-			//assert(false);
-		}
-	}
-
-	void DeleteShaderProgram()
-	{
-		glDeleteProgram( program );
-	}
-
-	const char * ReadFile( const char * file )
-	{
-		std::ifstream fin( file );
-		char * buffer;
-		if( fin.is_open() )
-		{
-			fin.seekg (0, fin.end);
-			int length = (int)fin.tellg();
-			fin.seekg (0, fin.beg);
-			buffer = new char[ length ];
-			fin.read(buffer, length);
-			//placing terminating character at the end
-			buffer[ length - 1 ] = '\0';
-			fin.close();
-		}
-		else //file could not be opened, either not found or do not have permission
-		{
-			std::cerr << "File could not be opened." << std::endl;
-			assert(false);
-		}
-		return buffer;
-	}
 } // NAMESPACE END

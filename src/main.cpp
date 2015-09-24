@@ -11,7 +11,7 @@
 #include <SDL2/SDL_opengl.h>
 #include <iostream>
 #include <cstring>
-
+#include "renderer.h"
 #include "lua.hpp"
 
 #include "content.h"
@@ -80,7 +80,7 @@ void runMainLua()
     lua_close(L);
 }
 
-int main(int, char**)
+int main(int argc, char** a)
 {
     config();
     Content::PrintPath();
@@ -140,6 +140,16 @@ int main(int, char**)
     bool show_another_window = false;
     ImVec4 clear_color = ImColor(114, 144, 154);
 	
+	Renderer::RenderData * data = new Renderer::RenderData();
+	Renderer::Camera * camera = new Renderer::Camera();
+	float fov = 90.0f;
+	float aspectRatio = 1280.0f / 720.0f;
+	float near = 1.0f;
+	float far = 100.0f;
+	camera->eye = glm::vec3( 1.0, 1.0, 1.0 );
+	camera->center = glm::vec3( 0.0, 0.0, 0.0 );
+	Renderer::GetCamera(camera, Renderer::Projection::PERSPECTIVE, fov, aspectRatio, near, far);
+	Renderer::GetRenderData(data);
 
     // Main loop
 	bool done = false;
@@ -152,47 +162,52 @@ int main(int, char**)
             if (event.type == SDL_QUIT)
                 done = true;
         }
-        ImGui_ImplSdl_NewFrame(window);
+		
+		Renderer::RenderObject(SDL_GetTicks(), data, camera);
+		
+        //ImGui_ImplSdl_NewFrame(window);
 		
         // 1. Show a simple window
         // Tip: if we don't call ImGui::Begin()/ImGui::End() the widgets appears in a window automatically called "Debug"
-        {
-            static float f = 0.0f;
-            ImGui::Text("Hello, world!");
-            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
-            ImGui::ColorEdit3("clear color", (float*)&clear_color);
-            if (ImGui::Button("Test Window")) show_test_window ^= 1;
-            if (ImGui::Button("Another Window")) show_another_window ^= 1;
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        }
+//        {
+//            static float f = 0.0f;
+//            ImGui::Text("Hello, world!");
+//            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
+//            ImGui::ColorEdit3("clear color", (float*)&clear_color);
+//            if (ImGui::Button("Test Window")) show_test_window ^= 1;
+//            if (ImGui::Button("Another Window")) show_another_window ^= 1;
+//            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+//        }
 
         // 2. Show another simple window, this time using an explicit Begin/End pair
-        if (show_another_window)
-        {
-            ImGui::SetNextWindowSize(ImVec2(200,100), ImGuiSetCond_FirstUseEver);
-            ImGui::Begin("Another Window", &show_another_window);
-            ImGui::Text("Hello");
-            ImGui::End();
-        }
+//        if (show_another_window)
+//        {
+//            ImGui::SetNextWindowSize(ImVec2(200,100), ImGuiSetCond_FirstUseEver);
+//            ImGui::Begin("Another Window", &show_another_window);
+//            ImGui::Text("Hello");
+//            ImGui::End();
+//        }
 
         // 3. Show the ImGui test window. Most of the sample code is in ImGui::ShowTestWindow()
-        if (show_test_window)
-        {
-            ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiSetCond_FirstUseEver);
-            ImGui::ShowTestWindow(&show_test_window);
-        }
+//        if (show_test_window)
+//        {
+//            ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiSetCond_FirstUseEver);
+//            ImGui::ShowTestWindow(&show_test_window);
+//        }
 		
         // Rendering
 		//int display_w, display_h;
 		//glfwGetFramebufferSize(window, &display_w, &display_h);
-        glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
-        glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-        glClear(GL_COLOR_BUFFER_BIT);
-        ImGui::Render();
+       // glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
+       // glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
+       // glClear(GL_COLOR_BUFFER_BIT);
+       // ImGui::Render();
         SDL_GL_SwapWindow(window);
     }
 
     // Cleanup
+	Renderer::DeleteData(data);
+	Renderer::DeleteCamera(camera);
     ImGui_ImplSdl_Shutdown();
     SDL_GL_DeleteContext(glcontext);  
 	SDL_DestroyWindow(window);

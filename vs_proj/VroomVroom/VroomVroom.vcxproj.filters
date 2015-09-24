@@ -48,6 +48,12 @@
     <ClInclude Include="..\..\src\content.h">
       <Filter>VroomVroom</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\renderer.h">
+      <Filter>VroomVroom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Shader.h">
+      <Filter>VroomVroom</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\imgui.cpp">
@@ -66,6 +72,12 @@
       <Filter>VroomVroom</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\content.cpp">
+      <Filter>VroomVroom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderer.cpp">
+      <Filter>VroomVroom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Shader.cpp">
       <Filter>VroomVroom</Filter>
     </ClCompile>
   </ItemGroup>

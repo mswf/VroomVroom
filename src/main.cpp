@@ -144,11 +144,11 @@ int main(int argc, char** a)
 	Renderer::Camera * camera = new Renderer::Camera();
 	float fov = 90.0f;
 	float aspectRatio = 1280.0f / 720.0f;
-	float near = 1.0f;
-	float far = 100.0f;
+	float zNear = 1.0f;
+	float zFar = 100.0f;
 	camera->eye = glm::vec3( 1.0, 1.0, 1.0 );
 	camera->center = glm::vec3( 0.0, 0.0, 0.0 );
-	Renderer::GetCamera(camera, Renderer::Projection::PERSPECTIVE, fov, aspectRatio, near, far);
+	Renderer::GetCamera(camera, Renderer::Projection::PERSPECTIVE, fov, aspectRatio, zNear, zFar);
 	Renderer::GetRenderData(data);
 
     // Main loop

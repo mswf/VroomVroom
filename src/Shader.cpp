@@ -66,6 +66,7 @@ void Renderer::Shader::LogError( GLuint program, GLenum status )
 const char* Renderer::Shader::ReadFile( const char* file )
 {
 	std::ifstream fin( file );
+	
 	char * buffer;
 	if( fin.is_open() )
 	{
@@ -81,6 +82,7 @@ const char* Renderer::Shader::ReadFile( const char* file )
 	else //file could not be opened, either not found or do not have permission
 	{
 		std::cerr << "File could not be opened." << std::endl;
+		buffer = NULL;
 		assert(false);
 	}
 	return buffer;

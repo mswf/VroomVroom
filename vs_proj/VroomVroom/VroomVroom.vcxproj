@@ -70,19 +70,20 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\Framework\Win32Libraries\include;..\..\Framework\LJIT\include;..\..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Framework\Win32Libraries\include;..\..\Framework\LJIT\include;..\..\Framework\assimp\Include;..\..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\Framework\Win32Libraries\x86d;..\..\Framework\LJIT\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lua51.lib;opengl32.lib;glew32d.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Framework\Win32Libraries\x86d;..\..\Framework\LJIT\lib;..\..\Framework\assimp\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimpd.lib;lua51.lib;opengl32.lib;glew32d.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
     <PostBuildEvent>
       <Command>copy $(ProjectDir)..\..\Framework\LJIT\lib\lua51.dll $(OutDir)
 copy $(ProjectDir)..\..\Framework\Win32Libraries\x86d\glew32d.dll $(OutDir)
 copy $(ProjectDir)..\..\Framework\Win32Libraries\x86d\SDL2.dll $(OutDir)
+copy $(ProjectDir)..\..\Framework\assimp\Debug\assimpd.dll $(OutDir)
 copy $(ProjectDir)..\..\config.lua $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

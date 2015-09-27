@@ -36,3 +36,4 @@ unsuccessfulbuild/
 
 vs_proj/Debug/
 config.lua
+version.txt

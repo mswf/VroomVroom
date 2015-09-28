@@ -51,7 +51,7 @@
     <ClInclude Include="..\..\src\renderer.h">
       <Filter>VroomVroom</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Shader.h">
+    <ClInclude Include="..\..\src\shader.h">
       <Filter>VroomVroom</Filter>
     </ClInclude>
   </ItemGroup>
@@ -77,7 +77,7 @@
     <ClCompile Include="..\..\src\renderer.cpp">
       <Filter>VroomVroom</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Shader.cpp">
+    <ClCompile Include="..\..\src\shader.cpp">
       <Filter>VroomVroom</Filter>
     </ClCompile>
   </ItemGroup>

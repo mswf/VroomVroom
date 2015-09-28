@@ -1,5 +1,5 @@
 //
-//  shader.hpp
+//  Shader.hpp
 //  VroomVroom
 //
 //  Created by Valentinas Rimeika on 24/09/15.
@@ -19,13 +19,13 @@
 
 namespace Renderer
 {
-	class shader
+	class Shader
 	{
 	public:
 		GLuint program;
 	public:
-		shader( GLuint vao );
-		~shader();
+		Shader( GLuint vao );
+		~Shader();
 		void SetUniformInt( const char* uniform, int value );
 		void SetUniformFloat( const char* uniform, float value );
 		void SetUniformFloat2( const char* uniform, glm::vec2 value );

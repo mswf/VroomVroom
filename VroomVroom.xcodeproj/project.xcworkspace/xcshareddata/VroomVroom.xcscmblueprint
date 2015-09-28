@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "2B2C97AE220F1120E0AE0DF1FBC95FB937A7CAE8",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "2B2C97AE220F1120E0AE0DF1FBC95FB937A7CAE8" : 0,
+    "47F5117083802B833238BCE519134CEC36C9F5C3" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "CEE3117F-6793-4E5D-A968-149BB12AB6E5",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "2B2C97AE220F1120E0AE0DF1FBC95FB937A7CAE8" : "VroomVroom\/",
+    "47F5117083802B833238BCE519134CEC36C9F5C3" : "MeepMeep\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "VroomVroom",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "VroomVroom.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/mswf\/VroomVroom.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2B2C97AE220F1120E0AE0DF1FBC95FB937A7CAE8"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/mswf\/MeepMeep.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "47F5117083802B833238BCE519134CEC36C9F5C3"
+    }
+  ]
+}

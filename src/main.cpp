@@ -13,7 +13,7 @@
 #include <cstring>
 #include "renderer.h"
 #include "lua.hpp"
-
+#include "Importer.hpp"
 #include "content.h"
 
 void config()
@@ -120,7 +120,9 @@ int main(int argc, char** a)
 	
     // Setup ImGui binding
     ImGui_ImplSdl_Init(window);
-    
+	
+	Assimp::Importer import;
+	
     // Load Fonts
     // (see extra_fonts/README.txt for more details)
     //ImGuiIO& io = ImGui::GetIO();

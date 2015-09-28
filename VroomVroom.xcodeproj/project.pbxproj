@@ -8,19 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		23A4AF551BB2DE3100948D72 /* content.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23A4AF531BB2DE3100948D72 /* content.cpp */; settings = {ASSET_TAGS = (); }; };
-		23CBC8721BB2983F00C02E36 /* libGLEW.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E54D30901BB29675006FBC68 /* libGLEW.dylib */; };
 		23CBC8741BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */; };
 		E537687A1BA6D3CE00D0BC14 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E53768791BA6D3CE00D0BC14 /* OpenGL.framework */; };
 		E54D308F1BB29665006FBC68 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E54D308E1BB29665006FBC68 /* SDL2.framework */; };
 		E54D30911BB29675006FBC68 /* libGLEW.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E54D30901BB29675006FBC68 /* libGLEW.dylib */; };
 		E54D30981BB2AD45006FBC68 /* renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E54D30971BB2AD45006FBC68 /* renderer.cpp */; settings = {ASSET_TAGS = (); }; };
-		E556DB6C1BB4A90100F6D29E /* libassimp.3.1.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E556DB6B1BB4A90100F6D29E /* libassimp.3.1.1.dylib */; };
 		E567A8F51BB1470200B8F6C3 /* imgui_demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8E81BB1470200B8F6C3 /* imgui_demo.cpp */; settings = {ASSET_TAGS = (); }; };
 		E567A8F61BB1470200B8F6C3 /* imgui_draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8E91BB1470200B8F6C3 /* imgui_draw.cpp */; settings = {ASSET_TAGS = (); }; };
 		E567A8F71BB1470200B8F6C3 /* imgui_impl_sdl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8EA1BB1470200B8F6C3 /* imgui_impl_sdl.cpp */; settings = {ASSET_TAGS = (); }; };
 		E567A8F81BB1470200B8F6C3 /* imgui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8ED1BB1470200B8F6C3 /* imgui.cpp */; settings = {ASSET_TAGS = (); }; };
 		E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8EF1BB1470200B8F6C3 /* main.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5E958F51BB42B2600B83D27 /* shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5E958F31BB42B2600B83D27 /* shader.cpp */; settings = {ASSET_TAGS = (); }; };
+		E5EF58FE1BB95C9F00F85754 /* libassimpd.3.1.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E5EF58FD1BB95C9F00F85754 /* libassimpd.3.1.1.dylib */; };
+		E5EF58FF1BB95E7800F85754 /* libassimpd.3.1.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E5EF58FD1BB95C9F00F85754 /* libassimpd.3.1.1.dylib */; };
+		E5EF59011BB95ED700F85754 /* libassimp.3.1.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E5EF59001BB95ED700F85754 /* libassimp.3.1.1.dylib */; };
+		E5EF59021BB95EDD00F85754 /* libGLEW.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E54D30901BB29675006FBC68 /* libGLEW.dylib */; };
+		E5EF59031BB95EE000F85754 /* libassimp.3.1.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E5EF59001BB95ED700F85754 /* libassimp.3.1.1.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -30,7 +33,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				23CBC8721BB2983F00C02E36 /* libGLEW.dylib in CopyFiles */,
+				E5EF59031BB95EE000F85754 /* libassimp.3.1.1.dylib in CopyFiles */,
+				E5EF59021BB95EDD00F85754 /* libGLEW.dylib in CopyFiles */,
+				E5EF58FF1BB95E7800F85754 /* libassimpd.3.1.1.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -47,7 +52,6 @@
 		E54D30971BB2AD45006FBC68 /* renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = renderer.cpp; path = src/renderer.cpp; sourceTree = SOURCE_ROOT; };
 		E54D309A1BB2AD66006FBC68 /* renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = renderer.h; path = src/renderer.h; sourceTree = SOURCE_ROOT; };
 		E54D309B1BB2D9C6006FBC68 /* glm */ = {isa = PBXFileReference; lastKnownFileType = folder; name = glm; path = src/glm; sourceTree = SOURCE_ROOT; };
-		E556DB6B1BB4A90100F6D29E /* libassimp.3.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.1.1.dylib; path = Framework/assimp/Release/libassimp.3.1.1.dylib; sourceTree = "<group>"; };
 		E567A8E71BB1470200B8F6C3 /* imconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = imconfig.h; path = src/imconfig.h; sourceTree = SOURCE_ROOT; };
 		E567A8E81BB1470200B8F6C3 /* imgui_demo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_demo.cpp; path = src/imgui_demo.cpp; sourceTree = SOURCE_ROOT; };
 		E567A8E91BB1470200B8F6C3 /* imgui_draw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_draw.cpp; path = src/imgui_draw.cpp; sourceTree = SOURCE_ROOT; };
@@ -62,6 +66,8 @@
 		E567A8F41BB1470200B8F6C3 /* stb_truetype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_truetype.h; path = src/stb_truetype.h; sourceTree = SOURCE_ROOT; };
 		E5E958F31BB42B2600B83D27 /* shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = shader.cpp; path = src/shader.cpp; sourceTree = SOURCE_ROOT; };
 		E5E958F41BB42B2600B83D27 /* shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = shader.h; path = src/shader.h; sourceTree = SOURCE_ROOT; };
+		E5EF58FD1BB95C9F00F85754 /* libassimpd.3.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimpd.3.1.1.dylib; path = Framework/assimp/Debug/libassimpd.3.1.1.dylib; sourceTree = "<group>"; };
+		E5EF59001BB95ED700F85754 /* libassimp.3.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.1.1.dylib; path = Framework/assimp/Release/libassimp.3.1.1.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,7 +75,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E556DB6C1BB4A90100F6D29E /* libassimp.3.1.1.dylib in Frameworks */,
+				E5EF59011BB95ED700F85754 /* libassimp.3.1.1.dylib in Frameworks */,
+				E5EF58FE1BB95C9F00F85754 /* libassimpd.3.1.1.dylib in Frameworks */,
 				23CBC8741BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib in Frameworks */,
 				E54D30911BB29675006FBC68 /* libGLEW.dylib in Frameworks */,
 				E54D308F1BB29665006FBC68 /* SDL2.framework in Frameworks */,
@@ -83,7 +90,8 @@
 		E53768661BA6D3B600D0BC14 = {
 			isa = PBXGroup;
 			children = (
-				E556DB6B1BB4A90100F6D29E /* libassimp.3.1.1.dylib */,
+				E5EF59001BB95ED700F85754 /* libassimp.3.1.1.dylib */,
+				E5EF58FD1BB95C9F00F85754 /* libassimpd.3.1.1.dylib */,
 				23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */,
 				E54D30901BB29675006FBC68 /* libGLEW.dylib */,
 				E54D308E1BB29665006FBC68 /* SDL2.framework */,
@@ -137,6 +145,7 @@
 				E537686B1BA6D3B600D0BC14 /* Sources */,
 				E537686C1BA6D3B600D0BC14 /* Frameworks */,
 				E537686D1BA6D3B600D0BC14 /* CopyFiles */,
+				E5EF58F71BB956E000F85754 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -177,6 +186,22 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E5EF58F71BB956E000F85754 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\nEXECFILE=${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\nLIBPATH=${BUILT_PRODUCTS_DIR}/${SHARED_SUPPORT_FOLDER_PATH}\nNEWLIBPATH=\"@executable_path/\"\n\n# space separated list of libraries\nTARGETS=\"libGLEW.dylib libassimpd.3.1.1.dylib\"\nfor TARGET in ${TARGETS} ; do\nLIBFILE=${LIBPATH}${TARGET}\nTARGETID=`otool -DX ${LIBPATH}$TARGET`\nNEWTARGETID=${NEWLIBPATH}${TARGET}\ninstall_name_tool -id ${NEWTARGETID} ${LIBFILE}\ninstall_name_tool -change ${TARGETID} ${NEWTARGETID} ${EXECFILE}\ndone";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E537686B1BA6D3B600D0BC14 /* Sources */ = {
@@ -233,6 +258,21 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(PROJECT_DIR)/Framework/glew/Include",
+					"$(PROJECT_DIR)/Framework/LJIT/include",
+					"$(PROJECT_DIR)/Framework/assimp/Include",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Framework/glew/Debug",
+					"$(PROJECT_DIR)/Framework/LJIT/lib",
+					"$(PROJECT_DIR)/Framework/assimp/Debug",
+					"$(PROJECT_DIR)/Framework/assimp/Release",
+					"$(PROJECT_DIR)/Framework/glew/Release",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -269,6 +309,21 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(PROJECT_DIR)/Framework/glew/Include",
+					"$(PROJECT_DIR)/Framework/LJIT/include",
+					"$(PROJECT_DIR)/Framework/assimp/Include",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Framework/glew/Debug",
+					"$(PROJECT_DIR)/Framework/LJIT/lib",
+					"$(PROJECT_DIR)/Framework/assimp/Debug",
+					"$(PROJECT_DIR)/Framework/assimp/Release",
+					"$(PROJECT_DIR)/Framework/glew/Release",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
@@ -289,11 +344,12 @@
 					"$(PROJECT_DIR)/Framework/LJIT/include",
 					"$(PROJECT_DIR)/Framework/assimp/Include",
 				);
+				INSTALL_PATH = "@executable_path/";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Framework/glew/Debug",
-					"$(PROJECT_DIR)/Framework/glew/Release",
 					"$(PROJECT_DIR)/Framework/LJIT/lib",
+					"$(PROJECT_DIR)/Framework/assimp/Debug",
 					"$(PROJECT_DIR)/Framework/assimp/Release",
 				);
 				OTHER_CFLAGS = "";
@@ -322,12 +378,13 @@
 					"$(PROJECT_DIR)/Framework/LJIT/include",
 					"$(PROJECT_DIR)/Framework/assimp/Include",
 				);
+				INSTALL_PATH = "@executable_path/";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Framework/glew/Debug",
 					"$(PROJECT_DIR)/Framework/glew/Release",
 					"$(PROJECT_DIR)/Framework/LJIT/lib",
 					"$(PROJECT_DIR)/Framework/assimp/Release",
+					"$(PROJECT_DIR)/Framework/assimp/Debug",
 				);
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = "";

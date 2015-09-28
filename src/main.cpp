@@ -19,8 +19,9 @@
 void config()
 {
     lua_State* L = luaL_newstate();
-    
-    if (luaL_loadfile(L, "config.lua"))
+
+	string configPath = SDL_GetBasePath() + string("config.lua");
+	if (luaL_loadfile(L, configPath.c_str()))
     {
         //TODO error handling
         std::cout << "Could not open config.lua - The program will not run correctly" << std::endl;

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		234C8B281BB96A3B00E61132 /* libassimpd.3.1.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */; };
+		234C8B291BB96A4600E61132 /* libassimpd.3.1.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */; };
 		23A4AF551BB2DE3100948D72 /* content.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23A4AF531BB2DE3100948D72 /* content.cpp */; settings = {ASSET_TAGS = (); }; };
 		23CBC8741BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */; };
 		E537687A1BA6D3CE00D0BC14 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E53768791BA6D3CE00D0BC14 /* OpenGL.framework */; };
@@ -19,11 +21,7 @@
 		E567A8F81BB1470200B8F6C3 /* imgui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8ED1BB1470200B8F6C3 /* imgui.cpp */; settings = {ASSET_TAGS = (); }; };
 		E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8EF1BB1470200B8F6C3 /* main.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5E958F51BB42B2600B83D27 /* shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5E958F31BB42B2600B83D27 /* shader.cpp */; settings = {ASSET_TAGS = (); }; };
-		E5EF58FE1BB95C9F00F85754 /* libassimpd.3.1.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E5EF58FD1BB95C9F00F85754 /* libassimpd.3.1.1.dylib */; };
-		E5EF58FF1BB95E7800F85754 /* libassimpd.3.1.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E5EF58FD1BB95C9F00F85754 /* libassimpd.3.1.1.dylib */; };
-		E5EF59011BB95ED700F85754 /* libassimp.3.1.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E5EF59001BB95ED700F85754 /* libassimp.3.1.1.dylib */; };
 		E5EF59021BB95EDD00F85754 /* libGLEW.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E54D30901BB29675006FBC68 /* libGLEW.dylib */; };
-		E5EF59031BB95EE000F85754 /* libassimp.3.1.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E5EF59001BB95ED700F85754 /* libassimp.3.1.1.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,15 +31,15 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				E5EF59031BB95EE000F85754 /* libassimp.3.1.1.dylib in CopyFiles */,
+				234C8B291BB96A4600E61132 /* libassimpd.3.1.1.dylib in CopyFiles */,
 				E5EF59021BB95EDD00F85754 /* libGLEW.dylib in CopyFiles */,
-				E5EF58FF1BB95E7800F85754 /* libassimpd.3.1.1.dylib in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimpd.3.1.1.dylib; path = Framework/assimp/Debug/libassimpd.3.1.1.dylib; sourceTree = "<group>"; };
 		23A4AF531BB2DE3100948D72 /* content.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = content.cpp; path = src/content.cpp; sourceTree = SOURCE_ROOT; };
 		23A4AF541BB2DE3100948D72 /* content.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = content.h; path = src/content.h; sourceTree = SOURCE_ROOT; };
 		23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libluajit-5.1.2.0.4.dylib"; path = "Framework/LJIT/lib/libluajit-5.1.2.0.4.dylib"; sourceTree = "<group>"; };
@@ -66,8 +64,6 @@
 		E567A8F41BB1470200B8F6C3 /* stb_truetype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_truetype.h; path = src/stb_truetype.h; sourceTree = SOURCE_ROOT; };
 		E5E958F31BB42B2600B83D27 /* shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = shader.cpp; path = src/shader.cpp; sourceTree = SOURCE_ROOT; };
 		E5E958F41BB42B2600B83D27 /* shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = shader.h; path = src/shader.h; sourceTree = SOURCE_ROOT; };
-		E5EF58FD1BB95C9F00F85754 /* libassimpd.3.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimpd.3.1.1.dylib; path = Framework/assimp/Debug/libassimpd.3.1.1.dylib; sourceTree = "<group>"; };
-		E5EF59001BB95ED700F85754 /* libassimp.3.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.3.1.1.dylib; path = Framework/assimp/Release/libassimp.3.1.1.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,8 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E5EF59011BB95ED700F85754 /* libassimp.3.1.1.dylib in Frameworks */,
-				E5EF58FE1BB95C9F00F85754 /* libassimpd.3.1.1.dylib in Frameworks */,
+				234C8B281BB96A3B00E61132 /* libassimpd.3.1.1.dylib in Frameworks */,
 				23CBC8741BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib in Frameworks */,
 				E54D30911BB29675006FBC68 /* libGLEW.dylib in Frameworks */,
 				E54D308F1BB29665006FBC68 /* SDL2.framework in Frameworks */,
@@ -90,8 +85,7 @@
 		E53768661BA6D3B600D0BC14 = {
 			isa = PBXGroup;
 			children = (
-				E5EF59001BB95ED700F85754 /* libassimp.3.1.1.dylib */,
-				E5EF58FD1BB95C9F00F85754 /* libassimpd.3.1.1.dylib */,
+				234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */,
 				23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */,
 				E54D30901BB29675006FBC68 /* libGLEW.dylib */,
 				E54D308E1BB29665006FBC68 /* SDL2.framework */,

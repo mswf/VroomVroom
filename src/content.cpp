@@ -43,9 +43,9 @@ void PrintPath()
     
 void CreateFilePath(const char* filename, string* outResult)
 {
-    outResult = new string(contentPath);
+    *outResult = contentPath;
 	*outResult += "/";
-	*outResult += filename;
+	*outResult += string(filename);
 }
     
 }//namespace Content

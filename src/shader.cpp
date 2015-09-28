@@ -14,8 +14,8 @@ Renderer::Shader::Shader(GLuint vao)
 {
 	glBindVertexArray( vao );
 	std::string path = SDL_GetBasePath();
-	const char* src_vertex = ReadFile((path + std::string("vs.txt")).c_str());
-	const char* src_fragment = ReadFile((path + std::string("fs.txt")).c_str());
+	const char * src_vertex = ReadFile((path + std::string("vs.txt")).c_str()).c_str();
+	const char * src_fragment = ReadFile((path + std::string("fs.txt")).c_str()).c_str();
 
 	program = glCreateProgram();
 	
@@ -65,10 +65,22 @@ void Renderer::Shader::LogError( GLuint program, GLenum status )
 	}
 }
 
-const char* Renderer::Shader::ReadFile( const char* file )
+std::string Renderer::Shader::ReadFile( const char* file )
 {
 	std::ifstream fin( file );
 	
+	std::ifstream shaderFile(file);
+	if(!shaderFile)
+	{
+		std::cerr << "File could not be opened." << std::endl;
+		assert(false);
+	}
+	std::stringstream shaderData;
+	shaderData << shaderFile.rdbuf();  //Loads the entire string into a string stream.
+	shaderFile.close();
+	return shaderData.str(); //Get the string stream as a std::string.
+	
+	/*
 	char * buffer;
 	if( fin.is_open() )
 	{
@@ -83,11 +95,12 @@ const char* Renderer::Shader::ReadFile( const char* file )
 	}
 	else //file could not be opened, either not found or do not have permission
 	{
-		std::cerr << "File could not be opened." << std::endl;
+		
 		buffer = NULL;
 		assert(false);
 	}
 	return buffer;
+	*/
 }
 
 

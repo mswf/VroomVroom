@@ -12,6 +12,8 @@
 #include <glew.h>
 #include <iostream>
 #include <fstream>
+#include <string>
+#include <sstream>
 #include "glm/vec2.hpp"
 #include "glm/vec3.hpp"
 #include "glm/mat4x4.hpp"
@@ -32,7 +34,7 @@ namespace Renderer
 		void SetUniformFloat3( const char* uniform, glm::vec3 value );
 		void SetUniformMat4( const char* uniform, glm::mat4 value );
 	private:
-		const char* ReadFile( const char* path );
+		std::string ReadFile( const char* path );
 		void LogError( GLuint program, GLenum pname);
 	};
 }

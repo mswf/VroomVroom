@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-
+//todo write unit test to see if 16/32/64bit is set up correct
 typedef std::string				string;
 typedef unsigned char			uint8;
 typedef unsigned short			uint16;

@@ -1,14 +1,14 @@
 //
-//  Shader.cpp
+//  shader.cpp
 //  VroomVroom
 //
 //  Created by Valentinas Rimeika on 24/09/15.
 //  Copyright © 2015 Valentinas Rimeika. All rights reserved.
 //
 
-#include "Shader.h"
+#include "shader.h"
 
-Renderer::Shader::Shader(GLuint vao)
+Renderer::shader::shader(GLuint vao)
 : program(0)
 {
 	glBindVertexArray( vao );
@@ -45,12 +45,12 @@ Renderer::Shader::Shader(GLuint vao)
 
 }
 
-Renderer::Shader::~Shader()
+Renderer::shader::~shader()
 {
 	glDeleteProgram( program );
 }
 
-void Renderer::Shader::LogError( GLuint program, GLenum status )
+void Renderer::shader::LogError( GLuint program, GLenum status )
 {
 	GLint log;
 	glGetProgramiv( program, status, &log);
@@ -63,7 +63,7 @@ void Renderer::Shader::LogError( GLuint program, GLenum status )
 	}
 }
 
-const char* Renderer::Shader::ReadFile( const char* file )
+const char* Renderer::shader::ReadFile( const char* file )
 {
 	std::ifstream fin( file );
 	
@@ -89,27 +89,27 @@ const char* Renderer::Shader::ReadFile( const char* file )
 }
 
 
-void Renderer::Shader::SetUniformInt( const char* uniform, int value )
+void Renderer::shader::SetUniformInt( const char* uniform, int value )
 {
 	glUniform1i( glGetUniformLocation ( program, uniform ), value );
 }
 
-void Renderer::Shader::SetUniformFloat( const char* uniform, float value )
+void Renderer::shader::SetUniformFloat( const char* uniform, float value )
 {
 	glUniform1f( glGetUniformLocation( program, uniform ), value );
 }
 
-void Renderer::Shader::SetUniformFloat2(const char* uniform, glm::vec2 value)
+void Renderer::shader::SetUniformFloat2(const char* uniform, glm::vec2 value)
 {
 	glUniform2f( glGetUniformLocation( program, uniform ), value.x, value.y );
 }
 
-void Renderer::Shader::SetUniformFloat3(const char* uniform, glm::vec3 value)
+void Renderer::shader::SetUniformFloat3(const char* uniform, glm::vec3 value)
 {
 	glUniform3f( glGetUniformLocation( program, uniform ), value.x, value.y, value.z);
 }
 
-void Renderer::Shader::SetUniformMat4( const char* uniform, glm::mat4 value )
+void Renderer::shader::SetUniformMat4( const char* uniform, glm::mat4 value )
 {
 	glUniformMatrix4fv( glGetUniformLocation( program, uniform ), 1, GL_FALSE, glm::value_ptr(value) );
 	

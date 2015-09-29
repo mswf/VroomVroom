@@ -1,6 +1,9 @@
 // ImGui - standalone example application for SDL2 + OpenGL
 
 #define GLM_FORCE_RADIANS
+//default platform defines:
+//#ifdef _WIN32
+//#elif __APPLE__
 
 #include "standardIncludes.h"
 #include <glew.h>

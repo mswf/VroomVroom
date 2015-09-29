@@ -16,12 +16,10 @@ Renderer::Shader::Shader(GLuint vao)
 {
 	glBindVertexArray( vao );
 	std::string path = SDL_GetBasePath();
-	std::string vs = ReadFile((path + std::string("vs.txt")).c_str());
-	std::string fs = ReadFile((path + std::string("fs.txt")).c_str());
-	
-	HelperFunctions::ConvertLineEndings(vs);
-	HelperFunctions::ConvertLineEndings(fs);
 
+	std::string vs = HelperFunctions::ReadFile(path + std::string("vs.txt"));
+	std::string fs = HelperFunctions::ReadFile(path + std::string("fs.txt"));
+	
 	const char * src_vertex   = vs.c_str();
 	const char * src_fragment = fs.c_str();
 	program = glCreateProgram();

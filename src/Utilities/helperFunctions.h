@@ -17,8 +17,8 @@ enum class LineEndingType
 class HelperFunctions
 {
 public:
-	static void ConvertLineEndings(std::string* text, LineEndingType type);
-	static void ReplaceStringInPlace(std::string* subject, const std::string& search, const std::string& replace);
+	static void ConvertLineEndings(std::string text, LineEndingType type);
+	static void ReplaceStringInPlace(std::string subject, const std::string& search, const std::string& replace);
 private:
 	
 };

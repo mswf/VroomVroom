@@ -51,7 +51,6 @@ Renderer::Shader::Shader(GLuint vao)
 	
 	glDeleteShader( vertex_shader );
 	glDeleteShader( fragment_shader );
-
 }
 
 Renderer::Shader::~Shader()
@@ -71,45 +70,6 @@ void Renderer::Shader::LogError( GLuint program, GLenum status )
 		assert(false);
 	}
 }
-
-std::string Renderer::Shader::ReadFile( const char* file )
-{
-	std::ifstream fin( file );
-	
-	std::ifstream shaderFile(file);
-	if(!shaderFile)
-	{
-		std::cerr << "File could not be opened." << std::endl;
-		assert(false);
-	}
-	std::stringstream shaderData;
-	shaderData << shaderFile.rdbuf();  //Loads the entire string into a string stream.
-	shaderFile.close();
-	return shaderData.str(); //Get the string stream as a std::string.
-	
-	/*
-	char * buffer;
-	if( fin.is_open() )
-	{
-		fin.seekg (0, fin.end);
-		int length = (int)fin.tellg();
-		fin.seekg (0, fin.beg);
-		buffer = new char[ length ];
-		fin.read(buffer, length);
-		//placing terminating character at the end
-		buffer[ length - 1 ] = '\0';
-		fin.close();
-	}
-	else //file could not be opened, either not found or do not have permission
-	{
-		
-		buffer = NULL;
-		assert(false);
-	}
-	return buffer;
-	*/
-}
-
 
 void Renderer::Shader::SetUniformInt( const char* uniform, int value )
 {

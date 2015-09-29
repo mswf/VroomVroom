@@ -9,8 +9,10 @@
 class HelperFunctions
 {
 public:
-	static void ConvertLineEndings(std::string text);
-	static void ReplaceStringInPlace(std::string subject, const std::string& search, const std::string& replace);
+	static std::string ConvertLineEndings(std::string text);
+	static void ReplaceStringInPlace(std::string& subject, const std::string& search, const std::string& replace);
+	static std::string ReadFile(std::string file);
+	static std::string ReadFile(const char* file);
 private:
 
 	enum class LineEndingType

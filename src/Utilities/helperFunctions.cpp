@@ -1,7 +1,10 @@
 #include "standardIncludes.h"
 #include "helperFunctions.h"
+#include <iostream>
+#include <fstream>
+#include <sstream>
 
-void HelperFunctions::ConvertLineEndings(std::string text)
+std::string HelperFunctions::ConvertLineEndings(std::string text)
 {
 #if __APPLE__
 	LineEndingType type = LineEndingType::CR;
@@ -43,9 +46,11 @@ void HelperFunctions::ConvertLineEndings(std::string text)
 			break;
 		}
 	}
+
+	return text;
 }
 
-void HelperFunctions::ReplaceStringInPlace(std::string text, const std::string& find,	const std::string& replace) 
+void HelperFunctions::ReplaceStringInPlace(std::string& text, const std::string& find,	const std::string& replace) 
 {
 	size_t pos = 0;
 	while ((pos = text.find(find, pos)) != std::string::npos) 
@@ -53,4 +58,23 @@ void HelperFunctions::ReplaceStringInPlace(std::string text, const std::string& 
 		text.replace(pos, find.length(), replace);
 		pos += replace.length();
 	}
+}
+
+std::string HelperFunctions::ReadFile(std::string file)
+{
+	return ReadFile(file.c_str());
+}
+
+std::string HelperFunctions::ReadFile(const char* file)
+{
+	std::ifstream fileStream(file);
+	if (!fileStream)
+	{
+		std::cerr << "File could not be opened." << std::endl;
+		assert(false);
+	}
+	std::stringstream fileData;
+	fileData << fileStream.rdbuf();  //Loads the entire string into a string stream.
+	fileStream.close();
+	return ConvertLineEndings(fileData.str());
 }

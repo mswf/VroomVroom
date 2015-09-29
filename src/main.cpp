@@ -4,6 +4,7 @@
 //default platform defines:
 //#ifdef _WIN32
 //#elif __APPLE__
+//#elif __linux__
 
 #include "standardIncludes.h"
 #include <glew.h>
@@ -18,6 +19,8 @@
 #include "lua.hpp"
 #include "Importer.hpp"
 #include "content.h"
+#include "Utilities/helperFunctions.h"
+#include "Utilities/random.h"
 
 void config()
 {
@@ -86,6 +89,16 @@ void runMainLua()
 
 int main(int argc, char** a)
 {
+	//printf(SDL_GetBasePath());
+	//printf("\n");
+	//
+	//
+	//
+	//for (int i = 0; i < 2000; ++i)
+	//{
+	//	printf("%i\n", Random::Next(2));
+	//}
+	//return 0;
     config();
     Content::PrintPath();
     runMainLua();
@@ -107,7 +120,7 @@ int main(int argc, char** a)
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 	SDL_DisplayMode current;
 	SDL_GetCurrentDisplayMode(0, &current);
-	SDL_Window *window = SDL_CreateWindow("ImGui SDL2+OpenGL example", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_OPENGL|SDL_WINDOW_RESIZABLE);
+	SDL_Window *window = SDL_CreateWindow("VroomVroom", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_OPENGL|SDL_WINDOW_RESIZABLE);
 	SDL_GLContext glcontext = SDL_GL_CreateContext(window);
 	
 	glewExperimental = true;

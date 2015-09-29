@@ -34,7 +34,6 @@ namespace Renderer
 		void SetUniformFloat3( const char* uniform, glm::vec3 value );
 		void SetUniformMat4( const char* uniform, glm::mat4 value );
 	private:
-		std::string ReadFile( const char* path );
 		void LogError( GLuint program, GLenum pname);
 	};
 }

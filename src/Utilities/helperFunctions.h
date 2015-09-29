@@ -4,23 +4,24 @@
 #include <random>
 
 
-enum class LineEndingType
-{
-	//Mac \r
-	CR,
-	//Unix \n
-	LF,
-	//Windows \r\n
-	CRLF
-};
+
 
 class HelperFunctions
 {
 public:
-	static void ConvertLineEndings(std::string text, LineEndingType type);
+	static void ConvertLineEndings(std::string text);
 	static void ReplaceStringInPlace(std::string subject, const std::string& search, const std::string& replace);
 private:
-	
+
+	enum class LineEndingType
+	{
+		//Mac \r
+		CR,
+		//Unix \n
+		LF,
+		//Windows \r\n
+		CRLF
+	};
 };
 
 #endif //helperfunctions_h

@@ -1,34 +1,47 @@
 #include "standardIncludes.h"
 #include "helperFunctions.h"
 
-void HelperFunctions::ConvertLineEndings(std::string text, LineEndingType type)
+void HelperFunctions::ConvertLineEndings(std::string text)
 {
+#if __APPLE__
+	LineEndingType type = LineEndingType::CR;
+#elif _WIN32
+	LineEndingType type = LineEndingType::CRLF;
+#elif __linux__
+	LineEndingType type = LineEndingType::LF;
+#endif
 	switch (type)
 	{
-	//Mac \r
-	case LineEndingType::CR:
-	{
-		ReplaceStringInPlace(text, "\r\n", "\r");
-		ReplaceStringInPlace(text, "\n", "\r");
-		break;
-	}
-	//Unix \n
-	case LineEndingType::LF:
-	{
-		ReplaceStringInPlace(text, "\r\n", "\n");
-		ReplaceStringInPlace(text, "\r", "\n");
-		break;
-	}
-	//Windows \r\n
-	case LineEndingType::CRLF:
-		ReplaceStringInPlace(text, "\r\n", "AIDUNNOLOLOLOL");
-		ReplaceStringInPlace(text, "\r", "AIDUNNOLOLOLOL");
-		ReplaceStringInPlace(text, "\n", "AIDUNNOLOLOLOL");
-		ReplaceStringInPlace(text, "AIDUNNOLOLOLOL", "\r\n");
-		break;
-	default:
-		assert(false);
-		break;
+		//Mac \r
+		case LineEndingType::CR:
+		{
+			ReplaceStringInPlace(text, "\r\n", "\r");
+			ReplaceStringInPlace(text, "\n", "\r");
+			break;
+		}
+		//Unix \n
+		case LineEndingType::LF:
+		{
+			ReplaceStringInPlace(text, "\r\n", "\n");
+			ReplaceStringInPlace(text, "\r", "\n");
+			break;
+		}
+		//Windows \r\n
+		case LineEndingType::CRLF:
+		{
+			//Because I don't want to spend time making a RegEx
+			const string pls = "AIDUNNOLOLOLOLXOXOYKI";
+			ReplaceStringInPlace(text, "\r\n", pls);
+			ReplaceStringInPlace(text, "\r", pls);
+			ReplaceStringInPlace(text, "\n", pls);
+			ReplaceStringInPlace(text, pls, "\r\n");
+			break;
+		}
+		default:
+		{
+			assert(false);
+			break;
+		}
 	}
 }
 

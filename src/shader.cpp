@@ -19,8 +19,8 @@ Renderer::Shader::Shader(GLuint vao)
 	std::string vs = ReadFile((path + std::string("vs.txt")).c_str());
 	std::string fs = ReadFile((path + std::string("fs.txt")).c_str());
 	
-	HelperFunctions::ConvertLineEndings(vs, LineEndingType::CRLF);
-	HelperFunctions::ConvertLineEndings(fs, LineEndingType::CRLF);
+	HelperFunctions::ConvertLineEndings(vs);
+	HelperFunctions::ConvertLineEndings(fs);
 
 	const char * src_vertex   = vs.c_str();
 	const char * src_fragment = fs.c_str();

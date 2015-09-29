@@ -1,7 +1,7 @@
 #include "standardIncludes.h"
 #include "helperFunctions.h"
 
-void HelperFunctions::ConvertLineEndings(std::string& text, LineEndingType type)
+void HelperFunctions::ConvertLineEndings(std::string* text, LineEndingType type)
 {
 	switch (type)
 	{
@@ -32,12 +32,12 @@ void HelperFunctions::ConvertLineEndings(std::string& text, LineEndingType type)
 	}
 }
 
-void HelperFunctions::ReplaceStringInPlace(std::string& text, const std::string& find,	const std::string& replace) 
+void HelperFunctions::ReplaceStringInPlace(std::string* text, const std::string& find,	const std::string& replace) 
 {
 	size_t pos = 0;
-	while ((pos = text.find(find, pos)) != std::string::npos) 
+	while ((pos = text->find(find, pos)) != std::string::npos) 
 	{
-		text.replace(pos, find.length(), replace);
+		text->replace(pos, find.length(), replace);
 		pos += replace.length();
 	}
 }

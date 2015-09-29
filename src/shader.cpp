@@ -7,6 +7,8 @@
 //
 
 #include "shader.h"
+#include "Utilities/helperFunctions.h"
+
 #include "SDL2/SDL.h"
 
 Renderer::Shader::Shader(GLuint vao)
@@ -14,9 +16,14 @@ Renderer::Shader::Shader(GLuint vao)
 {
 	glBindVertexArray( vao );
 	std::string path = SDL_GetBasePath();
-	const char * src_vertex = ReadFile((path + std::string("vs.txt")).c_str()).c_str();
-	const char * src_fragment = ReadFile((path + std::string("fs.txt")).c_str()).c_str();
+	std::string vs = ReadFile((path + std::string("vs.txt")).c_str());
+	std::string fs = ReadFile((path + std::string("fs.txt")).c_str());
+	
+	HelperFunctions::ConvertLineEndings(&vs, LineEndingType::CRLF);
+	HelperFunctions::ConvertLineEndings(&fs, LineEndingType::CRLF);
 
+	const char * src_vertex   = vs.c_str();
+	const char * src_fragment = fs.c_str();
 	program = glCreateProgram();
 	
 	GLuint vertex_shader = glCreateShader(GL_VERTEX_SHADER);

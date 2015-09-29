@@ -20,6 +20,8 @@
 		E567A8F71BB1470200B8F6C3 /* imgui_impl_sdl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8EA1BB1470200B8F6C3 /* imgui_impl_sdl.cpp */; settings = {ASSET_TAGS = (); }; };
 		E567A8F81BB1470200B8F6C3 /* imgui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8ED1BB1470200B8F6C3 /* imgui.cpp */; settings = {ASSET_TAGS = (); }; };
 		E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8EF1BB1470200B8F6C3 /* main.cpp */; settings = {ASSET_TAGS = (); }; };
+		E59FDC901BBAC0EE008935C5 /* helperFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E59FDC8C1BBAC0EE008935C5 /* helperFunctions.cpp */; settings = {ASSET_TAGS = (); }; };
+		E59FDC911BBAC0EE008935C5 /* random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E59FDC8E1BBAC0EE008935C5 /* random.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5E958F51BB42B2600B83D27 /* shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5E958F31BB42B2600B83D27 /* shader.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5EF59021BB95EDD00F85754 /* libGLEW.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E54D30901BB29675006FBC68 /* libGLEW.dylib */; };
 /* End PBXBuildFile section */
@@ -62,8 +64,15 @@
 		E567A8F21BB1470200B8F6C3 /* stb_rect_pack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_rect_pack.h; path = src/stb_rect_pack.h; sourceTree = SOURCE_ROOT; };
 		E567A8F31BB1470200B8F6C3 /* stb_textedit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_textedit.h; path = src/stb_textedit.h; sourceTree = SOURCE_ROOT; };
 		E567A8F41BB1470200B8F6C3 /* stb_truetype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_truetype.h; path = src/stb_truetype.h; sourceTree = SOURCE_ROOT; };
+		E59FDC8A1BBAC0E2008935C5 /* singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = singleton.h; sourceTree = "<group>"; };
+		E59FDC8C1BBAC0EE008935C5 /* helperFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = helperFunctions.cpp; sourceTree = "<group>"; };
+		E59FDC8D1BBAC0EE008935C5 /* helperFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = helperFunctions.h; sourceTree = "<group>"; };
+		E59FDC8E1BBAC0EE008935C5 /* random.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = random.cpp; sourceTree = "<group>"; };
+		E59FDC8F1BBAC0EE008935C5 /* random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = random.h; sourceTree = "<group>"; };
 		E5E958F31BB42B2600B83D27 /* shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = shader.cpp; path = src/shader.cpp; sourceTree = SOURCE_ROOT; };
 		E5E958F41BB42B2600B83D27 /* shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = shader.h; path = src/shader.h; sourceTree = SOURCE_ROOT; };
+		E5EF590B1BBABEBB00F85754 /* standardIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = standardIncludes.h; path = src/standardIncludes.h; sourceTree = SOURCE_ROOT; };
+		E5EF590C1BBABEBB00F85754 /* typedef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = typedef.h; path = src/typedef.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +115,10 @@
 		E53768711BA6D3B600D0BC14 /* VroomVroom */ = {
 			isa = PBXGroup;
 			children = (
+				E59FDC8B1BBAC0EE008935C5 /* Utilities */,
+				E59FDC891BBAC0E2008935C5 /* Patterns */,
+				E5EF590B1BBABEBB00F85754 /* standardIncludes.h */,
+				E5EF590C1BBABEBB00F85754 /* typedef.h */,
 				E54D309B1BB2D9C6006FBC68 /* glm */,
 				E567A8E71BB1470200B8F6C3 /* imconfig.h */,
 				E567A8E81BB1470200B8F6C3 /* imgui_demo.cpp */,
@@ -128,6 +141,27 @@
 			);
 			path = VroomVroom;
 			sourceTree = "<group>";
+		};
+		E59FDC891BBAC0E2008935C5 /* Patterns */ = {
+			isa = PBXGroup;
+			children = (
+				E59FDC8A1BBAC0E2008935C5 /* singleton.h */,
+			);
+			name = Patterns;
+			path = src/Patterns;
+			sourceTree = SOURCE_ROOT;
+		};
+		E59FDC8B1BBAC0EE008935C5 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				E59FDC8C1BBAC0EE008935C5 /* helperFunctions.cpp */,
+				E59FDC8D1BBAC0EE008935C5 /* helperFunctions.h */,
+				E59FDC8E1BBAC0EE008935C5 /* random.cpp */,
+				E59FDC8F1BBAC0EE008935C5 /* random.h */,
+			);
+			name = Utilities;
+			path = src/Utilities;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -206,8 +240,10 @@
 				E567A8F81BB1470200B8F6C3 /* imgui.cpp in Sources */,
 				E5E958F51BB42B2600B83D27 /* shader.cpp in Sources */,
 				E567A8F61BB1470200B8F6C3 /* imgui_draw.cpp in Sources */,
+				E59FDC911BBAC0EE008935C5 /* random.cpp in Sources */,
 				E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */,
 				E54D30981BB2AD45006FBC68 /* renderer.cpp in Sources */,
+				E59FDC901BBAC0EE008935C5 /* helperFunctions.cpp in Sources */,
 				23A4AF551BB2DE3100948D72 /* content.cpp in Sources */,
 				E567A8F71BB1470200B8F6C3 /* imgui_impl_sdl.cpp in Sources */,
 			);

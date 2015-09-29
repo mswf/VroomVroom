@@ -16,6 +16,12 @@
     <Filter Include="VroomVroom">
       <UniqueIdentifier>{5b6a4fc9-b970-4582-ae49-55006319270d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="VroomVroom\Utilities">
+      <UniqueIdentifier>{c7b4a32c-4655-499d-bfc0-7a9783fb3268}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VroomVroom\Patterns">
+      <UniqueIdentifier>{280729dd-832f-46e4-a4bc-dc1c1bab8769}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\imconfig.h">
@@ -54,6 +60,15 @@
     <ClInclude Include="..\..\src\shader.h">
       <Filter>VroomVroom</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Utilities\random.h">
+      <Filter>VroomVroom\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Utilities\helperFunctions.h">
+      <Filter>VroomVroom\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Patterns\singleton.h">
+      <Filter>VroomVroom\Patterns</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\imgui.cpp">
@@ -79,6 +94,12 @@
     </ClCompile>
     <ClCompile Include="..\..\src\shader.cpp">
       <Filter>VroomVroom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\random.cpp">
+      <Filter>VroomVroom\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\helperFunctions.cpp">
+      <Filter>VroomVroom\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

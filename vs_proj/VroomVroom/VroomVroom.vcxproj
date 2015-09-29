@@ -16,6 +16,7 @@
     <ClInclude Include="..\..\src\imgui.h" />
     <ClInclude Include="..\..\src\imgui_impl_sdl.h" />
     <ClInclude Include="..\..\src\imgui_internal.h" />
+    <ClInclude Include="..\..\src\Patterns\singleton.h" />
     <ClInclude Include="..\..\src\renderer.h" />
     <ClInclude Include="..\..\src\shader.h" />
     <ClInclude Include="..\..\src\standardIncludes.h" />
@@ -23,6 +24,8 @@
     <ClInclude Include="..\..\src\stb_textedit.h" />
     <ClInclude Include="..\..\src\stb_truetype.h" />
     <ClInclude Include="..\..\src\typedef.h" />
+    <ClInclude Include="..\..\src\Utilities\helperFunctions.h" />
+    <ClInclude Include="..\..\src\Utilities\random.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\content.cpp" />
@@ -33,6 +36,8 @@
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\renderer.cpp" />
     <ClCompile Include="..\..\src\shader.cpp" />
+    <ClCompile Include="..\..\src\Utilities\helperFunctions.cpp" />
+    <ClCompile Include="..\..\src\Utilities\random.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{47B37C0D-C870-4028-B5E1-62CE51507671}</ProjectGuid>

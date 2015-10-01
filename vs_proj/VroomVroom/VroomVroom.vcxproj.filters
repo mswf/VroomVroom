@@ -22,6 +22,9 @@
     <Filter Include="VroomVroom\Patterns">
       <UniqueIdentifier>{280729dd-832f-46e4-a4bc-dc1c1bab8769}</UniqueIdentifier>
     </Filter>
+    <Filter Include="VroomVroom\Networking">
+      <UniqueIdentifier>{75c980ea-ce55-465e-92e7-454d2f9dadfc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\imconfig.h">
@@ -69,6 +72,12 @@
     <ClInclude Include="..\..\src\Patterns\singleton.h">
       <Filter>VroomVroom\Patterns</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Utilities\base64.h">
+      <Filter>VroomVroom\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Networking\UDPMessage.h">
+      <Filter>VroomVroom\Networking</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\imgui.cpp">
@@ -100,6 +109,12 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Utilities\helperFunctions.cpp">
       <Filter>VroomVroom\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\base64.cpp">
+      <Filter>VroomVroom\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Networking\UDPMessage.cpp">
+      <Filter>VroomVroom\Networking</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

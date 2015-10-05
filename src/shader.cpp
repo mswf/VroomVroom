@@ -7,6 +7,7 @@
 //
 
 #include "shader.h"
+#include "content.h"
 #include "Utilities/helperFunctions.h"
 
 #include "SDL2/SDL.h"
@@ -15,7 +16,7 @@ Renderer::Shader::Shader(GLuint vao)
 : program(0)
 {
 	glBindVertexArray( vao );
-	std::string path = SDL_GetBasePath();
+	std::string path = Content::GetPath() + "/shaders/";
 
 	std::string vs = HelperFunctions::ReadFile(path + std::string("vs.txt"));
 	std::string fs = HelperFunctions::ReadFile(path + std::string("fs.txt"));

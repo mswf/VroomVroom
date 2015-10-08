@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "SDL.h"
+#include "SDL2/SDL.h"
 
 //todo write unit test to see if 8/16/32/64bit is set up correct
 typedef std::string		string;

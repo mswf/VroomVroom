@@ -19,8 +19,6 @@ int main(int argc, char** a)
 {
 	Engine engine;
 	engine.InitSDL();
-
-	engine.InitSDL();
 	engine.InitLua();
 	Content::PrintPath();
 	engine.runMainLua();

@@ -120,8 +120,6 @@
 		E53768711BA6D3B600D0BC14 /* VroomVroom */ = {
 			isa = PBXGroup;
 			children = (
-				23EE7EC11BC686020006581F /* Engine.cpp */,
-				23EE7EC21BC686020006581F /* Engine.h */,
 				E59FDC8B1BBAC0EE008935C5 /* Utilities */,
 				E59FDC891BBAC0E2008935C5 /* Patterns */,
 				E5EF590B1BBABEBB00F85754 /* standardIncludes.h */,
@@ -139,6 +137,8 @@
 				E567A8F21BB1470200B8F6C3 /* stb_rect_pack.h */,
 				E567A8F31BB1470200B8F6C3 /* stb_textedit.h */,
 				E567A8F41BB1470200B8F6C3 /* stb_truetype.h */,
+				23EE7EC11BC686020006581F /* Engine.cpp */,
+				23EE7EC21BC686020006581F /* Engine.h */,
 				E54D30971BB2AD45006FBC68 /* renderer.cpp */,
 				E54D309A1BB2AD66006FBC68 /* renderer.h */,
 				23A4AF531BB2DE3100948D72 /* content.cpp */,

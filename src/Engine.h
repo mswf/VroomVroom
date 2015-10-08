@@ -15,8 +15,8 @@ class Engine
 		void SetupWindow(SDL_Window*& window, SDL_GLContext& glcontext);
 		void InitGlew();
 		void ShowSimpleWindowOne(bool& show_test_window, bool& show_another_window);
-		void ShowSimpleWindowTwo(bool& show_another_window);
-		void ShowSimpleWindowThree(bool& show_test_window);
+		void ShowSimpleWindowTwo();
+		void ShowSimpleWindowThree();
 
 		void UpdateLoop();
 		void InitSDL();

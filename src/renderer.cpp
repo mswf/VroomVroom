@@ -1,3 +1,4 @@
+#include "shader.h"
 #include "renderer.h"
 
 namespace Renderer

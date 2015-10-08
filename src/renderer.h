@@ -5,8 +5,6 @@
 #include <iostream>	// cout, cerr, endl
 #include <fstream>	// fin,
 
-#include "Shader.h"
-
 #include "glm/vec2.hpp"
 #include "glm/vec3.hpp"
 #include "glm/mat4x4.hpp"
@@ -15,7 +13,9 @@
 
 namespace Renderer
 {
-
+    
+    class Shader;
+    
 	enum class Projection
 	{
 		ORTHOGONAL,

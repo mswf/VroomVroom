@@ -6,7 +6,6 @@
 #include "renderer.h"
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
-#include "Importer.hpp"
 #include "glew.h"
 #include "SDL2/SDL_opengl.h"
 #include <iostream>
@@ -140,25 +139,6 @@ void Engine::InitGlew()
 	std::cout << "GLEW version " << glewGetString(GLEW_VERSION_MAJOR) << "." << glewGetString(GLEW_VERSION_MINOR) << std::endl;
 }
 
-void Engine::LoadFonts()
-{
-	// Load Fonts
-	// (see extra_fonts/README.txt for more details)
-	//ImGuiIO& io = ImGui::GetIO();
-	//io.Fonts->AddFontDefault();
-	//io.Fonts->AddFontFromFileTTF("../../extra_fonts/Cousine-Regular.ttf", 15.0f);
-	//io.Fonts->AddFontFromFileTTF("../../extra_fonts/DroidSans.ttf", 16.0f);
-	//io.Fonts->AddFontFromFileTTF("../../extra_fonts/ProggyClean.ttf", 13.0f);
-	//io.Fonts->AddFontFromFileTTF("../../extra_fonts/ProggyTiny.ttf", 10.0f);
-	//io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
-
-	// Merge glyphs from multiple fonts into one (e.g. combine default font with another with Chinese glyphs, or add icons)
-	//ImWchar icons_ranges[] = { 0xf000, 0xf3ff, 0 };
-	//ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
-	//io.Fonts->AddFontFromFileTTF("../../extra_fonts/DroidSans.ttf", 18.0f);
-	//io.Fonts->AddFontFromFileTTF("../../extra_fonts/fontawesome-webfont.ttf", 18.0f, &icons_config, icons_ranges);
-}
-
 void Engine::ShowSimpleWindowOne(bool& show_test_window, bool& show_another_window)
 {
 	ImVec4 clear_color = ImColor(114, 144, 154);
@@ -197,78 +177,35 @@ void Engine::ShowSimpleWindowThree(bool& show_test_window)
 	}
 }
 
-void Engine::SomethingWindow()
-{
-	// Setup window
-	SDL_Window* window;
-	SDL_GLContext glcontext;
-	SetupWindow(window, glcontext);
-	InitGlew();
-
-	// Setup ImGui binding
-	ImGui_ImplSdl_Init(window);
-
-	Assimp::Importer import;
-
-	LoadFonts();
-
-	bool show_test_window = true;
-	bool show_another_window = false;
-
-	Renderer::RenderData * data = new Renderer::RenderData();
-	Renderer::Camera * camera = new Renderer::Camera();
-	float fov = 90.0f;
-	float aspectRatio = 1280.0f / 720.0f;
-	float zNear = 1.0f;
-	float zFar = 100.0f;
-	camera->eye = glm::vec3(1.0, 1.0, 1.0);
-	camera->center = glm::vec3(0.0, 0.0, 0.0);
-	Renderer::GetCamera(camera, Renderer::Projection::PERSPECTIVE, fov, aspectRatio, zNear, zFar);
-	Renderer::GetRenderData(data);
-
-	// Main loop
-	bool done = false;
-	while (!done)
-	{
-		PollEvent();
-
-		Renderer::RenderObject(SDL_GetTicks(), data, camera);
-
-		ImGui_ImplSdl_NewFrame(window);
-
-		// 1. Show a simple window
-		// Tip: if we don't call ImGui::Begin()/ImGui::End() the widgets appears in a window automatically called "Debug"
-		ShowSimpleWindowOne(show_test_window, show_another_window);
-
-		// 2. Show another simple window, this time using an explicit Begin/End pair
-		ShowSimpleWindowTwo(show_another_window);
-
-		// 3. Show the ImGui test window. Most of the sample code is in ImGui::ShowTestWindow()
-		ShowSimpleWindowThree(show_test_window);
-
-		// Rendering
-		//int display_w, display_h;
-		//glfwGetFramebufferSize(window, &display_w, &display_h);
-		// glViewport(0, 0, (int)ImGui::GetIO().DisplaySize.x, (int)ImGui::GetIO().DisplaySize.y);
-		// glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-		// glClear(GL_COLOR_BUFFER_BIT);
-		ImGui::Render();
-		SDL_GL_SwapWindow(window);
-	}
-
-	// Cleanup
-	CloseWindow(window, glcontext, data, camera);
-}
-
 
 void Engine::Update()
 {
-	printf("game update\n");
-
+	//printf("game update\n");
 }
 
-void Engine::StartLoop()
+void Engine::UpdateLoop()
 {
+    SDL_Window* window;
+    SDL_GLContext glcontext;
+    SetupWindow(window, glcontext);
+    InitGlew();
+    
+    ImGui_ImplSdl_Init(window);
+    
+    bool show_test_window = true;
+    bool show_another_window = false;
+    
+    Renderer::RenderData * data = new Renderer::RenderData();
+    Renderer::Camera * camera = new Renderer::Camera();
+    float fov = 90.0f;
+    float aspectRatio = 1280.0f / 720.0f;
+    float zNear = 1.0f;
+    float zFar = 100.0f;
+    camera->eye = glm::vec3(1.0, 1.0, 1.0);
+    camera->center = glm::vec3(0.0, 0.0, 0.0);
+    Renderer::GetCamera(camera, Renderer::Projection::PERSPECTIVE, fov, aspectRatio, zNear, zFar);
+    Renderer::GetRenderData(data);
+    
 	const uint16 millisecondModifier = 1000;
 	const float gameFPS = 60;
 	const float gameUpdateInterval = 1 / gameFPS * millisecondModifier;
@@ -291,7 +228,8 @@ void Engine::StartLoop()
 		unsigned short safeguard = 0;
 		while (deltaTimeGame > gameUpdateInterval && safeguard < 10)
 		{
-            SDL_Delay(gameUpdateInterval);
+            //TODO: Fix the game interval in for reducing framerate
+            //SDL_Delay(gameUpdateInterval);
 			Update();
 
 			deltaTimeGame -= gameUpdateInterval;
@@ -304,12 +242,26 @@ void Engine::StartLoop()
 
 			++safeguard;
 		}
-
+        
+        ImGui_ImplSdl_NewFrame(window);
+        
+        Renderer::RenderObject(SDL_GetTicks(), data, camera);
+        
+        ShowSimpleWindowOne(show_test_window, show_another_window);
+        
+        ShowSimpleWindowTwo(show_another_window);
+        
+        ShowSimpleWindowThree(show_test_window);
+        
+        ImGui::Render();
+        SDL_GL_SwapWindow(window);
 		//rendering
 		//float normalizedInterpolationValue = deltaTimeGame / gameUpdateInterval
 		//	//Do something with locking
 		//	render.draw(normalizedInterpolationValue)
 	}
+    
+    CloseWindow(window, glcontext, data, camera);
 }
 
 void Engine::InitSDL()

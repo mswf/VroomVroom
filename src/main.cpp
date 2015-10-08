@@ -22,9 +22,7 @@ int main(int argc, char** a)
 	engine.InitLua();
 	Content::PrintPath();
 	engine.runMainLua();
-
-	//engine.StartLoop();
-	engine.SomethingWindow();
+	engine.UpdateLoop();
 
 	return 0;
 }

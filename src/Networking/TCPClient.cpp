@@ -24,17 +24,18 @@ void TCPClient::Initialize(const char* hostName, const uint16 port)
 	if (SDLNet_ResolveHost(&ip, hostName, port) == -1)
 	{
 		printf("SDLNet_ResolveHost: %s\n", SDLNet_GetError());
-		printf("Cannot connect to host/port\n");
-		assert(false);
+		printf("[TCPClient] : Cannot connect to host/port\n");
 	}
-
 
 	socket = SDLNet_TCP_Open(&ip);
 	if (!socket)
 	{
 		printf("SDLNet_TCP_Open: %s\n", SDLNet_GetError());
-		printf("Could not open TCP connection\n");
-		assert(false);
+		printf("[TCPClient] : Could not open TCP connection\n");
+	}
+	else
+	{
+		printf("[TCPClient] : Connected\n");
 	}
 }
 

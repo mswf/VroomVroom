@@ -3,12 +3,28 @@
 #include <assert.h>
 
 
-TCPClient::TCPClient(char* hostname, unsigned int port)
+TCPClient::TCPClient(const std::string hostName, const uint16 port)
 {
-	if (SDLNet_ResolveHost(&ip, hostname, port) == -1)
+	Initialize(hostName.c_str(), port);
+}
+
+
+TCPClient::TCPClient(const char* hostName, const uint16 port)
+{
+	Initialize(hostName, port);
+}
+
+TCPClient::~TCPClient()
+{
+	SDLNet_TCP_Close(socket);
+}
+
+void TCPClient::Initialize(const char* hostName, const uint16 port)
+{
+	if (SDLNet_ResolveHost(&ip, hostName, port) == -1)
 	{
 		printf("SDLNet_ResolveHost: %s\n", SDLNet_GetError());
-        printf("Cannot connect to host/port\n");
+		printf("Cannot connect to host/port\n");
 		assert(false);
 	}
 
@@ -17,29 +33,39 @@ TCPClient::TCPClient(char* hostname, unsigned int port)
 	if (!socket)
 	{
 		printf("SDLNet_TCP_Open: %s\n", SDLNet_GetError());
-        printf("Could not open TCP connection\n");
+		printf("Could not open TCP connection\n");
 		assert(false);
 	}
 }
 
-TCPClient::~TCPClient()
-{
-	SDLNet_TCP_Close(socket);
-}
-
-void TCPClient::SendReliableMessage(void* data, int length)
+void TCPClient::SendMessage(const void* data, const uint32 length) const
 {
 	int result = SDLNet_TCP_Send(socket, data, length);
 	if (result < length)
 	{
 		printf("SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-        printf("serverSocket has been disconnected\n");
+		printf("serverSocket has been disconnected\n");
 		assert(false);
 	}
 	else
 	{
 		printf("Client: sent data to server\n");
 	}
+}
+
+void TCPClient::SendMessage(std::string msg) const
+{
+	SendMessage((void*) msg.c_str(), msg.size());
+}
+
+void TCPClient::SendMessage(int16 msg) const
+{
+	SendMessage((void*)msg, sizeof(msg));
+}
+
+void TCPClient::SendMessage(int32 msg) const
+{
+	SendMessage((void*)msg, sizeof(msg));
 }
 
 void TCPClient::ReceiveMessage()

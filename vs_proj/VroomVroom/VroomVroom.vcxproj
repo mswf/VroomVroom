@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\content.h" />
+    <ClInclude Include="..\..\src\Engine.h" />
     <ClInclude Include="..\..\src\imconfig.h" />
     <ClInclude Include="..\..\src\imgui.h" />
     <ClInclude Include="..\..\src\imgui_impl_sdl.h" />
@@ -29,6 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\content.cpp" />
+    <ClCompile Include="..\..\src\Engine.cpp" />
     <ClCompile Include="..\..\src\imgui.cpp" />
     <ClCompile Include="..\..\src\imgui_demo.cpp" />
     <ClCompile Include="..\..\src\imgui_draw.cpp" />

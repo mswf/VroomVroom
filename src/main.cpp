@@ -25,8 +25,7 @@ int main(int argc, char** a)
 	Content::PrintPath();
 	engine.runMainLua();
 
-	engine.StartLoop();
-	engine.SomethingWindow();
+    engine.UpdateLoop();
 
 	return 0;
 }

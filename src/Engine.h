@@ -18,11 +18,12 @@ class Engine
 		void ShowSimpleWindowOne(bool& show_test_window, bool& show_another_window);
 		void ShowSimpleWindowTwo(bool& show_another_window);
 		void ShowSimpleWindowThree(bool& show_test_window);
-		void Update();
+		
 		void UpdateLoop();
 		void InitSDL();
     
     private:
         lua_State* luaState;
+        void Update();
 };
 

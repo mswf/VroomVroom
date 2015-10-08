@@ -2,6 +2,7 @@
 
 #include "Engine.h"
 #include <SDL2/SDL.h>
+#include <SDL2_net/SDL_net.h>
 #include <lua.hpp>
 #include "entity_system.h"
 #include "content.h"
@@ -300,3 +301,13 @@ void Engine::InitSDL()
 		assert(false);
 	}
 }
+
+void Engine::InitSDLNet()
+{
+	if (SDLNet_Init() != 0)
+	{
+		printf("Error: %s\n", SDLNet_GetError());
+		assert(false);
+	}
+}
+

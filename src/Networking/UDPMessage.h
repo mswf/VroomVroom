@@ -2,6 +2,7 @@
 #define udpmessage_h
 #include <codecvt>
 #include <SDL2_net/SDL_net.h>
+#include "Patterns/singleton.h"
 
 class UDPMessage// : Singleton<UDPMessage>
 {

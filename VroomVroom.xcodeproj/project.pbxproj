@@ -12,7 +12,7 @@
 		23A4AF551BB2DE3100948D72 /* content.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23A4AF531BB2DE3100948D72 /* content.cpp */; settings = {ASSET_TAGS = (); }; };
 		23CBC8741BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */; };
 		23EE7EC31BC686020006581F /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23EE7EC11BC686020006581F /* Engine.cpp */; settings = {ASSET_TAGS = (); }; };
-		23EE7EE11BC6B5580006581F /* console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23EE7EDF1BC6B5580006581F /* console.cpp */; settings = {ASSET_TAGS = (); }; };
+		23EE7EE41BC6C2B90006581F /* console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23EE7EE21BC6C2B90006581F /* console.cpp */; settings = {ASSET_TAGS = (); }; };
 		E537687A1BA6D3CE00D0BC14 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E53768791BA6D3CE00D0BC14 /* OpenGL.framework */; };
 		E54725FE1BC69F1300316B26 /* SDL2_net.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E54725FD1BC69F1300316B26 /* SDL2_net.framework */; };
 		E547260A1BC6A74E00316B26 /* TCPClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E54726041BC6A74E00316B26 /* TCPClient.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -56,8 +56,8 @@
 		23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libluajit-5.1.2.0.4.dylib"; path = "Framework/LJIT/lib/libluajit-5.1.2.0.4.dylib"; sourceTree = "<group>"; };
 		23EE7EC11BC686020006581F /* Engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Engine.cpp; path = src/Engine.cpp; sourceTree = SOURCE_ROOT; };
 		23EE7EC21BC686020006581F /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Engine.h; path = src/Engine.h; sourceTree = SOURCE_ROOT; };
-		23EE7EDF1BC6B5580006581F /* console.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = console.cpp; path = src/console.cpp; sourceTree = SOURCE_ROOT; };
-		23EE7EE01BC6B5580006581F /* console.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = console.h; path = src/console.h; sourceTree = SOURCE_ROOT; };
+		23EE7EE21BC6C2B90006581F /* console.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = console.cpp; path = src/console.cpp; sourceTree = SOURCE_ROOT; };
+		23EE7EE31BC6C2B90006581F /* console.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = console.h; path = src/console.h; sourceTree = SOURCE_ROOT; };
 		E537686F1BA6D3B600D0BC14 /* VroomVroom */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VroomVroom; sourceTree = BUILT_PRODUCTS_DIR; };
 		E53768791BA6D3CE00D0BC14 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		E54725FD1BC69F1300316B26 /* SDL2_net.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_net.framework; path = Framework/SDL2_net.framework; sourceTree = "<group>"; };
@@ -142,6 +142,8 @@
 		E53768711BA6D3B600D0BC14 /* VroomVroom */ = {
 			isa = PBXGroup;
 			children = (
+				23EE7EE21BC6C2B90006581F /* console.cpp */,
+				23EE7EE31BC6C2B90006581F /* console.h */,
 				E547260D1BC6A75800316B26 /* Networking */,
 				E59FDC8B1BBAC0EE008935C5 /* Utilities */,
 				E59FDC891BBAC0E2008935C5 /* Patterns */,
@@ -160,12 +162,6 @@
 				E567A8F21BB1470200B8F6C3 /* stb_rect_pack.h */,
 				E567A8F31BB1470200B8F6C3 /* stb_textedit.h */,
 				E567A8F41BB1470200B8F6C3 /* stb_truetype.h */,
-<<<<<<< HEAD
-=======
-				23EE7EDF1BC6B5580006581F /* console.cpp */,
-				23EE7EE01BC6B5580006581F /* console.h */,
-				E54726011BC6A50300316B26 /* componentSystem.cpp */,
->>>>>>> +addded console
 				E54726021BC6A50300316B26 /* componentSystem.h */,
 				E54726001BC6A50300316B26 /* component.h */,
 				E54725FF1BC6A49400316B26 /* entity_system.h */,
@@ -302,14 +298,10 @@
 				E59FDC911BBAC0EE008935C5 /* random.cpp in Sources */,
 				E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */,
 				E54D30981BB2AD45006FBC68 /* renderer.cpp in Sources */,
-<<<<<<< HEAD
-=======
-				23EE7EE11BC6B5580006581F /* console.cpp in Sources */,
-				E54726031BC6A50300316B26 /* componentSystem.cpp in Sources */,
->>>>>>> +addded console
 				E59FDC901BBAC0EE008935C5 /* helperFunctions.cpp in Sources */,
 				23A4AF551BB2DE3100948D72 /* content.cpp in Sources */,
 				E567A8F71BB1470200B8F6C3 /* imgui_impl_sdl.cpp in Sources */,
+				23EE7EE41BC6C2B90006581F /* console.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

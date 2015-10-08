@@ -1,7 +1,7 @@
 #include "TCPClient.h"
 #include "stdio.h"
 #include <assert.h>
-
+#include "SDL2/SDL.h"
 
 TCPClient::TCPClient(const std::string hostName, const uint16 port)
 {
@@ -16,6 +16,7 @@ TCPClient::TCPClient(const char* hostName, const uint16 port)
 
 TCPClient::~TCPClient()
 {
+	alive = false;
 	SDLNet_TCP_Close(socket);
 }
 
@@ -35,12 +36,20 @@ void TCPClient::Initialize(const char* hostName, const uint16 port)
 	}
 	else
 	{
+		alive = true;
 		printf("[TCPClient] : Connected\n");
 	}
+
+	//listenThread = SDL_CreateThread(ListenForMessages, "clientThread", NULL);
 }
 
 void TCPClient::SendMessage(const void* data, const uint32 length) const
 {
+	if (length >= MAX_MESSAGE_LENGTH)
+	{
+		assert(false);
+	}
+
 	int result = SDLNet_TCP_Send(socket, data, length);
 	if (result < length)
 	{
@@ -69,17 +78,35 @@ void TCPClient::SendMessage(int32 msg) const
 	SendMessage((void*)msg, sizeof(msg));
 }
 
-void TCPClient::ReceiveMessage()
+std::vector<NetworkData> TCPClient::ReceiveMessage()
 {
-	int result;
-	char msg[1024];
+	std::vector<NetworkData> copy = std::vector<NetworkData>(dataCache);
+	dataCache.clear();
+	return copy;
+}
 
-	result = SDLNet_TCP_Recv(socket, msg, MAX_MESSAGE_LENGTH);
-	if (result <= 0)
+int TCPClient::ListenForMessages(void* data)
+{
+	while (alive)
 	{
-		// An error may have occured, but sometimes you can just ignore it
-		// It may be good to disconnect sock because it is likely invalid now.
-		//printf("Error", msg);
+		int result;
+		char msg[1024];
+
+		result = SDLNet_TCP_Recv(socket, msg, MAX_MESSAGE_LENGTH);
+		if (result <= 0)
+		{
+			// An error may have occured, but sometimes you can just ignore it
+			// It may be good to disconnect sock because it is likely invalid now.
+			//printf("Error", msg);
+			return 1;
+		}
+		printf("Received: \"%s\"\n", msg);
+
+		NetworkData networkData;
+		networkData.data = (void*)msg;
+		networkData.length = result;
+		dataCache.push_back(networkData);
+
 	}
-	printf("Received: \"%s\"\n", msg);
+	return 0;
 }

@@ -33,7 +33,7 @@ void Engine::PollEvent()
 		ImGui_ImplSdl_ProcessEvent(&event);
 		if (event.type == SDL_QUIT)
 		{
-            exit(EXIT_SUCCESS);
+			exit(EXIT_SUCCESS);
 		}
 	}
 }
@@ -100,8 +100,8 @@ void Engine::runMainLua()
 	{
 		std::cout << "lua error: " << lua_tostring(L, -1) << std::endl;
 	}
-    
-    luaState = L;
+
+	luaState = L;
 
 }
 
@@ -164,61 +164,61 @@ void Engine::ShowSimpleWindowOne(bool& show_test_window, bool& show_another_wind
 
 void Engine::ShowSimpleWindowTwo()
 {
-    ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiSetCond_FirstUseEver);
-    // Send bool as reference
-    ImGui::Begin("Another Window");
-    ImGui::Text("Hello");
-    ImGui::End();
+	ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiSetCond_FirstUseEver);
+	// Send bool as reference
+	ImGui::Begin("Another Window");
+	ImGui::Text("Hello");
+	ImGui::End();
 }
 
 void Engine::ShowSimpleWindowThree()
 {
-		ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiSetCond_FirstUseEver);
-        // Send bool as reference
-		ImGui::ShowTestWindow();
+	ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiSetCond_FirstUseEver);
+	// Send bool as reference
+	ImGui::ShowTestWindow();
 }
 
 
 void Engine::Update()
 {
-    
-    //LUA
-    int dt = 16;
-    //TODO use actual deltatime :)
-    
-    lua_getglobal(luaState, "Game");            //get the global 'Game' table
-    lua_getfield(luaState, -1, "update");       //find the field with the name 'update'
-    lua_pushnumber(luaState, dt);               //push dt to the stack
-    if(lua_pcall(luaState, 1, 0, 0) != 0)       //call a function with 1 argument
-    {
-        std::cout << "lua error: " << lua_tostring(luaState, -1) << std::endl;
-    }
-    //END LUA
+
+	//LUA
+	int dt = 16;
+	//TODO use actual deltatime :)
+
+	lua_getglobal(luaState, "Game");            //get the global 'Game' table
+	lua_getfield(luaState, -1, "update");       //find the field with the name 'update'
+	lua_pushnumber(luaState, dt);               //push dt to the stack
+	if (lua_pcall(luaState, 1, 0, 0) != 0)      //call a function with 1 argument
+	{
+		std::cout << "lua error: " << lua_tostring(luaState, -1) << std::endl;
+	}
+	//END LUA
 }
 
 void Engine::UpdateLoop()
 {
-    SDL_Window* window;
-    SDL_GLContext glcontext;
-    SetupWindow(window, glcontext);
-    InitGlew();
-    
-    ImGui_ImplSdl_Init(window);
-    
-    bool show_test_window = true;
-    bool show_another_window = false;
-    
-    Renderer::RenderData * data = new Renderer::RenderData();
-    Renderer::Camera * camera = new Renderer::Camera();
-    float fov = 90.0f;
-    float aspectRatio = 1280.0f / 720.0f;
-    float zNear = 1.0f;
-    float zFar = 100.0f;
-    camera->eye = glm::vec3(1.0, 1.0, 1.0);
-    camera->center = glm::vec3(0.0, 0.0, 0.0);
-    Renderer::GetCamera(camera, Renderer::Projection::PERSPECTIVE, fov, aspectRatio, zNear, zFar);
-    Renderer::GetRenderData(data);
-    
+	SDL_Window* window;
+	SDL_GLContext glcontext;
+	SetupWindow(window, glcontext);
+	InitGlew();
+
+	ImGui_ImplSdl_Init(window);
+
+	bool show_test_window = true;
+	bool show_another_window = false;
+
+	Renderer::RenderData * data = new Renderer::RenderData();
+	Renderer::Camera * camera = new Renderer::Camera();
+	float fov = 90.0f;
+	float aspectRatio = 1280.0f / 720.0f;
+	float zNear = 1.0f;
+	float zFar = 100.0f;
+	camera->eye = glm::vec3(1.0, 1.0, 1.0);
+	camera->center = glm::vec3(0.0, 0.0, 0.0);
+	Renderer::GetCamera(camera, Renderer::Projection::PERSPECTIVE, fov, aspectRatio, zNear, zFar);
+	Renderer::GetRenderData(data);
+
 	const uint16 millisecondModifier = 1000;
 	const float gameFPS = 60;
 	const float gameUpdateInterval = 1 / gameFPS * millisecondModifier;
@@ -226,17 +226,17 @@ void Engine::UpdateLoop()
 	uint32 currentTicks = SDL_GetTicks();
 	uint32 prevTicks = currentTicks;
 	bool running = true;
-    
-    //LUA
-    lua_getglobal(luaState, "Game");            //get the global 'Game' table
-    lua_getfield(luaState, -1, "main");       //find the field with the name 'main'
-    //call a function with 0 arguments
-    if(lua_pcall(luaState, 0, 0, 0) != 0)
-    {
-        std::cout << "lua error: " << lua_tostring(luaState, -1) << std::endl;
-    }
-    //END LUA
-    
+
+	//LUA
+	lua_getglobal(luaState, "Game");            //get the global 'Game' table
+	lua_getfield(luaState, -1, "main");       //find the field with the name 'main'
+	//call a function with 0 arguments
+	if (lua_pcall(luaState, 0, 0, 0) != 0)
+	{
+		std::cout << "lua error: " << lua_tostring(luaState, -1) << std::endl;
+	}
+	//END LUA
+
 	while (running)
 	{
 		//multithreaded rendering goes here if we decide to do it
@@ -252,8 +252,8 @@ void Engine::UpdateLoop()
 		unsigned short safeguard = 0;
 		while (deltaTimeGame > gameUpdateInterval && safeguard < 10)
 		{
-            //TODO: Fix the game interval in for reducing framerate
-            //SDL_Delay(gameUpdateInterval);
+			//TODO: Fix the game interval in for reducing framerate
+			//SDL_Delay(gameUpdateInterval);
 			Update();
 
 			deltaTimeGame -= gameUpdateInterval;
@@ -266,31 +266,31 @@ void Engine::UpdateLoop()
 
 			++safeguard;
 		}
-        
-        ImGui_ImplSdl_NewFrame(window);
-        
-        Renderer::RenderObject(SDL_GetTicks(), data, camera);
-        
-        ShowSimpleWindowOne(show_test_window, show_another_window);
-        
-        if (show_another_window)
-        {
-            ShowSimpleWindowTwo();
-        }
-        if (show_test_window)
-        {
-            ShowSimpleWindowThree();
-        }
-        
-        ImGui::Render();
-        SDL_GL_SwapWindow(window);
+
+		ImGui_ImplSdl_NewFrame(window);
+
+		Renderer::RenderObject(SDL_GetTicks(), data, camera);
+
+		ShowSimpleWindowOne(show_test_window, show_another_window);
+
+		if (show_another_window)
+		{
+			ShowSimpleWindowTwo();
+		}
+		if (show_test_window)
+		{
+			ShowSimpleWindowThree();
+		}
+
+		ImGui::Render();
+		SDL_GL_SwapWindow(window);
 		//rendering
 		//float normalizedInterpolationValue = deltaTimeGame / gameUpdateInterval
 		//	//Do something with locking
 		//	render.draw(normalizedInterpolationValue)
 	}
-    
-    CloseWindow(window, glcontext, data, camera);
+
+	CloseWindow(window, glcontext, data, camera);
 }
 
 void Engine::InitSDL()

@@ -1,6 +1,6 @@
 #pragma once
 #include "renderer.h"
-#include <SDL2/SDL_keyboard.h>
+#include <SDL2/SDL_video.h>
 
 class Engine
 {

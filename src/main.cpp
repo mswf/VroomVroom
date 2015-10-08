@@ -23,6 +23,8 @@
 #include "Utilities/helperFunctions.h"
 #include "Utilities/random.h"
 #include "Networking/udpmessage.h"
+#include "Networking/TCPClient.h"
+#include "Networking/TCPServer.h"
 
 void config()
 {
@@ -90,6 +92,53 @@ void runMainLua()
 	lua_close(L);
 }
 
+void UDPTest()
+{
+	UDPMessage sock(UDPMessage::StringToIP("localhost", 0));
+	sock.SendUnreliableMessage(4);
+	Uint8 abc = 10;
+	Sleep(100);
+	sock.ReceiveMessage(abc);
+
+	int size = sizeof("asd");
+	int size2 = sizeof(abc);
+	int size3 = sizeof(sock);
+}
+
+int ServerLoop(void* data)
+{
+	TCPServer* server = new TCPServer(6112);
+
+	while (true)
+	{
+		server->AcceptConnections();
+		server->ReceiveMessage();
+	}
+	return 0;
+}
+
+int ClientLoop(void* data)
+{
+	TCPClient* client = new TCPClient("localhost", 6112);
+	std::string msg = "lol u ded";
+	int size = sizeof(msg);
+	client->SendReliableMessage((void*)msg.c_str(), size);
+	client->ReceiveMessage();
+	return 0;
+}
+
+void RunTCPTest()
+{
+	SDL_Thread* thread1 = SDL_CreateThread(ServerLoop, "serverThread", NULL);
+	SDL_Thread* thread2 = SDL_CreateThread(ClientLoop, "clientThread", NULL);
+
+
+	while (true)
+	{
+
+	}
+}
+
 int main(int argc, char** a)
 {
 	printf(SDL_GetBasePath());
@@ -109,20 +158,10 @@ int main(int argc, char** a)
 		return -1;
 	}
 
-	UDPMessage sock(UDPMessage::StringToIP("localhost", 0));
-	sock.SendUnreliableMessage(4);
-	Uint8 abc = 10;
-	Sleep(100);
-	sock.ReceiveMessage(abc);
+	//UDPTest();
+	RunTCPTest();
 
-	int size = sizeof("asd");
-	int size2 = sizeof(abc);
-	int size3 = sizeof(sock);
 
-	for (int i = 0; i < 2000; ++i)
-	{
-		//printf("%i\n", Random::Next(2));
-	}
 	return 0;
 	config();
 	Content::PrintPath();

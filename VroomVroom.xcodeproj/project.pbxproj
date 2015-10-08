@@ -11,6 +11,7 @@
 		234C8B291BB96A4600E61132 /* libassimpd.3.1.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */; };
 		23A4AF551BB2DE3100948D72 /* content.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23A4AF531BB2DE3100948D72 /* content.cpp */; settings = {ASSET_TAGS = (); }; };
 		23CBC8741BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */; };
+		23EE7EC31BC686020006581F /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23EE7EC11BC686020006581F /* Engine.cpp */; settings = {ASSET_TAGS = (); }; };
 		E537687A1BA6D3CE00D0BC14 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E53768791BA6D3CE00D0BC14 /* OpenGL.framework */; };
 		E54D30911BB29675006FBC68 /* libGLEW.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E54D30901BB29675006FBC68 /* libGLEW.dylib */; };
 		E54D30981BB2AD45006FBC68 /* renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E54D30971BB2AD45006FBC68 /* renderer.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -47,6 +48,8 @@
 		23A4AF531BB2DE3100948D72 /* content.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = content.cpp; path = src/content.cpp; sourceTree = SOURCE_ROOT; };
 		23A4AF541BB2DE3100948D72 /* content.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = content.h; path = src/content.h; sourceTree = SOURCE_ROOT; };
 		23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libluajit-5.1.2.0.4.dylib"; path = "Framework/LJIT/lib/libluajit-5.1.2.0.4.dylib"; sourceTree = "<group>"; };
+		23EE7EC11BC686020006581F /* Engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Engine.cpp; path = src/Engine.cpp; sourceTree = SOURCE_ROOT; };
+		23EE7EC21BC686020006581F /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Engine.h; path = src/Engine.h; sourceTree = SOURCE_ROOT; };
 		E537686F1BA6D3B600D0BC14 /* VroomVroom */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VroomVroom; sourceTree = BUILT_PRODUCTS_DIR; };
 		E53768791BA6D3CE00D0BC14 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		E54D30901BB29675006FBC68 /* libGLEW.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.dylib; path = Framework/glew/Release/libGLEW.dylib; sourceTree = "<group>"; };
@@ -117,6 +120,8 @@
 		E53768711BA6D3B600D0BC14 /* VroomVroom */ = {
 			isa = PBXGroup;
 			children = (
+				23EE7EC11BC686020006581F /* Engine.cpp */,
+				23EE7EC21BC686020006581F /* Engine.h */,
 				E59FDC8B1BBAC0EE008935C5 /* Utilities */,
 				E59FDC891BBAC0E2008935C5 /* Patterns */,
 				E5EF590B1BBABEBB00F85754 /* standardIncludes.h */,
@@ -238,6 +243,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23EE7EC31BC686020006581F /* Engine.cpp in Sources */,
 				E567A8F51BB1470200B8F6C3 /* imgui_demo.cpp in Sources */,
 				E567A8F81BB1470200B8F6C3 /* imgui.cpp in Sources */,
 				E5E958F51BB42B2600B83D27 /* shader.cpp in Sources */,

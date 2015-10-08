@@ -290,7 +290,7 @@ void Engine::StartLoop()
 		unsigned short safeguard = 0;
 		while (deltaTimeGame > gameUpdateInterval && safeguard < 10)
 		{
-			Sleep(gameUpdateInterval);
+            SDL_Delay(gameUpdateInterval);
 			Update();
 
 			deltaTimeGame -= gameUpdateInterval;

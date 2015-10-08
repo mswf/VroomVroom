@@ -30,6 +30,7 @@ void Engine::PollEvent()
 		ImGui_ImplSdl_ProcessEvent(&event);
 		if (event.type == SDL_QUIT)
 		{
+            exit(EXIT_SUCCESS);
 		}
 	}
 }

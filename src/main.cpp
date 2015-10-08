@@ -21,11 +21,11 @@ int main(int argc, char** a)
 	engine.InitSDL();
 
 	engine.InitSDL();
-	engine.InitLua();
+	engine.OpenConfig();
 	Content::PrintPath();
 	engine.runMainLua();
 
-	//engine.StartLoop();
+	engine.StartLoop();
 	engine.SomethingWindow();
 
 	return 0;

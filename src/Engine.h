@@ -1,6 +1,7 @@
 #pragma once
 #include "renderer.h"
 #include <SDL2/SDL_keyboard.h>
+#include <lua.hpp>
 
 class Engine
 {
@@ -8,7 +9,7 @@ class Engine
 		Engine();
 		~Engine();
 		void PollEvent();
-		void InitLua();
+		void OpenConfig();
 		void runMainLua();
 		void CloseWindow(SDL_Window* window, SDL_GLContext glcontext, Renderer::RenderData* data, Renderer::Camera* camera);
 		void SetupWindow(SDL_Window*& window, SDL_GLContext& glcontext);
@@ -21,5 +22,8 @@ class Engine
 		void Update();
 		void StartLoop();
 		void InitSDL();
+    
+    private:
+        lua_State* luaState;
 };
 

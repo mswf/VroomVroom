@@ -34,7 +34,7 @@ void Engine::PollEvent()
 	}
 }
 
-void Engine::InitLua()
+void Engine::OpenConfig()
 {
 	lua_State* L = luaL_newstate();
 
@@ -96,8 +96,9 @@ void Engine::runMainLua()
 	{
 		std::cout << "lua error: " << lua_tostring(L, -1) << std::endl;
 	}
+    
+    luaState = L;
 
-	lua_close(L);
 }
 
 void Engine::CloseWindow(SDL_Window* window, SDL_GLContext glcontext, Renderer::RenderData* data, Renderer::Camera* camera)
@@ -262,8 +263,18 @@ void Engine::SomethingWindow()
 
 void Engine::Update()
 {
-	printf("game update\n");
-
+    
+    //LUA
+    int dt = 16;
+    //TODO use actual deltatime :)
+    
+    lua_getglobal(luaState, "Game");            //get the global 'Game' table
+    lua_getfield(luaState, -1, "update");       //find the field with the name 'update'
+    lua_pushnumber(luaState, dt);               //push dt to the stack
+    if(lua_pcall(luaState, 1, 0, 0) != 0){      //call a function with 1 argument
+        std::cout << "lua error: " << lua_tostring(luaState, -1) << std::endl;
+    }
+    //END LUA
 }
 
 void Engine::StartLoop()
@@ -275,6 +286,16 @@ void Engine::StartLoop()
 	uint32 currentTicks = SDL_GetTicks();
 	uint32 prevTicks = currentTicks;
 	bool running = true;
+    
+    //LUA
+    lua_getglobal(luaState, "Game");            //get the global 'Game' table
+    lua_getfield(luaState, -1, "main");       //find the field with the name 'main'
+    if(lua_pcall(luaState, 0, 0, 0) != 0){      //call a function with 0 arguments
+        std::cout << "lua error: " << lua_tostring(luaState, -1) << std::endl;
+    }
+    //END LUA
+
+    
 	while (running)
 	{
 		//multithreaded rendering goes here if we decide to do it

@@ -1,6 +1,5 @@
 #pragma once
 #include "renderer.h"
-#include <SDL2/SDL_keyboard.h>
 #include <lua.hpp>
 #include <SDL2/SDL_video.h>
 
@@ -18,12 +17,12 @@ class Engine
 		void ShowSimpleWindowOne(bool& show_test_window, bool& show_another_window);
 		void ShowSimpleWindowTwo(bool& show_another_window);
 		void ShowSimpleWindowThree(bool& show_test_window);
-		
+
 		void UpdateLoop();
 		void InitSDL();
-    
-    private:
-        lua_State* luaState;
-        void Update();
+		void InitSDLNet();
+	private:
+		lua_State* luaState;
+		void Update();
 };
 

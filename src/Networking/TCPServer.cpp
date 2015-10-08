@@ -26,8 +26,6 @@ TCPServer::~TCPServer()
 
 void TCPServer::AcceptConnections()
 {
-	//TCPsocket new_tcpsock;
-
 	TCPsocket new_tcpsock = SDLNet_TCP_Accept(serverSocket);
 	if (new_tcpsock == NULL)
 	{

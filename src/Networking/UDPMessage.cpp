@@ -1,5 +1,5 @@
 #include "udpmessage.h"
-#include "SDL2Net/SDL_net.h"
+#include "SDL2_net/SDL_net.h"
 #include <string>
 #include <assert.h>
 

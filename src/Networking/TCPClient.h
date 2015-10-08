@@ -1,4 +1,4 @@
-#include <SDL2Net/SDL_net.h>
+#include <SDL2_net/SDL_net.h>
 
 class TCPClient
 {

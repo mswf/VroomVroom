@@ -7,7 +7,8 @@ TCPServer::TCPServer(unsigned port)
 	if (SDLNet_ResolveHost(&ip, NULL, port) == -1)
 	{
 		printf("SDLNet_ResolveHost: %s\n", SDLNet_GetError());
-		assert(false, "Cannot connect to host/port");
+        printf("Cannot connect to host/port \n");
+		assert(false);
 	}
 
 
@@ -15,7 +16,8 @@ TCPServer::TCPServer(unsigned port)
 	if (!serverSocket)
 	{
 		printf("SDLNet_TCP_Open: %s\n", SDLNet_GetError());
-		assert(false, "Could not open TCP connection");
+        printf("Could not open TCP connection\n");
+		assert(false);
 	}
 }
 
@@ -48,7 +50,8 @@ void TCPServer::SendReliableMessage(void* data)
 	if (result < length)
 	{
 		printf("SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-		assert(false, "socket has been disconnected");
+        printf("socket has been disconnected \n");
+		assert(false);
 	}
 }
 

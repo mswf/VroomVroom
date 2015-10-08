@@ -1,6 +1,9 @@
+#define GLM_FORCE_RADIANS
+
 #include "Engine.h"
 #include <SDL2/SDL.h>
 #include <lua.hpp>
+#include "entity_system.h"
 #include "content.h"
 #include "standardIncludes.h"
 #include "renderer.h"
@@ -158,24 +161,20 @@ void Engine::ShowSimpleWindowOne(bool& show_test_window, bool& show_another_wind
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 }
 
-void Engine::ShowSimpleWindowTwo(bool& show_another_window)
+void Engine::ShowSimpleWindowTwo()
 {
-	if (show_another_window)
-	{
-		ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiSetCond_FirstUseEver);
-		ImGui::Begin("Another Window", &show_another_window);
-		ImGui::Text("Hello");
-		ImGui::End();
-	}
+    ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiSetCond_FirstUseEver);
+    // Send bool as reference
+    ImGui::Begin("Another Window");
+    ImGui::Text("Hello");
+    ImGui::End();
 }
 
-void Engine::ShowSimpleWindowThree(bool& show_test_window)
+void Engine::ShowSimpleWindowThree()
 {
-	if (show_test_window)
-	{
 		ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiSetCond_FirstUseEver);
-		ImGui::ShowTestWindow(&show_test_window);
-	}
+        // Send bool as reference
+		ImGui::ShowTestWindow();
 }
 
 
@@ -189,7 +188,8 @@ void Engine::Update()
     lua_getglobal(luaState, "Game");            //get the global 'Game' table
     lua_getfield(luaState, -1, "update");       //find the field with the name 'update'
     lua_pushnumber(luaState, dt);               //push dt to the stack
-    if(lua_pcall(luaState, 1, 0, 0) != 0){      //call a function with 1 argument
+    if(lua_pcall(luaState, 1, 0, 0) != 0)       //call a function with 1 argument
+    {
         std::cout << "lua error: " << lua_tostring(luaState, -1) << std::endl;
     }
     //END LUA
@@ -229,11 +229,12 @@ void Engine::UpdateLoop()
     //LUA
     lua_getglobal(luaState, "Game");            //get the global 'Game' table
     lua_getfield(luaState, -1, "main");       //find the field with the name 'main'
-    if(lua_pcall(luaState, 0, 0, 0) != 0){      //call a function with 0 arguments
+    //call a function with 0 arguments
+    if(lua_pcall(luaState, 0, 0, 0) != 0)
+    {
         std::cout << "lua error: " << lua_tostring(luaState, -1) << std::endl;
     }
     //END LUA
-
     
 	while (running)
 	{
@@ -271,9 +272,14 @@ void Engine::UpdateLoop()
         
         ShowSimpleWindowOne(show_test_window, show_another_window);
         
-        ShowSimpleWindowTwo(show_another_window);
-        
-        ShowSimpleWindowThree(show_test_window);
+        if (show_another_window)
+        {
+            ShowSimpleWindowTwo();
+        }
+        if (show_test_window)
+        {
+            ShowSimpleWindowThree();
+        }
         
         ImGui::Render();
         SDL_GL_SwapWindow(window);

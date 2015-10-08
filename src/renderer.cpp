@@ -3,7 +3,7 @@
 namespace Renderer
 {
 	glm::ivec2 windowSize;
-GLuint program;
+    GLuint program;
 	GLuint framebuffer_object;
 	GLuint framebuffer_depth;
 	GLuint framebuffer_color;

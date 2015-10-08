@@ -340,7 +340,9 @@ void ImGui_ImplSdl_Shutdown()
 void ImGui_ImplSdl_NewFrame(SDL_Window *window)
 {
     if (!g_FontTexture)
+    {
         ImGui_ImplSdl_CreateDeviceObjects();
+    }
 
     ImGuiIO& io = ImGui::GetIO();
 
@@ -359,7 +361,8 @@ void ImGui_ImplSdl_NewFrame(SDL_Window *window)
 	double current_time = time / 1000.0;
     io.DeltaTime = g_Time > 0.0 ? (float)(current_time - g_Time) : (float)(1.0f/60.0f);
     g_Time = current_time;
-
+    
+     
     // Setup inputs
     // (we already got mouse wheel, keyboard keys & characters from glfw callbacks polled in glfwPollEvents())
     int mx, my;

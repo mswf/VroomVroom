@@ -8,7 +8,8 @@ TCPClient::TCPClient(char* hostname, unsigned int port)
 	if (SDLNet_ResolveHost(&ip, hostname, port) == -1)
 	{
 		printf("SDLNet_ResolveHost: %s\n", SDLNet_GetError());
-		assert(false, "Cannot connect to host/port");
+        printf("Cannot connect to host/port\n");
+		assert(false);
 	}
 
 
@@ -16,7 +17,8 @@ TCPClient::TCPClient(char* hostname, unsigned int port)
 	if (!socket)
 	{
 		printf("SDLNet_TCP_Open: %s\n", SDLNet_GetError());
-		assert(false, "Could not open TCP connection");
+        printf("Could not open TCP connection\n");
+		assert(false);
 	}
 }
 
@@ -31,7 +33,8 @@ void TCPClient::SendReliableMessage(void* data, int length)
 	if (result < length)
 	{
 		printf("SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-		assert(false, "serverSocket has been disconnected");
+        printf("serverSocket has been disconnected\n");
+		assert(false);
 	}
 	else
 	{
@@ -49,7 +52,7 @@ void TCPClient::ReceiveMessage()
 	{
 		// An error may have occured, but sometimes you can just ignore it
 		// It may be good to disconnect sock because it is likely invalid now.
-		printf("Error", msg);
+		//printf("Error", msg);
 	}
 	printf("Received: \"%s\"\n", msg);
 }

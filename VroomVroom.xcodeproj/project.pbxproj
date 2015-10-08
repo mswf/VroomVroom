@@ -14,6 +14,11 @@
 		23EE7EC31BC686020006581F /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23EE7EC11BC686020006581F /* Engine.cpp */; settings = {ASSET_TAGS = (); }; };
 		E537687A1BA6D3CE00D0BC14 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E53768791BA6D3CE00D0BC14 /* OpenGL.framework */; };
 		E54725FE1BC69F1300316B26 /* SDL2_net.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E54725FD1BC69F1300316B26 /* SDL2_net.framework */; };
+		E54726031BC6A50300316B26 /* componentSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E54726011BC6A50300316B26 /* componentSystem.cpp */; settings = {ASSET_TAGS = (); }; };
+		E547260A1BC6A74E00316B26 /* TCPClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E54726041BC6A74E00316B26 /* TCPClient.cpp */; settings = {ASSET_TAGS = (); }; };
+		E547260B1BC6A74E00316B26 /* TCPServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E54726061BC6A74E00316B26 /* TCPServer.cpp */; settings = {ASSET_TAGS = (); }; };
+		E547260C1BC6A74E00316B26 /* UDPMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E54726081BC6A74E00316B26 /* UDPMessage.cpp */; settings = {ASSET_TAGS = (); }; };
+		E54726101BC6A78F00316B26 /* base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E547260E1BC6A78F00316B26 /* base64.cpp */; settings = {ASSET_TAGS = (); }; };
 		E54D30911BB29675006FBC68 /* libGLEW.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E54D30901BB29675006FBC68 /* libGLEW.dylib */; };
 		E54D30981BB2AD45006FBC68 /* renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E54D30971BB2AD45006FBC68 /* renderer.cpp */; settings = {ASSET_TAGS = (); }; };
 		E567A8F51BB1470200B8F6C3 /* imgui_demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8E81BB1470200B8F6C3 /* imgui_demo.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -54,6 +59,18 @@
 		E537686F1BA6D3B600D0BC14 /* VroomVroom */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VroomVroom; sourceTree = BUILT_PRODUCTS_DIR; };
 		E53768791BA6D3CE00D0BC14 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		E54725FD1BC69F1300316B26 /* SDL2_net.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_net.framework; path = Framework/SDL2_net.framework; sourceTree = "<group>"; };
+		E54725FF1BC6A49400316B26 /* entity_system.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = entity_system.h; path = src/entity_system.h; sourceTree = SOURCE_ROOT; };
+		E54726001BC6A50300316B26 /* component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = component.h; path = src/component.h; sourceTree = SOURCE_ROOT; };
+		E54726011BC6A50300316B26 /* componentSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = componentSystem.cpp; path = src/componentSystem.cpp; sourceTree = SOURCE_ROOT; };
+		E54726021BC6A50300316B26 /* componentSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = componentSystem.h; path = src/componentSystem.h; sourceTree = SOURCE_ROOT; };
+		E54726041BC6A74E00316B26 /* TCPClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TCPClient.cpp; path = src/Networking/TCPClient.cpp; sourceTree = SOURCE_ROOT; };
+		E54726051BC6A74E00316B26 /* TCPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCPClient.h; path = src/Networking/TCPClient.h; sourceTree = SOURCE_ROOT; };
+		E54726061BC6A74E00316B26 /* TCPServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TCPServer.cpp; path = src/Networking/TCPServer.cpp; sourceTree = SOURCE_ROOT; };
+		E54726071BC6A74E00316B26 /* TCPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCPServer.h; path = src/Networking/TCPServer.h; sourceTree = SOURCE_ROOT; };
+		E54726081BC6A74E00316B26 /* UDPMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UDPMessage.cpp; path = src/Networking/UDPMessage.cpp; sourceTree = SOURCE_ROOT; };
+		E54726091BC6A74E00316B26 /* UDPMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UDPMessage.h; path = src/Networking/UDPMessage.h; sourceTree = SOURCE_ROOT; };
+		E547260E1BC6A78F00316B26 /* base64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = base64.cpp; path = src/Utilities/base64.cpp; sourceTree = SOURCE_ROOT; };
+		E547260F1BC6A78F00316B26 /* base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = base64.h; path = src/Utilities/base64.h; sourceTree = SOURCE_ROOT; };
 		E54D30901BB29675006FBC68 /* libGLEW.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.dylib; path = Framework/glew/Release/libGLEW.dylib; sourceTree = "<group>"; };
 		E54D30971BB2AD45006FBC68 /* renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = renderer.cpp; path = src/renderer.cpp; sourceTree = SOURCE_ROOT; };
 		E54D309A1BB2AD66006FBC68 /* renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = renderer.h; path = src/renderer.h; sourceTree = SOURCE_ROOT; };
@@ -124,6 +141,7 @@
 		E53768711BA6D3B600D0BC14 /* VroomVroom */ = {
 			isa = PBXGroup;
 			children = (
+				E547260D1BC6A75800316B26 /* Networking */,
 				E59FDC8B1BBAC0EE008935C5 /* Utilities */,
 				E59FDC891BBAC0E2008935C5 /* Patterns */,
 				E5EF590B1BBABEBB00F85754 /* standardIncludes.h */,
@@ -141,6 +159,10 @@
 				E567A8F21BB1470200B8F6C3 /* stb_rect_pack.h */,
 				E567A8F31BB1470200B8F6C3 /* stb_textedit.h */,
 				E567A8F41BB1470200B8F6C3 /* stb_truetype.h */,
+				E54726011BC6A50300316B26 /* componentSystem.cpp */,
+				E54726021BC6A50300316B26 /* componentSystem.h */,
+				E54726001BC6A50300316B26 /* component.h */,
+				E54725FF1BC6A49400316B26 /* entity_system.h */,
 				23EE7EC11BC686020006581F /* Engine.cpp */,
 				23EE7EC21BC686020006581F /* Engine.h */,
 				E54D30971BB2AD45006FBC68 /* renderer.cpp */,
@@ -151,6 +173,19 @@
 				E5E958F41BB42B2600B83D27 /* shader.h */,
 			);
 			path = VroomVroom;
+			sourceTree = "<group>";
+		};
+		E547260D1BC6A75800316B26 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				E54726041BC6A74E00316B26 /* TCPClient.cpp */,
+				E54726051BC6A74E00316B26 /* TCPClient.h */,
+				E54726061BC6A74E00316B26 /* TCPServer.cpp */,
+				E54726071BC6A74E00316B26 /* TCPServer.h */,
+				E54726081BC6A74E00316B26 /* UDPMessage.cpp */,
+				E54726091BC6A74E00316B26 /* UDPMessage.h */,
+			);
+			name = Networking;
 			sourceTree = "<group>";
 		};
 		E59FDC891BBAC0E2008935C5 /* Patterns */ = {
@@ -165,6 +200,8 @@
 		E59FDC8B1BBAC0EE008935C5 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				E547260E1BC6A78F00316B26 /* base64.cpp */,
+				E547260F1BC6A78F00316B26 /* base64.h */,
 				E59FDC8C1BBAC0EE008935C5 /* helperFunctions.cpp */,
 				E59FDC8D1BBAC0EE008935C5 /* helperFunctions.h */,
 				E59FDC8E1BBAC0EE008935C5 /* random.cpp */,
@@ -247,14 +284,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E54726101BC6A78F00316B26 /* base64.cpp in Sources */,
 				23EE7EC31BC686020006581F /* Engine.cpp in Sources */,
 				E567A8F51BB1470200B8F6C3 /* imgui_demo.cpp in Sources */,
 				E567A8F81BB1470200B8F6C3 /* imgui.cpp in Sources */,
+				E547260A1BC6A74E00316B26 /* TCPClient.cpp in Sources */,
+				E547260B1BC6A74E00316B26 /* TCPServer.cpp in Sources */,
 				E5E958F51BB42B2600B83D27 /* shader.cpp in Sources */,
 				E567A8F61BB1470200B8F6C3 /* imgui_draw.cpp in Sources */,
+				E547260C1BC6A74E00316B26 /* UDPMessage.cpp in Sources */,
 				E59FDC911BBAC0EE008935C5 /* random.cpp in Sources */,
 				E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */,
 				E54D30981BB2AD45006FBC68 /* renderer.cpp in Sources */,
+				E54726031BC6A50300316B26 /* componentSystem.cpp in Sources */,
 				E59FDC901BBAC0EE008935C5 /* helperFunctions.cpp in Sources */,
 				23A4AF551BB2DE3100948D72 /* content.cpp in Sources */,
 				E567A8F71BB1470200B8F6C3 /* imgui_impl_sdl.cpp in Sources */,

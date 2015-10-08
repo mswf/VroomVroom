@@ -9,8 +9,6 @@ int main(int argc, char** a)
 	Engine engine;
 	engine.InitSDL();
 	engine.InitSDLNet();
-	TestCode t;
-	t.RunTCPTest();
 
 	engine.OpenConfig();
 	Content::PrintPath();

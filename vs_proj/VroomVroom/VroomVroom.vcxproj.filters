@@ -87,9 +87,6 @@
     <ClInclude Include="..\..\src\Engine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Tests\TestCode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\imgui.cpp">
@@ -136,9 +133,6 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Networking\TCPServer.cpp">
       <Filter>VroomVroom\Networking</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Tests\TestCode.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -48,7 +48,7 @@ namespace Console
         __WriteToFile__(msg);
         if(showExternally /*&& socket->connected*/)
         {
-            __SendToConsole__(msg, "#93BDC9","#3E2000");
+            __SendToConsole__(msg, "#93BDC9", "#3E2000");
         }
     }
     
@@ -64,7 +64,7 @@ namespace Console
     
     void Custom(string msg, string background, string color)
     {
-        //TODO implement this :)
+        __SendToConsole__(msg, background, color);
     }
     
     

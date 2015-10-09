@@ -3,7 +3,7 @@
 #include "Engine.h"
 #include <SDL2/SDL.h>
 #include <SDL2_net/SDL_net.h>
-#include <lua.hpp>
+#include "luaSystem.h"
 #include "component.h"
 #include "entity_system.h"
 #include "content.h"
@@ -27,8 +27,8 @@ Engine::Engine()
     CompTransform* boxTransform = new CompTransform();
     
     std::vector< Entity* > entities;
-    Entity::entitySystem->addComponent(box, boxTransform);
-    Entity::entitySystem->getEntities<CompTransform>(entities);
+    //Entity::entitySystem->addComponent(box, boxTransform);
+    //Entity::entitySystem->getEntities<CompTransform>(entities);
     
 }
 
@@ -75,46 +75,6 @@ void Engine::OpenConfig()
 	Content::SetPath(contentPath, len_cp);
 
 	lua_close(L);
-}
-
-void Engine::runMainLua()
-{
-	lua_State* L = luaL_newstate();
-	string path;
-	Content::CreateFilePath("main.lua", &path);
-
-	luaL_openlibs(L);
-
-	//tell lua where to find all the files relative to the content root folder
-	{
-		lua_getglobal(L, "package");
-		lua_getfield(L, -1, "path");
-		const char* cur_path = lua_tostring(L, -1);
-		string new_path = string(cur_path);
-		new_path += ";";
-		new_path += Content::GetPath();
-		new_path += "/?.lua";
-
-		lua_pop(L, 1);
-		lua_pushstring(L, new_path.c_str());
-		lua_setfield(L, -2, "path");
-		lua_pop(L, 1);
-	}
-
-	if (luaL_loadfile(L, path.c_str()))
-	{
-		//TODO error handling
-		std::cout << "Could not open main.lua - The program will not run correctly" << std::endl;
-		return;
-	}
-
-	if (lua_pcall(L, 0, 0, 0))
-	{
-		std::cout << "lua error: " << lua_tostring(L, -1) << std::endl;
-	}
-
-	luaState = L;
-
 }
 
 void Engine::CloseWindow(SDL_Window* window, SDL_GLContext glcontext, Renderer::RenderData* data, Renderer::Camera* camera)
@@ -193,19 +153,9 @@ void Engine::ShowSimpleWindowThree()
 
 void Engine::Update()
 {
-
-	//LUA
-	int dt = 16;
-	//TODO use actual deltatime :)
-
-	lua_getglobal(luaState, "Game");            //get the global 'Game' table
-	lua_getfield(luaState, -1, "update");       //find the field with the name 'update'
-	lua_pushnumber(luaState, dt);               //push dt to the stack
-	if (lua_pcall(luaState, 1, 0, 0) != 0)      //call a function with 1 argument
-	{
-		std::cout << "lua error: " << lua_tostring(luaState, -1) << std::endl;
-	}
-	//END LUA
+    //TODO no fake deltatime :)
+    int dt = 16;
+    LuaSystem::Update(dt);
 }
 
 void Engine::UpdateLoop()
@@ -240,16 +190,8 @@ void Engine::UpdateLoop()
 	uint32 prevTicks = currentTicks;
 	bool running = true;
 
-	//LUA
-	lua_getglobal(luaState, "Game");            //get the global 'Game' table
-	lua_getfield(luaState, -1, "main");       //find the field with the name 'main'
-	//call a function with 0 arguments
-	if (lua_pcall(luaState, 0, 0, 0) != 0)
-	{
-		std::cout << "lua error: " << lua_tostring(luaState, -1) << std::endl;
-	}
-	//END LUA
-
+    LuaSystem::Init();
+    
 	while (running)
 	{
 		//multithreaded rendering goes here if we decide to do it

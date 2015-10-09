@@ -35,6 +35,10 @@ namespace Console
          }
         */
         //TODO create a file to write the log to, increase the counter of existing log, and cap the amount of logs somewhere (preferably the config.lua, so everyone can have their own amount of log files
+        
+        Log("console initialized");
+        
+        isInitialized = true;
     }
     
     void Log(string msg, bool showExternally)
@@ -63,22 +67,27 @@ namespace Console
         //TODO implement this :)
     }
     
-    void __WriteToFile__(string msg)
-    {
-        //TODO implement this :)
-    }
     
-    void __SendToConsole__(string msg, string background, string color)
+    //'private' functions
+    namespace
     {
-        //TODO implement this :)
-        string consoleString = "MSG;";
-        consoleString += msg + ";";
-        consoleString += "BG;"+background+";";
-        consoleString += "CLR;"+color+";";
-        
-        //if(socket->connected)
+        void __WriteToFile__(string msg)
         {
-            socket->SendMessage(consoleString);
+            //TODO implement this :)
+        }
+    
+        void __SendToConsole__(string msg, string background, string color)
+        {
+            //TODO implement this :)
+            string consoleString = "MSG;";
+            consoleString += msg + ";";
+            consoleString += "BG;"+background+";";
+            consoleString += "CLR;"+color+";";
+        
+            //if(socket->connected)
+            {
+                socket->SendMessage(consoleString);
+            }
         }
     }
     

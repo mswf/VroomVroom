@@ -10,7 +10,7 @@
 #define console_h
 
 #include <stdio.h>
-#include "standardIncludes.h"
+#include "typedef.h"
 
 namespace Console{
     void Init();
@@ -19,8 +19,11 @@ namespace Console{
     void Error(string);
     void Custom(string, string, string);
     
-    void __WriteToFile__(string);
-    void __SendToConsole__(string, string, string);
+    namespace
+    {
+        void __WriteToFile__(string);
+        void __SendToConsole__(string, string, string);
+    }
 }
 
 #endif /* console_h */

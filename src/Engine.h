@@ -10,7 +10,6 @@ class Engine
 		~Engine();
 		void PollEvent();
 		void OpenConfig();
-		void runMainLua();
 		void CloseWindow(SDL_Window* window, SDL_GLContext glcontext, Renderer::RenderData* data, Renderer::Camera* camera);
 		void SetupWindow(SDL_Window*& window, SDL_GLContext& glcontext);
 		void InitGlew();
@@ -22,7 +21,6 @@ class Engine
 		void InitSDL();
 		void InitSDLNet();
 	private:
-		lua_State* luaState;
         Renderer::RenderSystem* renderer;
 		void Update();
 };

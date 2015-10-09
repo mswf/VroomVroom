@@ -11,12 +11,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\console.h" />
     <ClInclude Include="..\..\src\content.h" />
     <ClInclude Include="..\..\src\Engine.h" />
     <ClInclude Include="..\..\src\imconfig.h" />
     <ClInclude Include="..\..\src\imgui.h" />
     <ClInclude Include="..\..\src\imgui_impl_sdl.h" />
     <ClInclude Include="..\..\src\imgui_internal.h" />
+    <ClInclude Include="..\..\src\luaSystem.h" />
     <ClInclude Include="..\..\src\Networking\TCPClient.h" />
     <ClInclude Include="..\..\src\Networking\TCPServer.h" />
     <ClInclude Include="..\..\src\Networking\UDPMessage.h" />
@@ -33,12 +35,14 @@
     <ClInclude Include="..\..\src\Utilities\random.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\console.cpp" />
     <ClCompile Include="..\..\src\content.cpp" />
     <ClCompile Include="..\..\src\Engine.cpp" />
     <ClCompile Include="..\..\src\imgui.cpp" />
     <ClCompile Include="..\..\src\imgui_demo.cpp" />
     <ClCompile Include="..\..\src\imgui_draw.cpp" />
     <ClCompile Include="..\..\src\imgui_impl_sdl.cpp" />
+    <ClCompile Include="..\..\src\luaSystem.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPClient.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPServer.cpp" />

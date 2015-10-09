@@ -87,6 +87,12 @@
     <ClInclude Include="..\..\src\Engine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\console.h">
+      <Filter>VroomVroom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\luaSystem.h">
+      <Filter>VroomVroom</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\imgui.cpp">
@@ -133,6 +139,12 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Networking\TCPServer.cpp">
       <Filter>VroomVroom\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\console.cpp">
+      <Filter>VroomVroom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\luaSystem.cpp">
+      <Filter>VroomVroom</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -23,6 +23,8 @@ namespace LuaSystem
         lua_State* lState(NULL);
 
         void __SetPackagePath__();
+        void __BindEngineFunctions__();
+        int __l_log__(lua_State* L);
     }
 }
 

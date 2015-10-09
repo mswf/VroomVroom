@@ -22,6 +22,7 @@ namespace LuaSystem
         lState = luaL_newstate();
         luaL_openlibs(lState);
         __SetPackagePath__();
+        __BindEngineFunctions__();
         
         string path;
         Content::CreateFilePath("main.lua", &path);
@@ -89,6 +90,44 @@ namespace LuaSystem
             lua_pushstring(lState, new_path.c_str());
             lua_setfield(lState, -2, "path");
             lua_pop(lState, 1);
+        }
+        
+        void __BindEngineFunctions__()
+        {
+            static const luaL_reg engineFuncs[] =
+            {
+                {"Log", __l_log__},
+                {0, 0}
+            };
+            
+            luaL_openlib(lState, "Engine", engineFuncs, 0);
+            lua_pop(lState, 1);
+        }
+        
+        int __l_log__(lua_State* L)
+        {
+            string msg = "";
+            string bg = "transparent";
+            string clr = "#eee";
+            
+            //set our lua stack to hold exactly 3 values. If the lua caller only provided one argument for example, our stack would be <"some message", NULL, NULL>
+            lua_settop(L, 3);
+            if (lua_isstring(L, 1))
+            {
+                msg = lua_tostring(L, 1);
+            }
+            if (lua_isstring(L, 2))
+            {
+                bg = lua_tostring(L, 2);
+            }
+            if (lua_isstring(L, 3))
+            {
+                clr = lua_tostring(L, 3);
+            }
+            
+            Console::Custom(msg, bg, clr);
+            
+            return 0;
         }
     }
 }

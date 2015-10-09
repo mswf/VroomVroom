@@ -7,7 +7,7 @@ TCPServer::TCPServer(unsigned port)
 	if (SDLNet_ResolveHost(&ip, NULL, port) == -1)
 	{
 		printf("SDLNet_ResolveHost: %s\n", SDLNet_GetError());
-        printf("Cannot connect to host/port \n");
+		printf("Cannot connect to host/port \n");
 		assert(false);
 	}
 
@@ -16,7 +16,7 @@ TCPServer::TCPServer(unsigned port)
 	if (!serverSocket)
 	{
 		printf("SDLNet_TCP_Open: %s\n", SDLNet_GetError());
-        printf("Could not open TCP connection\n");
+		printf("Could not open TCP connection\n");
 		assert(false);
 	}
 }
@@ -24,6 +24,11 @@ TCPServer::TCPServer(unsigned port)
 TCPServer::~TCPServer()
 {
 	SDLNet_TCP_Close(serverSocket);
+}
+
+void TCPServer::SendMessage(std::string msg) const
+{
+	SendMessage((void*)msg.c_str(), sizeof(msg));
 }
 
 void TCPServer::AcceptConnections()
@@ -37,19 +42,21 @@ void TCPServer::AcceptConnections()
 	{
 		// communicate over new_tcpsock
 		clients.push_back(new_tcpsock);
-		printf("Server: Client connected\n");
+		printf("[Server] Client connected\n");
 	}
 }
 
-void TCPServer::SendReliableMessage(void* data)
+void TCPServer::SendMessage(void* data, int length) const
 {
-	int length = sizeof(data);
-	int result = SDLNet_TCP_Send(serverSocket, data, length);
-	if (result < length)
+	for (std::vector<TCPsocket>::const_iterator i = clients.begin(); i != clients.end(); ++i)
 	{
-		printf("SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-        printf("socket has been disconnected \n");
-		assert(false);
+		int result = SDLNet_TCP_Send((TCPsocket) * i, data, length);
+		if (result < length)
+		{
+			printf("SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+			printf("[Server] socket has been disconnected \n");
+			//assert(false);
+		}
 	}
 }
 
@@ -69,7 +76,7 @@ void TCPServer::ReceiveMessage()
 		}
 		else
 		{
-			printf("Received: \"%s\"\n", msg);
+			printf("[Server] Received: \"%s\"\n", msg);
 		}
 	}
 

@@ -6,8 +6,9 @@ class TCPServer
 	public:
 		TCPServer(unsigned int port);
 		~TCPServer();
+		void SendMessage(std::string msg) const;
 		void AcceptConnections();
-		void SendReliableMessage(void* data);
+		void SendMessage(void* data, int length) const;
 		void ReceiveMessage();
 	private:
 		IPaddress ip;

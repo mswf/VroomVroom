@@ -8,6 +8,7 @@
 #include "standardIncludes.h"
 #include "console.h"
 #include <iostream>
+#include "luaSystem.h"
 
 #include "Networking/TCPClient.h"
 
@@ -59,6 +60,29 @@ void sTerminal::Custom(string msg, string background, string color)
 	SendToExternal(msg, background, color);
 }
 
+void sTerminal::LuaError(string msg)
+{
+    msg = "[LUA]\t" + msg;
+    std::cout << msg << std::endl;
+    WriteToFile(msg);
+    SendToExternal(msg, "#C5251D", "#70B7BE");
+
+}
+
+//TODO replace with callback when messages are recieved reather thann having to poll each update
+void sTerminal::Update()
+{
+    if(!socket->IsConnected())
+    {
+        return;
+    }
+    std::vector<NetworkData> messages = socket->ReceiveMessage();
+    std::vector<NetworkData>::iterator it;
+    for(it = messages.begin(); it != messages.end(); ++it) {
+        LuaSystem.Attempt(string((char*)(it->data)));
+    }
+}
+
 
 //PRIVATE
 void sTerminal::WriteToFile(string msg)
@@ -68,11 +92,12 @@ void sTerminal::WriteToFile(string msg)
 
 void sTerminal::SendToExternal(string msg, string background, string color)
 {
-	//TODO implement this :)
 	string consoleString = "MSG;";
 	consoleString += msg + ";";
 	consoleString += "BG;" + background + ";";
 	consoleString += "CLR;" + color + ";";
+    
+    printf("col: %s\n",consoleString.c_str());
 
 	if (socket->IsConnected())
 	{

@@ -25,6 +25,9 @@ class sTerminal : public Singleton<sTerminal>
 		void Warning(string);
 		void Error(string);
 		void Custom(string, string, string);
+        void LuaError(string);
+    
+        void Update();
 	private:
 		void WriteToFile(string);
 		void SendToExternal(string, string, string);

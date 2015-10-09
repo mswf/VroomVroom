@@ -72,6 +72,13 @@ void sLuaSystem::Update(int dt)
 	}
 }
 
+void sLuaSystem::Attempt(string command)
+{
+    if(luaL_dostring(lState, command.c_str()) != 0){
+        Terminal.LuaError(string(lua_tostring(lState, -1)));
+    }
+}
+
 //PRIVATE
 /*
  *  Tells the Lua state to look in the content directory whenever 'require' is used in Lua scripts.

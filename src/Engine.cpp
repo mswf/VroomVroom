@@ -156,6 +156,10 @@ void Engine::Update()
     //TODO no fake deltatime :)
     int dt = 16;
     LuaSystem.Update(dt);
+    
+    //TODO this should be refactored out at some point
+    //It is neccesary now to poll network events from the socket
+    Terminal.Update();
 }
 
 void Engine::UpdateLoop()

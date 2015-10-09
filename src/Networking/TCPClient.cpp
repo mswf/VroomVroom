@@ -64,17 +64,17 @@ void TCPClient::SendMessage(const void* data, const uint32 length) const
 	}
 }
 
-void TCPClient::SendMessage(std::string msg) const
+void TCPClient::SendMessage(const std::string& msg) const
 {
 	SendMessage((void*)msg.c_str(), sizeof(msg));
 }
 
-void TCPClient::SendMessage(int16 msg) const
+void TCPClient::SendMessage(const int16& msg) const
 {
 	SendMessage((void*)msg, sizeof(msg));
 }
 
-void TCPClient::SendMessage(int32 msg) const
+void TCPClient::SendMessage(const int32& msg) const
 {
 	SendMessage((void*)msg, sizeof(msg));
 }
@@ -87,6 +87,7 @@ std::vector<NetworkData> TCPClient::ReceiveMessage()
 		copy = std::vector<NetworkData>(dataCache);
 		dataCache.clear();
 		SDL_UnlockMutex(mutex);
+
 	}
 	else
 	{

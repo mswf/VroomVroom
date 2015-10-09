@@ -14,9 +14,9 @@ class TCPClient
 		TCPClient(const std::string hostName, const uint16 port);
 		TCPClient(const char* hostName, const uint16 port);
 		~TCPClient();
-		void SendMessage(const std::string msg) const;
-		void SendMessage(const int16 msg) const;
-		void SendMessage(const int32 msg) const;
+		void SendMessage(const std::string& msg) const;
+		void SendMessage(const int16& msg) const;
+		void SendMessage(const int32& msg) const;
 
 		std::vector<NetworkData> ReceiveMessage();
 		bool IsConnected();

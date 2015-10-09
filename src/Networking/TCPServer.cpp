@@ -57,6 +57,10 @@ void TCPServer::SendMessage(void* data, int length) const
 			printf("[Server] socket has been disconnected \n");
 			//assert(false);
 		}
+		else
+		{
+			printf("[Server] Data sent.\n");
+		}
 	}
 }
 

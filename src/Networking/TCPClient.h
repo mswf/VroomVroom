@@ -20,7 +20,7 @@ class TCPClient
 
 		std::vector<NetworkData> ReceiveMessage();
 	private:
-		int ListenForMessages(void*);
+		static int ListenForMessages(void* tcpClient);
 		void SendMessage(const void* data, const uint32 length) const;
 		void Initialize(const char* hostname, const uint16 port);
 	private:

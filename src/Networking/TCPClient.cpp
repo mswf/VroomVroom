@@ -25,22 +25,22 @@ void TCPClient::Initialize(const char* hostName, const uint16 port)
 	if (SDLNet_ResolveHost(&ip, hostName, port) == -1)
 	{
 		printf("SDLNet_ResolveHost: %s\n", SDLNet_GetError());
-		printf("[TCPClient] : Cannot connect to host/port\n");
+		printf("[TCPClient] Cannot connect to host/port\n");
 	}
 
 	socket = SDLNet_TCP_Open(&ip);
 	if (!socket)
 	{
 		printf("SDLNet_TCP_Open: %s\n", SDLNet_GetError());
-		printf("[TCPClient] : Could not open TCP connection\n");
+		printf("[TCPClient] Could not open TCP connection\n");
 	}
 	else
 	{
 		alive = true;
-		printf("[TCPClient] : Connected\n");
+		printf("[TCPClient] Connected\n");
 	}
 
-	//listenThread = SDL_CreateThread(ListenForMessages, "clientThread", NULL);
+	listenThread = SDL_CreateThread(ListenForMessages, "clientThread", this);
 }
 
 void TCPClient::SendMessage(const void* data, const uint32 length) const
@@ -59,13 +59,13 @@ void TCPClient::SendMessage(const void* data, const uint32 length) const
 	}
 	else
 	{
-		printf("Client: sent data to server\n");
+		printf("[TCPClient] sent data to server\n");
 	}
 }
 
 void TCPClient::SendMessage(std::string msg) const
 {
-	SendMessage((void*) msg.c_str(), msg.size());
+	SendMessage((void*)msg.c_str(), sizeof(msg));
 }
 
 void TCPClient::SendMessage(int16 msg) const
@@ -85,14 +85,15 @@ std::vector<NetworkData> TCPClient::ReceiveMessage()
 	return copy;
 }
 
-int TCPClient::ListenForMessages(void* data)
+int TCPClient::ListenForMessages(void* tcpClient)
 {
-	while (alive)
+	TCPClient* client = (TCPClient*)tcpClient;
+	while (client->alive)
 	{
 		int result;
 		char msg[1024];
 
-		result = SDLNet_TCP_Recv(socket, msg, MAX_MESSAGE_LENGTH);
+		result = SDLNet_TCP_Recv(client->socket, msg, client->MAX_MESSAGE_LENGTH);
 		if (result <= 0)
 		{
 			// An error may have occured, but sometimes you can just ignore it
@@ -100,12 +101,12 @@ int TCPClient::ListenForMessages(void* data)
 			//printf("Error", msg);
 			return 1;
 		}
-		printf("Received: \"%s\"\n", msg);
+		printf("[TCPClient] Received: \"%s\"\n", msg);
 
 		NetworkData networkData;
 		networkData.data = (void*)msg;
 		networkData.length = result;
-		dataCache.push_back(networkData);
+		client->dataCache.push_back(networkData);
 
 	}
 	return 0;

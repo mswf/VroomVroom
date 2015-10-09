@@ -9,23 +9,33 @@
 #ifndef luaSystem_h
 #define luaSystem_h
 
-#include "standardIncludes.h"
-#include <lua.hpp>
+#include "patterns/singleton.h"
 
-namespace LuaSystem
+#define LuaSystem sLuaSystem::getInstance()
+
+class lua_State;
+
+
+class sLuaSystem : public Singleton<sLuaSystem>
 {
-    void Init();
+    public:
+    sLuaSystem();
+    ~sLuaSystem();
+    void Main();
     void Update(int);
     
-    namespace
-    {
-        bool isInitialized(false);
-        lua_State* lState(NULL);
+    private:
+    void SetPackagePath();
+    void BindEngine();
+    
+    
+    
+    lua_State* lState;
+    bool hasMainBeenCalled;
+};
 
-        void __SetPackagePath__();
-        void __BindEngineFunctions__();
-        int __l_log__(lua_State* L);
-    }
-}
+//lua binding functions :)
+int __l_log__(lua_State*);
+
 
 #endif /* luaSystem_h */

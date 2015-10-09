@@ -9,21 +9,28 @@
 #ifndef console_h
 #define console_h
 
-#include <stdio.h>
 #include "typedef.h"
+#include "patterns/singleton.h"
 
-namespace Console{
-    void Init();
-    void Log(string, bool = false);
-    void Warning(string);
-    void Error(string);
-    void Custom(string, string, string);
+#define Console sConsole::getInstance()
+
+class TCPClient;
+
+class sConsole : public Singleton<sConsole>
+{
+    public:
+        sConsole();
+        ~sConsole();
+        void Log(string, bool = false);
+        void Warning(string);
+        void Error(string);
+        void Custom(string, string, string);
     
-    namespace
-    {
-        void __WriteToFile__(string);
-        void __SendToConsole__(string, string, string);
-    }
-}
+    private:
+        void WriteToFile(string);
+        void SendToExternal(string, string, string);
+    
+        TCPClient* socket;
+};
 
 #endif /* console_h */

@@ -155,7 +155,7 @@ void Engine::Update()
 {
     //TODO no fake deltatime :)
     int dt = 16;
-    LuaSystem::Update(dt);
+    LuaSystem.Update(dt);
 }
 
 void Engine::UpdateLoop()
@@ -189,8 +189,8 @@ void Engine::UpdateLoop()
 	uint32 currentTicks = SDL_GetTicks();
 	uint32 prevTicks = currentTicks;
 	bool running = true;
-
-    LuaSystem::Init();
+    
+    LuaSystem.Main();
     
 	while (running)
 	{

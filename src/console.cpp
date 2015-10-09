@@ -13,82 +13,69 @@
 
 #define CONSOLE_PORT 1427
 
-namespace Console
+sConsole::sConsole()
 {
+    socket = new TCPClient("localhost", CONSOLE_PORT);
+    /*
+     if(socket->connected)
+     {
+     //TODO verify socket connection?
+     }
+     */
+    //TODO create a file to write the log to, increase the counter of existing log, and cap the amount of logs somewhere (preferably the config.lua, so everyone can have their own amount of log files
     
-    namespace
+    Log("console initialized");
+
+}
+
+sConsole::~sConsole()
+{
+    //TODO release resources
+}
+
+void sConsole::Log(string msg, bool showExternally)
+{
+    msg = "[ENGINE]\t"+msg;
+    std::cout << msg << std::endl;
+    WriteToFile(msg);
+    if(showExternally /*&& socket->connected*/)
     {
-        bool isInitialized(false);
-        TCPClient* socket;
-    } //anonymous namespace
+        SendToExternal(msg, "#93BDC9", "#3E2000");
+    }
+}
     
-    void Init()
-    {
-        if(isInitialized){
-            return;
-        }
-        socket = new TCPClient("localhost", CONSOLE_PORT);
-        /*
-         if(socket->connected)
-         {
-            //TODO verify socket connection?
-         }
-        */
-        //TODO create a file to write the log to, increase the counter of existing log, and cap the amount of logs somewhere (preferably the config.lua, so everyone can have their own amount of log files
+void sConsole::Warning(string msg)
+{
+    //TODO implement this :)
+}
+    
+void sConsole::Error(string msg)
+{
+    //TODO implement this :)
+}
+    
+void sConsole::Custom(string msg, string background, string color)
+{
+    SendToExternal(msg, background, color);
+}
+
+
+//PRIVATE
+void sConsole::WriteToFile(string msg)
+{
+    //TODO implement this :)
+}
+    
+void sConsole::SendToExternal(string msg, string background, string color)
+{
+    //TODO implement this :)
+    string consoleString = "MSG;";
+    consoleString += msg + ";";
+    consoleString += "BG;"+background+";";
+    consoleString += "CLR;"+color+";";
         
-        Log("console initialized");
-        
-        isInitialized = true;
-    }
-    
-    void Log(string msg, bool showExternally)
+    //if(socket->connected)
     {
-        msg = "[ENGINE]\t"+msg;
-        std::cout << msg << std::endl;
-        __WriteToFile__(msg);
-        if(showExternally /*&& socket->connected*/)
-        {
-            __SendToConsole__(msg, "#93BDC9", "#3E2000");
-        }
+        socket->SendMessage(consoleString);
     }
-    
-    void Warning(string msg)
-    {
-        //TODO implement this :)
-    }
-    
-    void Error(string msg)
-    {
-        //TODO implement this :)
-    }
-    
-    void Custom(string msg, string background, string color)
-    {
-        __SendToConsole__(msg, background, color);
-    }
-    
-    
-    //'private' functions
-    namespace
-    {
-        void __WriteToFile__(string msg)
-        {
-            //TODO implement this :)
-        }
-    
-        void __SendToConsole__(string msg, string background, string color)
-        {
-            //TODO implement this :)
-            string consoleString = "MSG;";
-            consoleString += msg + ";";
-            consoleString += "BG;"+background+";";
-            consoleString += "CLR;"+color+";";
-        
-            //if(socket->connected)
-            {
-                socket->SendMessage(consoleString);
-            }
-        }
-    }
-    
-}//namespace Console
+}

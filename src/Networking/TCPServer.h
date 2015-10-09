@@ -1,5 +1,6 @@
 #include <SDL2_net/SDL_net.h>
 #include <vector>
+#include <string>
 
 class TCPServer
 {

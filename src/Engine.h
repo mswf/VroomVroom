@@ -23,6 +23,7 @@ class Engine
 		void InitSDLNet();
 	private:
 		lua_State* luaState;
+        Renderer::RenderSystem* renderer;
 		void Update();
 };
 

@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2_net/SDL_net.h>
 #include <lua.hpp>
+#include "component.h"
 #include "entity_system.h"
 #include "content.h"
 #include "standardIncludes.h"
@@ -18,6 +19,17 @@
 
 Engine::Engine()
 {
+    renderer = new Renderer::RenderSystem();
+    
+    //Entity::entitySystem = new EntitySystem();
+    Entity::entitySystem;
+    Entity* box = new Entity();
+    CompTransform* boxTransform = new CompTransform();
+    
+    std::vector< Entity* > entities;
+    Entity::entitySystem->addComponent(box, boxTransform);
+    Entity::entitySystem->getEntities<CompTransform>(entities);
+    
 }
 
 
@@ -210,6 +222,7 @@ void Engine::UpdateLoop()
 
 	Renderer::RenderData * data = new Renderer::RenderData();
 	Renderer::Camera * camera = new Renderer::Camera();
+    
 	float fov = 90.0f;
 	float aspectRatio = 1280.0f / 720.0f;
 	float zNear = 1.0f;

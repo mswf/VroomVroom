@@ -17,6 +17,7 @@ TCPClient::TCPClient(const char* hostName, const uint16 port)
 TCPClient::~TCPClient()
 {
 	alive = false;
+	SDL_DestroyMutex(mutex);
 	SDLNet_TCP_Close(socket);
 }
 
@@ -39,7 +40,7 @@ void TCPClient::Initialize(const char* hostName, const uint16 port)
 		alive = true;
 		printf("[TCPClient] Connected\n");
 	}
-
+	mutex = SDL_CreateMutex();
 	listenThread = SDL_CreateThread(ListenForMessages, "clientThread", this);
 }
 
@@ -80,9 +81,23 @@ void TCPClient::SendMessage(int32 msg) const
 
 std::vector<NetworkData> TCPClient::ReceiveMessage()
 {
-	std::vector<NetworkData> copy = std::vector<NetworkData>(dataCache);
-	dataCache.clear();
+	std::vector<NetworkData> copy;
+	if (SDL_LockMutex(mutex) == 0)
+	{
+		copy = std::vector<NetworkData>(dataCache);
+		dataCache.clear();
+	}
+	else
+	{
+		printf(SDL_GetError());
+		alive = false;
+	}
 	return copy;
+}
+
+bool TCPClient::IsConnected()
+{
+	return alive;
 }
 
 int TCPClient::ListenForMessages(void* tcpClient)
@@ -99,6 +114,7 @@ int TCPClient::ListenForMessages(void* tcpClient)
 			// An error may have occured, but sometimes you can just ignore it
 			// It may be good to disconnect sock because it is likely invalid now.
 			//printf("Error", msg);
+			client->alive = false;
 			return 1;
 		}
 		printf("[TCPClient] Received: \"%s\"\n", msg);
@@ -106,8 +122,16 @@ int TCPClient::ListenForMessages(void* tcpClient)
 		NetworkData networkData;
 		networkData.data = (void*)msg;
 		networkData.length = result;
-		client->dataCache.push_back(networkData);
 
+		if (SDL_LockMutex(client->mutex) == 0)
+		{
+			client->dataCache.push_back(networkData);
+		}
+		else
+		{
+			printf(SDL_GetError());
+			client->alive = false;
+		}
 	}
 	return 0;
 }

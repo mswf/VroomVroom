@@ -12,6 +12,6 @@ int main(int argc, char** a)
 	Content::PrintPath();
 
 	engine.UpdateLoop();
-    
+
 	return 0;
 }

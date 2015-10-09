@@ -19,6 +19,7 @@ class TCPClient
 		void SendMessage(const int32 msg) const;
 
 		std::vector<NetworkData> ReceiveMessage();
+		bool IsConnected();
 	private:
 		static int ListenForMessages(void* tcpClient);
 		void SendMessage(const void* data, const uint32 length) const;
@@ -29,6 +30,7 @@ class TCPClient
 		IPaddress ip;
 		TCPsocket socket;
 		std::vector<NetworkData> dataCache;
+		SDL_mutex* mutex;
 
 		const unsigned int MAX_MESSAGE_LENGTH = 1024;
 };

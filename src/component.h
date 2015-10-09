@@ -1,43 +1,75 @@
+#ifndef component_h
+#define component_h
+
+#include "glm/mat4x4.hpp"
+#include "glm/vec3.hpp"
+#include "glm/gtc/quaternion.hpp"
+
 typedef int FamilyId;
+
+enum class ComponentTypes
+{
+    CAMERA = 1,
+    LIGHT,
+    MATERIAL,
+    MESH,
+    TEXTURE,
+    TRANSFORM
+};
 
 struct Component
 {
 };
 
-
-struct Transform : public Component
+struct CompCamera : public Component
 {
-    static const FamilyId familyId = 1;
-    Transform() : x(0), y(0), z(0) {}
-    float x, y, z;
+    static const FamilyId familyId = (int)ComponentTypes::CAMERA;
+    // projection matrix =  glm::perspective(glm::radians(fov), aspectRatio, near plane, far plane);
+    //                      glm::ortho(T left, T right, T bottom, T top, near, far);
+    // view matrix = glm::look( Eye vector, Center vector, Up vector);
+    CompCamera() {};
 };
 
-struct Texture : public Component
+struct CompLight : public Component
 {
-    static const FamilyId familyId = 2;
-    //Camera() {};
+    static const FamilyId familyId = (int)ComponentTypes::LIGHT;
+    // direction
+    // color
+    // intensity
+    CompLight() {};
 };
 
-struct Mesh : public Component
+struct CompMaterial : public Component
 {
-    static const FamilyId familyId = 3;
-    //Mesh() {};
+    static const FamilyId familyId = (int)ComponentTypes::MATERIAL;
+    // shader *
+    // texture *
+    // parameters / uniforms[]
+    CompMaterial() {};
 };
 
-struct Camera : public Component
+struct CompMesh : public Component
 {
-    static const FamilyId familyId = 4;
-    //Camera() {};
+    static const FamilyId familyId = (int)ComponentTypes::MESH;
+    // VertexBuffer id
+    CompMesh() {};
 };
 
-struct Light : public Component
+struct CompTexture : public Component
 {
-    static const FamilyId familyId = 5;
-    //Light() {};
+    static const FamilyId familyId = (int)ComponentTypes::TEXTURE;
+    // Buffered Texture id
+    CompTexture() {};
 };
 
-struct Material : public Component
+struct CompTransform : public Component
 {
-    static const FamilyId familyId = 6;
-    //Material() {};
+    static const FamilyId familyId = (int)ComponentTypes::TRANSFORM;
+    CompTransform() : base(0), position(0), scale(1) {}
+    glm::mat4 base;
+    glm::vec3 position;
+    glm::quat rotation;
+    glm::vec3 scale;
 };
+
+#endif /* component_h */

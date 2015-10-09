@@ -38,7 +38,7 @@ void sConsole::Log(string msg, bool showExternally)
     msg = "[ENGINE]\t"+msg;
     std::cout << msg << std::endl;
     WriteToFile(msg);
-    if(showExternally /*&& socket->connected*/)
+    if(showExternally)
     {
         SendToExternal(msg, "#93BDC9", "#3E2000");
     }
@@ -74,7 +74,7 @@ void sConsole::SendToExternal(string msg, string background, string color)
     consoleString += "BG;"+background+";";
     consoleString += "CLR;"+color+";";
         
-    //if(socket->connected)
+    if(socket->IsConnected())
     {
         socket->SendMessage(consoleString);
     }

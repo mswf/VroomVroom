@@ -1,6 +1,8 @@
 #ifndef renderer_h
 #define renderer_h
 
+#include "ComponentSystem.h"
+
 #include <glew.h>
 #include <iostream>	// cout, cerr, endl
 #include <fstream>	// fin,
@@ -45,6 +47,21 @@ namespace Renderer
 		glm::vec3 center;
 	};
 	
+    class RenderSystem : public ComponentSystem
+    {
+        public:
+        
+            RenderSystem();
+            ~RenderSystem();
+        
+            bool Initialize() override;
+            void Update(void* data) override;
+            void SendMessage(void* message) override;
+        
+        private:
+        
+    };
+    
 	void RenderObject( unsigned int, RenderData*, Camera* );
 	void Draw( RenderData* );
 	

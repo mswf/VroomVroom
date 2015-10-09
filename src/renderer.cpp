@@ -16,6 +16,31 @@ namespace Renderer
 	glm::mat4 rotation;
 	glm::mat4 scale;
 	
+    RenderSystem::RenderSystem()
+    {
+        
+    }
+    
+    RenderSystem::~RenderSystem()
+    {
+        
+    }
+    
+    bool RenderSystem::Initialize()
+    {
+        return true;
+    }
+    
+    void RenderSystem::Update( void* data )
+    {
+        
+    }
+    
+    void RenderSystem::SendMessage(void* message)
+    {
+        
+    }
+    
 	void GetRenderData( RenderData* outRenderData )
 	{
 		LoadModel();

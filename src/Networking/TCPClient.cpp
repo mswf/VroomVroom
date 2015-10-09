@@ -86,6 +86,7 @@ std::vector<NetworkData> TCPClient::ReceiveMessage()
 	{
 		copy = std::vector<NetworkData>(dataCache);
 		dataCache.clear();
+		SDL_UnlockMutex(mutex);
 	}
 	else
 	{
@@ -126,6 +127,7 @@ int TCPClient::ListenForMessages(void* tcpClient)
 		if (SDL_LockMutex(client->mutex) == 0)
 		{
 			client->dataCache.push_back(networkData);
+			SDL_UnlockMutex(client->mutex);
 		}
 		else
 		{

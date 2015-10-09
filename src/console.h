@@ -12,25 +12,24 @@
 #include "typedef.h"
 #include "patterns/singleton.h"
 
-#define Console sConsole::getInstance()
+#define Terminal sTerminal::getInstance()
 
 class TCPClient;
 
-class sConsole : public Singleton<sConsole>
+class sTerminal : public Singleton<sTerminal>
 {
-    public:
-        sConsole();
-        ~sConsole();
-        void Log(string, bool = false);
-        void Warning(string);
-        void Error(string);
-        void Custom(string, string, string);
-    
-    private:
-        void WriteToFile(string);
-        void SendToExternal(string, string, string);
-    
-        TCPClient* socket;
+	public:
+		sTerminal();
+		~sTerminal();
+		void Log(string, bool = false);
+		void Warning(string);
+		void Error(string);
+		void Custom(string, string, string);
+	private:
+		void WriteToFile(string);
+		void SendToExternal(string, string, string);
+
+		TCPClient* socket;
 };
 
 #endif /* console_h */

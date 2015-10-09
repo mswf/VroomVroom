@@ -12,12 +12,6 @@
 
 namespace LuaSystem
 {
-    namespace
-    {
-        bool isInitialized(false);
-        lua_State* lState(NULL);
-    }
-    
     void Init()
     {
         if(isInitialized)
@@ -26,39 +20,25 @@ namespace LuaSystem
         }
         
         lState = luaL_newstate();
+        luaL_openlibs(lState);
+        __SetPackagePath__();
         
         string path;
         Content::CreateFilePath("main.lua", &path);
         
-        luaL_openlibs(lState);
-        
-        //tell lua where to find all the files relative to the content root folder
-        {
-            lua_getglobal(lState, "package");
-            lua_getfield(lState, -1, "path");
-            const char* cur_path = lua_tostring(lState, -1);
-            string new_path = string(cur_path);
-            new_path += ";";
-            new_path += Content::GetPath();
-            new_path += "/?.lua";
-            
-            lua_pop(lState, 1);
-            lua_pushstring(lState, new_path.c_str());
-            lua_setfield(lState, -2, "path");
-            lua_pop(lState, 1);
-        }
-        
         if (luaL_loadfile(lState, path.c_str()))
         {
-            //TODO error handling
             //TODO replace couts with proper Console::Error or even Console::LuaError?
             std::cout << "Could not open main.lua - The program will not run correctly" << std::endl;
             return;
         }
         
-        if (lua_pcall(lState, 0, 0, 0))
+        //try to parse main.lua
+        if (lua_pcall(lState, 0, 0, 0) != 0)
         {
+            //TODO replace couts with proper Console::Error or even Console::LuaError?
             std::cout << "lua error: " << lua_tostring(lState, -1) << std::endl;
+            return;
         }
         
         lua_getglobal(lState, "Game");
@@ -88,6 +68,27 @@ namespace LuaSystem
             //TODO replace couts with proper Console::Error or even Console::LuaError?
             std::cout << "lua error: " << lua_tostring(lState, -1) << std::endl;
         }
-
+    }
+    
+    namespace
+    {
+        /*
+         *  Tells the Lua state to look in the content directory whenever 'require' is used in Lua scripts.
+         */
+        void __SetPackagePath__()
+        {
+            lua_getglobal(lState, "package");
+            lua_getfield(lState, -1, "path");
+            const char* cur_path = lua_tostring(lState, -1);
+            string new_path = string(cur_path);
+            new_path += ";";
+            new_path += Content::GetPath();
+            new_path += "/?.lua";
+            
+            lua_pop(lState, 1);
+            lua_pushstring(lState, new_path.c_str());
+            lua_setfield(lState, -2, "path");
+            lua_pop(lState, 1);
+        }
     }
 }

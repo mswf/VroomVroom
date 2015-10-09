@@ -16,6 +16,14 @@ namespace LuaSystem
 {
     void Init();
     void Update(int);
+    
+    namespace
+    {
+        bool isInitialized(false);
+        lua_State* lState(NULL);
+
+        void __SetPackagePath__();
+    }
 }
 
 #endif /* luaSystem_h */

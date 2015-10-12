@@ -15,6 +15,7 @@
 #define Terminal sTerminal::getInstance()
 
 class TCPClient;
+class SDL_RWops;
 
 class sTerminal : public Singleton<sTerminal>
 {
@@ -31,8 +32,10 @@ class sTerminal : public Singleton<sTerminal>
 	private:
 		void WriteToFile(string);
 		void SendToExternal(string, string, string);
+        void CreateLogFile();
 
 		TCPClient* socket;
+        SDL_RWops* logFile;
 };
 
 #endif /* console_h */

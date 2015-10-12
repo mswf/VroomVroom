@@ -113,6 +113,7 @@ int TCPClient::ListenForMessages(void* tcpClient)
 	{
 		int result;
 		char msg[1024];
+		std::fill(msg, msg + 1024, 0);
 
 		result = SDLNet_TCP_Recv(client->socket, msg, client->MAX_MESSAGE_LENGTH);
 		if (result <= 0)

@@ -38,4 +38,7 @@ class sTerminal : public Singleton<sTerminal>
         SDL_RWops* logFile;
 };
 
+//TODO move this out of console
+struct tm GetTimeStruct();
+
 #endif /* console_h */

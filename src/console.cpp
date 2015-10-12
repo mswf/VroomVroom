@@ -92,13 +92,12 @@ void sTerminal::WriteToFile(const string msg)
         return;
     }
     string line = "<";
-    time_t timer;
-    time(&timer);
-    struct tm* time_info = localtime(&timer);
     
-    line += std::to_string(time_info->tm_hour) + ":";
-    line += std::to_string(time_info->tm_min) + ":";
-    line += std::to_string(time_info->tm_sec) + "> ";
+    struct tm time_info = GetTimeStruct();
+    
+    line += std::to_string(time_info.tm_hour) + ":";
+    line += std::to_string(time_info.tm_min) + ":";
+    line += std::to_string(time_info.tm_sec) + "> ";
     line += msg + "\n";
         
 #if __APPLE__
@@ -190,13 +189,28 @@ void sTerminal::CreateLogFile()
     logFile = SDL_RWFromFile("log.txt", "w");
     
     string line = "Stardate: <";
-    time_t timer;
-    time(&timer);
-    struct tm* time_info = localtime(&timer);
     
-    line += std::to_string(time_info->tm_year + 1900) + "/";
-    line += std::to_string(time_info->tm_mon + 1) + "/";
-    line += std::to_string(time_info->tm_mday) + "> ";
+    struct tm time_info = GetTimeStruct();
+    
+    line += std::to_string(time_info.tm_year + 1900) + "/";
+    line += std::to_string(time_info.tm_mon + 1) + "/";
+    line += std::to_string(time_info.tm_mday) + "> ";
 
     Log(line, true);
+}
+
+//TODO move this plssss
+struct tm GetTimeStruct()
+{
+    time_t timer;
+    time(&timer);
+    struct tm time_info;
+    
+#if __APPLE__
+    time_info = *localtime(&timer);
+#else
+    localtime_s(&time_info, &timer);
+#endif
+    
+    return time_info;
 }

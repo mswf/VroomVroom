@@ -36,3 +36,5 @@ unsuccessfulbuild/
 
 vs_proj/Debug/
 config.lua
+
+vs_proj/VroomVroom/log*

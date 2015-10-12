@@ -2,6 +2,7 @@
 #include "stdio.h"
 #include <assert.h>
 #include "SDL2/SDL.h"
+#include <memory>
 
 TCPClient::TCPClient(const std::string hostName, const uint16 port)
 {
@@ -32,6 +33,7 @@ void TCPClient::Initialize(const char* hostName, const uint16 port)
 	socket = SDLNet_TCP_Open(&ip);
 	if (!socket)
 	{
+		//SDL is most likely not initialized yet
 		printf("SDLNet_TCP_Open: %s\n", SDLNet_GetError());
 		printf("[TCPClient] Could not open TCP connection\n");
 	}
@@ -75,12 +77,12 @@ void TCPClient::SendMessage(const std::string& msg) const
 
 void TCPClient::SendMessage(const int16& msg) const
 {
-	SendMessage((void*)msg, sizeof(msg));
+	SendMessage(&msg, sizeof(msg));
 }
 
 void TCPClient::SendMessage(const int32& msg) const
 {
-	SendMessage((void*)msg, sizeof(msg));
+	SendMessage(&msg, sizeof(msg));
 }
 
 std::vector<NetworkData> TCPClient::ReceiveMessage()
@@ -88,6 +90,13 @@ std::vector<NetworkData> TCPClient::ReceiveMessage()
 	std::vector<NetworkData> copy;
 	if (SDL_LockMutex(mutex) == 0)
 	{
+		if (dataCache.size() > 0)
+		{
+			printf("something");
+			printf("AFTER: %s \n", (char*)dataCache[0].data);
+
+		}
+
 		copy = std::vector<NetworkData>(dataCache);
 		dataCache.clear();
 		SDL_UnlockMutex(mutex);
@@ -112,23 +121,23 @@ int TCPClient::ListenForMessages(void* tcpClient)
 	while (client->alive)
 	{
 		int result;
-		char msg[1024];
-		std::fill(msg, msg + 1024, 0);
+		unsigned char msg[MAX_MESSAGE_LENGTH];
+		std::fill(msg, msg + MAX_MESSAGE_LENGTH, 0);
 
 		result = SDLNet_TCP_Recv(client->socket, msg, client->MAX_MESSAGE_LENGTH);
 		if (result <= 0)
 		{
 			// An error may have occured, but sometimes you can just ignore it
 			// It may be good to disconnect sock because it is likely invalid now.
-			//printf("Error", msg);
 			client->alive = false;
 			return 1;
 		}
-		printf("[TCPClient] Received: \"%s\"\n", msg);
+		printf("[TCPClient] Received: \"%s\"\n", (char*)msg);
 
 		NetworkData networkData;
-		networkData.data = (void*)msg;
 		networkData.length = result;
+		networkData.data = new unsigned char[MAX_MESSAGE_LENGTH];
+		memcpy(networkData.data, msg, MAX_MESSAGE_LENGTH);
 
 		if (SDL_LockMutex(client->mutex) == 0)
 		{

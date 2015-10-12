@@ -4,7 +4,7 @@
 
 struct NetworkData
 {
-	void* data;
+	unsigned char* data;
 	uint32 length;
 };
 
@@ -32,5 +32,5 @@ class TCPClient
 		std::vector<NetworkData> dataCache;
 		SDL_mutex* mutex;
 
-		const unsigned int MAX_MESSAGE_LENGTH = 1024;
+		static const unsigned int MAX_MESSAGE_LENGTH = 1024;
 };

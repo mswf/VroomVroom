@@ -90,13 +90,6 @@ std::vector<NetworkData> TCPClient::ReceiveMessage()
 	std::vector<NetworkData> copy;
 	if (SDL_LockMutex(mutex) == 0)
 	{
-		if (dataCache.size() > 0)
-		{
-			printf("something");
-			printf("AFTER: %s \n", (char*)dataCache[0].data);
-
-		}
-
 		copy = std::vector<NetworkData>(dataCache);
 		dataCache.clear();
 		SDL_UnlockMutex(mutex);

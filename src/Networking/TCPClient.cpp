@@ -69,7 +69,7 @@ void TCPClient::SendMessage(const std::string& msg) const
 #if __APPLE__
 	SendMessage((void*)msg.c_str(), msg.size());
 #else
-	SendMessage((void*)msg.c_str(), sizeof(msg));
+	SendMessage((void*)msg.c_str(), msg.size());
 #endif
 }
 

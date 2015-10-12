@@ -98,13 +98,15 @@ void sTerminal::WriteToFile(const string msg)
     line += std::to_string(time_info.tm_hour) + ":";
     line += std::to_string(time_info.tm_min) + ":";
     line += std::to_string(time_info.tm_sec) + "> ";
-    line += msg + "\n";
+    line += msg + "\r\n";
         
 #if __APPLE__
     Sint64 size = line.size();
 #else
-    Sint64 size = sizeof(line);
+//TODO: Weikie figure dis out
+    Sint64 size = line.size();
 #endif
+
     size_t len = SDL_RWwrite(logFile, line.c_str(), 1, size);
     if (len != size)
     {

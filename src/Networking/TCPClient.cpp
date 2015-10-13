@@ -125,7 +125,7 @@ int TCPClient::ListenForMessages(void* tcpClient)
 		NetworkData networkData;
 		networkData.length = result;
 		networkData.data = new unsigned char[MAX_MESSAGE_LENGTH];
-		memcpy(networkData.data, msg, MAX_MESSAGE_LENGTH);
+		SDL_memcpy(networkData.data, msg, MAX_MESSAGE_LENGTH);
 
 		if (SDL_LockMutex(client->mutex) == 0)
 		{

@@ -111,29 +111,33 @@ bool ImGui_ImplSdl_ProcessEvent(SDL_Event* event)
     ImGuiIO& io = ImGui::GetIO();
     switch (event->type)
     {
-    case SDL_MOUSEWHEEL:
+        case SDL_MOUSEWHEEL:
         {
             if (event->wheel.y > 0)
+            {
                 g_MouseWheel = 1;
+            }
             if (event->wheel.y < 0)
+            {
                 g_MouseWheel = -1;
+            }
             return true;
         }
-    case SDL_MOUSEBUTTONDOWN:
+        case SDL_MOUSEBUTTONDOWN:
         {
             if (event->button.button == SDL_BUTTON_LEFT) g_MousePressed[0] = true;
             if (event->button.button == SDL_BUTTON_RIGHT) g_MousePressed[1] = true;
             if (event->button.button == SDL_BUTTON_MIDDLE) g_MousePressed[2] = true;
             return true;
         }
-    case SDL_TEXTINPUT:
+        case SDL_TEXTINPUT:
         {
             ImGuiIO& io = ImGui::GetIO();
             io.AddInputCharactersUTF8(event->text.text);
             return true;
         }
-    case SDL_KEYDOWN:
-    case SDL_KEYUP:
+        case SDL_KEYDOWN:
+        case SDL_KEYUP:
         {
             int key = event->key.keysym.sym & ~SDLK_SCANCODE_MASK;
             io.KeysDown[key] = (event->type == SDL_KEYDOWN);
@@ -309,7 +313,6 @@ bool ImGui_ImplSdl_Init(SDL_Window *window)
 
 void ImGui_ImplSdl_Shutdown()
 {
-//#warning InvalidateDeviceObjects
     ImGui_ImplSdl_InvalidateDeviceObjects();
 	if (g_VaoHandle) glDeleteVertexArrays(1, &g_VaoHandle);
 	if (g_VboHandle) glDeleteBuffers(1, &g_VboHandle);
@@ -350,9 +353,9 @@ void ImGui_ImplSdl_NewFrame(SDL_Window *window)
     int w, h;
 	SDL_GetWindowSize(window, &w, &h);
     io.DisplaySize = ImVec2((float)w, (float)h);
-//#warning framebuffer != screensize
+    
+    //TODO: set ImGUI framebuffer, framebuffer != screensize
 	//glfwGetFramebufferSize(g_Window, &display_w, &display_h);
-	//io.DisplaySize = ImVec2((float)w, (float)h);
 	//io.DisplayFramebufferScale = ImVec2((float)display_w / w, (float)display_h / h);
 	
 	
@@ -368,15 +371,21 @@ void ImGui_ImplSdl_NewFrame(SDL_Window *window)
     int mx, my;
     Uint32 mouseMask = SDL_GetMouseState(&mx, &my);
     if (SDL_GetWindowFlags(window) & SDL_WINDOW_MOUSE_FOCUS)
-    	io.MousePos = ImVec2((float)mx, (float)my);   // Mouse position, in pixels (set to -1,-1 if no mouse / on another screen, etc.)
+    {
+        // Mouse position, in pixels (set to -1,-1 if no mouse / on another screen, etc.)
+    	io.MousePos = ImVec2((float)mx, (float)my);
+    }
     else
+    {
     	io.MousePos = ImVec2(-1,-1);
-   
-	io.MouseDown[0] = g_MousePressed[0] || (mouseMask & SDL_BUTTON(SDL_BUTTON_LEFT)) != 0;		// If a mouse press event came, always pass it as "mouse held this frame", so we don't miss click-release events that are shorter than 1 frame.
-	io.MouseDown[1] = g_MousePressed[1] || (mouseMask & SDL_BUTTON(SDL_BUTTON_RIGHT)) != 0;
+    }
+    // If a mouse press event came, always pass it as "mouse held this frame", so we don't miss click-release events that are shorter than 1 frame.
+	io.MouseDown[0] = g_MousePressed[0] || (mouseMask & SDL_BUTTON(SDL_BUTTON_LEFT)) != 0;
+    io.MouseDown[1] = g_MousePressed[1] || (mouseMask & SDL_BUTTON(SDL_BUTTON_RIGHT)) != 0;
 	io.MouseDown[2] = g_MousePressed[2] || (mouseMask & SDL_BUTTON(SDL_BUTTON_MIDDLE)) != 0;
     g_MousePressed[0] = g_MousePressed[1] = g_MousePressed[2] = false;
 
+    //TODO: Mouse wheel from SLD_MOUSE_WHEEL
     io.MouseWheel = g_MouseWheel;
     g_MouseWheel = 0.0f;
 

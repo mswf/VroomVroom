@@ -30,6 +30,10 @@
 		E59E13381BC04C3800DBD349 /* libluajit-5.1.2.0.4.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */; };
 		E59FDC901BBAC0EE008935C5 /* helperFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E59FDC8C1BBAC0EE008935C5 /* helperFunctions.cpp */; settings = {ASSET_TAGS = (); }; };
 		E59FDC911BBAC0EE008935C5 /* random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E59FDC8E1BBAC0EE008935C5 /* random.cpp */; settings = {ASSET_TAGS = (); }; };
+		E5B2827D1BCADC0900759348 /* Clock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B2827B1BCADC0900759348 /* Clock.cpp */; settings = {ASSET_TAGS = (); }; };
+		E5B282801BCAE76500759348 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B2827E1BCAE76500759348 /* Input.cpp */; settings = {ASSET_TAGS = (); }; };
+		E5B282831BCAF01000759348 /* cTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B282811BCAF01000759348 /* cTransform.cpp */; settings = {ASSET_TAGS = (); }; };
+		E5B282851BCAF18600759348 /* component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B282841BCAF18600759348 /* component.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5D664DC1BC16C390042350B /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D664DB1BC16C390042350B /* SDL2.framework */; };
 		E5E958F51BB42B2600B83D27 /* shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5E958F31BB42B2600B83D27 /* shader.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5EF59021BB95EDD00F85754 /* libGLEW.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E54D30901BB29675006FBC68 /* libGLEW.dylib */; };
@@ -96,6 +100,13 @@
 		E59FDC8D1BBAC0EE008935C5 /* helperFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = helperFunctions.h; sourceTree = "<group>"; };
 		E59FDC8E1BBAC0EE008935C5 /* random.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = random.cpp; sourceTree = "<group>"; };
 		E59FDC8F1BBAC0EE008935C5 /* random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = random.h; sourceTree = "<group>"; };
+		E5B2827B1BCADC0900759348 /* Clock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Clock.cpp; path = src/Clock.cpp; sourceTree = SOURCE_ROOT; };
+		E5B2827C1BCADC0900759348 /* Clock.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Clock.hpp; path = src/Clock.hpp; sourceTree = SOURCE_ROOT; };
+		E5B2827E1BCAE76500759348 /* Input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Input.cpp; path = src/Input.cpp; sourceTree = SOURCE_ROOT; };
+		E5B2827F1BCAE76500759348 /* Input.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Input.hpp; path = src/Input.hpp; sourceTree = SOURCE_ROOT; };
+		E5B282811BCAF01000759348 /* cTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cTransform.cpp; path = src/cTransform.cpp; sourceTree = SOURCE_ROOT; };
+		E5B282821BCAF01000759348 /* cTransform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = cTransform.hpp; path = src/cTransform.hpp; sourceTree = SOURCE_ROOT; };
+		E5B282841BCAF18600759348 /* component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = component.cpp; path = src/component.cpp; sourceTree = SOURCE_ROOT; };
 		E5D664DB1BC16C390042350B /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = Framework/SDL2.framework; sourceTree = "<group>"; };
 		E5E958F31BB42B2600B83D27 /* shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = shader.cpp; path = src/shader.cpp; sourceTree = SOURCE_ROOT; };
 		E5E958F41BB42B2600B83D27 /* shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = shader.h; path = src/shader.h; sourceTree = SOURCE_ROOT; };
@@ -178,6 +189,13 @@
 				E5E958F41BB42B2600B83D27 /* shader.h */,
 				23BF006F1BC7BA0400073C79 /* luaSystem.cpp */,
 				23BF00701BC7BA0400073C79 /* luaSystem.h */,
+				E5B2827B1BCADC0900759348 /* Clock.cpp */,
+				E5B2827C1BCADC0900759348 /* Clock.hpp */,
+				E5B2827E1BCAE76500759348 /* Input.cpp */,
+				E5B2827F1BCAE76500759348 /* Input.hpp */,
+				E5B282811BCAF01000759348 /* cTransform.cpp */,
+				E5B282821BCAF01000759348 /* cTransform.hpp */,
+				E5B282841BCAF18600759348 /* component.cpp */,
 			);
 			path = VroomVroom;
 			sourceTree = "<group>";
@@ -293,20 +311,24 @@
 			files = (
 				E54726101BC6A78F00316B26 /* base64.cpp in Sources */,
 				23BF00711BC7BA0400073C79 /* luaSystem.cpp in Sources */,
+				E5B282801BCAE76500759348 /* Input.cpp in Sources */,
 				23EE7EC31BC686020006581F /* Engine.cpp in Sources */,
 				E567A8F51BB1470200B8F6C3 /* imgui_demo.cpp in Sources */,
 				E567A8F81BB1470200B8F6C3 /* imgui.cpp in Sources */,
 				E547260A1BC6A74E00316B26 /* TCPClient.cpp in Sources */,
 				E547260B1BC6A74E00316B26 /* TCPServer.cpp in Sources */,
+				E5B282851BCAF18600759348 /* component.cpp in Sources */,
 				E5E958F51BB42B2600B83D27 /* shader.cpp in Sources */,
 				E567A8F61BB1470200B8F6C3 /* imgui_draw.cpp in Sources */,
 				E547260C1BC6A74E00316B26 /* UDPMessage.cpp in Sources */,
 				E59FDC911BBAC0EE008935C5 /* random.cpp in Sources */,
 				E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */,
 				E54D30981BB2AD45006FBC68 /* renderer.cpp in Sources */,
+				E5B282831BCAF01000759348 /* cTransform.cpp in Sources */,
 				E59FDC901BBAC0EE008935C5 /* helperFunctions.cpp in Sources */,
 				23A4AF551BB2DE3100948D72 /* content.cpp in Sources */,
 				E567A8F71BB1470200B8F6C3 /* imgui_impl_sdl.cpp in Sources */,
+				E5B2827D1BCADC0900759348 /* Clock.cpp in Sources */,
 				23EE7EE41BC6C2B90006581F /* console.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

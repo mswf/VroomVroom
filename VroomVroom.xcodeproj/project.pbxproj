@@ -11,6 +11,7 @@
 		234C8B291BB96A4600E61132 /* libassimpd.3.1.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */; };
 		23A4AF551BB2DE3100948D72 /* content.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23A4AF531BB2DE3100948D72 /* content.cpp */; settings = {ASSET_TAGS = (); }; };
 		23BF00711BC7BA0400073C79 /* luaSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BF006F1BC7BA0400073C79 /* luaSystem.cpp */; settings = {ASSET_TAGS = (); }; };
+		23C2AAFD1BCBD8C00043F141 /* file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23C2AAFB1BCBD8C00043F141 /* file.cpp */; settings = {ASSET_TAGS = (); }; };
 		23CBC8741BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */; };
 		23EE7EC31BC686020006581F /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23EE7EC11BC686020006581F /* Engine.cpp */; settings = {ASSET_TAGS = (); }; };
 		23EE7EE41BC6C2B90006581F /* console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23EE7EE21BC6C2B90006581F /* console.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -56,6 +57,8 @@
 		23A4AF541BB2DE3100948D72 /* content.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = content.h; path = src/content.h; sourceTree = SOURCE_ROOT; };
 		23BF006F1BC7BA0400073C79 /* luaSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = luaSystem.cpp; path = src/luaSystem.cpp; sourceTree = SOURCE_ROOT; };
 		23BF00701BC7BA0400073C79 /* luaSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = luaSystem.h; path = src/luaSystem.h; sourceTree = SOURCE_ROOT; };
+		23C2AAFB1BCBD8C00043F141 /* file.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = file.cpp; path = src/IO/file.cpp; sourceTree = SOURCE_ROOT; };
+		23C2AAFC1BCBD8C00043F141 /* file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = file.h; path = src/IO/file.h; sourceTree = SOURCE_ROOT; };
 		23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libluajit-5.1.2.0.4.dylib"; path = "Framework/LJIT/lib/libluajit-5.1.2.0.4.dylib"; sourceTree = "<group>"; };
 		23EE7EC11BC686020006581F /* Engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Engine.cpp; path = src/Engine.cpp; sourceTree = SOURCE_ROOT; };
 		23EE7EC21BC686020006581F /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Engine.h; path = src/Engine.h; sourceTree = SOURCE_ROOT; };
@@ -120,6 +123,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		23C2AAFA1BCBD8050043F141 /* IO */ = {
+			isa = PBXGroup;
+			children = (
+				23C2AAFB1BCBD8C00043F141 /* file.cpp */,
+				23C2AAFC1BCBD8C00043F141 /* file.h */,
+			);
+			name = IO;
+			sourceTree = "<group>";
+		};
 		E53768661BA6D3B600D0BC14 = {
 			isa = PBXGroup;
 			children = (
@@ -145,6 +157,7 @@
 		E53768711BA6D3B600D0BC14 /* VroomVroom */ = {
 			isa = PBXGroup;
 			children = (
+				23C2AAFA1BCBD8050043F141 /* IO */,
 				23EE7EE21BC6C2B90006581F /* console.cpp */,
 				23EE7EE31BC6C2B90006581F /* console.h */,
 				E547260D1BC6A75800316B26 /* Networking */,
@@ -300,6 +313,7 @@
 				E547260B1BC6A74E00316B26 /* TCPServer.cpp in Sources */,
 				E5E958F51BB42B2600B83D27 /* shader.cpp in Sources */,
 				E567A8F61BB1470200B8F6C3 /* imgui_draw.cpp in Sources */,
+				23C2AAFD1BCBD8C00043F141 /* file.cpp in Sources */,
 				E547260C1BC6A74E00316B26 /* UDPMessage.cpp in Sources */,
 				E59FDC911BBAC0EE008935C5 /* random.cpp in Sources */,
 				E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */,

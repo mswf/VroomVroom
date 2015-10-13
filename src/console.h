@@ -15,7 +15,7 @@
 #define Terminal sTerminal::getInstance()
 
 class TCPClient;
-class SDL_RWops;
+class File;
 
 class sTerminal : public Singleton<sTerminal>
 {
@@ -35,7 +35,7 @@ class sTerminal : public Singleton<sTerminal>
         void CreateLogFile();
 
 		TCPClient* socket;
-        SDL_RWops* logFile;
+        File* logFile;
 };
 
 //TODO move this out of console

@@ -2,6 +2,7 @@
 #include "stdio.h"
 #include <assert.h>
 #include "SDL2/SDL.h"
+#include <memory>
 
 TCPClient::TCPClient(const std::string hostName, const uint16 port)
 {
@@ -32,6 +33,7 @@ void TCPClient::Initialize(const char* hostName, const uint16 port)
 	socket = SDLNet_TCP_Open(&ip);
 	if (!socket)
 	{
+		//SDL is most likely not initialized yet
 		printf("SDLNet_TCP_Open: %s\n", SDLNet_GetError());
 		printf("[TCPClient] Could not open TCP connection\n");
 	}
@@ -58,25 +60,25 @@ void TCPClient::SendMessage(const void* data, const uint32 length) const
 		printf("serverSocket has been disconnected\n");
 		assert(false);
 	}
-	else
-	{
-		printf("[TCPClient] sent data to server\n");
-	}
 }
 
 void TCPClient::SendMessage(const std::string& msg) const
 {
-	SendMessage((void*)msg.c_str(), sizeof(msg));
+#if __APPLE__
+	SendMessage((void*)msg.c_str(), msg.size());
+#else
+	SendMessage((void*)msg.c_str(), msg.size());
+#endif
 }
 
 void TCPClient::SendMessage(const int16& msg) const
 {
-	SendMessage((void*)msg, sizeof(msg));
+	SendMessage(&msg, sizeof(msg));
 }
 
 void TCPClient::SendMessage(const int32& msg) const
 {
-	SendMessage((void*)msg, sizeof(msg));
+	SendMessage(&msg, sizeof(msg));
 }
 
 std::vector<NetworkData> TCPClient::ReceiveMessage()
@@ -108,22 +110,22 @@ int TCPClient::ListenForMessages(void* tcpClient)
 	while (client->alive)
 	{
 		int result;
-		char msg[1024];
+		unsigned char msg[MAX_MESSAGE_LENGTH];
+		std::fill(msg, msg + MAX_MESSAGE_LENGTH, 0);
 
 		result = SDLNet_TCP_Recv(client->socket, msg, client->MAX_MESSAGE_LENGTH);
 		if (result <= 0)
 		{
 			// An error may have occured, but sometimes you can just ignore it
 			// It may be good to disconnect sock because it is likely invalid now.
-			//printf("Error", msg);
 			client->alive = false;
 			return 1;
 		}
-		printf("[TCPClient] Received: \"%s\"\n", msg);
 
 		NetworkData networkData;
-		networkData.data = (void*)msg;
 		networkData.length = result;
+		networkData.data = new unsigned char[MAX_MESSAGE_LENGTH];
+		SDL_memcpy(networkData.data, msg, MAX_MESSAGE_LENGTH);
 
 		if (SDL_LockMutex(client->mutex) == 0)
 		{

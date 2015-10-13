@@ -30,6 +30,7 @@ class sLuaSystem : public Singleton<sLuaSystem>
     private:
     void SetPackagePath();
     void BindEngine();
+    void BindInput();
     
     
     
@@ -38,7 +39,10 @@ class sLuaSystem : public Singleton<sLuaSystem>
 };
 
 //lua binding functions :)
+//engine
 int __l_log__(lua_State*);
+
+
 
 
 #endif /* luaSystem_h */

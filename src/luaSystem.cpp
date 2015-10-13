@@ -55,6 +55,7 @@ void sLuaSystem::Main()
 			//TODO replace couts with proper Console::Error or even Console::LuaError?
 			std::cout << "lua error: " << lua_tostring(lState, -1) << std::endl;
 		}
+        lua_settop(lState, 0);
 
 		hasMainBeenCalled = true;
 	}
@@ -70,6 +71,7 @@ void sLuaSystem::Update(int dt)
 		//TODO replace couts with proper Console::Error or even Console::LuaError?
 		std::cout << "lua error: " << lua_tostring(lState, -1) << std::endl;
 	}
+    lua_settop(lState, 0);
 }
 
 void sLuaSystem::Attempt(string command)

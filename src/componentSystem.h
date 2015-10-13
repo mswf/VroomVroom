@@ -1,3 +1,6 @@
+#ifndef componentsystem_h
+#define componentsystem_h
+
 class ComponentSystem
 {
 	public:
@@ -8,3 +11,4 @@ class ComponentSystem
 		virtual void SendMessage(void* data) {};
 };
 
+#endif

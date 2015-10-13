@@ -11,13 +11,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\Clock.hpp" />
+    <ClInclude Include="..\..\src\component.h" />
     <ClInclude Include="..\..\src\console.h" />
     <ClInclude Include="..\..\src\content.h" />
+    <ClInclude Include="..\..\src\cTransform.hpp" />
     <ClInclude Include="..\..\src\Engine.h" />
     <ClInclude Include="..\..\src\imconfig.h" />
     <ClInclude Include="..\..\src\imgui.h" />
     <ClInclude Include="..\..\src\imgui_impl_sdl.h" />
     <ClInclude Include="..\..\src\imgui_internal.h" />
+    <ClInclude Include="..\..\src\Input.hpp" />
+    <ClInclude Include="..\..\src\IO\file.h" />
     <ClInclude Include="..\..\src\luaSystem.h" />
     <ClInclude Include="..\..\src\Networking\TCPClient.h" />
     <ClInclude Include="..\..\src\Networking\TCPServer.h" />

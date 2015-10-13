@@ -105,10 +105,7 @@ void Input::BindKey( std::string name, int key )
         return;
     }
     
-    if ( !BindExists(name) && !IsBound(key) )
-    {
-        bindings->insert( std::pair<std::string, int>( name, key ) );
-    }
+    bindings->insert( std::pair<std::string, int>( name, key ) );
 }
 
 void Input::UnbindKey( std::string name )

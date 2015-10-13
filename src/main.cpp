@@ -1,5 +1,8 @@
 #include "content.h"
 #include "Engine.h"
+#if WEIKIE
+#include "Tests/TestCode.h"
+#endif
 
 
 int main(int argc, char** a)
@@ -7,7 +10,12 @@ int main(int argc, char** a)
 	Engine engine;
 	engine.InitSDL();
 	engine.InitSDLNet();
-    engine.Init();
+	engine.Init();
+
+#if WEIKIE
+	TestCode t;
+	//t.RunTCPTest();
+#endif
 
 	engine.OpenConfig();
 	Content::PrintPath();

@@ -20,29 +20,18 @@ class lua_State;
 class sLuaSystem : public Singleton<sLuaSystem>
 {
     public:
-    sLuaSystem();
-    ~sLuaSystem();
-    void Main();
-    void Update(int);
+        sLuaSystem();
+        ~sLuaSystem();
+        void Main();
+        void Update(int);
     
-    void Attempt(string);
+        void Attempt(string);
     
     private:
-    void SetPackagePath();
-    void BindEngine();
-    void BindInput();
+        void SetPackagePath();
     
-    
-    
-    lua_State* lState;
-    bool hasMainBeenCalled;
+        lua_State* lState;
+        bool hasMainBeenCalled;
 };
-
-//lua binding functions :)
-//engine
-int __l_log__(lua_State*);
-
-
-
 
 #endif /* luaSystem_h */

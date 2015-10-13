@@ -12,6 +12,8 @@
 		23A4AF551BB2DE3100948D72 /* content.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23A4AF531BB2DE3100948D72 /* content.cpp */; settings = {ASSET_TAGS = (); }; };
 		23BF00711BC7BA0400073C79 /* luaSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23BF006F1BC7BA0400073C79 /* luaSystem.cpp */; settings = {ASSET_TAGS = (); }; };
 		23C2AAFD1BCBD8C00043F141 /* file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23C2AAFB1BCBD8C00043F141 /* file.cpp */; settings = {ASSET_TAGS = (); }; };
+		23C59A321BCD305B00A37E29 /* mEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23C59A301BCD305B00A37E29 /* mEngine.cpp */; settings = {ASSET_TAGS = (); }; };
+		23C59A361BCD3ACA00A37E29 /* mInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23C59A341BCD3ACA00A37E29 /* mInput.cpp */; settings = {ASSET_TAGS = (); }; };
 		23CBC8741BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */; };
 		23EE7EC31BC686020006581F /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23EE7EC11BC686020006581F /* Engine.cpp */; settings = {ASSET_TAGS = (); }; };
 		23EE7EE41BC6C2B90006581F /* console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23EE7EE21BC6C2B90006581F /* console.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -63,6 +65,11 @@
 		23BF00701BC7BA0400073C79 /* luaSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = luaSystem.h; path = src/luaSystem.h; sourceTree = SOURCE_ROOT; };
 		23C2AAFB1BCBD8C00043F141 /* file.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = file.cpp; path = src/IO/file.cpp; sourceTree = SOURCE_ROOT; };
 		23C2AAFC1BCBD8C00043F141 /* file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = file.h; path = src/IO/file.h; sourceTree = SOURCE_ROOT; };
+		23C59A301BCD305B00A37E29 /* mEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mEngine.cpp; path = src/Modules/mEngine.cpp; sourceTree = SOURCE_ROOT; };
+		23C59A311BCD305B00A37E29 /* mEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mEngine.h; path = src/Modules/mEngine.h; sourceTree = SOURCE_ROOT; };
+		23C59A331BCD382300A37E29 /* moduleMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = moduleMacros.h; path = src/Modules/moduleMacros.h; sourceTree = SOURCE_ROOT; };
+		23C59A341BCD3ACA00A37E29 /* mInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mInput.cpp; path = src/Modules/mInput.cpp; sourceTree = SOURCE_ROOT; };
+		23C59A351BCD3ACA00A37E29 /* mInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mInput.h; path = src/Modules/mInput.h; sourceTree = SOURCE_ROOT; };
 		23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libluajit-5.1.2.0.4.dylib"; path = "Framework/LJIT/lib/libluajit-5.1.2.0.4.dylib"; sourceTree = "<group>"; };
 		23EE7EC11BC686020006581F /* Engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Engine.cpp; path = src/Engine.cpp; sourceTree = SOURCE_ROOT; };
 		23EE7EC21BC686020006581F /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Engine.h; path = src/Engine.h; sourceTree = SOURCE_ROOT; };
@@ -143,6 +150,18 @@
 			name = IO;
 			sourceTree = "<group>";
 		};
+		23C59A2F1BCD2F6C00A37E29 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				23C59A301BCD305B00A37E29 /* mEngine.cpp */,
+				23C59A311BCD305B00A37E29 /* mEngine.h */,
+				23C59A331BCD382300A37E29 /* moduleMacros.h */,
+				23C59A341BCD3ACA00A37E29 /* mInput.cpp */,
+				23C59A351BCD3ACA00A37E29 /* mInput.h */,
+			);
+			name = Modules;
+			sourceTree = "<group>";
+		};
 		E53768661BA6D3B600D0BC14 = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +187,7 @@
 		E53768711BA6D3B600D0BC14 /* VroomVroom */ = {
 			isa = PBXGroup;
 			children = (
+				23C59A2F1BCD2F6C00A37E29 /* Modules */,
 				23C2AAFA1BCBD8050043F141 /* IO */,
 				23EE7EE21BC6C2B90006581F /* console.cpp */,
 				23EE7EE31BC6C2B90006581F /* console.h */,
@@ -337,6 +357,8 @@
 				E547260C1BC6A74E00316B26 /* UDPMessage.cpp in Sources */,
 				E59FDC911BBAC0EE008935C5 /* random.cpp in Sources */,
 				E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */,
+				23C59A321BCD305B00A37E29 /* mEngine.cpp in Sources */,
+				23C59A361BCD3ACA00A37E29 /* mInput.cpp in Sources */,
 				E54D30981BB2AD45006FBC68 /* renderer.cpp in Sources */,
 				E5B282831BCAF01000759348 /* cTransform.cpp in Sources */,
 				E59FDC901BBAC0EE008935C5 /* helperFunctions.cpp in Sources */,

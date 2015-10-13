@@ -1,10 +1,12 @@
 #define GLM_FORCE_RADIANS
 
 #include "Engine.h"
+#include "Input.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2_net/SDL_net.h>
 #include "luaSystem.h"
 #include "component.h"
+#include "cTransform.hpp"
 #include "entity_system.h"
 #include "content.h"
 #include "standardIncludes.h"
@@ -19,22 +21,30 @@
 
 Engine::Engine()
 {
-    renderer = new Renderer::RenderSystem();
-    
-    //Entity::entitySystem = new EntitySystem();
-    Entity::entitySystem;
-    Entity* box = new Entity();
-    CompTransform* boxTransform = new CompTransform();
-    
-    std::vector< Entity* > entities;
-    //Entity::entitySystem->addComponent(box, boxTransform);
-    //Entity::entitySystem->getEntities<CompTransform>(entities);
-    
 }
-
 
 Engine::~Engine()
 {
+    //TODO: Clean up all entities and their components
+    delete renderer;
+    delete inputManager;
+}
+
+void Engine::Init()
+{
+    renderer = new Renderer::RenderSystem();
+    inputManager = new Input();
+    inputManager->BindKey("shoot", SDL_SCANCODE_SPACE);
+    
+    Entity::entitySystem = new EntitySystem();
+    Entity* camera = new Entity();
+    Entity* light = new Entity();
+    Entity* box = new Entity();
+    CTransform* boxTransform = new CTransform();
+    
+    //std::vector< Entity* > entities;
+    Entity::entitySystem->addComponent(box, boxTransform);
+    //Entity::entitySystem->getEntities<CompTransform>(entities);
 }
 
 void Engine::PollEvent()
@@ -47,7 +57,10 @@ void Engine::PollEvent()
 		{
 			exit(EXIT_SUCCESS);
 		}
-	}
+        inputManager->Update(&event);
+        
+    }
+    inputManager->StateReset();
 }
 
 void Engine::OpenConfig()
@@ -103,6 +116,7 @@ void Engine::SetupWindow(SDL_Window*& window, SDL_GLContext& glcontext)
 	glcontext = SDL_GL_CreateContext(window);
 }
 
+// TODO: Move to renderer
 void Engine::InitGlew()
 {
 	glewExperimental = true;
@@ -173,6 +187,7 @@ void Engine::UpdateLoop()
 
 	bool show_test_window = true;
 	bool show_another_window = false;
+    
 
 	Renderer::RenderData * data = new Renderer::RenderData();
 	Renderer::Camera * camera = new Renderer::Camera();
@@ -185,7 +200,8 @@ void Engine::UpdateLoop()
 	camera->center = glm::vec3(0.0, 0.0, 0.0);
 	Renderer::GetCamera(camera, Renderer::Projection::PERSPECTIVE, fov, aspectRatio, zNear, zFar);
 	Renderer::GetRenderData(data);
-
+    
+    
 	const uint16 millisecondModifier = 1000;
 	const float gameFPS = 60;
 	const float gameUpdateInterval = 1 / gameFPS * millisecondModifier;
@@ -219,6 +235,32 @@ void Engine::UpdateLoop()
 
 			if (deltaTimeGame < gameUpdateInterval)
 			{
+                if ( inputManager->OnKeyDown(SDL_SCANCODE_1) )
+                {
+                    printf( "Pressed key %i \n", SDL_SCANCODE_1 );
+                }
+                if ( inputManager->OnKeyUp(SDL_SCANCODE_1) )
+                {
+                    printf( "Released key %i \n", SDL_SCANCODE_1 );
+                }
+                if ( inputManager->OnKey(SDL_SCANCODE_2) )
+                {
+                    printf( "Holding key %i \n", SDL_SCANCODE_2 );
+                }
+                
+                if ( inputManager->OnMouseDown(SDL_BUTTON_LEFT) )
+                {
+                    printf( "Pressed left mouse button at x:%i y:%i \n", inputManager->GetMousePosition().x, inputManager->GetMousePosition().y);
+                }
+                if ( inputManager->OnMouseUp(SDL_BUTTON_LEFT) )
+                {
+                    printf( "Released left mouse button \n" );
+                }
+                
+                if ( inputManager->OnKeyDown("shoot") )
+                {
+                    printf( "Bam! Key: %i \n", inputManager->GetBind("shoot") );
+                }
 				prevTicks = currentTicks;
 				prevTicks -= deltaTimeGame;
 			}
@@ -243,6 +285,7 @@ void Engine::UpdateLoop()
 
 		ImGui::Render();
 		SDL_GL_SwapWindow(window);
+   
 		//rendering
 		//float normalizedInterpolationValue = deltaTimeGame / gameUpdateInterval
 		//	//Do something with locking

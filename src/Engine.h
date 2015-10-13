@@ -2,6 +2,7 @@
 #include "renderer.h"
 #include <lua.hpp>
 #include <SDL2/SDL_video.h>
+#include "Input.hpp"
 
 class Engine
 {
@@ -20,8 +21,10 @@ class Engine
 		void UpdateLoop();
 		void InitSDL();
 		void InitSDLNet();
+        void Init();
 	private:
         Renderer::RenderSystem* renderer;
+        Input* inputManager;
 		void Update();
 };
 

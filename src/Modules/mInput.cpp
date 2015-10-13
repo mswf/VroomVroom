@@ -19,11 +19,11 @@ namespace mInput
             lBind(getBind)
             lBind(bindExists)
             lBind(isBound)
-            lBind(onKey)
-            lBind(onKeyDown)
-            lBind(onKeyUp)
-            lBind(onMouseDown)
-            lBind(onMouseUp)
+            lBind(key)
+            lBind(keyDown)
+            lBind(keyUp)
+            lBind(mouseDown)
+            lBind(mouseUp)
         lEnd(Input)
     }
     
@@ -57,27 +57,27 @@ namespace mInput
         return 0;
     }
     
-    lFunc(onKey)
+    lFunc(key)
     {
         return 0;
     }
     
-    lFunc(onKeyDown)
+    lFunc(keyDown)
     {
         return 0;
     }
     
-    lFunc(onKeyUp)
+    lFunc(keyUp)
     {
         return 0;
     }
     
-    lFunc(onMouseDown)
+    lFunc(mouseDown)
     {
         return 0;
     }
     
-    lFunc(onMouseUp)
+    lFunc(mouseUp)
     {
         return 0;
     }

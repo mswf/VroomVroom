@@ -23,11 +23,11 @@ namespace mInput{
     lFunc(getBind);
     lFunc(bindExists);
     lFunc(isBound);
-    lFunc(onKey);
-    lFunc(onKeyDown);
-    lFunc(onKeyUp);
-    lFunc(onMouseDown);
-    lFunc(onMouseUp);
+    lFunc(key);
+    lFunc(keyDown);
+    lFunc(keyUp);
+    lFunc(mouseDown);
+    lFunc(mouseUp);
 }
 
 #endif /* mInput_h */

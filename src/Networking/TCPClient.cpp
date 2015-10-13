@@ -60,10 +60,6 @@ void TCPClient::SendMessage(const void* data, const uint32 length) const
 		printf("serverSocket has been disconnected\n");
 		assert(false);
 	}
-	else
-	{
-		printf("[TCPClient] sent data to server\n");
-	}
 }
 
 void TCPClient::SendMessage(const std::string& msg) const
@@ -125,7 +121,6 @@ int TCPClient::ListenForMessages(void* tcpClient)
 			client->alive = false;
 			return 1;
 		}
-		printf("[TCPClient] Received: \"%s\"\n", (char*)msg);
 
 		NetworkData networkData;
 		networkData.length = result;

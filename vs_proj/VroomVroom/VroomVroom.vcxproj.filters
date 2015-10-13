@@ -25,6 +25,12 @@
     <Filter Include="VroomVroom\Networking">
       <UniqueIdentifier>{75c980ea-ce55-465e-92e7-454d2f9dadfc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="VroomVroom\Tests">
+      <UniqueIdentifier>{3ce4750d-d5d6-483a-b1ca-d48c150ae596}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VroomVroom\IO">
+      <UniqueIdentifier>{9f51550f-7c42-4a2d-8fb9-dc235095f037}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\imconfig.h">
@@ -84,13 +90,31 @@
     <ClInclude Include="..\..\src\Networking\TCPServer.h">
       <Filter>VroomVroom\Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Engine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\console.h">
       <Filter>VroomVroom</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\luaSystem.h">
+      <Filter>VroomVroom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Engine.h">
+      <Filter>VroomVroom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Tests\TestCode.h">
+      <Filter>VroomVroom\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\IO\file.h">
+      <Filter>VroomVroom\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Clock.hpp">
+      <Filter>VroomVroom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\component.h">
+      <Filter>VroomVroom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\cTransform.hpp">
+      <Filter>VroomVroom</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Input.hpp">
       <Filter>VroomVroom</Filter>
     </ClInclude>
   </ItemGroup>
@@ -125,9 +149,6 @@
     <ClCompile Include="..\..\src\Utilities\helperFunctions.cpp">
       <Filter>VroomVroom\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Engine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Utilities\base64.cpp">
       <Filter>VroomVroom\Utilities</Filter>
     </ClCompile>
@@ -144,6 +165,27 @@
       <Filter>VroomVroom</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\luaSystem.cpp">
+      <Filter>VroomVroom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Engine.cpp">
+      <Filter>VroomVroom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Tests\TestCode.cpp">
+      <Filter>VroomVroom\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\IO\file.cpp">
+      <Filter>VroomVroom\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Clock.cpp">
+      <Filter>VroomVroom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\component.cpp">
+      <Filter>VroomVroom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cTransform.cpp">
+      <Filter>VroomVroom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Input.cpp">
       <Filter>VroomVroom</Filter>
     </ClCompile>
   </ItemGroup>

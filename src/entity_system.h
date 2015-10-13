@@ -3,7 +3,7 @@
 
 #include <map>
 #include <vector>
-//#include "component.h"
+#include "component.h"
 
 typedef int FamilyId;
 

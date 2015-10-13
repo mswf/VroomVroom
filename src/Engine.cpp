@@ -117,7 +117,7 @@ void Engine::PollEvent()
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
-        PrintEvent(&event);
+        //PrintEvent(&event);
 		ImGui_ImplSdl_ProcessEvent(&event);
 		if (event.type == SDL_QUIT)
 		{

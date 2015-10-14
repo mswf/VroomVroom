@@ -20,8 +20,10 @@ namespace
     
 void SetPath(const char* path, unsigned long len)
 {
+#ifdef DEBUG
     std::cout << "setting content path to " << path << std::endl;
-
+#endif
+    
     if(contentPath == "")
     {
         contentPath = std::string(path);

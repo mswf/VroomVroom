@@ -4,7 +4,6 @@
 #include "Tests/TestCode.h"
 #endif
 
-
 int main(int argc, char** a)
 {
 	Engine engine;
@@ -18,8 +17,11 @@ int main(int argc, char** a)
 #endif
 
 	engine.OpenConfig();
+    
+#ifdef DEBUG
 	Content::PrintPath();
-
+#endif
+    
 	engine.UpdateLoop();
 
 	return 0;

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef engine_h
+#define engine_h
+
 #include "renderer.h"
 #include <lua.hpp>
 #include <SDL2/SDL_video.h>
@@ -28,3 +30,4 @@ class Engine
 		void Update();
 };
 
+#endif

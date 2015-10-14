@@ -28,6 +28,9 @@
     <ClInclude Include="..\..\src\Input.hpp" />
     <ClInclude Include="..\..\src\IO\file.h" />
     <ClInclude Include="..\..\src\luaSystem.h" />
+    <ClInclude Include="..\..\src\Modules\mEngine.h" />
+    <ClInclude Include="..\..\src\Modules\mInput.h" />
+    <ClInclude Include="..\..\src\Modules\moduleMacros.h" />
     <ClInclude Include="..\..\src\Networking\TCPClient.h" />
     <ClInclude Include="..\..\src\Networking\TCPServer.h" />
     <ClInclude Include="..\..\src\Networking\UDPMessage.h" />
@@ -59,6 +62,8 @@
     <ClCompile Include="..\..\src\IO\file.cpp" />
     <ClCompile Include="..\..\src\luaSystem.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
+    <ClCompile Include="..\..\src\Modules\mEngine.cpp" />
+    <ClCompile Include="..\..\src\Modules\mInput.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPClient.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPServer.cpp" />
     <ClCompile Include="..\..\src\Networking\UDPMessage.cpp" />
@@ -118,7 +123,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\..\Framework\Win32Libraries\include;..\..\Framework\LJIT\include;..\..\Framework\assimp\Include;..\..\src;..\..\Framework\Win32Libraries\include\SDL2_net;..\..\Framework\Win32Libraries\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -141,7 +146,7 @@ copy $(ProjectDir)..\..\config.lua $(OutDir)</Command>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\..\Framework\Win32Libraries\include;..\..\Framework\LJIT\include;..\..\Framework\assimp\Include;..\..\src;..\..\Framework\Win32Libraries\include\SDL2_net;..\..\Framework\Win32Libraries\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WEIKIE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WEIKIE;DEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -166,6 +171,7 @@ copy $(ProjectDir)..\..\config.lua $(OutDir)</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\..\Win32Libraries\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>RELEASE;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

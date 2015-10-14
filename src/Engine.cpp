@@ -19,15 +19,17 @@
 #include <cstring>
 #include "Utilities/helperFunctions.h"
 
-Engine::Engine()
+Engine::Engine() :
+	renderer(NULL),
+	inputManager(NULL)
 {
 }
 
 Engine::~Engine()
 {
-    //TODO: Clean up all entities and their components
-    delete renderer;
-    delete inputManager;
+	//TODO: Clean up all entities and their components
+	delete renderer;
+	delete inputManager;
 }
 
 void Engine::Init()
@@ -52,67 +54,67 @@ void Engine::Init()
 
 void Engine::PrintEvent(const SDL_Event * event)
 {
-    if (event->type == SDL_WINDOWEVENT)
-    {
-        switch (event->window.event)
-        {
-            case SDL_WINDOWEVENT_SHOWN:
-                SDL_Log("Window %d shown", event->window.windowID);
-                break;
-            case SDL_WINDOWEVENT_HIDDEN:
-                SDL_Log("Window %d hidden", event->window.windowID);
-                break;
-            case SDL_WINDOWEVENT_EXPOSED:
-                SDL_Log("Window %d exposed", event->window.windowID);
-                break;
-            case SDL_WINDOWEVENT_MOVED:
-                SDL_Log("Window %d moved to %d,%d",
-                        event->window.windowID, event->window.data1,
-                        event->window.data2);
-                break;
-            case SDL_WINDOWEVENT_RESIZED:
-                SDL_Log("Window %d resized to %dx%d",
-                        event->window.windowID, event->window.data1,
-                        event->window.data2);
-                break;
-            case SDL_WINDOWEVENT_SIZE_CHANGED:
-                SDL_Log("Window %d size changed to %dx%d",
-                        event->window.windowID, event->window.data1,
-                        event->window.data2);
-                break;
-            case SDL_WINDOWEVENT_MINIMIZED:
-                SDL_Log("Window %d minimized", event->window.windowID);
-                break;
-            case SDL_WINDOWEVENT_MAXIMIZED:
-                SDL_Log("Window %d maximized", event->window.windowID);
-                break;
-            case SDL_WINDOWEVENT_RESTORED:
-                SDL_Log("Window %d restored", event->window.windowID);
-                break;
-            case SDL_WINDOWEVENT_ENTER:
-                SDL_Log("Mouse entered window %d",
-                        event->window.windowID);
-                break;
-            case SDL_WINDOWEVENT_LEAVE:
-                SDL_Log("Mouse left window %d", event->window.windowID);
-                break;
-            case SDL_WINDOWEVENT_FOCUS_GAINED:
-                SDL_Log("Window %d gained keyboard focus",
-                        event->window.windowID);
-                break;
-            case SDL_WINDOWEVENT_FOCUS_LOST:
-                SDL_Log("Window %d lost keyboard focus",
-                        event->window.windowID);
-                break;
-            case SDL_WINDOWEVENT_CLOSE:
-                SDL_Log("Window %d closed", event->window.windowID);
-                break;
-            default:
-                SDL_Log("Window %d got unknown event %d",
-                        event->window.windowID, event->window.event);
-                break;
-        }
-    }
+	if (event->type == SDL_WINDOWEVENT)
+	{
+		switch (event->window.event)
+		{
+			case SDL_WINDOWEVENT_SHOWN:
+				SDL_Log("Window %d shown", event->window.windowID);
+				break;
+			case SDL_WINDOWEVENT_HIDDEN:
+				SDL_Log("Window %d hidden", event->window.windowID);
+				break;
+			case SDL_WINDOWEVENT_EXPOSED:
+				SDL_Log("Window %d exposed", event->window.windowID);
+				break;
+			case SDL_WINDOWEVENT_MOVED:
+				SDL_Log("Window %d moved to %d,%d",
+						event->window.windowID, event->window.data1,
+						event->window.data2);
+				break;
+			case SDL_WINDOWEVENT_RESIZED:
+				SDL_Log("Window %d resized to %dx%d",
+						event->window.windowID, event->window.data1,
+						event->window.data2);
+				break;
+			case SDL_WINDOWEVENT_SIZE_CHANGED:
+				SDL_Log("Window %d size changed to %dx%d",
+						event->window.windowID, event->window.data1,
+						event->window.data2);
+				break;
+			case SDL_WINDOWEVENT_MINIMIZED:
+				SDL_Log("Window %d minimized", event->window.windowID);
+				break;
+			case SDL_WINDOWEVENT_MAXIMIZED:
+				SDL_Log("Window %d maximized", event->window.windowID);
+				break;
+			case SDL_WINDOWEVENT_RESTORED:
+				SDL_Log("Window %d restored", event->window.windowID);
+				break;
+			case SDL_WINDOWEVENT_ENTER:
+				SDL_Log("Mouse entered window %d",
+						event->window.windowID);
+				break;
+			case SDL_WINDOWEVENT_LEAVE:
+				SDL_Log("Mouse left window %d", event->window.windowID);
+				break;
+			case SDL_WINDOWEVENT_FOCUS_GAINED:
+				SDL_Log("Window %d gained keyboard focus",
+						event->window.windowID);
+				break;
+			case SDL_WINDOWEVENT_FOCUS_LOST:
+				SDL_Log("Window %d lost keyboard focus",
+						event->window.windowID);
+				break;
+			case SDL_WINDOWEVENT_CLOSE:
+				SDL_Log("Window %d closed", event->window.windowID);
+				break;
+			default:
+				SDL_Log("Window %d got unknown event %d",
+						event->window.windowID, event->window.event);
+				break;
+		}
+	}
 }
 
 void Engine::PollEvent()
@@ -120,16 +122,16 @@ void Engine::PollEvent()
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
-        //PrintEvent(&event);
+		//PrintEvent(&event);
 		ImGui_ImplSdl_ProcessEvent(&event);
 		if (event.type == SDL_QUIT)
 		{
 			exit(EXIT_SUCCESS);
 		}
-        inputManager->Update(&event);
-        
-    }
-    inputManager->StateReset();
+		inputManager->Update(&event);
+
+	}
+	inputManager->StateReset();
 }
 
 void Engine::OpenConfig()
@@ -238,13 +240,13 @@ void Engine::ShowSimpleWindowThree()
 
 void Engine::Update()
 {
-    //TODO no fake deltatime :)
-    int dt = 16;
-    LuaSystem.Update(dt);
-    
-    //TODO this should be refactored out at some point
-    //It is neccesary now to poll network events from the socket
-    Terminal.Update();
+	//TODO no fake deltatime :)
+	int dt = 16;
+	LuaSystem.Update(dt);
+
+	//TODO this should be refactored out at some point
+	//It is neccesary now to poll network events from the socket
+	Terminal.Update();
 }
 
 void Engine::UpdateLoop()
@@ -258,11 +260,11 @@ void Engine::UpdateLoop()
 
 	bool show_test_window = true;
 	bool show_another_window = false;
-    
+
 
 	Renderer::RenderData * data = new Renderer::RenderData();
 	Renderer::Camera * camera = new Renderer::Camera();
-    
+
 	float fov = 90.0f;
 	float aspectRatio = 1280.0f / 720.0f;
 	float zNear = 1.0f;
@@ -271,8 +273,8 @@ void Engine::UpdateLoop()
 	camera->center = glm::vec3(0.0, 0.0, 0.0);
 	Renderer::GetCamera(camera, Renderer::Projection::PERSPECTIVE, fov, aspectRatio, zNear, zFar);
 	Renderer::GetRenderData(data);
-    
-    
+
+
 	const uint16 millisecondModifier = 1000;
 	const float gameFPS = 60;
 	const float gameUpdateInterval = 1 / gameFPS * millisecondModifier;
@@ -280,9 +282,9 @@ void Engine::UpdateLoop()
     uint32 currentTicks = SDL_GetTicks();
 	uint32 prevTicks = currentTicks;
 	bool running = true;
-    
-    LuaSystem.Main();
-    
+
+	LuaSystem.Main();
+
 	while (running)
 	{
 		//multithreaded rendering goes here if we decide to do it
@@ -307,32 +309,32 @@ void Engine::UpdateLoop()
 
 			if (deltaTimeGame < gameUpdateInterval)
 			{
-                if ( inputManager->OnKeyDown(SDL_SCANCODE_1) )
-                {
-                    printf( "Pressed key %i \n", SDL_SCANCODE_1 );
-                }
-                if ( inputManager->OnKeyUp(SDL_SCANCODE_1) )
-                {
-                    printf( "Released key %i \n", SDL_SCANCODE_1 );
-                }
-                if ( inputManager->OnKey(SDL_SCANCODE_2) )
-                {
-                    printf( "Holding key %i \n", SDL_SCANCODE_2 );
-                }
-                
-                if ( inputManager->OnMouseDown(SDL_BUTTON_LEFT) )
-                {
-                    printf( "Pressed left mouse button at x:%i y:%i \n", inputManager->GetMousePosition().x, inputManager->GetMousePosition().y);
-                }
-                if ( inputManager->OnMouseUp(SDL_BUTTON_LEFT) )
-                {
-                    printf( "Released left mouse button \n" );
-                }
-                
-                if ( inputManager->OnKeyDown("shoot") )
-                {
-                    printf( "Bam! Key: %i \n", inputManager->GetBind("shoot") );
-                }
+				if ( inputManager->OnKeyDown(SDL_SCANCODE_1) )
+				{
+					printf( "Pressed key %i \n", SDL_SCANCODE_1 );
+				}
+				if ( inputManager->OnKeyUp(SDL_SCANCODE_1) )
+				{
+					printf( "Released key %i \n", SDL_SCANCODE_1 );
+				}
+				if ( inputManager->OnKey(SDL_SCANCODE_2) )
+				{
+					printf( "Holding key %i \n", SDL_SCANCODE_2 );
+				}
+
+				if ( inputManager->OnMouseDown(SDL_BUTTON_LEFT) )
+				{
+					printf( "Pressed left mouse button at x:%i y:%i \n", inputManager->GetMousePosition().x, inputManager->GetMousePosition().y);
+				}
+				if ( inputManager->OnMouseUp(SDL_BUTTON_LEFT) )
+				{
+					printf( "Released left mouse button \n" );
+				}
+
+				if ( inputManager->OnKeyDown("shoot") )
+				{
+					printf( "Bam! Key: %i \n", inputManager->GetBind("shoot") );
+				}
 				prevTicks = currentTicks;
 				prevTicks -= deltaTimeGame;
 			}
@@ -357,7 +359,7 @@ void Engine::UpdateLoop()
 
 		ImGui::Render();
 		SDL_GL_SwapWindow(window);
-   
+
 		//rendering
 		//float normalizedInterpolationValue = deltaTimeGame / gameUpdateInterval
 		//	//Do something with locking

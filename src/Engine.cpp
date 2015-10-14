@@ -1,6 +1,7 @@
 #define GLM_FORCE_RADIANS
 
 #include "Engine.h"
+#include "renderer.h"
 #include "Input.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2_net/SDL_net.h>
@@ -10,7 +11,6 @@
 #include "entity_system.h"
 #include "content.h"
 #include "standardIncludes.h"
-#include "renderer.h"
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
 #include "glew.h"
@@ -41,9 +41,12 @@ void Engine::Init()
     Entity* light = new Entity();
     Entity* box = new Entity();
     CTransform* boxTransform = new CTransform();
-    
+    CTransform* cameraTransform = new CTransform();
+    CTransform* lightTransform = new CTransform();
     //std::vector< Entity* > entities;
     Entity::entitySystem->addComponent(box, boxTransform);
+    Entity::entitySystem->addComponent(camera, cameraTransform);
+    Entity::entitySystem->addComponent(light, lightTransform);
     //Entity::entitySystem->getEntities<CompTransform>(entities);
 }
 
@@ -192,8 +195,10 @@ void Engine::InitGlew()
 	{
 		printf("Error initializing GLEW! %p\n", glewGetErrorString(glewError));
 	}
+#ifdef DEBUG
 	std::cout << "GL version " << glGetString(GL_VERSION) << std::endl;
 	std::cout << "GLEW version " << glewGetString(GLEW_VERSION_MAJOR) << "." << glewGetString(GLEW_VERSION_MINOR) << std::endl;
+#endif
 }
 
 void Engine::ShowSimpleWindowOne(bool& show_test_window, bool& show_another_window)
@@ -272,7 +277,7 @@ void Engine::UpdateLoop()
 	const float gameFPS = 60;
 	const float gameUpdateInterval = 1 / gameFPS * millisecondModifier;
 	//
-	uint32 currentTicks = SDL_GetTicks();
+    uint32 currentTicks = SDL_GetTicks();
 	uint32 prevTicks = currentTicks;
 	bool running = true;
     
@@ -283,13 +288,14 @@ void Engine::UpdateLoop()
 		//multithreaded rendering goes here if we decide to do it
 		/*if (threadedDrawingBusy)
 		continue*/
-
+        
 		//game
 		currentTicks = SDL_GetTicks();
 		uint32 deltaTimeGame = currentTicks - prevTicks;
 		//pollInput();
 		PollEvent();
-
+        //inputManager->MidiListener();
+        
 		unsigned short safeguard = 0;
 		while (deltaTimeGame > gameUpdateInterval && safeguard < 10)
 		{
@@ -336,7 +342,7 @@ void Engine::UpdateLoop()
 
 		ImGui_ImplSdl_NewFrame(window);
 
-		Renderer::RenderObject(SDL_GetTicks(), data, camera);
+		Renderer::Render(SDL_GetTicks(), camera, data);
 
 		ShowSimpleWindowOne(show_test_window, show_another_window);
 

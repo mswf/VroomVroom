@@ -31,6 +31,9 @@
     <Filter Include="VroomVroom\IO">
       <UniqueIdentifier>{9f51550f-7c42-4a2d-8fb9-dc235095f037}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Modules">
+      <UniqueIdentifier>{ee573f7e-215d-4651-bdb7-db683526c2dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\imconfig.h">
@@ -117,6 +120,15 @@
     <ClInclude Include="..\..\src\Input.hpp">
       <Filter>VroomVroom</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Modules\mEngine.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Modules\mInput.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Modules\moduleMacros.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\imgui.cpp">
@@ -187,6 +199,12 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Input.cpp">
       <Filter>VroomVroom</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Modules\mEngine.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Modules\mInput.cpp">
+      <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

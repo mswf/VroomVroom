@@ -5,6 +5,7 @@
 #include <string>
 #include <SDL2/SDL_events.h>
 #include "glm/vec2.hpp"
+//#include "RtMidi.h"
 
 class Input
 {
@@ -70,6 +71,8 @@ class Input
         const glm::ivec2 GetMousePosition();
         void Update( SDL_Event* event );
         void StateReset();
+        void MidiTest();
+        void MidiListener();
     
     private:
     
@@ -79,6 +82,10 @@ class Input
         MouseMotionState mouseMotion;
         MouseWheelState mouseWheel;
         glm::ivec2 mousePosition;
+        // Experamental code for midi controller
+        // It works, btw
+        //RtMidiIn*   midiin;
+        //RtMidiOut*  midiout;
     
 };
 

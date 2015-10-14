@@ -2,6 +2,7 @@
 
 Input::Input()
 {
+    //MidiTest();
     for (int i = 0; i < SDL_NUM_SCANCODES; ++i)
     {
         keyState[i].triggerEvent = KeyEvent::NOTHING;
@@ -20,6 +21,8 @@ Input::Input()
 Input::~Input()
 {
     delete bindings;
+    //delete midiin;
+    //delete midiout;
 }
 
 const glm::ivec2 Input::GetMousePosition()
@@ -148,14 +151,17 @@ int Input::GetBind( std::string name )
     return ( *bindings )[name];
 }
 
-// TODO: Implement Modifier support, Motion getter, Wheel getter 
+// TODO: Implement Modifier support, Motion getter, Wheel getter
+// TODO: Support Keycode
 void Input::Update( SDL_Event* event )
 {
+    //SDL_Keycode keyVCode = event->key.keysym.sym;
     SDL_Scancode keyCode = event->key.keysym.scancode;
     uint8_t mouseButton = event->button.button;
     
     mousePosition.x = event->button.x;
     mousePosition.y = event->button.y;
+    
     
     switch (event->type)
     {
@@ -206,3 +212,50 @@ void Input::Update( SDL_Event* event )
             break;
     }
 }
+
+/*
+ void Input::MidiTest()
+ {
+ midiin = new RtMidiIn();
+ unsigned int nPortsIn = midiin->getPortCount();
+ std::cout << "\nThere are " << nPortsIn << " MIDI input sources available." << std::endl;
+ std::string portNameIn;
+ for ( unsigned int i=0; i<nPortsIn; i++ )
+ {
+ portNameIn = midiin->getPortName(i);
+ std::cout << "  Input Port #" << i+1 << ": " << portNameIn << std::endl;
+ }
+ 
+ midiout = new RtMidiOut();
+ unsigned int nPortsOut = midiout->getPortCount();
+ std::cout << "\nThere are " << nPortsOut << " MIDI output sources available." << std::endl;
+ std::string portNameOut;
+ for ( unsigned int i=0; i<nPortsOut; i++ )
+ {
+ portNameOut = midiin->getPortName(i);
+ std::cout << "  Input Port #" << i+1 << ": " << portNameOut << std::endl;
+ }
+ 
+ midiin->openPort( 0 );
+ }
+ */
+
+/*
+ ** Experamental code for Midi controller
+ void Input::MidiListener()
+ {
+ std::vector<unsigned char> message;
+ 
+ double stamp = midiin->getMessage( &message );
+ int nBytes = message.size();
+ for (int i = 0; i < nBytes; i++ )
+ {
+ std::cout << "Byte " << i << " = " << (int)message[i] << ", ";
+ }
+ if ( nBytes > 0 )
+ {
+ std::cout << "stamp = " << stamp << std::endl;
+ }
+ 
+ }
+ */

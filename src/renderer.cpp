@@ -1,5 +1,10 @@
 #include "shader.h"
 #include "renderer.h"
+#include "component.h"
+#include "cTransform.hpp"
+
+
+
 
 namespace Renderer
 {
@@ -90,8 +95,11 @@ namespace Renderer
 		delete cam;
 	}
 	
-	void RenderObject(unsigned int time, RenderData * data, Camera* cam)
+	void Render( glm::uint32 time, Camera* cam, RenderData* data )
 	{
+//        std::vector<Entity *> renderables;
+//        Entity::entitySystem->getEntities<CTransform>(renderables);
+        
 		program = data->shader->program;
 		
 		//glBindFramebuffer( GL_FRAMEBUFFER, data->framebuffer );

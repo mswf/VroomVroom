@@ -7,6 +7,7 @@
 #include <iostream>	// cout, cerr, endl
 #include <fstream>	// fin,
 
+
 #include "glm/vec2.hpp"
 #include "glm/vec3.hpp"
 #include "glm/mat4x4.hpp"
@@ -62,7 +63,7 @@ namespace Renderer
         
     };
     
-	void RenderObject( unsigned int, RenderData*, Camera* );
+	void Render( glm::uint32 time, Camera* cam, RenderData* data );
 	void Draw( RenderData* );
 	
 	void GetRenderData( RenderData* );

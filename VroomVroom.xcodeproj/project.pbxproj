@@ -37,9 +37,13 @@
 		E5B282801BCAE76500759348 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B2827E1BCAE76500759348 /* Input.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5B282831BCAF01000759348 /* cTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B282811BCAF01000759348 /* cTransform.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5B282851BCAF18600759348 /* component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B282841BCAF18600759348 /* component.cpp */; settings = {ASSET_TAGS = (); }; };
+		E5B282881BCD490F00759348 /* RtMidi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B282861BCD490F00759348 /* RtMidi.cpp */; settings = {ASSET_TAGS = (); }; };
+		E5B2828A1BCD4DA300759348 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5B282891BCD4DA300759348 /* CoreMIDI.framework */; };
 		E5D664DC1BC16C390042350B /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D664DB1BC16C390042350B /* SDL2.framework */; };
 		E5E958F51BB42B2600B83D27 /* shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5E958F31BB42B2600B83D27 /* shader.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5EF59021BB95EDD00F85754 /* libGLEW.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E54D30901BB29675006FBC68 /* libGLEW.dylib */; };
+		E5F4A36A1BCE59A1000C8876 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5F4A3691BCE59A1000C8876 /* CoreAudio.framework */; };
+		E5F4A36C1BCE59B4000C8876 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5F4A36B1BCE59B4000C8876 /* CoreFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -117,11 +121,16 @@
 		E5B282811BCAF01000759348 /* cTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cTransform.cpp; path = src/cTransform.cpp; sourceTree = SOURCE_ROOT; };
 		E5B282821BCAF01000759348 /* cTransform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = cTransform.hpp; path = src/cTransform.hpp; sourceTree = SOURCE_ROOT; };
 		E5B282841BCAF18600759348 /* component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = component.cpp; path = src/component.cpp; sourceTree = SOURCE_ROOT; };
+		E5B282861BCD490F00759348 /* RtMidi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RtMidi.cpp; path = src/RtMidi.cpp; sourceTree = SOURCE_ROOT; };
+		E5B282871BCD490F00759348 /* RtMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RtMidi.h; path = src/RtMidi.h; sourceTree = SOURCE_ROOT; };
+		E5B282891BCD4DA300759348 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		E5D664DB1BC16C390042350B /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = Framework/SDL2.framework; sourceTree = "<group>"; };
 		E5E958F31BB42B2600B83D27 /* shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = shader.cpp; path = src/shader.cpp; sourceTree = SOURCE_ROOT; };
 		E5E958F41BB42B2600B83D27 /* shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = shader.h; path = src/shader.h; sourceTree = SOURCE_ROOT; };
 		E5EF590B1BBABEBB00F85754 /* standardIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = standardIncludes.h; path = src/standardIncludes.h; sourceTree = SOURCE_ROOT; };
 		E5EF590C1BBABEBB00F85754 /* typedef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = typedef.h; path = src/typedef.h; sourceTree = SOURCE_ROOT; };
+		E5F4A3691BCE59A1000C8876 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		E5F4A36B1BCE59B4000C8876 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +138,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5F4A36C1BCE59B4000C8876 /* CoreFoundation.framework in Frameworks */,
+				E5F4A36A1BCE59A1000C8876 /* CoreAudio.framework in Frameworks */,
+				E5B2828A1BCD4DA300759348 /* CoreMIDI.framework in Frameworks */,
 				E54725FE1BC69F1300316B26 /* SDL2_net.framework in Frameworks */,
 				E5D664DC1BC16C390042350B /* SDL2.framework in Frameworks */,
 				234C8B281BB96A3B00E61132 /* libassimpd.3.1.1.dylib in Frameworks */,
@@ -165,6 +177,9 @@
 		E53768661BA6D3B600D0BC14 = {
 			isa = PBXGroup;
 			children = (
+				E5F4A36B1BCE59B4000C8876 /* CoreFoundation.framework */,
+				E5F4A3691BCE59A1000C8876 /* CoreAudio.framework */,
+				E5B282891BCD4DA300759348 /* CoreMIDI.framework */,
 				234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */,
 				23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */,
 				E54D30901BB29675006FBC68 /* libGLEW.dylib */,
@@ -226,6 +241,8 @@
 				E5B2827C1BCADC0900759348 /* Clock.hpp */,
 				E5B2827E1BCAE76500759348 /* Input.cpp */,
 				E5B2827F1BCAE76500759348 /* Input.hpp */,
+				E5B282861BCD490F00759348 /* RtMidi.cpp */,
+				E5B282871BCD490F00759348 /* RtMidi.h */,
 				E5B282811BCAF01000759348 /* cTransform.cpp */,
 				E5B282821BCAF01000759348 /* cTransform.hpp */,
 				E5B282841BCAF18600759348 /* component.cpp */,
@@ -361,6 +378,7 @@
 				23C59A361BCD3ACA00A37E29 /* mInput.cpp in Sources */,
 				E54D30981BB2AD45006FBC68 /* renderer.cpp in Sources */,
 				E5B282831BCAF01000759348 /* cTransform.cpp in Sources */,
+				E5B282881BCD490F00759348 /* RtMidi.cpp in Sources */,
 				E59FDC901BBAC0EE008935C5 /* helperFunctions.cpp in Sources */,
 				23A4AF551BB2DE3100948D72 /* content.cpp in Sources */,
 				E567A8F71BB1470200B8F6C3 /* imgui_impl_sdl.cpp in Sources */,
@@ -487,6 +505,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Framework",
 				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					__MACOSX_CORE__,
+					DEBUG,
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -510,6 +532,7 @@
 					"-image_base",
 					100000000,
 				);
+				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -521,6 +544,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Framework",
 				);
+				GCC_PREPROCESSOR_DEFINITIONS = __MACOSX_CORE__;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -544,6 +568,7 @@
 					"-image_base",
 					100000000,
 				);
+				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

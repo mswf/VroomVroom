@@ -19,7 +19,9 @@
 #include <cstring>
 #include "Utilities/helperFunctions.h"
 
-Engine::Engine()
+Engine::Engine() :
+	renderer(NULL),
+	inputManager(NULL)
 {
 }
 

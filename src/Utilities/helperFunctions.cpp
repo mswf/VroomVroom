@@ -1,5 +1,5 @@
-#include "standardIncludes.h"
 #include "helperFunctions.h"
+#include "standardIncludes.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>

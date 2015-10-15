@@ -48,16 +48,10 @@ void TCPServer::SendData(const void* data, const uint32 length) const
 	for (std::vector<TCPsocket>::const_iterator i = clients.begin(); i != clients.end(); ++i)
 	{
 		int result = SDLNet_TCP_Send((TCPsocket) * i, data, length);
-		printf("[Server] Data sent.\n");
 		if (result < length)
 		{
 			printf("SDLNet_TCP_Send: %s\n", SDLNet_GetError());
 			printf("[Server] socket has been disconnected \n");
-			//assert(false);
-		}
-		else
-		{
-			//printf("[Server] Data sent.\n");
 		}
 	}
 }

@@ -130,6 +130,7 @@
     <ClInclude Include="..\..\src\Networking\TCPData.h">
       <Filter>VroomVroom\Networking</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Networking\NetMessage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\imgui.cpp">
@@ -216,5 +217,6 @@
     <ClCompile Include="..\..\src\Networking\TCPData.cpp">
       <Filter>VroomVroom\Networking</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Networking\NetMessage.cpp" />
   </ItemGroup>
 </Project>

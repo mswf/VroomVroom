@@ -79,8 +79,7 @@ std::string HelperFunctions::ReadFile(const char* file)
 	return ConvertLineEndings(fileData.str());
 }
 
-std::string HelperFunctions::VoidPtrToString(const void* data, const int size)
+std::string HelperFunctions::VoidPtrToString(void* data, const int size)
 {
-	std::string asd();
-	return asd;
+	return string(static_cast<char*>(data), size);
 }

@@ -13,7 +13,7 @@ class HelperFunctions
 		static void ReplaceStringInPlace(std::string& subject, const std::string& search, const std::string& replace);
 		static std::string ReadFile(std::string file);
 		static std::string ReadFile(const char* file);
-		static std::string VoidPtrToString(const void* data, const int size);
+		static std::string VoidPtrToString(void* data, const int size);
 	private:
 
 		enum class LineEndingType

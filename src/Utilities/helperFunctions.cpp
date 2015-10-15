@@ -50,10 +50,10 @@ std::string HelperFunctions::ConvertLineEndings(std::string text)
 	return text;
 }
 
-void HelperFunctions::ReplaceStringInPlace(std::string& text, const std::string& find,	const std::string& replace) 
+void HelperFunctions::ReplaceStringInPlace(std::string& text, const std::string& find,	const std::string& replace)
 {
 	size_t pos = 0;
-	while ((pos = text.find(find, pos)) != std::string::npos) 
+	while ((pos = text.find(find, pos)) != std::string::npos)
 	{
 		text.replace(pos, find.length(), replace);
 		pos += replace.length();
@@ -77,4 +77,10 @@ std::string HelperFunctions::ReadFile(const char* file)
 	fileData << fileStream.rdbuf();  //Loads the entire string into a string stream.
 	fileStream.close();
 	return ConvertLineEndings(fileData.str());
+}
+
+std::string HelperFunctions::VoidPtrToString(const void* data, const int size)
+{
+	std::string asd();
+	return asd;
 }

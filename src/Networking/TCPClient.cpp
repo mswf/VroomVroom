@@ -40,10 +40,11 @@ void TCPClient::Initialize(const char* hostName, const uint16 port)
 	else
 	{
 		alive = true;
+		mutex = SDL_CreateMutex();
+		listenThread = SDL_CreateThread(ListenForMessages, "clientThread", this);
 		printf("[TCPClient] Connected\n");
 	}
-	mutex = SDL_CreateMutex();
-	listenThread = SDL_CreateThread(ListenForMessages, "clientThread", this);
+
 }
 
 void TCPClient::SendMessage(const void* data, const uint32 length) const
@@ -119,9 +120,10 @@ int TCPClient::ListenForMessages(void* tcpClient)
 			// An error may have occured, but sometimes you can just ignore it
 			// It may be good to disconnect sock because it is likely invalid now.
 			client->alive = false;
+			assert("client disconnected");
 			return 1;
 		}
-
+		printf("%s", (char*) msg);
 		NetworkData networkData;
 		networkData.length = result;
 		networkData.data = new unsigned char[MAX_MESSAGE_LENGTH];

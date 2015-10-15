@@ -15,6 +15,7 @@ TCPServer::TCPServer(unsigned port)
 	serverSocket = SDLNet_TCP_Open(&ip);
 	if (!serverSocket)
 	{
+		//SDL is most likely not initialized yet
 		printf("SDLNet_TCP_Open: %s\n", SDLNet_GetError());
 		printf("Could not open TCP connection\n");
 		assert(false);
@@ -51,6 +52,7 @@ void TCPServer::SendMessage(void* data, int length) const
 	for (std::vector<TCPsocket>::const_iterator i = clients.begin(); i != clients.end(); ++i)
 	{
 		int result = SDLNet_TCP_Send((TCPsocket) * i, data, length);
+		printf("[Server] Data sent.\n");
 		if (result < length)
 		{
 			printf("SDLNet_TCP_Send: %s\n", SDLNet_GetError());
@@ -59,7 +61,7 @@ void TCPServer::SendMessage(void* data, int length) const
 		}
 		else
 		{
-			printf("[Server] Data sent.\n");
+			//printf("[Server] Data sent.\n");
 		}
 	}
 }

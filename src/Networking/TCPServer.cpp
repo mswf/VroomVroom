@@ -1,6 +1,7 @@
 #include "TCPServer.h"
 #include "stdio.h"
 #include <assert.h>
+#include "standardIncludes.h"
 
 TCPServer::TCPServer(unsigned port)
 {
@@ -27,11 +28,6 @@ TCPServer::~TCPServer()
 	SDLNet_TCP_Close(serverSocket);
 }
 
-void TCPServer::SendMessage(std::string msg) const
-{
-	SendMessage((void*)msg.c_str(), sizeof(msg));
-}
-
 void TCPServer::AcceptConnections()
 {
 	TCPsocket new_tcpsock = SDLNet_TCP_Accept(serverSocket);
@@ -47,7 +43,7 @@ void TCPServer::AcceptConnections()
 	}
 }
 
-void TCPServer::SendMessage(void* data, int length) const
+void TCPServer::SendData(const void* data, const uint32 length) const
 {
 	for (std::vector<TCPsocket>::const_iterator i = clients.begin(); i != clients.end(); ++i)
 	{
@@ -85,6 +81,4 @@ void TCPServer::ReceiveMessage()
 			printf("[Server] Received: \"%s\"\n", msg);
 		}
 	}
-
-
 }

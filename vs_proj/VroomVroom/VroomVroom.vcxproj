@@ -32,6 +32,7 @@
     <ClInclude Include="..\..\src\Modules\mInput.h" />
     <ClInclude Include="..\..\src\Modules\moduleMacros.h" />
     <ClInclude Include="..\..\src\Networking\TCPClient.h" />
+    <ClInclude Include="..\..\src\Networking\TCPData.h" />
     <ClInclude Include="..\..\src\Networking\TCPServer.h" />
     <ClInclude Include="..\..\src\Networking\UDPMessage.h" />
     <ClInclude Include="..\..\src\Patterns\singleton.h" />
@@ -66,6 +67,7 @@
     <ClCompile Include="..\..\src\Modules\mEngine.cpp" />
     <ClCompile Include="..\..\src\Modules\mInput.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPClient.cpp" />
+    <ClCompile Include="..\..\src\Networking\TCPData.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPServer.cpp" />
     <ClCompile Include="..\..\src\Networking\UDPMessage.cpp" />
     <ClCompile Include="..\..\src\renderer.cpp" />

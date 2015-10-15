@@ -7,10 +7,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VroomVroom", "VroomVroom\Vr
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug Weikie|Win32 = Debug Weikie|Win32
 		Debug|Win32 = Debug|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{47B37C0D-C870-4028-B5E1-62CE51507671}.Debug Weikie|Win32.ActiveCfg = Debug Weikie|Win32
+		{47B37C0D-C870-4028-B5E1-62CE51507671}.Debug Weikie|Win32.Build.0 = Debug Weikie|Win32
 		{47B37C0D-C870-4028-B5E1-62CE51507671}.Debug|Win32.ActiveCfg = Debug|Win32
 		{47B37C0D-C870-4028-B5E1-62CE51507671}.Debug|Win32.Build.0 = Debug|Win32
 		{47B37C0D-C870-4028-B5E1-62CE51507671}.Release|Win32.ActiveCfg = Release|Win32

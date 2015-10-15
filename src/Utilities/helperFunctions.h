@@ -1,10 +1,7 @@
-#pragma once
 #ifndef helperfunctions_h
 #define helperfunctions_h
-#include <random>
 
-
-
+#include "../typedef.h"
 
 class HelperFunctions
 {
@@ -14,6 +11,12 @@ class HelperFunctions
 		static std::string ReadFile(std::string file);
 		static std::string ReadFile(const char* file);
 		static std::string VoidPtrToString(void* data, const int size);
+
+		//everything below here is untested
+		static int16 VoidPtrToInt16(void* data, const int size);
+		static int32 VoidPtrToInt32(void* data, const int size);
+		static int64 VoidPtrToInt64(void* data, const int size);
+		static float VoidPtrToFloat(void* data, const int size);
 	private:
 
 		enum class LineEndingType

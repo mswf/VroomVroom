@@ -83,3 +83,27 @@ std::string HelperFunctions::VoidPtrToString(void* data, const int size)
 {
 	return string(static_cast<char*>(data), size);
 }
+
+int16 HelperFunctions::VoidPtrToInt16(void* data, const int size)
+{
+	assert(sizeof(int16) == size);
+	return *static_cast<int16*>(data);
+}
+
+int32 HelperFunctions::VoidPtrToInt32(void* data, const int size)
+{
+	assert(sizeof(int32) == size);
+	return *static_cast<int32*>(data);
+}
+
+int64 HelperFunctions::VoidPtrToInt64(void* data, const int size)
+{
+	assert(sizeof(int64) == size);
+	return *static_cast<int64*>(data);
+}
+
+float HelperFunctions::VoidPtrToFloat(void* data, const int size)
+{
+	assert(sizeof(float) == size);
+	return *static_cast<float*>(data);
+}

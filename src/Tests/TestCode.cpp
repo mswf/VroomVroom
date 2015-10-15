@@ -5,6 +5,8 @@
 #include <Networking/TCPClient.h>
 #include <Networking/TCPServer.h>
 #include <Utilities/random.h>
+#include "../Utilities/helperFunctions.h"
+#include "Networking/TCPData.h"
 
 TCPServer* TestCode::server;
 TCPClient* TestCode::client;
@@ -77,7 +79,8 @@ void TestCode::StringTest()
 	for (int i = 0; i < receivedMessages.size(); ++i)
 	{
 		const char * sentMsg = sentMessages.at(i).c_str();
-		char * receivedMsg = (char*)receivedMessages.at(i).data;
+		auto asd = receivedMessages.at(i);
+		string receivedMsg = HelperFunctions::VoidPtrToString(receivedMessages.at(i).data, receivedMessages.at(i).length);
 		assert(sentMsg == receivedMsg);
 	}
 }

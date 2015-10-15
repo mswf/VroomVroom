@@ -34,22 +34,22 @@ Engine::~Engine()
 
 void Engine::Init()
 {
-    renderer = new Renderer::RenderSystem();
-    inputManager = new Input();
-    inputManager->BindKey("shoot", SDL_SCANCODE_SPACE);
-    
-    Entity::entitySystem = new EntitySystem();
-    Entity* camera = new Entity();
-    Entity* light = new Entity();
-    Entity* box = new Entity();
-    CTransform* boxTransform = new CTransform();
-    CTransform* cameraTransform = new CTransform();
-    CTransform* lightTransform = new CTransform();
-    //std::vector< Entity* > entities;
-    Entity::entitySystem->addComponent(box, boxTransform);
-    Entity::entitySystem->addComponent(camera, cameraTransform);
-    Entity::entitySystem->addComponent(light, lightTransform);
-    //Entity::entitySystem->getEntities<CompTransform>(entities);
+	renderer = new Renderer::RenderSystem();
+	inputManager = new Input();
+	inputManager->BindKey("shoot", SDL_SCANCODE_SPACE);
+
+	Entity::entitySystem = new EntitySystem();
+	Entity* camera = new Entity();
+	Entity* light = new Entity();
+	Entity* box = new Entity();
+	CTransform* boxTransform = new CTransform();
+	CTransform* cameraTransform = new CTransform();
+	CTransform* lightTransform = new CTransform();
+	//std::vector< Entity* > entities;
+	Entity::entitySystem->addComponent(box, boxTransform);
+	Entity::entitySystem->addComponent(camera, cameraTransform);
+	Entity::entitySystem->addComponent(light, lightTransform);
+	//Entity::entitySystem->getEntities<CompTransform>(entities);
 }
 
 void Engine::PrintEvent(const SDL_Event * event)
@@ -242,7 +242,7 @@ void Engine::Update()
 {
 	//TODO no fake deltatime :)
 	int dt = 16;
-	LuaSystem.Update(dt);
+	//LuaSystem.Update(dt);
 
 	//TODO this should be refactored out at some point
 	//It is neccesary now to poll network events from the socket
@@ -279,25 +279,25 @@ void Engine::UpdateLoop()
 	const float gameFPS = 60;
 	const float gameUpdateInterval = 1 / gameFPS * millisecondModifier;
 	//
-    uint32 currentTicks = SDL_GetTicks();
+	uint32 currentTicks = SDL_GetTicks();
 	uint32 prevTicks = currentTicks;
 	bool running = true;
 
-	LuaSystem.Main();
+	//LuaSystem.Main();
 
 	while (running)
 	{
 		//multithreaded rendering goes here if we decide to do it
 		/*if (threadedDrawingBusy)
 		continue*/
-        
+
 		//game
 		currentTicks = SDL_GetTicks();
 		uint32 deltaTimeGame = currentTicks - prevTicks;
 		//pollInput();
 		PollEvent();
-        //inputManager->MidiListener();
-        
+		//inputManager->MidiListener();
+
 		unsigned short safeguard = 0;
 		while (deltaTimeGame > gameUpdateInterval && safeguard < 10)
 		{

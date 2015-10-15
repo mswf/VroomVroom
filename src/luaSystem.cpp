@@ -1,4 +1,4 @@
-﻿//
+//
 //  LuaSystem.cpp
 //  VroomVroom
 //
@@ -21,8 +21,8 @@ sLuaSystem::sLuaSystem():
 	luaL_openlibs(lState);
 	SetPackagePath();
 	//BindEngine();
-    mEngine::Bind(lState);
-    mInput::Bind(lState, NULL);
+	//mEngine::Bind(lState);
+	//mInput::Bind(lState, NULL);
 
 	string path;
 	Content::CreateFilePath("main.lua", &path);
@@ -41,8 +41,8 @@ sLuaSystem::sLuaSystem():
 		std::cout << "lua error: " << lua_tostring(lState, -1) << std::endl;
 		return;
 	}
-    
-    //TODO panic function
+
+	//TODO panic function
 }
 
 sLuaSystem::~sLuaSystem()
@@ -60,7 +60,7 @@ void sLuaSystem::Main()
 		{
 			Terminal.LuaError(string(lua_tostring(lState, -1)));
 		}
-        lua_settop(lState, 0);
+		lua_settop(lState, 0);
 
 		hasMainBeenCalled = true;
 	}
@@ -73,15 +73,17 @@ void sLuaSystem::Update(int dt)
 	lua_pushnumber(lState, dt);
 	if (lua_pcall(lState, 1, 0, 0) != 0)
 	{
-		Terminal.LuaError(string(lua_tostring(lState, -1)));	}
-    lua_settop(lState, 0);
+		Terminal.LuaError(string(lua_tostring(lState, -1)));
+	}
+	lua_settop(lState, 0);
 }
 
 void sLuaSystem::Attempt(string command)
 {
-    if(luaL_dostring(lState, command.c_str()) != 0){
-        Terminal.LuaError(string(lua_tostring(lState, -1)));
-    }
+	if (luaL_dostring(lState, command.c_str()) != 0)
+	{
+		Terminal.LuaError(string(lua_tostring(lState, -1)));
+	}
 }
 
 //PRIVATE

@@ -1,5 +1,6 @@
 #include "content.h"
 #include "Engine.h"
+
 #if WEIKIE
 #include "Tests/TestCode.h"
 #endif
@@ -12,17 +13,15 @@ int main(int argc, char** a)
 	engine.Init();
 
 #if WEIKIE
-	TestCode t;
-	//t.RunTCPTest();
+	//TestCode::RunTCPTest();
 #endif
 
 	engine.OpenConfig();
-    
+
 #ifdef DEBUG
 	Content::PrintPath();
 #endif
-    
-	engine.UpdateLoop();
 
+	engine.UpdateLoop();
 	return 0;
 }

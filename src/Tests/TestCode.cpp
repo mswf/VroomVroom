@@ -1,12 +1,10 @@
 #include "TestCode.h"
 #include <Networking/udpmessage.h>
 #include <SDL2/SDL.h>
-#include <SDL2_net/SDL_net.h>
 #include <Networking/TCPClient.h>
 #include <Networking/TCPServer.h>
 #include <Utilities/random.h>
 #include "../Utilities/helperFunctions.h"
-#include "Networking/TCPData.h"
 
 TCPServer* TestCode::server;
 TCPClient* TestCode::client;
@@ -79,10 +77,11 @@ void TestCode::StringTest()
 	for (int i = 0; i < receivedMessages.size(); ++i)
 	{
 		const char * sentMsg = sentMessages.at(i).c_str();
-		auto asd = receivedMessages.at(i);
 		string receivedMsg = HelperFunctions::VoidPtrToString(receivedMessages.at(i).data, receivedMessages.at(i).length);
 		assert(sentMsg == receivedMsg);
 	}
+
+	printf("StringTest Succeeded\n");
 }
 
 void TestCode::FillRandomStringList()
@@ -110,9 +109,9 @@ void TestCode::IntTest()
 {
 
 	client->SendMessage(1);
-	//server->SendMessage(2);
-	//server->SendMessage(3);
-	//server->SendMessage(4);
+	server->SendMessage(2);
+	server->SendMessage(3);
+	server->SendMessage(4);
 }
 
 void TestCode::RunTCPTest()

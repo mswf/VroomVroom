@@ -5,7 +5,6 @@ TCPData::TCPData()
 {
 }
 
-
 TCPData::~TCPData()
 {
 }

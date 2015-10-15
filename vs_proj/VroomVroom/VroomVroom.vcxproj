@@ -31,6 +31,7 @@
     <ClInclude Include="..\..\src\Modules\mEngine.h" />
     <ClInclude Include="..\..\src\Modules\mInput.h" />
     <ClInclude Include="..\..\src\Modules\moduleMacros.h" />
+    <ClInclude Include="..\..\src\Networking\SyncableObject.h" />
     <ClInclude Include="..\..\src\Networking\TCPClient.h" />
     <ClInclude Include="..\..\src\Networking\TCPData.h" />
     <ClInclude Include="..\..\src\Networking\TCPServer.h" />
@@ -66,6 +67,7 @@
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\Modules\mEngine.cpp" />
     <ClCompile Include="..\..\src\Modules\mInput.cpp" />
+    <ClCompile Include="..\..\src\Networking\SyncableObject.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPClient.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPData.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPServer.cpp" />

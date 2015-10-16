@@ -1,6 +1,5 @@
 #include <SDL2_net/SDL_net.h>
 #include <vector>
-#include <Clock.hpp>
 #include "TCPData.h"
 
 class TCPServer : public TCPData

@@ -258,9 +258,12 @@ void Engine::UpdateLoop()
                 
                 if ( inputManager->OnKeyDown(SDL_SCANCODE_S) )
                 {
-                    scale = glm::scale(scale, glm::vec3(1.0f, 1.0f, 1.0f));
+                    scale = glm::scale(scale, glm::vec3(1.1f, 1.1f, 1.1f));
                 }
-
+                if ( inputManager->OnKeyDown(SDL_SCANCODE_D) )
+                {
+                    scale = glm::scale(scale, glm::vec3(0.9f, 0.9f, 0.9f));
+                }
                 
 				if ( inputManager->OnKeyDown(SDL_SCANCODE_1) )
 				{

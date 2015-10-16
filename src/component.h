@@ -1,8 +1,6 @@
 #ifndef component_h
 #define component_h
 
-typedef int FamilyId;
-
 enum class ComponentTypes
 {
     UNKNOWN = 0,
@@ -10,14 +8,11 @@ enum class ComponentTypes
     CAMERA,
     LIGHT,
     MATERIAL,
-    MESH,
-    TEXTURE,
-    
+    MESH
 };
 
-struct Component
-{
-};
+class Component
+{};
 
 /*
 

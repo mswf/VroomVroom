@@ -36,7 +36,6 @@
 		E5B2827D1BCADC0900759348 /* Clock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B2827B1BCADC0900759348 /* Clock.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5B282801BCAE76500759348 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B2827E1BCAE76500759348 /* Input.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5B282831BCAF01000759348 /* cTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B282811BCAF01000759348 /* cTransform.cpp */; settings = {ASSET_TAGS = (); }; };
-		E5B282851BCAF18600759348 /* component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B282841BCAF18600759348 /* component.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5B282881BCD490F00759348 /* RtMidi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B282861BCD490F00759348 /* RtMidi.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5B2828A1BCD4DA300759348 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5B282891BCD4DA300759348 /* CoreMIDI.framework */; };
 		E5D664DC1BC16C390042350B /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D664DB1BC16C390042350B /* SDL2.framework */; };
@@ -44,6 +43,9 @@
 		E5EF59021BB95EDD00F85754 /* libGLEW.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E54D30901BB29675006FBC68 /* libGLEW.dylib */; };
 		E5F4A36A1BCE59A1000C8876 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5F4A3691BCE59A1000C8876 /* CoreAudio.framework */; };
 		E5F4A36C1BCE59B4000C8876 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5F4A36B1BCE59B4000C8876 /* CoreFoundation.framework */; };
+		E5F4A36F1BCE88C7000C8876 /* cMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5F4A36D1BCE88C7000C8876 /* cMaterial.cpp */; settings = {ASSET_TAGS = (); }; };
+		E5F4A3721BCE8924000C8876 /* texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5F4A3701BCE8924000C8876 /* texture.cpp */; settings = {ASSET_TAGS = (); }; };
+		E5F4A3751BCE89D1000C8876 /* cMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5F4A3731BCE89D1000C8876 /* cMesh.cpp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -82,7 +84,6 @@
 		E537686F1BA6D3B600D0BC14 /* VroomVroom */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VroomVroom; sourceTree = BUILT_PRODUCTS_DIR; };
 		E53768791BA6D3CE00D0BC14 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		E54725FD1BC69F1300316B26 /* SDL2_net.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_net.framework; path = Framework/SDL2_net.framework; sourceTree = "<group>"; };
-		E54725FF1BC6A49400316B26 /* entity_system.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = entity_system.h; path = src/entity_system.h; sourceTree = SOURCE_ROOT; };
 		E54726001BC6A50300316B26 /* component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = component.h; path = src/component.h; sourceTree = SOURCE_ROOT; };
 		E54726021BC6A50300316B26 /* componentSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = componentSystem.h; path = src/componentSystem.h; sourceTree = SOURCE_ROOT; };
 		E54726041BC6A74E00316B26 /* TCPClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TCPClient.cpp; path = src/Networking/TCPClient.cpp; sourceTree = SOURCE_ROOT; };
@@ -119,8 +120,7 @@
 		E5B2827E1BCAE76500759348 /* Input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Input.cpp; path = src/Input.cpp; sourceTree = SOURCE_ROOT; };
 		E5B2827F1BCAE76500759348 /* Input.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Input.hpp; path = src/Input.hpp; sourceTree = SOURCE_ROOT; };
 		E5B282811BCAF01000759348 /* cTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cTransform.cpp; path = src/cTransform.cpp; sourceTree = SOURCE_ROOT; };
-		E5B282821BCAF01000759348 /* cTransform.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = cTransform.hpp; path = src/cTransform.hpp; sourceTree = SOURCE_ROOT; };
-		E5B282841BCAF18600759348 /* component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = component.cpp; path = src/component.cpp; sourceTree = SOURCE_ROOT; };
+		E5B282821BCAF01000759348 /* cTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cTransform.h; path = src/cTransform.h; sourceTree = SOURCE_ROOT; };
 		E5B282861BCD490F00759348 /* RtMidi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RtMidi.cpp; path = src/RtMidi.cpp; sourceTree = SOURCE_ROOT; };
 		E5B282871BCD490F00759348 /* RtMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RtMidi.h; path = src/RtMidi.h; sourceTree = SOURCE_ROOT; };
 		E5B282891BCD4DA300759348 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
@@ -131,6 +131,12 @@
 		E5EF590C1BBABEBB00F85754 /* typedef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = typedef.h; path = src/typedef.h; sourceTree = SOURCE_ROOT; };
 		E5F4A3691BCE59A1000C8876 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		E5F4A36B1BCE59B4000C8876 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		E5F4A36D1BCE88C7000C8876 /* cMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cMaterial.cpp; path = src/cMaterial.cpp; sourceTree = SOURCE_ROOT; };
+		E5F4A36E1BCE88C7000C8876 /* cMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cMaterial.h; path = src/cMaterial.h; sourceTree = SOURCE_ROOT; };
+		E5F4A3701BCE8924000C8876 /* texture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = texture.cpp; path = src/texture.cpp; sourceTree = SOURCE_ROOT; };
+		E5F4A3711BCE8924000C8876 /* texture.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = texture.hpp; path = src/texture.hpp; sourceTree = SOURCE_ROOT; };
+		E5F4A3731BCE89D1000C8876 /* cMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cMesh.cpp; path = src/cMesh.cpp; sourceTree = SOURCE_ROOT; };
+		E5F4A3741BCE89D1000C8876 /* cMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cMesh.h; path = src/cMesh.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +162,8 @@
 		23C2AAFA1BCBD8050043F141 /* IO */ = {
 			isa = PBXGroup;
 			children = (
+				E5B282861BCD490F00759348 /* RtMidi.cpp */,
+				E5B282871BCD490F00759348 /* RtMidi.h */,
 				23C2AAFB1BCBD8C00043F141 /* file.cpp */,
 				23C2AAFC1BCBD8C00043F141 /* file.h */,
 			);
@@ -180,12 +188,12 @@
 				E5F4A36B1BCE59B4000C8876 /* CoreFoundation.framework */,
 				E5F4A3691BCE59A1000C8876 /* CoreAudio.framework */,
 				E5B282891BCD4DA300759348 /* CoreMIDI.framework */,
-				234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */,
-				23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */,
-				E54D30901BB29675006FBC68 /* libGLEW.dylib */,
 				E54725FD1BC69F1300316B26 /* SDL2_net.framework */,
 				E5D664DB1BC16C390042350B /* SDL2.framework */,
 				E53768791BA6D3CE00D0BC14 /* OpenGL.framework */,
+				234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */,
+				23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */,
+				E54D30901BB29675006FBC68 /* libGLEW.dylib */,
 				E53768711BA6D3B600D0BC14 /* VroomVroom */,
 				E53768701BA6D3B600D0BC14 /* Products */,
 			);
@@ -202,50 +210,25 @@
 		E53768711BA6D3B600D0BC14 /* VroomVroom */ = {
 			isa = PBXGroup;
 			children = (
-				23C59A2F1BCD2F6C00A37E29 /* Modules */,
+				E5F4A37E1BCFEBD6000C8876 /* Systems */,
+				E5F4A3761BCE8AB9000C8876 /* Components */,
+				E5F4A3781BCFAE66000C8876 /* Data structure */,
+				E5F4A3771BCFADED000C8876 /* ImGUI */,
 				23C2AAFA1BCBD8050043F141 /* IO */,
+				23C59A2F1BCD2F6C00A37E29 /* Modules */,
+				E547260D1BC6A75800316B26 /* Networking */,
+				E59FDC891BBAC0E2008935C5 /* Patterns */,
+				E59FDC8B1BBAC0EE008935C5 /* Utilities */,
+				E54D309B1BB2D9C6006FBC68 /* glm */,
 				23EE7EE21BC6C2B90006581F /* console.cpp */,
 				23EE7EE31BC6C2B90006581F /* console.h */,
-				E547260D1BC6A75800316B26 /* Networking */,
-				E59FDC8B1BBAC0EE008935C5 /* Utilities */,
-				E59FDC891BBAC0E2008935C5 /* Patterns */,
-				E5EF590B1BBABEBB00F85754 /* standardIncludes.h */,
-				E5EF590C1BBABEBB00F85754 /* typedef.h */,
-				E54D309B1BB2D9C6006FBC68 /* glm */,
-				E567A8E71BB1470200B8F6C3 /* imconfig.h */,
-				E567A8E81BB1470200B8F6C3 /* imgui_demo.cpp */,
-				E567A8E91BB1470200B8F6C3 /* imgui_draw.cpp */,
-				E567A8EA1BB1470200B8F6C3 /* imgui_impl_sdl.cpp */,
-				E567A8EB1BB1470200B8F6C3 /* imgui_impl_sdl.h */,
-				E567A8EC1BB1470200B8F6C3 /* imgui_internal.h */,
-				E567A8ED1BB1470200B8F6C3 /* imgui.cpp */,
-				E567A8EE1BB1470200B8F6C3 /* imgui.h */,
-				E567A8F21BB1470200B8F6C3 /* stb_rect_pack.h */,
-				E567A8EF1BB1470200B8F6C3 /* main.cpp */,
-				E567A8F31BB1470200B8F6C3 /* stb_textedit.h */,
-				E567A8F41BB1470200B8F6C3 /* stb_truetype.h */,
-				E54726021BC6A50300316B26 /* componentSystem.h */,
-				E54726001BC6A50300316B26 /* component.h */,
-				E54725FF1BC6A49400316B26 /* entity_system.h */,
-				23EE7EC11BC686020006581F /* Engine.cpp */,
-				23EE7EC21BC686020006581F /* Engine.h */,
-				E54D30971BB2AD45006FBC68 /* renderer.cpp */,
-				E54D309A1BB2AD66006FBC68 /* renderer.h */,
 				23A4AF531BB2DE3100948D72 /* content.cpp */,
 				23A4AF541BB2DE3100948D72 /* content.h */,
-				E5E958F31BB42B2600B83D27 /* shader.cpp */,
-				E5E958F41BB42B2600B83D27 /* shader.h */,
-				23BF006F1BC7BA0400073C79 /* luaSystem.cpp */,
-				23BF00701BC7BA0400073C79 /* luaSystem.h */,
-				E5B2827B1BCADC0900759348 /* Clock.cpp */,
-				E5B2827C1BCADC0900759348 /* Clock.hpp */,
+				23EE7EC11BC686020006581F /* Engine.cpp */,
+				23EE7EC21BC686020006581F /* Engine.h */,
 				E5B2827E1BCAE76500759348 /* Input.cpp */,
 				E5B2827F1BCAE76500759348 /* Input.hpp */,
-				E5B282861BCD490F00759348 /* RtMidi.cpp */,
-				E5B282871BCD490F00759348 /* RtMidi.h */,
-				E5B282811BCAF01000759348 /* cTransform.cpp */,
-				E5B282821BCAF01000759348 /* cTransform.hpp */,
-				E5B282841BCAF18600759348 /* component.cpp */,
+				E567A8EF1BB1470200B8F6C3 /* main.cpp */,
 			);
 			path = VroomVroom;
 			sourceTree = "<group>";
@@ -275,6 +258,10 @@
 		E59FDC8B1BBAC0EE008935C5 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				E5B2827B1BCADC0900759348 /* Clock.cpp */,
+				E5B2827C1BCADC0900759348 /* Clock.hpp */,
+				E5EF590B1BBABEBB00F85754 /* standardIncludes.h */,
+				E5EF590C1BBABEBB00F85754 /* typedef.h */,
 				E547260E1BC6A78F00316B26 /* base64.cpp */,
 				E547260F1BC6A78F00316B26 /* base64.h */,
 				E59FDC8C1BBAC0EE008935C5 /* helperFunctions.cpp */,
@@ -285,6 +272,62 @@
 			name = Utilities;
 			path = src/Utilities;
 			sourceTree = SOURCE_ROOT;
+		};
+		E5F4A3761BCE8AB9000C8876 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				E54726001BC6A50300316B26 /* component.h */,
+				E5B282811BCAF01000759348 /* cTransform.cpp */,
+				E5B282821BCAF01000759348 /* cTransform.h */,
+				E5F4A36D1BCE88C7000C8876 /* cMaterial.cpp */,
+				E5F4A36E1BCE88C7000C8876 /* cMaterial.h */,
+				E5F4A3731BCE89D1000C8876 /* cMesh.cpp */,
+				E5F4A3741BCE89D1000C8876 /* cMesh.h */,
+			);
+			name = Components;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		E5F4A3771BCFADED000C8876 /* ImGUI */ = {
+			isa = PBXGroup;
+			children = (
+				E567A8F31BB1470200B8F6C3 /* stb_textedit.h */,
+				E567A8F41BB1470200B8F6C3 /* stb_truetype.h */,
+				E567A8F21BB1470200B8F6C3 /* stb_rect_pack.h */,
+				E567A8E71BB1470200B8F6C3 /* imconfig.h */,
+				E567A8E81BB1470200B8F6C3 /* imgui_demo.cpp */,
+				E567A8E91BB1470200B8F6C3 /* imgui_draw.cpp */,
+				E567A8EA1BB1470200B8F6C3 /* imgui_impl_sdl.cpp */,
+				E567A8EB1BB1470200B8F6C3 /* imgui_impl_sdl.h */,
+				E567A8EC1BB1470200B8F6C3 /* imgui_internal.h */,
+				E567A8ED1BB1470200B8F6C3 /* imgui.cpp */,
+				E567A8EE1BB1470200B8F6C3 /* imgui.h */,
+			);
+			name = ImGUI;
+			sourceTree = "<group>";
+		};
+		E5F4A3781BCFAE66000C8876 /* Data structure */ = {
+			isa = PBXGroup;
+			children = (
+				E5E958F31BB42B2600B83D27 /* shader.cpp */,
+				E5E958F41BB42B2600B83D27 /* shader.h */,
+				E5F4A3701BCE8924000C8876 /* texture.cpp */,
+				E5F4A3711BCE8924000C8876 /* texture.hpp */,
+			);
+			name = "Data structure";
+			sourceTree = "<group>";
+		};
+		E5F4A37E1BCFEBD6000C8876 /* Systems */ = {
+			isa = PBXGroup;
+			children = (
+				E54726021BC6A50300316B26 /* componentSystem.h */,
+				23BF006F1BC7BA0400073C79 /* luaSystem.cpp */,
+				23BF00701BC7BA0400073C79 /* luaSystem.h */,
+				E54D30971BB2AD45006FBC68 /* renderer.cpp */,
+				E54D309A1BB2AD66006FBC68 /* renderer.h */,
+			);
+			name = Systems;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -365,10 +408,11 @@
 				23EE7EC31BC686020006581F /* Engine.cpp in Sources */,
 				E567A8F51BB1470200B8F6C3 /* imgui_demo.cpp in Sources */,
 				E567A8F81BB1470200B8F6C3 /* imgui.cpp in Sources */,
+				E5F4A3751BCE89D1000C8876 /* cMesh.cpp in Sources */,
 				E547260A1BC6A74E00316B26 /* TCPClient.cpp in Sources */,
 				E547260B1BC6A74E00316B26 /* TCPServer.cpp in Sources */,
-				E5B282851BCAF18600759348 /* component.cpp in Sources */,
 				E5E958F51BB42B2600B83D27 /* shader.cpp in Sources */,
+				E5F4A36F1BCE88C7000C8876 /* cMaterial.cpp in Sources */,
 				E567A8F61BB1470200B8F6C3 /* imgui_draw.cpp in Sources */,
 				23C2AAFD1BCBD8C00043F141 /* file.cpp in Sources */,
 				E547260C1BC6A74E00316B26 /* UDPMessage.cpp in Sources */,
@@ -379,6 +423,7 @@
 				E54D30981BB2AD45006FBC68 /* renderer.cpp in Sources */,
 				E5B282831BCAF01000759348 /* cTransform.cpp in Sources */,
 				E5B282881BCD490F00759348 /* RtMidi.cpp in Sources */,
+				E5F4A3721BCE8924000C8876 /* texture.cpp in Sources */,
 				E59FDC901BBAC0EE008935C5 /* helperFunctions.cpp in Sources */,
 				23A4AF551BB2DE3100948D72 /* content.cpp in Sources */,
 				E567A8F71BB1470200B8F6C3 /* imgui_impl_sdl.cpp in Sources */,

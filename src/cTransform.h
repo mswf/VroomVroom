@@ -12,11 +12,11 @@
 struct CTransform : public Component
 {
     public:
-        static const FamilyId familyId;
+        static const int familyId;
     
         CTransform();
-    
-        std::vector< CTransform* > children;
+        ~CTransform();
+        //std::vector< CTransform* > children;
         glm::mat4 tranform;
     
         //CTransform GetChild( int32_t index );

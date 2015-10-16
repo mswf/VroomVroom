@@ -6,9 +6,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2_net/SDL_net.h>
 #include "luaSystem.h"
-#include "component.h"
-#include "cTransform.hpp"
-#include "entity_system.h"
+#include "cTransform.h"
 #include "content.h"
 #include "standardIncludes.h"
 #include "imgui.h"
@@ -18,10 +16,14 @@
 #include <iostream>
 #include <cstring>
 #include "Utilities/helperFunctions.h"
+#include "Clock.hpp"
 
 Engine::Engine() :
 	renderer(NULL),
-	inputManager(NULL)
+	inputManager(NULL),
+    translation(glm::mat4(1)),
+    rotation(glm::mat4(1)),
+    scale(glm::mat4(1))
 {
 }
 
@@ -35,86 +37,13 @@ Engine::~Engine()
 void Engine::Init()
 {
     renderer = new Renderer::RenderSystem();
+    
     inputManager = new Input();
     inputManager->BindKey("shoot", SDL_SCANCODE_SPACE);
     
-    Entity::entitySystem = new EntitySystem();
-    Entity* camera = new Entity();
-    Entity* light = new Entity();
     Entity* box = new Entity();
-    CTransform* boxTransform = new CTransform();
-    CTransform* cameraTransform = new CTransform();
-    CTransform* lightTransform = new CTransform();
-    //std::vector< Entity* > entities;
-    Entity::entitySystem->addComponent(box, boxTransform);
-    Entity::entitySystem->addComponent(camera, cameraTransform);
-    Entity::entitySystem->addComponent(light, lightTransform);
-    //Entity::entitySystem->getEntities<CompTransform>(entities);
-}
-
-void Engine::PrintEvent(const SDL_Event * event)
-{
-	if (event->type == SDL_WINDOWEVENT)
-	{
-		switch (event->window.event)
-		{
-			case SDL_WINDOWEVENT_SHOWN:
-				SDL_Log("Window %d shown", event->window.windowID);
-				break;
-			case SDL_WINDOWEVENT_HIDDEN:
-				SDL_Log("Window %d hidden", event->window.windowID);
-				break;
-			case SDL_WINDOWEVENT_EXPOSED:
-				SDL_Log("Window %d exposed", event->window.windowID);
-				break;
-			case SDL_WINDOWEVENT_MOVED:
-				SDL_Log("Window %d moved to %d,%d",
-						event->window.windowID, event->window.data1,
-						event->window.data2);
-				break;
-			case SDL_WINDOWEVENT_RESIZED:
-				SDL_Log("Window %d resized to %dx%d",
-						event->window.windowID, event->window.data1,
-						event->window.data2);
-				break;
-			case SDL_WINDOWEVENT_SIZE_CHANGED:
-				SDL_Log("Window %d size changed to %dx%d",
-						event->window.windowID, event->window.data1,
-						event->window.data2);
-				break;
-			case SDL_WINDOWEVENT_MINIMIZED:
-				SDL_Log("Window %d minimized", event->window.windowID);
-				break;
-			case SDL_WINDOWEVENT_MAXIMIZED:
-				SDL_Log("Window %d maximized", event->window.windowID);
-				break;
-			case SDL_WINDOWEVENT_RESTORED:
-				SDL_Log("Window %d restored", event->window.windowID);
-				break;
-			case SDL_WINDOWEVENT_ENTER:
-				SDL_Log("Mouse entered window %d",
-						event->window.windowID);
-				break;
-			case SDL_WINDOWEVENT_LEAVE:
-				SDL_Log("Mouse left window %d", event->window.windowID);
-				break;
-			case SDL_WINDOWEVENT_FOCUS_GAINED:
-				SDL_Log("Window %d gained keyboard focus",
-						event->window.windowID);
-				break;
-			case SDL_WINDOWEVENT_FOCUS_LOST:
-				SDL_Log("Window %d lost keyboard focus",
-						event->window.windowID);
-				break;
-			case SDL_WINDOWEVENT_CLOSE:
-				SDL_Log("Window %d closed", event->window.windowID);
-				break;
-			default:
-				SDL_Log("Window %d got unknown event %d",
-						event->window.windowID, event->window.event);
-				break;
-		}
-	}
+    CTransform* boxT= new CTransform();
+    AddComponent(box, boxT);
 }
 
 void Engine::PollEvent()
@@ -251,6 +180,7 @@ void Engine::Update()
 
 void Engine::UpdateLoop()
 {
+
 	SDL_Window* window;
 	SDL_GLContext glcontext;
 	SetupWindow(window, glcontext);
@@ -264,7 +194,7 @@ void Engine::UpdateLoop()
 
 	Renderer::RenderData * data = new Renderer::RenderData();
 	Renderer::Camera * camera = new Renderer::Camera();
-
+    
 	float fov = 90.0f;
 	float aspectRatio = 1280.0f / 720.0f;
 	float zNear = 1.0f;
@@ -275,16 +205,15 @@ void Engine::UpdateLoop()
 	Renderer::GetRenderData(data);
 
 
-	const uint16 millisecondModifier = 1000;
-	const float gameFPS = 60;
+	const float millisecondModifier = 1000.0f;
+	const float gameFPS = 60.0f;
 	const float gameUpdateInterval = 1 / gameFPS * millisecondModifier;
-	//
     uint32 currentTicks = SDL_GetTicks();
 	uint32 prevTicks = currentTicks;
 	bool running = true;
 
 	LuaSystem.Main();
-
+    
 	while (running)
 	{
 		//multithreaded rendering goes here if we decide to do it
@@ -294,21 +223,45 @@ void Engine::UpdateLoop()
 		//game
 		currentTicks = SDL_GetTicks();
 		uint32 deltaTimeGame = currentTicks - prevTicks;
-		//pollInput();
 		PollEvent();
         //inputManager->MidiListener();
         
-		unsigned short safeguard = 0;
-		while (deltaTimeGame > gameUpdateInterval && safeguard < 10)
+		while (deltaTimeGame > gameUpdateInterval)
 		{
-			//TODO: Fix the game interval in for reducing framerate
-			//SDL_Delay(gameUpdateInterval);
 			Update();
-
+            
+            data->model *= scale * rotation * translation;
+            
 			deltaTimeGame -= gameUpdateInterval;
 
 			if (deltaTimeGame < gameUpdateInterval)
 			{
+                if ( inputManager->OnKeyDown(SDL_SCANCODE_UP) )
+                {
+                    translation = glm::translate(translation, glm::vec3(0.1f, 0.0f, 0.0f));
+                }
+                
+                if ( inputManager->OnKeyDown(SDL_SCANCODE_DOWN) )
+                {
+                    translation = glm::translate(translation, glm::vec3(-0.1f, 0.0f, 0.0f));
+                }
+                
+                if ( inputManager->OnKeyDown(SDL_SCANCODE_LEFT) )
+                {
+                    rotation = glm::rotate(rotation, glm::radians(1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
+                }
+                
+                if ( inputManager->OnKeyDown(SDL_SCANCODE_RIGHT) )
+                {
+                    rotation = glm::rotate(rotation, glm::radians(-1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
+                }
+                
+                if ( inputManager->OnKeyDown(SDL_SCANCODE_S) )
+                {
+                    scale = glm::scale(scale, glm::vec3(1.0f, 1.0f, 1.0f));
+                }
+
+                
 				if ( inputManager->OnKeyDown(SDL_SCANCODE_1) )
 				{
 					printf( "Pressed key %i \n", SDL_SCANCODE_1 );
@@ -338,8 +291,6 @@ void Engine::UpdateLoop()
 				prevTicks = currentTicks;
 				prevTicks -= deltaTimeGame;
 			}
-
-			++safeguard;
 		}
 
 		ImGui_ImplSdl_NewFrame(window);
@@ -385,5 +336,94 @@ void Engine::InitSDLNet()
 		printf("Error: %s\n", SDLNet_GetError());
 		assert(false);
 	}
+}
+
+template<typename T>
+void Engine::AddComponent( Entity* e, T* comp )
+{
+    componentStorage.insert( std::pair< int, Entity* >( T::familyId, e ) );
+    e->entityComponents.insert( std::pair< int, Component* >( T::familyId, comp ) );
+}
+
+template<typename T>
+T* Engine::GetComponent( Entity* e )
+{
+    return (T*)e->entityComponents[T::familyId];
+    
+}
+
+template<typename T>
+void Engine::GetEntities( std::vector< Entity* > &result )
+{
+    auto iterPair = componentStorage.equal_range( T::familyId );
+    for ( auto iter = iterPair.first; iter != iterPair.second; ++iter )
+    {
+        result.push_back( iter->second );
+    }
+}
+
+void Engine::PrintEvent(const SDL_Event * event)
+{
+    if (event->type == SDL_WINDOWEVENT)
+    {
+        switch (event->window.event)
+        {
+            case SDL_WINDOWEVENT_SHOWN:
+                SDL_Log("Window %d shown", event->window.windowID);
+                break;
+            case SDL_WINDOWEVENT_HIDDEN:
+                SDL_Log("Window %d hidden", event->window.windowID);
+                break;
+            case SDL_WINDOWEVENT_EXPOSED:
+                SDL_Log("Window %d exposed", event->window.windowID);
+                break;
+            case SDL_WINDOWEVENT_MOVED:
+                SDL_Log("Window %d moved to %d,%d",
+                        event->window.windowID, event->window.data1,
+                        event->window.data2);
+                break;
+            case SDL_WINDOWEVENT_RESIZED:
+                SDL_Log("Window %d resized to %dx%d",
+                        event->window.windowID, event->window.data1,
+                        event->window.data2);
+                break;
+            case SDL_WINDOWEVENT_SIZE_CHANGED:
+                SDL_Log("Window %d size changed to %dx%d",
+                        event->window.windowID, event->window.data1,
+                        event->window.data2);
+                break;
+            case SDL_WINDOWEVENT_MINIMIZED:
+                SDL_Log("Window %d minimized", event->window.windowID);
+                break;
+            case SDL_WINDOWEVENT_MAXIMIZED:
+                SDL_Log("Window %d maximized", event->window.windowID);
+                break;
+            case SDL_WINDOWEVENT_RESTORED:
+                SDL_Log("Window %d restored", event->window.windowID);
+                break;
+            case SDL_WINDOWEVENT_ENTER:
+                SDL_Log("Mouse entered window %d",
+                        event->window.windowID);
+                break;
+            case SDL_WINDOWEVENT_LEAVE:
+                SDL_Log("Mouse left window %d", event->window.windowID);
+                break;
+            case SDL_WINDOWEVENT_FOCUS_GAINED:
+                SDL_Log("Window %d gained keyboard focus",
+                        event->window.windowID);
+                break;
+            case SDL_WINDOWEVENT_FOCUS_LOST:
+                SDL_Log("Window %d lost keyboard focus",
+                        event->window.windowID);
+                break;
+            case SDL_WINDOWEVENT_CLOSE:
+                SDL_Log("Window %d closed", event->window.windowID);
+                break;
+            default:
+                SDL_Log("Window %d got unknown event %d",
+                        event->window.windowID, event->window.event);
+                break;
+        }
+    }
 }
 

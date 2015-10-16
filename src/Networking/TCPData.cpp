@@ -17,6 +17,12 @@ void TCPData::SendMessage(const int16& msg) const
 {
 	SendData(&msg, sizeof(msg));
 }
+
+void TCPData::SendMessage(const char* msg, int length) const
+{
+	SendData(msg, length);
+}
+
 void TCPData::SendMessage(const std::string& msg) const
 {
 	SendData(msg.c_str(), msg.size());

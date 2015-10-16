@@ -14,16 +14,11 @@ int main(int argc, char** a)
 	engine.Init();
 
 	std::vector<char> buff;
+	char* buffer = new char[12];
+	int16 value = 123;
+	//HelperFunctions::InsertIntoBuffer<int16>(buffer, 0, value);
+	HelperFunctions::InsertIntoBuffer(buffer, 0, value);
 
-	short test = 3276;
-	short testValue2 = 4234;
-	char* buffer = new char[4];
-	buffer[0] = ((char*)&test)[0];
-	buffer[1] = ((char*)&test)[1];
-	buffer[2] = ((char*)&testValue2)[0];
-	buffer[3] = ((char*)&testValue2)[1];
-	short result = *(short*)&buffer[0];
-	short result2 = *(short*)&buffer[2];
 
 
 #if WEIKIE

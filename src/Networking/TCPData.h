@@ -12,6 +12,7 @@ struct NetworkData
 class TCPData
 {
 	public:
+		void SendMessage(const char* msg, int length) const;
 		void SendMessage(const std::string& msg) const;
 		void SendMessage(const int16& msg) const;
 		void SendMessage(const int32& msg) const;

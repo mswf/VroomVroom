@@ -17,6 +17,10 @@ class HelperFunctions
 		static int32 VoidPtrToInt32(void* data, const int size);
 		static int64 VoidPtrToInt64(void* data, const int size);
 		static float VoidPtrToFloat(void* data, const int size);
+		template<typename T>
+		static void InsertIntoBuffer(char* buffer, const int index, const T& value);
+		template<typename T>
+		static void ReadFromBuffer(char* buffer, const int index, T& value);
 	private:
 
 		enum class LineEndingType
@@ -29,5 +33,21 @@ class HelperFunctions
 			CRLF
 		};
 };
+
+template<typename T>
+void HelperFunctions::InsertIntoBuffer(char* buffer, const int index, const T& value)
+{
+	int typeSize = sizeof(T);
+	for (int i = 0; i < typeSize; ++i)
+	{
+		buffer[index + i] = ((char*)&value)[i];
+	}
+}
+
+template <typename T>
+void HelperFunctions::ReadFromBuffer(char* buffer, const int index, T& value)
+{
+	value =  *(T*)buffer[index];
+}
 
 #endif //helperfunctions_h

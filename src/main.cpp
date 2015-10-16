@@ -6,11 +6,11 @@
 
 int main(int argc, char** a)
 {
+    
 	Engine engine;
 	engine.InitSDL();
 	engine.InitSDLNet();
 	engine.Init();
-
 #if WEIKIE
 	TestCode t;
 	//t.RunTCPTest();

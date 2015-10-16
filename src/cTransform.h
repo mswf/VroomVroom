@@ -1,5 +1,5 @@
-#ifndef cTransform_hpp
-#define cTransform_hpp
+#ifndef cTransform_h
+#define cTransform_h
 
 #include "component.h"
 #include <vector>
@@ -49,4 +49,4 @@ struct CTransform : public Component
 };
 
 
-#endif /* cTransform_hpp */
+#endif /* cTransform_h */

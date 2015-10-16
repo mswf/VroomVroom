@@ -10,8 +10,8 @@ class TestCode
 	public:
 		TestCode();
 		~TestCode();
-		void UDPTest();
-		void RunTCPTest();
+		static void UDPTest();
+		static void RunTCPTest();
 	private:
 		static int ServerLoop(void* data);
 		static int ClientLoop(void* data);

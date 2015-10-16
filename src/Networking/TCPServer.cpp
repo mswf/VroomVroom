@@ -1,6 +1,7 @@
 #include "TCPServer.h"
 #include "stdio.h"
 #include <assert.h>
+#include "standardIncludes.h"
 
 TCPServer::TCPServer(unsigned port)
 {
@@ -15,6 +16,7 @@ TCPServer::TCPServer(unsigned port)
 	serverSocket = SDLNet_TCP_Open(&ip);
 	if (!serverSocket)
 	{
+		//SDL is most likely not initialized yet
 		printf("SDLNet_TCP_Open: %s\n", SDLNet_GetError());
 		printf("Could not open TCP connection\n");
 		assert(false);
@@ -24,11 +26,6 @@ TCPServer::TCPServer(unsigned port)
 TCPServer::~TCPServer()
 {
 	SDLNet_TCP_Close(serverSocket);
-}
-
-void TCPServer::SendMessage(std::string msg) const
-{
-	SendMessage((void*)msg.c_str(), sizeof(msg));
 }
 
 void TCPServer::AcceptConnections()
@@ -46,7 +43,7 @@ void TCPServer::AcceptConnections()
 	}
 }
 
-void TCPServer::SendMessage(void* data, int length) const
+void TCPServer::SendData(const void* data, const uint32 length) const
 {
 	for (std::vector<TCPsocket>::const_iterator i = clients.begin(); i != clients.end(); ++i)
 	{
@@ -55,11 +52,6 @@ void TCPServer::SendMessage(void* data, int length) const
 		{
 			printf("SDLNet_TCP_Send: %s\n", SDLNet_GetError());
 			printf("[Server] socket has been disconnected \n");
-			//assert(false);
-		}
-		else
-		{
-			printf("[Server] Data sent.\n");
 		}
 	}
 }
@@ -83,6 +75,4 @@ void TCPServer::ReceiveMessage()
 			printf("[Server] Received: \"%s\"\n", msg);
 		}
 	}
-
-
 }

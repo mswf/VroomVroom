@@ -1,10 +1,10 @@
 #include "TestCode.h"
 #include <Networking/udpmessage.h>
 #include <SDL2/SDL.h>
-#include <SDL2_net/SDL_net.h>
 #include <Networking/TCPClient.h>
 #include <Networking/TCPServer.h>
 #include <Utilities/random.h>
+#include "../Utilities/helperFunctions.h"
 
 TCPServer* TestCode::server;
 TCPClient* TestCode::client;
@@ -28,9 +28,6 @@ void TestCode::UDPTest()
 	SDL_Delay(100);
 	sock.ReceiveMessage(abc);
 
-	int size = sizeof("asd");
-	int size2 = sizeof(abc);
-	int size3 = sizeof(sock);
 }
 
 int TestCode::ServerLoop(void* data)
@@ -62,19 +59,29 @@ int TestCode::ClientLoop(void* data)
 void TestCode::StringTest()
 {
 	std::string msg = "Client says hello";
-	std::string msg2 = "Server says No";
-	std::string msg3 = "Server hates you";
-	std::string msg4 = "Hello you why this no work";
 
 	client->SendMessage(msg);
+
+	std::vector<string> sentMessages;
 
 	for (int i = 0; i < 20; ++i)
 	{
 		string str = GetRandomString();
+		sentMessages.push_back(str);
 		server->SendMessage(str);
 	}
 
+	SDL_Delay(500);
+	std::vector<NetworkData> receivedMessages = client->ReceiveMessage();
+	assert(receivedMessages.size() == sentMessages.size());
+	for (int i = 0; i < receivedMessages.size(); ++i)
+	{
+		const char * sentMsg = sentMessages.at(i).c_str();
+		string receivedMsg = HelperFunctions::VoidPtrToString(receivedMessages.at(i).data, receivedMessages.at(i).length);
+		assert(sentMsg == receivedMsg);
+	}
 
+	printf("StringTest Succeeded\n");
 }
 
 void TestCode::FillRandomStringList()
@@ -102,9 +109,9 @@ void TestCode::IntTest()
 {
 
 	client->SendMessage(1);
-	//server->SendMessage(2);
-	//server->SendMessage(3);
-	//server->SendMessage(4);
+	server->SendMessage(2);
+	server->SendMessage(3);
+	server->SendMessage(4);
 }
 
 void TestCode::RunTCPTest()
@@ -113,7 +120,7 @@ void TestCode::RunTCPTest()
 	client = new TCPClient("localhost", 6113);
 
 	SDL_Thread* thread1 = SDL_CreateThread(ServerLoop, "serverThread", NULL);
-	SDL_Thread* thread2 = SDL_CreateThread(ClientLoop, "clientThread", NULL);
+	//SDL_Thread* thread2 = SDL_CreateThread(ClientLoop, "clientThread", NULL);
 
 	StringTest();
 	//IntTest();

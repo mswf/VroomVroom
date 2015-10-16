@@ -4,4 +4,4 @@
 --This lua file gets run and read out at the start of the program, all
 
 --the path to the content folder (git/MeepMeep).
-CONTENT_PATH = "/Users/zaagsma/git/minor/HonkHonk"
+CONTENT_PATH = "../../../MeepMeep"

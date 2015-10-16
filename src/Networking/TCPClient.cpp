@@ -1,8 +1,9 @@
 #include "TCPClient.h"
 #include "stdio.h"
-#include <assert.h>
 #include "SDL2/SDL.h"
-#include <memory>
+#include <Utilities/helperFunctions.h>
+#include <iostream>
+
 
 TCPClient::TCPClient(const std::string hostName, const uint16 port)
 {
@@ -40,13 +41,14 @@ void TCPClient::Initialize(const char* hostName, const uint16 port)
 	else
 	{
 		alive = true;
+		mutex = SDL_CreateMutex();
+		listenThread = SDL_CreateThread(ListenForMessages, "clientThread", this);
 		printf("[TCPClient] Connected\n");
 	}
-	mutex = SDL_CreateMutex();
-	listenThread = SDL_CreateThread(ListenForMessages, "clientThread", this);
+
 }
 
-void TCPClient::SendMessage(const void* data, const uint32 length) const
+void TCPClient::SendData(const void* data, const uint32 length) const
 {
 	if (length >= MAX_MESSAGE_LENGTH)
 	{
@@ -60,25 +62,6 @@ void TCPClient::SendMessage(const void* data, const uint32 length) const
 		printf("serverSocket has been disconnected\n");
 		assert(false);
 	}
-}
-
-void TCPClient::SendMessage(const std::string& msg) const
-{
-#if __APPLE__
-	SendMessage((void*)msg.c_str(), msg.size());
-#else
-	SendMessage((void*)msg.c_str(), msg.size());
-#endif
-}
-
-void TCPClient::SendMessage(const int16& msg) const
-{
-	SendMessage(&msg, sizeof(msg));
-}
-
-void TCPClient::SendMessage(const int32& msg) const
-{
-	SendMessage(&msg, sizeof(msg));
 }
 
 std::vector<NetworkData> TCPClient::ReceiveMessage()
@@ -99,7 +82,7 @@ std::vector<NetworkData> TCPClient::ReceiveMessage()
 	return copy;
 }
 
-bool TCPClient::IsConnected()
+bool TCPClient::IsConnected() const
 {
 	return alive;
 }
@@ -110,8 +93,8 @@ int TCPClient::ListenForMessages(void* tcpClient)
 	while (client->alive)
 	{
 		int result;
-		unsigned char msg[MAX_MESSAGE_LENGTH];
-		std::fill(msg, msg + MAX_MESSAGE_LENGTH, 0);
+		char msg[MAX_MESSAGE_LENGTH];
+		//std::fill(msg, msg + MAX_MESSAGE_LENGTH, 0);
 
 		result = SDLNet_TCP_Recv(client->socket, msg, client->MAX_MESSAGE_LENGTH);
 		if (result <= 0)
@@ -119,13 +102,16 @@ int TCPClient::ListenForMessages(void* tcpClient)
 			// An error may have occured, but sometimes you can just ignore it
 			// It may be good to disconnect sock because it is likely invalid now.
 			client->alive = false;
+			assert("client disconnected");
 			return 1;
 		}
 
 		NetworkData networkData;
 		networkData.length = result;
-		networkData.data = new unsigned char[MAX_MESSAGE_LENGTH];
+		networkData.data = new char[MAX_MESSAGE_LENGTH];
+		string str1 = HelperFunctions::VoidPtrToString(msg, result);
 		SDL_memcpy(networkData.data, msg, MAX_MESSAGE_LENGTH);
+		string str2 = HelperFunctions::VoidPtrToString(networkData.data, result);
 
 		if (SDL_LockMutex(client->mutex) == 0)
 		{

@@ -1,5 +1,5 @@
-#include "standardIncludes.h"
 #include "helperFunctions.h"
+#include "standardIncludes.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -50,10 +50,10 @@ std::string HelperFunctions::ConvertLineEndings(std::string text)
 	return text;
 }
 
-void HelperFunctions::ReplaceStringInPlace(std::string& text, const std::string& find,	const std::string& replace) 
+void HelperFunctions::ReplaceStringInPlace(std::string& text, const std::string& find,	const std::string& replace)
 {
 	size_t pos = 0;
-	while ((pos = text.find(find, pos)) != std::string::npos) 
+	while ((pos = text.find(find, pos)) != std::string::npos)
 	{
 		text.replace(pos, find.length(), replace);
 		pos += replace.length();
@@ -77,4 +77,33 @@ std::string HelperFunctions::ReadFile(const char* file)
 	fileData << fileStream.rdbuf();  //Loads the entire string into a string stream.
 	fileStream.close();
 	return ConvertLineEndings(fileData.str());
+}
+
+std::string HelperFunctions::VoidPtrToString(void* data, const int size)
+{
+	return string(static_cast<char*>(data), size);
+}
+
+int16 HelperFunctions::VoidPtrToInt16(void* data, const int size)
+{
+	assert(sizeof(int16) == size);
+	return *static_cast<int16*>(data);
+}
+
+int32 HelperFunctions::VoidPtrToInt32(void* data, const int size)
+{
+	assert(sizeof(int32) == size);
+	return *static_cast<int32*>(data);
+}
+
+int64 HelperFunctions::VoidPtrToInt64(void* data, const int size)
+{
+	assert(sizeof(int64) == size);
+	return *static_cast<int64*>(data);
+}
+
+float HelperFunctions::VoidPtrToFloat(void* data, const int size)
+{
+	assert(sizeof(float) == size);
+	return *static_cast<float*>(data);
 }

@@ -32,10 +32,12 @@
     <ClInclude Include="..\..\src\Modules\mInput.h" />
     <ClInclude Include="..\..\src\Modules\moduleMacros.h" />
     <ClInclude Include="..\..\src\Networking\TCPClient.h" />
+    <ClInclude Include="..\..\src\Networking\TCPData.h" />
     <ClInclude Include="..\..\src\Networking\TCPServer.h" />
     <ClInclude Include="..\..\src\Networking\UDPMessage.h" />
     <ClInclude Include="..\..\src\Patterns\singleton.h" />
     <ClInclude Include="..\..\src\renderer.h" />
+    <ClInclude Include="..\..\src\RtMidi.h" />
     <ClInclude Include="..\..\src\shader.h" />
     <ClInclude Include="..\..\src\standardIncludes.h" />
     <ClInclude Include="..\..\src\stb_rect_pack.h" />
@@ -65,9 +67,11 @@
     <ClCompile Include="..\..\src\Modules\mEngine.cpp" />
     <ClCompile Include="..\..\src\Modules\mInput.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPClient.cpp" />
+    <ClCompile Include="..\..\src\Networking\TCPData.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPServer.cpp" />
     <ClCompile Include="..\..\src\Networking\UDPMessage.cpp" />
     <ClCompile Include="..\..\src\renderer.cpp" />
+    <ClCompile Include="..\..\src\RtMidi.cpp" />
     <ClCompile Include="..\..\src\shader.cpp" />
     <ClCompile Include="..\..\src\Tests\TestCode.cpp" />
     <ClCompile Include="..\..\src\Utilities\base64.cpp" />

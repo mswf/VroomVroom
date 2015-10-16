@@ -47,7 +47,7 @@ void HelperFunctions::InsertIntoBuffer(char* buffer, const int index, const T& v
 template <typename T>
 void HelperFunctions::ReadFromBuffer(char* buffer, const int index, T& value)
 {
-	value =  *(T*)buffer[index];
+	value =  (T)buffer[index];
 }
 
 #endif //helperfunctions_h

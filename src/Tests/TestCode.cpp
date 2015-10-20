@@ -5,6 +5,7 @@
 #include <Networking/TCPServer.h>
 #include <Utilities/random.h>
 #include "../Utilities/helperFunctions.h"
+#include "../standardIncludes.h"
 
 TCPServer* TestCode::server;
 TCPClient* TestCode::client;
@@ -18,6 +19,49 @@ TestCode::TestCode()
 
 TestCode::~TestCode()
 {
+}
+
+void TestCode::RunBufferTest()
+{
+	const int bufferSize = 15;
+	char* buffer = new char[bufferSize];
+
+	int16 shortValue = 123;
+	int16 shortValue2;
+	char charValue = 'a';
+	char charValue2;
+	float floatValue = 3.1424f;
+	float floatValue2;
+	double doubleValue = 48723;
+	double doubleValue2;
+
+	int writeIndex = 0;
+	int readIndex = 0;
+
+	HelperFunctions::InsertIntoBuffer(buffer, writeIndex, shortValue);
+	assert(writeIndex == 2);
+
+	HelperFunctions::InsertIntoBuffer(buffer, writeIndex, charValue);
+	assert(writeIndex == 3);
+
+	HelperFunctions::InsertIntoBuffer(buffer, writeIndex, floatValue);
+	assert(writeIndex == 7);
+
+	HelperFunctions::InsertIntoBuffer(buffer, writeIndex, doubleValue);
+	assert(writeIndex == 15);
+
+	HelperFunctions::ReadFromBuffer(buffer, readIndex, shortValue2);
+	HelperFunctions::ReadFromBuffer(buffer, readIndex, charValue2);
+	HelperFunctions::ReadFromBuffer(buffer, readIndex, floatValue2);
+	HelperFunctions::ReadFromBuffer(buffer, readIndex, doubleValue2);
+
+	assert(writeIndex == readIndex);
+	assert(writeIndex == bufferSize);
+	assert(shortValue == shortValue2);
+	assert(charValue == charValue2);
+	assert(floatValue == floatValue2);
+	assert(doubleValue == doubleValue2);
+	delete buffer;
 }
 
 void TestCode::UDPTest()

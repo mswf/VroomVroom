@@ -13,15 +13,9 @@ int main(int argc, char** a)
 	engine.InitSDLNet();
 	engine.Init();
 
-	std::vector<char> buff;
-	char* buffer = new char[12];
-	int16 value = 123;
-	//HelperFunctions::InsertIntoBuffer<int16>(buffer, 0, value);
-	HelperFunctions::InsertIntoBuffer(buffer, 0, value);
-
-
 
 #if WEIKIE
+	TestCode::RunBufferTest();
 	//TestCode::RunTCPTest();
 #endif
 

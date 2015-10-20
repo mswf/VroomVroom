@@ -10,6 +10,7 @@ class TestCode
 	public:
 		TestCode();
 		~TestCode();
+		static void RunBufferTest();
 		static void UDPTest();
 		static void RunTCPTest();
 	private:

@@ -18,9 +18,9 @@ class HelperFunctions
 		static int64 VoidPtrToInt64(void* data, const int size);
 		static float VoidPtrToFloat(void* data, const int size);
 		template<typename T>
-		static void InsertIntoBuffer(char* buffer, const int index, const T& value);
+		static void InsertIntoBuffer(char* buffer, int& currentIndex, const T& inValue);
 		template<typename T>
-		static void ReadFromBuffer(char* buffer, const int index, T& value);
+		static void ReadFromBuffer(char* buffer, int& currentIndex, T& outValue);
 	private:
 
 		enum class LineEndingType
@@ -35,19 +35,37 @@ class HelperFunctions
 };
 
 template<typename T>
-void HelperFunctions::InsertIntoBuffer(char* buffer, const int index, const T& value)
+void HelperFunctions::InsertIntoBuffer(char* buffer, int& currentIndex, const T& inValue)
 {
 	int typeSize = sizeof(T);
 	for (int i = 0; i < typeSize; ++i)
 	{
-		buffer[index + i] = ((char*)&value)[i];
+		buffer[currentIndex + i] = ((char*)&inValue)[i];
 	}
+
+	currentIndex += typeSize;
 }
 
 template <typename T>
-void HelperFunctions::ReadFromBuffer(char* buffer, const int index, T& value)
+void HelperFunctions::ReadFromBuffer(char* buffer, int& currentIndex, T& outValue)
 {
-	value =  (T)buffer[index];
+	//copies the value into outValue
+	//outValue = T((T)buffer[currentIndex]);
+	//int typeSize = sizeof(T);
+	//currentIndex += typeSize;
+
+	//outValue = T(*(T*)buffer[currentIndex]);
+
+	//reference to memory instead
+	//outValue = (T)buffer[currentIndex];
+
+	int typeSize = sizeof(T);
+
+	for (int i = 0; i < typeSize; ++i)
+	{
+		((char*)&outValue)[i] = buffer[currentIndex + i];
+	}
+	currentIndex += typeSize;
 }
 
 #endif //helperfunctions_h

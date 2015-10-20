@@ -1,7 +1,7 @@
 #include "shader.h"
 #include "renderer.h"
 #include "component.h"
-#include "cTransform.hpp"
+#include "cTransform.h"
 
 
 
@@ -16,10 +16,6 @@ namespace Renderer
 	GLuint elementArrayBuffer;
 	GLuint vertexArray_object;
 	GLuint arrayBuffer;
-	
-	glm::mat4 translation;
-	glm::mat4 rotation;
-	glm::mat4 scale;
 	
     RenderSystem::RenderSystem()
     {
@@ -57,6 +53,7 @@ namespace Renderer
 		outRenderData->elementbuffer = elementArrayBuffer;
 		outRenderData->vertexbuffer = vertexArray_object;
 		outRenderData->shader = new Shader(vertexArray_object);
+        outRenderData->model = glm::mat4(1);
 	}
 	
 	void GetCamera(Camera* cam, Projection type, float fov, float aspectRatio, float near, float far) 
@@ -111,9 +108,8 @@ namespace Renderer
 		glEnable( GL_CULL_FACE );
 		glCullFace( GL_BACK );
 		
-		glm::mat4 model;
 		glUseProgram(program);
-		data->shader->SetUniformMat4( "model", model );
+		data->shader->SetUniformMat4( "model", data->model );
 		data->shader->SetUniformMat4( "view", cam->view );
 		data->shader->SetUniformMat4( "projection", cam->projection );
 		data->shader->SetUniformFloat( "time", (float)time );

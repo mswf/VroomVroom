@@ -30,7 +30,7 @@ namespace Renderer
 		glm::vec3 position;
 		glm::vec4 texcoord;
 	};
-	
+    
 	struct RenderData
 	{
 		GLuint framebuffer;
@@ -38,6 +38,7 @@ namespace Renderer
 		GLuint arraybuffer;
 		GLuint elementbuffer;
 		GLuint vertexbuffer;
+        glm::mat4 model;
 	};
 	
 	struct Camera

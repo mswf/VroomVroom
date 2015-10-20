@@ -53,7 +53,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Clock.cpp" />
-    <ClCompile Include="..\..\src\component.cpp" />
     <ClCompile Include="..\..\src\console.cpp" />
     <ClCompile Include="..\..\src\content.cpp" />
     <ClCompile Include="..\..\src\cTransform.cpp" />

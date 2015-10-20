@@ -193,9 +193,6 @@
     <ClCompile Include="..\..\src\Clock.cpp">
       <Filter>VroomVroom</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\component.cpp">
-      <Filter>VroomVroom</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\cTransform.cpp">
       <Filter>VroomVroom</Filter>
     </ClCompile>

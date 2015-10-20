@@ -1,5 +1,5 @@
-#ifndef cTransform_hpp
-#define cTransform_hpp
+#ifndef cTransform_h
+#define cTransform_h
 
 #include "component.h"
 #include <vector>
@@ -12,11 +12,11 @@
 struct CTransform : public Component
 {
     public:
-        static const FamilyId familyId;
+        static const int familyId;
     
         CTransform();
-    
-        std::vector< CTransform* > children;
+        ~CTransform();
+        //std::vector< CTransform* > children;
         glm::mat4 tranform;
     
         //CTransform GetChild( int32_t index );
@@ -49,4 +49,4 @@ struct CTransform : public Component
 };
 
 
-#endif /* cTransform_hpp */
+#endif /* cTransform_h */

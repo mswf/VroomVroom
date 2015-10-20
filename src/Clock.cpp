@@ -14,7 +14,7 @@ inline float Clock::CyclesToSeconds( uint64 timeCycles )
 
 void Clock::Init()
 {
-    cyclesPerSecond = (float)SDL_GetPerformanceFrequency();//SDL_GetTicks();
+    cyclesPerSecond = (float)SDL_GetTicks();
 }
 
 Clock::Clock( float startTimeSeconds ) :

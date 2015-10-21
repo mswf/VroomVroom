@@ -313,7 +313,12 @@ void Engine::UpdateLoop()
 
 		ImGui_ImplSdl_NewFrame(window);
 
-		Renderer::Render(SDL_GetTicks(), camera, data);
+
+		//moved clear for weikies hack
+		glClearColor( 0.2, 0.2, 0.2, 1.0 );
+		glClear(GL_COLOR_BUFFER_BIT); //GL_DEPTH_BUFFER_BIT
+		Renderer::Render(SDL_GetTicks(), camera, cube1);
+		Renderer::Render(SDL_GetTicks(), camera, cube2);
 
 		ShowSimpleWindowOne(show_test_window, show_another_window);
 

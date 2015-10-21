@@ -25,49 +25,49 @@ Input::~Input()
 	//delete midiout;
 }
 
-const glm::ivec2 Input::GetMousePosition()
+const glm::ivec2 Input::GetMousePosition() const
 {
 	return glm::ivec2(mousePosition.x, mousePosition.y);
 }
 
-bool Input::OnMouseDown(uint8_t button)
+bool Input::OnMouseDown(uint8_t button) const
 {
 	return mouseState[button].state == MouseEvent::DOWN;
 }
 
-bool Input::OnMouseUp(uint8_t button)
+bool Input::OnMouseUp(uint8_t button) const
 {
 	return mouseState[button].state == MouseEvent::RELEASE;
 }
 
-bool Input::OnKeyDown(SDL_Scancode key)
+bool Input::OnKeyDown(SDL_Scancode key) const
 {
 	return keyState[key].triggerEvent == KeyEvent::DOWN;
 }
 
-bool Input::OnKeyDown( std::string name )
+bool Input::OnKeyDown( std::string name ) const
 {
 	SDL_Scancode key = (SDL_Scancode)(*bindings)[name];
 	return OnKeyDown(key);
 }
 
-bool Input::OnKeyUp(SDL_Scancode key)
+bool Input::OnKeyUp(SDL_Scancode key) const
 {
 	return keyState[key].triggerEvent == KeyEvent::RELEASE;
 }
 
-bool Input::OnKeyUp( std::string name )
+bool Input::OnKeyUp( std::string name ) const
 {
 	SDL_Scancode key = (SDL_Scancode)(*bindings)[name];
 	return OnKeyUp(key);
 }
 
-bool Input::OnKey(SDL_Scancode key)
+bool Input::OnKey(SDL_Scancode key) const
 {
 	return keyState[key].triggerEvent == KeyEvent::HOLD;
 }
 
-bool Input::OnKey( std::string name )
+bool Input::OnKey( std::string name ) const
 {
 	SDL_Scancode key = (SDL_Scancode)(*bindings)[name];
 	return OnKey(key);
@@ -119,12 +119,12 @@ void Input::UnbindKey( std::string name )
 	}
 }
 
-bool Input::BindExists( std::string key )
+bool Input::BindExists( std::string key ) const
 {
 	return ( bindings->find(key) != bindings->end() );
 }
 
-bool Input::IsBound( int key )
+bool Input::IsBound( int key ) const
 {
 	if ( bindings->empty() )
 	{
@@ -141,7 +141,7 @@ bool Input::IsBound( int key )
 	return false;
 }
 
-int Input::GetBind( std::string name )
+int Input::GetBind( std::string name ) const
 {
 	// If #key is not binded to anything...
 	if ( bindings->find( name ) == bindings->end() )
@@ -209,7 +209,9 @@ void Input::Update( SDL_Event* event )
 			break;
 		}
 		default:
+		{
 			break;
+		}
 	}
 }
 

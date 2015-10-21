@@ -45,12 +45,12 @@ class Engine
 
 	private:
 		std::multimap< int, Entity* > componentStorage;
-		glm::mat4 translation;
-		glm::mat4 rotation;
-		glm::mat4 scale;
+		Renderer::RenderData * cube1;
+		Renderer::RenderData * cube2;
 		Renderer::RenderSystem* renderer;
 		Input* inputManager;
 		void Update();
+		void UpdateGame();
 };
 
 #endif

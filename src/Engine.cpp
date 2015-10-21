@@ -14,16 +14,13 @@
 #include "glew.h"
 #include "SDL2/SDL_opengl.h"
 #include <iostream>
-#include <cstring>
 #include "Utilities/helperFunctions.h"
-#include "Clock.hpp"
 
 Engine::Engine() :
+	cube1(NULL),
+	cube2(NULL),
 	renderer(NULL),
-	inputManager(NULL),
-    translation(glm::mat4(1)),
-    rotation(glm::mat4(1)),
-    scale(glm::mat4(1))
+	inputManager(NULL)
 {
 }
 
@@ -36,14 +33,14 @@ Engine::~Engine()
 
 void Engine::Init()
 {
-    renderer = new Renderer::RenderSystem();
-    
-    inputManager = new Input();
-    inputManager->BindKey("shoot", SDL_SCANCODE_SPACE);
-    
-    Entity* box = new Entity();
-    CTransform* boxT= new CTransform();
-    AddComponent(box, boxT);
+	renderer = new Renderer::RenderSystem();
+
+	inputManager = new Input();
+	inputManager->BindKey("shoot", SDL_SCANCODE_SPACE);
+
+	Entity* box = new Entity();
+	CTransform* boxT = new CTransform();
+	AddComponent(box, boxT);
 }
 
 void Engine::PollEvent()
@@ -178,6 +175,76 @@ void Engine::Update()
 	Terminal.Update();
 }
 
+void Engine::UpdateGame()
+{
+	glm::mat4 translation	= glm::mat4(1);
+	glm::mat4 rotation		= glm::mat4(1);
+	glm::mat4 scale			= glm::mat4(1);
+	glm::mat4 translation2	= glm::mat4(1);
+	glm::mat4 rotation2		= glm::mat4(1);
+	glm::mat4 scale2		= glm::mat4(1);
+
+	if (inputManager->OnKey(SDL_SCANCODE_W))
+	{
+		translation = glm::translate(translation, glm::vec3(0.1f, 0.0f, 0.0f));
+	}
+	if (inputManager->OnKey(SDL_SCANCODE_S))
+	{
+		translation = glm::translate(translation, glm::vec3(-0.1f, 0.0f, 0.0f));
+	}
+	if (inputManager->OnKey(SDL_SCANCODE_A))
+	{
+		rotation = glm::rotate(rotation, glm::radians(1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
+	}
+	if (inputManager->OnKey(SDL_SCANCODE_D))
+	{
+		rotation = glm::rotate(rotation, glm::radians(-1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
+	}
+	cube1->model *= scale * rotation * translation;
+
+	//2
+	if (inputManager->OnKey(SDL_SCANCODE_UP))
+	{
+		translation2 = glm::translate(translation, glm::vec3(0.1f, 0.0f, 0.0f));
+	}
+	if (inputManager->OnKey(SDL_SCANCODE_DOWN))
+	{
+		translation2 = glm::translate(translation, glm::vec3(-0.1f, 0.0f, 0.0f));
+	}
+	if (inputManager->OnKey(SDL_SCANCODE_LEFT))
+	{
+		rotation2 = glm::rotate(rotation, glm::radians(1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
+	}
+	if (inputManager->OnKey(SDL_SCANCODE_RIGHT))
+	{
+		rotation2 = glm::rotate(rotation, glm::radians(-1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
+	}
+	cube2->model *= scale2 * rotation2 * translation2;
+
+	//if ( inputManager->OnKeyDown(SDL_SCANCODE_S) )
+	//{
+	//	scale = glm::scale(scale, glm::vec3(1.1f, 1.1f, 1.1f));
+	//}
+	//if ( inputManager->OnKeyDown(SDL_SCANCODE_D) )
+	//{
+	//	scale = glm::scale(scale, glm::vec3(0.9f, 0.9f, 0.9f));
+	//}
+
+	if ( inputManager->OnMouseDown(SDL_BUTTON_LEFT) )
+	{
+		printf( "Pressed left mouse button at x:%i y:%i \n", inputManager->GetMousePosition().x, inputManager->GetMousePosition().y);
+	}
+	if ( inputManager->OnMouseUp(SDL_BUTTON_LEFT) )
+	{
+		printf( "Released left mouse button \n" );
+	}
+
+	if ( inputManager->OnKeyDown("shoot") )
+	{
+		printf( "Bam! Key: %i \n", inputManager->GetBind("shoot") );
+	}
+}
+
 void Engine::UpdateLoop()
 {
 
@@ -192,9 +259,10 @@ void Engine::UpdateLoop()
 	bool show_another_window = false;
 
 
-	Renderer::RenderData * data = new Renderer::RenderData();
+	cube1 = new Renderer::RenderData();
+	cube2 = new Renderer::RenderData();
 	Renderer::Camera * camera = new Renderer::Camera();
-    
+
 	float fov = 90.0f;
 	float aspectRatio = 1280.0f / 720.0f;
 	float zNear = 1.0f;
@@ -202,7 +270,8 @@ void Engine::UpdateLoop()
 	camera->eye = glm::vec3(1.0, 1.0, 1.0);
 	camera->center = glm::vec3(0.0, 0.0, 0.0);
 	Renderer::GetCamera(camera, Renderer::Projection::PERSPECTIVE, fov, aspectRatio, zNear, zFar);
-	Renderer::GetRenderData(data);
+	Renderer::GetRenderData(cube1);
+	Renderer::GetRenderData(cube2);
 
 
 	const float millisecondModifier = 1000.0f;
@@ -213,7 +282,7 @@ void Engine::UpdateLoop()
 	bool running = true;
 
 	//LuaSystem.Main();
-    
+
 	while (running)
 	{
 		//multithreaded rendering goes here if we decide to do it
@@ -229,68 +298,14 @@ void Engine::UpdateLoop()
 		while (deltaTimeGame > gameUpdateInterval)
 		{
 			Update();
-            
-            data->model *= scale * rotation * translation;
-            
+
+
+
 			deltaTimeGame -= gameUpdateInterval;
 
 			if (deltaTimeGame < gameUpdateInterval)
 			{
-                if ( inputManager->OnKeyDown(SDL_SCANCODE_UP) )
-                {
-                    translation = glm::translate(translation, glm::vec3(0.1f, 0.0f, 0.0f));
-                }
-                
-                if ( inputManager->OnKeyDown(SDL_SCANCODE_DOWN) )
-                {
-                    translation = glm::translate(translation, glm::vec3(-0.1f, 0.0f, 0.0f));
-                }
-                
-                if ( inputManager->OnKeyDown(SDL_SCANCODE_LEFT) )
-                {
-                    rotation = glm::rotate(rotation, glm::radians(1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
-                }
-                
-                if ( inputManager->OnKeyDown(SDL_SCANCODE_RIGHT) )
-                {
-                    rotation = glm::rotate(rotation, glm::radians(-1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
-                }
-                
-                if ( inputManager->OnKeyDown(SDL_SCANCODE_S) )
-                {
-                    scale = glm::scale(scale, glm::vec3(1.1f, 1.1f, 1.1f));
-                }
-                if ( inputManager->OnKeyDown(SDL_SCANCODE_D) )
-                {
-                    scale = glm::scale(scale, glm::vec3(0.9f, 0.9f, 0.9f));
-                }
-                
-				if ( inputManager->OnKeyDown(SDL_SCANCODE_1) )
-				{
-					printf( "Pressed key %i \n", SDL_SCANCODE_1 );
-				}
-				if ( inputManager->OnKeyUp(SDL_SCANCODE_1) )
-				{
-					printf( "Released key %i \n", SDL_SCANCODE_1 );
-				}
-				if ( inputManager->OnKey(SDL_SCANCODE_2) )
-				{
-					printf( "Holding key %i \n", SDL_SCANCODE_2 );
-				}
-
-				if ( inputManager->OnMouseDown(SDL_BUTTON_LEFT) )
-				{
-					printf( "Pressed left mouse button at x:%i y:%i \n", inputManager->GetMousePosition().x, inputManager->GetMousePosition().y);
-				}
-				if ( inputManager->OnMouseUp(SDL_BUTTON_LEFT) )
-				{
-					printf( "Released left mouse button \n" );
-				}
-
-				if ( inputManager->OnKeyDown("shoot") )
-				{
-					printf( "Bam! Key: %i \n", inputManager->GetBind("shoot") );
-				}
+				UpdateGame();
 				prevTicks = currentTicks;
 				prevTicks -= deltaTimeGame;
 			}
@@ -320,7 +335,8 @@ void Engine::UpdateLoop()
 		//	render.draw(normalizedInterpolationValue)
 	}
 
-	CloseWindow(window, glcontext, data, camera);
+	CloseWindow(window, glcontext, cube1, camera);
+	CloseWindow(window, glcontext, cube2, camera);
 }
 
 void Engine::InitSDL()
@@ -344,89 +360,89 @@ void Engine::InitSDLNet()
 template<typename T>
 void Engine::AddComponent( Entity* e, T* comp )
 {
-    componentStorage.insert( std::pair< int, Entity* >( T::familyId, e ) );
-    e->entityComponents.insert( std::pair< int, Component* >( T::familyId, comp ) );
+	componentStorage.insert( std::pair< int, Entity* >( T::familyId, e ) );
+	e->entityComponents.insert( std::pair< int, Component* >( T::familyId, comp ) );
 }
 
 template<typename T>
 T* Engine::GetComponent( Entity* e )
 {
-    return (T*)e->entityComponents[T::familyId];
-    
+	return (T*)e->entityComponents[T::familyId];
+
 }
 
 template<typename T>
 void Engine::GetEntities( std::vector< Entity* > &result )
 {
-    auto iterPair = componentStorage.equal_range( T::familyId );
-    for ( auto iter = iterPair.first; iter != iterPair.second; ++iter )
-    {
-        result.push_back( iter->second );
-    }
+	auto iterPair = componentStorage.equal_range( T::familyId );
+	for ( auto iter = iterPair.first; iter != iterPair.second; ++iter )
+	{
+		result.push_back( iter->second );
+	}
 }
 
 void Engine::PrintEvent(const SDL_Event * event)
 {
-    if (event->type == SDL_WINDOWEVENT)
-    {
-        switch (event->window.event)
-        {
-            case SDL_WINDOWEVENT_SHOWN:
-                SDL_Log("Window %d shown", event->window.windowID);
-                break;
-            case SDL_WINDOWEVENT_HIDDEN:
-                SDL_Log("Window %d hidden", event->window.windowID);
-                break;
-            case SDL_WINDOWEVENT_EXPOSED:
-                SDL_Log("Window %d exposed", event->window.windowID);
-                break;
-            case SDL_WINDOWEVENT_MOVED:
-                SDL_Log("Window %d moved to %d,%d",
-                        event->window.windowID, event->window.data1,
-                        event->window.data2);
-                break;
-            case SDL_WINDOWEVENT_RESIZED:
-                SDL_Log("Window %d resized to %dx%d",
-                        event->window.windowID, event->window.data1,
-                        event->window.data2);
-                break;
-            case SDL_WINDOWEVENT_SIZE_CHANGED:
-                SDL_Log("Window %d size changed to %dx%d",
-                        event->window.windowID, event->window.data1,
-                        event->window.data2);
-                break;
-            case SDL_WINDOWEVENT_MINIMIZED:
-                SDL_Log("Window %d minimized", event->window.windowID);
-                break;
-            case SDL_WINDOWEVENT_MAXIMIZED:
-                SDL_Log("Window %d maximized", event->window.windowID);
-                break;
-            case SDL_WINDOWEVENT_RESTORED:
-                SDL_Log("Window %d restored", event->window.windowID);
-                break;
-            case SDL_WINDOWEVENT_ENTER:
-                SDL_Log("Mouse entered window %d",
-                        event->window.windowID);
-                break;
-            case SDL_WINDOWEVENT_LEAVE:
-                SDL_Log("Mouse left window %d", event->window.windowID);
-                break;
-            case SDL_WINDOWEVENT_FOCUS_GAINED:
-                SDL_Log("Window %d gained keyboard focus",
-                        event->window.windowID);
-                break;
-            case SDL_WINDOWEVENT_FOCUS_LOST:
-                SDL_Log("Window %d lost keyboard focus",
-                        event->window.windowID);
-                break;
-            case SDL_WINDOWEVENT_CLOSE:
-                SDL_Log("Window %d closed", event->window.windowID);
-                break;
-            default:
-                SDL_Log("Window %d got unknown event %d",
-                        event->window.windowID, event->window.event);
-                break;
-        }
-    }
+	if (event->type == SDL_WINDOWEVENT)
+	{
+		switch (event->window.event)
+		{
+			case SDL_WINDOWEVENT_SHOWN:
+				SDL_Log("Window %d shown", event->window.windowID);
+				break;
+			case SDL_WINDOWEVENT_HIDDEN:
+				SDL_Log("Window %d hidden", event->window.windowID);
+				break;
+			case SDL_WINDOWEVENT_EXPOSED:
+				SDL_Log("Window %d exposed", event->window.windowID);
+				break;
+			case SDL_WINDOWEVENT_MOVED:
+				SDL_Log("Window %d moved to %d,%d",
+						event->window.windowID, event->window.data1,
+						event->window.data2);
+				break;
+			case SDL_WINDOWEVENT_RESIZED:
+				SDL_Log("Window %d resized to %dx%d",
+						event->window.windowID, event->window.data1,
+						event->window.data2);
+				break;
+			case SDL_WINDOWEVENT_SIZE_CHANGED:
+				SDL_Log("Window %d size changed to %dx%d",
+						event->window.windowID, event->window.data1,
+						event->window.data2);
+				break;
+			case SDL_WINDOWEVENT_MINIMIZED:
+				SDL_Log("Window %d minimized", event->window.windowID);
+				break;
+			case SDL_WINDOWEVENT_MAXIMIZED:
+				SDL_Log("Window %d maximized", event->window.windowID);
+				break;
+			case SDL_WINDOWEVENT_RESTORED:
+				SDL_Log("Window %d restored", event->window.windowID);
+				break;
+			case SDL_WINDOWEVENT_ENTER:
+				SDL_Log("Mouse entered window %d",
+						event->window.windowID);
+				break;
+			case SDL_WINDOWEVENT_LEAVE:
+				SDL_Log("Mouse left window %d", event->window.windowID);
+				break;
+			case SDL_WINDOWEVENT_FOCUS_GAINED:
+				SDL_Log("Window %d gained keyboard focus",
+						event->window.windowID);
+				break;
+			case SDL_WINDOWEVENT_FOCUS_LOST:
+				SDL_Log("Window %d lost keyboard focus",
+						event->window.windowID);
+				break;
+			case SDL_WINDOWEVENT_CLOSE:
+				SDL_Log("Window %d closed", event->window.windowID);
+				break;
+			default:
+				SDL_Log("Window %d got unknown event %d",
+						event->window.windowID, event->window.event);
+				break;
+		}
+	}
 }
 

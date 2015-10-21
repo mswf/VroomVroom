@@ -49,16 +49,6 @@ void HelperFunctions::InsertIntoBuffer(char* buffer, int& currentIndex, const T&
 template <typename T>
 void HelperFunctions::ReadFromBuffer(char* buffer, int& currentIndex, T& outValue)
 {
-	//copies the value into outValue
-	//outValue = T((T)buffer[currentIndex]);
-	//int typeSize = sizeof(T);
-	//currentIndex += typeSize;
-
-	//outValue = T(*(T*)buffer[currentIndex]);
-
-	//reference to memory instead
-	//outValue = (T)buffer[currentIndex];
-
 	int typeSize = sizeof(T);
 
 	for (int i = 0; i < typeSize; ++i)

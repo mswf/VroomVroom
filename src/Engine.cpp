@@ -15,6 +15,7 @@
 #include "SDL2/SDL_opengl.h"
 #include <iostream>
 #include "Utilities/helperFunctions.h"
+#include "Networking/NetMessage.h"
 
 Engine::Engine() :
 	myPlayerNumber(-1),
@@ -35,6 +36,96 @@ Engine::~Engine()
 	delete inputManager;
 }
 
+void Engine::HostGame(char* hostName, const short port, TCPClient* client, TCPServer* server)
+{
+	server = new TCPServer(port);
+	if (!client->Connect(hostName, port))
+	{
+		printf("bad stuff happened somehow");
+		assert(false);
+	}
+	CreateCube();
+	myPlayerNumber = 1;
+}
+
+void Engine::JoinGame(TCPClient* client)
+{
+	bool initializing = true;
+	while (initializing)
+	{
+		std::vector<NetworkData> messages = client->ReceiveMessage();
+		for (auto it = messages.begin(); it != messages.end(); ++it)
+		{
+			char* data = (*it).data;
+			int index = 0;
+			NetMessageType messageType;
+			HelperFunctions::ReadFromBuffer(data, index, messageType);
+
+			switch (messageType)
+			{
+				case NetMessageType::SyncPlayer:
+				{
+					short playerNumber;
+					glm::mat4 matrix;
+					HelperFunctions::ReadFromBuffer(data, index, playerNumber);
+					HelperFunctions::ReadFromBuffer(data, index, matrix);
+
+					while (renderObjectsData.size() < playerNumber)
+					{
+						CreateCube();
+					}
+					renderObjectsData[playerNumber]->model = matrix;
+
+					break;
+				}
+				case NetMessageType::PlayerNumber:
+				{
+					HelperFunctions::ReadFromBuffer(data, index, myPlayerNumber);
+					while (renderObjectsData.size() < myPlayerNumber)
+					{
+						CreateCube();
+					}
+					break;
+				}
+				case NetMessageType::InitializeCompleted:
+				{
+					if (myPlayerNumber == -1)
+					{
+						NetMessage m;
+						m.SendNetMessage(NetMessageType::RequestMessage, NetMessageType::SyncPlayer);
+						m.SendNetMessage(NetMessageType::RequestMessage, NetMessageType::PlayerNumber);
+					}
+					else
+					{
+						initializing = false;
+					}
+					break;
+				}
+				default:
+				{
+					//ignore other messages while initializing
+					break;
+				}
+			}
+
+			delete[] (*it).data;
+		}
+		SDL_Delay(1000);
+	}
+}
+
+void Engine::SetUpCamera()
+{
+	camera = new Renderer::Camera();
+	float fov = 90.0f;
+	float aspectRatio = 1280.0f / 720.0f;
+	float zNear = 1.0f;
+	float zFar = 100.0f;
+	camera->eye = glm::vec3(1.0, 1.0, 1.0);
+	camera->center = glm::vec3(0.0, 0.0, 0.0);
+	Renderer::GetCamera(camera, Renderer::Projection::PERSPECTIVE, fov, aspectRatio, zNear, zFar);
+}
+
 void Engine::Init()
 {
 	renderer = new Renderer::RenderSystem();
@@ -46,34 +137,35 @@ void Engine::Init()
 	CTransform* boxT = new CTransform();
 	AddComponent(box, boxT);
 
-
 	OpenConfig();
-	//
-
-
 
 	SetupWindow(window, glcontext);
 	InitGlew();
 
 	ImGui_ImplSdl_Init(window);
+	SetUpCamera();
 
-	myPlayerNumber = 1;
+	//init the player/game
+	char* hostName = "localhost";
+	const short port = 6112;
+	TCPClient* client = new TCPClient(hostName, port);
+	TCPServer* server = NULL;
 
-	renderObjectsData.push_back(new Renderer::RenderData());
-	camera = new Renderer::Camera();
-
-	float fov = 90.0f;
-	float aspectRatio = 1280.0f / 720.0f;
-	float zNear = 1.0f;
-	float zFar = 100.0f;
-	camera->eye = glm::vec3(1.0, 1.0, 1.0);
-	camera->center = glm::vec3(0.0, 0.0, 0.0);
-	Renderer::GetCamera(camera, Renderer::Projection::PERSPECTIVE, fov, aspectRatio, zNear, zFar);
-
-	for (std::vector<Renderer::RenderData*>::iterator it = renderObjectsData.begin(); it != renderObjectsData.end(); ++it)
+	if (!client->IsConnected())
 	{
-		Renderer::GetRenderData(*it);
+		HostGame(hostName, port, client, server);
 	}
+	else
+	{
+		JoinGame(client);
+	}
+}
+
+void Engine::CreateCube()
+{
+	Renderer::RenderData* cube = new Renderer::RenderData();
+	renderObjectsData.push_back(cube);
+	Renderer::GetRenderData(cube);
 }
 
 void Engine::PollEvent()

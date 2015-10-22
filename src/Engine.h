@@ -9,6 +9,8 @@
 #include <vector>
 #include "component.h"
 #include "glm/mat4x4.hpp"
+#include "Networking/TCPClient.h"
+#include "Networking/TCPServer.h"
 
 struct Entity
 {
@@ -22,6 +24,9 @@ class Engine
 	public:
 		Engine();
 		~Engine();
+		void HostGame(char* hostName, const short port, TCPClient* client, TCPServer* server);
+		void JoinGame(TCPClient* client);
+		void SetUpCamera();
 		void PollEvent();
 		void OpenConfig();
 		void CloseWindow(SDL_Window* window, SDL_GLContext glcontext, Renderer::RenderData* data, Renderer::Camera* camera);
@@ -35,7 +40,6 @@ class Engine
 		void InitSDL();
 		void InitSDLNet();
 		void Init();
-
 		template<typename T>
 		void AddComponent( Entity* e, T* comp );
 		template<typename T>
@@ -46,7 +50,7 @@ class Engine
 	private:
 		std::multimap< int, Entity* > componentStorage;
 		std::vector<Renderer::RenderData*> renderObjectsData;
-		int myPlayerNumber;
+		short myPlayerNumber;
 		Renderer::RenderSystem* renderer;
 		Input* inputManager;
 		SDL_Window* window;
@@ -54,9 +58,12 @@ class Engine
 		SDL_GLContext glcontext;
 		bool show_test_window;
 		bool show_another_window;
-
+		TCPClient* client;
+		TCPServer* server;
+	private:
 		void Update();
 		void UpdateGame();
+		void CreateCube();
 };
 
 #endif

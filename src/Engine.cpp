@@ -17,10 +17,14 @@
 #include "Utilities/helperFunctions.h"
 
 Engine::Engine() :
-	cube1(NULL),
-	cube2(NULL),
+	myPlayerNumber(-1),
 	renderer(NULL),
-	inputManager(NULL)
+	inputManager(NULL),
+	window(NULL),
+	camera(NULL),
+	glcontext(),
+	show_test_window(true),
+	show_another_window(false)
 {
 }
 
@@ -41,6 +45,35 @@ void Engine::Init()
 	Entity* box = new Entity();
 	CTransform* boxT = new CTransform();
 	AddComponent(box, boxT);
+
+
+	OpenConfig();
+	//
+
+
+
+	SetupWindow(window, glcontext);
+	InitGlew();
+
+	ImGui_ImplSdl_Init(window);
+
+	myPlayerNumber = 1;
+
+	renderObjectsData.push_back(new Renderer::RenderData());
+	camera = new Renderer::Camera();
+
+	float fov = 90.0f;
+	float aspectRatio = 1280.0f / 720.0f;
+	float zNear = 1.0f;
+	float zFar = 100.0f;
+	camera->eye = glm::vec3(1.0, 1.0, 1.0);
+	camera->center = glm::vec3(0.0, 0.0, 0.0);
+	Renderer::GetCamera(camera, Renderer::Projection::PERSPECTIVE, fov, aspectRatio, zNear, zFar);
+
+	for (std::vector<Renderer::RenderData*>::iterator it = renderObjectsData.begin(); it != renderObjectsData.end(); ++it)
+	{
+		Renderer::GetRenderData(*it);
+	}
 }
 
 void Engine::PollEvent()
@@ -180,9 +213,7 @@ void Engine::UpdateGame()
 	glm::mat4 translation	= glm::mat4(1);
 	glm::mat4 rotation		= glm::mat4(1);
 	glm::mat4 scale			= glm::mat4(1);
-	glm::mat4 translation2	= glm::mat4(1);
-	glm::mat4 rotation2		= glm::mat4(1);
-	glm::mat4 scale2		= glm::mat4(1);
+
 
 	if (inputManager->OnKey(SDL_SCANCODE_W))
 	{
@@ -200,26 +231,8 @@ void Engine::UpdateGame()
 	{
 		rotation = glm::rotate(rotation, glm::radians(-1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
 	}
-	cube1->model *= scale * rotation * translation;
+	renderObjectsData[myPlayerNumber - 1]->model *= scale * rotation * translation;
 
-	//2
-	if (inputManager->OnKey(SDL_SCANCODE_UP))
-	{
-		translation2 = glm::translate(translation, glm::vec3(0.1f, 0.0f, 0.0f));
-	}
-	if (inputManager->OnKey(SDL_SCANCODE_DOWN))
-	{
-		translation2 = glm::translate(translation, glm::vec3(-0.1f, 0.0f, 0.0f));
-	}
-	if (inputManager->OnKey(SDL_SCANCODE_LEFT))
-	{
-		rotation2 = glm::rotate(rotation, glm::radians(1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
-	}
-	if (inputManager->OnKey(SDL_SCANCODE_RIGHT))
-	{
-		rotation2 = glm::rotate(rotation, glm::radians(-1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
-	}
-	cube2->model *= scale2 * rotation2 * translation2;
 
 	//if ( inputManager->OnKeyDown(SDL_SCANCODE_S) )
 	//{
@@ -247,33 +260,6 @@ void Engine::UpdateGame()
 
 void Engine::UpdateLoop()
 {
-
-	SDL_Window* window;
-	SDL_GLContext glcontext;
-	SetupWindow(window, glcontext);
-	InitGlew();
-
-	ImGui_ImplSdl_Init(window);
-
-	bool show_test_window = true;
-	bool show_another_window = false;
-
-
-	cube1 = new Renderer::RenderData();
-	cube2 = new Renderer::RenderData();
-	Renderer::Camera * camera = new Renderer::Camera();
-
-	float fov = 90.0f;
-	float aspectRatio = 1280.0f / 720.0f;
-	float zNear = 1.0f;
-	float zFar = 100.0f;
-	camera->eye = glm::vec3(1.0, 1.0, 1.0);
-	camera->center = glm::vec3(0.0, 0.0, 0.0);
-	Renderer::GetCamera(camera, Renderer::Projection::PERSPECTIVE, fov, aspectRatio, zNear, zFar);
-	Renderer::GetRenderData(cube1);
-	Renderer::GetRenderData(cube2);
-
-
 	const float millisecondModifier = 1000.0f;
 	const float gameFPS = 60.0f;
 	const float gameUpdateInterval = 1 / gameFPS * millisecondModifier;
@@ -317,8 +303,11 @@ void Engine::UpdateLoop()
 		//moved clear for weikies hack
 		glClearColor( 0.2, 0.2, 0.2, 1.0 );
 		glClear(GL_COLOR_BUFFER_BIT); //GL_DEPTH_BUFFER_BIT
-		Renderer::Render(SDL_GetTicks(), camera, cube1);
-		Renderer::Render(SDL_GetTicks(), camera, cube2);
+
+		for (std::vector<Renderer::RenderData*>::iterator it = renderObjectsData.begin(); it != renderObjectsData.end(); ++it)
+		{
+			Renderer::Render(SDL_GetTicks(), camera, *it);
+		}
 
 		ShowSimpleWindowOne(show_test_window, show_another_window);
 
@@ -340,8 +329,10 @@ void Engine::UpdateLoop()
 		//	render.draw(normalizedInterpolationValue)
 	}
 
-	CloseWindow(window, glcontext, cube1, camera);
-	CloseWindow(window, glcontext, cube2, camera);
+	for (std::vector<Renderer::RenderData*>::iterator it = renderObjectsData.begin(); it != renderObjectsData.end(); ++it)
+	{
+		CloseWindow(window, glcontext, *it, camera);
+	}
 }
 
 void Engine::InitSDL()

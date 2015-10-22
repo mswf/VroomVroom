@@ -8,7 +8,7 @@
 
 int main(int argc, char** a)
 {
-    
+
 	Engine engine;
 	engine.InitSDL();
 	engine.InitSDLNet();
@@ -18,8 +18,6 @@ int main(int argc, char** a)
 	TestCode::RunBufferTest();
 	//TestCode::RunTCPTest();
 #endif
-
-	engine.OpenConfig();
 
 #ifdef DEBUG
 	Content::PrintPath();

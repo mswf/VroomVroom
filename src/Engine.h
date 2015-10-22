@@ -45,10 +45,16 @@ class Engine
 
 	private:
 		std::multimap< int, Entity* > componentStorage;
-		Renderer::RenderData * cube1;
-		Renderer::RenderData * cube2;
+		std::vector<Renderer::RenderData*> renderObjectsData;
+		int myPlayerNumber;
 		Renderer::RenderSystem* renderer;
 		Input* inputManager;
+		SDL_Window* window;
+		Renderer::Camera* camera;
+		SDL_GLContext glcontext;
+		bool show_test_window;
+		bool show_another_window;
+
 		void Update();
 		void UpdateGame();
 };

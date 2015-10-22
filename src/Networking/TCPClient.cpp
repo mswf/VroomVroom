@@ -5,15 +5,23 @@
 #include <iostream>
 
 
+TCPClient::TCPClient() :
+	alive(false),
+	listenThread(NULL),
+	socket(NULL),
+	mutex(NULL)
+{
+}
+
 TCPClient::TCPClient(const std::string hostName, const uint16 port)
 {
-	Initialize(hostName.c_str(), port);
+	Connect(hostName.c_str(), port);
 }
 
 
 TCPClient::TCPClient(const char* hostName, const uint16 port)
 {
-	Initialize(hostName, port);
+	Connect(hostName, port);
 }
 
 TCPClient::~TCPClient()
@@ -23,8 +31,17 @@ TCPClient::~TCPClient()
 	SDLNet_TCP_Close(socket);
 }
 
-void TCPClient::Initialize(const char* hostName, const uint16 port)
+bool TCPClient::Connect(const char* hostName, const uint16 port)
 {
+	//if already connected and trying to change
+	if (IsConnected())
+	{
+		//dont know of any reason why/havent put any thought into it yet
+		//should clean up previous mutex and thread?
+		assert(false);
+	}
+
+	alive = false;
 	if (SDLNet_ResolveHost(&ip, hostName, port) == -1)
 	{
 		printf("SDLNet_ResolveHost: %s\n", SDLNet_GetError());
@@ -46,6 +63,7 @@ void TCPClient::Initialize(const char* hostName, const uint16 port)
 		printf("[TCPClient] Connected\n");
 	}
 
+	return alive;
 }
 
 void TCPClient::SendData(const void* data, const uint32 length) const

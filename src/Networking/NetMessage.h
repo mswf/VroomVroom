@@ -1,13 +1,20 @@
+#ifndef NET_MESSAGE_H
+#define NET_MESSAGE_H
+
 #include "TCPClient.h"
 #include "../Utilities/helperFunctions.h"
 #include "../standardIncludes.h"
 
 enum class NetMessageType : short
 {
-	SyncPosition = 0,	//[entityID,(vec3)pos,(float)time]
-	SyncRotation,		//[entityID,(quat)rot,(float)time]
-	SyncVelocity,		//[entityID,(vec3)vel,(float)time]
-	SyncNpc
+	SyncPosition = 0,		//[entityID,(vec3)pos,(float)time]
+	SyncRotation,			//[entityID,(quat)rot,(float)time]
+	SyncVelocity,			//[entityID,(vec3)vel,(float)time]
+	SyncNpc,				//[entityID,(mat4)matrix]
+	SyncPlayer,				//[playerNumber,(mat4)matrix]
+	PlayerNumber,			//[playerNumber]
+	InitializeCompleted,	//[]
+	RequestMessage
 };
 
 class NetMessage
@@ -16,7 +23,7 @@ class NetMessage
 		NetMessage();
 		~NetMessage();
 		template <typename T>
-		void SendMessage(NetMessageType messageType, const T& data);
+		void SendNetMessage(NetMessageType messageType, const T& data);
 		NetworkData ReceiveMessage();
 	private:
 		TCPClient* client;
@@ -24,14 +31,16 @@ class NetMessage
 };
 
 template <typename T>
-void NetMessage::SendMessage(const NetMessageType messageType, const T& data)
+void NetMessage::SendNetMessage(const NetMessageType messageType, const T& data)
 {
 	int typeSize = sizeof(T);
 	assert(NET_MESSAGE_TYPE_SIZE == sizeof(NetMessageType));
 	char* buffer = new char[typeSize + NET_MESSAGE_TYPE_SIZE];
-	HelperFunctions::InsertIntoBuffer(buffer, 0, messageType);
-	HelperFunctions::InsertIntoBuffer(buffer, NET_MESSAGE_TYPE_SIZE, data);
-	client->SendMessage(buffer, typeSize + NET_MESSAGE_TYPE_SIZE);
+	int index = 0;
+	HelperFunctions::InsertIntoBuffer(buffer, index, messageType);
+	HelperFunctions::InsertIntoBuffer(buffer, index, data);
+	client->SendMessageChar(buffer, typeSize + NET_MESSAGE_TYPE_SIZE);
 	delete buffer;
 }
 
+#endif

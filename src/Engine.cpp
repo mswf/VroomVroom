@@ -171,7 +171,6 @@ int Engine::ServerLoop(void* data)
 {
 	while (true)
 	{
-		((TCPServer*)data)->AcceptConnections();
 		((TCPServer*)data)->ReceiveMessage();
 	}
 	return 0;
@@ -354,6 +353,8 @@ void Engine::Update()
 
 void Engine::UpdateGame()
 {
+	server->AcceptConnections();
+
 	glm::mat4 translation	= glm::mat4(1);
 	glm::mat4 rotation		= glm::mat4(1);
 	glm::mat4 scale			= glm::mat4(1);

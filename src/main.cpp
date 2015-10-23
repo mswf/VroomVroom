@@ -15,7 +15,7 @@ int main(int argc, char** a)
 	engine.Init();
 
 #if WEIKIE
-	TestCode::RunBufferTest();
+	//TestCode::RunBufferTest();
 	//TestCode::RunTCPTest();
 #endif
 

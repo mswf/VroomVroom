@@ -1,5 +1,6 @@
 #include "TestCode.h"
 #include <SDL2/SDL.h>
+#include <SDL2_net/SDL_net.h>
 #include "../Networking/udpmessage.h"
 #include "../Networking/TCPClient.h"
 #include "../Networking/TCPServer.h"
@@ -10,16 +11,7 @@
 TCPServer* TestCode::server;
 TCPClient* TestCode::client;
 std::vector<string> TestCode::lipsumList;
-
-TestCode::TestCode()
-{
-	FillRandomStringList();
-}
-
-
-TestCode::~TestCode()
-{
-}
+bool TestCode::TCPTestRunning = false;
 
 void TestCode::RunBufferTest()
 {
@@ -91,12 +83,23 @@ void TestCode::UDPTest()
 
 int TestCode::ServerLoop(void* data)
 {
-	while (true)
+	//this only works on static functions
+	server->SetConnectionAcceptedEvent(&ServerOnConnectAccept);
+	//use this for members
+	//server->SetConnectionAcceptedEvent(std::bind(&TestCode::OnClientConnected, this, std::placeholders::_1));
+
+
+	while (TCPTestRunning)
 	{
 		server->AcceptConnections();
 		server->ReceiveMessage();
 	}
 	return 0;
+}
+
+void TestCode::ServerOnConnectAccept(TCPsocket socket)
+{
+	printf("asd");
 }
 
 int TestCode::ClientLoop(void* data)
@@ -118,6 +121,7 @@ int TestCode::ClientLoop(void* data)
 void TestCode::StringTest()
 {
 	std::string msg = "Client says hello";
+	FillRandomStringList();
 
 	client->SendMessage(msg);
 
@@ -175,8 +179,10 @@ void TestCode::IntTest()
 
 void TestCode::RunTCPTest()
 {
-	server = new TCPServer(6113);
-	client = new TCPClient("localhost", 6113);
+	TCPTestRunning = true;
+	const int port = 6117;
+	server = new TCPServer(port);
+	client = new TCPClient("localhost", port);
 
 	SDL_Thread* thread1 = SDL_CreateThread(ServerLoop, "serverThread", NULL);
 	//SDL_Thread* thread2 = SDL_CreateThread(ClientLoop, "clientThread", NULL);
@@ -184,9 +190,14 @@ void TestCode::RunTCPTest()
 	StringTest();
 	//IntTest();
 
-	while (true)
+	//while (true)
 	{
+		SDL_Delay(1000);
+		TCPTestRunning = false;
 		SDL_Delay(100);
+		//break;
+		delete client;
+		delete server;
 	}
 }
 

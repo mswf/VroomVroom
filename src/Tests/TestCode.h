@@ -1,4 +1,5 @@
 #include <vector>
+#include <Networking/NetMessage.h>
 
 
 class TCPClient;
@@ -6,13 +7,12 @@ class TCPServer;
 class TestCode
 {
 	public:
-		TestCode();
-		~TestCode();
 		static void RunBufferTest();
 		static void UDPTest();
 		static void RunTCPTest();
 	private:
 		static int ServerLoop(void* data);
+		static void ServerOnConnectAccept(TCPsocket socket);
 		static int ClientLoop(void* data);
 		static void StringTest();
 		static void FillRandomStringList();
@@ -21,6 +21,7 @@ class TestCode
 		static TCPClient* client;
 		static TCPServer* server;
 		static std::vector<std::string> lipsumList;
+		static bool TCPTestRunning;
 
 };
 

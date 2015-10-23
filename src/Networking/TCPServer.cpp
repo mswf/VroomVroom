@@ -1,6 +1,5 @@
 #include "TCPServer.h"
 #include "stdio.h"
-#include <assert.h>
 #include "standardIncludes.h"
 
 TCPServer::TCPServer(unsigned port)

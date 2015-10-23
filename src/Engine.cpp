@@ -76,7 +76,7 @@ void Engine::JoinGame()
 					HelperFunctions::ReadFromBuffer(data, index, playerNumber);
 					HelperFunctions::ReadFromBuffer(data, index, matrix);
 
-					while (renderObjectsData.size() < playerNumber)
+					while (renderObjectsData.size() < playerNumber + 1)
 					{
 						CreateCube();
 					}
@@ -109,6 +109,8 @@ void Engine::JoinGame()
 				}
 				default:
 				{
+					//for now to see what is happening
+					SDL_assert(false);
 					//ignore other messages while initializing
 					break;
 				}
@@ -125,31 +127,37 @@ void Engine::OnClientConnected(TCPsocket socket)
 	printf("OnClientConnected callback\n");
 
 	//CreateCube();
-	char buffer[66];
+	char buffer[68];
 	int index = 0;
+	short i = 0;
 	for (auto it = renderObjectsData.begin(); it != renderObjectsData.end(); ++it)
 	{
 		//SyncPlayer for everyone instead of just 1 person
 		index = 0;
 		HelperFunctions::InsertIntoBuffer(buffer, index, NetMessageType::SyncPlayer);
+		HelperFunctions::InsertIntoBuffer(buffer, index, i);
+		assert(index == 4);
 		HelperFunctions::InsertIntoBuffer(buffer, index, (*it)->model);
+		assert(index == 68);
 		//assert(index == 4);
 		//server->SendData(buffer, index, socket);
 		server->SendMessageChar(buffer, index);
+		++i;
 	}
 
 	index = 0;
 	HelperFunctions::InsertIntoBuffer(buffer, index, NetMessageType::PlayerNumber);
-	HelperFunctions::InsertIntoBuffer(buffer, index, (short)renderObjectsData.size());
+	HelperFunctions::InsertIntoBuffer(buffer, index, (short)renderObjectsData.size() + 1);
 	assert(index == 4);
 	server->SendData(buffer, index, socket);
 
 
 	index = 0;
 	HelperFunctions::InsertIntoBuffer(buffer, index, NetMessageType::InitializeCompleted);
-	assert(index == 2);
+	HelperFunctions::InsertIntoBuffer(buffer, index, i);
+	assert(index == 4);
 	server->SendData(buffer, index, socket);
-
+	SDL_Delay(100);
 	//PlayerNumber
 	//InitializeCompleted
 	//server->SendData()
@@ -353,8 +361,10 @@ void Engine::Update()
 
 void Engine::UpdateGame()
 {
-	server->AcceptConnections();
-
+	if (server != NULL)
+	{
+		server->AcceptConnections();
+	}
 	glm::mat4 translation	= glm::mat4(1);
 	glm::mat4 rotation		= glm::mat4(1);
 	glm::mat4 scale			= glm::mat4(1);

@@ -25,7 +25,9 @@ Engine::Engine() :
 	camera(NULL),
 	glcontext(),
 	show_test_window(true),
-	show_another_window(false)
+	show_another_window(false),
+	client(NULL),
+	server(NULL)
 {
 }
 
@@ -36,7 +38,7 @@ Engine::~Engine()
 	delete inputManager;
 }
 
-void Engine::HostGame(char* hostName, const short port, TCPClient* client, TCPServer* server)
+void Engine::HostGame(char* hostName, const short port)
 {
 	server = new TCPServer(port);
 	if (!client->Connect(hostName, port))
@@ -48,7 +50,7 @@ void Engine::HostGame(char* hostName, const short port, TCPClient* client, TCPSe
 	myPlayerNumber = 1;
 }
 
-void Engine::JoinGame(TCPClient* client)
+void Engine::JoinGame()
 {
 	bool initializing = true;
 	while (initializing)
@@ -148,16 +150,15 @@ void Engine::Init()
 	//init the player/game
 	char* hostName = "localhost";
 	const short port = 6112;
-	TCPClient* client = new TCPClient(hostName, port);
-	TCPServer* server = NULL;
+	client = new TCPClient(hostName, port);
 
 	if (!client->IsConnected())
 	{
-		HostGame(hostName, port, client, server);
+		HostGame(hostName, port);
 	}
 	else
 	{
-		JoinGame(client);
+		JoinGame();
 	}
 }
 

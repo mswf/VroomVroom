@@ -24,8 +24,8 @@ class Engine
 	public:
 		Engine();
 		~Engine();
-		void HostGame(char* hostName, const short port, TCPClient* client, TCPServer* server);
-		void JoinGame(TCPClient* client);
+		void HostGame(char* hostName, const short port);
+		void JoinGame();
 		void SetUpCamera();
 		void PollEvent();
 		void OpenConfig();

@@ -10,7 +10,7 @@ class TCPServer : public TCPData
 
 		void AcceptConnections();
 		void ReceiveMessage();
-
+		void EchoData(const void* data, const uint32 length, const TCPsocket socket) const;
 	protected:
 		virtual void SendData(const void* data, const uint32 length) const override;
 

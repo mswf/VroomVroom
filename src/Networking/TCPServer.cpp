@@ -40,14 +40,15 @@ void TCPServer::AcceptConnections()
 		// communicate over new_tcpsock
 		clients.push_back(new_tcpsock);
 		printf("[Server] Client connected\n");
+		//add function callback that has TCPsocket as parameter
 	}
 }
 
 void TCPServer::SendData(const void* data, const uint32 length) const
 {
-	for (std::vector<TCPsocket>::const_iterator i = clients.begin(); i != clients.end(); ++i)
+	for (std::vector<TCPsocket>::const_iterator it = clients.begin(); it != clients.end(); ++it)
 	{
-		int result = SDLNet_TCP_Send((TCPsocket) * i, data, length);
+		int result = SDLNet_TCP_Send((TCPsocket) * it, data, length);
 		if (result < length)
 		{
 			printf("SDLNet_TCP_Send: %s\n", SDLNet_GetError());
@@ -72,7 +73,25 @@ void TCPServer::ReceiveMessage()
 		}
 		else
 		{
-			printf("[Server] Received: \"%s\"\n", msg);
+			//echo to all clients except the client sending it
+			EchoData(msg, result, clients[i]);
+			//printf("[Server] Received: \"%s\"\n", msg);
+		}
+	}
+}
+
+void TCPServer::EchoData(const void* data, const uint32 length, const TCPsocket socket) const
+{
+	for (std::vector<TCPsocket>::const_iterator it = clients.begin(); it != clients.end(); ++it)
+	{
+		if (*it != socket)
+		{
+			int result = SDLNet_TCP_Send((TCPsocket) * it, data, length);
+			if (result < length)
+			{
+				printf("SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+				printf("[Server] socket has been disconnected \n");
+			}
 		}
 	}
 }

@@ -24,7 +24,7 @@ Engine::Engine() :
 	window(NULL),
 	camera(NULL),
 	glcontext(),
-	show_test_window(true),
+	show_test_window(false),
 	show_another_window(false),
 	client(NULL),
 	server(NULL)
@@ -41,13 +41,17 @@ Engine::~Engine()
 void Engine::HostGame(char* hostName, const short port)
 {
 	server = new TCPServer(port);
+	server->SetConnectionAcceptedEvent(std::bind(&Engine::OnClientConnected, this, std::placeholders::_1));
+
 	if (!client->Connect(hostName, port))
 	{
 		printf("bad stuff happened somehow");
 		assert(false);
 	}
-	CreateCube();
 	myPlayerNumber = 1;
+
+
+	auto a = SDL_CreateThread(Engine::ServerLoop, "", server);
 }
 
 void Engine::JoinGame()
@@ -116,6 +120,41 @@ void Engine::JoinGame()
 	}
 }
 
+void Engine::OnClientConnected(TCPsocket socket)
+{
+	printf("OnClientConnected callback\n");
+
+	//CreateCube();
+	char buffer[66];
+	int index = 0;
+	for (auto it = renderObjectsData.begin(); it != renderObjectsData.end(); ++it)
+	{
+		//SyncPlayer for everyone instead of just 1 person
+		index = 0;
+		HelperFunctions::InsertIntoBuffer(buffer, index, NetMessageType::SyncPlayer);
+		HelperFunctions::InsertIntoBuffer(buffer, index, (*it)->model);
+		//assert(index == 4);
+		//server->SendData(buffer, index, socket);
+		server->SendMessageChar(buffer, index);
+	}
+
+	index = 0;
+	HelperFunctions::InsertIntoBuffer(buffer, index, NetMessageType::PlayerNumber);
+	HelperFunctions::InsertIntoBuffer(buffer, index, (short)renderObjectsData.size());
+	assert(index == 4);
+	server->SendData(buffer, index, socket);
+
+
+	index = 0;
+	HelperFunctions::InsertIntoBuffer(buffer, index, NetMessageType::InitializeCompleted);
+	assert(index == 2);
+	server->SendData(buffer, index, socket);
+
+	//PlayerNumber
+	//InitializeCompleted
+	//server->SendData()
+}
+
 void Engine::SetUpCamera()
 {
 	camera = new Renderer::Camera();
@@ -126,6 +165,16 @@ void Engine::SetUpCamera()
 	camera->eye = glm::vec3(1.0, 1.0, 1.0);
 	camera->center = glm::vec3(0.0, 0.0, 0.0);
 	Renderer::GetCamera(camera, Renderer::Projection::PERSPECTIVE, fov, aspectRatio, zNear, zFar);
+}
+
+int Engine::ServerLoop(void* data)
+{
+	while (true)
+	{
+		((TCPServer*)data)->AcceptConnections();
+		((TCPServer*)data)->ReceiveMessage();
+	}
+	return 0;
 }
 
 void Engine::Init()
@@ -160,6 +209,8 @@ void Engine::Init()
 	{
 		JoinGame();
 	}
+	CreateCube();
+
 }
 
 void Engine::CreateCube()

@@ -26,7 +26,9 @@ class Engine
 		~Engine();
 		void HostGame(char* hostName, const short port);
 		void JoinGame();
+		void OnClientConnected(TCPsocket socket);
 		void SetUpCamera();
+		static int ServerLoop(void* data);
 		void PollEvent();
 		void OpenConfig();
 		void CloseWindow(SDL_Window* window, SDL_GLContext glcontext, Renderer::RenderData* data, Renderer::Camera* camera);

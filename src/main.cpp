@@ -4,11 +4,9 @@
 #if WEIKIE
 #include "Tests/TestCode.h"
 #endif
-#include "Utilities/helperFunctions.h"
 
 int main(int argc, char** a)
 {
-
 	Engine engine;
 	engine.InitSDL();
 	engine.InitSDLNet();

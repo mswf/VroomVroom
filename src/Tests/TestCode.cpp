@@ -81,22 +81,6 @@ void TestCode::UDPTest()
 
 }
 
-int TestCode::ServerLoop(void* data)
-{
-	//this only works on static functions
-	server->SetConnectionAcceptedEvent(&ServerOnConnectAccept);
-	//use this for members
-	//server->SetConnectionAcceptedEvent(std::bind(&TestCode::OnClientConnected, this, std::placeholders::_1));
-
-
-	while (TCPTestRunning)
-	{
-		server->AcceptConnections();
-		server->ReceiveMessage();
-	}
-	return 0;
-}
-
 void TestCode::ServerOnConnectAccept(TCPsocket socket)
 {
 	printf("asd");
@@ -183,21 +167,16 @@ void TestCode::RunTCPTest()
 	const int port = 6117;
 	server = new TCPServer(port);
 	client = new TCPClient("localhost", port);
-
-	SDL_Thread* thread1 = SDL_CreateThread(ServerLoop, "serverThread", NULL);
-	//SDL_Thread* thread2 = SDL_CreateThread(ClientLoop, "clientThread", NULL);
+	server->AcceptConnections();
 
 	StringTest();
 	//IntTest();
 
-	//while (true)
-	{
-		SDL_Delay(1000);
-		TCPTestRunning = false;
-		SDL_Delay(100);
-		//break;
-		delete client;
-		delete server;
-	}
+	SDL_Delay(1000);
+	TCPTestRunning = false;
+	SDL_Delay(100);
+	//break;
+	delete client;
+	delete server;
 }
 

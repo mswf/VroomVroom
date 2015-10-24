@@ -44,6 +44,8 @@ void TCPServer::AcceptConnections()
 	{
 		// communicate over new_tcpsock
 		clients.push_back(newTcpSock);
+		SDL_CreateThread(ListenForMessages, "TCPsocket", this);
+
 		printf("[Server] Client connected\n");
 		//add function callback that has TCPsocket as parameter
 		if (OnConnectionAcceptedCallBack != NULL)
@@ -71,27 +73,32 @@ void TCPServer::SendData(const void* data, const uint32 length) const
 	}
 }
 
-void TCPServer::ReceiveMessage()
+int TCPServer::ListenForMessages(void* data)
 {
 	int result;
 	char msg[1024];
-
-	for (int i = 0; i < clients.size(); ++i)
+	TCPServer* server = (TCPServer*)data;
+	TCPsocket socket = *--server->clients.end();
+	while (true)
 	{
-		result = SDLNet_TCP_Recv(clients[i], msg, MAX_MESSAGE_LENGTH);
+		result = SDLNet_TCP_Recv(socket, msg, MAX_MESSAGE_LENGTH);
 		if (result <= 0)
 		{
 			// An error may have occured, but sometimes you can just ignore it
 			// It may be good to disconnect sock because it is likely invalid now.
 			//printf("Error", msg);
+			break;
 		}
 		else
 		{
 			//echo to all clients except the client sending it
-			EchoData(msg, result, clients[i]);
+			//mutex lock
+			server->EchoData(msg, result, socket);
+			//unlock
 			//printf("[Server] Received: \"%s\"\n", msg);
 		}
 	}
+	return 0;
 }
 
 void TCPServer::EchoData(const void* data, const uint32 length, const TCPsocket& socket) const

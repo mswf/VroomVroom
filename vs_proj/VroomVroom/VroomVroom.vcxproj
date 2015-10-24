@@ -167,7 +167,11 @@ copy $(ProjectDir)..\..\Framework\Win32Libraries\x86d\glew32d.dll $(OutDir)
 copy $(ProjectDir)..\..\Framework\Win32Libraries\x86d\SDL2.dll $(OutDir)
 copy $(ProjectDir)..\..\Framework\Win32Libraries\x86d\SDL2_net.dll $(OutDir)
 copy $(ProjectDir)..\..\Framework\assimp\Debug\assimpd.dll $(OutDir)
-copy $(ProjectDir)..\..\config.lua $(OutDir)</Command>
+copy $(ProjectDir)..\..\config.lua $(OutDir)
+
+cd $(OutDir)
+cd ../
+xcopy win32 copy /e /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

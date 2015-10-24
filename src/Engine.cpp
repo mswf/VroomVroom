@@ -140,10 +140,12 @@ void Engine::SendSyncPlayer(short& playerNumber, Renderer::RenderData* renderDat
 	//assert(index == 4);
 	if (socket == NULL)
 	{
-		server->SendMessageChar(buffer, index);
+		//send to all
+		client->SendMessageChar(buffer, index);
 	}
 	else
 	{
+		//send to specific
 		server->SendData(buffer, index, socket);
 	}
 }
@@ -231,12 +233,12 @@ void Engine::Init()
 	if (!client->IsConnected())
 	{
 		HostGame(hostName, port);
+		CreateCube();
 	}
 	else
 	{
 		JoinGame();
 	}
-	CreateCube();
 
 }
 
@@ -245,6 +247,10 @@ void Engine::CreateCube()
 	Renderer::RenderData* cube = new Renderer::RenderData();
 	renderObjectsData.push_back(cube);
 	Renderer::GetRenderData(cube);
+	if (renderObjectsData.size() == myPlayerNumber)
+	{
+		SendSyncPlayer(myPlayerNumber, cube, NULL);
+	}
 }
 
 void Engine::PollEvent()

@@ -53,7 +53,7 @@ void TCPServer::AcceptConnections()
 	}
 }
 
-void TCPServer::SendData(const void* data, const uint32 length, TCPsocket socket) const
+void TCPServer::SendData(const void* data, const uint32 length, const TCPsocket& socket) const
 {
 	int result = SDLNet_TCP_Send(socket, data, length);
 	if (result < length)
@@ -94,7 +94,7 @@ void TCPServer::ReceiveMessage()
 	}
 }
 
-void TCPServer::EchoData(const void* data, const uint32 length, const TCPsocket socket) const
+void TCPServer::EchoData(const void* data, const uint32 length, const TCPsocket& socket) const
 {
 	for (std::vector<TCPsocket>::const_iterator it = clients.begin(); it != clients.end(); ++it)
 	{

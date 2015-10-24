@@ -54,6 +54,20 @@ void Engine::HostGame(char* hostName, const short port)
 	auto a = SDL_CreateThread(Engine::ServerLoop, "", server);
 }
 
+void Engine::ReceiveSyncPlayer(char* data, int& bufferIndex)
+{
+	short playerNumber;
+	glm::mat4 matrix;
+	HelperFunctions::ReadFromBuffer(data, bufferIndex, playerNumber);
+	HelperFunctions::ReadFromBuffer(data, bufferIndex, matrix);
+
+	while (renderObjectsData.size() < playerNumber + 1)
+	{
+		CreateCube();
+	}
+	renderObjectsData[playerNumber]->model = matrix;
+}
+
 void Engine::JoinGame()
 {
 	bool initializing = true;
@@ -71,16 +85,7 @@ void Engine::JoinGame()
 			{
 				case NetMessageType::SyncPlayer:
 				{
-					short playerNumber;
-					glm::mat4 matrix;
-					HelperFunctions::ReadFromBuffer(data, index, playerNumber);
-					HelperFunctions::ReadFromBuffer(data, index, matrix);
-
-					while (renderObjectsData.size() < playerNumber + 1)
-					{
-						CreateCube();
-					}
-					renderObjectsData[playerNumber]->model = matrix;
+					ReceiveSyncPlayer(data, index);
 
 					break;
 				}
@@ -122,45 +127,60 @@ void Engine::JoinGame()
 	}
 }
 
-void Engine::OnClientConnected(TCPsocket socket)
+void Engine::SendSyncPlayer(short& playerNumber, Renderer::RenderData* renderData, const TCPsocket& socket) const
 {
-	printf("OnClientConnected callback\n");
+	char buffer[68];
+	int index;
+	index = 0;
+	HelperFunctions::InsertIntoBuffer(buffer, index, NetMessageType::SyncPlayer);
+	HelperFunctions::InsertIntoBuffer(buffer, index, playerNumber);
+	assert(index == 4);
+	HelperFunctions::InsertIntoBuffer(buffer, index, renderData->model);
+	assert(index == 68);
+	//assert(index == 4);
+	if (socket == NULL)
+	{
+		server->SendMessageChar(buffer, index);
+	}
+	else
+	{
+		server->SendData(buffer, index, socket);
+	}
+}
 
-	//CreateCube();
+void Engine::SendPlayerNumber(const TCPsocket& socket) const
+{
+	char buffer[4];
+	int index = 0;
+	HelperFunctions::InsertIntoBuffer(buffer, index, NetMessageType::PlayerNumber);
+	HelperFunctions::InsertIntoBuffer(buffer, index, (short)(renderObjectsData.size() + 1));
+	assert(index == 4);
+	server->SendData(buffer, index, socket);
+}
+
+void Engine::SendInitializeComplete(const TCPsocket& socket) const
+{
 	char buffer[68];
 	int index = 0;
+	HelperFunctions::InsertIntoBuffer(buffer, index, NetMessageType::InitializeCompleted);
+	assert(index == 2);
+	server->SendData(buffer, index, socket);
+}
+
+void Engine::OnClientConnected(const TCPsocket& socket)
+{
+	printf("OnClientConnected callback\n");
 	short i = 0;
 	for (auto it = renderObjectsData.begin(); it != renderObjectsData.end(); ++it)
 	{
-		//SyncPlayer for everyone instead of just 1 person
-		index = 0;
-		HelperFunctions::InsertIntoBuffer(buffer, index, NetMessageType::SyncPlayer);
-		HelperFunctions::InsertIntoBuffer(buffer, index, i);
-		assert(index == 4);
-		HelperFunctions::InsertIntoBuffer(buffer, index, (*it)->model);
-		assert(index == 68);
-		//assert(index == 4);
-		//server->SendData(buffer, index, socket);
-		server->SendMessageChar(buffer, index);
+		SendSyncPlayer(i, *it, socket);
 		++i;
 	}
 
-	index = 0;
-	HelperFunctions::InsertIntoBuffer(buffer, index, NetMessageType::PlayerNumber);
-	HelperFunctions::InsertIntoBuffer(buffer, index, (short)renderObjectsData.size() + 1);
-	assert(index == 4);
-	server->SendData(buffer, index, socket);
-
-
-	index = 0;
-	HelperFunctions::InsertIntoBuffer(buffer, index, NetMessageType::InitializeCompleted);
-	HelperFunctions::InsertIntoBuffer(buffer, index, i);
-	assert(index == 4);
-	server->SendData(buffer, index, socket);
+	SendPlayerNumber(socket);
 	SDL_Delay(100);
-	//PlayerNumber
-	//InitializeCompleted
-	//server->SendData()
+	SendInitializeComplete(socket);
+	SDL_Delay(100);
 }
 
 void Engine::SetUpCamera()
@@ -177,7 +197,7 @@ void Engine::SetUpCamera()
 
 int Engine::ServerLoop(void* data)
 {
-	while (true)
+	while ((TCPServer*)data != NULL)
 	{
 		((TCPServer*)data)->ReceiveMessage();
 	}

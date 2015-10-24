@@ -25,8 +25,12 @@ class Engine
 		Engine();
 		~Engine();
 		void HostGame(char* hostName, const short port);
+		void ReceiveSyncPlayer(char* data, int& index);
 		void JoinGame();
-		void OnClientConnected(TCPsocket socket);
+		void SendSyncPlayer(short& playerNumber, Renderer::RenderData* renderData, const TCPsocket& socket) const;
+		void SendPlayerNumber(const TCPsocket& socket) const;
+		void SendInitializeComplete(const TCPsocket& socket) const;
+		void OnClientConnected(const TCPsocket& socket);
 		void SetUpCamera();
 		static int ServerLoop(void* data);
 		void PollEvent();
@@ -42,6 +46,8 @@ class Engine
 		void InitSDL();
 		void InitSDLNet();
 		void Init();
+
+
 		template<typename T>
 		void AddComponent( Entity* e, T* comp );
 		template<typename T>

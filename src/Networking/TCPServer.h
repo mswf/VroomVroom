@@ -11,8 +11,8 @@ class TCPServer : public TCPData
 		void SetConnectionAcceptedEvent(std::function<void(TCPsocket socket)> callbackFunction);
 		void AcceptConnections();
 		void ReceiveMessage();
-		void EchoData(const void* data, const uint32 length, const TCPsocket socket) const;
-		virtual void SendData(const void* data, const uint32 length, TCPsocket socket) const;
+		void EchoData(const void* data, const uint32 length, const TCPsocket& socket) const;
+		virtual void SendData(const void* data, const uint32 length, const TCPsocket& socket) const;
 	protected:
 		virtual void SendData(const void* data, const uint32 length) const override;
 

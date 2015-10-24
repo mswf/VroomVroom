@@ -385,12 +385,8 @@ void Engine::Update()
 	Terminal.Update();
 }
 
-void Engine::UpdateGame()
+void Engine::Movement()
 {
-	if (server != NULL)
-	{
-		server->AcceptConnections();
-	}
 	glm::mat4 translation	= glm::mat4(1);
 	glm::mat4 rotation		= glm::mat4(1);
 	glm::mat4 scale			= glm::mat4(1);
@@ -413,30 +409,17 @@ void Engine::UpdateGame()
 		rotation = glm::rotate(rotation, glm::radians(-1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
 	}
 	renderObjectsData[myPlayerNumber - 1]->model *= scale * rotation * translation;
+}
 
-
-	//if ( inputManager->OnKeyDown(SDL_SCANCODE_S) )
-	//{
-	//	scale = glm::scale(scale, glm::vec3(1.1f, 1.1f, 1.1f));
-	//}
-	//if ( inputManager->OnKeyDown(SDL_SCANCODE_D) )
-	//{
-	//	scale = glm::scale(scale, glm::vec3(0.9f, 0.9f, 0.9f));
-	//}
-
-	if ( inputManager->OnMouseDown(SDL_BUTTON_LEFT) )
+void Engine::UpdateGame()
+{
+	if (server != NULL)
 	{
-		printf( "Pressed left mouse button at x:%i y:%i \n", inputManager->GetMousePosition().x, inputManager->GetMousePosition().y);
-	}
-	if ( inputManager->OnMouseUp(SDL_BUTTON_LEFT) )
-	{
-		printf( "Released left mouse button \n" );
+		server->AcceptConnections();
 	}
 
-	if ( inputManager->OnKeyDown("shoot") )
-	{
-		printf( "Bam! Key: %i \n", inputManager->GetBind("shoot") );
-	}
+
+	Movement();
 }
 
 void Engine::UpdateLoop()

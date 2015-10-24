@@ -70,6 +70,7 @@ class Engine
 		TCPServer* server;
 	private:
 		void Update();
+		void Movement();
 		void UpdateGame();
 		void CreateCube();
 };

@@ -71,6 +71,7 @@ class Engine
 	private:
 		void Update();
 		void Movement();
+		void HandleIncomingNetData();
 		void UpdateGame();
 		void CreateCube();
 };

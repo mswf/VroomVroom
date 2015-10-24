@@ -201,7 +201,7 @@ int Engine::ServerLoop(void* data)
 {
 	while ((TCPServer*)data != NULL)
 	{
-		((TCPServer*)data)->ReceiveMessage();
+		//((TCPServer*)data)->ListenForMessages();
 	}
 	return 0;
 }
@@ -411,8 +411,50 @@ void Engine::Movement()
 	renderObjectsData[myPlayerNumber - 1]->model *= scale * rotation * translation;
 }
 
+void Engine::HandleIncomingNetData()
+{
+	std::vector<NetworkData> messages = client->ReceiveMessage();
+	for (auto it = messages.begin(); it != messages.end(); ++it)
+	{
+		char* data = (*it).data;
+		int index = 0;
+		NetMessageType messageType;
+		HelperFunctions::ReadFromBuffer(data, index, messageType);
+		switch (messageType)
+		{
+			case NetMessageType::SyncPlayer:
+			{
+				ReceiveSyncPlayer(data, index);
+				break;
+			}
+			case NetMessageType::SyncNpc:
+			case NetMessageType::SyncVelocity:
+			case NetMessageType::RequestMessage:
+			{
+				//not yet implemented
+				assert(false);
+				break;
+			}
+			case NetMessageType::InitializeCompleted:
+			case NetMessageType::PlayerNumber:
+			{
+				//do nothing
+				break;
+			}
+			default:
+			{
+				//all should be handled I guess?
+				assert(false);
+				break;
+			}
+		}
+	}
+}
+
 void Engine::UpdateGame()
 {
+	HandleIncomingNetData();
+
 	if (server != NULL)
 	{
 		server->AcceptConnections();

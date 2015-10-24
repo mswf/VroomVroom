@@ -61,11 +61,11 @@ void Engine::ReceiveSyncPlayer(char* data, int& bufferIndex)
 	HelperFunctions::ReadFromBuffer(data, bufferIndex, playerNumber);
 	HelperFunctions::ReadFromBuffer(data, bufferIndex, matrix);
 
-	while (renderObjectsData.size() < playerNumber + 1)
+	while (renderObjectsData.size() < playerNumber)
 	{
 		CreateCube();
 	}
-	renderObjectsData[playerNumber]->model = matrix;
+	renderObjectsData[playerNumber - 1]->model = matrix;
 }
 
 void Engine::JoinGame()
@@ -127,7 +127,7 @@ void Engine::JoinGame()
 	}
 }
 
-void Engine::SendSyncPlayer(short& playerNumber, Renderer::RenderData* renderData, const TCPsocket& socket) const
+void Engine::SendSyncPlayer(short& playerNumber, const TCPsocket& socket) const
 {
 	char buffer[68];
 	int index;
@@ -135,7 +135,7 @@ void Engine::SendSyncPlayer(short& playerNumber, Renderer::RenderData* renderDat
 	HelperFunctions::InsertIntoBuffer(buffer, index, NetMessageType::SyncPlayer);
 	HelperFunctions::InsertIntoBuffer(buffer, index, playerNumber);
 	assert(index == 4);
-	HelperFunctions::InsertIntoBuffer(buffer, index, renderData->model);
+	HelperFunctions::InsertIntoBuffer(buffer, index, renderObjectsData[playerNumber - 1]->model);
 	assert(index == 68);
 	//assert(index == 4);
 	if (socket == NULL)
@@ -169,14 +169,12 @@ void Engine::SendInitializeComplete(const TCPsocket& socket) const
 	server->SendData(buffer, index, socket);
 }
 
-void Engine::OnClientConnected(const TCPsocket& socket)
+void Engine::OnClientConnected(const TCPsocket& socket) const
 {
 	printf("OnClientConnected callback\n");
-	short i = 0;
-	for (auto it = renderObjectsData.begin(); it != renderObjectsData.end(); ++it)
+	for (short i = 1; i != renderObjectsData.size() + 1; ++i)
 	{
-		SendSyncPlayer(i, *it, socket);
-		++i;
+		SendSyncPlayer(i, socket);
 	}
 
 	SendPlayerNumber(socket);
@@ -249,7 +247,7 @@ void Engine::CreateCube()
 	Renderer::GetRenderData(cube);
 	if (renderObjectsData.size() == myPlayerNumber)
 	{
-		SendSyncPlayer(myPlayerNumber, cube, NULL);
+		SendSyncPlayer(myPlayerNumber, NULL);
 	}
 }
 
@@ -409,6 +407,7 @@ void Engine::Movement()
 		rotation = glm::rotate(rotation, glm::radians(-1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
 	}
 	renderObjectsData[myPlayerNumber - 1]->model *= scale * rotation * translation;
+	SendSyncPlayer(myPlayerNumber, NULL);
 }
 
 void Engine::HandleIncomingNetData()

@@ -78,7 +78,7 @@ void TCPClient::SendData(const void* data, const uint32 length) const
 	{
 		printf("SDLNet_TCP_Send: %s\n", SDLNet_GetError());
 		printf("serverSocket has been disconnected\n");
-		assert(false);
+		//assert(false);
 	}
 }
 
@@ -120,7 +120,7 @@ int TCPClient::ListenForMessages(void* tcpClient)
 			// An error may have occured, but sometimes you can just ignore it
 			// It may be good to disconnect sock because it is likely invalid now.
 			client->alive = false;
-			assert("client disconnected");
+			//assert("client disconnected");
 			return 1;
 		}
 

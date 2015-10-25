@@ -82,6 +82,8 @@ class Engine
 		bool down;
 		bool left;
 		bool right;
+		uint64 updateCounter;
+		bool useDeadReckoning;
 		//glm::mat4 translationChange;
 		//glm::mat4 rotationChange;
 		//glm::mat4 scaleChange;
@@ -89,6 +91,7 @@ class Engine
 	private:
 		void Update();
 		void PollInputStatus();
+		void SendMessagesMethodType();
 		void Movement();
 		void HandleIncomingNetData();
 		void UpdateGame();

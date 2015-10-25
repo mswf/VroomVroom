@@ -31,7 +31,9 @@ Engine::Engine() :
 	up(false),
 	down(false),
 	left(false),
-	right(false)
+	right(false),
+	updateCounter(0),
+	useDeadReckoning(false)
 {
 }
 
@@ -197,7 +199,7 @@ void Engine::ReceivePlayerMatrixChange(char* data, int& bufferIndex)
 {
 	short playerNumber;
 	HelperFunctions::ReadFromBuffer(data, bufferIndex, playerNumber);
-	HelperFunctions::ReadFromBuffer(data, bufferIndex, playerData[myPlayerNumber - 1]);
+	HelperFunctions::ReadFromBuffer(data, bufferIndex, playerData[playerNumber - 1]);
 }
 
 void Engine::OnClientConnected(const TCPsocket& socket) const
@@ -457,6 +459,35 @@ void Engine::PollInputStatus()
 	{
 		right = false;
 	}
+	if (inputManager->OnKeyUp(SDL_SCANCODE_F))
+	{
+		useDeadReckoning = !useDeadReckoning;
+		if (useDeadReckoning)
+		{
+			printf("Using DR\n");
+		}
+		else
+		{
+			printf("Not using DR\n");
+		}
+	}
+}
+
+void Engine::SendMessagesMethodType()
+{
+	//dead reckoning
+	if (useDeadReckoning)
+	{
+		if (updateCounter % 100 == 0)
+		{
+			SendSyncPlayer(myPlayerNumber, NULL);
+		}
+		SendPlayerMatrixChange(NULL);
+	}
+	else
+	{
+		SendSyncPlayer(myPlayerNumber, NULL);
+	}
 }
 
 void Engine::Movement()
@@ -465,7 +496,6 @@ void Engine::Movement()
 	playerData[myPlayerNumber - 1].rotation = glm::mat4(1);
 	playerData[myPlayerNumber - 1].scale = glm::mat4(1);
 
-	PollInputStatus();
 	if (up)
 	{
 		playerData[myPlayerNumber - 1].translation = glm::translate(playerData[myPlayerNumber - 1].translation, glm::vec3(0.1f, 0.0f, 0.0f));
@@ -482,8 +512,8 @@ void Engine::Movement()
 	{
 		playerData[myPlayerNumber - 1].rotation = glm::rotate(playerData[myPlayerNumber - 1].rotation, glm::radians(-1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
 	}
-	SendSyncPlayer(myPlayerNumber, NULL);
-	SendPlayerMatrixChange(NULL);
+
+	SendMessagesMethodType();
 
 	for (int i = 0; i < playerData.size(); ++i)
 	{
@@ -542,6 +572,7 @@ void Engine::HandleIncomingNetData()
 
 void Engine::UpdateGame()
 {
+	updateCounter++;
 	HandleIncomingNetData();
 
 	if (server != NULL)
@@ -549,7 +580,7 @@ void Engine::UpdateGame()
 		server->AcceptConnections();
 	}
 
-
+	PollInputStatus();
 	Movement();
 }
 

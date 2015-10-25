@@ -19,6 +19,13 @@ struct Entity
 	std::map< int, Component* > entityComponents;
 };
 
+struct TransformChange
+{
+	glm::mat4 translation;
+	glm::mat4 rotation;
+	glm::mat4 scale;
+};
+
 class Engine
 {
 	public:
@@ -30,6 +37,8 @@ class Engine
 		void SendSyncPlayer(short& playerNumber, const TCPsocket& socket) const;
 		void SendPlayerNumber(const TCPsocket& socket) const;
 		void SendInitializeComplete(const TCPsocket& socket) const;
+		void SendPlayerMatrixChange(const TCPsocket& socket) const;
+		void ReceivePlayerMatrixChange(char* data, int& bufferIndex);
 		void OnClientConnected(const TCPsocket& socket) const;
 		void SetUpCamera();
 		static int ServerLoop(void* data);
@@ -58,6 +67,7 @@ class Engine
 	private:
 		std::multimap< int, Entity* > componentStorage;
 		std::vector<Renderer::RenderData*> renderObjectsData;
+		std::vector<TransformChange> playerData;
 		short myPlayerNumber;
 		Renderer::RenderSystem* renderer;
 		Input* inputManager;
@@ -72,13 +82,18 @@ class Engine
 		bool down;
 		bool left;
 		bool right;
+		//glm::mat4 translationChange;
+		//glm::mat4 rotationChange;
+		//glm::mat4 scaleChange;
 
 	private:
 		void Update();
+		void PollInputStatus();
 		void Movement();
 		void HandleIncomingNetData();
 		void UpdateGame();
 		void CreateCube();
+		void CreatePlayerData();
 };
 
 #endif

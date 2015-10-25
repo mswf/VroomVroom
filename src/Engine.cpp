@@ -119,7 +119,7 @@ void Engine::JoinGame()
 				default:
 				{
 					//for now to see what is happening
-					SDL_assert(false);
+					//SDL_assert(false);
 					//ignore other messages while initializing
 					break;
 				}
@@ -171,6 +171,33 @@ void Engine::SendInitializeComplete(const TCPsocket& socket) const
 	HelperFunctions::InsertIntoBuffer(buffer, index, NetMessageType::InitializeCompleted);
 	assert(index == 2);
 	server->SendData(buffer, index, socket);
+}
+
+void Engine::SendPlayerMatrixChange(const TCPsocket& socket) const
+{
+	char buffer[196];
+	int index = 0;
+	HelperFunctions::InsertIntoBuffer(buffer, index, NetMessageType::PlayerMatrixChange);
+	HelperFunctions::InsertIntoBuffer(buffer, index, myPlayerNumber);
+	HelperFunctions::InsertIntoBuffer(buffer, index, playerData[myPlayerNumber - 1]);
+	assert(index == 196);
+	if (socket == NULL)
+	{
+		//send to all
+		client->SendMessageChar(buffer, index);
+	}
+	else
+	{
+		//send to specific
+		server->SendData(buffer, index, socket);
+	}
+}
+
+void Engine::ReceivePlayerMatrixChange(char* data, int& bufferIndex)
+{
+	short playerNumber;
+	HelperFunctions::ReadFromBuffer(data, bufferIndex, playerNumber);
+	HelperFunctions::ReadFromBuffer(data, bufferIndex, playerData[myPlayerNumber - 1]);
 }
 
 void Engine::OnClientConnected(const TCPsocket& socket) const
@@ -252,6 +279,16 @@ void Engine::CreateCube()
 	{
 		SendSyncPlayer(myPlayerNumber, NULL);
 	}
+	CreatePlayerData();
+}
+
+void Engine::CreatePlayerData()
+{
+	TransformChange data;
+	data.rotation = glm::mat4(1);
+	data.translation = glm::mat4(1);
+	data.scale = glm::mat4(1);
+	playerData.push_back(data);
 }
 
 void Engine::PollEvent()
@@ -385,12 +422,8 @@ void Engine::Update()
 	Terminal.Update();
 }
 
-void Engine::Movement()
+void Engine::PollInputStatus()
 {
-	glm::mat4 translation	= glm::mat4(1);
-	glm::mat4 rotation		= glm::mat4(1);
-	glm::mat4 scale			= glm::mat4(1);
-
 	if (inputManager->OnKeyDown(SDL_SCANCODE_W))
 	{
 		up = true;
@@ -424,24 +457,38 @@ void Engine::Movement()
 	{
 		right = false;
 	}
+}
+
+void Engine::Movement()
+{
+	playerData[myPlayerNumber - 1].translation = glm::mat4(1);
+	playerData[myPlayerNumber - 1].rotation = glm::mat4(1);
+	playerData[myPlayerNumber - 1].scale = glm::mat4(1);
+
+	PollInputStatus();
 	if (up)
 	{
-		translation = glm::translate(translation, glm::vec3(0.1f, 0.0f, 0.0f));
+		playerData[myPlayerNumber - 1].translation = glm::translate(playerData[myPlayerNumber - 1].translation, glm::vec3(0.1f, 0.0f, 0.0f));
 	}
 	if (down)
 	{
-		translation = glm::translate(translation, glm::vec3(-0.1f, 0.0f, 0.0f));
+		playerData[myPlayerNumber - 1].translation = glm::translate(playerData[myPlayerNumber - 1].translation, glm::vec3(-0.1f, 0.0f, 0.0f));
 	}
 	if (left)
 	{
-		rotation = glm::rotate(rotation, glm::radians(1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
+		playerData[myPlayerNumber - 1].rotation = glm::rotate(playerData[myPlayerNumber - 1].rotation, glm::radians(1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
 	}
 	if (right)
 	{
-		rotation = glm::rotate(rotation, glm::radians(-1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
+		playerData[myPlayerNumber - 1].rotation = glm::rotate(playerData[myPlayerNumber - 1].rotation, glm::radians(-1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
 	}
-	renderObjectsData[myPlayerNumber - 1]->model *= scale * rotation * translation;
 	SendSyncPlayer(myPlayerNumber, NULL);
+	SendPlayerMatrixChange(NULL);
+
+	for (int i = 0; i < playerData.size(); ++i)
+	{
+		renderObjectsData[i]->model *= playerData[i].scale * playerData[i].rotation * playerData[i].translation;
+	}
 }
 
 void Engine::HandleIncomingNetData()
@@ -451,7 +498,7 @@ void Engine::HandleIncomingNetData()
 	{
 		char* data = (*it).data;
 		int index = 0;
-		NetMessageType messageType;
+		NetMessageType messageType = NetMessageType::None;
 		HelperFunctions::ReadFromBuffer(data, index, messageType);
 		switch (messageType)
 		{
@@ -460,9 +507,16 @@ void Engine::HandleIncomingNetData()
 				ReceiveSyncPlayer(data, index);
 				break;
 			}
+			case NetMessageType::PlayerMatrixChange:
+			{
+				ReceivePlayerMatrixChange(data, index);
+				break;
+			}
 			case NetMessageType::SyncNpc:
 			case NetMessageType::SyncVelocity:
 			case NetMessageType::RequestMessage:
+			case NetMessageType::SyncPosition:
+			case NetMessageType::SyncRotation:
 			{
 				//not yet implemented
 				assert(false);
@@ -470,14 +524,16 @@ void Engine::HandleIncomingNetData()
 			}
 			case NetMessageType::InitializeCompleted:
 			case NetMessageType::PlayerNumber:
-			{
-				//do nothing
+			case NetMessageType::None:
 				break;
-			}
+				{
+					//do nothing
+					break;
+				}
 			default:
 			{
 				//all should be handled I guess?
-				assert(false);
+				//assert(false);
 				break;
 			}
 		}

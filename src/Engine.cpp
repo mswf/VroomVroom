@@ -27,7 +27,11 @@ Engine::Engine() :
 	show_test_window(false),
 	show_another_window(false),
 	client(NULL),
-	server(NULL)
+	server(NULL),
+	up(false),
+	down(false),
+	left(false),
+	right(false)
 {
 }
 
@@ -237,7 +241,6 @@ void Engine::Init()
 	{
 		JoinGame();
 	}
-
 }
 
 void Engine::CreateCube()
@@ -304,7 +307,6 @@ void Engine::CloseWindow(SDL_Window* window, SDL_GLContext glcontext, Renderer::
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 }
-
 
 void Engine::SetupWindow(SDL_Window*& window, SDL_GLContext& glcontext)
 {
@@ -389,20 +391,52 @@ void Engine::Movement()
 	glm::mat4 rotation		= glm::mat4(1);
 	glm::mat4 scale			= glm::mat4(1);
 
+	if (inputManager->OnKeyDown(SDL_SCANCODE_W))
+	{
+		up = true;
+	}
+	if (inputManager->OnKeyUp(SDL_SCANCODE_W))
+	{
+		up = false;
+	}
+	if (inputManager->OnKeyDown(SDL_SCANCODE_S))
+	{
+		down = true;
+	}
+	if (inputManager->OnKeyUp(SDL_SCANCODE_S))
+	{
+		down = false;
+	}
 
-	if (inputManager->OnKey(SDL_SCANCODE_W))
+	if (inputManager->OnKeyDown(SDL_SCANCODE_A))
+	{
+		left = true;
+	}
+	if (inputManager->OnKeyUp(SDL_SCANCODE_A))
+	{
+		left = false;
+	}
+	if (inputManager->OnKeyDown(SDL_SCANCODE_D))
+	{
+		right = true;
+	}
+	if (inputManager->OnKeyUp(SDL_SCANCODE_D))
+	{
+		right = false;
+	}
+	if (up)
 	{
 		translation = glm::translate(translation, glm::vec3(0.1f, 0.0f, 0.0f));
 	}
-	if (inputManager->OnKey(SDL_SCANCODE_S))
+	if (down)
 	{
 		translation = glm::translate(translation, glm::vec3(-0.1f, 0.0f, 0.0f));
 	}
-	if (inputManager->OnKey(SDL_SCANCODE_A))
+	if (left)
 	{
 		rotation = glm::rotate(rotation, glm::radians(1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
 	}
-	if (inputManager->OnKey(SDL_SCANCODE_D))
+	if (right)
 	{
 		rotation = glm::rotate(rotation, glm::radians(-1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
 	}

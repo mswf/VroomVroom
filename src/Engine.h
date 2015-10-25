@@ -68,6 +68,11 @@ class Engine
 		bool show_another_window;
 		TCPClient* client;
 		TCPServer* server;
+		bool up;
+		bool down;
+		bool left;
+		bool right;
+
 	private:
 		void Update();
 		void Movement();

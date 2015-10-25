@@ -7,14 +7,16 @@
 
 enum class NetMessageType : short
 {
-	SyncPosition = 0,		//[entityID,(vec3)pos,(float)time]
+	None = 0,
+	SyncPosition,		//[entityID,(vec3)pos,(float)time]
 	SyncRotation,			//[entityID,(quat)rot,(float)time]
 	SyncVelocity,			//[entityID,(vec3)vel,(float)time]
 	SyncNpc,				//[entityID,(mat4)matrix]
 	SyncPlayer,				//[playerNumber,(mat4)matrix]
 	PlayerNumber,			//[playerNumber]
 	InitializeCompleted,	//[]
-	RequestMessage
+	RequestMessage,
+	PlayerMatrixChange
 };
 
 class NetMessage

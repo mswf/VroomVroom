@@ -11,12 +11,14 @@
 
 #include "moduleMacros.h"
 
-namespace mEngine {
-    void Bind( lua_State* );
+class mEngine {
+    public:
+        static void Bind( lua_State* );
+    private:
+        mEngine();
+        ~mEngine();
     
-    
-    
-    lFunc(log);
-}
+        lFuncDef(log);
+};
 
 #endif /* mEngine_h */

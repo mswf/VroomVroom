@@ -7,79 +7,84 @@
 //
 
 #include "mInput.h"
+#include "console.h"
 
-namespace mInput
+
+Input* mInput::input = NULL;
+
+void mInput::Bind(lua_State* L, Input* I)
 {
-    void Bind(lua_State* L, Input* I)
+    if(input == NULL)
     {
-        lStart(Input)
-            lBind(getMousePosition)
-            lBind(bindKey)
-            lBind(unbindKey)
-            lBind(getBind)
-            lBind(bindExists)
-            lBind(isBound)
-            lBind(key)
-            lBind(keyDown)
-            lBind(keyUp)
-            lBind(mouseDown)
-            lBind(mouseUp)
-        lEnd(Input)
+        input = I;
     }
-    
-    lFunc(getMousePosition)
-    {
-        return 0;
-    }
-    
-    lFunc(bindKey)
-    {
-        return 0;
-    }
-    
-    lFunc(unbindKey)
-    {
-        return 0;
-    }
-    
-    lFunc(getBind)
-    {
-        return 0;
-    }
-    
-    lFunc(bindExists)
-    {
-        return 0;
-    }
-    
-    lFunc(isBound)
-    {
-        return 0;
-    }
-    
-    lFunc(key)
-    {
-        return 0;
-    }
-    
-    lFunc(keyDown)
-    {
-        return 0;
-    }
-    
-    lFunc(keyUp)
-    {
-        return 0;
-    }
-    
-    lFunc(mouseDown)
-    {
-        return 0;
-    }
-    
-    lFunc(mouseUp)
-    {
-        return 0;
-    }
-    
-} //mInput
+       
+    lStart(Input)
+        lBind(getMousePosition)
+        lBind(bindKey)
+        lBind(unbindKey)
+        lBind(getBind)
+        lBind(bindExists)
+        lBind(isBound)
+        lBind(key)
+        lBind(keyDown)
+        lBind(keyUp)
+        lBind(mouseDown)
+        lBind(mouseUp)
+    lEnd(Input)
+}
+
+lFuncImp(mInput, getMousePosition)
+{
+    return 0;
+}
+
+lFuncImp(mInput, bindKey)
+{
+    return 0;
+}
+
+lFuncImp(mInput, unbindKey)
+{
+    return 0;
+}
+
+lFuncImp(mInput, getBind)
+{
+    return 0;
+}
+
+lFuncImp(mInput, bindExists)
+{
+    return 0;
+}
+
+lFuncImp(mInput, isBound)
+{
+    return 0;
+}
+
+lFuncImp(mInput, key)
+{
+    return 0;
+}
+
+lFuncImp(mInput, keyDown)
+{
+    return 0;
+}
+
+lFuncImp(mInput, keyUp)
+{
+    return 0;
+}
+
+lFuncImp(mInput, mouseDown)
+{
+    return 0;
+}
+
+lFuncImp(mInput, mouseUp)
+{
+    return 0;
+}

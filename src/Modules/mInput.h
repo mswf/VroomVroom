@@ -13,21 +13,24 @@
 
 class Input;
 
-namespace mInput{
-    void Bind(lua_State*, Input*);
+class mInput{
+    public:
+        static void Bind(lua_State*, Input*);
 
+    private:
+        lFuncDef(getMousePosition);
+        lFuncDef(bindKey);
+        lFuncDef(unbindKey);
+        lFuncDef(getBind);
+        lFuncDef(bindExists);
+        lFuncDef(isBound);
+        lFuncDef(key);
+        lFuncDef(keyDown);
+        lFuncDef(keyUp);
+        lFuncDef(mouseDown);
+        lFuncDef(mouseUp);
     
-    lFunc(getMousePosition);
-    lFunc(bindKey);
-    lFunc(unbindKey);
-    lFunc(getBind);
-    lFunc(bindExists);
-    lFunc(isBound);
-    lFunc(key);
-    lFunc(keyDown);
-    lFunc(keyUp);
-    lFunc(mouseDown);
-    lFunc(mouseUp);
-}
+        static Input* input;
+};
 
 #endif /* mInput_h */

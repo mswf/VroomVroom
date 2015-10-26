@@ -11,13 +11,15 @@
 
 #include <lua.hpp>
 
-    #define lFunc(NAME)\
-        int lw_##NAME##__( lua_State* L)
+    #define lFuncDef(NAME)\
+        static int lw_##NAME##__( lua_State* L)
+
+    #define lFuncImp(CLASS, NAME)\
+        int CLASS::lw_##NAME##__( lua_State* L)
 
     #define lStart(NAME)\
         static const luaL_reg NAME##_funcs[] =\
         {\
-
 
     #define lBind(NAME)\
             { #NAME ,lw_##NAME##__},

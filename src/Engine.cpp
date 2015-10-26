@@ -17,6 +17,8 @@
 #include "Utilities/helperFunctions.h"
 #include "Networking/NetMessage.h"
 
+
+
 Engine::Engine() :
 	myPlayerNumber(-1),
 	renderer(NULL),
@@ -358,7 +360,7 @@ void Engine::SetupWindow(SDL_Window*& window, SDL_GLContext& glcontext)
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 	SDL_DisplayMode current;
 	SDL_GetCurrentDisplayMode(0, &current);
-	window = SDL_CreateWindow("VroomVroom", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+	window = SDL_CreateWindow("VroomVroom", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 	glcontext = SDL_GL_CreateContext(window);
 }
 
@@ -458,6 +460,22 @@ void Engine::PollInputStatus()
 	if (inputManager->OnKeyUp(SDL_SCANCODE_D))
 	{
 		right = false;
+	}
+	if (inputManager->OnKeyDown(SDL_SCANCODE_Q))
+	{
+		strafeLeft = true;
+	}
+	if (inputManager->OnKeyUp(SDL_SCANCODE_Q))
+	{
+		strafeLeft = false;
+	}
+	if (inputManager->OnKeyDown(SDL_SCANCODE_E))
+	{
+		strafeRight = true;
+	}
+	if (inputManager->OnKeyUp(SDL_SCANCODE_E))
+	{
+		strafeRight = false;
 	}
 	if (inputManager->OnKeyUp(SDL_SCANCODE_F))
 	{

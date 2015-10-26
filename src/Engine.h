@@ -82,8 +82,12 @@ class Engine
 		bool down;
 		bool left;
 		bool right;
+		bool strafeLeft;
+		bool strafeRight;
 		uint64 updateCounter;
 		bool useDeadReckoning;
+		const int WINDOW_WIDTH = 720;//1280;
+		const int WINDOW_HEIGHT = 640; //720;
 		//glm::mat4 translationChange;
 		//glm::mat4 rotationChange;
 		//glm::mat4 scaleChange;

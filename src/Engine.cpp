@@ -604,7 +604,6 @@ void Engine::UpdateLoop()
 		//game
 		currentTicks = SDL_GetTicks();
 		uint32 deltaTimeGame = currentTicks - prevTicks;
-		PollEvent();
 		//inputManager->MidiListener();
 
 		while (deltaTimeGame > gameUpdateInterval)
@@ -617,6 +616,7 @@ void Engine::UpdateLoop()
 
 			if (deltaTimeGame < gameUpdateInterval)
 			{
+				PollEvent();
 				UpdateGame();
 				prevTicks = currentTicks;
 				prevTicks -= deltaTimeGame;

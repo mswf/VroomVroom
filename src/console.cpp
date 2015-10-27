@@ -117,10 +117,10 @@ void sTerminal::WriteToFile(const string msg)
 
 void sTerminal::SendToExternal(const string msg, const string background, const string color)
 {
-	string consoleString = "MSG;";
-	consoleString += msg + ";";
-	consoleString += "BG;" + background + ";";
-	consoleString += "CLR;" + color + ";";
+	string consoleString = "MSG[|]";
+	consoleString += msg + "[|]";
+	consoleString += "BG[|]" + background + "[|]";
+	consoleString += "CLR[|]" + color + "[|]";
 
 	if (socket->IsConnected())
 	{

@@ -55,17 +55,17 @@ class Input
         Input();
         ~Input();
     
-        void BindKey( std::string name, int key );
-        void UnbindKey( std::string name );
-        int GetBind( std::string name );
-        bool BindExists( std::string name );
-        bool IsBound( int key );
-        bool OnKey( SDL_Scancode key );
-        bool OnKey( std::string name );
-        bool OnKeyDown( SDL_Scancode key );
-        bool OnKeyDown( std::string name );
-        bool OnKeyUp( SDL_Scancode key );
-        bool OnKeyUp( std::string name );
+        //void BindKey( std::string name, int key );
+        //void UnbindKey( std::string name );
+        //int GetBind( std::string name );
+        //bool BindExists( std::string name );
+        //bool IsBound( int key );
+        bool OnKey( SDL_Keycode key );
+        //bool OnKey( std::string name );
+        bool OnKeyDown( SDL_Keycode key );
+        //bool OnKeyDown( std::string name );
+        bool OnKeyUp( SDL_Keycode key );
+        //bool OnKeyUp( std::string name );
         bool OnMouseDown( uint8_t button );
         bool OnMouseUp( uint8_t button );
         const glm::ivec2 GetMousePosition();
@@ -76,7 +76,7 @@ class Input
     
     private:
     
-        std::map< std::string, int > * bindings;
+        //std::map< std::string, int > * bindings;
         KeyState keyState[SDL_NUM_SCANCODES];
         MouseButtonState mouseState[6];
         MouseMotionState mouseMotion;

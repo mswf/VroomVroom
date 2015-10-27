@@ -15,12 +15,12 @@ Input::Input()
         mouseState[i].usedInCurrentFrame = false;
     }
     
-    bindings = new std::map< std::string, int >();
+    //bindings = new std::map< std::string, int >();
 }
 
 Input::~Input()
 {
-    delete bindings;
+    //delete bindings;
     //delete midiin;
     //delete midiout;
 }
@@ -40,39 +40,42 @@ bool Input::OnMouseUp(uint8_t button)
     return mouseState[button].state == MouseEvent::RELEASE;
 }
 
-bool Input::OnKeyDown(SDL_Scancode key)
+bool Input::OnKeyDown(SDL_Keycode key)
 {
-    return keyState[key].triggerEvent == KeyEvent::DOWN;
+    SDL_Scancode scanKey = SDL_GetScancodeFromKey(key);
+    return keyState[scanKey].triggerEvent == KeyEvent::DOWN;
 }
-
+/*
 bool Input::OnKeyDown( std::string name )
 {
     SDL_Scancode key = (SDL_Scancode)(*bindings)[name];
     return OnKeyDown(key);
 }
-
-bool Input::OnKeyUp(SDL_Scancode key)
+*/
+bool Input::OnKeyUp(SDL_Keycode key)
 {
-    return keyState[key].triggerEvent == KeyEvent::RELEASE;
+    SDL_Scancode scanKey = SDL_GetScancodeFromKey(key);
+    return keyState[scanKey].triggerEvent == KeyEvent::RELEASE;
 }
-
+/*
 bool Input::OnKeyUp( std::string name )
 {
     SDL_Scancode key = (SDL_Scancode)(*bindings)[name];
     return OnKeyUp(key);
 }
-
-bool Input::OnKey(SDL_Scancode key)
+*/
+bool Input::OnKey(SDL_Keycode key)
 {
-    return keyState[key].triggerEvent == KeyEvent::HOLD;
+    SDL_Scancode scanKey = SDL_GetScancodeFromKey(key);
+    return keyState[scanKey].triggerEvent == KeyEvent::HOLD;
 }
-
+/*
 bool Input::OnKey( std::string name )
 {
     SDL_Scancode key = (SDL_Scancode)(*bindings)[name];
     return OnKey(key);
 }
-
+*/
 void Input::StateReset()
 {
     for (int i = 0; i < SDL_NUM_SCANCODES; ++i)
@@ -100,7 +103,7 @@ void Input::StateReset()
 
     }
 }
-
+/*
 void Input::BindKey( std::string name, int key )
 {
     if ( name.empty() && key == SDL_SCANCODE_UNKNOWN)
@@ -150,6 +153,7 @@ int Input::GetBind( std::string name )
     }
     return ( *bindings )[name];
 }
+ */
 
 // TODO: Implement Modifier support, Motion getter, Wheel getter
 // TODO: Support Keycode

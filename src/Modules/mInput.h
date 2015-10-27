@@ -20,11 +20,11 @@ class mInput{
 
     private:
         lFuncDef(getMousePosition);
-        lFuncDef(bindKey);
-        lFuncDef(unbindKey);
-        lFuncDef(getBind);
-        lFuncDef(bindExists);
-        lFuncDef(isBound);
+        //lFuncDef(bindKey);
+        //lFuncDef(unbindKey);
+        //lFuncDef(getBind);
+        //lFuncDef(bindExists);
+        //lFuncDef(isBound);
         lFuncDef(key);
         lFuncDef(keyDown);
         lFuncDef(keyUp);

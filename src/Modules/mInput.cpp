@@ -16,11 +16,11 @@ void mInput::Bind(lua_State* L)
 {
     lStart(Input)
         lBind(getMousePosition)
-        lBind(bindKey)
-        lBind(unbindKey)
-        lBind(getBind)
-        lBind(bindExists)
-        lBind(isBound)
+        //lBind(bindKey)
+        //lBind(unbindKey)
+        //lBind(getBind)
+        //lBind(bindExists)
+        //lBind(isBound)
         lBind(key)
         lBind(keyDown)
         lBind(keyUp)
@@ -43,7 +43,7 @@ lFuncImp(mInput, getMousePosition)
     
     return 2;
 }
-
+/*
 lFuncImp(mInput, bindKey)
 {
     lua_settop(L, 2);
@@ -95,14 +95,14 @@ lFuncImp(mInput, isBound)
     
     return 1;
 }
-
+*/
 lFuncImp(mInput, key)
 {
     lua_settop(L, 1);
     lgInt(key, 1);
     lua_settop(L,0);
     
-    bool down = input->OnKey( (SDL_Scancode)key );
+    bool down = input->OnKey( (SDL_Keycode)key );
     lua_pushboolean(L, down);
     
     return 1;
@@ -114,7 +114,8 @@ lFuncImp(mInput, keyDown)
     lgInt(key, 1);
     lua_settop(L,0);
     
-    bool down = input->OnKeyDown( (SDL_Scancode)key );
+    bool down = input->OnKeyDown( (SDL_Keycode)key );
+    Terminal.Log(std::to_string(down));
     lua_pushboolean(L, down);
     
     return 1;
@@ -127,7 +128,7 @@ lFuncImp(mInput, keyUp)
     lgInt(key, 1);
     lua_settop(L,0);
     
-    bool down = input->OnKeyUp( (SDL_Scancode)key );
+    bool down = input->OnKeyUp( (SDL_Keycode)key );
     lua_pushboolean(L, down);
     
     return 1;

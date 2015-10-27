@@ -40,7 +40,7 @@ void Engine::Init()
     renderer = new Renderer::RenderSystem();
     
     inputManager = new Input();
-    inputManager->BindKey("shoot", SDL_SCANCODE_SPACE);
+    //inputManager->BindKey("shoot", SDL_SCANCODE_SPACE);
     
     //TODO: I don't really want to bind this here, but I also don't want to pass inputManager all over the place
     //Does it have to be a singular instance contained in Engine?
@@ -241,6 +241,7 @@ void Engine::UpdateLoop()
 
 			if (deltaTimeGame < gameUpdateInterval)
 			{
+                /*
                 if ( inputManager->OnKeyDown(SDL_SCANCODE_UP) )
                 {
                     translation = glm::translate(translation, glm::vec3(0.1f, 0.0f, 0.0f));
@@ -269,7 +270,7 @@ void Engine::UpdateLoop()
                 {
                     scale = glm::scale(scale, glm::vec3(0.9f, 0.9f, 0.9f));
                 }
-                
+ 
 				if ( inputManager->OnKeyDown(SDL_SCANCODE_1) )
 				{
 					printf( "Pressed key %i \n", SDL_SCANCODE_1 );
@@ -291,11 +292,7 @@ void Engine::UpdateLoop()
 				{
 					printf( "Released left mouse button \n" );
 				}
-
-				if ( inputManager->OnKeyDown("shoot") )
-				{
-					printf( "Bam! Key: %i \n", inputManager->GetBind("shoot") );
-				}
+  */
 				prevTicks = currentTicks;
 				prevTicks -= deltaTimeGame;
 			}

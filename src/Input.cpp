@@ -67,7 +67,7 @@ bool Input::OnKeyUp( std::string name )
 bool Input::OnKey(SDL_Keycode key)
 {
     SDL_Scancode scanKey = SDL_GetScancodeFromKey(key);
-    return keyState[scanKey].triggerEvent == KeyEvent::HOLD;
+    return keyState[scanKey].triggerEvent == KeyEvent::HOLD || keyState[scanKey].triggerEvent == KeyEvent::RELEASE;
 }
 /*
 bool Input::OnKey( std::string name )
@@ -86,7 +86,15 @@ void Input::StateReset()
         }
         else
         {
-            keyState[i].triggerEvent = KeyEvent::NOTHING;
+            if(keyState[i].triggerEvent == KeyEvent::DOWN)
+            {
+                keyState[i].triggerEvent = KeyEvent::HOLD;
+            }
+            else if (keyState[i].triggerEvent == KeyEvent::RELEASE)
+            {
+                keyState[i].triggerEvent = KeyEvent::NOTHING;
+
+            }
         }
     }
     

@@ -31,6 +31,27 @@
         lua_pop(L, 1);
 
 
+
+
+#define lgString(NAME, IDX)\
+    string NAME;\
+    if ( lua_isstring(L, IDX) ){\
+        NAME = lua_tostring(L, IDX);\
+    }
+
+#define lgBool(NAME, IDX)\
+    bool NAME;\
+    if ( lua_isboolean(L, IDX) ){\
+        NAME = lua_toboolean(L, IDX);\
+    }
+
+#define lgInt(_NAME_, _IDX_)\
+    int _NAME_ ;\
+    if ( lua_isnumber(L, _IDX_ ) ){\
+        _NAME_ = lua_tonumber(L, _IDX_ );\
+    }
+
+
 #endif /* moduleMacros_h */
 
 /*

@@ -7,9 +7,8 @@
 //
 
 #include "mInput.h"
-#include "console.h"
 #include "Input.hpp"
-
+#include "standardIncludes.h"
 
 Input* mInput::input = NULL;
 
@@ -47,11 +46,24 @@ lFuncImp(mInput, getMousePosition)
 
 lFuncImp(mInput, bindKey)
 {
+    lua_settop(L, 2);
+    lgString(name, 1);
+    lgInt(key, 2);
+    lua_settop(L, 0);
+    
+    input->BindKey(name, key);
+    
     return 0;
 }
 
 lFuncImp(mInput, unbindKey)
 {
+    lua_settop(L, 1);
+    lgString(name, 1);
+    lua_settop(L,0);
+    
+    input->UnbindKey(name);
+    
     return 0;
 }
 
@@ -62,35 +74,86 @@ lFuncImp(mInput, getBind)
 
 lFuncImp(mInput, bindExists)
 {
-    return 0;
+    lua_settop(L, 1);
+    lgString(name, 1);
+    lua_settop(L,0);
+    
+    bool exists = input->BindExists(name);
+    lua_pushboolean(L, exists);
+
+    return 1;
 }
 
 lFuncImp(mInput, isBound)
 {
-    return 0;
+    lua_settop(L, 1);
+    lgInt(key, 1);
+    lua_settop(L,0);
+    
+    bool exists = input->IsBound(key);
+    lua_pushboolean(L, exists);
+    
+    return 1;
 }
 
 lFuncImp(mInput, key)
 {
-    return 0;
+    lua_settop(L, 1);
+    lgInt(key, 1);
+    lua_settop(L,0);
+    
+    bool down = input->OnKey( (SDL_Scancode)key );
+    lua_pushboolean(L, down);
+    
+    return 1;
 }
 
 lFuncImp(mInput, keyDown)
 {
-    return 0;
+    lua_settop(L, 1);
+    lgInt(key, 1);
+    lua_settop(L,0);
+    
+    bool down = input->OnKeyDown( (SDL_Scancode)key );
+    lua_pushboolean(L, down);
+    
+    return 1;
+
 }
 
 lFuncImp(mInput, keyUp)
 {
-    return 0;
+    lua_settop(L, 1);
+    lgInt(key, 1);
+    lua_settop(L,0);
+    
+    bool down = input->OnKeyUp( (SDL_Scancode)key );
+    lua_pushboolean(L, down);
+    
+    return 1;
 }
 
 lFuncImp(mInput, mouseDown)
 {
-    return 0;
+    lua_settop(L, 1);
+    lgInt(button, 1);
+    lua_settop(L, 0);
+    
+    bool isDown = input->OnMouseDown(button);
+    
+    lua_pushboolean(L, isDown);
+    return 1;
 }
 
 lFuncImp(mInput, mouseUp)
 {
-    return 0;
+    lua_settop(L, 1);
+    lgInt(button, 1);
+    lua_settop(L, 0);
+    
+    bool isDown = input->OnMouseUp(button);
+    
+    lua_pushboolean(L, isDown);
+    return 1;
+
 }

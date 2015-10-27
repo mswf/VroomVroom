@@ -22,24 +22,22 @@ sLuaSystem::sLuaSystem():
 	SetPackagePath();
 	//BindEngine();
     mEngine::Bind(lState);
-    mInput::Bind(lState, NULL);
+    mInput::Bind(lState);
 
 	string path;
 	Content::CreateFilePath("main.lua", &path);
 
 	if (luaL_loadfile(lState, path.c_str()))
 	{
-		//TODO replace couts with proper Console::Error or even Console::LuaError?
-		std::cout << "Could not open main.lua - The program will not run correctly" << std::endl;
+        Terminal.Error("Could not open main.lua - The program will not run correctly");
 		return;
 	}
 
 	//try to parse main.lua
 	if (lua_pcall(lState, 0, 0, 0) != 0)
 	{
-		//TODO replace couts with proper Console::Error or even Console::LuaError?
-		std::cout << "lua error: " << lua_tostring(lState, -1) << std::endl;
-		return;
+        Terminal.LuaError(lua_tostring(lState, -1));
+        return;
 	}
     
     //TODO panic function

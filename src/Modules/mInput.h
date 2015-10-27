@@ -15,7 +15,8 @@ class Input;
 
 class mInput{
     public:
-        static void Bind(lua_State*, Input*);
+        static void Bind(lua_State*);
+        static void SetInput(Input*);
 
     private:
         lFuncDef(getMousePosition);

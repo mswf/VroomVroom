@@ -8,17 +8,13 @@
 
 #include "mInput.h"
 #include "console.h"
+#include "Input.hpp"
 
 
 Input* mInput::input = NULL;
 
-void mInput::Bind(lua_State* L, Input* I)
+void mInput::Bind(lua_State* L)
 {
-    if(input == NULL)
-    {
-        input = I;
-    }
-       
     lStart(Input)
         lBind(getMousePosition)
         lBind(bindKey)
@@ -34,9 +30,19 @@ void mInput::Bind(lua_State* L, Input* I)
     lEnd(Input)
 }
 
+void mInput::SetInput(Input* I)
+{
+    input = I;
+}
+
 lFuncImp(mInput, getMousePosition)
 {
-    return 0;
+    glm::ivec2 mousePos = input->GetMousePosition();
+    
+    lua_pushnumber(L, mousePos.x);
+    lua_pushnumber(L, mousePos.y);
+    
+    return 2;
 }
 
 lFuncImp(mInput, bindKey)

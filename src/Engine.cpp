@@ -6,6 +6,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2_net/SDL_net.h>
 #include "luaSystem.h"
+#include "Modules/mInput.h"
 #include "cTransform.h"
 #include "content.h"
 #include "standardIncludes.h"
@@ -41,6 +42,10 @@ void Engine::Init()
     inputManager = new Input();
     inputManager->BindKey("shoot", SDL_SCANCODE_SPACE);
     
+    //TODO: I don't really want to bind this here, but I also don't want to pass inputManager all over the place
+    //Does it have to be a singular instance contained in Engine?
+    mInput::SetInput(inputManager);
+    
     Entity* box = new Entity();
     CTransform* boxT= new CTransform();
     AddComponent(box, boxT);
@@ -56,6 +61,7 @@ void Engine::PollEvent()
 		if (event.type == SDL_QUIT)
 		{
 			exit(EXIT_SUCCESS);
+            //TODO: don't exit instantly, rather disrupt the game loop and exit through a controlled flow
 		}
 		inputManager->Update(&event);
 
@@ -70,8 +76,7 @@ void Engine::OpenConfig()
 	string configPath = SDL_GetBasePath() + string("config.lua");
 	if (luaL_loadfile(L, configPath.c_str()))
 	{
-		//TODO error handling
-		std::cout << "Could not open config.lua - The program will not run correctly" << std::endl;
+        Terminal.Error("Could not open config.lua - The program will not run correctly");
 		return;
 	}
 
@@ -80,7 +85,7 @@ void Engine::OpenConfig()
 	lua_getglobal(L, "CONTENT_PATH");
 	if (lua_type(L, -1) != LUA_TSTRING)
 	{
-		std::cout << "Problem in config.lua - CONTENT_PATH is not set to a valid string" << std::endl;
+        Terminal.Warning("Problem in config.lua - CONTENT_PATH is not set to a valid string");
 	}
 	size_t len_cp;
 	const char* contentPath = lua_tolstring(L, -1, &len_cp);

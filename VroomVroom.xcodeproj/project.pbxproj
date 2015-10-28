@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2301D5021BE0DDE400C8728F /* mEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2301D5001BE0DDE400C8728F /* mEntity.cpp */; settings = {ASSET_TAGS = (); }; };
 		234C8B281BB96A3B00E61132 /* libassimpd.3.1.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */; };
 		234C8B291BB96A4600E61132 /* libassimpd.3.1.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */; };
 		23A4AF551BB2DE3100948D72 /* content.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23A4AF531BB2DE3100948D72 /* content.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -65,6 +66,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2301D5001BE0DDE400C8728F /* mEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mEntity.cpp; path = ../src/Modules/mEntity.cpp; sourceTree = "<group>"; };
+		2301D5011BE0DDE400C8728F /* mEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mEntity.h; path = ../src/Modules/mEntity.h; sourceTree = "<group>"; };
 		23040E021BDF78E800662A1B /* mAll.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = mAll.h; path = src/Modules/mAll.h; sourceTree = SOURCE_ROOT; };
 		234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimpd.3.1.1.dylib; path = Framework/assimp/Debug/libassimpd.3.1.1.dylib; sourceTree = "<group>"; };
 		23A4AF531BB2DE3100948D72 /* content.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = content.cpp; path = src/content.cpp; sourceTree = SOURCE_ROOT; };
@@ -177,6 +180,8 @@
 		23C59A2F1BCD2F6C00A37E29 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				2301D5001BE0DDE400C8728F /* mEntity.cpp */,
+				2301D5011BE0DDE400C8728F /* mEntity.h */,
 				23C59A301BCD305B00A37E29 /* mEngine.cpp */,
 				23C59A311BCD305B00A37E29 /* mEngine.h */,
 				23C59A331BCD382300A37E29 /* moduleMacros.h */,
@@ -437,6 +442,7 @@
 				E567A8F71BB1470200B8F6C3 /* imgui_impl_sdl.cpp in Sources */,
 				E5B2827D1BCADC0900759348 /* Clock.cpp in Sources */,
 				23EE7EE41BC6C2B90006581F /* console.cpp in Sources */,
+				2301D5021BE0DDE400C8728F /* mEntity.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

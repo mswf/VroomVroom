@@ -18,7 +18,7 @@
         int CLASS::lw_##NAME##__( lua_State* L)
 
     #define lStart(NAME)\
-        static const luaL_reg NAME##_funcs[] =\
+        const luaL_reg NAME##_funcs[] =\
         {\
 
     #define lBind(NAME)\

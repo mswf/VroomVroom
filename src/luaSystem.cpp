@@ -11,8 +11,7 @@
 #include <iostream>
 #include <lua.hpp>
 #include "standardIncludes.h"
-#include "Modules/mEngine.h"
-#include "Modules/mInput.h"
+#include "Modules/mAll.h"
 
 sLuaSystem::sLuaSystem():
 	hasMainBeenCalled(false)
@@ -20,9 +19,10 @@ sLuaSystem::sLuaSystem():
 	lState = luaL_newstate();
 	luaL_openlibs(lState);
 	SetPackagePath();
-	//BindEngine();
+    
     mEngine::Bind(lState);
     mInput::Bind(lState);
+    mEntity::Bind(lState);
 
 	string path;
 	Content::CreateFilePath("main.lua", &path);

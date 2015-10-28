@@ -9,7 +9,8 @@
 #ifndef mAll_h
 #define mAll_h
 
-#include "modules/mInput.h"
-#include "modules/mEngine.h"
+#include "mInput.h"
+#include "mEngine.h"
+#include "mEntity.h"
 
 #endif /* mAll_h */

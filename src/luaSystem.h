@@ -32,6 +32,8 @@ class sLuaSystem : public Singleton<sLuaSystem>
     
         lua_State* lState;
         bool hasMainBeenCalled;
+    
+        static int LuaPanic(lua_State* L);
 };
 
 #endif /* luaSystem_h */

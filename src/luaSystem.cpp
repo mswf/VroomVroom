@@ -33,14 +33,14 @@ sLuaSystem::sLuaSystem():
 		return;
 	}
 
+    lua_atpanic(lState, LuaPanic);
+    
 	//try to parse main.lua
 	if (lua_pcall(lState, 0, 0, 0) != 0)
 	{
         Terminal.LuaError(lua_tostring(lState, -1));
         return;
 	}
-    
-    //TODO panic function
 }
 
 sLuaSystem::~sLuaSystem()
@@ -100,4 +100,15 @@ void sLuaSystem::SetPackagePath()
 	lua_pushstring(lState, new_path.c_str());
 	lua_setfield(lState, -2, "path");
 	lua_pop(lState, 1);
+}
+
+int sLuaSystem::LuaPanic(lua_State* L)
+{
+    Terminal.LuaError("PANIC!");
+    Terminal.LuaError(string(lua_tostring(L, -1)));
+    Terminal.Warning("The program will exit...");
+    
+    //TODO close the lua state but keep the engine running
+    exit(0);
+    return 0;
 }

@@ -115,7 +115,6 @@ lFuncImp(mInput, keyDown)
     lua_settop(L,0);
     
     bool down = input->OnKeyDown( (SDL_Keycode)key );
-    Terminal.Log(std::to_string(down));
     lua_pushboolean(L, down);
     
     return 1;

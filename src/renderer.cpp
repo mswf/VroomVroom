@@ -53,10 +53,10 @@ namespace Renderer
 		outRenderData->elementbuffer = elementArrayBuffer;
 		outRenderData->vertexbuffer = vertexArray_object;
 		outRenderData->shader = new Shader(vertexArray_object);
-        outRenderData->model = glm::mat4(1);
+		outRenderData->transform = new CTransform();
 	}
 	
-	void GetCamera(Camera* cam, Projection type, float fov, float aspectRatio, float near, float far) 
+	void GetCamera(Camera* cam, Projection type, float fov, float aspectRatio, float near, float far)
 	{
 		glm::mat4 projection;
 		switch (type)
@@ -109,7 +109,7 @@ namespace Renderer
 		glCullFace( GL_BACK );
 		
 		glUseProgram(program);
-		data->shader->SetUniformMat4( "model", data->model );
+		data->shader->SetUniformMat4( "model", data->transform.transform );
 		data->shader->SetUniformMat4( "view", cam->view );
 		data->shader->SetUniformMat4( "projection", cam->projection );
 		data->shader->SetUniformFloat( "time", (float)time );

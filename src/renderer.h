@@ -13,6 +13,7 @@
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+#include "cTransform.h"
 
 namespace Renderer
 {
@@ -38,7 +39,7 @@ namespace Renderer
 		GLuint arraybuffer;
 		GLuint elementbuffer;
 		GLuint vertexbuffer;
-        glm::mat4 model;
+        CTransform transform;
 	};
 	
 	struct Camera

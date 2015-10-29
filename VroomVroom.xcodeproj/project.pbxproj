@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2301D5021BE0DDE400C8728F /* mEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2301D5001BE0DDE400C8728F /* mEntity.cpp */; settings = {ASSET_TAGS = (); }; };
 		234C8B281BB96A3B00E61132 /* libassimpd.3.1.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */; };
 		234C8B291BB96A4600E61132 /* libassimpd.3.1.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */; };
 		23A4AF551BB2DE3100948D72 /* content.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23A4AF531BB2DE3100948D72 /* content.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -41,6 +40,7 @@
 		E5B282881BCD490F00759348 /* RtMidi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B282861BCD490F00759348 /* RtMidi.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5B2828A1BCD4DA300759348 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5B282891BCD4DA300759348 /* CoreMIDI.framework */; };
 		E5D664DC1BC16C390042350B /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D664DB1BC16C390042350B /* SDL2.framework */; };
+		E5D9F8E51BE247C7005AFAB1 /* mEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5D9F8E41BE247C7005AFAB1 /* mEntity.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5E958F51BB42B2600B83D27 /* shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5E958F31BB42B2600B83D27 /* shader.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5EF59021BB95EDD00F85754 /* libGLEW.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E54D30901BB29675006FBC68 /* libGLEW.dylib */; };
 		E5F4A36A1BCE59A1000C8876 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5F4A3691BCE59A1000C8876 /* CoreAudio.framework */; };
@@ -66,8 +66,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2301D5001BE0DDE400C8728F /* mEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mEntity.cpp; path = ../src/Modules/mEntity.cpp; sourceTree = "<group>"; };
-		2301D5011BE0DDE400C8728F /* mEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mEntity.h; path = ../src/Modules/mEntity.h; sourceTree = "<group>"; };
 		23040E021BDF78E800662A1B /* mAll.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = mAll.h; path = src/Modules/mAll.h; sourceTree = SOURCE_ROOT; };
 		234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimpd.3.1.1.dylib; path = Framework/assimp/Debug/libassimpd.3.1.1.dylib; sourceTree = "<group>"; };
 		23A4AF531BB2DE3100948D72 /* content.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = content.cpp; path = src/content.cpp; sourceTree = SOURCE_ROOT; };
@@ -132,6 +130,8 @@
 		E5B282871BCD490F00759348 /* RtMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RtMidi.h; path = src/RtMidi.h; sourceTree = SOURCE_ROOT; };
 		E5B282891BCD4DA300759348 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		E5D664DB1BC16C390042350B /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = Framework/SDL2.framework; sourceTree = "<group>"; };
+		E5D9F8E41BE247C7005AFAB1 /* mEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mEntity.cpp; path = src/Modules/mEntity.cpp; sourceTree = SOURCE_ROOT; };
+		E5D9F8E61BE247DF005AFAB1 /* mEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mEntity.h; path = src/Modules/mEntity.h; sourceTree = SOURCE_ROOT; };
 		E5E958F31BB42B2600B83D27 /* shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = shader.cpp; path = src/shader.cpp; sourceTree = SOURCE_ROOT; };
 		E5E958F41BB42B2600B83D27 /* shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = shader.h; path = src/shader.h; sourceTree = SOURCE_ROOT; };
 		E5EF590B1BBABEBB00F85754 /* standardIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = standardIncludes.h; path = src/standardIncludes.h; sourceTree = SOURCE_ROOT; };
@@ -180,8 +180,8 @@
 		23C59A2F1BCD2F6C00A37E29 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				2301D5001BE0DDE400C8728F /* mEntity.cpp */,
-				2301D5011BE0DDE400C8728F /* mEntity.h */,
+				E5D9F8E41BE247C7005AFAB1 /* mEntity.cpp */,
+				E5D9F8E61BE247DF005AFAB1 /* mEntity.h */,
 				23C59A301BCD305B00A37E29 /* mEngine.cpp */,
 				23C59A311BCD305B00A37E29 /* mEngine.h */,
 				23C59A331BCD382300A37E29 /* moduleMacros.h */,
@@ -428,6 +428,7 @@
 				E567A8F61BB1470200B8F6C3 /* imgui_draw.cpp in Sources */,
 				23C2AAFD1BCBD8C00043F141 /* file.cpp in Sources */,
 				E514AF591BD16E5800E7E2C5 /* TCPData.cpp in Sources */,
+				E5D9F8E51BE247C7005AFAB1 /* mEntity.cpp in Sources */,
 				E547260C1BC6A74E00316B26 /* UDPMessage.cpp in Sources */,
 				E59FDC911BBAC0EE008935C5 /* random.cpp in Sources */,
 				E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */,
@@ -442,7 +443,6 @@
 				E567A8F71BB1470200B8F6C3 /* imgui_impl_sdl.cpp in Sources */,
 				E5B2827D1BCADC0900759348 /* Clock.cpp in Sources */,
 				23EE7EE41BC6C2B90006581F /* console.cpp in Sources */,
-				2301D5021BE0DDE400C8728F /* mEntity.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -20,9 +20,9 @@ sLuaSystem::sLuaSystem():
 	luaL_openlibs(lState);
 	SetPackagePath();
     
-    mEngine::Bind(lState);
-    mInput::Bind(lState);
-    mEntity::Bind(lState);
+    //mEngine::Bind(lState);
+    //mInput::Bind(lState);
+    //mEntity::Bind(lState);
 
 	string path;
 	Content::CreateFilePath("main.lua", &path);

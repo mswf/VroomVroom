@@ -31,6 +31,7 @@ class mEntity {
         lFuncDef(create);
         lFuncDef(destroy);
         lFuncDef(doPls);
+        lFuncDef(doTest);
 };
 
 #endif /* mEntity_h */

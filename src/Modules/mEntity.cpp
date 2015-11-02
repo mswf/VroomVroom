@@ -6,6 +6,10 @@
 //  Copyright © 2015 Valentinas Rimeika. All rights reserved.
 //
 
+/*
+ Creates an entity class that is compatible with the class system in lua. 
+ */
+
 #include "mEntity.h"
 #include <lua.hpp>
 #include "standardIncludes.h"
@@ -26,6 +30,7 @@ void mEntity::Bind(lua_State* L)
     {
         {"__gc", lw_destroy__},
         lBind(doPls)
+        lBind(doTest)
         {0, 0}
     };
     
@@ -34,8 +39,21 @@ void mEntity::Bind(lua_State* L)
 
 lFuncImp(mEntity, create)
 {
-    //create a table and give it the _metaEntity metatable
     lua_newtable(L);
+    lua_insert(L, 1);
+    //create a table and give it the _metaEntity metatable
+    if(lua_gettop(L) == 1)
+    {
+        lua_newtable(L);
+    }
+    else if (lua_istable(L, 2))
+    {
+        lua_settop(L, 2);
+    }
+    else
+    {
+        Terminal.LuaError("Error in Entity.Create: Expected table");
+    }
     luaL_getmetatable(L, "_metaEntity");
     lua_setmetatable(L, -2);
     
@@ -48,7 +66,21 @@ lFuncImp(mEntity, create)
     //now add the userdata to our table as with the key "core_"
     lua_setfield(L, -2, "core_ENTITY");
     
+    lua_setmetatable(L, -2);
+    
     return 1;
+    
+    /*
+     7
+     6
+     5
+     4
+     3  <_metaEntity>
+     2  <table>
+            <_metaEntity>
+     1  <table>
+     */
+    
 }
 
 //bound to __gc, thus called by lua when the userdata is destroyed
@@ -100,5 +132,39 @@ lFuncImp(mEntity, doPls)
     StubEntity* entity = reinterpret_cast<StubEntity*>(lua_touserdata(L, -1));
     entity->DoPls();
     
+    return 0;
+}
+
+lFuncImp(mEntity, doTest)
+{
+    try
+    {
+        luaL_checktype(L, 1, LUA_TTABLE);
+    }
+    catch (std::exception const& err)
+    {
+        Terminal.Error(err.what());
+        return 0;
+    }
+    catch (...)
+    {
+        Terminal.Error("unknown exception");
+        return 0;
+    }
+    
+    lua_getfield(L, 1, "test");
+    if(lua_isfunction(L, -1))
+    {
+        Terminal.Log("test function defined");
+        if(lua_pcall(L, 0, 0, 0) != 0)
+        {
+            Terminal.LuaError(lua_tostring(L, -1));
+        }
+    }
+    else
+    {
+        Terminal.Log("no test function defined");
+    }
+
     return 0;
 }

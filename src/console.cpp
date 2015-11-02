@@ -62,7 +62,11 @@ void sTerminal::Warning(const string msg)
 
 void sTerminal::Error(string msg)
 {
-	//TODO implement this :)
+    string line = "[ERROR]" + msg;
+    std::cout << line << std::endl;
+    WriteToFile(line);
+    SendToExternal(line, "#ff0000", "#ffffff");
+    //TODO(robin): Better error handling
 }
 
 void sTerminal::Custom(const string msg, string background, string color)

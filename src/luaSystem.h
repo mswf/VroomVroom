@@ -26,6 +26,7 @@ class sLuaSystem : public Singleton<sLuaSystem>
         void Update(int);
     
         void Attempt(string);
+        void Dump(lua_State*);
     
     private:
         void SetPackagePath();

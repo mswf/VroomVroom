@@ -14,7 +14,7 @@
 #include "../glm/gtc/type_ptr.hpp"
 #include "../glm/gtc/matrix_transform.hpp"
 #include "../Components/cMesh.h"
-#include "entity.h"
+#include "../Components/entity.h"
 
 namespace Renderer
 {

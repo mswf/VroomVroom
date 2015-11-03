@@ -7,7 +7,7 @@
 #include "Input.hpp"
 #include <map>
 #include <vector>
-#include "entity.h"
+#include "Components/entity.h"
 #include "glm/mat4x4.hpp"
 
 class Engine

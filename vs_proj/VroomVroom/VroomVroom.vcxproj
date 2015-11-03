@@ -20,6 +20,7 @@
     <ClInclude Include="..\..\src\Components\cMesh.h" />
     <ClInclude Include="..\..\src\Components\component.h" />
     <ClInclude Include="..\..\src\Components\cTransform.h" />
+    <ClInclude Include="..\..\src\Components\entity.h" />
     <ClInclude Include="..\..\src\console.h" />
     <ClInclude Include="..\..\src\content.h" />
     <ClInclude Include="..\..\src\DataStructure\shader.h" />
@@ -202,6 +203,7 @@
     <ClCompile Include="..\..\src\Components\cMaterial.cpp" />
     <ClCompile Include="..\..\src\Components\cMesh.cpp" />
     <ClCompile Include="..\..\src\Components\cTransform.cpp" />
+    <ClCompile Include="..\..\src\Components\entity.cpp" />
     <ClCompile Include="..\..\src\console.cpp" />
     <ClCompile Include="..\..\src\content.cpp" />
     <ClCompile Include="..\..\src\DataStructure\shader.cpp" />

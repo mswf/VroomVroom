@@ -13,6 +13,7 @@
 #include "Systems/luaSystem.h"
 
 #include "Networking/TCPClient.h"
+#include "Utilities/helperFunctions.h"
 
 #define CONSOLE_PORT 1427
 
@@ -95,7 +96,7 @@ void sTerminal::Update()
 	std::vector<NetworkData>::iterator it;
 	for (it = messages.begin(); it != messages.end(); ++it)
 	{
-		LuaSystem.Attempt(string((char*)(it->data)));
+		LuaSystem.Attempt(HelperFunctions::VoidPtrToString(it->data, it->length));
 	}
 }
 

@@ -13,6 +13,11 @@ CTransform::~CTransform()
 	
 }
 
+const glm::mat4& CTransform::GetTransform() const
+{
+	return transform;
+}
+
 CTransform* CTransform::GetParent()
 {
 	return parent;

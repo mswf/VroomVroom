@@ -32,8 +32,8 @@ class CCamera : public Component
 		void SetUpVector( glm::vec3 up );
 		void SetEyeVector( glm::vec3 eye );
 		void SetCenterVector( glm::vec3 center );
-		glm::mat4 GetViewMatrix();
-		glm::mat4 GetProjectionMatrix();
+		const glm::mat4& GetViewMatrix() const;
+		const glm::mat4& GetProjectionMatrix() const;
 	
 	private:
 	

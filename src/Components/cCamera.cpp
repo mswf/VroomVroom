@@ -72,12 +72,12 @@ void CCamera::UpdateView()
 	viewMatrix = glm::lookAt( eyeVector, centerVector, upVector );
 }
 
-glm::mat4 CCamera::GetViewMatrix()
+const glm::mat4& CCamera::GetViewMatrix() const
 {
 	return viewMatrix;
 }
 
-glm::mat4 CCamera::GetProjectionMatrix()
+const glm::mat4& CCamera::GetProjectionMatrix() const
 {
 	return projectionMatrix;
 }

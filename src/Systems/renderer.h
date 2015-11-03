@@ -33,6 +33,13 @@ namespace Renderer
 		CCamera* camera;
 	};
 	
+	struct Vertex
+	{
+		glm::vec3 position;
+		glm::vec4 texcoord;
+	};
+
+	
     class RenderSystem : public ComponentSystem
     {
         public:

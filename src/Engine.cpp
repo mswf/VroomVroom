@@ -193,7 +193,7 @@ void Engine::UpdateLoop()
 	bool show_another_window = false;
 
 
-    
+	CMesh* myMesh = new CMesh();
 	Renderer::RenderData* data = new Renderer::RenderData();
 	float fov = 90.0f;
 	float aspectRatio = 1280.0f / 720.0f;
@@ -300,7 +300,7 @@ void Engine::UpdateLoop()
 
 		ImGui_ImplSdl_NewFrame(window);
 
-		Renderer::Render(SDL_GetTicks(), camera, data);
+		Renderer::Render(SDL_GetTicks(), data, myMesh);
 
 		ShowSimpleWindowOne(show_test_window, show_another_window);
 

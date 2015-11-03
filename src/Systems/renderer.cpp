@@ -45,14 +45,7 @@ namespace Renderer
 	void GetRenderData( RenderData* outRenderData, CMesh* mesh )
 	{
 		GenerateCube( mesh );
-		//LoadModel( mesh );
 		CreateFBO();
-		
-		//LoadTexture();
-		//outRenderData->arraybuffer = arrayBuffer;
-		//outRenderData->elementbuffer = elementArrayBuffer;
-		//outRenderData->vertexbuffer = vertexArray_object;
-		//outRenderData->framebuffer = framebuffer_object;
 		outRenderData->shader = new Shader();
 		outRenderData->transform = new CTransform();
 	}
@@ -65,17 +58,11 @@ namespace Renderer
 	
 	void Render( glm::uint32 time, RenderData* data, CMesh* mesh )
 	{
-//        std::vector<Entity *> renderables;
-//        Entity::entitySystem->getEntities<CTransform>(renderables);
         
 		program = data->shader->program;
 		
-		//glBindFramebuffer( GL_FRAMEBUFFER, data->framebuffer );
-		
 		glClearColor( 0.2, 0.2, 0.2, 1.0 );
-		glClear(GL_COLOR_BUFFER_BIT); //GL_DEPTH_BUFFER_BIT
-		
-		
+		glClear(GL_COLOR_BUFFER_BIT);
 		glEnable( GL_CULL_FACE );
 		glCullFace( GL_BACK );
 		
@@ -98,15 +85,13 @@ namespace Renderer
 		glEnableVertexAttribArray( mesh->vertexLoc );
 		glEnableVertexAttribArray( mesh->texCoordLoc );
 		
-		//glVertexAttribPointer( position, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0 );
-		//glVertexAttribPointer( texcoord, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) sizeof(glm::vec3) );
+		glVertexAttribPointer( position, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0 );
+		glVertexAttribPointer( texcoord, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) sizeof(glm::vec3) );
 		
-		glVertexAttribPointer( position, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), 0 );
-		glVertexAttribPointer( texcoord, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), 0 );
-	
-		int size = mesh->numFaces;
+		//glVertexAttribPointer( position, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), 0 );
+		//glVertexAttribPointer( texcoord, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), 0 );
 		
-		glDrawElements( GL_TRIANGLES, size, GL_UNSIGNED_INT, (void*)0 );
+		glDrawElements( GL_TRIANGLES, mesh->numFaces, GL_UNSIGNED_INT, 0 );
 		
 		glBindVertexArray( 0 );
 		glBindBuffer( GL_ARRAY_BUFFER, 0 );
@@ -169,13 +154,9 @@ namespace Renderer
 
 	void GenerateCube( CMesh* mesh )
 	{
-		mesh->numFaces = 12;
+		mesh->numFaces = 36;
 		
-		struct Vertex
-		{
-			glm::vec3 position;
-			glm::vec4 texcoord;
-		} cube[8];
+		Vertex cube[8];
 
 		for (int i = 0; i < 8; i++)
 		{

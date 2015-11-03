@@ -8,6 +8,8 @@
 #include "Systems/luaSystem.h"
 #include "Modules/mInput.h"
 #include "Components/cTransform.h"
+#include "Components/cMaterial.h"
+#include "Components/cCamera.h"
 #include "content.h"
 #include "Utilities/standardIncludes.h"
 #include "ImGUI/imgui.h"
@@ -17,10 +19,8 @@
 #include <iostream>
 #include <cstring>
 #include "Utilities/helperFunctions.h"
-//#include "Clock.hpp"
 
 Engine::Engine() :
-	//renderer(NULL),
 	inputManager(NULL)
 {
 }
@@ -28,24 +28,17 @@ Engine::Engine() :
 Engine::~Engine()
 {
 	//TODO: Clean up all entities and their components
-	//delete renderer;
 	delete inputManager;
 }
 
 void Engine::Init()
 {
-    //renderer = new Renderer::RenderSystem();
-    
     inputManager = new Input();
     //inputManager->BindKey("shoot", SDL_SCANCODE_SPACE);
     
     //TODO: I don't really want to bind this here, but I also don't want to pass inputManager all over the place
     //Does it have to be a singular instance contained in Engine?
     mInput::SetInput(inputManager);
-    
-    Entity* box = new Entity();
-    CTransform* boxT= new CTransform();
-    AddComponent(box, boxT);
     
     OpenConfig();
     LuaSystem.Init();
@@ -56,7 +49,6 @@ void Engine::PollEvent()
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
-		//PrintEvent(&event);
 		ImGui_ImplSdl_ProcessEvent(&event);
 		if (event.type == SDL_QUIT)
 		{
@@ -95,9 +87,8 @@ void Engine::OpenConfig()
 	lua_close(L);
 }
 
-void Engine::CloseWindow(SDL_Window* window, SDL_GLContext glcontext, Renderer::RenderData* data )
+void Engine::CloseWindow(SDL_Window* window, SDL_GLContext glcontext )
 {
-	Renderer::DeleteData(data);
 	ImGui_ImplSdl_Shutdown();
 	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyWindow(window);
@@ -196,14 +187,24 @@ void Engine::UpdateLoop()
 	bool show_another_window = false;
 
 
-	CMesh* myMesh = new CMesh();
-	Renderer::RenderData* data = new Renderer::RenderData();
-	float fov = 90.0f;
-	float aspectRatio = 1280.0f / 720.0f;
-	float zNear = 0.2f;
-	float zFar = 10000.0f;
-	data->camera = new CCamera( Projection::PERSPECTIVE, fov, aspectRatio, zNear, zFar );
-	Renderer::GetRenderData(data, myMesh);
+	
+	CMesh* mesh = new CMesh();
+	Renderer::GenerateCube(mesh);
+	CMaterial* mat = new CMaterial( new Shader() );
+	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 90.0f, 1280.0f / 720.0f, 0.2f, 1000.0f );
+	cam->SetCenterVector( glm::vec3(1.0f, 0.0f, 0.0f) );
+	
+	
+	Entity* box = new Entity();
+	Entity::AddComponent(box, new CTransform() );
+	Entity::AddComponent(box, mesh);
+	Entity::AddComponent(box, mat);
+	
+	Entity* camera = new Entity();
+	Entity::AddComponent(camera, new CTransform() );
+	Entity::AddComponent(camera, cam);
+	
+	
 
 	const float millisecondModifier = 1000.0f;
 	const float gameFPS = 60.0f;
@@ -229,16 +230,6 @@ void Engine::UpdateLoop()
 		while (deltaTimeGame > gameUpdateInterval)
 		{
 			Update();
-			
-			data->transform.SetPosition( glm::vec3(-500.0f, 0.0f, 0.0f ) );
-			//data->transform.SetRotation( glm::vec3( 45.0f, 45.0f, 0.0f ) );
-			data->transform.Rotate( glm::vec3( 45.0f, -45.0f, 0.0f ) );
-			
-			//data->transform.Pitch(1.0f);
-			//data->transform.Roll(1.0f);
-			//data->transform.SetPitch(45.0f);
-			//data->transform.SetYaw(45.0f);
-			//data->transform.SetRoll(0.0f);
 			
 			deltaTimeGame -= gameUpdateInterval;
 
@@ -303,8 +294,6 @@ void Engine::UpdateLoop()
 
 		ImGui_ImplSdl_NewFrame(window);
 
-		Renderer::Render(SDL_GetTicks(), data, myMesh);
-
 		ShowSimpleWindowOne(show_test_window, show_another_window);
 
 		if (show_another_window)
@@ -317,6 +306,7 @@ void Engine::UpdateLoop()
 		}
 
 		ImGui::Render();
+		Renderer::Render( SDL_GetTicks(), camera, box );
 		SDL_GL_SwapWindow(window);
 
 		//rendering
@@ -325,7 +315,7 @@ void Engine::UpdateLoop()
 		//	render.draw(normalizedInterpolationValue)
 	}
 
-	CloseWindow(window, glcontext, data);
+	CloseWindow(window, glcontext);
 }
 
 void Engine::InitSDL()
@@ -344,28 +334,4 @@ void Engine::InitSDLNet()
 		printf("Error: %s\n", SDLNet_GetError());
 		assert(false);
 	}
-}
-
-template<typename T>
-void Engine::AddComponent( Entity* e, T* comp )
-{
-    componentStorage.insert( std::pair< int, Entity* >( T::familyId, e ) );
-    e->entityComponents.insert( std::pair< int, Component* >( T::familyId, comp ) );
-}
-
-template<typename T>
-T* Engine::GetComponent( Entity* e )
-{
-    return (T*)e->entityComponents[T::familyId];
-	
-}
-
-template<typename T>
-void Engine::GetEntities( std::vector< Entity* > &result )
-{
-    auto iterPair = componentStorage.equal_range( T::familyId );
-    for ( auto iter = iterPair.first; iter != iterPair.second; ++iter )
-    {
-        result.push_back( iter->second );
-    }
 }

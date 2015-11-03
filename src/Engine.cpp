@@ -20,24 +20,21 @@
 //#include "Clock.hpp"
 
 Engine::Engine() :
-	renderer(NULL),
-	inputManager(NULL),
-    translation(glm::mat4(1)),
-    rotation(glm::mat4(1)),
-    scale(glm::mat4(1))
+	//renderer(NULL),
+	inputManager(NULL)
 {
 }
 
 Engine::~Engine()
 {
 	//TODO: Clean up all entities and their components
-	delete renderer;
+	//delete renderer;
 	delete inputManager;
 }
 
 void Engine::Init()
 {
-    renderer = new Renderer::RenderSystem();
+    //renderer = new Renderer::RenderSystem();
     
     inputManager = new Input();
     //inputManager->BindKey("shoot", SDL_SCANCODE_SPACE);
@@ -98,10 +95,9 @@ void Engine::OpenConfig()
 	lua_close(L);
 }
 
-void Engine::CloseWindow(SDL_Window* window, SDL_GLContext glcontext, Renderer::RenderData* data, Renderer::Camera* camera)
+void Engine::CloseWindow(SDL_Window* window, SDL_GLContext glcontext, Renderer::RenderData* data )
 {
 	Renderer::DeleteData(data);
-	Renderer::DeleteCamera(camera);
 	ImGui_ImplSdl_Shutdown();
 	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyWindow(window);
@@ -200,18 +196,14 @@ void Engine::UpdateLoop()
 	bool show_another_window = false;
 
 
-	Renderer::RenderData * data = new Renderer::RenderData();
-	Renderer::Camera * camera = new Renderer::Camera();
-    
+	CMesh* myMesh = new CMesh();
+	Renderer::RenderData* data = new Renderer::RenderData();
 	float fov = 90.0f;
 	float aspectRatio = 1280.0f / 720.0f;
-	float zNear = 1.0f;
-	float zFar = 100.0f;
-	camera->eye = glm::vec3(1.0, 1.0, 1.0);
-	camera->center = glm::vec3(0.0, 0.0, 0.0);
-	Renderer::GetCamera(camera, Renderer::Projection::PERSPECTIVE, fov, aspectRatio, zNear, zFar);
-	Renderer::GetRenderData(data);
-
+	float zNear = 0.2f;
+	float zFar = 10000.0f;
+	data->camera = new CCamera( Projection::PERSPECTIVE, fov, aspectRatio, zNear, zFar );
+	Renderer::GetRenderData(data, myMesh);
 
 	const float millisecondModifier = 1000.0f;
 	const float gameFPS = 60.0f;
@@ -237,10 +229,10 @@ void Engine::UpdateLoop()
 		while (deltaTimeGame > gameUpdateInterval)
 		{
 			Update();
-            
-			//data->transform.SetPosition( glm::vec3(-15.0f, 0.0f, 2.0f ) );
+			
+			data->transform.SetPosition( glm::vec3(-500.0f, 0.0f, 0.0f ) );
 			//data->transform.SetRotation( glm::vec3( 45.0f, 45.0f, 0.0f ) );
-			//data->transform.Rotate( glm::vec3( 45.0f, -45.0f, 0.0f ) );
+			data->transform.Rotate( glm::vec3( 45.0f, -45.0f, 0.0f ) );
 			
 			//data->transform.Pitch(1.0f);
 			//data->transform.Roll(1.0f);
@@ -311,7 +303,7 @@ void Engine::UpdateLoop()
 
 		ImGui_ImplSdl_NewFrame(window);
 
-		Renderer::Render(SDL_GetTicks(), camera, data);
+		Renderer::Render(SDL_GetTicks(), data, myMesh);
 
 		ShowSimpleWindowOne(show_test_window, show_another_window);
 
@@ -333,7 +325,7 @@ void Engine::UpdateLoop()
 		//	render.draw(normalizedInterpolationValue)
 	}
 
-	CloseWindow(window, glcontext, data, camera);
+	CloseWindow(window, glcontext, data);
 }
 
 void Engine::InitSDL()
@@ -365,7 +357,7 @@ template<typename T>
 T* Engine::GetComponent( Entity* e )
 {
     return (T*)e->entityComponents[T::familyId];
-    
+	
 }
 
 template<typename T>

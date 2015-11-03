@@ -14,16 +14,23 @@
 #include "../glm/gtc/type_ptr.hpp"
 #include "../glm/gtc/matrix_transform.hpp"
 #include "../Components/cTransform.h"
+#include "../Components/cCamera.h"
+#include "../Components/cMesh.h"
 
 namespace Renderer
 {
     
     class Shader;
-    
-	enum class Projection
+	
+	struct RenderData
 	{
-		ORTHOGONAL,
-		PERSPECTIVE
+		GLuint framebuffer;
+		Shader* shader;
+		GLuint arraybuffer;
+		GLuint elementbuffer;
+		GLuint vertexbuffer;
+        CTransform transform;
+		CCamera* camera;
 	};
 	
 	struct Vertex
@@ -31,24 +38,7 @@ namespace Renderer
 		glm::vec3 position;
 		glm::vec4 texcoord;
 	};
-    
-	struct RenderData
-	{
-		GLuint framebuffer;
-		Shader * shader;
-		GLuint arraybuffer;
-		GLuint elementbuffer;
-		GLuint vertexbuffer;
-        CTransform transform;
-	};
-	
-	struct Camera
-	{
-		glm::mat4 projection;
-		glm::mat4 view;
-		glm::vec3 eye;
-		glm::vec3 center;
-	};
+
 	
     class RenderSystem : public ComponentSystem
     {
@@ -65,24 +55,17 @@ namespace Renderer
         
     };
     
-	void Render( glm::uint32 time, Camera* cam, RenderData* data );
-	void Draw( RenderData* );
-	
-	void GetRenderData( RenderData* );
+	void Render( glm::uint32 time, RenderData* data, CMesh* mesh );
+
+	void GetRenderData( RenderData* , CMesh* mesh );
 	void DeleteData( RenderData* );
 	
 	
-	void LoadModel();
+	void GenerateCube( CMesh* mesh );
+	void LoadModel( CMesh* mesh );
 	void LoadTexture();
 	GLuint CreateTexture( unsigned char*, int, int );
-	
-	void GetCamera( Camera*, Projection, float, float, float, float);
-	void DeleteCamera( Camera* );
-	void CreateOrthogonalProjection();
-	void CreatePerspectiveProjection();
 	void CreateFBO();
-
-	GLuint GetAttribute( const char* );
 
 }
 

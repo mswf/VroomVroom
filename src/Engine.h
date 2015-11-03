@@ -24,7 +24,7 @@ class Engine
 		~Engine();
 		void PollEvent();
 		void OpenConfig();
-		void CloseWindow(SDL_Window* window, SDL_GLContext glcontext, Renderer::RenderData* data, Renderer::Camera* camera);
+		void CloseWindow(SDL_Window* window, SDL_GLContext glcontext, Renderer::RenderData* data);
 		void SetupWindow(SDL_Window*& window, SDL_GLContext& glcontext);
 		void InitGlew();
 		void ShowSimpleWindowOne(bool& show_test_window, bool& show_another_window);
@@ -35,7 +35,8 @@ class Engine
 		void InitSDL();
 		void InitSDLNet();
         void Init();
-
+	
+	
         template<typename T>
         void AddComponent( Entity* e, T* comp );
         template<typename T>
@@ -45,10 +46,7 @@ class Engine
     
 	private:
         std::multimap< int, Entity* > componentStorage;
-        glm::mat4 translation;
-        glm::mat4 rotation;
-        glm::mat4 scale;
-        Renderer::RenderSystem* renderer;
+        //Renderer::RenderSystem* renderer;
         Input* inputManager;
 		void Update();
 };

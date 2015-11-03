@@ -14,7 +14,8 @@
 
 #define LuaSystem sLuaSystem::getInstance()
 
-class lua_State;
+//#include <lua.hpp>
+struct lua_State;
 
 class sLuaSystem : public Singleton<sLuaSystem>
 {

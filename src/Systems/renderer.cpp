@@ -5,7 +5,6 @@
 
 
 
-
 namespace Renderer
 {
 	glm::ivec2 windowSize;
@@ -16,7 +15,7 @@ namespace Renderer
 	GLuint elementArrayBuffer;
 	GLuint vertexArray_object;
 	GLuint arrayBuffer;
-	
+	/*
     RenderSystem::RenderSystem()
     {
         
@@ -41,44 +40,14 @@ namespace Renderer
     {
         
     }
-    
-	void GetRenderData( RenderData* outRenderData )
-	{
-		LoadModel();
-		CreateFBO();
-		
-		//LoadTexture();
-		outRenderData->framebuffer = framebuffer_object;
-		outRenderData->arraybuffer = arrayBuffer;
-		outRenderData->elementbuffer = elementArrayBuffer;
-		outRenderData->vertexbuffer = vertexArray_object;
-		outRenderData->shader = new Shader(vertexArray_object);
-		outRenderData->transform = new CTransform();
-	}
+	*/
 	
-	void GetCamera(Camera* cam, Projection type, float fov, float aspectRatio, float near, float far)
+	void GetRenderData( RenderData* outRenderData, CMesh* mesh )
 	{
-		glm::mat4 projection;
-		switch (type)
-		{
-			case Projection::ORTHOGONAL:
-			{
-				//projection = glm::ortho(T left, T right, T bottom, T top, near, far);
-				break;
-			}
-			case Projection::PERSPECTIVE:
-			{
-				projection = glm::perspective(glm::radians(fov), aspectRatio, near, far);
-				break;
-			}
-			default:
-			{
-				assert(false);
-				break;
-			}
-		}
-		cam->projection = projection;
-		cam->view = glm::lookAt(cam->eye, cam->center, glm::vec3( 0.0, 1.0, 0.0 ));
+		GenerateCube( mesh );
+		CreateFBO();
+		outRenderData->shader = new Shader();
+		outRenderData->transform = new CTransform();
 	}
 	
 	void DeleteData( RenderData* data )
@@ -87,70 +56,57 @@ namespace Renderer
 		delete data;
 	}
 	
-	void DeleteCamera( Camera* cam )
+	void Render( glm::uint32 time, RenderData* data, CMesh* mesh )
 	{
-		delete cam;
-	}
-	
-	void Render( glm::uint32 time, Camera* cam, RenderData* data )
-	{
-//        std::vector<Entity *> renderables;
-//        Entity::entitySystem->getEntities<CTransform>(renderables);
         
 		program = data->shader->program;
 		
-		//glBindFramebuffer( GL_FRAMEBUFFER, data->framebuffer );
-		
 		glClearColor( 0.2, 0.2, 0.2, 1.0 );
-		glClear(GL_COLOR_BUFFER_BIT); //GL_DEPTH_BUFFER_BIT
-		
-		
+		glClear(GL_COLOR_BUFFER_BIT);
 		glEnable( GL_CULL_FACE );
 		glCullFace( GL_BACK );
 		
 		glUseProgram(program);
+		
 		data->shader->SetUniformMat4( "model", data->transform.transform );
-		data->shader->SetUniformMat4( "view", cam->view );
-		data->shader->SetUniformMat4( "projection", cam->projection );
+		data->shader->SetUniformMat4( "view", data->camera->GetViewMatrix() );
+		data->shader->SetUniformMat4( "projection", data->camera->GetProjectionMatrix() );
 		data->shader->SetUniformFloat( "time", (float)time );
 
-		Draw(data);
+		// DRAWING PART
 		
-		glUseProgram(0);
-	}
-
-	void Draw(RenderData * data)
-	{
+		glBindBuffer( GL_ARRAY_BUFFER, mesh->vertexBufferObject );
+		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER,  mesh->indexBufferObject );
+		glBindVertexArray( mesh->vertexArrayObject );
 		
-		glBindBuffer( GL_ARRAY_BUFFER, data->arraybuffer );
-		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER,  data->elementbuffer );
-		glBindVertexArray( data->vertexbuffer );
+		GLuint position = glGetAttribLocation( program, "position" );
+		GLuint texcoord = glGetAttribLocation( program, "texcoord" );
 		
-		GLuint position = GetAttribute("position");
-		GLuint texcoord = GetAttribute("texcoord");
-		
-		glEnableVertexAttribArray(position);
-		glEnableVertexAttribArray(texcoord);
+		glEnableVertexAttribArray( mesh->vertexLoc );
+		glEnableVertexAttribArray( mesh->texCoordLoc );
 		
 		glVertexAttribPointer( position, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0 );
 		glVertexAttribPointer( texcoord, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) sizeof(glm::vec3) );
 		
-		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, 0);
+		//glVertexAttribPointer( position, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), 0 );
+		//glVertexAttribPointer( texcoord, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), 0 );
+		
+		glDrawElements( GL_TRIANGLES, mesh->numFaces, GL_UNSIGNED_INT, 0 );
 		
 		glBindVertexArray( 0 );
 		glBindBuffer( GL_ARRAY_BUFFER, 0 );
 		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
 		
-	}
-
-	GLuint GetAttribute( const char * attribute )
-	{
-		return glGetAttribLocation( program, attribute );
+		// DRAWING END
+		
+		glUseProgram(0);
 	}
 
 	// Create a Frame buffer object
+	// TODO Valentinas: Use frame buffer for drawing window
 	void CreateFBO()
 	{
+		/*
 		glGenFramebuffers( 1, &framebuffer_object );
 		glBindFramebuffer( GL_FRAMEBUFFER, framebuffer_object );
 		
@@ -159,7 +115,6 @@ namespace Renderer
 		//glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
 		//glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
 		//glTexImage2D( GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, windowSize.x, windowSize.y, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL );
-		
 		
 		glGenTextures( 1, &framebuffer_color );
 		glBindTexture( GL_TEXTURE_2D, framebuffer_color );
@@ -173,11 +128,13 @@ namespace Renderer
 		
 		glBindTexture( GL_TEXTURE_2D, 0);
 		glBindFramebuffer( GL_FRAMEBUFFER, 0);
-		
+		*/
 	}
-
+	
+	// TODO Valentinas: Change framebuffer size on resize
 	void ResizeFBO( int x, int y )
 	{
+		/*
 		if ( windowSize != glm::ivec2(x,y) )
 		{
 			windowSize = glm::ivec2(x,y);
@@ -190,13 +147,17 @@ namespace Renderer
 			
 			glBindTexture( GL_TEXTURE_2D, 0 );
 		}
+		*/
 	}
 		
 	// Import models and textures
 
-	void LoadModel()
+	void GenerateCube( CMesh* mesh )
 	{
-		Vertex mesh[8];
+		mesh->numFaces = 36;
+		
+		Vertex cube[8];
+
 		for (int i = 0; i < 8; i++)
 		{
 			float x = ( (i & 1) == 0 ? 0 : 1 );
@@ -204,7 +165,7 @@ namespace Renderer
 			float z = ( (i & 4) == 0 ? 0 : 1 );
 			
 			Vertex vert = { glm::vec3( x, y, z ) - 0.5f, glm::vec4( x, y, z, 1.0f ) };
-			mesh[i] = vert;
+			cube[i] = vert;
 		}
 		
 		GLubyte indices[36] =
@@ -224,23 +185,24 @@ namespace Renderer
 		};
 		
 		//VAO
-		glGenVertexArrays( 1, &vertexArray_object );
-		glBindVertexArray( vertexArray_object );
-		//VBO
-		glGenBuffers( 1, &arrayBuffer );
-		glBindBuffer( GL_ARRAY_BUFFER, arrayBuffer );
-		glBufferData( GL_ARRAY_BUFFER, 8 * sizeof(Vertex), mesh, GL_STATIC_DRAW);
+		glGenVertexArrays( 1, &mesh->vertexArrayObject );
+		glBindVertexArray( mesh->vertexArrayObject );
+		
 		//EBO
-		glGenBuffers( 1, &elementArrayBuffer);
-		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, elementArrayBuffer );
+		glGenBuffers( 1, &mesh->vertexBufferObject);
+		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, mesh->vertexBufferObject );
 		glBufferData( GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+		
+		//VBO
+		glGenBuffers( 1, &mesh->vertexBufferObject );
+		glBindBuffer( GL_ARRAY_BUFFER, mesh->vertexBufferObject );
+		glBufferData( GL_ARRAY_BUFFER, 8 * sizeof(Vertex), mesh, GL_STATIC_DRAW);
 		
 		glBindVertexArray( 0 );
 		glBindBuffer( GL_ARRAY_BUFFER, 0 );
 		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
-		
 	}
-
+	
 	void LoadTexture(const char * file)
 	{
 		std::cout << "Loading texture" << std::endl;

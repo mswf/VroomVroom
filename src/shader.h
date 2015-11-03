@@ -26,7 +26,7 @@ namespace Renderer
 	public:
 		GLuint program;
 	public:
-		Shader( GLuint vao );
+		Shader();
 		~Shader();
 		void SetUniformInt( const char* uniform, int value );
 		void SetUniformFloat( const char* uniform, float value );

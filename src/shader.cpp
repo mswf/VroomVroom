@@ -12,10 +12,9 @@
 
 #include "SDL2/SDL.h"
 
-Renderer::Shader::Shader(GLuint vao)
+Renderer::Shader::Shader()
 : program(0)
 {
-	glBindVertexArray( vao );
 	std::string path = Content::GetPath() + "/shaders/";
 
 	std::string vs = HelperFunctions::ReadFile(path + std::string("vs.txt"));
@@ -44,10 +43,10 @@ Renderer::Shader::Shader(GLuint vao)
 	glLinkProgram( program );
 	LogError(program, GL_LINK_STATUS);
 	
-	glValidateProgram( program );
-	LogError(program, GL_VALIDATE_STATUS);
+	// TODO (Valentinas): Move validation closer to drawing
+	//glValidateProgram( program );
+	//LogError(program, GL_VALIDATE_STATUS);
 
-	
 	glDeleteShader( vertex_shader );
 	glDeleteShader( fragment_shader );
 }

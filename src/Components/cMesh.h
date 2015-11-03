@@ -1,15 +1,17 @@
 #ifndef cMesh_h
 #define cMesh_h
 
+#include "../Components/component.h"
 #include <vector>
 #include "../Utilities/typedef.h"
 #include "../glm/vec3.hpp"
 #include "../glm/vec4.hpp"
-#include "mesh.h"
 
-class CMesh
+class CMesh : public Component
 {
 	public:
+	
+		static const int familyId;
 	
 		CMesh();
 		~CMesh();

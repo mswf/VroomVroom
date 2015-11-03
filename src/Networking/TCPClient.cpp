@@ -6,12 +6,14 @@
 
 
 TCPClient::TCPClient(const std::string hostName, const uint16 port)
+: alive(false)
 {
 	Initialize(hostName.c_str(), port);
 }
 
 
 TCPClient::TCPClient(const char* hostName, const uint16 port)
+: alive(false)
 {
 	Initialize(hostName, port);
 }

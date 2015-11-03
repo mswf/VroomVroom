@@ -49,6 +49,9 @@ void Engine::Init()
     Entity* box = new Entity();
     CTransform* boxT= new CTransform();
     AddComponent(box, boxT);
+    
+    OpenConfig();
+    LuaSystem.Init();
 }
 
 void Engine::PollEvent()

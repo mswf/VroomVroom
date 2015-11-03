@@ -15,8 +15,6 @@ int main(int argc, char** a)
 	TestCode t;
 	//t.RunTCPTest();
 #endif
-
-	engine.OpenConfig();
     
 #ifdef DEBUG
 	Content::PrintPath();

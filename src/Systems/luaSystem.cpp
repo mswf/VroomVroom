@@ -14,38 +14,44 @@
 #include "../Modules/mAll.h"
 
 sLuaSystem::sLuaSystem():
-	hasMainBeenCalled(false)
+	hasMainBeenCalled(false),
+    lState(NULL)
 {
-	lState = luaL_newstate();
-	luaL_openlibs(lState);
-	SetPackagePath();
-    
-    mEngine::Bind(lState);
-    mInput::Bind(lState);
-    mEntity::Bind(lState);
-
-	string path;
-	Content::CreateFilePath("main.lua", &path);
-
-	if (luaL_loadfile(lState, path.c_str()))
-	{
-        Terminal.Error("Could not open main.lua - The program will not run correctly");
-		return;
-	}
-
-    lua_atpanic(lState, LuaPanic);
-    
-	//try to parse main.lua
-	if (lua_pcall(lState, 0, 0, 0) != 0)
-	{
-        Terminal.LuaError(lua_tostring(lState, -1));
-        return;
-	}
+	
 }
 
 sLuaSystem::~sLuaSystem()
 {
 	//TODO release resources
+}
+
+void sLuaSystem::Init()
+{
+    lState = luaL_newstate();
+    luaL_openlibs(lState);
+    SetPackagePath();
+    
+    mEngine::Bind(lState);
+    mInput::Bind(lState);
+    mEntity::Bind(lState);
+    
+    string path;
+    Content::CreateFilePath("main.lua", &path);
+    
+    if (luaL_loadfile(lState, path.c_str()))
+    {
+        Terminal.Error("Could not open main.lua - The program will not run correctly");
+        return;
+    }
+    
+    lua_atpanic(lState, LuaPanic);
+    
+    //try to parse main.lua
+    if (lua_pcall(lState, 0, 0, 0) != 0)
+    {
+        Terminal.LuaError(lua_tostring(lState, -1));
+        return;
+    }
 }
 
 void sLuaSystem::Main()

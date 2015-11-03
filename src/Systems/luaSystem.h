@@ -16,12 +16,12 @@
 
 class lua_State;
 
-
 class sLuaSystem : public Singleton<sLuaSystem>
 {
     public:
         sLuaSystem();
         ~sLuaSystem();
+        void Init();
         void Main();
         void Update(int);
     

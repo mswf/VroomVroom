@@ -41,6 +41,7 @@
 		E5B2828A1BCD4DA300759348 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5B282891BCD4DA300759348 /* CoreMIDI.framework */; };
 		E5D664DC1BC16C390042350B /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D664DB1BC16C390042350B /* SDL2.framework */; };
 		E5D9F8E51BE247C7005AFAB1 /* mEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5D9F8E41BE247C7005AFAB1 /* mEntity.cpp */; settings = {ASSET_TAGS = (); }; };
+		E5E333351BE78090005C9CAC /* cCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5E333331BE78090005C9CAC /* cCamera.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5E958F51BB42B2600B83D27 /* shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5E958F31BB42B2600B83D27 /* shader.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5EF59021BB95EDD00F85754 /* libGLEW.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E54D30901BB29675006FBC68 /* libGLEW.dylib */; };
 		E5F4A36A1BCE59A1000C8876 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5F4A3691BCE59A1000C8876 /* CoreAudio.framework */; };
@@ -132,6 +133,8 @@
 		E5D664DB1BC16C390042350B /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = Framework/SDL2.framework; sourceTree = "<group>"; };
 		E5D9F8E41BE247C7005AFAB1 /* mEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mEntity.cpp; path = src/Modules/mEntity.cpp; sourceTree = SOURCE_ROOT; };
 		E5D9F8E61BE247DF005AFAB1 /* mEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mEntity.h; path = src/Modules/mEntity.h; sourceTree = SOURCE_ROOT; };
+		E5E333331BE78090005C9CAC /* cCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cCamera.cpp; path = src/cCamera.cpp; sourceTree = SOURCE_ROOT; };
+		E5E333341BE78090005C9CAC /* cCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cCamera.h; path = src/cCamera.h; sourceTree = SOURCE_ROOT; };
 		E5E958F31BB42B2600B83D27 /* shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = shader.cpp; path = src/shader.cpp; sourceTree = SOURCE_ROOT; };
 		E5E958F41BB42B2600B83D27 /* shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = shader.h; path = src/shader.h; sourceTree = SOURCE_ROOT; };
 		E5EF590B1BBABEBB00F85754 /* standardIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = standardIncludes.h; path = src/standardIncludes.h; sourceTree = SOURCE_ROOT; };
@@ -293,6 +296,8 @@
 				E5B282821BCAF01000759348 /* cTransform.h */,
 				E5F4A36D1BCE88C7000C8876 /* cMaterial.cpp */,
 				E5F4A36E1BCE88C7000C8876 /* cMaterial.h */,
+				E5E333331BE78090005C9CAC /* cCamera.cpp */,
+				E5E333341BE78090005C9CAC /* cCamera.h */,
 				E5F4A3731BCE89D1000C8876 /* cMesh.cpp */,
 				E5F4A3741BCE89D1000C8876 /* cMesh.h */,
 			);
@@ -418,6 +423,7 @@
 				23BF00711BC7BA0400073C79 /* luaSystem.cpp in Sources */,
 				E5B282801BCAE76500759348 /* Input.cpp in Sources */,
 				23EE7EC31BC686020006581F /* Engine.cpp in Sources */,
+				E5E333351BE78090005C9CAC /* cCamera.cpp in Sources */,
 				E567A8F51BB1470200B8F6C3 /* imgui_demo.cpp in Sources */,
 				E567A8F81BB1470200B8F6C3 /* imgui.cpp in Sources */,
 				E5F4A3751BCE89D1000C8876 /* cMesh.cpp in Sources */,

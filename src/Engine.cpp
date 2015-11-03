@@ -184,7 +184,7 @@ void Engine::UpdateLoop()
 	ImGui_ImplSdl_Init(window);
 
 	bool show_test_window = true;
-	bool show_another_window = false;
+	bool show_another_window = true;
 
 
 	
@@ -305,8 +305,8 @@ void Engine::UpdateLoop()
 			ShowSimpleWindowThree();
 		}
 
-		ImGui::Render();
 		Renderer::Render( SDL_GetTicks(), camera, box );
+		ImGui::Render();
 		SDL_GL_SwapWindow(window);
 
 		//rendering

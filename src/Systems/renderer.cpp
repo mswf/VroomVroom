@@ -1,7 +1,7 @@
-#include "shader.h"
-#include "renderer.h"
-#include "component.h"
-#include "cTransform.h"
+#include "../DataStructure/shader.h"
+#include "../Systems/renderer.h"
+#include "../Components/component.h"
+#include "../Components/cTransform.h"
 
 
 

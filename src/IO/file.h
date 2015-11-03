@@ -9,7 +9,7 @@
 #ifndef File_hh
 #define File_hh
 
-#include "typedef.h"
+#include "../Utilities/typedef.h"
 
 class SDL_RWops;
 

@@ -1,13 +1,13 @@
 #ifndef engine_h
 #define engine_h
 
-#include "renderer.h"
+#include "Systems/renderer.h"
 #include <lua.hpp>
 #include <SDL2/SDL_video.h>
 #include "Input.hpp"
 #include <map>
 #include <vector>
-#include "component.h"
+#include "Components/component.h"
 #include "glm/mat4x4.hpp"
 
 struct Entity

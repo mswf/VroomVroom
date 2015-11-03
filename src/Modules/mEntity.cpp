@@ -12,7 +12,7 @@
 
 #include "mEntity.h"
 #include <lua.hpp>
-#include "standardIncludes.h"
+#include "../Utilities/standardIncludes.h"
 #include <new>
 
 void mEntity::Bind(lua_State* L)

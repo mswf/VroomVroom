@@ -1,23 +1,23 @@
 #define GLM_FORCE_RADIANS
 
 #include "Engine.h"
-#include "renderer.h"
+#include "Systems/renderer.h"
 #include "Input.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2_net/SDL_net.h>
-#include "luaSystem.h"
+#include "Systems/luaSystem.h"
 #include "Modules/mInput.h"
-#include "cTransform.h"
+#include "Components/cTransform.h"
 #include "content.h"
-#include "standardIncludes.h"
-#include "imgui.h"
-#include "imgui_impl_sdl.h"
+#include "Utilities/standardIncludes.h"
+#include "ImGUI/imgui.h"
+#include "ImGUI/imgui_impl_sdl.h"
 #include "glew.h"
 #include "SDL2/SDL_opengl.h"
 #include <iostream>
 #include <cstring>
 #include "Utilities/helperFunctions.h"
-#include "Clock.hpp"
+//#include "Clock.hpp"
 
 Engine::Engine() :
 	renderer(NULL),

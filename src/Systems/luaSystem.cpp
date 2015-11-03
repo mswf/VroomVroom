@@ -10,7 +10,7 @@
 #include "content.h"
 #include <iostream>
 #include <lua.hpp>
-#include "standardIncludes.h"
+#include "../Utilities/standardIncludes.h"
 #include "../Modules/mAll.h"
 
 sLuaSystem::sLuaSystem():

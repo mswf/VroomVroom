@@ -9,8 +9,8 @@
 #ifndef console_h
 #define console_h
 
-#include "typedef.h"
-#include "patterns/singleton.h"
+#include "Utilities/typedef.h"
+#include "Patterns/singleton.h"
 
 #define Terminal sTerminal::getInstance()
 

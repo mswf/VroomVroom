@@ -19,10 +19,9 @@
 #include "../glm/mat4x4.hpp"
 #include "../glm/gtc/type_ptr.hpp"
 
-namespace Renderer
+
+class Shader
 {
-	class Shader
-	{
 	public:
 		GLuint program;
 	public:
@@ -33,10 +32,10 @@ namespace Renderer
 		void SetUniformFloat2( const char* uniform, glm::vec2 value );
 		void SetUniformFloat3( const char* uniform, glm::vec3 value );
 		void SetUniformMat4( const char* uniform, glm::mat4 value );
+		void ValidateProgram();
 	private:
 		void LogError( GLuint program, GLenum pname);
-	};
-}
+};
 
 
 #endif /* shader_h */

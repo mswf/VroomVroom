@@ -12,5 +12,6 @@
 #include "mInput.h"
 #include "mEngine.h"
 #include "mEntity.h"
+#include "mUiWindow.h"
 
 #endif /* mAll_h */

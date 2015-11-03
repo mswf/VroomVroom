@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		233B2A5C1BE8E11F0032447A /* mUiWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 233B2A5A1BE8E11F0032447A /* mUiWindow.cpp */; settings = {ASSET_TAGS = (); }; };
 		234C8B281BB96A3B00E61132 /* libassimpd.3.1.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */; };
 		234C8B291BB96A4600E61132 /* libassimpd.3.1.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */; };
 		23A4AF551BB2DE3100948D72 /* content.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23A4AF531BB2DE3100948D72 /* content.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -69,6 +70,8 @@
 
 /* Begin PBXFileReference section */
 		23040E021BDF78E800662A1B /* mAll.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = mAll.h; path = src/Modules/mAll.h; sourceTree = SOURCE_ROOT; };
+		233B2A5A1BE8E11F0032447A /* mUiWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mUiWindow.cpp; path = src/Modules/mUiWindow.cpp; sourceTree = SOURCE_ROOT; };
+		233B2A5B1BE8E11F0032447A /* mUiWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mUiWindow.h; path = src/Modules/mUiWindow.h; sourceTree = SOURCE_ROOT; };
 		234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimpd.3.1.1.dylib; path = Framework/assimp/Debug/libassimpd.3.1.1.dylib; sourceTree = "<group>"; };
 		23A4AF531BB2DE3100948D72 /* content.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = content.cpp; path = src/content.cpp; sourceTree = SOURCE_ROOT; };
 		23A4AF541BB2DE3100948D72 /* content.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = content.h; path = src/content.h; sourceTree = SOURCE_ROOT; };
@@ -194,6 +197,8 @@
 				23C59A341BCD3ACA00A37E29 /* mInput.cpp */,
 				23C59A351BCD3ACA00A37E29 /* mInput.h */,
 				23040E021BDF78E800662A1B /* mAll.h */,
+				233B2A5A1BE8E11F0032447A /* mUiWindow.cpp */,
+				233B2A5B1BE8E11F0032447A /* mUiWindow.h */,
 			);
 			name = Modules;
 			sourceTree = "<group>";
@@ -426,6 +431,7 @@
 				E50529431BE8CDBA0017400B /* shader.cpp in Sources */,
 				E54726101BC6A78F00316B26 /* base64.cpp in Sources */,
 				E5B282801BCAE76500759348 /* Input.cpp in Sources */,
+				233B2A5C1BE8E11F0032447A /* mUiWindow.cpp in Sources */,
 				E50529441BE8CDBA0017400B /* texture.cpp in Sources */,
 				23EE7EC31BC686020006581F /* Engine.cpp in Sources */,
 				E50529671BE8CE0A0017400B /* cMaterial.cpp in Sources */,

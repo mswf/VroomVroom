@@ -4,7 +4,7 @@
 #include "ComponentSystem.h"
 
 #include <glew.h>
-#include <iostream>	// cout, cerr, endl
+#include <strstream>
 #include <fstream>	// fin,
 
 
@@ -15,6 +15,7 @@
 #include "../glm/gtc/matrix_transform.hpp"
 #include "../Components/cMesh.h"
 #include "../Components/entity.h"
+#include "../Components/cMaterial.h"
 
 namespace Renderer
 {
@@ -22,7 +23,7 @@ namespace Renderer
 	struct Vertex
 	{
 		glm::vec3 position;
-		glm::vec4 texcoord;
+		glm::vec3 texcoord;
 	};
 
 	
@@ -42,7 +43,10 @@ namespace Renderer
     };
     
 	void Render( glm::uint32 time, Entity* mesh, Entity* camera );
-	void GenerateCube( CMesh* mesh );
+	void GenerateTriangle( Entity* e );
+	void GenerateCube( Entity* e, bool centered = true );
+	void GenerateBuffers( Entity* e, const Vertex* verts, GLuint verticeCount, GLfloat faceCount, const GLubyte* indices );
+	void ClearBuffers( CMesh* m );
 	void LoadTexture();
 	GLuint CreateTexture( unsigned char*, int, int );
 	void CreateFBO();

@@ -13,25 +13,11 @@
 #include "../glm/mat4x4.hpp"
 #include "../glm/gtc/type_ptr.hpp"
 #include "../glm/gtc/matrix_transform.hpp"
-#include "../Components/cTransform.h"
-#include "../Components/cCamera.h"
 #include "../Components/cMesh.h"
+#include "entity.h"
 
 namespace Renderer
 {
-    
-    class Shader;
-	
-	struct RenderData
-	{
-		GLuint framebuffer;
-		Shader* shader;
-		GLuint arraybuffer;
-		GLuint elementbuffer;
-		GLuint vertexbuffer;
-        CTransform transform;
-		CCamera* camera;
-	};
 	
 	struct Vertex
 	{
@@ -55,14 +41,8 @@ namespace Renderer
         
     };
     
-	void Render( glm::uint32 time, RenderData* data, CMesh* mesh );
-
-	void GetRenderData( RenderData* , CMesh* mesh );
-	void DeleteData( RenderData* );
-	
-	
+	void Render( glm::uint32 time, Entity* mesh, Entity* camera );
 	void GenerateCube( CMesh* mesh );
-	void LoadModel( CMesh* mesh );
 	void LoadTexture();
 	GLuint CreateTexture( unsigned char*, int, int );
 	void CreateFBO();

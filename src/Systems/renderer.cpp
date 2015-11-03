@@ -1,65 +1,23 @@
 #include "../DataStructure/shader.h"
 #include "../Systems/renderer.h"
-#include "../Components/component.h"
+#include "../Components/cMaterial.h"
 #include "../Components/cTransform.h"
-
+#include "../Components/cCamera.h"
+#include <iostream>
 
 
 namespace Renderer
 {
-	glm::ivec2 windowSize;
-    GLuint program;
-	GLuint framebuffer_object;
-	GLuint framebuffer_depth;
-	GLuint framebuffer_color;
-	GLuint elementArrayBuffer;
-	GLuint vertexArray_object;
-	GLuint arrayBuffer;
-	/*
-    RenderSystem::RenderSystem()
-    {
-        
-    }
-    
-    RenderSystem::~RenderSystem()
-    {
-        
-    }
-    
-    bool RenderSystem::Initialize()
-    {
-        return true;
-    }
-    
-    void RenderSystem::Update( void* data )
-    {
-        
-    }
-    
-    void RenderSystem::SendMessage(void* message)
-    {
-        
-    }
-	*/
 	
-	void GetRenderData( RenderData* outRenderData, CMesh* mesh )
+	void Render( glm::uint32 time, Entity* camera, Entity* object )
 	{
-		GenerateCube( mesh );
-		CreateFBO();
-		outRenderData->shader = new Shader();
-		outRenderData->transform = new CTransform();
-	}
-	
-	void DeleteData( RenderData* data )
-	{
-		delete data->shader;
-		delete data;
-	}
-	
-	void Render( glm::uint32 time, RenderData* data, CMesh* mesh )
-	{
-        
-		program = data->shader->program;
+		
+		CMaterial* mat =	Entity::GetComponent<CMaterial>(object);
+		CTransform* trans = Entity::GetComponent<CTransform>(object);
+		CMesh* mesh =		Entity::GetComponent<CMesh>(object);
+		CCamera* cam =		Entity::GetComponent<CCamera>(camera);
+		
+		GLuint program = mat->shader->program;
 		
 		glClearColor( 0.2, 0.2, 0.2, 1.0 );
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -68,10 +26,10 @@ namespace Renderer
 		
 		glUseProgram(program);
 		
-		data->shader->SetUniformMat4( "model", data->transform.transform );
-		data->shader->SetUniformMat4( "view", data->camera->GetViewMatrix() );
-		data->shader->SetUniformMat4( "projection", data->camera->GetProjectionMatrix() );
-		data->shader->SetUniformFloat( "time", (float)time );
+		mat->shader->SetUniformMat4( "model", trans->transform );
+		mat->shader->SetUniformMat4( "view", cam->GetViewMatrix() );
+		mat->shader->SetUniformMat4( "projection", cam->GetProjectionMatrix() );
+		mat->shader->SetUniformFloat( "time", (float)time );
 
 		// DRAWING PART
 		
@@ -79,19 +37,18 @@ namespace Renderer
 		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER,  mesh->indexBufferObject );
 		glBindVertexArray( mesh->vertexArrayObject );
 		
+		mat->shader->ValidateProgram();
+		
 		GLuint position = glGetAttribLocation( program, "position" );
 		GLuint texcoord = glGetAttribLocation( program, "texcoord" );
-		
-		glEnableVertexAttribArray( mesh->vertexLoc );
-		glEnableVertexAttribArray( mesh->texCoordLoc );
+
+		glEnableVertexAttribArray( position );
+		glEnableVertexAttribArray( texcoord );
 		
 		glVertexAttribPointer( position, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0 );
 		glVertexAttribPointer( texcoord, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) sizeof(glm::vec3) );
 		
-		//glVertexAttribPointer( position, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), 0 );
-		//glVertexAttribPointer( texcoord, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), 0 );
-		
-		glDrawElements( GL_TRIANGLES, mesh->numFaces, GL_UNSIGNED_INT, 0 );
+		glDrawElements( GL_TRIANGLES, mesh->numFaces, GL_UNSIGNED_BYTE, 0 );
 		
 		glBindVertexArray( 0 );
 		glBindBuffer( GL_ARRAY_BUFFER, 0 );
@@ -101,56 +58,6 @@ namespace Renderer
 		
 		glUseProgram(0);
 	}
-
-	// Create a Frame buffer object
-	// TODO Valentinas: Use frame buffer for drawing window
-	void CreateFBO()
-	{
-		/*
-		glGenFramebuffers( 1, &framebuffer_object );
-		glBindFramebuffer( GL_FRAMEBUFFER, framebuffer_object );
-		
-		//glGenTextures( 1, &framebuffer_depth );
-		//glBindTexture( GL_TEXTURE_2D, framebuffer_depth );
-		//glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
-		//glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
-		//glTexImage2D( GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, windowSize.x, windowSize.y, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL );
-		
-		glGenTextures( 1, &framebuffer_color );
-		glBindTexture( GL_TEXTURE_2D, framebuffer_color );
-		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
-		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
-		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
-		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
-		glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA32F, windowSize.x, windowSize.y, 0, GL_RGBA, GL_FLOAT, NULL );
-		glFramebufferTexture2D( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, framebuffer_color, 0 );
-		
-		
-		glBindTexture( GL_TEXTURE_2D, 0);
-		glBindFramebuffer( GL_FRAMEBUFFER, 0);
-		*/
-	}
-	
-	// TODO Valentinas: Change framebuffer size on resize
-	void ResizeFBO( int x, int y )
-	{
-		/*
-		if ( windowSize != glm::ivec2(x,y) )
-		{
-			windowSize = glm::ivec2(x,y);
-			
-			glBindTexture( GL_TEXTURE_2D, framebuffer_depth );
-			glTexImage2D( GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, x, y, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL );
-			
-			glBindTexture( GL_TEXTURE_2D, framebuffer_color );
-			glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA32F, x, y, 0, GL_RGBA, GL_FLOAT, NULL );
-			
-			glBindTexture( GL_TEXTURE_2D, 0 );
-		}
-		*/
-	}
-		
-	// Import models and textures
 
 	void GenerateCube( CMesh* mesh )
 	{
@@ -184,45 +91,37 @@ namespace Renderer
 			
 		};
 		
+		GLuint vao;
+		GLuint vbo;
+		GLuint ebo;
+		
+		std::cout << "Size of vertex: " << sizeof(Vertex) << std::endl;
+		std::cout << "Size of 8 vertices: " << 8 * sizeof(Vertex) << std::endl;
+		std::cout << "Size of indices: " << sizeof(indices) << std::endl;
+		
 		//VAO
-		glGenVertexArrays( 1, &mesh->vertexArrayObject );
-		glBindVertexArray( mesh->vertexArrayObject );
+		glGenVertexArrays( 1, &vao );
+		glBindVertexArray( vao );
 		
 		//EBO
-		glGenBuffers( 1, &mesh->vertexBufferObject);
-		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, mesh->vertexBufferObject );
+		glGenBuffers( 1, &ebo);
+		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, ebo );
 		glBufferData( GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 		
 		//VBO
-		glGenBuffers( 1, &mesh->vertexBufferObject );
-		glBindBuffer( GL_ARRAY_BUFFER, mesh->vertexBufferObject );
+		glGenBuffers( 1, &vbo );
+		glBindBuffer( GL_ARRAY_BUFFER, vbo );
 		glBufferData( GL_ARRAY_BUFFER, 8 * sizeof(Vertex), mesh, GL_STATIC_DRAW);
+		
+		
+		
+		mesh->vertexArrayObject = vao;
+		mesh->indexBufferObject = ebo;
+		mesh->vertexBufferObject = vbo;
 		
 		glBindVertexArray( 0 );
 		glBindBuffer( GL_ARRAY_BUFFER, 0 );
 		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
 	}
 	
-	void LoadTexture(const char * file)
-	{
-		std::cout << "Loading texture" << std::endl;
-		//CreateTexture(0, 0, 0);
-	}
-
-	// Create OpenGL texture
-	GLuint CreateTexture(unsigned char* pixels, int width, int height)
-	{
-		GLuint texture;
-		glGenTextures(1, &texture);
-		glBindTexture(GL_TEXTURE_2D, texture);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-		
-		// TODO(Valentinas): Delete texture only when finishing work
-		//glDeleteTextures(1, &texture);
-		
-		return texture;
-	}
-
 } // NAMESPACE END

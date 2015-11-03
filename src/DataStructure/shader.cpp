@@ -8,7 +8,7 @@
 
 #include "shader.h"
 #include "content.h"
-#include "Utilities/helperFunctions.h"
+#include "../Utilities/helperFunctions.h"
 
 #include "SDL2/SDL.h"
 

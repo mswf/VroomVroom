@@ -1,7 +1,7 @@
 #ifndef helperfunctions_h
 #define helperfunctions_h
 
-#include "../typedef.h"
+#include "../Utilities/typedef.h"
 
 class HelperFunctions
 {

@@ -11,7 +11,7 @@
 #include <iostream>
 #include <lua.hpp>
 #include "standardIncludes.h"
-#include "Modules/mAll.h"
+#include "../Modules/mAll.h"
 
 sLuaSystem::sLuaSystem():
 	hasMainBeenCalled(false)

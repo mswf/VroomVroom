@@ -10,7 +10,7 @@
 #define luaSystem_h
 
 #include "typedef.h"
-#include "patterns/singleton.h"
+#include "../patterns/singleton.h"
 
 #define LuaSystem sLuaSystem::getInstance()
 

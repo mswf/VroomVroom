@@ -14,10 +14,10 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-#include "glm/vec2.hpp"
-#include "glm/vec3.hpp"
-#include "glm/mat4x4.hpp"
-#include "glm/gtc/type_ptr.hpp"
+#include "../glm/vec2.hpp"
+#include "../glm/vec3.hpp"
+#include "../glm/mat4x4.hpp"
+#include "../glm/gtc/type_ptr.hpp"
 
 namespace Renderer
 {

@@ -17,7 +17,7 @@ class StubEntity
     public :
         StubEntity() {};
         ~StubEntity() {};
-        void DoPls() { printf("%i\n", pls); };
+        void DoPls() { printf("pls\n"); };
         int pls;
 };
 
@@ -28,7 +28,7 @@ class mEntity {
         mEntity();
         ~mEntity();
     
-        lFuncDef(create);
+        lFuncDef(__engineInit);
         lFuncDef(destroy);
         lFuncDef(doPls);
 };

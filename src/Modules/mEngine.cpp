@@ -7,7 +7,7 @@
 //
 
 #include "mEngine.h"
-#include "typedef.h"
+#include "../Utilities/typedef.h"
 #include "console.h"
 
 void mEngine::Bind(lua_State* L)

@@ -5,12 +5,12 @@
 //  Created by Robin Zaagsma on 23/09/15.
 //  Copyright © 2015 Valentinas Rimeika. All rights reserved.
 //
-#include "standardIncludes.h"
+#include "Utilities/standardIncludes.h"
 #include "console.h"
 #include <iostream>
 #include "IO/file.h"
 #include <time.h>
-#include "luaSystem.h"
+#include "Systems/luaSystem.h"
 
 #include "Networking/TCPClient.h"
 
@@ -62,7 +62,11 @@ void sTerminal::Warning(const string msg)
 
 void sTerminal::Error(string msg)
 {
-	//TODO implement this :)
+    string line = "[ERROR]" + msg;
+    std::cout << line << std::endl;
+    WriteToFile(line);
+    SendToExternal(line, "#ff0000", "#ffffff");
+    //TODO(robin): Better error handling
 }
 
 void sTerminal::Custom(const string msg, string background, string color)

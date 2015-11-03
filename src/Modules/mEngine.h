@@ -10,6 +10,7 @@
 #define mEngine_h
 
 #include "moduleMacros.h"
+#include "../Systems/luaSystem.h"
 
 class mEngine {
     public:

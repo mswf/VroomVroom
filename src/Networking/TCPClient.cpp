@@ -1,7 +1,7 @@
 #include "TCPClient.h"
 #include "stdio.h"
 #include "SDL2/SDL.h"
-#include "helperFunctions.h"
+#include "../Utilities/helperFunctions.h"
 #include <iostream>
 
 

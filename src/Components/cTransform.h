@@ -3,10 +3,10 @@
 
 #include "component.h"
 #include <vector>
-#include "glm/mat4x4.hpp"
-#include "glm/vec3.hpp"
-#include "glm/gtc/quaternion.hpp"
-#include "glm/gtx/transform.hpp"
+#include "../glm/mat4x4.hpp"
+#include "../glm/vec3.hpp"
+#include "../glm/gtc/quaternion.hpp"
+#include "../glm/gtx/transform.hpp"
 
 
 class CTransform : public Component

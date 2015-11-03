@@ -6,18 +6,24 @@
 //  Copyright © 2015 Valentinas Rimeika. All rights reserved.
 //
 
+/*
+ Creates an entity class that is compatible with the class system in lua. 
+ */
+
 #include "mEntity.h"
 #include <lua.hpp>
-#include "standardIncludes.h"
+#include "../Utilities/standardIncludes.h"
 #include <new>
+#include "../Systems/luaSystem.h"
 
 void mEntity::Bind(lua_State* L)
 {
     lStart(Entity)
-        lBind(create)
+        lBind(__engineInit)
+        lBind(doPls)
     lEnd(Entity)
     
-    luaL_newmetatable(L, "_metaEntity");
+    luaL_newmetatable(L, "_metaEntityUser");
     lua_pushstring(L, "__index");
     lua_pushvalue(L, -2);
     lua_settable(L, -3);
@@ -25,30 +31,24 @@ void mEntity::Bind(lua_State* L)
     const luaL_reg Entity_methods[] =
     {
         {"__gc", lw_destroy__},
-        lBind(doPls)
         {0, 0}
     };
     
     luaL_openlib(L, 0, Entity_methods, 0);
 }
 
-lFuncImp(mEntity, create)
+lFuncImp(mEntity, __engineInit)
 {
-    //create a table and give it the _metaEntity metatable
-    lua_newtable(L);
-    luaL_getmetatable(L, "_metaEntity");
-    lua_setmetatable(L, -2);
-    
     //create a userdata with the size of an entity, and create a new entity at that point in memory
-    //set the metatable of this userdata to _metaEntity as well
+    //set the metatable of this userdata to _metaEntityUser
     new (lua_newuserdata(L, sizeof(StubEntity))) StubEntity();
-    luaL_getmetatable(L, "_metaEntity");
+    luaL_getmetatable(L, "_metaEntityUser");
     lua_setmetatable(L, -2);
     
     //now add the userdata to our table as with the key "core_"
     lua_setfield(L, -2, "core_ENTITY");
     
-    return 1;
+    return 0;
 }
 
 //bound to __gc, thus called by lua when the userdata is destroyed
@@ -72,7 +72,7 @@ lFuncImp(mEntity, destroy)
     
     
     StubEntity* entity = reinterpret_cast<StubEntity*>(lua_touserdata(L, 1));
-    delete entity;
+    entity->~StubEntity();
     
     return 0;
 }

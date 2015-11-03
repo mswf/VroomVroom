@@ -5,7 +5,6 @@
 
 
 
-
 namespace Renderer
 {
 	glm::ivec2 windowSize;
@@ -16,7 +15,6 @@ namespace Renderer
 	GLuint elementArrayBuffer;
 	GLuint vertexArray_object;
 	GLuint arrayBuffer;
-	
     RenderSystem::RenderSystem()
     {
         
@@ -41,7 +39,6 @@ namespace Renderer
     {
         
     }
-    
 	void GetRenderData( RenderData* outRenderData )
 	{
 		LoadModel();

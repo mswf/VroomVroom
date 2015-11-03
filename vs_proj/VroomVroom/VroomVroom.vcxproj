@@ -15,6 +15,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\Components\cCamera.h" />
     <ClInclude Include="..\..\src\Components\cMaterial.h" />
     <ClInclude Include="..\..\src\Components\cMesh.h" />
     <ClInclude Include="..\..\src\Components\component.h" />
@@ -197,6 +198,7 @@
     <ClInclude Include="..\..\src\Utilities\typedef.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\Components\cCamera.cpp" />
     <ClCompile Include="..\..\src\Components\cMaterial.cpp" />
     <ClCompile Include="..\..\src\Components\cMesh.cpp" />
     <ClCompile Include="..\..\src\Components\cTransform.cpp" />
@@ -389,7 +391,6 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\..\Framework\Win32Libraries\include;..\..\Framework\LJIT\include;..\..\Framework\assimp\Include;..\..\src;..\..\Framework\Win32Libraries\include\SDL2_net;..\..\Framework\Win32Libraries\include\SDL2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>DEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

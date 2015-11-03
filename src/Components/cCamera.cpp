@@ -55,6 +55,18 @@ void CCamera::SetUpVector( glm::vec3 up )
 	UpdateView();
 }
 
+void CCamera::SetEyeVector( glm::vec3 eye )
+{
+	eyeVector = eye;
+	UpdateView();
+}
+
+void CCamera::SetCenterVector( glm::vec3 center )
+{
+	centerVector = center;
+	UpdateView();
+}
+
 void CCamera::UpdateView()
 {
 	viewMatrix = glm::lookAt( eyeVector, centerVector, upVector );

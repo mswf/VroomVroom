@@ -10,9 +10,9 @@
 #define cCamera_h
 
 #include "component.h"
-#include "glm/vec3.hpp"
-#include "glm/mat4x4.hpp"
-#include "glm/gtc/matrix_transform.hpp"
+#include "../glm/vec3.hpp"
+#include "../glm/mat4x4.hpp"
+#include "../glm/gtc/matrix_transform.hpp"
 
 enum class Projection
 {

@@ -16,111 +16,114 @@
     <Filter Include="VroomVroom">
       <UniqueIdentifier>{5b6a4fc9-b970-4582-ae49-55006319270d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="VroomVroom\Utilities">
-      <UniqueIdentifier>{c7b4a32c-4655-499d-bfc0-7a9783fb3268}</UniqueIdentifier>
+    <Filter Include="VroomVroom\Systems">
+      <UniqueIdentifier>{32987534-da49-48c9-9fc2-11a248a9974f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="VroomVroom\Patterns">
-      <UniqueIdentifier>{280729dd-832f-46e4-a4bc-dc1c1bab8769}</UniqueIdentifier>
+    <Filter Include="VroomVroom\Components">
+      <UniqueIdentifier>{2055afb4-2112-4c8a-9afe-594e43790e42}</UniqueIdentifier>
     </Filter>
-    <Filter Include="VroomVroom\Networking">
-      <UniqueIdentifier>{75c980ea-ce55-465e-92e7-454d2f9dadfc}</UniqueIdentifier>
+    <Filter Include="VroomVroom\Data structure">
+      <UniqueIdentifier>{f01ed218-a430-41a0-b325-b08d3f1d1bff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="VroomVroom\Tests">
-      <UniqueIdentifier>{3ce4750d-d5d6-483a-b1ca-d48c150ae596}</UniqueIdentifier>
+    <Filter Include="VroomVroom\ImGUI">
+      <UniqueIdentifier>{687528f4-36ae-4dad-a0ca-f65e97e87afd}</UniqueIdentifier>
     </Filter>
     <Filter Include="VroomVroom\IO">
-      <UniqueIdentifier>{9f51550f-7c42-4a2d-8fb9-dc235095f037}</UniqueIdentifier>
+      <UniqueIdentifier>{e4d26dec-0bb2-4cd8-8657-04c91986fb48}</UniqueIdentifier>
     </Filter>
     <Filter Include="VroomVroom\Modules">
-      <UniqueIdentifier>{ee573f7e-215d-4651-bdb7-db683526c2dc}</UniqueIdentifier>
+      <UniqueIdentifier>{695eb596-ef0e-44cb-8823-b8152b912c08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VroomVroom\Networking">
+      <UniqueIdentifier>{e5d82234-9421-40c6-8828-e0555966c5f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VroomVroom\Patterns">
+      <UniqueIdentifier>{a9952f80-8c12-4343-8ee4-b32e89523c55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VroomVroom\Utilities">
+      <UniqueIdentifier>{a5e29a67-140f-45cb-9b62-f8c13f940aa5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VroomVroom\glm">
+      <UniqueIdentifier>{ba4539a5-67e7-41e5-b811-fd21f8cc4f87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VroomVroom\glm\detail">
+      <UniqueIdentifier>{1d6cdd9e-50ad-4dda-9958-37b078cc0c2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VroomVroom\glm\gtc">
+      <UniqueIdentifier>{ef04198a-b95e-45e8-b9bf-3ac8aa9871cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VroomVroom\glm\gtx">
+      <UniqueIdentifier>{8a4a15ab-c449-4381-9df5-3c3242354789}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\imconfig.h">
-      <Filter>VroomVroom</Filter>
+    <ClInclude Include="..\..\src\Networking\TCPData.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\imgui.h">
-      <Filter>VroomVroom</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\imgui_impl_sdl.h">
-      <Filter>VroomVroom</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\imgui_internal.h">
-      <Filter>VroomVroom</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\stb_rect_pack.h">
-      <Filter>VroomVroom</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\stb_textedit.h">
-      <Filter>VroomVroom</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\stb_truetype.h">
-      <Filter>VroomVroom</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\standardIncludes.h">
-      <Filter>VroomVroom</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\typedef.h">
+    <ClInclude Include="..\..\src\console.h">
       <Filter>VroomVroom</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\content.h">
       <Filter>VroomVroom</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\renderer.h">
-      <Filter>VroomVroom</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\shader.h">
-      <Filter>VroomVroom</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Utilities\random.h">
-      <Filter>VroomVroom\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Utilities\helperFunctions.h">
-      <Filter>VroomVroom\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Patterns\singleton.h">
-      <Filter>VroomVroom\Patterns</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Utilities\base64.h">
-      <Filter>VroomVroom\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Networking\UDPMessage.h">
-      <Filter>VroomVroom\Networking</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Networking\TCPClient.h">
-      <Filter>VroomVroom\Networking</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Networking\TCPServer.h">
-      <Filter>VroomVroom\Networking</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\console.h">
-      <Filter>VroomVroom</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\luaSystem.h">
-      <Filter>VroomVroom</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Engine.h">
-      <Filter>VroomVroom</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Tests\TestCode.h">
-      <Filter>VroomVroom\Tests</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\IO\file.h">
-      <Filter>VroomVroom\IO</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Clock.hpp">
-      <Filter>VroomVroom</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\component.h">
-      <Filter>VroomVroom</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\cTransform.hpp">
       <Filter>VroomVroom</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Input.hpp">
       <Filter>VroomVroom</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Components\cMaterial.h">
+      <Filter>VroomVroom\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Components\cMesh.h">
+      <Filter>VroomVroom\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Components\component.h">
+      <Filter>VroomVroom\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Components\cTransform.h">
+      <Filter>VroomVroom\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\DataStructure\shader.h">
+      <Filter>VroomVroom\Data structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\DataStructure\texture.hpp">
+      <Filter>VroomVroom\Data structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ImGUI\imconfig.h">
+      <Filter>VroomVroom\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ImGUI\imgui.h">
+      <Filter>VroomVroom\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ImGUI\imgui_impl_sdl.h">
+      <Filter>VroomVroom\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ImGUI\imgui_internal.h">
+      <Filter>VroomVroom\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ImGUI\stb_rect_pack.h">
+      <Filter>VroomVroom\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ImGUI\stb_textedit.h">
+      <Filter>VroomVroom\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ImGUI\stb_truetype.h">
+      <Filter>VroomVroom\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\IO\file.h">
+      <Filter>VroomVroom\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\IO\RtMidi.h">
+      <Filter>VroomVroom\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Modules\mAll.h">
+      <Filter>VroomVroom\Modules</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\Modules\mEngine.h">
+      <Filter>VroomVroom\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Modules\mEntity.h">
       <Filter>VroomVroom\Modules</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Modules\mInput.h">
@@ -129,49 +132,532 @@
     <ClInclude Include="..\..\src\Modules\moduleMacros.h">
       <Filter>VroomVroom\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\RtMidi.h">
-      <Filter>VroomVroom</Filter>
+    <ClInclude Include="..\..\src\Networking\TCPClient.h">
+      <Filter>VroomVroom\Networking</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Networking\TCPData.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\src\Networking\TCPServer.h">
+      <Filter>VroomVroom\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Networking\UDPMessage.h">
+      <Filter>VroomVroom\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Utilities\base64.h">
+      <Filter>VroomVroom\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Utilities\Clock.hpp">
+      <Filter>VroomVroom\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Utilities\helperFunctions.h">
+      <Filter>VroomVroom\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Utilities\random.h">
+      <Filter>VroomVroom\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Utilities\standardIncludes.h">
+      <Filter>VroomVroom\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Utilities\typedef.h">
+      <Filter>VroomVroom\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Patterns\singleton.h">
+      <Filter>VroomVroom\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Systems\componentSystem.h">
+      <Filter>VroomVroom\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Systems\luaSystem.h">
+      <Filter>VroomVroom\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Systems\renderer.h">
+      <Filter>VroomVroom\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\common.hpp">
+      <Filter>VroomVroom\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\exponential.hpp">
+      <Filter>VroomVroom\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\ext.hpp">
+      <Filter>VroomVroom\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\fwd.hpp">
+      <Filter>VroomVroom\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\geometric.hpp">
+      <Filter>VroomVroom\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\glm.hpp">
+      <Filter>VroomVroom\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\integer.hpp">
+      <Filter>VroomVroom\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\mat2x2.hpp">
+      <Filter>VroomVroom\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\mat2x3.hpp">
+      <Filter>VroomVroom\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\mat2x4.hpp">
+      <Filter>VroomVroom\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\mat3x2.hpp">
+      <Filter>VroomVroom\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\mat3x3.hpp">
+      <Filter>VroomVroom\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\mat3x4.hpp">
+      <Filter>VroomVroom\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\mat4x2.hpp">
+      <Filter>VroomVroom\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\mat4x3.hpp">
+      <Filter>VroomVroom\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\mat4x4.hpp">
+      <Filter>VroomVroom\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\matrix.hpp">
+      <Filter>VroomVroom\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\packing.hpp">
+      <Filter>VroomVroom\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\trigonometric.hpp">
+      <Filter>VroomVroom\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\vec2.hpp">
+      <Filter>VroomVroom\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\vec3.hpp">
+      <Filter>VroomVroom\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\vec4.hpp">
+      <Filter>VroomVroom\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\vector_relational.hpp">
+      <Filter>VroomVroom\glm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\_features.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\_fixes.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\_noise.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\_swizzle.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\_swizzle_func.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\_vectorize.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\func_common.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\func_exponential.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\func_geometric.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\func_integer.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\func_matrix.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\func_packing.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\func_trigonometric.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\func_vector_relational.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\intrinsic_common.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\intrinsic_exponential.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\intrinsic_geometric.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\intrinsic_integer.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\intrinsic_matrix.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\intrinsic_trigonometric.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\intrinsic_vector_relational.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\precision.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\setup.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\type_float.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\type_gentype.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\type_half.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\type_int.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\type_mat.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\type_mat2x2.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\type_mat2x3.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\type_mat2x4.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\type_mat3x2.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\type_mat3x3.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\type_mat3x4.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\type_mat4x2.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\type_mat4x3.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\type_mat4x4.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\type_vec.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\type_vec1.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\type_vec2.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\type_vec3.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\detail\type_vec4.hpp">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtc\bitfield.hpp">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtc\color_space.hpp">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtc\constants.hpp">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtc\epsilon.hpp">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtc\integer.hpp">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtc\matrix_access.hpp">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtc\matrix_integer.hpp">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtc\matrix_inverse.hpp">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtc\matrix_transform.hpp">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtc\noise.hpp">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtc\packing.hpp">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtc\quaternion.hpp">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtc\random.hpp">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtc\reciprocal.hpp">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtc\round.hpp">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtc\type_precision.hpp">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtc\type_ptr.hpp">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtc\ulp.hpp">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtc\vec1.hpp">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\associated_min_max.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\bit.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\closest_point.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\color_space.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\color_space_YCoCg.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\common.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\compatibility.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\component_wise.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\dual_quaternion.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\euler_angles.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\extend.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\extented_min_max.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\fast_exponential.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\fast_square_root.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\fast_trigonometry.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\gradient_paint.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\handed_coordinate_space.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\hash.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\integer.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\intersect.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\io.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\log_base.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\matrix_cross_product.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\matrix_decompose.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\matrix_interpolation.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\matrix_major_storage.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\matrix_operation.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\matrix_query.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\matrix_transform_2d.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\mixed_product.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\norm.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\normal.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\normalize_dot.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\number_precision.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\optimum_pow.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\orthonormalize.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\perpendicular.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\polar_coordinates.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\projection.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\quaternion.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\range.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\raw_data.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\rotate_normalized_axis.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\rotate_vector.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\scalar_multiplication.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\scalar_relational.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\simd_mat4.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\simd_quat.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\simd_vec4.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\spline.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\std_based_type.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\string_cast.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\transform.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\transform2.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\type_aligned.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\vector_angle.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\vector_query.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\glm\gtx\wrap.hpp">
+      <Filter>VroomVroom\glm\gtx</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\imgui.cpp">
-      <Filter>VroomVroom</Filter>
+    <ClCompile Include="..\..\src\Networking\TCPData.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\imgui_demo.cpp">
-      <Filter>VroomVroom</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\imgui_draw.cpp">
-      <Filter>VroomVroom</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\imgui_impl_sdl.cpp">
-      <Filter>VroomVroom</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\main.cpp">
+    <ClCompile Include="..\..\src\console.cpp">
       <Filter>VroomVroom</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\content.cpp">
       <Filter>VroomVroom</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\renderer.cpp">
+    <ClCompile Include="..\..\src\Engine.cpp">
       <Filter>VroomVroom</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\shader.cpp">
+    <ClCompile Include="..\..\src\Input.cpp">
       <Filter>VroomVroom</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Utilities\random.cpp">
-      <Filter>VroomVroom\Utilities</Filter>
+    <ClCompile Include="..\..\src\main.cpp">
+      <Filter>VroomVroom</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Utilities\helperFunctions.cpp">
-      <Filter>VroomVroom\Utilities</Filter>
+    <ClCompile Include="..\..\src\Components\cMaterial.cpp">
+      <Filter>VroomVroom\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Utilities\base64.cpp">
-      <Filter>VroomVroom\Utilities</Filter>
+    <ClCompile Include="..\..\src\Components\cMesh.cpp">
+      <Filter>VroomVroom\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Networking\UDPMessage.cpp">
-      <Filter>VroomVroom\Networking</Filter>
+    <ClCompile Include="..\..\src\Components\cTransform.cpp">
+      <Filter>VroomVroom\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\DataStructure\shader.cpp">
+      <Filter>VroomVroom\Data structure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\DataStructure\texture.cpp">
+      <Filter>VroomVroom\Data structure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ImGUI\imgui.cpp">
+      <Filter>VroomVroom\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ImGUI\imgui_demo.cpp">
+      <Filter>VroomVroom\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ImGUI\imgui_draw.cpp">
+      <Filter>VroomVroom\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ImGUI\imgui_impl_sdl.cpp">
+      <Filter>VroomVroom\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\IO\file.cpp">
+      <Filter>VroomVroom\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\IO\RtMidi.cpp">
+      <Filter>VroomVroom\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Modules\mEngine.cpp">
+      <Filter>VroomVroom\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Modules\mEntity.cpp">
+      <Filter>VroomVroom\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Modules\mInput.cpp">
+      <Filter>VroomVroom\Modules</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Networking\TCPClient.cpp">
       <Filter>VroomVroom\Networking</Filter>
@@ -179,44 +665,358 @@
     <ClCompile Include="..\..\src\Networking\TCPServer.cpp">
       <Filter>VroomVroom\Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\console.cpp">
-      <Filter>VroomVroom</Filter>
+    <ClCompile Include="..\..\src\Networking\UDPMessage.cpp">
+      <Filter>VroomVroom\Networking</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\luaSystem.cpp">
-      <Filter>VroomVroom</Filter>
+    <ClCompile Include="..\..\src\Utilities\base64.cpp">
+      <Filter>VroomVroom\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Engine.cpp">
-      <Filter>VroomVroom</Filter>
+    <ClCompile Include="..\..\src\Utilities\Clock.cpp">
+      <Filter>VroomVroom\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Tests\TestCode.cpp">
-      <Filter>VroomVroom\Tests</Filter>
+    <ClCompile Include="..\..\src\Utilities\helperFunctions.cpp">
+      <Filter>VroomVroom\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\IO\file.cpp">
-      <Filter>VroomVroom\IO</Filter>
+    <ClCompile Include="..\..\src\Utilities\random.cpp">
+      <Filter>VroomVroom\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Clock.cpp">
-      <Filter>VroomVroom</Filter>
+    <ClCompile Include="..\..\src\Systems\luaSystem.cpp">
+      <Filter>VroomVroom\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\component.cpp">
-      <Filter>VroomVroom</Filter>
+    <ClCompile Include="..\..\src\Systems\renderer.cpp">
+      <Filter>VroomVroom\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\cTransform.cpp">
-      <Filter>VroomVroom</Filter>
+    <ClCompile Include="..\..\src\glm\detail\glm.cpp">
+      <Filter>VroomVroom\glm\detail</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Input.cpp">
-      <Filter>VroomVroom</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Modules\mEngine.cpp">
-      <Filter>VroomVroom\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Modules\mInput.cpp">
-      <Filter>VroomVroom\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\RtMidi.cpp">
-      <Filter>VroomVroom</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Networking\TCPData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\src\glm\detail\func_common.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\func_exponential.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\func_geometric.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\func_integer.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\func_matrix.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\func_packing.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\func_trigonometric.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\func_vector_relational.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\intrinsic_common.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\intrinsic_exponential.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\intrinsic_geometric.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\intrinsic_integer.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\intrinsic_matrix.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\intrinsic_trigonometric.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\intrinsic_vector_relational.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\type_gentype.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\type_half.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\type_mat.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\type_mat2x2.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\type_mat2x3.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\type_mat2x4.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\type_mat3x2.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\type_mat3x3.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\type_mat3x4.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\type_mat4x2.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\type_mat4x3.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\type_mat4x4.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\type_vec.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\type_vec1.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\type_vec2.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\type_vec3.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\type_vec4.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\type_vec4_avx.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\type_vec4_avx2.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\detail\type_vec4_sse2.inl">
+      <Filter>VroomVroom\glm\detail</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtc\bitfield.inl">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtc\color_space.inl">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtc\constants.inl">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtc\epsilon.inl">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtc\integer.inl">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtc\matrix_access.inl">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtc\matrix_inverse.inl">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtc\matrix_transform.inl">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtc\noise.inl">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtc\packing.inl">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtc\quaternion.inl">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtc\random.inl">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtc\reciprocal.inl">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtc\round.inl">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtc\type_precision.inl">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtc\type_ptr.inl">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtc\ulp.inl">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtc\vec1.inl">
+      <Filter>VroomVroom\glm\gtc</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\associated_min_max.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\bit.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\closest_point.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\color_space.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\color_space_YCoCg.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\common.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\compatibility.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\component_wise.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\dual_quaternion.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\euler_angles.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\extend.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\extented_min_max.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\fast_exponential.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\fast_square_root.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\fast_trigonometry.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\gradient_paint.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\handed_coordinate_space.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\hash.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\integer.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\intersect.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\io.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\log_base.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\matrix_cross_product.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\matrix_decompose.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\matrix_interpolation.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\matrix_major_storage.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\matrix_operation.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\matrix_query.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\matrix_transform_2d.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\mixed_product.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\norm.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\normal.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\normalize_dot.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\number_precision.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\optimum_pow.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\orthonormalize.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\perpendicular.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\polar_coordinates.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\projection.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\quaternion.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\raw_data.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\rotate_normalized_axis.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\rotate_vector.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\scalar_relational.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\simd_mat4.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\simd_quat.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\simd_vec4.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\spline.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\std_based_type.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\string_cast.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\transform.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\transform2.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\type_aligned.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\vector_angle.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\vector_query.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
+    <None Include="..\..\src\glm\gtx\wrap.inl">
+      <Filter>VroomVroom\glm\gtx</Filter>
+    </None>
   </ItemGroup>
 </Project>

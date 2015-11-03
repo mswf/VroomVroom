@@ -2,7 +2,7 @@
 #define cMesh_h
 
 #include <vector>
-#include "typedef.h"
+#include "../Utilities/typedef.h"
 #include "../glm/vec3.hpp"
 #include "../glm/vec4.hpp"
 #include "mesh.h"

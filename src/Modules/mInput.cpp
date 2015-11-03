@@ -9,6 +9,7 @@
 #include "mInput.h"
 #include "Input.hpp"
 #include "../Utilities/standardIncludes.h"
+#include "../Systems/luaSystem.h"
 
 Input* mInput::input = NULL;
 

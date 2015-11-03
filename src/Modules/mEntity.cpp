@@ -14,6 +14,7 @@
 #include <lua.hpp>
 #include "../Utilities/standardIncludes.h"
 #include <new>
+#include "../Systems/luaSystem.h"
 
 void mEntity::Bind(lua_State* L)
 {

@@ -10,7 +10,6 @@
 #define moduleMacros_h
 
 #include <lua.hpp>
-#include "../Systems/luaSystem.h"
 
     #define lFuncDef(NAME)\
         static int lw_##NAME##__( lua_State* L)

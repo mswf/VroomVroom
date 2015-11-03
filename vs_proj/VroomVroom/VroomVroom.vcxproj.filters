@@ -686,9 +686,6 @@
     <ClCompile Include="..\..\src\Systems\renderer.cpp">
       <Filter>VroomVroom\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\glm\detail\dummy.cpp">
-      <Filter>VroomVroom\glm\detail</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\glm\detail\glm.cpp">
       <Filter>VroomVroom\glm\detail</Filter>
     </ClCompile>

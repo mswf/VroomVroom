@@ -204,6 +204,8 @@
 		E505295C1BE8CDF20017400B /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				E505296A1BE8EF020017400B /* entity.cpp */,
+				E505296B1BE8EF020017400B /* entity.h */,
 				E505295D1BE8CE0A0017400B /* cCamera.cpp */,
 				E505295E1BE8CE0A0017400B /* cCamera.h */,
 				E505295F1BE8CE0A0017400B /* cMaterial.cpp */,
@@ -264,8 +266,6 @@
 				E5B2827E1BCAE76500759348 /* Input.cpp */,
 				E5B2827F1BCAE76500759348 /* Input.hpp */,
 				E567A8EF1BB1470200B8F6C3 /* main.cpp */,
-				E505296A1BE8EF020017400B /* entity.cpp */,
-				E505296B1BE8EF020017400B /* entity.h */,
 			);
 			path = VroomVroom;
 			sourceTree = "<group>";

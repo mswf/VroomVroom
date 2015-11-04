@@ -11,19 +11,34 @@ class CMesh : public Component
 {
 	public:
 	
+		struct Vertex
+		{
+			glm::vec3 position;
+			glm::vec3 texcoord;
+		};
+	
 		static const int familyId;
 	
 		CMesh();
 		~CMesh();
 	
+		void GenerateBuffers( const Vertex* vertices, GLuint verticeCount, const GLubyte* indices, GLuint indiceCount );
+	
+		// GL_POINTS, GL_LINES,
+		// GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FANS,
+		// GL_QUADS, GL_QUAD_STRIP,
+		// GL_POLYGONS
 		GLenum drawType;
-		GLuint vertexArrayObject;
-		GLuint vertexBufferObject;
-		GLuint elementArratBuffer;
-		GLuint numFaces;
-		GLuint vertexLoc;
-		GLuint normalLoc;
-		GLuint texCoordLoc;
+		// Vertex Array Object
+		GLuint vao;
+		// Vertex Buffer Object
+		GLuint vbo;
+		// Element Array Buffer
+		GLuint eab;
+		GLuint numIndices;
+		GLuint vertexAttributeLocation;
+		GLuint normalAttributeLocation;
+		GLuint texCoordAttributeLocation;
 	
 	private:
 	

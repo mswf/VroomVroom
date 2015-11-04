@@ -18,6 +18,7 @@
 #include "SDL2/SDL_opengl.h"
 #include <iostream>
 #include <cstring>
+#include <strstream>
 #include "Utilities/helperFunctions.h"
 
 Engine::Engine() :
@@ -122,8 +123,11 @@ void Engine::InitGlew()
 		printf("Error initializing GLEW! %p\n", glewGetErrorString(glewError));
 	}
 #ifdef DEBUG
-	std::cout << "GL version " << glGetString(GL_VERSION) << std::endl;
-	std::cout << "GLEW version " << glewGetString(GLEW_VERSION_MAJOR) << "." << glewGetString(GLEW_VERSION_MINOR) << std::endl;
+	std::stringstream s0, s1;
+	s0 << "GL version " << glGetString(GL_VERSION);
+	s1 << "GLEW version " << glewGetString(GLEW_VERSION_MAJOR) << "." << glewGetString(GLEW_VERSION_MINOR);
+	Terminal.Log( s0.str() );
+	Terminal.Log( s1.str() );
 #endif
 }
 
@@ -191,7 +195,7 @@ void Engine::UpdateLoop()
 	CMesh* mesh = new CMesh();
 	CMaterial* mat = new CMaterial( new Shader() );
 	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 90.0f, 1280.0f / 720.0f, 0.2f, 1000.0f );
-	cam->SetEyeVector( glm::vec3(5.0f, 5.0f, 5.0f) );
+	cam->SetEyeVector( glm::vec3(1.0f, 1.0f, 1.0f) );
 	
 	
 	Entity* box = new Entity();
@@ -199,8 +203,8 @@ void Engine::UpdateLoop()
 	Entity::AddComponent(box, t );
 	Entity::AddComponent(box, mesh);
 	Entity::AddComponent(box, mat);
-	Renderer::GenerateTriangle(box);
-	//Renderer::GenerateCube(box);
+	//Renderer::GenerateTriangle(box);
+	Renderer::GenerateCube(box);
 	
 	Entity* camera = new Entity();
 	Entity::AddComponent(camera, new CTransform() );
@@ -238,7 +242,7 @@ void Engine::UpdateLoop()
 			if (deltaTimeGame < gameUpdateInterval)
 			{
 				//t->Roll(10.0f);
-				t->Rotate( glm::vec3(10.0f, 0.0f, 10.0f) );
+				t->Rotate( glm::vec3(1.0f, 1.0f, 1.0f) );
 		
                 /*
                 if ( inputManager->OnKeyDown(SDL_SCANCODE_UP) )

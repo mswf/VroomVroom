@@ -24,7 +24,6 @@ class Engine
 		void ShowSimpleWindowOne(bool& show_test_window, bool& show_another_window);
 		void ShowSimpleWindowTwo();
 		void ShowSimpleWindowThree();
-        void PrintEvent(const SDL_Event * event);
 		void UpdateLoop();
 		void InitSDL();
 		void InitSDLNet();

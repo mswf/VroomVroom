@@ -57,7 +57,6 @@ void Engine::PollEvent()
             //TODO: don't exit instantly, rather disrupt the game loop and exit through a controlled flow
 		}
 		inputManager->Update(&event);
-
 	}
 	inputManager->StateReset();
 }
@@ -203,8 +202,8 @@ void Engine::UpdateLoop()
 	Entity::AddComponent(box, t );
 	Entity::AddComponent(box, mesh);
 	Entity::AddComponent(box, mat);
-	//Renderer::GenerateTriangle(box);
-	Renderer::GenerateCube(box);
+	Renderer::GenerateTriangle(box);
+	//Renderer::GenerateCube(box);
 	
 	Entity* camera = new Entity();
 	Entity::AddComponent(camera, new CTransform() );
@@ -217,10 +216,10 @@ void Engine::UpdateLoop()
 	const float gameUpdateInterval = 1 / gameFPS * millisecondModifier;
     uint32 currentTicks = SDL_GetTicks();
 	uint32 prevTicks = currentTicks;
-	bool running = true;
+	static bool running = true;
 
 	LuaSystem.Main();
-    
+
 	while (running)
 	{
 		//multithreaded rendering goes here if we decide to do it
@@ -230,9 +229,11 @@ void Engine::UpdateLoop()
 		//game
 		currentTicks = SDL_GetTicks();
 		uint32 deltaTimeGame = currentTicks - prevTicks;
+		
 		PollEvent();
-        //inputManager->MidiListener();
-        
+		//inputManager->MidiListener();
+
+		
 		while (deltaTimeGame > gameUpdateInterval)
 		{
 			Update();
@@ -241,9 +242,14 @@ void Engine::UpdateLoop()
 
 			if (deltaTimeGame < gameUpdateInterval)
 			{
+				if ( inputManager->OnKey(SDLK_ESCAPE) )
+				{
+					running = false;
+				}
+				
 				//t->Roll(10.0f);
 				t->Rotate( glm::vec3(1.0f, 1.0f, 1.0f) );
-		
+				
                 /*
                 if ( inputManager->OnKeyDown(SDL_SCANCODE_UP) )
                 {

@@ -45,7 +45,7 @@ namespace Renderer
 	void Render( glm::uint32 time, Entity* mesh, Entity* camera );
 	void GenerateTriangle( Entity* e );
 	void GenerateCube( Entity* e, bool centered = true );
-	void GenerateBuffers( Entity* e, const Vertex* verts, GLuint verticeCount, GLuint faceCount, const GLubyte* indices );
+	void GenerateBuffers( Entity* e, const Vertex* verts, GLuint verticeCount, const GLubyte* indices,GLuint indiceCount );
 	void ClearBuffers( CMesh* m );
 	void LoadTexture();
 	GLuint CreateTexture( unsigned char*, int, int );

@@ -15,6 +15,7 @@
 		23C59A321BCD305B00A37E29 /* mEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23C59A301BCD305B00A37E29 /* mEngine.cpp */; settings = {ASSET_TAGS = (); }; };
 		23C59A361BCD3ACA00A37E29 /* mInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23C59A341BCD3ACA00A37E29 /* mInput.cpp */; settings = {ASSET_TAGS = (); }; };
 		23CBC8741BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */; };
+		23E22F5F1BE9FEBA00987545 /* uiSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E22F5D1BE9FEBA00987545 /* uiSystem.cpp */; settings = {ASSET_TAGS = (); }; };
 		23EE7EC31BC686020006581F /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23EE7EC11BC686020006581F /* Engine.cpp */; settings = {ASSET_TAGS = (); }; };
 		23EE7EE41BC6C2B90006581F /* console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23EE7EE21BC6C2B90006581F /* console.cpp */; settings = {ASSET_TAGS = (); }; };
 		E50529251BE8CD650017400B /* engine_event_system.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E505291F1BE8CD650017400B /* engine_event_system.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -83,6 +84,8 @@
 		23C59A341BCD3ACA00A37E29 /* mInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mInput.cpp; path = src/Modules/mInput.cpp; sourceTree = SOURCE_ROOT; };
 		23C59A351BCD3ACA00A37E29 /* mInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mInput.h; path = src/Modules/mInput.h; sourceTree = SOURCE_ROOT; };
 		23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libluajit-5.1.2.0.4.dylib"; path = "Framework/LJIT/lib/libluajit-5.1.2.0.4.dylib"; sourceTree = "<group>"; };
+		23E22F5D1BE9FEBA00987545 /* uiSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uiSystem.cpp; path = src/Systems/uiSystem.cpp; sourceTree = SOURCE_ROOT; };
+		23E22F5E1BE9FEBA00987545 /* uiSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uiSystem.h; path = src/Systems/uiSystem.h; sourceTree = SOURCE_ROOT; };
 		23EE7EC11BC686020006581F /* Engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Engine.cpp; path = src/Engine.cpp; sourceTree = SOURCE_ROOT; };
 		23EE7EC21BC686020006581F /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Engine.h; path = src/Engine.h; sourceTree = SOURCE_ROOT; };
 		23EE7EE21BC6C2B90006581F /* console.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = console.cpp; path = src/console.cpp; sourceTree = SOURCE_ROOT; };
@@ -351,6 +354,8 @@
 				E50529221BE8CD650017400B /* luaSystem.h */,
 				E50529231BE8CD650017400B /* renderer.cpp */,
 				E50529241BE8CD650017400B /* renderer.h */,
+				23E22F5D1BE9FEBA00987545 /* uiSystem.cpp */,
+				23E22F5E1BE9FEBA00987545 /* uiSystem.h */,
 			);
 			name = Systems;
 			sourceTree = "<group>";
@@ -445,6 +450,7 @@
 				E514AF591BD16E5800E7E2C5 /* TCPData.cpp in Sources */,
 				E50529691BE8CE0A0017400B /* cTransform.cpp in Sources */,
 				E5D9F8E51BE247C7005AFAB1 /* mEntity.cpp in Sources */,
+				23E22F5F1BE9FEBA00987545 /* uiSystem.cpp in Sources */,
 				E547260C1BC6A74E00316B26 /* UDPMessage.cpp in Sources */,
 				E50529681BE8CE0A0017400B /* cMesh.cpp in Sources */,
 				E59FDC911BBAC0EE008935C5 /* random.cpp in Sources */,

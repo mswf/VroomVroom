@@ -33,7 +33,7 @@ namespace Renderer
 
 		// DRAWING PART
 		glBindBuffer( GL_ARRAY_BUFFER, mesh->vertexBufferObject );
-		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER,  mesh->indexBufferObject );
+		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER,  mesh->elementArratBuffer );
 		glDrawElements( GL_TRIANGLES, mesh->numFaces, GL_UNSIGNED_BYTE, 0 );
 		
 		glBindVertexArray( 0 );

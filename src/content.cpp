@@ -37,7 +37,8 @@ void SetPath(const char* path, unsigned long len)
 const std::string GetPath(){
     return contentPath;
 }
-    
+
+// TODO: Print path to the console
 void PrintPath()
 {
     std::cout << "content path is " << contentPath << std::endl;

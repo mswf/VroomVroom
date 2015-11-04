@@ -58,6 +58,18 @@
         NAME = FALLBACK;\
     }
 
+#define lstString(NAME, VALUE)\
+    lua_pushstring(L, VALUE);\
+    lua_setfield(L, -2, NAME);
+
+#define lstNumber(NAME, VALUE)\
+    lua_pushnumber(L, VALUE);\
+    lua_setfield(L, -2, NAME);
+
+#define lstBoolean(NAME, VALUE)\
+    lua_pushboolean(L, VALUE);\
+    lua_setfield(L, -2, NAME);
+
 
 
 #endif /* moduleMacros_h */

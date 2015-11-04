@@ -15,25 +15,7 @@ sUiSystem::sUiSystem() :
     firstWindow(NULL),
     lastWindow(NULL)
 {
-    uiWindow* windowa = CreateWindow();
-    windowa->title = "Window A";
-    uiWindow* windowb = CreateWindow();
-    windowb->title = "Double Name";
-    uiWindow* windowc = CreateWindow();
-    windowc->title = "Double Name";
-    
-    uiWindowButtonElement* buta = AddButton(windowa);
-    uiWindowTextElement* txta =AddText(windowa);
-    uiWindowTextElement* txtaa =AddText(windowa);
-    
-    buta->label = "wow pls";
-    txta->content = "Lorum ipsum dolor sit amet";
-    txtaa->content = "Pls extra text";
-    
-    RemoveElement(windowa, txta->parent);
-    AddText(windowc);
-    AddText(windowb)->content = "pls remove this window";
-    //RemoveWindow(windowb);
+
 }
 
 sUiSystem::~sUiSystem()
@@ -49,6 +31,7 @@ uiWindow* sUiSystem::CreateWindow()
     uiWindow* window = new uiWindow;
     window->id = id;
     window->firstElement = NULL;
+    window->lastElement = NULL;
     window->nextWindow = NULL;
     window->prevWindow = NULL;
     window->title = string("untitled window");

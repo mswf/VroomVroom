@@ -19,6 +19,14 @@ class mUiWindow {
         ~mUiWindow();
     
         lFuncDef(create);
+    
+        lFuncDef(mtIndex);
+        lFuncDef(mtNewIndex);
+    
+        lFuncDef(addText);
+        lFuncDef(addButton);
+    
+        lFuncDef(remove);
 };
 
 #endif /* mUiWindow_h */

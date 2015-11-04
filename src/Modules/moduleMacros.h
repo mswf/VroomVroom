@@ -33,23 +33,43 @@
 
 
 
-#define lgString(NAME, IDX)\
+#define lgString(NAME, IDX, FALLBACK)\
     string NAME;\
     if ( lua_isstring(L, IDX) ){\
         NAME = lua_tostring(L, IDX);\
+    } else {\
+        NAME = string(FALLBACK);\
     }
 
-#define lgBool(NAME, IDX)\
+#define lgBool(NAME, IDX, FALLBACK)\
     bool NAME;\
     if ( lua_isboolean(L, IDX) ){\
         NAME = lua_toboolean(L, IDX);\
+    } else {\
+        NAME = FALLBACK;\
     }
 
-#define lgInt(_NAME_, _IDX_)\
-    int _NAME_ ;\
-    if ( lua_isnumber(L, _IDX_ ) ){\
-        _NAME_ = lua_tonumber(L, _IDX_ );\
+
+#define lgInt(NAME, IDX, FALLBACK)\
+    int NAME ;\
+    if ( lua_isnumber(L, IDX ) ){\
+        NAME = lua_tonumber(L, IDX );\
+    } else {\
+        NAME = FALLBACK;\
     }
+
+#define lstString(NAME, VALUE)\
+    lua_pushstring(L, VALUE);\
+    lua_setfield(L, -2, NAME);
+
+#define lstNumber(NAME, VALUE)\
+    lua_pushnumber(L, VALUE);\
+    lua_setfield(L, -2, NAME);
+
+#define lstBoolean(NAME, VALUE)\
+    lua_pushboolean(L, VALUE);\
+    lua_setfield(L, -2, NAME);
+
 
 
 #endif /* moduleMacros_h */

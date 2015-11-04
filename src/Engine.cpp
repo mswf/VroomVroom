@@ -6,6 +6,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2_net/SDL_net.h>
 #include "Systems/luaSystem.h"
+#include "Systems/uiSystem.h"
 #include "Modules/mInput.h"
 #include "Components/cTransform.h"
 #include "Components/cMaterial.h"
@@ -129,41 +130,6 @@ void Engine::InitGlew()
 	Terminal.Log( s1.str() );
 #endif
 }
-
-void Engine::ShowSimpleWindowOne(bool& show_test_window, bool& show_another_window)
-{
-	ImVec4 clear_color = ImColor(114, 144, 154);
-	static float f = 0.0f;
-	ImGui::Text("Hello, world!");
-	ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
-	ImGui::ColorEdit3("clear color", (float*)&clear_color);
-	if (ImGui::Button("Test Window"))
-	{
-		show_test_window ^= 1;
-	}
-	if (ImGui::Button("Another Window"))
-	{
-		show_another_window ^= 1;
-	}
-	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-}
-
-void Engine::ShowSimpleWindowTwo()
-{
-	ImGui::SetNextWindowSize(ImVec2(200, 100), ImGuiSetCond_FirstUseEver);
-	// Send bool as reference
-	ImGui::Begin("Another Window");
-	ImGui::Text("Hello");
-	ImGui::End();
-}
-
-void Engine::ShowSimpleWindowThree()
-{
-	ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiSetCond_FirstUseEver);
-	// Send bool as reference
-	ImGui::ShowTestWindow();
-}
-
 
 void Engine::Update()
 {
@@ -309,22 +275,11 @@ void Engine::UpdateLoop()
 
 		ImGui_ImplSdl_NewFrame(window);
 
-		ShowSimpleWindowOne(show_test_window, show_another_window);
-
-		if (show_another_window)
-		{
-			ShowSimpleWindowTwo();
-		}
-		if (show_test_window)
-		{
-			ShowSimpleWindowThree();
-		}
-		
 		glClearColor( 0.2, 0.2, 0.2, 1.0 );
 		glClear(GL_COLOR_BUFFER_BIT);
 		
 		Renderer::Render( SDL_GetTicks(), camera, box );
-		ImGui::Render();
+		UiSystem.Render();
 		SDL_GL_SwapWindow(window);
 
 		//rendering

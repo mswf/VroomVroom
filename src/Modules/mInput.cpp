@@ -100,7 +100,7 @@ lFuncImp(mInput, isBound)
 lFuncImp(mInput, key)
 {
     lua_settop(L, 1);
-    lgInt(key, 1);
+    lgInt(key, 1, 0);
     lua_settop(L,0);
     
     bool down = input->OnKey( (SDL_Keycode)key );
@@ -112,7 +112,7 @@ lFuncImp(mInput, key)
 lFuncImp(mInput, keyDown)
 {
     lua_settop(L, 1);
-    lgInt(key, 1);
+    lgInt(key, 1, 0);
     lua_settop(L,0);
     
     bool down = input->OnKeyDown( (SDL_Keycode)key );
@@ -125,7 +125,7 @@ lFuncImp(mInput, keyDown)
 lFuncImp(mInput, keyUp)
 {
     lua_settop(L, 1);
-    lgInt(key, 1);
+    lgInt(key, 1, 0);
     lua_settop(L,0);
     
     bool down = input->OnKeyUp( (SDL_Keycode)key );
@@ -137,7 +137,7 @@ lFuncImp(mInput, keyUp)
 lFuncImp(mInput, mouseDown)
 {
     lua_settop(L, 1);
-    lgInt(button, 1);
+    lgInt(button, 1, 0);
     lua_settop(L, 0);
     
     bool isDown = input->OnMouseDown(button);
@@ -149,7 +149,7 @@ lFuncImp(mInput, mouseDown)
 lFuncImp(mInput, mouseUp)
 {
     lua_settop(L, 1);
-    lgInt(button, 1);
+    lgInt(button, 1, 0);
     lua_settop(L, 0);
     
     bool isDown = input->OnMouseUp(button);

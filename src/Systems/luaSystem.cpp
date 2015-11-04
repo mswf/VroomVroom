@@ -34,6 +34,7 @@ void sLuaSystem::Init()
     mEngine::Bind(lState);
     mInput::Bind(lState);
     mEntity::Bind(lState);
+    mUiWindow::Bind(lState);
     
     string path;
     Content::CreateFilePath("main.lua", &path);

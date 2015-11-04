@@ -23,12 +23,18 @@ enum WindowElementTypes
     uweNONE
 };
 
+struct uiWindow;
+
 struct uiWindowElement
 {
     //WindowElementTypes type;
     void (*handle)(uiWindowElement*);
+    void (*remove)(uiWindowElement*);
     void* data;
     uiWindowElement* nextElement;
+    uiWindowElement* prevElement;
+    
+    uiWindow* parent;
 };
 
 struct uiWindow
@@ -40,21 +46,30 @@ struct uiWindow
     uint16 x;
     uint16 y;
     bool resizable;
+    bool collapsable;
+    bool closable;
+    bool movable;
     
     uiWindowElement* firstElement;
     uiWindowElement* lastElement;
     uiWindow* nextWindow;
+    uiWindow* prevWindow;
 };
 
 
 struct uiWindowTextElement
 {
     string content;
+    
+    uiWindowElement* parent;
 };
 
 struct uiWindowButtonElement
 {
     string label;
+    void (*callback)();
+    
+    uiWindowElement* parent;
 };
 
 class sUiSystem : public Singleton<sUiSystem>
@@ -68,6 +83,9 @@ class sUiSystem : public Singleton<sUiSystem>
         uiWindowTextElement* AddText(uiWindow*);
         uiWindowButtonElement* AddButton(uiWindow*);
     
+        void RemoveWindow(uiWindow*);
+        void RemoveElement(uiWindow*, uiWindowElement*);
+    
         void Render();
     
     private:
@@ -76,6 +94,9 @@ class sUiSystem : public Singleton<sUiSystem>
     
         static void HandleText(uiWindowElement*);
         static void HandleButton(uiWindowElement*);
+    
+        static void RemoveText(uiWindowElement*);
+        static void RemoveButton(uiWindowElement*);
     
         void SetNextFreeId();
     

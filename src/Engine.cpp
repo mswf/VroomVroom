@@ -9,6 +9,8 @@
 #include "Systems/uiSystem.h"
 #include "Modules/mInput.h"
 #include "Components/cTransform.h"
+#include "Components/cMaterial.h"
+#include "Components/cCamera.h"
 #include "content.h"
 #include "Utilities/standardIncludes.h"
 #include "ImGUI/imgui.h"
@@ -17,11 +19,10 @@
 #include "SDL2/SDL_opengl.h"
 #include <iostream>
 #include <cstring>
+#include <strstream>
 #include "Utilities/helperFunctions.h"
-//#include "Clock.hpp"
 
 Engine::Engine() :
-	//renderer(NULL),
 	inputManager(NULL)
 {
 }
@@ -29,24 +30,17 @@ Engine::Engine() :
 Engine::~Engine()
 {
 	//TODO: Clean up all entities and their components
-	//delete renderer;
 	delete inputManager;
 }
 
 void Engine::Init()
 {
-    //renderer = new Renderer::RenderSystem();
-    
     inputManager = new Input();
     //inputManager->BindKey("shoot", SDL_SCANCODE_SPACE);
     
     //TODO: I don't really want to bind this here, but I also don't want to pass inputManager all over the place
     //Does it have to be a singular instance contained in Engine?
     mInput::SetInput(inputManager);
-    
-    Entity* box = new Entity();
-    CTransform* boxT= new CTransform();
-    AddComponent(box, boxT);
     
     OpenConfig();
     LuaSystem.Init();
@@ -57,7 +51,6 @@ void Engine::PollEvent()
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
-		//PrintEvent(&event);
 		ImGui_ImplSdl_ProcessEvent(&event);
 		if (event.type == SDL_QUIT)
 		{
@@ -96,9 +89,8 @@ void Engine::OpenConfig()
 	lua_close(L);
 }
 
-void Engine::CloseWindow(SDL_Window* window, SDL_GLContext glcontext, Renderer::RenderData* data )
+void Engine::CloseWindow(SDL_Window* window, SDL_GLContext glcontext )
 {
-	Renderer::DeleteData(data);
 	ImGui_ImplSdl_Shutdown();
 	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyWindow(window);
@@ -132,8 +124,11 @@ void Engine::InitGlew()
 		printf("Error initializing GLEW! %p\n", glewGetErrorString(glewError));
 	}
 #ifdef DEBUG
-	std::cout << "GL version " << glGetString(GL_VERSION) << std::endl;
-	std::cout << "GLEW version " << glewGetString(GLEW_VERSION_MAJOR) << "." << glewGetString(GLEW_VERSION_MINOR) << std::endl;
+	std::stringstream s0, s1;
+	s0 << "GL version " << glGetString(GL_VERSION);
+	s1 << "GLEW version " << glewGetString(GLEW_VERSION_MAJOR) << "." << glewGetString(GLEW_VERSION_MINOR);
+	Terminal.Log( s0.str() );
+	Terminal.Log( s1.str() );
 #endif
 }
 
@@ -159,17 +154,29 @@ void Engine::UpdateLoop()
 	ImGui_ImplSdl_Init(window);
 
 	bool show_test_window = true;
-	bool show_another_window = false;
+	bool show_another_window = true;
 
 
-	CMesh* myMesh = new CMesh();
-	Renderer::RenderData* data = new Renderer::RenderData();
-	float fov = 90.0f;
-	float aspectRatio = 1280.0f / 720.0f;
-	float zNear = 0.2f;
-	float zFar = 10000.0f;
-	data->camera = new CCamera( Projection::PERSPECTIVE, fov, aspectRatio, zNear, zFar );
-	Renderer::GetRenderData(data, myMesh);
+	
+	CMesh* mesh = new CMesh();
+	CMaterial* mat = new CMaterial( new Shader() );
+	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 90.0f, 1280.0f / 720.0f, 0.2f, 1000.0f );
+	cam->SetEyeVector( glm::vec3(1.0f, 1.0f, 1.0f) );
+	
+	
+	Entity* box = new Entity();
+	CTransform* t = new CTransform();
+	Entity::AddComponent(box, t );
+	Entity::AddComponent(box, mesh);
+	Entity::AddComponent(box, mat);
+	//Renderer::GenerateTriangle(box);
+	Renderer::GenerateCube(box);
+	
+	Entity* camera = new Entity();
+	Entity::AddComponent(camera, new CTransform() );
+	Entity::AddComponent(camera, cam);
+	
+	
 
 	const float millisecondModifier = 1000.0f;
 	const float gameFPS = 60.0f;
@@ -196,20 +203,13 @@ void Engine::UpdateLoop()
 		{
 			Update();
 			
-			data->transform.SetPosition( glm::vec3(-500.0f, 0.0f, 0.0f ) );
-			//data->transform.SetRotation( glm::vec3( 45.0f, 45.0f, 0.0f ) );
-			data->transform.Rotate( glm::vec3( 45.0f, -45.0f, 0.0f ) );
-			
-			//data->transform.Pitch(1.0f);
-			//data->transform.Roll(1.0f);
-			//data->transform.SetPitch(45.0f);
-			//data->transform.SetYaw(45.0f);
-			//data->transform.SetRoll(0.0f);
-			
 			deltaTimeGame -= gameUpdateInterval;
 
 			if (deltaTimeGame < gameUpdateInterval)
 			{
+				//t->Roll(10.0f);
+				t->Rotate( glm::vec3(1.0f, 1.0f, 1.0f) );
+		
                 /*
                 if ( inputManager->OnKeyDown(SDL_SCANCODE_UP) )
                 {
@@ -269,9 +269,11 @@ void Engine::UpdateLoop()
 
 		ImGui_ImplSdl_NewFrame(window);
 
-		Renderer::Render(SDL_GetTicks(), data, myMesh);
-
-        UiSystem.Render();
+		glClearColor( 0.2, 0.2, 0.2, 1.0 );
+		glClear(GL_COLOR_BUFFER_BIT);
+		
+		Renderer::Render( SDL_GetTicks(), camera, box );
+		UiSystem.Render();
 		SDL_GL_SwapWindow(window);
 
 		//rendering
@@ -279,8 +281,8 @@ void Engine::UpdateLoop()
 		//	//Do something with locking
 		//	render.draw(normalizedInterpolationValue)
 	}
-
-	CloseWindow(window, glcontext, data);
+	Renderer::ClearBuffers( mesh );
+	CloseWindow(window, glcontext);
 }
 
 void Engine::InitSDL()
@@ -299,28 +301,4 @@ void Engine::InitSDLNet()
 		printf("Error: %s\n", SDLNet_GetError());
 		assert(false);
 	}
-}
-
-template<typename T>
-void Engine::AddComponent( Entity* e, T* comp )
-{
-    componentStorage.insert( std::pair< int, Entity* >( T::familyId, e ) );
-    e->entityComponents.insert( std::pair< int, Component* >( T::familyId, comp ) );
-}
-
-template<typename T>
-T* Engine::GetComponent( Entity* e )
-{
-    return (T*)e->entityComponents[T::familyId];
-	
-}
-
-template<typename T>
-void Engine::GetEntities( std::vector< Entity* > &result )
-{
-    auto iterPair = componentStorage.equal_range( T::familyId );
-    for ( auto iter = iterPair.first; iter != iterPair.second; ++iter )
-    {
-        result.push_back( iter->second );
-    }
 }

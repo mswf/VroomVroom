@@ -6,14 +6,14 @@
 
 
 TCPClient::TCPClient(const std::string hostName, const uint16 port)
-: alive(false)
+	: alive(false)
 {
 	Initialize(hostName.c_str(), port);
 }
 
 
 TCPClient::TCPClient(const char* hostName, const uint16 port)
-: alive(false)
+	: alive(false)
 {
 	Initialize(hostName, port);
 }
@@ -110,10 +110,10 @@ int TCPClient::ListenForMessages(void* tcpClient)
 
 		NetworkData networkData;
 		networkData.length = result;
-		networkData.data = new char[MAX_MESSAGE_LENGTH];
-		string str1 = HelperFunctions::VoidPtrToString(msg, result);
-		SDL_memcpy(networkData.data, msg, MAX_MESSAGE_LENGTH);
-		string str2 = HelperFunctions::VoidPtrToString(networkData.data, result);
+		networkData.data = new char[result];
+		//string str1 = HelperFunctions::VoidPtrToString(msg, result);
+		SDL_memcpy(networkData.data, msg, result);
+		//string str2 = HelperFunctions::VoidPtrToString(networkData.data, result);
 
 		if (SDL_LockMutex(client->mutex) == 0)
 		{

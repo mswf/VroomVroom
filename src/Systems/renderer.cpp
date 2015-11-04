@@ -1,174 +1,35 @@
 #include "../DataStructure/shader.h"
 #include "../Systems/renderer.h"
-#include "../Components/component.h"
 #include "../Components/cTransform.h"
-
-
+#include "../Components/cCamera.h"
+#include "console.h"
 
 namespace Renderer
 {
-	glm::ivec2 windowSize;
-    GLuint program;
-	GLuint framebuffer_object;
-	GLuint framebuffer_depth;
-	GLuint framebuffer_color;
-	GLuint elementArrayBuffer;
-	GLuint vertexArray_object;
-	GLuint arrayBuffer;
-	/*
-    RenderSystem::RenderSystem()
-    {
-        
-    }
-    
-    RenderSystem::~RenderSystem()
-    {
-        
-    }
-    
-    bool RenderSystem::Initialize()
-    {
-        return true;
-    }
-    
-    void RenderSystem::Update( void* data )
-    {
-        
-    }
-    
-    void RenderSystem::SendMessage(void* message)
-    {
-        
-    }
-	*/
 	
-	void GetRenderData( RenderData* outRenderData, CMesh* mesh )
+	void Render( glm::uint32 time, Entity* camera, Entity* object )
 	{
-		GenerateCube( mesh );
-		CreateFBO();
-		outRenderData->shader = new Shader();
-		outRenderData->transform = new CTransform();
-	}
-	
-	void DeleteData( RenderData* data )
-	{
-		delete data->shader;
-		delete data;
-	}
-	
-	void Render( glm::uint32 time, RenderData* data, CMesh* mesh )
-	{
-        
-		program = data->shader->program;
 		
-		glClearColor( 0.2, 0.2, 0.2, 1.0 );
-		glClear(GL_COLOR_BUFFER_BIT);
-		glEnable( GL_CULL_FACE );
-		glCullFace( GL_BACK );
-		
-		glUseProgram(program);
-		
-		data->shader->SetUniformMat4( "model", data->transform.transform );
-		data->shader->SetUniformMat4( "view", data->camera->GetViewMatrix() );
-		data->shader->SetUniformMat4( "projection", data->camera->GetProjectionMatrix() );
-		data->shader->SetUniformFloat( "time", (float)time );
-
-		// DRAWING PART
-		
-		glBindBuffer( GL_ARRAY_BUFFER, mesh->vertexBufferObject );
-		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER,  mesh->indexBufferObject );
-		glBindVertexArray( mesh->vertexArrayObject );
-		
-		GLuint position = glGetAttribLocation( program, "position" );
-		GLuint texcoord = glGetAttribLocation( program, "texcoord" );
-		
-		glEnableVertexAttribArray( mesh->vertexLoc );
-		glEnableVertexAttribArray( mesh->texCoordLoc );
-		
-		glVertexAttribPointer( position, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0 );
-		glVertexAttribPointer( texcoord, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) sizeof(glm::vec3) );
-		
-		//glVertexAttribPointer( position, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), 0 );
-		//glVertexAttribPointer( texcoord, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), 0 );
-		
-		glDrawElements( GL_TRIANGLES, mesh->numFaces, GL_UNSIGNED_INT, 0 );
-		
-		glBindVertexArray( 0 );
-		glBindBuffer( GL_ARRAY_BUFFER, 0 );
-		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
-		
-		// DRAWING END
-		
-		glUseProgram(0);
-	}
-
-	// Create a Frame buffer object
-	// TODO Valentinas: Use frame buffer for drawing window
-	void CreateFBO()
-	{
-		/*
-		glGenFramebuffers( 1, &framebuffer_object );
-		glBindFramebuffer( GL_FRAMEBUFFER, framebuffer_object );
-		
-		//glGenTextures( 1, &framebuffer_depth );
-		//glBindTexture( GL_TEXTURE_2D, framebuffer_depth );
-		//glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
-		//glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
-		//glTexImage2D( GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, windowSize.x, windowSize.y, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL );
-		
-		glGenTextures( 1, &framebuffer_color );
-		glBindTexture( GL_TEXTURE_2D, framebuffer_color );
-		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
-		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
-		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
-		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
-		glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA32F, windowSize.x, windowSize.y, 0, GL_RGBA, GL_FLOAT, NULL );
-		glFramebufferTexture2D( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, framebuffer_color, 0 );
+		CMaterial* mat =	Entity::GetComponent<CMaterial>(object);
+		CTransform* trans = Entity::GetComponent<CTransform>(object);
+		CMesh* mesh =		Entity::GetComponent<CMesh>(object);
+		CCamera* cam =		Entity::GetComponent<CCamera>(camera);
 		
 		
-		glBindTexture( GL_TEXTURE_2D, 0);
-		glBindFramebuffer( GL_FRAMEBUFFER, 0);
-		*/
-	}
-	
-	// TODO Valentinas: Change framebuffer size on resize
-	void ResizeFBO( int x, int y )
-	{
-		/*
-		if ( windowSize != glm::ivec2(x,y) )
-		{
-			windowSize = glm::ivec2(x,y);
-			
-			glBindTexture( GL_TEXTURE_2D, framebuffer_depth );
-			glTexImage2D( GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, x, y, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL );
-			
-			glBindTexture( GL_TEXTURE_2D, framebuffer_color );
-			glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA32F, x, y, 0, GL_RGBA, GL_FLOAT, NULL );
-			
-			glBindTexture( GL_TEXTURE_2D, 0 );
-		}
-		*/
-	}
-		
-	// Import models and textures
-
-	void GenerateCube( CMesh* mesh )
-	{
-		mesh->numFaces = 36;
-		
+		float offset = 0.5f;
 		Vertex cube[8];
-
-		for (int i = 0; i < 8; i++)
+		int i;
+		for ( i = 0; i < 8; i++ )
 		{
 			float x = ( (i & 1) == 0 ? 0 : 1 );
 			float y = ( (i & 2) == 0 ? 0 : 1 );
 			float z = ( (i & 4) == 0 ? 0 : 1 );
 			
-			Vertex vert = { glm::vec3( x, y, z ) - 0.5f, glm::vec4( x, y, z, 1.0f ) };
+			Vertex vert = { glm::vec3( x, y, z ) - offset, glm::vec3( x, y, z ) };
 			cube[i] = vert;
 		}
 		
-		GLubyte indices[36] =
+		const GLubyte indices[36] =
 		{
 			0,2,3, 0,3,1, // Bottom
 			
@@ -181,48 +42,200 @@ namespace Renderer
 			2,6,7, 2,7,3,  // Back
 			
 			1,5,4, 1,4,0  // Front
-			
 		};
 		
-		//VAO
-		glGenVertexArrays( 1, &mesh->vertexArrayObject );
-		glBindVertexArray( mesh->vertexArrayObject );
+		GLuint program = mat->shader->program;
 		
-		//EBO
-		glGenBuffers( 1, &mesh->vertexBufferObject);
-		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, mesh->vertexBufferObject );
-		glBufferData( GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+		GLuint vao = mesh->vertexArrayObject;
+		GLuint vbo = mesh->vertexBufferObject;
+		GLuint eab = mesh->elementArratBuffer;
 		
-		//VBO
-		glGenBuffers( 1, &mesh->vertexBufferObject );
-		glBindBuffer( GL_ARRAY_BUFFER, mesh->vertexBufferObject );
-		glBufferData( GL_ARRAY_BUFFER, 8 * sizeof(Vertex), mesh, GL_STATIC_DRAW);
+		//VAO always goes first before loading data to VBO
+		//glGenVertexArrays( 1, &vao );
+		glBindVertexArray( vao );
+		
+		//VBO, allocate data and upload data from CPU to GPU
+		//glGenBuffers( 1, &vbo );
+		glBindBuffer( GL_ARRAY_BUFFER, vbo );
+		//glBufferData( GL_ARRAY_BUFFER, 8 * sizeof(Vertex), cube, GL_STATIC_DRAW);
+		
+		//EBO, storing indices
+		//glGenBuffers( 1, &eab);
+		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, eab );
+		//glBufferData( GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &indices, GL_STATIC_DRAW);
+		
+		//glBindVertexArray( mesh->vertexArrayObject );
+		//glBindBuffer( GL_ARRAY_BUFFER, mesh->vertexBufferObject );
+		//glBindBuffer( GL_ELEMENT_ARRAY_BUFFER,  mesh->elementArratBuffer );
+		
+		GLuint position = glGetAttribLocation( mat->shader->program, "position" );
+		GLuint texcoord = glGetAttribLocation( mat->shader->program, "texcoord" );
+		
+		glEnableVertexAttribArray( position );
+		glEnableVertexAttribArray( texcoord );
+		
+		glVertexAttribPointer( position, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0 );
+		glVertexAttribPointer( texcoord, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) sizeof(glm::vec3) );
+
+		//glBindVertexArray( 0 );
+		//glBindBuffer( GL_ARRAY_BUFFER, 0 );
+		//glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
+		
+		std::cout << vao << "," << vbo << "," << eab << std::endl;
+		
+		//glBindVertexArray( mesh->vertexArrayObject );
+		//glBindBuffer( GL_ARRAY_BUFFER, mesh->vertexBufferObject );
+		//glBindBuffer( GL_ELEMENT_ARRAY_BUFFER,  mesh->elementArratBuffer );
+
+		glBindVertexArray( vao );
+		glBindBuffer( GL_ARRAY_BUFFER, vbo );
+		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, eab );
+		
+		mat->shader->ValidateProgram();
+		
+		glUseProgram(program);
+		
+		mat->shader->SetUniformMat4( "model", trans->GetTransform() );
+		mat->shader->SetUniformMat4( "view", cam->GetViewMatrix() );
+		mat->shader->SetUniformMat4( "projection", cam->GetProjectionMatrix() );
+		mat->shader->SetUniformFloat( "time", (float)time );
+
+		glDrawElements( GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, 0 );
+		
+		glBindVertexArray( 0 );
+		glBindBuffer( GL_ARRAY_BUFFER, 0 );
+		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
+		
+		glUseProgram(0);
+	}
+
+	/*
+		0		3
+		 *-------*			+y
+	 1	/|	  2	/|			 ^	Right hand systen
+	   *-------* |			 |
+	   | |4	   | |7			 |
+	   | *-----|-*			 +-----> +x
+	   |/	   |/           /
+	   *-------*		   v    CCW is positive rotation
+	 5		  6			 +z
+	 
+	 */
+	
+	void GenerateTriangle( Entity* e )
+	{
+		Vertex triangle[4];
+		
+		glm::vec3 v0( 0.0f, 0.0f, 0.0f );
+		glm::vec3 v1( 0.5f, 0.0f, 0.0f );
+		glm::vec3 v2( 0.0f, 0.5f, 0.0f );
+		glm::vec3 v3( 0.5f, 0.5f, 0.0f );
+		
+		triangle[0] = { v0 };
+		triangle[1] = { v1 };
+		triangle[2] = { v2 };
+		triangle[3] = { v3 };
+		
+		const GLubyte indices[6] = { 0,1,2, 0,2,3 };
+		
+		GenerateBuffers( e, triangle, 4, 1, indices );
+	}
+	
+	void GenerateCube( Entity* e, bool centered )
+	{
+		float offset = centered ? 0.5f : 0.0f;
+		Vertex cube[8];
+		int i;
+		for ( i = 0; i < 8; i++ )
+		{
+			float x = ( (i & 1) == 0 ? 0 : 1 );
+			float y = ( (i & 2) == 0 ? 0 : 1 );
+			float z = ( (i & 4) == 0 ? 0 : 1 );
+			
+			Vertex vert = { glm::vec3( x, y, z ) - offset, glm::vec3( x, y, z ) };
+			cube[i] = vert;
+		}
+		 
+		 const GLubyte indices[36] =
+		 {
+			0,2,3, 0,3,1, // Bottom
+			
+			1,3,7, 1,7,5, // Right
+			
+			5,7,6, 5,6,4, // Top
+			
+			4,6,2, 4,2,0, // Left
+			
+			2,6,7, 2,7,3,  // Back
+			
+			1,5,4, 1,4,0  // Front
+		 };
+
+		GenerateBuffers( e, cube, 8, 6, indices );
+	}
+	
+	void GenerateBuffers( Entity* e, const Vertex* verts, GLuint verticeCount, GLuint faceCount, const GLubyte* indices )
+	{
+		CMesh* mesh = Entity::GetComponent<CMesh>(e);
+		//CMaterial* mat = Entity::GetComponent<CMaterial>(e);
+		
+		// faces * (triangles per face) * (points per triangle)
+		mesh->numFaces = (faceCount * 2) * 3;
+		
+		GLuint vao;
+		GLuint vbo;
+		GLuint eab;
+		/*
+		std::cout << "Size of "<< verticeCount << " vertices: " << verticeCount * sizeof(Vertex) << std::endl;
+		std::cout << "Size of indices: " << sizeof(indices) << std::endl;
+		std::cout << "Indices: " << std::endl;
+		int i;
+		for ( i = 0; i < mesh->numFaces; i += 6 )
+		{
+			std::cout << "- " << indices[i] << ", " << indices[i+1] << ", " << indices[i+2] << ",  " <<
+						 indices[i+3] << ", " << indices[i+4] << ", " << indices[i+5] << std::endl;
+		}
+		*/
+		//VAO always goes first before loading data to VBO
+		glGenVertexArrays( 1, &vao );
+		glBindVertexArray( vao );
+		
+		//VBO, allocate data and upload data from CPU to GPU
+		glGenBuffers( 1, &vbo );
+		glBindBuffer( GL_ARRAY_BUFFER, vbo );
+		glBufferData( GL_ARRAY_BUFFER, verticeCount * sizeof(Vertex), verts, GL_STATIC_DRAW);
+		
+		//EBO, storing indices
+		glGenBuffers( 1, &eab);
+		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, eab );
+		glBufferData( GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &indices, GL_STATIC_DRAW);
+		
+		//GLuint position = glGetAttribLocation( mat->shader->program, "position" );
+		//GLuint texcoord = glGetAttribLocation( mat->shader->program, "texcoord" );
+		
+		//glEnableVertexAttribArray( position );
+		//glEnableVertexAttribArray( texcoord );
+		
+		//glVertexAttribPointer( position, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0 );
+		//glVertexAttribPointer( texcoord, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) sizeof(glm::vec3) );
+		
+		//mesh->vertexLoc = position;
+		//mesh->texCoordLoc = texcoord;
+		mesh->vertexArrayObject = vao;
+		mesh->elementArratBuffer = eab;
+		mesh->vertexBufferObject = vbo;
 		
 		glBindVertexArray( 0 );
 		glBindBuffer( GL_ARRAY_BUFFER, 0 );
 		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
 	}
 	
-	void LoadTexture(const char * file)
+	void ClearBuffers( CMesh* mesh )
 	{
-		std::cout << "Loading texture" << std::endl;
-		//CreateTexture(0, 0, 0);
+		//glDisableVertexArrayAttrib( 1, mesh->vertexLoc );
+		glDeleteVertexArrays( 1, &mesh->vertexArrayObject );
+		glDeleteBuffers( GL_ARRAY_BUFFER, &mesh->vertexBufferObject );
+		glDeleteBuffers( GL_ELEMENT_ARRAY_BUFFER, &mesh->elementArratBuffer );
 	}
-
-	// Create OpenGL texture
-	GLuint CreateTexture(unsigned char* pixels, int width, int height)
-	{
-		GLuint texture;
-		glGenTextures(1, &texture);
-		glBindTexture(GL_TEXTURE_2D, texture);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-		
-		// TODO(Valentinas): Delete texture only when finishing work
-		//glDeleteTextures(1, &texture);
-		
-		return texture;
-	}
-
+	
 } // NAMESPACE END

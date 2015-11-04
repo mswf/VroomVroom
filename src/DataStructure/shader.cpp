@@ -12,7 +12,7 @@
 
 #include "SDL2/SDL.h"
 
-Renderer::Shader::Shader()
+Shader::Shader()
 : program(0)
 {
 	std::string path = Content::GetPath() + "/shaders/";
@@ -51,12 +51,12 @@ Renderer::Shader::Shader()
 	glDeleteShader( fragment_shader );
 }
 
-Renderer::Shader::~Shader()
+Shader::~Shader()
 {
 	glDeleteProgram( program );
 }
 
-void Renderer::Shader::LogError( GLuint program, GLenum status )
+void Shader::LogError( GLuint program, GLenum status )
 {
 	GLint log;
 	glGetProgramiv( program, status, &log);
@@ -69,27 +69,34 @@ void Renderer::Shader::LogError( GLuint program, GLenum status )
 	}
 }
 
-void Renderer::Shader::SetUniformInt( const char* uniform, int value )
+void Shader::ValidateProgram()
+{
+	// TODO (Valentinas): Move validation closer to drawing
+	glValidateProgram( program );
+	LogError(program, GL_VALIDATE_STATUS);
+}
+
+void Shader::SetUniformInt( const char* uniform, int value )
 {
 	glUniform1i( glGetUniformLocation ( program, uniform ), value );
 }
 
-void Renderer::Shader::SetUniformFloat( const char* uniform, float value )
+void Shader::SetUniformFloat( const char* uniform, float value )
 {
 	glUniform1f( glGetUniformLocation( program, uniform ), value );
 }
 
-void Renderer::Shader::SetUniformFloat2(const char* uniform, glm::vec2 value)
+void Shader::SetUniformFloat2(const char* uniform, glm::vec2 value)
 {
 	glUniform2f( glGetUniformLocation( program, uniform ), value.x, value.y );
 }
 
-void Renderer::Shader::SetUniformFloat3(const char* uniform, glm::vec3 value)
+void Shader::SetUniformFloat3(const char* uniform, glm::vec3 value)
 {
 	glUniform3f( glGetUniformLocation( program, uniform ), value.x, value.y, value.z);
 }
 
-void Renderer::Shader::SetUniformMat4( const char* uniform, glm::mat4 value )
+void Shader::SetUniformMat4( const char* uniform, glm::mat4 value )
 {
 	glUniformMatrix4fv( glGetUniformLocation( program, uniform ), 1, GL_FALSE, glm::value_ptr(value) );
 	

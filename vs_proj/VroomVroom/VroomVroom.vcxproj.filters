@@ -600,6 +600,9 @@
     <ClInclude Include="..\..\src\Components\cCamera.h">
       <Filter>VroomVroom\Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Components\entity.h">
+      <Filter>VroomVroom</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Networking\TCPData.cpp">
@@ -694,6 +697,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Components\cCamera.cpp">
       <Filter>VroomVroom\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Components\entity.cpp">
+      <Filter>VroomVroom</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

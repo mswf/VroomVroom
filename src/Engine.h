@@ -7,24 +7,18 @@
 #include "Input.hpp"
 #include <map>
 #include <vector>
-#include "Components/component.h"
+#include "Components/entity.h"
 #include "glm/mat4x4.hpp"
-
-struct Entity
-{
-    Entity(std::string name = "entity_object"){};
-    std::string name;
-    std::map< int, Component* > entityComponents;
-};
 
 class Engine
 {
 	public:
+			
 		Engine();
 		~Engine();
 		void PollEvent();
 		void OpenConfig();
-		void CloseWindow(SDL_Window* window, SDL_GLContext glcontext, Renderer::RenderData* data);
+		void CloseWindow(SDL_Window* window, SDL_GLContext glcontext);
 		void SetupWindow(SDL_Window*& window, SDL_GLContext& glcontext);
 		void InitGlew();
 		void ShowSimpleWindowOne(bool& show_test_window, bool& show_another_window);
@@ -37,15 +31,9 @@ class Engine
         void Init();
 	
 	
-        template<typename T>
-        void AddComponent( Entity* e, T* comp );
-        template<typename T>
-        T* GetComponent( Entity* e );
-        template<typename T>
-        void GetEntities( std::vector< Entity* > &result );
-    
+	
 	private:
-        std::multimap< int, Entity* > componentStorage;
+	
         //Renderer::RenderSystem* renderer;
         Input* inputManager;
 		void Update();

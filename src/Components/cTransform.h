@@ -17,11 +17,13 @@ class CTransform : public Component
         CTransform( CTransform* parent = nullptr );
         ~CTransform();
 	
-		glm::mat4 transform;
+		//glm::mat4 transform;
 	
 		std::vector<CTransform* > GetChildren();
 		CTransform* GetParent();
 		void SetParent( CTransform* newParent );
+	
+		const glm::mat4& GetTransform() const;
 	
 		void Rotate( glm::vec3 rotate );
 		void Translate( glm::vec3 translation );
@@ -68,7 +70,7 @@ class CTransform : public Component
 		CTransform* root;
 		CTransform* parent;
 		std::vector<CTransform* > children;
-	
+		glm::mat4 transform;
 
 };
 

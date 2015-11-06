@@ -15,7 +15,7 @@
 class Engine
 {
 	public:
-			
+
 		Engine();
 		~Engine();
 		void PollEvent();
@@ -23,24 +23,21 @@ class Engine
 		void CloseWindow(SDL_Window* window, SDL_GLContext glcontext);
 		void SetupWindow(SDL_Window*& window, SDL_GLContext& glcontext);
 		void InitGlew();
-		void ShowSimpleWindowOne(bool& show_test_window, bool& show_another_window);
-		void ShowSimpleWindowTwo();
-		void ShowSimpleWindowThree();
 		void UpdateLoop();
 		void InitSDL();
 		void InitSDLNet();
-        void Init();
-	
-	
-	
+		void Init();
+
+
+
 	private:
-	
-        //Renderer::RenderSystem* renderer;
+
+		//Renderer::RenderSystem* renderer;
 		ResourceManager* resourceManager;
 		UpdateListener* listener;
 		FW::FileWatcher* fileWatcher;
-        Input* inputManager;
-		void Update();
+		Input* inputManager;
+		void Update(float deltaTime);
 };
 
 #endif

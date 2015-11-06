@@ -82,6 +82,18 @@ void sLuaSystem::Update(int dt)
     lua_settop(lState, 0);
 }
 
+void sLuaSystem::SendReloadCallback( const string& filePath )
+{
+	lua_getglobal(lState, "Game");
+	lua_getfield(lState, -1, "onFileChanged");
+	lua_pushlstring( lState, filePath.c_str(), filePath.size() );
+	if (lua_pcall(lState, 1, 0, 0) != 0)
+	{
+		Terminal.LuaError(string(lua_tostring(lState, -1)));	}
+	lua_settop(lState, 0);
+}
+
+
 void sLuaSystem::Attempt(string command)
 {
     if(luaL_dostring(lState, command.c_str()) != 0){

@@ -27,12 +27,17 @@ void UpdateListener::handleFileAction(FW::WatchID watchid, const FW::String& dir
 {
 	if (action == FW::Action::Modified)
 	{
+#ifdef _WIN32
 		static int FilterOutEverySecondSignal = 0;
 		FilterOutEverySecondSignal++;
 		if (FilterOutEverySecondSignal % 2 == 0)
 		{
+#endif
+
 			//std::cout << ": DIR (" << dir + ") FILE (" + filename + ") has event " << action << std::endl;
 			events.push_back(filename);
+#ifdef _WIN32
 		}
+#endif
 	}
 }

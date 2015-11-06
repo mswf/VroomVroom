@@ -23,13 +23,14 @@ class Entity
 	
 		std::map< int, Component* > entityComponents;
 	
-	
+		// TODO: Add remove function for components
 	
 		template<typename T>
 		static void AddComponent( Entity* e, T* comp )
 		{
 			Entity::componentStorage.insert( std::pair< int, Entity* >( T::familyId, e ) );
 			e->entityComponents.insert( std::pair< int, Component* >( T::familyId, comp ) );
+			comp->entity = e;
 		}
 
 	

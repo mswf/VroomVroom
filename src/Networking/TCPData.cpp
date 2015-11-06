@@ -10,10 +10,6 @@ TCPData::~TCPData()
 {
 }
 
-void TCPData::SendData(const void* data, const uint32 length) const
-{
-	assert(false);
-}
 void TCPData::SendMessage(const int16& msg) const
 {
 	SendData(&msg, sizeof(msg));

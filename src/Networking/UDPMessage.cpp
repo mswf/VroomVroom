@@ -1,7 +1,6 @@
 #include "udpmessage.h"
 #include "SDL2_net/SDL_net.h"
 #include <string>
-#include <assert.h>
 
 
 UDPMessage::UDPMessage(IPaddress ip)
@@ -24,14 +23,14 @@ void UDPMessage::SendUnreliableMessage(Uint8 data)
 	}
 }
 
-IPaddress UDPMessage::StringToIP(std::string stringIP, int port)
+IPaddress UDPMessage::StringToIP(std::string stringIP, int16 port)
 {
 	IPaddress ip;
 	int result = SDLNet_ResolveHost(&ip, stringIP.c_str(), port);
 	if (result == -1)
 	{
 		printf("SDLNet_ResolveHost: %s\n", SDLNet_GetError());
-		assert(false);
+		SDL_assert(false);
 		//return NULL;
 	}
 	return ip;

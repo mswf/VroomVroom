@@ -5,7 +5,7 @@
 class TCPServer : public TCPData
 {
 	public:
-		TCPServer(unsigned int port);
+		TCPServer(uint16 port);
 		~TCPServer();
 
 		void AcceptConnections();

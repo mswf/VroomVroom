@@ -3,7 +3,7 @@
 #include <assert.h>
 #include "../Utilities/standardIncludes.h"
 
-TCPServer::TCPServer(unsigned port)
+TCPServer::TCPServer(uint16 port)
 {
 	if (SDLNet_ResolveHost(&ip, NULL, port) == -1)
 	{

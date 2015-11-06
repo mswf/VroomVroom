@@ -9,7 +9,7 @@
 #include "Systems/uiSystem.h"
 #include "Modules/mInput.h"
 #include "Components/cTransform.h"
-#include "Components/cMaterial.h"
+#include "DataStructure/material.h"
 #include "Components/cCamera.h"
 #include "content.h"
 #include "Utilities/standardIncludes.h"
@@ -23,7 +23,10 @@
 #include "Utilities/helperFunctions.h"
 
 Engine::Engine() :
-	inputManager(NULL)
+	inputManager(NULL),
+	listener(NULL),
+	fileWatcher(NULL),
+	resourceManager(NULL)
 {
 }
 
@@ -31,11 +34,16 @@ Engine::~Engine()
 {
 	//TODO: Clean up all entities and their components
 	delete inputManager;
+	delete resourceManager;
+	delete listener;
 }
 
 void Engine::Init()
 {
     inputManager = new Input();
+	resourceManager = new ResourceManager();
+	listener = new UpdateListener();
+	fileWatcher = new FW::FileWatcher();
     //inputManager->BindKey("shoot", SDL_SCANCODE_SPACE);
     
     //TODO: I don't really want to bind this here, but I also don't want to pass inputManager all over the place
@@ -44,6 +52,10 @@ void Engine::Init()
     
     OpenConfig();
     LuaSystem.Init();
+	
+	string watching ( Content::GetPath() );
+	fileWatcher->addWatch( watching, listener, true );
+	
 }
 
 void Engine::PollEvent()
@@ -116,12 +128,14 @@ void Engine::SetupWindow(SDL_Window*& window, SDL_GLContext& glcontext)
 void Engine::InitGlew()
 {
 	glewExperimental = true;
-
 	GLenum glewError = glewInit();
 	if (glewError != GLEW_OK)
 	{
-		printf("Error initializing GLEW! %p\n", glewGetErrorString(glewError));
+		std::stringstream s;
+		s << "Error initializing GLEW! " << glewGetErrorString(glewError);
+		Terminal.Warning( s.str() );
 	}
+	
 #ifdef DEBUG
 	std::stringstream s0, s1;
 	s0 << "GL version " << glGetString(GL_VERSION);
@@ -136,6 +150,13 @@ void Engine::Update()
 	//TODO no fake deltatime :)
 	int dt = 16;
 	LuaSystem.Update(dt);
+	const std::vector< std::string >* list = listener->GetEvents();
+	for (std::vector<std::string>::const_iterator i = list->begin(); i != list->end(); ++i)
+	{
+		std::string msg = (std::string)*i;
+		LuaSystem.SendReloadCallback( msg );
+	}
+	listener->ClearEvents();
 
 	//TODO this should be refactored out at some point
 	//It is neccesary now to poll network events from the socket
@@ -152,13 +173,18 @@ void Engine::UpdateLoop()
 
 	ImGui_ImplSdl_Init(window);
 
-	bool show_test_window = true;
-	bool show_another_window = true;
-
-
+	//bool show_test_window = true;
+	//bool show_another_window = true;
 	
-	CMesh* mesh = new CMesh();
-	CMaterial* mat = new CMaterial( new Shader() );
+	string path( Content::GetPath() + "/objects/monocar.obj" );
+	resourceManager->ImportObjFile( path, 0 );
+	
+	CMeshFilter* mesh = new CMeshFilter();
+	
+	const Mesh* m = resourceManager->CreateTriangleMesh();
+	mesh->Buffer( m );
+	
+	Material* mat = new Material( new Shader() );
 	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 90.0f, 1280.0f / 720.0f, 0.2f, 1000.0f );
 	cam->SetEyeVector( glm::vec3(1.0f, 1.0f, 1.0f) );
 	
@@ -167,8 +193,7 @@ void Engine::UpdateLoop()
 	CTransform* t = new CTransform();
 	Entity::AddComponent(box, t );
 	Entity::AddComponent(box, mesh);
-	Entity::AddComponent(box, mat);
-	Renderer::GenerateTriangle(box);
+	//Renderer::GenerateTriangle(box);
 	//Renderer::GenerateCube(box);
 	
 	Entity* camera = new Entity();
@@ -197,6 +222,8 @@ void Engine::UpdateLoop()
 		uint32 deltaTimeGame = currentTicks - prevTicks;
 		
 		PollEvent();
+		fileWatcher->update();
+	
 		//inputManager->MidiListener();
 
 		
@@ -278,7 +305,7 @@ void Engine::UpdateLoop()
 		glClearColor( 0.2, 0.2, 0.2, 1.0 );
 		glClear(GL_COLOR_BUFFER_BIT);
 		
-		Renderer::Render( SDL_GetTicks(), camera, box );
+		Renderer::Render( SDL_GetTicks(), camera, box, mat->shader );
 		UiSystem.Render();
 		SDL_GL_SwapWindow(window);
 

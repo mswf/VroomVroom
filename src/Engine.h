@@ -5,6 +5,8 @@
 #include <lua.hpp>
 #include <SDL2/SDL_video.h>
 #include "Input.hpp"
+#include "Utilities/FileWatcher/file_watcher_impl.h"
+#include "DataStructure/resource_manager.h"
 #include <map>
 #include <vector>
 #include "Components/entity.h"
@@ -34,6 +36,9 @@ class Engine
 	private:
 	
         //Renderer::RenderSystem* renderer;
+		ResourceManager* resourceManager;
+		UpdateListener* listener;
+		FW::FileWatcher* fileWatcher;
         Input* inputManager;
 		void Update();
 };

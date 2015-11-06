@@ -11,7 +11,7 @@
 
 #include "../Utilities/typedef.h"
 
-class SDL_RWops;
+struct SDL_RWops;
 
 class File {
     public :

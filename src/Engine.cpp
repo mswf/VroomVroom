@@ -275,7 +275,7 @@ void Engine::UpdateLoop()
 
 		ImGui_ImplSdl_NewFrame(window);
 
-		glClearColor( 0.2, 0.2, 0.2, 1.0 );
+		glClearColor( 0.2f, 0.2f, 0.2f, 1.0f );
 		glClear(GL_COLOR_BUFFER_BIT);
 		
 		Renderer::Render( SDL_GetTicks(), camera, box );

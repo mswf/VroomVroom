@@ -16,15 +16,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Components\cCamera.h" />
-    <ClInclude Include="..\..\src\Components\cMaterial.h" />
-    <ClInclude Include="..\..\src\Components\cMesh.h" />
+    <ClInclude Include="..\..\src\Components\cMeshFilter.h" />
+    <ClInclude Include="..\..\src\Components\cMeshRenderer.h" />
     <ClInclude Include="..\..\src\Components\component.h" />
     <ClInclude Include="..\..\src\Components\cTransform.h" />
     <ClInclude Include="..\..\src\Components\entity.h" />
     <ClInclude Include="..\..\src\console.h" />
     <ClInclude Include="..\..\src\content.h" />
+    <ClInclude Include="..\..\src\DataStructure\data_types.h" />
+    <ClInclude Include="..\..\src\DataStructure\material.h" />
+    <ClInclude Include="..\..\src\DataStructure\resource_manager.h" />
     <ClInclude Include="..\..\src\DataStructure\shader.h" />
-    <ClInclude Include="..\..\src\DataStructure\texture.hpp" />
+    <ClInclude Include="..\..\src\DataStructure\texture.h" />
     <ClInclude Include="..\..\src\Engine.h" />
     <ClInclude Include="..\..\src\glm\common.hpp" />
     <ClInclude Include="..\..\src\glm\detail\func_common.hpp" />
@@ -195,6 +198,12 @@
     <ClInclude Include="..\..\src\Systems\uiSystem.h" />
     <ClInclude Include="..\..\src\Utilities\base64.h" />
     <ClInclude Include="..\..\src\Utilities\Clock.hpp" />
+    <ClInclude Include="..\..\src\Utilities\FileWatcher\FileWatcher.h" />
+    <ClInclude Include="..\..\src\Utilities\FileWatcher\FileWatcherImpl.h" />
+    <ClInclude Include="..\..\src\Utilities\FileWatcher\FileWatcherLinux.h" />
+    <ClInclude Include="..\..\src\Utilities\FileWatcher\FileWatcherOSX.h" />
+    <ClInclude Include="..\..\src\Utilities\FileWatcher\FileWatcherWin32.h" />
+    <ClInclude Include="..\..\src\Utilities\FileWatcher\file_watcher_impl.h" />
     <ClInclude Include="..\..\src\Utilities\helperFunctions.h" />
     <ClInclude Include="..\..\src\Utilities\random.h" />
     <ClInclude Include="..\..\src\Utilities\standardIncludes.h" />
@@ -202,12 +211,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Components\cCamera.cpp" />
-    <ClCompile Include="..\..\src\Components\cMaterial.cpp" />
-    <ClCompile Include="..\..\src\Components\cMesh.cpp" />
+    <ClCompile Include="..\..\src\Components\cMeshFilter.cpp" />
+    <ClCompile Include="..\..\src\Components\cMeshRenderer.cpp" />
     <ClCompile Include="..\..\src\Components\cTransform.cpp" />
     <ClCompile Include="..\..\src\Components\entity.cpp" />
     <ClCompile Include="..\..\src\console.cpp" />
     <ClCompile Include="..\..\src\content.cpp" />
+    <ClCompile Include="..\..\src\DataStructure\material.cpp" />
+    <ClCompile Include="..\..\src\DataStructure\resource_manager.cpp" />
     <ClCompile Include="..\..\src\DataStructure\shader.cpp" />
     <ClCompile Include="..\..\src\DataStructure\texture.cpp" />
     <ClCompile Include="..\..\src\Engine.cpp" />
@@ -233,6 +244,11 @@
     <ClCompile Include="..\..\src\Systems\uiSystem.cpp" />
     <ClCompile Include="..\..\src\Utilities\base64.cpp" />
     <ClCompile Include="..\..\src\Utilities\Clock.cpp" />
+    <ClCompile Include="..\..\src\Utilities\FileWatcher\FileWatcher.cpp" />
+    <ClCompile Include="..\..\src\Utilities\FileWatcher\FileWatcherLinux.cpp" />
+    <ClCompile Include="..\..\src\Utilities\FileWatcher\FileWatcherOSX.cpp" />
+    <ClCompile Include="..\..\src\Utilities\FileWatcher\FileWatcherWin32.cpp" />
+    <ClCompile Include="..\..\src\Utilities\FileWatcher\file_watcher_impl.cpp" />
     <ClCompile Include="..\..\src\Utilities\helperFunctions.cpp" />
     <ClCompile Include="..\..\src\Utilities\random.cpp" />
   </ItemGroup>

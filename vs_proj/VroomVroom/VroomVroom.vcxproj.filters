@@ -55,6 +55,9 @@
     <Filter Include="VroomVroom\glm\gtx">
       <UniqueIdentifier>{8a4a15ab-c449-4381-9df5-3c3242354789}</UniqueIdentifier>
     </Filter>
+    <Filter Include="VroomVroom\Utilities\FileWatcher">
+      <UniqueIdentifier>{bbe1dd6c-38bf-4bdb-8c28-d4f512825e59}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Networking\TCPData.h">
@@ -71,24 +74,6 @@
     </ClInclude>
     <ClInclude Include="..\..\src\Input.hpp">
       <Filter>VroomVroom</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Components\cMaterial.h">
-      <Filter>VroomVroom\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Components\cMesh.h">
-      <Filter>VroomVroom\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Components\component.h">
-      <Filter>VroomVroom\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Components\cTransform.h">
-      <Filter>VroomVroom\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\DataStructure\shader.h">
-      <Filter>VroomVroom\Data structure</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\DataStructure\texture.hpp">
-      <Filter>VroomVroom\Data structure</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\ImGUI\imconfig.h">
       <Filter>VroomVroom\ImGUI</Filter>
@@ -597,17 +582,62 @@
     <ClInclude Include="..\..\src\glm\gtx\wrap.hpp">
       <Filter>VroomVroom\glm\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Components\cCamera.h">
-      <Filter>VroomVroom\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Components\entity.h">
-      <Filter>VroomVroom</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Systems\uiSystem.h">
       <Filter>VroomVroom\Systems</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Modules\mUiWindow.h">
       <Filter>VroomVroom\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Utilities\FileWatcher\file_watcher_impl.h">
+      <Filter>VroomVroom\Utilities\FileWatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Utilities\FileWatcher\FileWatcher.h">
+      <Filter>VroomVroom\Utilities\FileWatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Utilities\FileWatcher\FileWatcherImpl.h">
+      <Filter>VroomVroom\Utilities\FileWatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Utilities\FileWatcher\FileWatcherLinux.h">
+      <Filter>VroomVroom\Utilities\FileWatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Utilities\FileWatcher\FileWatcherOSX.h">
+      <Filter>VroomVroom\Utilities\FileWatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Utilities\FileWatcher\FileWatcherWin32.h">
+      <Filter>VroomVroom\Utilities\FileWatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Components\cCamera.h">
+      <Filter>VroomVroom\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Components\cMeshFilter.h">
+      <Filter>VroomVroom\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Components\cMeshRenderer.h">
+      <Filter>VroomVroom\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Components\component.h">
+      <Filter>VroomVroom\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Components\cTransform.h">
+      <Filter>VroomVroom\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\DataStructure\data_types.h">
+      <Filter>VroomVroom\Data structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\DataStructure\material.h">
+      <Filter>VroomVroom\Data structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\DataStructure\resource_manager.h">
+      <Filter>VroomVroom\Data structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\DataStructure\shader.h">
+      <Filter>VroomVroom\Data structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\DataStructure\texture.h">
+      <Filter>VroomVroom\Data structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Components\entity.h">
+      <Filter>VroomVroom\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -628,21 +658,6 @@
     </ClCompile>
     <ClCompile Include="..\..\src\main.cpp">
       <Filter>VroomVroom</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Components\cMaterial.cpp">
-      <Filter>VroomVroom\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Components\cMesh.cpp">
-      <Filter>VroomVroom\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Components\cTransform.cpp">
-      <Filter>VroomVroom\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\DataStructure\shader.cpp">
-      <Filter>VroomVroom\Data structure</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\DataStructure\texture.cpp">
-      <Filter>VroomVroom\Data structure</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\ImGUI\imgui.cpp">
       <Filter>VroomVroom\ImGUI</Filter>
@@ -701,17 +716,53 @@
     <ClCompile Include="..\..\src\glm\detail\glm.cpp">
       <Filter>VroomVroom\glm\detail</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Components\cCamera.cpp">
-      <Filter>VroomVroom\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Components\entity.cpp">
-      <Filter>VroomVroom</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Systems\uiSystem.cpp">
       <Filter>VroomVroom\Systems</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Modules\mUiWindow.cpp">
       <Filter>VroomVroom\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\FileWatcher\file_watcher_impl.cpp">
+      <Filter>VroomVroom\Utilities\FileWatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\FileWatcher\FileWatcher.cpp">
+      <Filter>VroomVroom\Utilities\FileWatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\FileWatcher\FileWatcherLinux.cpp">
+      <Filter>VroomVroom\Utilities\FileWatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\FileWatcher\FileWatcherOSX.cpp">
+      <Filter>VroomVroom\Utilities\FileWatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\FileWatcher\FileWatcherWin32.cpp">
+      <Filter>VroomVroom\Utilities\FileWatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Components\cCamera.cpp">
+      <Filter>VroomVroom\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Components\cMeshFilter.cpp">
+      <Filter>VroomVroom\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Components\cMeshRenderer.cpp">
+      <Filter>VroomVroom\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Components\cTransform.cpp">
+      <Filter>VroomVroom\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\DataStructure\material.cpp">
+      <Filter>VroomVroom\Data structure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\DataStructure\resource_manager.cpp">
+      <Filter>VroomVroom\Data structure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\DataStructure\shader.cpp">
+      <Filter>VroomVroom\Data structure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\DataStructure\texture.cpp">
+      <Filter>VroomVroom\Data structure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Components\entity.cpp">
+      <Filter>VroomVroom\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

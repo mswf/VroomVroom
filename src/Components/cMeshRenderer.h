@@ -2,7 +2,7 @@
 #define cMeshRenderer_h
 
 #include "component.h"
-#include "material.h"
+#include "../DataStructure/material.h"
 #include "cMeshFilter.h"
 
 class CMeshRenderer : public Component

@@ -69,7 +69,7 @@ void ResourceManager::LoadMesh(const aiScene* sc)
 			memcpy(&faceArray[faceIndex], face->mIndices,3 * sizeof(unsigned int));
 			faceIndex += 3;
 		}
-#warning "Get Num of faces"
+//#warning "Get Num of faces"
 		//aMesh.numFaces = sc->mMeshes[n]->mNumFaces;
 		
 		// buffer for vertex positions
@@ -92,7 +92,7 @@ void ResourceManager::LoadMesh(const aiScene* sc)
 			}
 		}
 		
-#warning "UVs not imported yet"
+//#warning "UVs not imported yet"
 		/*
 		// buffer for vertex texture coordinates
 		if (m->HasTextureCoords(0))

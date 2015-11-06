@@ -4,12 +4,12 @@
 
 UpdateListener::UpdateListener()
 {
-	
+
 }
 
 UpdateListener::~UpdateListener()
 {
-	
+
 }
 
 const std::vector< std::string >* UpdateListener::GetEvents() const
@@ -23,11 +23,16 @@ void UpdateListener::ClearEvents()
 }
 
 void UpdateListener::handleFileAction(FW::WatchID watchid, const FW::String& dir, const FW::String& filename,
-					  FW::Action action)
+									  FW::Action action)
 {
 	if (action == FW::Action::Modified)
 	{
-		std::cout << ": DIR (" << dir + ") FILE (" + filename + ") has event " << action << std::endl;
-		events.push_back(filename);
+		static int FilterOutEverySecondSignal = 0;
+		FilterOutEverySecondSignal++;
+		if (FilterOutEverySecondSignal % 2 == 0)
+		{
+			//std::cout << ": DIR (" << dir + ") FILE (" + filename + ") has event " << action << std::endl;
+			events.push_back(filename);
+		}
 	}
 }

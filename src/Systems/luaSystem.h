@@ -19,23 +19,23 @@ struct lua_State;
 
 class sLuaSystem : public Singleton<sLuaSystem>
 {
-    public:
-        sLuaSystem();
-        ~sLuaSystem();
-        void Init();
-        void Main();
-        void Update(int);
+	public:
+		sLuaSystem();
+		~sLuaSystem();
+		void Init();
+		void Main();
+		void Update(float);
 		void SendReloadCallback( const string& filePath );
-        void Attempt(string);
-        void Dump(lua_State*);
-    
-    private:
-        void SetPackagePath();
-    
-        lua_State* lState;
-        bool hasMainBeenCalled;
-    
-        static int LuaPanic(lua_State* L);
+		void Attempt(string);
+		void Dump(lua_State*);
+
+	private:
+		void SetPackagePath();
+
+		lua_State* lState;
+		bool hasMainBeenCalled;
+
+		static int LuaPanic(lua_State* L);
 };
 
 #endif /* luaSystem_h */

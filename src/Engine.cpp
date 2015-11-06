@@ -228,9 +228,9 @@ void Engine::UpdateLoop()
 
 		while (deltaTimeGame > gameUpdateInterval)
 		{
-			Update(deltaTimeGame);
-
 			deltaTimeGame -= gameUpdateInterval;
+
+			Update(gameUpdateInterval);
 
 			if (deltaTimeGame < gameUpdateInterval)
 			{

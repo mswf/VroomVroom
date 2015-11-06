@@ -7,17 +7,25 @@
 namespace Renderer
 {
 	
-	void Render( glm::uint32 time, Entity* camera, Entity* object )
+	void Render( glm::uint32 time, Entity* camera, Entity* object, Shader* s )
 	{
-		
-		Shader* s =			Entity::GetComponent<CMaterial>(object)->shader;
 		CTransform* trans = Entity::GetComponent<CTransform>(object);
-		CMesh* mesh =		Entity::GetComponent<CMesh>(object);
+		CMeshFilter* mesh =		Entity::GetComponent<CMeshFilter>(object);
 		CCamera* cam =		Entity::GetComponent<CCamera>(camera);
 		
 		glBindVertexArray( mesh->vao );
+		//glBindBuffer( GL_ARRAY_BUFFER, mesh->vbo );
 		s->ValidateProgram();
 		
+		//GLuint position = glGetAttribLocation( s->program, "position" );
+		//GLuint texcoord = glGetAttribLocation( s->program, "texcoord" );
+		//GLuint normal = glGetAttribLocation( s->program, "normal" );
+		//glEnableVertexAttribArray( position );
+		//glEnableVertexAttribArray( texcoord );
+		//glEnableVertexAttribArray( normal );
+		//glVertexAttribPointer( position, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0 );
+		//glVertexAttribPointer( texcoord, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) sizeof(glm::vec3) );
+		//glVertexAttribPointer( normal, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) (sizeof(glm::vec3) + sizeof(glm::vec2)) );
 		glUseProgram(s->program);
 		
 		s->SetUniformMat4( "model", trans->GetTransform() );
@@ -28,6 +36,7 @@ namespace Renderer
 		glDrawElements( GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, 0 );
 		
 		glBindVertexArray( 0 );
+		glBindBuffer( GL_ARRAY_BUFFER, 0 );
 		glUseProgram(0);
 	}
 
@@ -72,7 +81,7 @@ namespace Renderer
 			float y = ( (i & 2) == 0 ? 0 : 1 );
 			float z = ( (i & 4) == 0 ? 0 : 1 );
 			
-			Vertex vert = { glm::vec3( x, y, z ) - offset, glm::vec3( x, y, z ) };
+			Vertex vert = { glm::vec3( x, y, z ) - offset, glm::vec2( x, y ) };
 			cube[i] = vert;
 		}
 		 
@@ -90,14 +99,14 @@ namespace Renderer
 			
 			1,5,4, 1,4,0  // Front
 		};
-
+		
 		GenerateBuffers( e, cube, 8, indices, 36 );
 	}
 	
 	void GenerateBuffers( Entity* e, const Vertex* vertices, GLuint verticeCount, const GLubyte* indices, GLuint indiceCount )
 	{
-		CMesh* mesh = Entity::GetComponent<CMesh>(e);
-		CMaterial* mat = Entity::GetComponent<CMaterial>(e);
+		CMeshFilter* mesh = Entity::GetComponent<CMeshFilter>(e);
+		//Material* mat = Entity::GetComponent<CMaterial>(e);
 		
 		GLuint vao;
 		GLuint vbo;
@@ -117,14 +126,17 @@ namespace Renderer
 		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, eab );
 		glBufferData( GL_ELEMENT_ARRAY_BUFFER, indiceCount, indices, GL_STATIC_DRAW);
 		
-		GLuint position = glGetAttribLocation( mat->shader->program, "position" );
-		GLuint texcoord = glGetAttribLocation( mat->shader->program, "texcoord" );
+		//GLuint position = glGetAttribLocation( mat->shader->program, "position" );
+		//GLuint texcoord = glGetAttribLocation( mat->shader->program, "texcoord" );
+		//GLuint normal = glGetAttribLocation( mat->shader->program, "normal" );
 		
-		glEnableVertexAttribArray( position );
-		glEnableVertexAttribArray( texcoord );
+		//glEnableVertexAttribArray( position );
+		//glEnableVertexAttribArray( texcoord );
+		//glEnableVertexAttribArray( normal );
 		
-		glVertexAttribPointer( position, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0 );
-		glVertexAttribPointer( texcoord, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) sizeof(glm::vec3) );
+		//glVertexAttribPointer( position, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0 );
+		//glVertexAttribPointer( texcoord, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) sizeof(glm::vec3) );
+		//glVertexAttribPointer( normal, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*) (sizeof(glm::vec3) + sizeof(glm::vec2)) );
 		
 		//mesh->vertexLoc = position;
 		//mesh->texCoordLoc = texcoord;
@@ -137,7 +149,7 @@ namespace Renderer
 		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
 	}
 	
-	void ClearBuffers( CMesh* mesh )
+	void ClearBuffers( CMeshFilter* mesh )
 	{
 		//glDisableVertexArrayAttrib( 1, mesh->vertexLoc );
 		glDeleteVertexArrays( 1, &mesh->vao );

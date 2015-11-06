@@ -13,9 +13,9 @@
 #include "../glm/mat4x4.hpp"
 #include "../glm/gtc/type_ptr.hpp"
 #include "../glm/gtc/matrix_transform.hpp"
-#include "../Components/cMesh.h"
+#include "../Components/cMeshFilter.h"
 #include "../Components/entity.h"
-#include "../Components/cMaterial.h"
+#include "../DataStructure/material.h"
 
 namespace Renderer
 {
@@ -23,7 +23,7 @@ namespace Renderer
 	struct Vertex
 	{
 		glm::vec3 position;
-		glm::vec3 texcoord;
+		glm::vec2 texcoord;
 	};
 
 	
@@ -42,11 +42,11 @@ namespace Renderer
         
     };
     
-	void Render( glm::uint32 time, Entity* mesh, Entity* camera );
+	void Render( glm::uint32 time, Entity* camera, Entity* mesh, Shader* s );
 	void GenerateTriangle( Entity* e );
 	void GenerateCube( Entity* e, bool centered = true );
 	void GenerateBuffers( Entity* e, const Vertex* verts, GLuint verticeCount, const GLubyte* indices,GLuint indiceCount );
-	void ClearBuffers( CMesh* m );
+	void ClearBuffers( CMeshFilter* m );
 	void LoadTexture();
 	GLuint CreateTexture( unsigned char*, int, int );
 	void CreateFBO();

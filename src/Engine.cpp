@@ -150,6 +150,7 @@ void Engine::Update()
 	//TODO no fake deltatime :)
 	int dt = 16;
 	LuaSystem.Update(dt);
+	
 	const std::vector< std::string >* list = listener->GetEvents();
 	for (std::vector<std::string>::const_iterator i = list->begin(); i != list->end(); ++i)
 	{

@@ -315,8 +315,8 @@ namespace FW
 								watch->rescan();
 							}
 							if(event.fflags & NOTE_EXTEND || 
-							   event.fflags & NOTE_WRITE ||
-							   event.fflags & NOTE_ATTRIB)
+							   event.fflags & NOTE_WRITE
+							   )// || event.fflags & NOTE_ATTRIB
 							{
 								//fprintf(stderr, "modified\n");
 								//watch->rescan();

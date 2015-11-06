@@ -25,7 +25,9 @@ void UpdateListener::ClearEvents()
 void UpdateListener::handleFileAction(FW::WatchID watchid, const FW::String& dir, const FW::String& filename,
 					  FW::Action action)
 {
-	std::cout << ": DIR (" << dir + ") FILE (" + filename + ") has event " << action << std::endl;
-	events.push_back(filename);
-	//Terminal
+	if (action == FW::Action::Modified)
+	{
+		std::cout << ": DIR (" << dir + ") FILE (" + filename + ") has event " << action << std::endl;
+		events.push_back(filename);
+	}
 }

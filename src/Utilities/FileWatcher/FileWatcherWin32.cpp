@@ -141,7 +141,7 @@ namespace FW
 		pWatch = static_cast<WatchStruct*>(HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, ptrsize));
 
 		pWatch->mDirHandle = CreateFile(szDirectory, FILE_LIST_DIRECTORY,
-			FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, //FILE_SHARE_READ |
+			FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, 
 			OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED, NULL);
 
 		if (pWatch->mDirHandle != INVALID_HANDLE_VALUE)

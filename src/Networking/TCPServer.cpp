@@ -47,7 +47,7 @@ void TCPServer::SendData(const void* data, const uint32 length) const
 {
 	for (std::vector<TCPsocket>::const_iterator i = clients.begin(); i != clients.end(); ++i)
 	{
-		int result = SDLNet_TCP_Send((TCPsocket) * i, data, length);
+		uint32 result = SDLNet_TCP_Send((TCPsocket) * i, data, length);
 		if (result < length)
 		{
 			printf("SDLNet_TCP_Send: %s\n", SDLNet_GetError());
@@ -61,7 +61,7 @@ void TCPServer::ReceiveMessage()
 	int result;
 	char msg[1024];
 
-	for (int i = 0; i < clients.size(); ++i)
+	for (size_t i = 0; i < clients.size(); ++i)
 	{
 		result = SDLNet_TCP_Recv(clients[i], msg, MAX_MESSAGE_LENGTH);
 		if (result <= 0)

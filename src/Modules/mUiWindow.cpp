@@ -24,7 +24,9 @@ void mUiWindow::Bind(lua_State* L){
         {"__index", lw_mtIndex__},
         {"__newindex", lw_mtNewIndex__},
         lBind(addText)
-        lBind(addButton)    };
+		lBind(addButton)
+		{0, 0}
+	};
     
     luaL_openlib(L, 0, __mtUiWindow_methods, 0);
 

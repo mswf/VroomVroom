@@ -183,6 +183,7 @@
     <ClInclude Include="..\..\src\Modules\mEntity.h" />
     <ClInclude Include="..\..\src\Modules\mInput.h" />
     <ClInclude Include="..\..\src\Modules\moduleMacros.h" />
+    <ClInclude Include="..\..\src\Modules\mUiWindow.h" />
     <ClInclude Include="..\..\src\Networking\TCPClient.h" />
     <ClInclude Include="..\..\src\Networking\TCPData.h" />
     <ClInclude Include="..\..\src\Networking\TCPServer.h" />
@@ -191,6 +192,7 @@
     <ClInclude Include="..\..\src\Systems\componentSystem.h" />
     <ClInclude Include="..\..\src\Systems\luaSystem.h" />
     <ClInclude Include="..\..\src\Systems\renderer.h" />
+    <ClInclude Include="..\..\src\Systems\uiSystem.h" />
     <ClInclude Include="..\..\src\Utilities\base64.h" />
     <ClInclude Include="..\..\src\Utilities\Clock.hpp" />
     <ClInclude Include="..\..\src\Utilities\helperFunctions.h" />
@@ -221,12 +223,14 @@
     <ClCompile Include="..\..\src\Modules\mEngine.cpp" />
     <ClCompile Include="..\..\src\Modules\mEntity.cpp" />
     <ClCompile Include="..\..\src\Modules\mInput.cpp" />
+    <ClCompile Include="..\..\src\Modules\mUiWindow.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPClient.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPData.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPServer.cpp" />
     <ClCompile Include="..\..\src\Networking\UDPMessage.cpp" />
     <ClCompile Include="..\..\src\Systems\luaSystem.cpp" />
     <ClCompile Include="..\..\src\Systems\renderer.cpp" />
+    <ClCompile Include="..\..\src\Systems\uiSystem.cpp" />
     <ClCompile Include="..\..\src\Utilities\base64.cpp" />
     <ClCompile Include="..\..\src\Utilities\Clock.cpp" />
     <ClCompile Include="..\..\src\Utilities\helperFunctions.cpp" />

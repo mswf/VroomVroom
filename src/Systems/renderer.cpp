@@ -77,9 +77,9 @@ namespace Renderer
 		int i;
 		for ( i = 0; i < 8; i++ )
 		{
-			float x = ( (i & 1) == 0 ? 0 : 1 );
-			float y = ( (i & 2) == 0 ? 0 : 1 );
-			float z = ( (i & 4) == 0 ? 0 : 1 );
+			float x = ( (i & 1) == 0 ? 0.0f : 1.0f );
+			float y = ( (i & 2) == 0 ? 0.0f : 1.0f );
+			float z = ( (i & 4) == 0 ? 0.0f : 1.0f );
 			
 			Vertex vert = { glm::vec3( x, y, z ) - offset, glm::vec2( x, y ) };
 			cube[i] = vert;

@@ -58,7 +58,7 @@ void TCPClient::SendData(const void* data, const uint32 length) const
 		assert(false);
 	}
 
-	int result = SDLNet_TCP_Send(socket, data, length);
+	uint32 result = SDLNet_TCP_Send(socket, data, length);
 	if (result < length)
 	{
 		printf("SDLNet_TCP_Send: %s\n", SDLNet_GetError());

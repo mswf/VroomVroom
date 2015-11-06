@@ -2,6 +2,7 @@
 #include "stdio.h"
 #include "SDL2/SDL.h"
 #include "../Utilities/helperFunctions.h"
+#include "console.h"
 #include <iostream>
 
 
@@ -78,7 +79,7 @@ std::vector<NetworkData> TCPClient::ReceiveMessage()
 	}
 	else
 	{
-		printf(SDL_GetError());
+		Terminal.Warning( SDL_GetError() );
 		alive = false;
 	}
 	return copy;
@@ -122,7 +123,7 @@ int TCPClient::ListenForMessages(void* tcpClient)
 		}
 		else
 		{
-			printf(SDL_GetError());
+			Terminal.Warning( SDL_GetError() );
 			client->alive = false;
 		}
 	}

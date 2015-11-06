@@ -20,7 +20,8 @@ void TCPData::SendMessage(const int16& msg) const
 }
 void TCPData::SendMessage(const std::string& msg) const
 {
-	SendData(msg.c_str(), msg.size());
+	// Valentinas: Casting msg.size() cause of warnings
+	SendData(msg.c_str(), (uint32)msg.size());
 }
 
 void TCPData::SendMessage(const int32& msg) const

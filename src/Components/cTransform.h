@@ -14,14 +14,14 @@ class CTransform : public Component
     public:
         static const int familyId;
 	
-        CTransform( CTransform* parent = nullptr );
+        CTransform();
         ~CTransform();
 	
 		//glm::mat4 transform;
 	
-		std::vector<CTransform* > GetChildren();
-		CTransform* GetParent();
-		void SetParent( CTransform* newParent );
+		//std::vector<CTransform* > GetChildren();
+		//CTransform* GetParent();
+		//void SetParent( CTransform* newParent );
 	
 		const glm::mat4& GetTransform() const;
 	
@@ -67,9 +67,10 @@ class CTransform : public Component
     private:
 		void SetRotationMatrix( glm::mat4 rot );
 	
-		CTransform* root;
-		CTransform* parent;
-		std::vector<CTransform* > children;
+		//CTransform* root;
+		//CTransform* parent;
+		//std::vector<CTransform* > children;
+	
 		glm::mat4 transform;
 
 };

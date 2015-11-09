@@ -14,10 +14,14 @@ class CMeshRenderer : public Component
 		~CMeshRenderer();
 		void Update();
 		void SetVertexAttributes( const char* attribute );
+		void SetMaterial( Material* material );
+		void SetMeshFilter( CMeshFilter* mesh );
+	
+		CMeshFilter* meshFilter;
+		Material* material;
 	
 	private:
-		CMeshFilter* mesh;
-		Material* material;
+	
 };
 
 #endif /* cMeshRenderer_h */

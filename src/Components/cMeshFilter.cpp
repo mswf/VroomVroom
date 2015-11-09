@@ -32,10 +32,18 @@ void CMeshFilter::Buffer( const Mesh* m )
 	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, eab );
 	glBufferData( GL_ELEMENT_ARRAY_BUFFER, m->indices.size(), &m->indices.front(), GL_STATIC_DRAW);
 	
-	//numIndices = m->indices.size();
+	numIndices = (unsigned int)m->indices.size();
 	
 	glBindVertexArray( 0 );
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
 	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
 
+}
+
+void CMeshFilter::UnBuffer()
+{
+	glDeleteVertexArrays( 1, &vao );
+	glDeleteBuffers( GL_ARRAY_BUFFER, &vbo );
+	glDeleteBuffers( GL_ELEMENT_ARRAY_BUFFER, &eab );
+	
 }

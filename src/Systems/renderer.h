@@ -4,7 +4,6 @@
 #include "ComponentSystem.h"
 
 #include <glew.h>
-#include <strstream>
 #include <fstream>	// fin,
 
 

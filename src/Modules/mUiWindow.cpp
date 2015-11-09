@@ -39,7 +39,7 @@ lFuncImp(mUiWindow, create){
     
     lua_settop(L, 0);
     
-    uiWindow* window = UiSystem.CreateWindow();
+	uiWindow* window = UiSystem.ConstructWindow();
     
     window->title = title;
     window->width = width;

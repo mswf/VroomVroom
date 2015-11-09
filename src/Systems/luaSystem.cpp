@@ -12,10 +12,14 @@
 #include <lua.hpp>
 #include "../Utilities/standardIncludes.h"
 #include "../Modules/mAll.h"
+#include <stdlib.h>
+#include "../Utilities/command.h"
+
 
 sLuaSystem::sLuaSystem():
 	hasMainBeenCalled(false),
-	lState(NULL)
+	lState(NULL),
+    atomPath("")
 {
 
 }
@@ -61,9 +65,9 @@ void sLuaSystem::Main()
 	{
 		lua_getglobal(lState, "Game");
 		lua_getfield(lState, -1, "main");
-		if (lua_pcall(lState, 0, 0, 0) != 0)
+		if (lua_isfunction(lState, -1) && lua_pcall(lState, 0, 0, 0) != 0)
 		{
-			Terminal.LuaError(string(lua_tostring(lState, -1)));
+            HandleError(lState);
 		}
 		lua_settop(lState, 0);
 
@@ -76,9 +80,9 @@ void sLuaSystem::Update(float dt)
 	lua_getglobal(lState, "Game");
 	lua_getfield(lState, -1, "update");
 	lua_pushnumber(lState, dt);
-	if (lua_pcall(lState, 1, 0, 0) != 0)
+	if (lua_isfunction(lState, -1) && lua_pcall(lState, 1, 0, 0) != 0)
 	{
-		Terminal.LuaError(string(lua_tostring(lState, -1)));
+		 HandleError(lState);
 	}
 	lua_settop(lState, 0);
 }
@@ -100,7 +104,7 @@ void sLuaSystem::Attempt(string command)
 {
 	if (luaL_dostring(lState, command.c_str()) != 0)
 	{
-		Terminal.LuaError(string(lua_tostring(lState, -1)));
+		HandleError(lState);
 	}
 }
 
@@ -135,6 +139,54 @@ void sLuaSystem::Dump(lua_State* L)
 		printf("  ");  /* put a separator */
 	}
 	printf("----------------------\n");/* end the listing */
+}
+
+void sLuaSystem::SetAtomPath(string path)
+{
+    atomPath = path;
+}
+
+void sLuaSystem::HandleError(lua_State* L)
+{
+    string error = lua_tostring(L, -1);
+    if(atomPath == "")
+    {
+        Terminal.LuaError(error);
+    }
+    else
+    {
+        int indexA = error.find(":");
+        int indexB = error.find(":",indexA+1);
+        
+        string filePath = error.substr(0,indexA);
+        string lineNumber = error.substr(indexA+1,indexB-(indexA+1));
+        
+        string linkMessage = "<a href='' onclick=\"";
+        linkMessage += "ipc.send('handleCommand',':openfile;";
+        linkMessage += filePath;
+        linkMessage += ";";
+        linkMessage += lineNumber;
+        linkMessage += ";');return false;\">";
+        linkMessage += error;
+        linkMessage += "</a>";
+        
+        Terminal.LuaLinkedError(linkMessage, error);
+    }
+}
+
+void sLuaSystem::OpenAtom(string path, int lineNumber)
+{
+    if(atomPath == "")
+    {
+        return;
+    }
+    string commandString = "";
+    commandString += atomPath;
+    commandString += " ";
+    commandString += path;
+    commandString += ":";
+    commandString += std::to_string(lineNumber);
+    RunCommand(commandString);
 }
 
 //PRIVATE

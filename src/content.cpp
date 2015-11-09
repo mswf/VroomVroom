@@ -20,13 +20,12 @@ namespace
     
 void SetPath(const char* path, unsigned long len)
 {
-#ifdef DEBUG
-    std::cout << "setting content path to " << path << std::endl;
-#endif
-    
     if(contentPath == "")
     {
         contentPath = std::string(path);
+#ifdef DEBUG
+		Terminal.Log( string( "Setting content path to " ) + contentPath );
+#endif
     }
     else
     {
@@ -38,10 +37,9 @@ const std::string GetPath(){
     return contentPath;
 }
 
-// TODO: Print path to the console
 void PrintPath()
 {
-    std::cout << "content path is " << contentPath << std::endl;
+	Terminal.Log( std::string("Content path is ") + contentPath );
 }
     
 void CreateFilePath(const char* filename, string* outResult)

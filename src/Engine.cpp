@@ -131,17 +131,16 @@ void Engine::InitGlew()
 	GLenum glewError = glewInit();
 	if (glewError != GLEW_OK)
 	{
-		std::stringstream s;
-		s << "Error initializing GLEW! " << glewGetErrorString(glewError);
-		Terminal.Warning( s.str() );
+		std::string err( (const char*)glewGetErrorString(glewError) );
+		Terminal.Warning( std::string("Error initializing GLEW! " + err ) );
 	}
 
 #ifdef DEBUG
-	std::stringstream s0, s1;
-	s0 << "GL version " << glGetString(GL_VERSION);
-	s1 << "GLEW version " << glewGetString(GLEW_VERSION_MAJOR) << "." << glewGetString(GLEW_VERSION_MINOR);
-	Terminal.Log( s0.str() );
-	Terminal.Log( s1.str() );
+	std::string glVersion( "GL version " + std::string( (const char*)glGetString(GL_VERSION) ) );
+	std::string majorGlew( std::string( (const char*)glewGetString(GLEW_VERSION_MAJOR) ) );
+	std::string minorGlew( std::string( (const char*)glewGetString(GLEW_VERSION_MINOR) ) );
+	Terminal.Log( glVersion );
+	Terminal.Log( "GLEW version " + majorGlew + "." + minorGlew );
 #endif
 }
 

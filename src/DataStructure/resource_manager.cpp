@@ -1,7 +1,6 @@
 #include "resource_manager.h"
 #include "importer.hpp"
 #include "../console.h"
-#include <strstream>
 #include <fstream>
 
 ResourceManager::ResourceManager() :
@@ -43,7 +42,7 @@ bool ResourceManager::ImportObjFile( const std::string& pFile, int flags )
 	}
  
 	// Now we can access the file's contents.
-	Terminal.Log("Import of scene succeeded.");
+	Terminal.Log( "Import of scene succeeded." );
 	LoadMesh(scene);
 	return true;
 }
@@ -111,9 +110,7 @@ void ResourceManager::LoadMesh(const aiScene* sc)
 		
 		rMeshes->push_back( mesh );
 	}
-	std::strstream s;
-	s << "Number of meshs: " << (uint32)rMeshes->size();
-	Terminal.Log( s.str() );
+	Terminal.Log( std::string( "Number of meshs: " + std::to_string(rMeshes->size()) ) );
 }
 
 void ResourceManager::LoadTexture()

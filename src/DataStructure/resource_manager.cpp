@@ -60,16 +60,20 @@ void ResourceManager::LoadMesh(const aiScene* sc)
 		
 		// create array with faces
 		// have to convert from Assimp format to array
-		unsigned int *faceArray;
-		faceArray = (unsigned int *)malloc(sizeof(unsigned int) * m->mNumFaces * 3);
-		unsigned int faceIndex = 0;
+		//unsigned int *faceArray;
+		//faceArray = (unsigned int *)malloc(sizeof(unsigned int) * m->mNumFaces * 3);
+		//unsigned int faceIndex = 0;
 		
 		for (unsigned int t = 0; t < m->mNumFaces; ++t)
 		{
 			const aiFace* face = &m->mFaces[t];
+			//TODO(Valentinas): Copy all array to vector?
+			mesh->indices.push_back( face->mIndices[0] );
+			mesh->indices.push_back( face->mIndices[1] );
+			mesh->indices.push_back( face->mIndices[2] );
 			
-			memcpy(&faceArray[faceIndex], face->mIndices,3 * sizeof(unsigned int));
-			faceIndex += 3;
+			//memcpy(&faceArray[faceIndex], face->mIndices,3 * sizeof(unsigned int));
+			//faceIndex += 3;
 		}
 //#warning "Get Num of faces"
 		//aMesh.numFaces = sc->mMeshes[n]->mNumFaces;
@@ -113,6 +117,8 @@ void ResourceManager::LoadMesh(const aiScene* sc)
 		
 		rMeshes->push_back( mesh );
 	}
+	
+	tempMesh = rMeshes->front();
 	//Terminal.Log( std::string( "Number of meshs: " + std::to_string(rMeshes->size()) ) );
 }
 
@@ -170,7 +176,7 @@ const Mesh* ResourceManager::CreateTriangleMesh()
  */
 
 
-void ResourceManager::CreateCubeMesh( bool centered )
+const Mesh* ResourceManager::CreateCubeMesh( bool centered )
 {
 	printf("Creating Cube mesh \n");
 	
@@ -219,4 +225,5 @@ void ResourceManager::CreateCubeMesh( bool centered )
 	
 	rMeshes->push_back( triangleMesh );
 	
+	return rMeshes->back();
 }

@@ -17,8 +17,9 @@ public:
 	void LoadMesh(const aiScene* s);
 	void LoadTexture();
 	const Mesh* CreateTriangleMesh();
-	void CreateCubeMesh( bool centered );
+	const Mesh* CreateCubeMesh( bool centered = true );
 	
+	Mesh* tempMesh;
 	std::vector< Mesh* >* rMeshes;
 	std::vector< int > rTextures;
 

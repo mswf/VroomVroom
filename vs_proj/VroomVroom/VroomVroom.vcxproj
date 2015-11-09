@@ -198,6 +198,7 @@
     <ClInclude Include="..\..\src\Systems\uiSystem.h" />
     <ClInclude Include="..\..\src\Utilities\base64.h" />
     <ClInclude Include="..\..\src\Utilities\Clock.hpp" />
+    <ClInclude Include="..\..\src\Utilities\command.h" />
     <ClInclude Include="..\..\src\Utilities\FileWatcher\FileWatcher.h" />
     <ClInclude Include="..\..\src\Utilities\FileWatcher\FileWatcherImpl.h" />
     <ClInclude Include="..\..\src\Utilities\FileWatcher\FileWatcherLinux.h" />
@@ -244,6 +245,7 @@
     <ClCompile Include="..\..\src\Systems\uiSystem.cpp" />
     <ClCompile Include="..\..\src\Utilities\base64.cpp" />
     <ClCompile Include="..\..\src\Utilities\Clock.cpp" />
+    <ClCompile Include="..\..\src\Utilities\command.cpp" />
     <ClCompile Include="..\..\src\Utilities\FileWatcher\FileWatcher.cpp" />
     <ClCompile Include="..\..\src\Utilities\FileWatcher\FileWatcherLinux.cpp" />
     <ClCompile Include="..\..\src\Utilities\FileWatcher\FileWatcherOSX.cpp" />

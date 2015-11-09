@@ -155,7 +155,8 @@ void sLuaSystem::HandleError(lua_State* L)
     }
     else
     {
-        int indexA = error.find(":");
+		// start looking from the v"fifth"v character onward, to evade the colon commonly found in Windows filepaths
+        int indexA = error.find(":", 5);
         int indexB = error.find(":",indexA+1);
         
         string filePath = error.substr(0,indexA);

@@ -639,6 +639,9 @@
     <ClInclude Include="..\..\src\Components\entity.h">
       <Filter>VroomVroom\Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Utilities\command.h">
+      <Filter>VroomVroom\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Networking\TCPData.cpp">
@@ -763,6 +766,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Components\entity.cpp">
       <Filter>VroomVroom\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\command.cpp">
+      <Filter>VroomVroom\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

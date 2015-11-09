@@ -1,4 +1,4 @@
-﻿//
+//
 //  LuaSystem.cpp
 //  VroomVroom
 //
@@ -155,8 +155,9 @@ void sLuaSystem::HandleError(lua_State* L)
     }
     else
     {
+		// start looking from the v"fifth"v character onward, to evade the colon commonly found in Windows filepaths
+        int indexA = error.find(":", 5);
         int indexC = error.find("/");
-        int indexA = error.find(":");
         int indexB = error.find(":",indexA+1);
         
         string filePath;

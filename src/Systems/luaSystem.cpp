@@ -54,7 +54,7 @@ void sLuaSystem::Init()
 	//try to parse main.lua
 	if (lua_pcall(lState, 0, 0, 0) != 0)
 	{
-		Terminal.LuaError(lua_tostring(lState, -1));
+		HandleError(lState);
 		return;
 	}
 }
@@ -94,7 +94,7 @@ void sLuaSystem::SendReloadCallback( const string& filePath )
 	lua_pushlstring( lState, filePath.c_str(), filePath.size() );
 	if (lua_pcall(lState, 1, 0, 0) != 0)
 	{
-		Terminal.LuaError(string(lua_tostring(lState, -1)));
+		HandleError(lState);
 	}
 	lua_settop(lState, 0);
 }
@@ -155,10 +155,13 @@ void sLuaSystem::HandleError(lua_State* L)
     }
     else
     {
+        int indexC = error.find("/");
         int indexA = error.find(":");
         int indexB = error.find(":",indexA+1);
         
-        string filePath = error.substr(0,indexA);
+        string filePath;
+        Content::CreateFilePath(error.substr(indexC, indexA).c_str(), &filePath);
+        
         string lineNumber = error.substr(indexA+1,indexB-(indexA+1));
         
         string linkMessage = "<a href='' onclick=\"";

@@ -1,26 +1,34 @@
 #define GLM_FORCE_RADIANS
 
-#include "Engine.h"
-#include "Systems/renderer.h"
-#include "Input.hpp"
-#include <SDL2/SDL.h>
-#include <SDL2_net/SDL_net.h>
-#include "Systems/luaSystem.h"
-#include "Systems/uiSystem.h"
-#include "Modules/mInput.h"
-#include "Components/cTransform.h"
-#include "DataStructure/material.h"
-#include "Components/cCamera.h"
+#include <cstring>
+#include <iostream>
+
 #include "content.h"
-#include "Utilities/standardIncludes.h"
+#include "Engine.h"
+#include "glew.h"
+#include "Input.hpp"
+
+#include "Components/cCamera.h"
+#include "Components/cTransform.h"
+
+#include "DataStructure/material.h"
+
 #include "ImGUI/imgui.h"
 #include "ImGUI/imgui_impl_sdl.h"
-#include "glew.h"
+
+#include "Modules/mInput.h"
+
+#include <SDL2/SDL.h>
 #include "SDL2/SDL_opengl.h"
-#include <iostream>
-#include <cstring>
-#include <strstream>
+#include <SDL2_net/SDL_net.h>
+
+#include "Systems/renderer.h"
+#include "Systems/luaSystem.h"
+#include "Systems/uiSystem.h"
+
 #include "Utilities/helperFunctions.h"
+#include "Utilities/standardIncludes.h"
+
 
 Engine::Engine() :
 	inputManager(NULL),

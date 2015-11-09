@@ -9,7 +9,6 @@
 #include "../glm/mat4x4.hpp"
 #include "../glm/gtc/type_ptr.hpp"
 #include "../glm/gtc/matrix_transform.hpp"
-#include "../Components/cMeshFilter.h"
 #include "../Components/entity.h"
 #include "../Components/cMeshRenderer.h"
 
@@ -30,7 +29,7 @@ namespace Renderer
         
     };
     
-	void Render( glm::uint32 time, Entity* camera, Entity* mesh, Shader* s );
+	void Render( glm::uint32 time, Entity* camera, Entity* mesh );
 }
 
 #endif /* renderer_h */

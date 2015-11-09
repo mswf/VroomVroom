@@ -30,7 +30,6 @@
 		E50529561BE8CDD50017400B /* RtMidi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E50529541BE8CDD50017400B /* RtMidi.cpp */; settings = {ASSET_TAGS = (); }; };
 		E505295B1BE8CDE50017400B /* Clock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E50529571BE8CDE50017400B /* Clock.cpp */; settings = {ASSET_TAGS = (); }; };
 		E50529661BE8CE0A0017400B /* cCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E505295D1BE8CE0A0017400B /* cCamera.cpp */; settings = {ASSET_TAGS = (); }; };
-		E50529681BE8CE0A0017400B /* cMeshFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E50529611BE8CE0A0017400B /* cMeshFilter.cpp */; settings = {ASSET_TAGS = (); }; };
 		E50529691BE8CE0A0017400B /* cTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E50529641BE8CE0A0017400B /* cTransform.cpp */; settings = {ASSET_TAGS = (); }; };
 		E505296C1BE8EF020017400B /* entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E505296A1BE8EF020017400B /* entity.cpp */; settings = {ASSET_TAGS = (); }; };
 		E514AF591BD16E5800E7E2C5 /* TCPData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E514AF571BD16E5800E7E2C5 /* TCPData.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -129,8 +128,6 @@
 		E505295A1BE8CDE50017400B /* typedef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = typedef.h; sourceTree = "<group>"; };
 		E505295D1BE8CE0A0017400B /* cCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cCamera.cpp; path = src/Components/cCamera.cpp; sourceTree = SOURCE_ROOT; };
 		E505295E1BE8CE0A0017400B /* cCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cCamera.h; path = src/Components/cCamera.h; sourceTree = SOURCE_ROOT; };
-		E50529611BE8CE0A0017400B /* cMeshFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cMeshFilter.cpp; path = src/Components/cMeshFilter.cpp; sourceTree = SOURCE_ROOT; };
-		E50529621BE8CE0A0017400B /* cMeshFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cMeshFilter.h; path = src/Components/cMeshFilter.h; sourceTree = SOURCE_ROOT; };
 		E50529631BE8CE0A0017400B /* component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = component.h; path = src/Components/component.h; sourceTree = SOURCE_ROOT; };
 		E50529641BE8CE0A0017400B /* cTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cTransform.cpp; path = src/Components/cTransform.cpp; sourceTree = SOURCE_ROOT; };
 		E50529651BE8CE0A0017400B /* cTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cTransform.h; path = src/Components/cTransform.h; sourceTree = SOURCE_ROOT; };
@@ -240,13 +237,11 @@
 				E505296B1BE8EF020017400B /* entity.h */,
 				E505295D1BE8CE0A0017400B /* cCamera.cpp */,
 				E505295E1BE8CE0A0017400B /* cCamera.h */,
-				E50529611BE8CE0A0017400B /* cMeshFilter.cpp */,
-				E50529621BE8CE0A0017400B /* cMeshFilter.h */,
+				E55F88DE1BEBA48C00433973 /* cMeshRenderer.cpp */,
+				E55F88DF1BEBA48C00433973 /* cMeshRenderer.h */,
 				E50529631BE8CE0A0017400B /* component.h */,
 				E50529641BE8CE0A0017400B /* cTransform.cpp */,
 				E50529651BE8CE0A0017400B /* cTransform.h */,
-				E55F88DE1BEBA48C00433973 /* cMeshRenderer.cpp */,
-				E55F88DF1BEBA48C00433973 /* cMeshRenderer.h */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -511,7 +506,6 @@
 				E547260C1BC6A74E00316B26 /* UDPMessage.cpp in Sources */,
 				E53CB22C1BECA88C004B0F58 /* FileWatcher.cpp in Sources */,
 				E53CB22F1BECA88C004B0F58 /* FileWatcherWin32.cpp in Sources */,
-				E50529681BE8CE0A0017400B /* cMeshFilter.cpp in Sources */,
 				E53CB22D1BECA88C004B0F58 /* FileWatcherLinux.cpp in Sources */,
 				E59FDC911BBAC0EE008935C5 /* random.cpp in Sources */,
 				E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */,

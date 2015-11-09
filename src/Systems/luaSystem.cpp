@@ -160,6 +160,13 @@ void sLuaSystem::HandleError(lua_State* L)
         int indexC = error.find("/");
         int indexB = error.find(":",indexA+1);
         
+        if(indexC == -1)
+        {
+            Terminal.LuaError(error);
+            return;
+        }
+
+        
         string filePath;
         Content::CreateFilePath(error.substr(indexC, indexA).c_str(), &filePath);
         

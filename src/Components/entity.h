@@ -2,6 +2,7 @@
 #define entity_h
 
 #include "../Components/component.h"
+#include "cTransform.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -19,8 +20,9 @@ class Entity
 	
 		void AddChild( Entity* c );
 		void Update();
-		void GetChildrenIteratorStart() const;
-		void GetChildrenIteratorEnd() const;
+		const glm::mat4& GetTransform();
+		std::vector< Entity* >::const_iterator GetChildrenIteratorStart() const;
+		std::vector< Entity* >::const_iterator GetChildrenIteratorEnd() const;
 	
 		// TODO(Valentinas): Add remove function for components
 	
@@ -51,12 +53,14 @@ class Entity
 		}
 	
 
-	private:
-	
+	protected:
+		glm::mat4 worldTransform;
 		Entity* parent;
 		std::vector< Entity* > children;
-		static std::multimap< int, Entity* > componentStorage;
 		std::string name;
+	
+	private:
+		static std::multimap< int, Entity* > componentStorage;
 };
 
 #endif /* entity_h */

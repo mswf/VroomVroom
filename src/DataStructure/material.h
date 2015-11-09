@@ -2,7 +2,6 @@
 #define material_h
 
 #include "../DataStructure/shader.h"
-#include "../Components/component.h"
 
 class Material
 {
@@ -12,7 +11,9 @@ class Material
 		~Material();
 	
 		Shader* shader;
-		
+	
+		void SetShader( Shader* shader );
+	
 	private:
 	
 	

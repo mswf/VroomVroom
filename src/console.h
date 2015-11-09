@@ -27,8 +27,12 @@ class sTerminal : public Singleton<sTerminal>
 		void Error(string);
 		void Custom(string, string, string);
         void LuaError(string);
+        void LuaLinkedError(string, string);
     
-        void Update();
+        void Update(int);
+    
+        bool IsConnected();
+        void ReattemptConnection(int);
 	private:
 		void WriteToFile(string);
 		void SendToExternal(string, string, string);
@@ -36,9 +40,11 @@ class sTerminal : public Singleton<sTerminal>
 
 		TCPClient* socket;
         File* logFile;
+        int reconnectDelay;
 };
 
 //TODO move this out of console
 struct tm GetTimeStruct();
+string GetTimeString();
 
 #endif /* console_h */

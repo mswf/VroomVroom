@@ -18,6 +18,7 @@
 		23E22F5F1BE9FEBA00987545 /* uiSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E22F5D1BE9FEBA00987545 /* uiSystem.cpp */; settings = {ASSET_TAGS = (); }; };
 		23EE7EC31BC686020006581F /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23EE7EC11BC686020006581F /* Engine.cpp */; settings = {ASSET_TAGS = (); }; };
 		23EE7EE41BC6C2B90006581F /* console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23EE7EE21BC6C2B90006581F /* console.cpp */; settings = {ASSET_TAGS = (); }; };
+		23FEEEA51BF0EE8600A83377 /* command.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23FEEEA41BF0EE8600A83377 /* command.cpp */; settings = {ASSET_TAGS = (); }; };
 		E50529251BE8CD650017400B /* engine_event_system.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E505291F1BE8CD650017400B /* engine_event_system.cpp */; settings = {ASSET_TAGS = (); }; };
 		E50529261BE8CD650017400B /* luaSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E50529211BE8CD650017400B /* luaSystem.cpp */; settings = {ASSET_TAGS = (); }; };
 		E50529271BE8CD650017400B /* renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E50529231BE8CD650017400B /* renderer.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -97,6 +98,8 @@
 		23EE7EC21BC686020006581F /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Engine.h; path = src/Engine.h; sourceTree = SOURCE_ROOT; };
 		23EE7EE21BC6C2B90006581F /* console.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = console.cpp; path = src/console.cpp; sourceTree = SOURCE_ROOT; };
 		23EE7EE31BC6C2B90006581F /* console.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = console.h; path = src/console.h; sourceTree = SOURCE_ROOT; };
+		23FEEEA31BF0B0BD00A83377 /* command.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = command.h; sourceTree = "<group>"; };
+		23FEEEA41BF0EE8600A83377 /* command.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = command.cpp; sourceTree = "<group>"; };
 		E500A48C1BEB5A33009A9095 /* data_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = data_types.h; path = src/DataStructure/data_types.h; sourceTree = SOURCE_ROOT; };
 		E505291E1BE8CD650017400B /* componentSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = componentSystem.h; path = src/Systems/componentSystem.h; sourceTree = SOURCE_ROOT; };
 		E505291F1BE8CD650017400B /* engine_event_system.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = engine_event_system.cpp; path = src/Systems/engine_event_system.cpp; sourceTree = SOURCE_ROOT; };
@@ -354,6 +357,8 @@
 				E59FDC8D1BBAC0EE008935C5 /* helperFunctions.h */,
 				E59FDC8E1BBAC0EE008935C5 /* random.cpp */,
 				E59FDC8F1BBAC0EE008935C5 /* random.h */,
+				23FEEEA31BF0B0BD00A83377 /* command.h */,
+				23FEEEA41BF0EE8600A83377 /* command.cpp */,
 			);
 			name = Utilities;
 			path = src/Utilities;
@@ -506,6 +511,7 @@
 				E547260C1BC6A74E00316B26 /* UDPMessage.cpp in Sources */,
 				E53CB22C1BECA88C004B0F58 /* FileWatcher.cpp in Sources */,
 				E53CB22F1BECA88C004B0F58 /* FileWatcherWin32.cpp in Sources */,
+				23FEEEA51BF0EE8600A83377 /* command.cpp in Sources */,
 				E53CB22D1BECA88C004B0F58 /* FileWatcherLinux.cpp in Sources */,
 				E59FDC911BBAC0EE008935C5 /* random.cpp in Sources */,
 				E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */,

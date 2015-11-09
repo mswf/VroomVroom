@@ -28,7 +28,8 @@
 
 #include "Utilities/helperFunctions.h"
 #include "Utilities/standardIncludes.h"
-
+//defines runCommand
+#include "Utilities/command.h"
 
 Engine::Engine() :
 	inputManager(NULL),
@@ -104,6 +105,22 @@ void Engine::OpenConfig()
 	const char* contentPath = lua_tolstring(L, -1, &len_cp);
 
 	Content::SetPath(contentPath, len_cp);
+    
+    lua_getglobal(L, "ATOM_PATH");
+    if (lua_type(L, -1) == LUA_TSTRING)
+    {
+        LuaSystem.SetAtomPath(string(lua_tostring(L, -1)));
+    }
+    
+    lua_getglobal(L, "MECHANIC_CMD");
+    if (lua_type(L, -1) == LUA_TSTRING && Terminal.IsConnected() == false)
+    {
+        string cmd = lua_tostring(L, -1);
+        Terminal.Log(cmd);
+        RunCommand(cmd);
+        Terminal.ReattemptConnection(1000);
+    }
+
 
 	lua_close(L);
 }
@@ -166,7 +183,8 @@ void Engine::Update(float deltaTime)
 
 	//TODO this should be refactored out at some point
 	//It is neccesary now to poll network events from the socket
-	Terminal.Update();
+    //but it is now also necessary to reattempt connections, so probably it should not be factored out anymore
+	Terminal.Update(deltaTime);
 }
 
 void Engine::UpdateLoop()

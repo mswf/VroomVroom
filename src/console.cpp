@@ -19,19 +19,19 @@
 
 sTerminal::sTerminal():
 	socket(NULL),
-	logFile(NULL)
+	logFile(NULL),
+    reconnectDelay(-1)
 {
 	socket = new TCPClient("localhost", CONSOLE_PORT);
+    if(!socket->IsConnected())
+    {
+        ReattemptConnection(10000);
+    }
+    
 	CreateLogFile();
 	Log("Terminal initialized", true);
 
-	string line = "Stardate: <";
-
-	struct tm time_info = GetTimeStruct();
-
-	line += std::to_string(time_info.tm_year + 1900) + "/";
-	line += std::to_string(time_info.tm_mon + 1) + "/";
-	line += std::to_string(time_info.tm_mday) + "> ";
+	string line = "Stardate: " + GetTimeString();
 
 	Log(line, true);
 
@@ -85,19 +85,79 @@ void sTerminal::LuaError(const string msg)
 
 }
 
-//TODO replace with callback when messages are recieved reather thann having to poll each update
-void sTerminal::Update()
+void sTerminal::LuaLinkedError(const string msg, const string cleanMsg)
 {
-	if (!socket->IsConnected())
+    string line = "[LUA]" + msg;
+    std::cout << line << std::endl;
+    WriteToFile(line);
+    SendToExternal(line, "#C5251D", "#70B7BE");
+    
+    string cleanLine = "[LUA]" + cleanMsg;
+    WriteToFile(cleanLine);
+}
+
+//TODO replace with callback when messages are recieved reather thann having to poll each update
+void sTerminal::Update(int deltaTime)
+{
+	if (socket->IsConnected())
 	{
-		return;
+        std::vector<NetworkData> messages = socket->ReceiveMessage();
+        std::vector<NetworkData>::iterator it;
+        for (it = messages.begin(); it != messages.end(); ++it)
+        {
+            string msg = HelperFunctions::VoidPtrToString(it->data, it->length);
+            if(msg.find("ATOM;") == 0)
+            {
+                int sepIndex = msg.find(";", 5);
+                string filePath = msg.substr(5, sepIndex-5);
+                int lineNumber = std::stoi(msg.substr(sepIndex+1));
+                LuaSystem.OpenAtom(filePath, lineNumber);
+            }
+            else {
+                LuaSystem.Attempt(msg);
+            }
+        }
+
 	}
-	std::vector<NetworkData> messages = socket->ReceiveMessage();
-	std::vector<NetworkData>::iterator it;
-	for (it = messages.begin(); it != messages.end(); ++it)
-	{
-		LuaSystem.Attempt(HelperFunctions::VoidPtrToString(it->data, it->length));
-	}
+    if(reconnectDelay > 0){
+        ReattemptConnection(reconnectDelay - deltaTime);
+    }
+    else if (!socket->IsConnected())
+    {
+        ReattemptConnection(10000);
+    }
+}
+
+bool sTerminal::IsConnected()
+{
+    return socket->IsConnected();
+}
+
+void sTerminal::ReattemptConnection(int delay)
+{
+    if(socket->IsConnected())
+    {
+        return;
+    }
+    if(delay <= 0)
+    {
+        delay = -1;
+        if(socket != NULL)
+        {
+            delete socket;
+        }
+        Log("Attempting to reconnect with external console");
+        socket = new TCPClient("localhost", CONSOLE_PORT);
+        if(!socket->IsConnected())
+        {
+            //try again in 10 seconds
+            ReattemptConnection(10000);
+        }
+    }
+    else
+    {
+        reconnectDelay = delay;
+    }
 }
 
 
@@ -108,22 +168,15 @@ void sTerminal::WriteToFile(const string msg)
 	{
 		return;
 	}
-	string line = "<";
-
-	struct tm time_info = GetTimeStruct();
-
-	line += std::to_string(time_info.tm_hour) + ":";
-	line += std::to_string(time_info.tm_min) + ":";
-	line += std::to_string(time_info.tm_sec) + "> ";
-	line += msg + "\r\n";
-
-	logFile->WriteString(line);
+	
+	logFile->WriteString(GetTimeString());
 }
 
 void sTerminal::SendToExternal(const string msg, const string background, const string color)
 {
+    string timedMessage = GetTimeString() + msg;
 	string consoleString = "MSG[|]";
-	consoleString += msg + "[|]";
+	consoleString += timedMessage + "[|]";
 	consoleString += "BG[|]" + background + "[|]";
 	consoleString += "CLR[|]" + color + "[|]";
 
@@ -165,7 +218,7 @@ void sTerminal::CreateLogFile()
 	logFile->Create("log.txt");
 }
 
-//TODO move this plssss
+//TODO(robin) move this plssss
 struct tm GetTimeStruct()
 {
 	time_t timer;
@@ -179,4 +232,16 @@ struct tm GetTimeStruct()
 #endif
 
 	return time_info;
+}
+
+string GetTimeString()
+{
+    string line = "<";
+    
+    struct tm time_info = GetTimeStruct();
+    
+    line += std::to_string(time_info.tm_hour) + ":";
+    line += std::to_string(time_info.tm_min) + ":";
+    line += std::to_string(time_info.tm_sec) + ">";
+    return line;
 }

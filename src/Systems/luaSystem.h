@@ -28,6 +28,10 @@ class sLuaSystem : public Singleton<sLuaSystem>
 		void SendReloadCallback( const string& filePath );
 		void Attempt(string);
 		void Dump(lua_State*);
+    
+        void SetAtomPath(string);
+        void HandleError(lua_State*);
+        void OpenAtom(string, int = 0);
 
 	private:
 		void SetPackagePath();
@@ -36,6 +40,8 @@ class sLuaSystem : public Singleton<sLuaSystem>
 		bool hasMainBeenCalled;
 
 		static int LuaPanic(lua_State* L);
+    
+        string atomPath;
 };
 
 #endif /* luaSystem_h */

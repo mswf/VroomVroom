@@ -180,28 +180,26 @@ void Engine::UpdateLoop()
 	ImGui_ImplSdl_Init(window);
 
 	string path( Content::GetPath() + "/objects/monocar.obj" );
-	//resourceManager->ImportObjFile( path, 0 );
+	resourceManager->ImportObjFile( path, 0 );
 
 	/// TINAS PLAYGROUND!!!
 	
-	CMeshFilter* meshFilter = new CMeshFilter();
-	const Mesh* meshData = resourceManager->CreateTriangleMesh();
-	meshFilter->Buffer( meshData );
 	Shader* currentShader = new Shader();
 	Material* mat = new Material( currentShader );
-	CMeshRenderer* meshRenderable = new CMeshRenderer();
-	meshRenderable->SetMaterial(mat);
-
+	
+	CMeshRenderer* meshRenderer = new CMeshRenderer();
+	//const Mesh* meshData = resourceManager->CreateCubeMesh();
+	//const Mesh* meshData = resourceManager->CreateTriangleMesh();
+	const Mesh* meshData = resourceManager->tempMesh;
+	
+	meshRenderer->SetMaterial(mat);
+	meshRenderer->Buffer( meshData );
+	
 	Entity* box = new Entity( "MyLittleBox" );
 	CTransform* t = Entity::GetComponent<CTransform>(box);
-	Entity::AddComponent(box, meshFilter);
-	Entity::AddComponent(box, meshRenderable);
-	meshRenderable->Update();
-	
-	//TODO(Valentinas): POSSIBLE BUG MIGHT POP UP HERE
-	//meshRenderable->SetVertexAttributes("");
+	Entity::AddComponent(box, meshRenderer);
 
-	Entity* root = new Entity("ROOT");
+	Entity* root = new Entity("Root");
 	root->AddChild(box);
 
 	Entity* camera = new Entity( "Main Camera" );
@@ -240,7 +238,8 @@ void Engine::UpdateLoop()
 			deltaTimeGame -= gameUpdateInterval;
 
 			Update(gameUpdateInterval);
-
+			root->Update();
+			
 			if (deltaTimeGame < gameUpdateInterval)
 			{
 				if ( inputManager->OnKey(SDLK_ESCAPE) )
@@ -313,7 +312,7 @@ void Engine::UpdateLoop()
 		glClearColor( 0.2f, 0.2f, 0.2f, 1.0f );
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		Renderer::Render( SDL_GetTicks(), camera, box, mat->shader );
+		Renderer::Render( SDL_GetTicks(), camera, box );
 		UiSystem.Render();
 		SDL_GL_SwapWindow(window);
 

@@ -4,24 +4,24 @@
 const int CMeshRenderer::familyId = (int)ComponentTypes::MESH_RENDERER;
 
 CMeshRenderer::CMeshRenderer() :
-	mesh(NULL)
+	material( NULL ),
+	meshFilter(NULL)
 {
-	Update();
 }
 
 CMeshRenderer::~CMeshRenderer()
 {
-	
+	//TODO(Valentinas): DELETE MATERIAL HERE?
+	//delete material;
 }
 
 void CMeshRenderer::Update()
 {
-	mesh = Entity::GetComponent<CMeshFilter>(entity);
+	meshFilter = Entity::GetComponent<CMeshFilter>(entity);
 }
 
 void CMeshRenderer::SetVertexAttributes( const char* attribute )
 {
-	
 	 GLuint position = glGetAttribLocation( material->shader->program, "position" );
 	 //GLuint texcoord = glGetAttribLocation( material->shader->program, "texcoord" );
 	 //GLuint normal = glGetAttribLocation( material->shader->program, "normal" );
@@ -38,4 +38,9 @@ void CMeshRenderer::SetVertexAttributes( const char* attribute )
 	// Use layouts (location = 0) in vec4 position
 	// Add flags whether mesh contains normals or uvs
 	// Depending on flags, buffer & set Vertex Attributes.
+}
+
+void CMeshRenderer::SetMaterial( Material* mat )
+{
+	material = mat;
 }

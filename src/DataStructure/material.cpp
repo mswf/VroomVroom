@@ -10,3 +10,8 @@ Material::~Material()
 {
 	
 }
+
+void Material::SetShader( Shader* sh )
+{
+	shader = sh;
+}

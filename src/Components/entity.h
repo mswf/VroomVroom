@@ -1,11 +1,3 @@
-//
-//  entity.h
-//  VroomVroom
-//
-//  Created by Valentinas Rimeika on 03/11/15.
-//  Copyright © 2015 Valentinas Rimeika. All rights reserved.
-//
-
 #ifndef entity_h
 #define entity_h
 
@@ -14,14 +6,21 @@
 #include <vector>
 #include <map>
 
+const std::string DEFAULT_ENTITY_NAME = "ent_obj";
+
 class Entity
 {
 	public:
 	
-		Entity( std::string name = "entity_object"  );
+		Entity( std::string name = DEFAULT_ENTITY_NAME, Entity* parent = NULL );
 		~Entity();
 	
 		std::map< int, Component* > entityComponents;
+	
+		void AddChild( Entity* c );
+		void Update();
+		void GetChildrenIteratorStart() const;
+		void GetChildrenIteratorEnd() const;
 	
 		// TODO(Valentinas): Add remove function for components
 	
@@ -50,9 +49,12 @@ class Entity
 				result.push_back( iter->second );
 			}
 		}
-
 	
+
 	private:
+	
+		Entity* parent;
+		std::vector< Entity* > children;
 		static std::multimap< int, Entity* > componentStorage;
 		std::string name;
 };

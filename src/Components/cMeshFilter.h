@@ -29,7 +29,7 @@ class CMeshFilter : public Component
 		GLuint vbo;
 		// Element Array Buffer
 		GLuint eab;
-		unsigned long numIndices;
+		unsigned int numIndices;
 		GLuint vertexAttributeLocation;
 		GLuint normalAttributeLocation;
 		GLuint texCoordAttributeLocation;

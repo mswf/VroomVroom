@@ -8,6 +8,7 @@
 
 #include "shader.h"
 #include "content.h"
+#include "console.h"
 #include "../Utilities/helperFunctions.h"
 
 #include "SDL2/SDL.h"
@@ -17,8 +18,8 @@ Shader::Shader()
 {
 	std::string path = Content::GetPath() + "/shaders/";
 
-	std::string vs = HelperFunctions::ReadFile(path + std::string("vs.txt"));
-	std::string fs = HelperFunctions::ReadFile(path + std::string("fs.txt"));
+	std::string vs = HelperFunctions::ReadFile(path + std::string("vertexShader.vert"));
+	std::string fs = HelperFunctions::ReadFile(path + std::string("fragmentShader.frag"));
 	
 	const char * src_vertex   = vs.c_str();
 	const char * src_fragment = fs.c_str();
@@ -43,10 +44,6 @@ Shader::Shader()
 	glLinkProgram( program );
 	LogError(program, GL_LINK_STATUS);
 	
-	// TODO(Valentinas): Move validation closer to drawing
-	//glValidateProgram( program );
-	//LogError(program, GL_VALIDATE_STATUS);
-
 	glDeleteShader( vertex_shader );
 	glDeleteShader( fragment_shader );
 }
@@ -65,6 +62,8 @@ void Shader::LogError( GLuint program, GLenum status )
 		GLchar message[255];
 		glGetProgramInfoLog( program, sizeof(message), 0, &message[0]);
 		std::cout << message << std::endl;
+		//TODO(Valentinas): Find out why the Warning message not passed
+		//Terminal.Warning( std::string( message ) );
 		assert(false);
 	}
 }

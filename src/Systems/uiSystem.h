@@ -79,7 +79,7 @@ class sUiSystem : public Singleton<sUiSystem>
         ~sUiSystem();
     
     
-        uiWindow* CreateWindow();
+        uiWindow* ConstructWindow(void);
         uiWindowTextElement* AddText(uiWindow*);
         uiWindowButtonElement* AddButton(uiWindow*);
     

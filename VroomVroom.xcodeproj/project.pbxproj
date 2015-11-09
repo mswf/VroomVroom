@@ -154,6 +154,7 @@
 		E53CB22B1BECA88C004B0F58 /* FileWatcherWin32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FileWatcherWin32.h; path = FileWatcher/FileWatcherWin32.h; sourceTree = "<group>"; };
 		E53CB2301BECC529004B0F58 /* file_watcher_impl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = file_watcher_impl.cpp; path = FileWatcher/file_watcher_impl.cpp; sourceTree = "<group>"; };
 		E53CB2311BECC529004B0F58 /* file_watcher_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = file_watcher_impl.h; path = FileWatcher/file_watcher_impl.h; sourceTree = "<group>"; };
+		E53CB2341BF09FD8004B0F58 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = ../MeepMeep/shaders; sourceTree = SOURCE_ROOT; };
 		E54725FD1BC69F1300316B26 /* SDL2_net.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_net.framework; path = Framework/SDL2_net.framework; sourceTree = "<group>"; };
 		E54726041BC6A74E00316B26 /* TCPClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TCPClient.cpp; path = src/Networking/TCPClient.cpp; sourceTree = SOURCE_ROOT; };
 		E54726051BC6A74E00316B26 /* TCPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCPClient.h; path = src/Networking/TCPClient.h; sourceTree = SOURCE_ROOT; };
@@ -266,6 +267,7 @@
 				23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */,
 				E54D30901BB29675006FBC68 /* libGLEW.dylib */,
 				E53768711BA6D3B600D0BC14 /* VroomVroom */,
+				E53CB2341BF09FD8004B0F58 /* shaders */,
 				E53768701BA6D3B600D0BC14 /* Products */,
 			);
 			sourceTree = "<group>";

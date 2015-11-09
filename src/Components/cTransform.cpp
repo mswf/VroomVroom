@@ -2,9 +2,8 @@
 
 const int CTransform::familyId = (int)ComponentTypes::TRANSFORM;
 
-CTransform::CTransform( CTransform* parent )
-:	parent( parent ),
-	transform( glm::mat4(1.0) )
+CTransform::CTransform()
+:	transform( glm::mat4(1.0) )
 {
 }
 
@@ -18,6 +17,7 @@ const glm::mat4& CTransform::GetTransform() const
 	return transform;
 }
 
+/*
 CTransform* CTransform::GetParent()
 {
 	return parent;
@@ -32,7 +32,7 @@ std::vector< CTransform* > CTransform::GetChildren()
 {
 	return children;
 }
-
+*/
 glm::vec3 CTransform::GetPosition() const
 {
 	return glm::vec3( transform[3] );

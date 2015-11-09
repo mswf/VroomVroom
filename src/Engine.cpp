@@ -197,34 +197,36 @@ void Engine::UpdateLoop()
 
 	ImGui_ImplSdl_Init(window);
 
-	//bool show_test_window = true;
-	//bool show_another_window = true;
-
 	string path( Content::GetPath() + "/objects/monocar.obj" );
-	resourceManager->ImportObjFile( path, 0 );
+	//resourceManager->ImportObjFile( path, 0 );
 
-	CMeshFilter* mesh = new CMeshFilter();
+	/// TINAS PLAYGROUND!!!
+	
+	CMeshFilter* meshFilter = new CMeshFilter();
+	const Mesh* meshData = resourceManager->CreateTriangleMesh();
+	meshFilter->Buffer( meshData );
+	Shader* currentShader = new Shader();
+	Material* mat = new Material( currentShader );
+	CMeshRenderer* meshRenderable = new CMeshRenderer();
+	meshRenderable->SetMaterial(mat);
 
-	const Mesh* m = resourceManager->CreateTriangleMesh();
-	mesh->Buffer( m );
+	Entity* box = new Entity( "MyLittleBox" );
+	CTransform* t = Entity::GetComponent<CTransform>(box);
+	Entity::AddComponent(box, meshFilter);
+	Entity::AddComponent(box, meshRenderable);
+	meshRenderable->Update();
+	
+	//TODO(Valentinas): POSSIBLE BUG MIGHT POP UP HERE
+	//meshRenderable->SetVertexAttributes("");
 
-	Material* mat = new Material( new Shader() );
+	Entity* root = new Entity("ROOT");
+	root->AddChild(box);
+
+	Entity* camera = new Entity( "Main Camera" );
 	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 90.0f, 1280.0f / 720.0f, 0.2f, 1000.0f );
-	cam->SetEyeVector( glm::vec3(1.0f, 1.0f, 1.0f) );
-
-
-	Entity* box = new Entity();
-	CTransform* t = new CTransform();
-	Entity::AddComponent(box, t );
-	Entity::AddComponent(box, mesh);
-	//Renderer::GenerateTriangle(box);
-	//Renderer::GenerateCube(box);
-
-	Entity* camera = new Entity();
-	Entity::AddComponent(camera, new CTransform() );
 	Entity::AddComponent(camera, cam);
 
-
+	/// TINAS PLAYGROUND ENDS!!!
 
 	const float millisecondModifier = 1000.0f;
 	const float gameFPS = 60.0f;
@@ -338,7 +340,8 @@ void Engine::UpdateLoop()
 		//	//Do something with locking
 		//	render.draw(normalizedInterpolationValue)
 	}
-	Renderer::ClearBuffers( mesh );
+	
+	//TODO(Valentinas): UnBuffer data from GPU
 	CloseWindow(window, glcontext);
 }
 

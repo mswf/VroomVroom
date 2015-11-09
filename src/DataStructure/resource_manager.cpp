@@ -12,6 +12,7 @@ ResourceManager::ResourceManager() :
 
 ResourceManager::~ResourceManager()
 {
+	//TODO(Valentinas): Clean up the resources
 	//delete rMeshes;
 	//delete rTextures;
 }
@@ -50,6 +51,8 @@ bool ResourceManager::ImportObjFile( const std::string& pFile, int flags )
 void ResourceManager::LoadMesh(const aiScene* sc)
 {
 	Mesh* mesh = new Mesh();
+	Terminal.Log( "Num of children: " + std::to_string( sc->mRootNode->mNumChildren ) );
+	
 	// For each mesh
 	for (unsigned int n = 0; n < sc->mNumMeshes; ++n)
 	{
@@ -110,7 +113,7 @@ void ResourceManager::LoadMesh(const aiScene* sc)
 		
 		rMeshes->push_back( mesh );
 	}
-	Terminal.Log( std::string( "Number of meshs: " + std::to_string(rMeshes->size()) ) );
+	//Terminal.Log( std::string( "Number of meshs: " + std::to_string(rMeshes->size()) ) );
 }
 
 void ResourceManager::LoadTexture()
@@ -119,7 +122,7 @@ void ResourceManager::LoadTexture()
 }
 
 const Mesh* ResourceManager::CreateTriangleMesh()
-{
+{	
 	Mesh* triangleMesh = new Mesh();
 	
 	std::vector< glm::vec3 > verts;
@@ -153,8 +156,24 @@ const Mesh* ResourceManager::CreateTriangleMesh()
 	return rMeshes->back();
 }
 
+/*
+	 0		  3
+     *-------*			+y
+  1	/|	  2	/|			 ^	Right hand systen
+   *-------* |			 |
+   | |4	   | |7			 |
+   | *-----|-*			 +-----> +x
+   |/	   |/           /
+   *-------*		   v    CCW is positive rotation
+  5		  6			 +z
+ 
+ */
+
+
 void ResourceManager::CreateCubeMesh( bool centered )
 {
+	printf("Creating Cube mesh \n");
+	
 	Mesh* triangleMesh = new Mesh();
 	
 	std::vector< glm::vec3 > vertices;

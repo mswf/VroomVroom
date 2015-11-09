@@ -11,7 +11,7 @@
 
 #include "moduleMacros.h"
 
-//TODO remove this once we have proper entities
+//TODO(robin) remove this once we have proper entities
 class StubEntity
 {
     public :

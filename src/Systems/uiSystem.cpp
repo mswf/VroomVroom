@@ -20,7 +20,7 @@ sUiSystem::sUiSystem() :
 
 sUiSystem::~sUiSystem()
 {
-	//TODO
+	//TODO(robin)
 }
 
 uiWindow* sUiSystem::CreateWindow()
@@ -179,7 +179,7 @@ void sUiSystem::Render()
 		ImGui::SetNextWindowPos(ImVec2(currentWindow->x, currentWindow->y), ImGuiSetCond_Always);
 		ImGui::SetNextWindowSize(ImVec2(currentWindow->width, currentWindow->height), ImGuiSetCond_Always);
 
-		//TODO window flags and close button
+		//TODO(robin) window flags and close button
 		int windowFlags = 0;
 		if (currentWindow->movable == false)
 		{
@@ -311,6 +311,6 @@ void sUiSystem::RemoveText(uiWindowElement* e)
 
 void sUiSystem::SetNextFreeId()
 {
-	//TODO actually find a free id :)
+	//TODO(robin) actually find a free id :)
 	firstFreeId++;
 }

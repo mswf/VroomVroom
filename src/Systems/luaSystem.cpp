@@ -22,7 +22,7 @@ sLuaSystem::sLuaSystem():
 
 sLuaSystem::~sLuaSystem()
 {
-	//TODO release resources
+	//TODO(robin) release resources
 }
 
 void sLuaSystem::Init()
@@ -163,7 +163,7 @@ int sLuaSystem::LuaPanic(lua_State* L)
 	Terminal.LuaError(string(lua_tostring(L, -1)));
 	Terminal.Warning("The program will exit...");
 
-	//TODO close the lua state but keep the engine running
+	//TODO(robin) close the lua state but keep the engine running
 	exit(0);
 	return 0;
 }

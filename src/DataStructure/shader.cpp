@@ -43,7 +43,7 @@ Shader::Shader()
 	glLinkProgram( program );
 	LogError(program, GL_LINK_STATUS);
 	
-	// TODO (Valentinas): Move validation closer to drawing
+	// TODO(Valentinas): Move validation closer to drawing
 	//glValidateProgram( program );
 	//LogError(program, GL_VALIDATE_STATUS);
 
@@ -71,7 +71,7 @@ void Shader::LogError( GLuint program, GLenum status )
 
 void Shader::ValidateProgram()
 {
-	// TODO (Valentinas): Move validation closer to drawing
+	// TODO(Valentinas): Move validation closer to drawing
 	glValidateProgram( program );
 	LogError(program, GL_VALIDATE_STATUS);
 }

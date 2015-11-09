@@ -54,7 +54,7 @@ lFuncImp(mEntity, __engineInit)
 //bound to __gc, thus called by lua when the userdata is destroyed
 lFuncImp(mEntity, destroy)
 {
-    //TODO make this a macro?
+    //TODO(robin) make this a macro?
     try
     {
         luaL_checktype(L, 1, LUA_TUSERDATA);
@@ -79,7 +79,7 @@ lFuncImp(mEntity, destroy)
 
 lFuncImp(mEntity, doPls)
 {
-    //TODO make this a macro? or a helper function that returns the entity pointer
+    //TODO(robin) make this a macro? or a helper function that returns the entity pointer
     try
     {
         luaL_checktype(L, 1, LUA_TTABLE);

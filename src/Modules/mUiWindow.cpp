@@ -47,7 +47,7 @@ lFuncImp(mUiWindow, create){
     
     lua_newtable(L);
     
-    //TODO PLS PLS PLS this memory needs to be managed properly,
+    //TODO(robin) PLS PLS PLS this memory needs to be managed properly,
     //perhaps add some garbage regular userdata to be notified of garbage collection?
     lua_pushlightuserdata(L, window);
     lua_setfield(L, -2, "__coreWindow__");
@@ -67,8 +67,8 @@ lFuncImp(mUiWindow, create){
     
     lua_setfield(L, -2, "__coreProperties__");
     
-    //TODO create (light?) userdata to the window, garbage collector et all
-    //TODO lua references
+    //TODO(robin) create (light?) userdata to the window, garbage collector et all
+    //TODO(robin) lua references
     
     luaL_getmetatable(L, "__mtUiWindow");
     lua_setmetatable(L, -2);
@@ -161,8 +161,8 @@ lFuncImp(mUiWindow, mtNewIndex)
 
 lFuncImp(mUiWindow, addText)
 {
-    //TODO create a table whose properties are modifiable,
-    //TODO add a reference to said table in the uiWindowElement
+    //TODO(robin) create a table whose properties are modifiable,
+    //TODO(robin) add a reference to said table in the uiWindowElement
     lgString(content,2,"lorum ipsum");
     lua_getfield(L, 1, "__coreWindow__");
     uiWindow* window = (uiWindow*)lua_touserdata(L,-1);
@@ -188,7 +188,7 @@ lFuncImp(mUiWindow, addButton)
 
 }
 
-//TODO:
+//TODO(robin):
 /*
     userdata garbage collection
  */

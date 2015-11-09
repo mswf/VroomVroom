@@ -23,7 +23,7 @@ class Entity
 	
 		std::map< int, Component* > entityComponents;
 	
-		// TODO: Add remove function for components
+		// TODO(Valentinas): Add remove function for components
 	
 		template<typename T>
 		static void AddComponent( Entity* e, T* comp )

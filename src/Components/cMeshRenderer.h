@@ -3,23 +3,37 @@
 
 #include "component.h"
 #include "../DataStructure/material.h"
-#include "cMeshFilter.h"
+#include "../DataStructure/data_types.h"
 
 class CMeshRenderer : public Component
 {
 	public:
 	
 		static const int familyId;
-		CMeshRenderer();
-		~CMeshRenderer();
-		void Update();
-		void SetVertexAttributes( const char* attribute );
-		void SetMaterial( Material* material );
-		void SetMeshFilter( CMeshFilter* mesh );
+
+		GLenum drawType;
 	
-		CMeshFilter* meshFilter;
+		// Vertex Array Object
+		GLuint vao;
+		// Vertex Buffer Object
+		GLuint vbo;
+		// Element Array Buffer
+		GLuint eab;
+	
+		unsigned int numIndices;
+	
+		bool hasNormals;
+		bool hasUVs;
+	
 		Material* material;
 	
+		CMeshRenderer();
+		~CMeshRenderer();
+	
+		void Buffer( const Mesh* mesh );
+		void UnBuffer();
+		void SetMaterial( Material* material );
+		
 	private:
 	
 };

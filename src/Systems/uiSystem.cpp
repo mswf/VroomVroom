@@ -23,7 +23,7 @@ sUiSystem::~sUiSystem()
 	//TODO(robin)
 }
 
-uiWindow* sUiSystem::CreateWindow()
+uiWindow* sUiSystem::ConstructWindow()
 {
 	uint8 id = firstFreeId;
 	SetNextFreeId();

@@ -89,9 +89,12 @@ void sLuaSystem::SendReloadCallback( const string& filePath )
 	
     bool prevAllowCalls = allowCalls;
     allowCalls = true;
-    Call(lState, 1, 1);
-    allowCalls = prevAllowCalls;
-    
+    bool success = Call(lState, 1, 1);
+	if (success)
+	{
+    	allowCalls = prevAllowCalls;
+	}
+	
     bool reloaded = false;
     if(lua_isboolean(lState, -1))
     {
@@ -108,16 +111,13 @@ void sLuaSystem::SendReloadCallback( const string& filePath )
 
 void sLuaSystem::Attempt(string command)
 {
-    Terminal.Log("Engine used '"+command+"' ...",true);
-	if (luaL_dostring(lState, command.c_str()) != 0)
-	{
-		HandleError(lState);
-        Terminal.Log("...but it failed!",true);
+	if(luaL_loadstring(lState, command.c_str()) == 0)
+   	{
+		bool prevAllowCalls = allowCalls;
+		allowCalls = true;
+		Call(lState, 0, LUA_MULTRET);
+		allowCalls = prevAllowCalls;
 	}
-    else
-    {
-         Terminal.Log("...it's super effective!",true);
-    }
 }
 
 bool sLuaSystem::Call(lua_State* L, int argCount, int returnCount)
@@ -306,21 +306,21 @@ string sLuaSystem::CreateStackLine(string source, int line, string name) {
 }
 
 string sLuaSystem::CreateErrorLink(string message, string fileName, int lineNumber) {
-    
-    int slashIndex = fileName.find("/");
+	
     string filePath;
 #ifdef _WIN32
+	int slashIndex = fileName.find("/");
     filePath = fileName.substr(slashIndex+1);
 #else
     filePath = fileName.substr(1);
 #endif
 
     
-    string errorLink = "<a href='' onclick=\"ipc.send('handleCommand',':openfile;";
+    string errorLink = "<a href='' onclick=\"ipc.send('handleCommand',{cmd:':openfile;";
     errorLink += filePath;
     errorLink += ";";
     errorLink += std::to_string(lineNumber);
-    errorLink += ";');return false;\">";
+    errorLink += ";',dontSave:true});return false;\">";
     errorLink += message;
     errorLink += "</a>";
 

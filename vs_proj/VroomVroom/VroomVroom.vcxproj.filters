@@ -606,21 +606,6 @@
     <ClInclude Include="..\..\src\Utilities\FileWatcher\FileWatcherWin32.h">
       <Filter>VroomVroom\Utilities\FileWatcher</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Components\cCamera.h">
-      <Filter>VroomVroom\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Components\cMeshFilter.h">
-      <Filter>VroomVroom\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Components\cMeshRenderer.h">
-      <Filter>VroomVroom\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Components\component.h">
-      <Filter>VroomVroom\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Components\cTransform.h">
-      <Filter>VroomVroom\Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\DataStructure\data_types.h">
       <Filter>VroomVroom\Data structure</Filter>
     </ClInclude>
@@ -636,11 +621,23 @@
     <ClInclude Include="..\..\src\DataStructure\texture.h">
       <Filter>VroomVroom\Data structure</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Components\entity.h">
-      <Filter>VroomVroom\Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Utilities\command.h">
       <Filter>VroomVroom\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Components\cCamera.h">
+      <Filter>VroomVroom\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Components\cMeshRenderer.h">
+      <Filter>VroomVroom\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Components\component.h">
+      <Filter>VroomVroom\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Components\cTransform.h">
+      <Filter>VroomVroom\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Components\entity.h">
+      <Filter>VroomVroom\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -740,18 +737,6 @@
     <ClCompile Include="..\..\src\Utilities\FileWatcher\FileWatcherWin32.cpp">
       <Filter>VroomVroom\Utilities\FileWatcher</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Components\cCamera.cpp">
-      <Filter>VroomVroom\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Components\cMeshFilter.cpp">
-      <Filter>VroomVroom\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Components\cMeshRenderer.cpp">
-      <Filter>VroomVroom\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Components\cTransform.cpp">
-      <Filter>VroomVroom\Components</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\DataStructure\material.cpp">
       <Filter>VroomVroom\Data structure</Filter>
     </ClCompile>
@@ -764,11 +749,20 @@
     <ClCompile Include="..\..\src\DataStructure\texture.cpp">
       <Filter>VroomVroom\Data structure</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Components\entity.cpp">
-      <Filter>VroomVroom\Components</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Utilities\command.cpp">
       <Filter>VroomVroom\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Components\cCamera.cpp">
+      <Filter>VroomVroom\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Components\cMeshRenderer.cpp">
+      <Filter>VroomVroom\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Components\cTransform.cpp">
+      <Filter>VroomVroom\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Components\entity.cpp">
+      <Filter>VroomVroom\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -110,11 +110,10 @@ void sTerminal::LuaError(const string msg)
 void sTerminal::LuaLinkedError(const string msg, const string cleanMsg)
 {
     string line = "[LUA]" + msg;
-    std::cout << line << std::endl;
-    WriteToFile(line);
     SendToExternal(line, "#C5251D", "#70B7BE");
     
     string cleanLine = "[LUA]" + cleanMsg;
+    std::cout << cleanLine << std::endl;
     WriteToFile(cleanLine);
 }
 
@@ -128,14 +127,23 @@ void sTerminal::Update(int deltaTime)
         for (it = messages.begin(); it != messages.end(); ++it)
         {
             string msg = HelperFunctions::VoidPtrToString(it->data, it->length);
-            if(msg.find("ATOM;") == 0)
+            if(msg.find("::ATOM;") == 0)
             {
-                int sepIndex = msg.find(";", 5);
-                string filePath = msg.substr(5, sepIndex-5);
+                int sepIndex = msg.find(";", 7);
+                string filePath = msg.substr(7, sepIndex-7);
                 int lineNumber = std::stoi(msg.substr(sepIndex+1));
                 LuaSystem.OpenAtom(filePath, lineNumber);
             }
-            else {
+            else if(msg.find("::RESUME;") == 0)
+            {
+                LuaSystem.Resume();
+            }
+            else if(msg.find("::HALT;") == 0)
+            {
+                LuaSystem.Halt();
+            }
+            else
+            {
                 LuaSystem.Attempt(msg);
             }
         }
@@ -191,7 +199,7 @@ void sTerminal::WriteToFile(const string msg)
 		return;
 	}
 	
-	logFile->WriteString(GetTimeString());
+	logFile->WriteString(GetTimeString()+msg+"\r\n");
 }
 
 void sTerminal::SendToExternal(const string msg, const string background, const string color)
@@ -201,6 +209,8 @@ void sTerminal::SendToExternal(const string msg, const string background, const 
 	consoleString += timedMessage + "[|]";
 	consoleString += "BG[|]" + background + "[|]";
 	consoleString += "CLR[|]" + color + "[|]";
+    
+    consoleString += "<///>";
 
 	if (socket->IsConnected())
 	{
@@ -261,9 +271,11 @@ string GetTimeString()
     string line = "<";
     
     struct tm time_info = GetTimeStruct();
-    
+    if(time_info.tm_hour < 10) line += "0";
     line += std::to_string(time_info.tm_hour) + ":";
+    if(time_info.tm_min < 10) line += "0";
     line += std::to_string(time_info.tm_min) + ":";
+    if(time_info.tm_sec < 10) line += "0";
     line += std::to_string(time_info.tm_sec) + ">";
     return line;
 }

@@ -80,7 +80,7 @@ void sLuaSystem::Update(float dt)
 	lua_getglobal(lState, "Game");
 	lua_getfield(lState, -1, "update");
 	lua_pushnumber(lState, dt);
-	if (lua_isfunction(lState, -1) && lua_pcall(lState, 1, 0, 0) != 0)
+	if (lua_isfunction(lState, -2) && lua_pcall(lState, 1, 0, 0) != 0)
 	{
 		 HandleError(lState);
 	}

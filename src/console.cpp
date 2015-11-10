@@ -95,7 +95,7 @@ void sTerminal::LuaLinkedError(const string msg, const string cleanMsg)
     WriteToFile(cleanLine);
 }
 
-//TODO replace with callback when messages are recieved reather thann having to poll each update
+//TODO replace with callback when messages are recieved rather than having to poll each update
 void sTerminal::Update(int deltaTime)
 {
 	if (socket->IsConnected())

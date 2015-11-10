@@ -1,19 +1,9 @@
-//
-//  Shader.hpp
-//  VroomVroom
-//
-//  Created by Valentinas Rimeika on 24/09/15.
-//  Copyright © 2015 Valentinas Rimeika. All rights reserved.
-//
-
 #ifndef shader_h
 #define shader_h
 
 #include <glew.h>
 #include <iostream>
-#include <fstream>
 #include <string>
-#include <sstream>
 #include "../glm/vec2.hpp"
 #include "../glm/vec3.hpp"
 #include "../glm/mat4x4.hpp"
@@ -33,8 +23,10 @@ class Shader
 		void SetUniformFloat3( const char* uniform, glm::vec3 value );
 		void SetUniformMat4( const char* uniform, glm::mat4 value );
 		void ValidateProgram();
+	void LogActiveProperties( GLenum activeProperties );
 	private:
-		void LogError( GLuint program, GLenum pname);
+		void ProgramInfoLog( GLuint program, GLenum status );
+		void ShaderInfoLog( GLuint shader, GLenum status );
 };
 
 

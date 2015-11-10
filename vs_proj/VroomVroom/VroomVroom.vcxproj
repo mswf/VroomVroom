@@ -16,7 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Components\cCamera.h" />
-    <ClInclude Include="..\..\src\Components\cMeshFilter.h" />
     <ClInclude Include="..\..\src\Components\cMeshRenderer.h" />
     <ClInclude Include="..\..\src\Components\component.h" />
     <ClInclude Include="..\..\src\Components\cTransform.h" />
@@ -212,7 +211,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Components\cCamera.cpp" />
-    <ClCompile Include="..\..\src\Components\cMeshFilter.cpp" />
     <ClCompile Include="..\..\src\Components\cMeshRenderer.cpp" />
     <ClCompile Include="..\..\src\Components\cTransform.cpp" />
     <ClCompile Include="..\..\src\Components\entity.cpp" />

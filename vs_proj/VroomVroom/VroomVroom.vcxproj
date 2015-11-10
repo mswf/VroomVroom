@@ -180,6 +180,7 @@
     <ClInclude Include="..\..\src\Input.hpp" />
     <ClInclude Include="..\..\src\IO\file.h" />
     <ClInclude Include="..\..\src\IO\RtMidi.h" />
+    <ClInclude Include="..\..\src\IO\stb_image.h" />
     <ClInclude Include="..\..\src\Modules\mAll.h" />
     <ClInclude Include="..\..\src\Modules\mEngine.h" />
     <ClInclude Include="..\..\src\Modules\mEntity.h" />

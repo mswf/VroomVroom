@@ -76,13 +76,14 @@ namespace FW
 		WatchID mWatchID;
 		String mDirName;
 		FileWatchListener* mListener;
-		
+        bool mRecursion;
+        
 		// index 0 is always the directory
 		KEvent mChangeList[MAX_CHANGE_EVENT_SIZE];
 		size_t mChangeListCount;
 		
-		WatchStruct(WatchID watchid, const String& dirname, FileWatchListener* listener)
-		: mWatchID(watchid), mDirName(dirname), mListener(listener)
+		WatchStruct(WatchID watchid, const String& dirname, FileWatchListener* listener, bool recursion)
+		: mWatchID(watchid), mDirName(dirname), mListener(listener), mRecursion(recursion)
 		{
 			mChangeListCount = 0;
 			addAll();
@@ -242,13 +243,22 @@ namespace FW
 			struct stat attrib;
 			while((entry = readdir(dir)) != NULL)
 			{
-				String fname = (mDirName + "/" + String(entry->d_name));
+                String dname = String(entry->d_name);
+				String fname = (mDirName + "/" + dname);
 				stat(fname.c_str(), &attrib);
 				if(S_ISREG(attrib.st_mode))
 					addFile(fname, false);
 				//else
 				//	fprintf(stderr, "NOT ADDED: %s (%d)\n", fname.c_str(), attrib.st_mode);
-
+                //things that start with a . are not a folder we want to add
+                else if(mRecursion && dname.c_str()[0] != '.')
+                {
+                    //Bobn's cool recursion hack
+                    String oldname = mDirName;
+                    mDirName = fname;
+                    addAll();
+                    mDirName = oldname;
+                }
 			}//end while
 			
 			closedir(dir);
@@ -371,8 +381,7 @@ namespace FW
 			   NOTE_DELETE | NOTE_EXTEND | NOTE_WRITE | NOTE_ATTRIB,
 			   0, (void*)"testing");
 */
-		
-		WatchStruct* watch = new WatchStruct(++mLastWatchID, directory, watcher);
+		WatchStruct* watch = new WatchStruct(++mLastWatchID, directory, watcher, recursive);
 		mWatches.insert(std::make_pair(mLastWatchID, watch));
 		return mLastWatchID;
 	}

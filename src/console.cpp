@@ -169,7 +169,7 @@ void sTerminal::WriteToFile(const string msg)
 		return;
 	}
 	
-	logFile->WriteString(GetTimeString());
+	logFile->WriteString(GetTimeString()+msg+"\r\n");
 }
 
 void sTerminal::SendToExternal(const string msg, const string background, const string color)

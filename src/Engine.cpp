@@ -94,7 +94,7 @@ void Engine::OpenConfig()
 		return;
 	}
 
-	lua_pcall(L, 0, 0, 0);
+    LuaSystem.Call(L, 0, 0);
 
 	lua_getglobal(L, "CONTENT_PATH");
 	if (lua_type(L, -1) != LUA_TSTRING)

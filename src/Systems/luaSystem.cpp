@@ -18,6 +18,7 @@
 
 sLuaSystem::sLuaSystem():
 	hasMainBeenCalled(false),
+    allowCalls(true),
 	lState(NULL),
     atomPath("")
 {
@@ -52,12 +53,7 @@ void sLuaSystem::Init()
 	lua_atpanic(lState, LuaPanic);
 
 	//try to parse main.lua
-	if (lua_pcall(lState, 0, 0, 0) != 0)
-	{
-		HandleError(lState);
-		return;
-	}
-}
+	Call(lState, 0, 0);}
 
 void sLuaSystem::Main()
 {
@@ -65,12 +61,10 @@ void sLuaSystem::Main()
 	{
 		lua_getglobal(lState, "Game");
 		lua_getfield(lState, -1, "main");
-		if (lua_isfunction(lState, -1) && lua_pcall(lState, 0, 0, 0) != 0)
-		{
-            HandleError(lState);
-		}
-		lua_settop(lState, 0);
-
+		
+        Call(lState, 0, 0);
+        
+        lua_settop(lState, 0);
 		hasMainBeenCalled = true;
 	}
 }
@@ -80,11 +74,10 @@ void sLuaSystem::Update(float dt)
 	lua_getglobal(lState, "Game");
 	lua_getfield(lState, -1, "update");
 	lua_pushnumber(lState, dt);
-	if (lua_isfunction(lState, -2) && lua_pcall(lState, 1, 0, 0) != 0)
-	{
-		 HandleError(lState);
-	}
-	lua_settop(lState, 0);
+    
+    Call(lState, 1, 0);
+	
+    lua_settop(lState, 0);
 }
 
 void sLuaSystem::SendReloadCallback( const string& filePath )
@@ -92,20 +85,87 @@ void sLuaSystem::SendReloadCallback( const string& filePath )
 	lua_getglobal(lState, "Game");
 	lua_getfield(lState, -1, "onFileChanged");
 	lua_pushlstring( lState, filePath.c_str(), filePath.size() );
-	if (lua_pcall(lState, 1, 0, 0) != 0)
-	{
-		HandleError(lState);
-	}
+	
+    bool prevAllowCalls = allowCalls;
+    allowCalls = true;
+    Call(lState, 1, 1);
+    allowCalls = prevAllowCalls;
+    
+    bool reloaded = false;
+    if(lua_isboolean(lState, -1))
+    {
+       reloaded = lua_toboolean(lState, -1);
+    }
+    if(reloaded)
+    {
+        Resume();
+    }
+    
 	lua_settop(lState, 0);
 }
 
 
 void sLuaSystem::Attempt(string command)
 {
+    Terminal.Log("Engine used '"+command+"' ...",true);
 	if (luaL_dostring(lState, command.c_str()) != 0)
 	{
 		HandleError(lState);
+        Terminal.Log("...but it failed!",true);
 	}
+    else
+    {
+         Terminal.Log("...it's super effective!",true);
+    }
+}
+
+bool sLuaSystem::Call(lua_State* L, int argCount, int returnCount)
+{
+    if(!allowCalls)
+    {
+        return false;
+    }
+    int errorHandlePos = 0;
+    
+    
+    int result = lua_pcall(L, argCount, returnCount, errorHandlePos);
+    
+    if (result == 0)
+    {
+        return true;
+    } else if (result == LUA_ERRRUN){
+        HandleError(lState);
+        Halt();
+        return false;
+    } else if (result == LUA_ERRMEM){
+        Terminal.LuaError("I'm throwing a very non-speficic Memory Error.\n  xoxo Bobn");
+        return false;
+    } else if (result == LUA_ERRERR){
+        Terminal.LuaError("I'm throwing a very non-speficic Error-handler Error.\n  xoxo Bobn");
+        return false;
+    }
+    //we should never reach this point
+    return false;
+}
+
+void sLuaSystem::Resume()
+{
+    if(!allowCalls)
+    {
+        allowCalls = true;
+        Terminal.Log("Resuming Lua Calls", true);
+    }
+
+}
+
+void sLuaSystem::Halt()
+{
+    if(allowCalls)
+    {
+        allowCalls = false;
+        Terminal.Log("Halting Lua Calls", true);
+    }
+
 }
 
 //TODO(robin): make this use terminal logging?
@@ -124,19 +184,18 @@ void sLuaSystem::Dump(lua_State* L)
 		switch (t)
 		{
 			case LUA_TSTRING:  /* strings */
-				printf("string: '%s'\n", lua_tostring(L, i));
+				printf("  string: '%s'\n", lua_tostring(L, i));
 				break;
 			case LUA_TBOOLEAN:  /* booleans */
-				printf("boolean %s\n", lua_toboolean(L, i) ? "true" : "false");
+				printf("  boolean %s\n", lua_toboolean(L, i) ? "true" : "false");
 				break;
 			case LUA_TNUMBER:  /* numbers */
-				printf("number: %g\n", lua_tonumber(L, i));
+				printf("  number: %g\n", lua_tonumber(L, i));
 				break;
 			default:  /* other values */
-				printf("%s\n", lua_typename(L, t));
+				printf("  %s\n", lua_typename(L, t));
 				break;
 		}
-		printf("  ");  /* put a separator */
 	}
 	printf("----------------------\n");/* end the listing */
 }

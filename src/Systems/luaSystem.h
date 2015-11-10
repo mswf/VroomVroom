@@ -46,9 +46,13 @@ class sLuaSystem : public Singleton<sLuaSystem>
 		bool hasMainBeenCalled;
         bool allowCalls;
 
-		static int LuaPanic(lua_State* L);
+		static int LuaPanic(lua_State*);
+        static int LuaError(lua_State*);
     
-        string atomPath;
+        static string CreateStackLine(string, int, string);
+        static string CreateErrorLink(string, string, int);
+    
+        static string atomPath;
 };
 
 #endif /* luaSystem_h */

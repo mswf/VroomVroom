@@ -16,12 +16,12 @@
 #include "../Utilities/command.h"
 #include "../Utilities/helperFunctions.h"
 
+string sLuaSystem::atomPath("");
 
 sLuaSystem::sLuaSystem():
 	hasMainBeenCalled(false),
     allowCalls(true),
-	lState(NULL),
-    atomPath("")
+	lState(NULL)
 {
 
 }
@@ -89,9 +89,12 @@ void sLuaSystem::SendReloadCallback( const string& filePath )
 	
     bool prevAllowCalls = allowCalls;
     allowCalls = true;
-    Call(lState, 1, 1);
-    allowCalls = prevAllowCalls;
-    
+    bool success = Call(lState, 1, 1);
+	if (success)
+	{
+    	allowCalls = prevAllowCalls;
+	}
+	
     bool reloaded = false;
     if(lua_isboolean(lState, -1))
     {
@@ -108,34 +111,35 @@ void sLuaSystem::SendReloadCallback( const string& filePath )
 
 void sLuaSystem::Attempt(string command)
 {
-    Terminal.Log("Engine used '"+command+"' ...",true);
-	if (luaL_dostring(lState, command.c_str()) != 0)
-	{
-		HandleError(lState);
-        Terminal.Log("...but it failed!",true);
+	if(luaL_loadstring(lState, command.c_str()) == 0)
+   	{
+		bool prevAllowCalls = allowCalls;
+		allowCalls = true;
+		Call(lState, 0, LUA_MULTRET);
+		allowCalls = prevAllowCalls;
 	}
-    else
-    {
-         Terminal.Log("...it's super effective!",true);
-    }
 }
 
 bool sLuaSystem::Call(lua_State* L, int argCount, int returnCount)
 {
+    //Dump(L);
     if(!allowCalls)
     {
         return false;
     }
-    int errorHandlePos = 0;
+    lua_pushcfunction(L, LuaError);
+    lua_insert(L, 1);
+    //lua_pop(L,1);
+    int errorHandlePos = 1;
     
-    
+    //Dump(L);
     int result = lua_pcall(L, argCount, returnCount, errorHandlePos);
     
     if (result == 0)
     {
         return true;
     } else if (result == LUA_ERRRUN){
-        HandleError(lState);
+        //HandleError(L);
         Halt();
         return false;
     } else if (result == LUA_ERRMEM){
@@ -208,44 +212,7 @@ void sLuaSystem::SetAtomPath(string path)
 
 void sLuaSystem::HandleError(lua_State* L)
 {
-    string error = lua_tostring(L, -1);
-    if(atomPath == "")
-    {
-        Terminal.LuaError(error);
-    }
-    else
-    {
-		// start looking from the v"fifth"v character onward, to evade the colon commonly found in Windows filepaths
-        int indexA = error.find(":", 5);
-        int indexC = error.find("/");
-        int indexB = error.find(":",indexA+1);
-        
-        if(indexC == -1)
-        {
-            Terminal.LuaError(error);
-            return;
-        }
 
-        
-        string filePath;
-#ifdef _WIN32
-        filePath = error.substr(indexC+1, indexA-indexC-1).c_str();
-#else
-        filePath = error.substr(0, indexA);
-#endif
-        string lineNumber = error.substr(indexA+1,indexB-(indexA+1));
-        
-        string linkMessage = "<a href='' onclick=\"";
-        linkMessage += "ipc.send('handleCommand',':openfile;";
-        linkMessage += filePath;
-        linkMessage += ";";
-        linkMessage += lineNumber;
-        linkMessage += ";');return false;\">";
-        linkMessage += error;
-        linkMessage += "</a>";
-        
-        Terminal.LuaLinkedError(linkMessage, error);
-    }
 }
 
 void sLuaSystem::OpenAtom(string path, int lineNumber)
@@ -296,4 +263,67 @@ int sLuaSystem::LuaPanic(lua_State* L)
 	//TODO(robin) close the lua state but keep the engine running
 	exit(0);
 	return 0;
+}
+
+int sLuaSystem::LuaError(lua_State* L)
+{
+    string error = lua_tostring(L, -1);
+
+    lua_Debug entry;
+    int depth = 0;
+    Terminal.LuaError(error);
+
+    while (lua_getstack(L, depth, &entry))
+    {
+        int status = lua_getinfo(L, "Sln", &entry);
+        assert(status);
+        
+        string stackLine = CreateStackLine(entry.short_src, entry.currentline, entry.name ? entry.name : "?");
+        if(entry.source[0] == '@')
+        {
+            string linkedError = LuaSystem.CreateErrorLink(stackLine, string(entry.source), entry.currentline);
+            Terminal.LuaLinkedError(linkedError, stackLine);
+        }
+        else
+        {
+            Terminal.LuaError(stackLine);
+        }
+        
+        printf("%s\n", stackLine.c_str());
+        depth++;
+    }
+    return 1;
+
+    
+}
+
+string sLuaSystem::CreateStackLine(string source, int line, string name) {
+    string stackLine = "\t@ "+source;
+    stackLine += "("+std::to_string(line)+"): ";
+    stackLine += name;
+    
+    return stackLine;
+}
+
+string sLuaSystem::CreateErrorLink(string message, string fileName, int lineNumber) {
+	
+    string filePath;
+#ifdef _WIN32
+	int slashIndex = fileName.find("/");
+    filePath = fileName.substr(slashIndex+1);
+#else
+    filePath = fileName.substr(1);
+#endif
+
+    
+    string errorLink = "<a href='' onclick=\"ipc.send('handleCommand',{cmd:':openfile;";
+    errorLink += filePath;
+    errorLink += ";";
+    errorLink += std::to_string(lineNumber);
+    errorLink += ";',dontSave:true});return false;\">";
+    errorLink += message;
+    errorLink += "</a>";
+
+    
+    return errorLink;
 }

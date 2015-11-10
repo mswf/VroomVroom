@@ -21,7 +21,6 @@ namespace Renderer
 		glEnable(GL_DEPTH_TEST);
 		
 		glBindVertexArray( rend->vao );
-		
 		s->ValidateProgram();
 		
 		glUseProgram(s->program);
@@ -31,10 +30,15 @@ namespace Renderer
 		s->SetUniformMat4( "projection", cam->GetProjectionMatrix() );
 		s->SetUniformFloat( "time", (float)time );
 		
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture( GL_ACTIVE_TEXTURE, rend->material->texture );
+		s->SetUniformInt( "tex", 0 );
+		
 		glDrawElements( rend->drawType, rend->numIndices, GL_UNSIGNED_INT, (void*)0 );
 		
 		glBindVertexArray( 0 );
 		glBindBuffer( GL_ARRAY_BUFFER, 0 );
+		//glBindTexture(GL_ACTIVE_TEXTURE, 0);
 		glUseProgram(0);
 	}
 	

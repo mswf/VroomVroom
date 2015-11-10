@@ -3,9 +3,11 @@
 #include "../console.h"
 #include <fstream>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "../IO/stb_image.h"
+
 ResourceManager::ResourceManager() :
-	rMeshes( NULL ),
-	rTextures( NULL )
+	rMeshes( NULL )
 {
 	rMeshes = new std::vector< Mesh* >();
 }
@@ -112,9 +114,39 @@ void ResourceManager::LoadMesh(const aiScene* sc)
 	//Terminal.Log( std::string( "Number of meshs: " + std::to_string(rMeshes->size()) ) );
 }
 
-void ResourceManager::LoadTexture()
+const unsigned int ResourceManager::LoadTexture( const char* filename )
 {
+	int w, h, comp;
+	int req_comp = STBI_rgb_alpha;
+	unsigned char* image = stbi_load( filename, &w, &h, &comp, req_comp);
 	
+	if( image == nullptr )
+	{
+		throw( std::string("Failed to load texture") );
+	}
+	
+	unsigned int texture;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	
+	Terminal.LogOpenGL( "Texture size: " + std::to_string(w) + " x " + std::to_string(h) );
+	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+	
+	std::pair<std::string, unsigned int> t( std::string(filename), texture );
+	rTextures.insert(t);
+	
+	//glBindTexture(GL_TEXTURE_2D, 0);
+	
+	stbi_image_free(image);
+	
+	return texture;
 }
 
 const Mesh* ResourceManager::CreateTriangleMesh()

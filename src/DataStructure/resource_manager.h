@@ -2,6 +2,8 @@
 #define resource_manager_h
 
 #include <string>
+#include <map>
+#include "glew.h"
 #include "data_types.h"
 #include "texture.h"
 #include "scene.h"
@@ -14,14 +16,14 @@ public:
 	~ResourceManager();
 	
 	bool ImportObjFile( const std::string& pFile, int flags = aiProcessPreset_TargetRealtime_Quality );
-	void LoadMesh(const aiScene* s);
-	void LoadTexture();
+	void LoadMesh( const aiScene* s );
+	const unsigned int LoadTexture( const char* filename );
 	const Mesh* CreateTriangleMesh();
 	const Mesh* CreateCubeMesh( bool centered = true );
 	
 	Mesh* tempMesh;
 	std::vector< Mesh* >* rMeshes;
-	std::vector< int > rTextures;
+	std::map< std::string, unsigned int > rTextures;
 
 };
 

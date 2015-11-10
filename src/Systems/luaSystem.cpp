@@ -108,15 +108,15 @@ void sLuaSystem::SendReloadCallback( const string& filePath )
 
 void sLuaSystem::Attempt(string command)
 {
-    Terminal.Log("Engine used '"+command+"' ...",true);
+    //Terminal.Log("Engine used '"+command+"' ...",true);
 	if (luaL_dostring(lState, command.c_str()) != 0)
 	{
 		HandleError(lState);
-        Terminal.Log("...but it failed!",true);
+        Terminal.Warning("Command failed: '"+command+"'");
 	}
     else
     {
-         Terminal.Log("...it's super effective!",true);
+		//Terminal.Log("...it's super effective!",true);
     }
 }
 

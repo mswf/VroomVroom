@@ -162,10 +162,21 @@ void Engine::InitGlew()
 
 #ifdef DEBUG
 	std::string glVersion( "GL version " + std::string( (const char*)glGetString(GL_VERSION) ) );
+	std::string glslVersion( "GLSL version " + std::string( (const char*)glGetString(GL_SHADING_LANGUAGE_VERSION) ) );
 	std::string majorGlew( std::string( (const char*)glewGetString(GLEW_VERSION_MAJOR) ) );
 	std::string minorGlew( std::string( (const char*)glewGetString(GLEW_VERSION_MINOR) ) );
-	Terminal.Log( glVersion );
-	Terminal.Log( "GLEW version " + majorGlew + "." + minorGlew );
+	Terminal.LogOpenGL( glVersion, true );
+	Terminal.LogOpenGL( glslVersion, true );
+	Terminal.LogOpenGL( "GLEW version " + majorGlew + "." + minorGlew, true  );
+	
+	int NumberOfExtensions, i;
+ 	glGetIntegerv(GL_NUM_EXTENSIONS, &NumberOfExtensions);
+ 	for( i = 0; i < NumberOfExtensions; ++i )
+	{
+		std::string extensions( (const char*)glGetStringi(GL_EXTENSIONS, i) );
+		Terminal.LogOpenGL( extensions );
+ 	}
+	
 #endif
 }
 
@@ -194,10 +205,12 @@ void Engine::UpdateLoop()
 	SDL_GLContext glcontext;
 	SetupWindow(window, glcontext);
 	InitGlew();
-
+	
 	ImGui_ImplSdl_Init(window);
 
-	string path( Content::GetPath() + "/objects/monocar.obj" );
+	std::string monocar = "/objects/monocar.obj";
+	std::string rabbit = "/objects/Rabbit/Rabbit.obj";
+	string path( Content::GetPath() + rabbit );
 	resourceManager->ImportObjFile( path, 0 );
 
 	/// TINAS PLAYGROUND!!!
@@ -265,8 +278,8 @@ void Engine::UpdateLoop()
 					running = false;
 				}
 
-				//t->Roll(10.0f);
-				t->Rotate( glm::vec3(1.0f, 1.0f, 1.0f) );
+				t->Yaw(1.0f);
+				//t->Rotate( glm::vec3(1.0f, 1.0f, 1.0f) );
 
 				/*
 				if ( inputManager->OnKeyDown(SDL_SCANCODE_UP) )
@@ -328,7 +341,7 @@ void Engine::UpdateLoop()
 		ImGui_ImplSdl_NewFrame(window);
 
 		glClearColor( 0.2f, 0.2f, 0.2f, 1.0f );
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 		Renderer::Render( SDL_GetTicks(), camera, box );
 		UiSystem.Render();

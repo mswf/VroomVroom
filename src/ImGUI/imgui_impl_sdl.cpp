@@ -355,12 +355,12 @@ void ImGui_ImplSdl_NewFrame(SDL_Window *window)
     io.DisplaySize = ImVec2((float)w, (float)h);
     
 	
-	//TODO: set ImGUI framebuffer, framebuffer != screensize
-	//io.DisplayFramebufferScale = ImVec2((float) w, (float) h);
-	//glfwGetFramebufferSize(g_Window, &display_w, &display_h);
-	//int buffer;
-	//SDL_GL_GetAttribute(SDL_GL_BUFFER_SIZE, &buffer);
-	//printf( "size: %i \n", buffer );
+	// Set ImGUI framebuffer, framebuffer != screensize
+	GLint dims[4] = {0};
+	glGetIntegerv(GL_VIEWPORT, dims);
+	GLint fbWidth = dims[2];
+	GLint fbHeight = dims[3];
+	io.DisplayFramebufferScale = ImVec2( (float)w/fbWidth, (float)h/fbHeight );
 	//io.DisplayFramebufferScale = ImVec2((float)display_w / w, (float)display_h / h);
 	
 	

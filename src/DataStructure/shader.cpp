@@ -1,18 +1,10 @@
-//
-//  shader.cpp
-//  VroomVroom
-//
-//  Created by Valentinas Rimeika on 24/09/15.
-//  Copyright © 2015 Valentinas Rimeika. All rights reserved.
-//
-
 #include "shader.h"
 #include "content.h"
 #include "console.h"
 #include "../Utilities/helperFunctions.h"
 
-#include "SDL2/SDL.h"
-
+//TODO(VALENTINAS): Keep track of loaded shader programs, detach & link when reloading,
+//TODO(VALENTINAS): Detach shader from all programs when deleting,
 Shader::Shader()
 : program(0)
 {
@@ -32,17 +24,24 @@ Shader::Shader()
 	glShaderSource( fragment_shader, 1, &src_fragment, NULL);
 	
 	glCompileShader( vertex_shader );
-	LogError(vertex_shader, GL_COMPILE_STATUS);
+	ShaderInfoLog(vertex_shader, GL_COMPILE_STATUS);
 	glCompileShader( fragment_shader );
-	LogError(fragment_shader, GL_COMPILE_STATUS);
+	ShaderInfoLog(fragment_shader, GL_COMPILE_STATUS);
 	
 	glAttachShader( program, vertex_shader );
 	glAttachShader( program, fragment_shader );
 	
-	glBindFragDataLocation(program, 0, "outColor");
+	//glBindFragDataLocation(program, 0, "outColor");
 	
 	glLinkProgram( program );
-	LogError(program, GL_LINK_STATUS);
+	ProgramInfoLog(program, GL_LINK_STATUS);
+	
+	// ATTRIBUTE & UNIFORM INFORMATION
+	
+	LogActiveProperties(GL_ACTIVE_ATTRIBUTES);
+	LogActiveProperties(GL_ACTIVE_UNIFORMS);
+	
+	// END ATTRIBUTE & UNIFORM INFORMATION
 	
 	glDeleteShader( vertex_shader );
 	glDeleteShader( fragment_shader );
@@ -53,7 +52,45 @@ Shader::~Shader()
 	glDeleteProgram( program );
 }
 
-void Shader::LogError( GLuint program, GLenum status )
+void Shader::LogActiveProperties( GLenum activeProperties )
+{
+	GLint num_properties, size;
+	int i;
+	GLchar property_name[256];
+	GLsizei length;
+	GLenum type;
+	
+	glGetProgramiv(program, activeProperties, &num_properties);
+	
+	switch (activeProperties)
+	{
+		case GL_ACTIVE_ATTRIBUTES:
+		{
+			for ( i = 0; i < num_properties; ++i )
+			{
+				glGetActiveAttrib(program, i, sizeof(property_name), &length, &size, &type, property_name);
+				Terminal.LogOpenGL( std::string( "Attribute " + std::to_string(i) + ": " + property_name ) );
+			}
+			break;
+		}
+		case GL_ACTIVE_UNIFORMS:
+		{
+			for ( i = 0; i < num_properties; ++i )
+			{
+				glGetActiveUniform(program, i, sizeof(property_name), &length, &size, &type, property_name);
+				Terminal.LogOpenGL( std::string( "Uniform " + std::to_string(i) + ": " + property_name ) );
+			}
+			break;
+		}
+		default:
+		{
+			break;
+		}
+	}
+}
+
+
+void Shader::ProgramInfoLog( GLuint program, GLenum status )
 {
 	GLint log;
 	glGetProgramiv( program, status, &log);
@@ -68,11 +105,25 @@ void Shader::LogError( GLuint program, GLenum status )
 	}
 }
 
+void Shader::ShaderInfoLog( GLuint program, GLenum status )
+{
+	GLint log;
+	glGetShaderiv( program, status, &log);
+	if (log == GL_FALSE)
+	{
+		GLchar message[255];
+		glGetProgramInfoLog( program, sizeof(message), 0, &message[0]);
+		std::cout << message << std::endl;
+		//TODO(Valentinas): Do not assert when HOTReloading
+		//Terminal.Warning( std::string( message ) );
+		assert(false);
+	}
+}
+
 void Shader::ValidateProgram()
 {
-	// TODO(Valentinas): Move validation closer to drawing
 	glValidateProgram( program );
-	LogError(program, GL_VALIDATE_STATUS);
+	ProgramInfoLog(program, GL_VALIDATE_STATUS);
 }
 
 void Shader::SetUniformInt( const char* uniform, int value )

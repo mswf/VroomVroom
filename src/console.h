@@ -28,10 +28,13 @@ class sTerminal : public Singleton<sTerminal>
 		void Custom(string, string, string);
         void LuaError(string);
         void LuaLinkedError(string, string);
+	
+		void LogOpenGL(const string, bool = false);
+		void LogRender(const string, bool = false);
+	
+		void Update(int);
     
-        void Update(int);
-    
-        bool IsConnected();
+        bool IsConnected() const;
         void ReattemptConnection(int);
 	private:
 		void WriteToFile(string);

@@ -53,6 +53,28 @@ void sTerminal::Log(const string msg, bool showExternally)
 	}
 }
 
+void sTerminal::LogOpenGL(const string msg, bool showExternally)
+{
+	string line = "[OPENGL]" + msg;
+	std::cout << line << std::endl;
+	WriteToFile(line);
+	if (showExternally)
+	{
+		SendToExternal(line, "#00CCFF", "#FFFFFF");
+	}
+}
+
+void sTerminal::LogRender(const string msg, bool showExternally)
+{
+	string line = "[RENDER]" + msg;
+	std::cout << line << std::endl;
+	WriteToFile(line);
+	if (showExternally)
+	{
+		SendToExternal(line, "#0099CC", "#FFFFFF");
+	}
+}
+
 void sTerminal::Warning(const string msg)
 {
 	string line = "[WARNING]" + msg;
@@ -136,7 +158,7 @@ void sTerminal::Update(int deltaTime)
     }
 }
 
-bool sTerminal::IsConnected()
+bool sTerminal::IsConnected() const
 {
     return socket->IsConnected();
 }

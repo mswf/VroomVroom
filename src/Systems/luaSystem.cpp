@@ -229,9 +229,7 @@ void sLuaSystem::HandleError(lua_State* L)
         
         string filePath;
 #ifdef WINDOWS
-        Content::CreateFilePath(error.substr(indexC+1, indexA-indexC).c_str(), &filePath);
-        HelperFunctions::ReplaceStringInPlace(filePath, "\\", "<-!->");
-        HelperFunctions::ReplaceStringInPlace(filePath, "<-!->", "\\\\");
+        filePath = error.substr(indexC+1, indexA-indexC).c_str());
 #else
         filePath = error.substr(0, indexA);
 #endif
@@ -256,6 +254,10 @@ void sLuaSystem::OpenAtom(string path, int lineNumber)
     {
         return;
     }
+#ifdef WINDOWS
+    string subPath = path;s
+    Content::CreatePath(subPath, &path);
+#endif
     string commandString = "";
     commandString += atomPath;
     commandString += " ";

@@ -178,6 +178,7 @@
 		E5B2827E1BCAE76500759348 /* Input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Input.cpp; path = src/Input.cpp; sourceTree = SOURCE_ROOT; };
 		E5B2827F1BCAE76500759348 /* Input.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Input.hpp; path = src/Input.hpp; sourceTree = SOURCE_ROOT; };
 		E5B282891BCD4DA300759348 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
+		E5B4685A1BF23FA400429772 /* stb_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_image.h; path = src/IO/stb_image.h; sourceTree = SOURCE_ROOT; };
 		E5D664DB1BC16C390042350B /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = Framework/SDL2.framework; sourceTree = "<group>"; };
 		E5D9F8E41BE247C7005AFAB1 /* mEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mEntity.cpp; path = src/Modules/mEntity.cpp; sourceTree = SOURCE_ROOT; };
 		E5D9F8E61BE247DF005AFAB1 /* mEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mEntity.h; path = src/Modules/mEntity.h; sourceTree = SOURCE_ROOT; };
@@ -208,6 +209,7 @@
 		23C2AAFA1BCBD8050043F141 /* IO */ = {
 			isa = PBXGroup;
 			children = (
+				E5B4685A1BF23FA400429772 /* stb_image.h */,
 				E50529541BE8CDD50017400B /* RtMidi.cpp */,
 				E50529551BE8CDD50017400B /* RtMidi.h */,
 				23C2AAFB1BCBD8C00043F141 /* file.cpp */,

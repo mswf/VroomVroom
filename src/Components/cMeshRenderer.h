@@ -15,15 +15,15 @@ class CMeshRenderer : public Component
 	
 		// Vertex Array Object
 		GLuint vao;
-		// Vertex Buffer Object
 		GLuint vbo;
+		// Vertex Buffer Object
+		GLuint normalBuffer;
+		GLuint vertexBuffer;
+		GLuint uvBuffer;
 		// Element Array Buffer
 		GLuint eab;
 	
 		unsigned int numIndices;
-	
-		bool hasNormals;
-		bool hasUVs;
 	
 		Material* material;
 	

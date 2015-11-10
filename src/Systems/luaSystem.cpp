@@ -14,6 +14,7 @@
 #include "../Modules/mAll.h"
 #include <stdlib.h>
 #include "../Utilities/command.h"
+#include "../Utilities/helperFunctions.h"
 
 
 sLuaSystem::sLuaSystem():
@@ -227,8 +228,13 @@ void sLuaSystem::HandleError(lua_State* L)
 
         
         string filePath;
-        Content::CreateFilePath(error.substr(indexC, indexA).c_str(), &filePath);
-        
+#ifdef WINDOWS
+        Content::CreateFilePath(error.substr(indexC+1, indexA-indexC).c_str(), &filePath);
+        HelperFunctions::ReplaceStringInPlace(filePath, "\\", "<-!->");
+        HelperFunctions::ReplaceStringInPlace(filePath, "<-!->", "\\\\");
+#else
+        filePath = error.substr(0, indexA);
+#endif
         string lineNumber = error.substr(indexA+1,indexB-(indexA+1));
         
         string linkMessage = "<a href='' onclick=\"";

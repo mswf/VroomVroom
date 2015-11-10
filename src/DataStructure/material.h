@@ -11,8 +11,10 @@ class Material
 		~Material();
 	
 		Shader* shader;
+		unsigned int texture;
 	
 		void SetShader( Shader* shader );
+		void SetTexture( unsigned int texture );
 	
 	private:
 	

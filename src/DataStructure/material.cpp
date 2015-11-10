@@ -15,3 +15,8 @@ void Material::SetShader( Shader* sh )
 {
 	shader = sh;
 }
+
+void Material::SetTexture( unsigned int tex )
+{
+	texture = tex;
+}

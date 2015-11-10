@@ -187,6 +187,8 @@ void sTerminal::SendToExternal(const string msg, const string background, const 
 	consoleString += timedMessage + "[|]";
 	consoleString += "BG[|]" + background + "[|]";
 	consoleString += "CLR[|]" + color + "[|]";
+    
+    consoleString += "<///>";
 
 	if (socket->IsConnected())
 	{

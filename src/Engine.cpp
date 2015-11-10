@@ -210,13 +210,18 @@ void Engine::UpdateLoop()
 
 	std::string monocar = "/objects/monocar.obj";
 	std::string rabbit = "/objects/Rabbit/Rabbit.obj";
+	std::string rabbit_diffuse = "/objects/Rabbit/Rabbit_D.tga";
 	string path( Content::GetPath() + rabbit );
+	string pathT( Content::GetPath() + rabbit_diffuse );
+	string pathT2( Content::GetPath() + "/objects/snowman.png" );
 	resourceManager->ImportObjFile( path, 0 );
+	unsigned int tex = resourceManager->LoadTexture( pathT2.c_str() );
 
 	/// TINAS PLAYGROUND!!!
 	
 	Shader* currentShader = new Shader();
 	Material* mat = new Material( currentShader );
+	mat->texture = tex;
 	
 	CMeshRenderer* meshRenderer = new CMeshRenderer();
 	//const Mesh* meshData = resourceManager->CreateCubeMesh();

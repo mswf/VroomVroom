@@ -58,25 +58,15 @@ void ResourceManager::LoadMesh(const aiScene* sc)
 	{
 		const aiMesh* m = sc->mMeshes[n];
 		
-		// create array with faces
-		// have to convert from Assimp format to array
-		//unsigned int *faceArray;
-		//faceArray = (unsigned int *)malloc(sizeof(unsigned int) * m->mNumFaces * 3);
-		//unsigned int faceIndex = 0;
-		
+		// buffer for indices
+		mesh->numIndices = sc->mMeshes[n]->mNumFaces * 3;
 		for (unsigned int t = 0; t < m->mNumFaces; ++t)
 		{
 			const aiFace* face = &m->mFaces[t];
-			//TODO(Valentinas): Copy all array to vector?
-			mesh->indices.push_back( face->mIndices[0] );
-			mesh->indices.push_back( face->mIndices[1] );
-			mesh->indices.push_back( face->mIndices[2] );
-			
-			//memcpy(&faceArray[faceIndex], face->mIndices,3 * sizeof(unsigned int));
-			//faceIndex += 3;
+			mesh->indices.push_back(face->mIndices[0]);
+			mesh->indices.push_back(face->mIndices[1]);
+			mesh->indices.push_back(face->mIndices[2]);
 		}
-//#warning "Get Num of faces"
-		//aMesh.numFaces = sc->mMeshes[n]->mNumFaces;
 		
 		// buffer for vertex positions
 		if (m->HasPositions())
@@ -91,27 +81,27 @@ void ResourceManager::LoadMesh(const aiScene* sc)
 		// buffer for vertex normals
 		if (m->HasNormals())
 		{
+			mesh->hasNormals = true;
 			for (int i = 0; i < m->mNumVertices; ++i)
 			{
 				aiVector3D n =m->mNormals[i];
-				mesh->vertices.push_back( glm::vec3( n.x, n.y, n.z ) );
+				mesh->normals.push_back( glm::vec3( n.x, n.y, n.z ) );
 			}
 		}
+		mesh->hasUVs = false;
 		
-//#warning "UVs not imported yet"
-		/*
 		// buffer for vertex texture coordinates
 		if (m->HasTextureCoords(0))
 		{
-			float *texCoords = (float *)malloc( sizeof(float) * 2 * m->mNumVertices );
-			for (unsigned int k = 0; k < m->mNumVertices; ++k) {
-				
-				texCoords[k*2]   = m->mTextureCoords[0][k].x;
-				texCoords[k*2+1] = m->mTextureCoords[0][k].y;
-				
+			 mesh->hasUVs = true;
+			//float *texCoords = (float *)malloc( sizeof(float) * 2 * m->mNumVertices );
+			for (unsigned int k = 0; k < m->mNumVertices; ++k)
+			{
+				mesh->uvs.push_back( glm::vec2( m->mTextureCoords[0][k].x, m->mTextureCoords[0][k].y ) );
+				//texCoords[k*2]   = m->mTextureCoords[0][k].x;
+				//texCoords[k*2+1] = m->mTextureCoords[0][k].y;
 			}
 		}
-		*/
 		
 		// MATERIAL IMPORTING HERE ALSO???
 		
@@ -131,31 +121,34 @@ const Mesh* ResourceManager::CreateTriangleMesh()
 {	
 	Mesh* triangleMesh = new Mesh();
 	
-	std::vector< glm::vec3 > verts;
+	std::vector< glm::vec3 > vertices;
 	std::vector< glm::vec2 > uv;
 	std::vector< glm::vec3 > normals;
-	std::vector< unsigned char > ind;
+	std::vector< unsigned int > indices;
 	
-	verts.push_back(glm::vec3( 0.0f, 0.0f, 0.0f ));
-	verts.push_back(glm::vec3( 0.5f, 0.0f, 0.0f ));
-	verts.push_back(glm::vec3( 0.25f, 0.5f, 0.0f ));
+	vertices.push_back(glm::vec3( 0.0f, 0.0f, 0.0f ));
+	vertices.push_back(glm::vec3( 0.5f, 0.0f, 0.0f ));
+	vertices.push_back(glm::vec3( 0.25f, 0.5f, 0.0f ));
 	
 	uv.push_back(glm::vec2( 0.0f, 0.0f ));
 	uv.push_back(glm::vec2( 1.0f, 0.0f ));
 	uv.push_back(glm::vec2( 0.5f, 1.0f ));
+	triangleMesh->hasUVs = true;
 	
 	normals.push_back(glm::vec3( 0.0f, 1.0f, 0.0f ));
 	normals.push_back(glm::vec3( 0.0f, 1.0f, 0.0f ));
 	normals.push_back(glm::vec3( 0.0f, 1.0f, 0.0f ));
+	triangleMesh->hasNormals = true;
 	
-	ind.push_back(0);
-	ind.push_back(1);
-	ind.push_back(2);
+	indices.push_back(0);
+	indices.push_back(1);
+	indices.push_back(2);
 
-	triangleMesh->vertices = verts;
+	triangleMesh->vertices = vertices;
 	triangleMesh->uvs = uv;
 	triangleMesh->normals = normals;
-	triangleMesh->indices = ind;
+	triangleMesh->indices = indices;
+	triangleMesh->numIndices = 3;
 	
 	rMeshes->push_back( triangleMesh );
 	
@@ -185,7 +178,7 @@ const Mesh* ResourceManager::CreateCubeMesh( bool centered )
 	std::vector< glm::vec3 > vertices;
 	//std::vector< glm::vec2 > uv;
 	//std::vector< glm::vec3 > normals;
-	std::vector< unsigned char > indices;
+	std::vector< unsigned int > indices;
 	
 	float offset = centered ? 0.5f : 0.0f;
 	int i, j;
@@ -202,7 +195,7 @@ const Mesh* ResourceManager::CreateCubeMesh( bool centered )
 	
 	// INDICES
 	const int indiceCount = 36;
-	const unsigned char indiceArray[indiceCount] =
+	const unsigned int indiceArray[indiceCount] =
 	{
 		0,2,3, 0,3,1, // Bottom
 		
@@ -220,8 +213,9 @@ const Mesh* ResourceManager::CreateCubeMesh( bool centered )
 	for (j = 0; j < indiceCount; ++j)
 	{
 		indices.push_back( indiceArray[j] );
-		triangleMesh->indices = indices;
 	}
+	triangleMesh->indices = indices;
+	triangleMesh->numIndices = 36;
 	
 	rMeshes->push_back( triangleMesh );
 	

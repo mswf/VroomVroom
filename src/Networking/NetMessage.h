@@ -16,7 +16,9 @@ enum class NetMessageType : short
 	PlayerNumber,			//[playerNumber]
 	InitializeCompleted,	//[]
 	RequestMessage,
-	PlayerMatrixChange
+	PlayerMatrixChange,
+	TimeSync,
+	TimeSyncResponse
 };
 
 class NetMessage

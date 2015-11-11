@@ -31,6 +31,7 @@ class Engine
 	public:
 		Engine();
 		~Engine();
+		uint32 GetTimeStamp() const;
 		void HostGame(char* hostName, const short port);
 		void ReceiveSyncPlayer(char* data, int& index);
 		void JoinGame();
@@ -39,7 +40,13 @@ class Engine
 		void SendInitializeComplete(const TCPsocket& socket) const;
 		void SendPlayerMatrixChange(const TCPsocket& socket) const;
 		void ReceivePlayerMatrixChange(char* data, int& bufferIndex);
+		void SendTimeSync(const TCPsocket& socket) const;
+		void ReceiveTimeSync(char* data, int& bufferIndex);
+		void SendTimeSyncResponse(const TCPsocket& socket) const;
+		void ReceiveTimeSyncResponse(char* data, int& bufferIndex);
 		void OnClientConnected(const TCPsocket& socket) const;
+		void InsertPlayerTime(short playerNumber, int32 timeBehind);
+		int32 GetPlayerTime(short playernumber);
 		void SetUpCamera();
 		static int ServerLoop(void* data);
 		void PollEvent();
@@ -68,6 +75,8 @@ class Engine
 		std::multimap< int, Entity* > componentStorage;
 		std::vector<Renderer::RenderData*> renderObjectsData;
 		std::vector<TransformChange> playerData;
+		std::vector<int32> playerTimeBehind;
+
 		short myPlayerNumber;
 		Renderer::RenderSystem* renderer;
 		Input* inputManager;
@@ -86,8 +95,11 @@ class Engine
 		bool strafeRight;
 		uint64 updateCounter;
 		bool useDeadReckoning;
+		uint32 time;
+		int32 timeBehind;
 		const int WINDOW_WIDTH = 720;//1280;
 		const int WINDOW_HEIGHT = 640; //720;
+		bool isServer;
 		//glm::mat4 translationChange;
 		//glm::mat4 rotationChange;
 		//glm::mat4 scaleChange;

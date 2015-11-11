@@ -34,8 +34,13 @@ Engine::Engine() :
 	down(false),
 	left(false),
 	right(false),
+	strafeLeft(false),
+	strafeRight(false),
 	updateCounter(0),
-	useDeadReckoning(false)
+	useDeadReckoning(false),
+	time(0),
+	timeBehind(0),
+	isServer(false)
 {
 }
 
@@ -44,6 +49,12 @@ Engine::~Engine()
 	//TODO: Clean up all entities and their components
 	delete renderer;
 	delete inputManager;
+}
+
+
+uint32 Engine::GetTimeStamp() const
+{
+	return SDL_GetTicks();
 }
 
 void Engine::HostGame(char* hostName, const short port)
@@ -57,7 +68,7 @@ void Engine::HostGame(char* hostName, const short port)
 		assert(false);
 	}
 	myPlayerNumber = 1;
-
+	isServer = true;
 
 	auto a = SDL_CreateThread(Engine::ServerLoop, "", server);
 }
@@ -204,6 +215,39 @@ void Engine::ReceivePlayerMatrixChange(char* data, int& bufferIndex)
 	HelperFunctions::ReadFromBuffer(data, bufferIndex, playerData[playerNumber - 1]);
 }
 
+void Engine::SendTimeSync(const TCPsocket& socket) const
+{
+	uint32 time = GetTimeStamp();
+	char buffer[6];
+	int index = 0;
+	HelperFunctions::InsertIntoBuffer(buffer, index, NetMessageType::TimeSync);
+	HelperFunctions::InsertIntoBuffer(buffer, index, time);
+}
+
+void Engine::ReceiveTimeSync(char* data, int& bufferIndex)
+{
+	HelperFunctions::ReadFromBuffer(data, bufferIndex, time);
+	timeBehind = GetTimeStamp() - time;
+}
+
+void Engine::SendTimeSyncResponse(const TCPsocket& socket) const
+{
+	char buffer[6];
+	int index = 0;
+
+	HelperFunctions::InsertIntoBuffer(buffer, index, NetMessageType::TimeSyncResponse);
+	HelperFunctions::InsertIntoBuffer(buffer, index, myPlayerNumber);
+	HelperFunctions::InsertIntoBuffer(buffer, index, timeBehind);
+}
+
+void Engine::ReceiveTimeSyncResponse(char* data, int& bufferIndex)
+{
+	short playerNumber;
+	HelperFunctions::ReadFromBuffer(data, bufferIndex, playerNumber);
+	HelperFunctions::ReadFromBuffer(data, bufferIndex, time);
+	//timeBehind = GetTimeStamp() - time;
+}
+
 void Engine::OnClientConnected(const TCPsocket& socket) const
 {
 	printf("OnClientConnected callback\n");
@@ -214,8 +258,26 @@ void Engine::OnClientConnected(const TCPsocket& socket) const
 
 	SendPlayerNumber(socket);
 	SDL_Delay(100);
+
 	SendInitializeComplete(socket);
 	SDL_Delay(100);
+
+	SendTimeSync(socket);
+	SDL_Delay(100);
+}
+
+void Engine::InsertPlayerTime(short playerNumber, int32 timeBehind)
+{
+	while (playerTimeBehind.size() < playerNumber)
+	{
+		playerTimeBehind.push_back(0);
+	}
+	playerTimeBehind[playerNumber] = timeBehind;
+}
+
+int32 Engine::GetPlayerTime(short playerNumber)
+{
+	return playerTimeBehind[playerNumber - 1];
 }
 
 void Engine::SetUpCamera()
@@ -418,7 +480,7 @@ void Engine::ShowSimpleWindowThree()
 void Engine::Update()
 {
 	//TODO no fake deltatime :)
-	int dt = 16;
+	//int dt = 16;
 	//LuaSystem.Update(dt);
 
 	//TODO this should be refactored out at some point
@@ -560,6 +622,16 @@ void Engine::HandleIncomingNetData()
 				ReceivePlayerMatrixChange(data, index);
 				break;
 			}
+			case NetMessageType::TimeSync:
+			{
+				ReceiveTimeSync(data, index);
+				break;
+			}
+			case NetMessageType::TimeSyncResponse:
+			{
+				ReceiveTimeSyncResponse(data, index);
+				break;
+			}
 			case NetMessageType::SyncNpc:
 			case NetMessageType::SyncVelocity:
 			case NetMessageType::RequestMessage:
@@ -567,17 +639,16 @@ void Engine::HandleIncomingNetData()
 			case NetMessageType::SyncRotation:
 			{
 				//not yet implemented
-				assert(false);
+				SDL_assert(false);
 				break;
 			}
 			case NetMessageType::InitializeCompleted:
 			case NetMessageType::PlayerNumber:
 			case NetMessageType::None:
+			{
+				//do nothing
 				break;
-				{
-					//do nothing
-					break;
-				}
+			}
 			default:
 			{
 				//all should be handled I guess?

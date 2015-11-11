@@ -18,7 +18,8 @@ enum class NetMessageType : short
 	RequestMessage,
 	PlayerMatrixChange,
 	TimeSync,
-	TimeSyncResponse
+	TimeSyncResponse,
+	PlayerVelocityChange
 };
 
 class NetMessage

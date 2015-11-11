@@ -26,6 +26,15 @@ struct TransformChange
 	glm::mat4 scale;
 };
 
+struct Player
+{
+	Renderer::RenderData* renderObjectData;
+	TransformChange playerData;
+	glm::vec3 velocity;
+	int32 timeBehind;
+	uint32 lastSync;
+};
+
 class Engine
 {
 	public:
@@ -34,6 +43,8 @@ class Engine
 		uint32 GetTimeStamp() const;
 		void HostGame(char* hostName, const short port);
 		void ReceiveSyncPlayer(char* data, int& index);
+		void PredictPlayerPosition(Player& player);
+		int32 GetServerTime() const;
 		void JoinGame();
 		void SendSyncPlayer(short& playerNumber, const TCPsocket& socket) const;
 		void SendPlayerNumber(const TCPsocket& socket) const;
@@ -44,11 +55,12 @@ class Engine
 		void ReceiveTimeSync(char* data, int& bufferIndex);
 		void SendTimeSyncResponse(const TCPsocket& socket) const;
 		void ReceiveTimeSyncResponse(char* data, int& bufferIndex);
+		void SendPlayerVelocityChange(const TCPsocket& socket, glm::vec3 velocity) const;
+		void ReceivePlayerVelocityChange(char* data, int& bufferIndex);
 		void OnClientConnected(const TCPsocket& socket) const;
 		void InsertPlayerTime(short playerNumber, int32 timeBehind);
 		int32 GetPlayerTime(short playernumber);
 		void SetUpCamera();
-		static int ServerLoop(void* data);
 		void PollEvent();
 		void OpenConfig();
 		void CloseWindow(SDL_Window* window, SDL_GLContext glcontext, Renderer::RenderData* data, Renderer::Camera* camera);
@@ -73,9 +85,14 @@ class Engine
 
 	private:
 		std::multimap< int, Entity* > componentStorage;
-		std::vector<Renderer::RenderData*> renderObjectsData;
-		std::vector<TransformChange> playerData;
-		std::vector<int32> playerTimeBehind;
+
+
+		std::vector<Player> players;
+		//this is fucking lame
+		//std::vector<Renderer::RenderData*> renderObjectsData;
+		//std::vector<TransformChange> playerData;
+		//std::vector<glm::vec3> playerVelocity;
+		//std::vector<int32> playerTimeBehind;
 
 		short myPlayerNumber;
 		Renderer::RenderSystem* renderer;
@@ -107,7 +124,7 @@ class Engine
 	private:
 		void Update();
 		void PollInputStatus();
-		void SendMessagesMethodType();
+		void SendMessagesMethodType(glm::vec3 velocityChange);
 		void Movement();
 		void HandleIncomingNetData();
 		void UpdateGame();

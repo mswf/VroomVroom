@@ -69,24 +69,47 @@ void Engine::HostGame(char* hostName, const short port)
 	}
 	myPlayerNumber = 1;
 	isServer = true;
-
-	auto a = SDL_CreateThread(Engine::ServerLoop, "", server);
 }
 
 void Engine::ReceiveSyncPlayer(char* data, int& bufferIndex)
 {
 	short playerNumber;
 	glm::mat4 matrix;
+	uint32 timeSent;
 	HelperFunctions::ReadFromBuffer(data, bufferIndex, playerNumber);
+	HelperFunctions::ReadFromBuffer(data, bufferIndex, timeSent);
 	HelperFunctions::ReadFromBuffer(data, bufferIndex, matrix);
 
-	while (renderObjectsData.size() < playerNumber)
+
+
+	while (players.size() < playerNumber)
 	{
 		CreateCube();
 	}
-	renderObjectsData[playerNumber - 1]->model = matrix;
+
+	players[playerNumber - 1].lastSync = timeSent;
+	players[playerNumber - 1].renderObjectData->model = matrix;
+
+	PredictPlayerPosition(players[playerNumber - 1]);
 }
 
+void Engine::PredictPlayerPosition(Player& player)
+{
+	//calc how long ago it was sent
+	int32 timeDiff = GetServerTime() - player.lastSync;
+	int updateCount = timeDiff / 16;
+	for (int i = 0; i < updateCount; ++i)
+	{
+		player.playerData.translation = glm::translate(players[myPlayerNumber - 1].playerData.translation, glm::vec3(0.1f, 0.0f, 0.0f));
+		//players[myPlayerNumber - 1].playerData.translation = glm::translate(players[myPlayerNumber - 1].playerData.translation, glm::vec3(0.1f, 0.0f, 0.0f));
+
+	}
+}
+
+int32 Engine::GetServerTime() const
+{
+	return timeBehind + SDL_GetTicks();
+}
 void Engine::JoinGame()
 {
 	bool initializing = true;
@@ -111,7 +134,7 @@ void Engine::JoinGame()
 				case NetMessageType::PlayerNumber:
 				{
 					HelperFunctions::ReadFromBuffer(data, index, myPlayerNumber);
-					while (renderObjectsData.size() < myPlayerNumber)
+					while (players.size() < myPlayerNumber)
 					{
 						CreateCube();
 					}
@@ -148,14 +171,17 @@ void Engine::JoinGame()
 
 void Engine::SendSyncPlayer(short& playerNumber, const TCPsocket& socket) const
 {
-	char buffer[68];
+	char buffer[72];
 	int index;
 	index = 0;
+	uint32 time = timeBehind + SDL_GetTicks();
+
 	HelperFunctions::InsertIntoBuffer(buffer, index, NetMessageType::SyncPlayer);
 	HelperFunctions::InsertIntoBuffer(buffer, index, playerNumber);
-	assert(index == 4);
-	HelperFunctions::InsertIntoBuffer(buffer, index, renderObjectsData[playerNumber - 1]->model);
-	assert(index == 68);
+	HelperFunctions::InsertIntoBuffer(buffer, index, time);
+	//assert(index == 8);
+	HelperFunctions::InsertIntoBuffer(buffer, index, players[playerNumber - 1].renderObjectData->model);
+	//assert(index == 68);
 	//assert(index == 4);
 	if (socket == NULL)
 	{
@@ -174,7 +200,7 @@ void Engine::SendPlayerNumber(const TCPsocket& socket) const
 	char buffer[4];
 	int index = 0;
 	HelperFunctions::InsertIntoBuffer(buffer, index, NetMessageType::PlayerNumber);
-	HelperFunctions::InsertIntoBuffer(buffer, index, (short)(renderObjectsData.size() + 1));
+	HelperFunctions::InsertIntoBuffer(buffer, index, (short)(players.size() + 1));
 	assert(index == 4);
 	server->SendData(buffer, index, socket);
 }
@@ -194,7 +220,7 @@ void Engine::SendPlayerMatrixChange(const TCPsocket& socket) const
 	int index = 0;
 	HelperFunctions::InsertIntoBuffer(buffer, index, NetMessageType::PlayerMatrixChange);
 	HelperFunctions::InsertIntoBuffer(buffer, index, myPlayerNumber);
-	HelperFunctions::InsertIntoBuffer(buffer, index, playerData[myPlayerNumber - 1]);
+	HelperFunctions::InsertIntoBuffer(buffer, index, players[myPlayerNumber - 1].playerData);
 	assert(index == 196);
 	if (socket == NULL)
 	{
@@ -208,11 +234,40 @@ void Engine::SendPlayerMatrixChange(const TCPsocket& socket) const
 	}
 }
 
+void Engine::SendPlayerVelocityChange(const TCPsocket& socket, glm::vec3 velocity) const
+{
+	char buffer[196];
+	int index = 0;
+	HelperFunctions::InsertIntoBuffer(buffer, index, NetMessageType::PlayerVelocityChange);
+	HelperFunctions::InsertIntoBuffer(buffer, index, myPlayerNumber);
+	HelperFunctions::InsertIntoBuffer(buffer, index, velocity);
+
+	if (socket == NULL)
+	{
+		//send to all
+		client->SendMessageChar(buffer, index);
+	}
+	else
+	{
+		//send to specific
+		server->SendData(buffer, index, socket);
+	}
+}
+
+void Engine::ReceivePlayerVelocityChange(char* data, int& bufferIndex)
+{
+	short playerNumber;
+	HelperFunctions::ReadFromBuffer(data, bufferIndex, playerNumber);
+	glm::vec3 velocity;
+	HelperFunctions::ReadFromBuffer(data, bufferIndex, velocity);
+	players[playerNumber - 1].velocity = velocity;
+}
+
 void Engine::ReceivePlayerMatrixChange(char* data, int& bufferIndex)
 {
 	short playerNumber;
 	HelperFunctions::ReadFromBuffer(data, bufferIndex, playerNumber);
-	HelperFunctions::ReadFromBuffer(data, bufferIndex, playerData[playerNumber - 1]);
+	HelperFunctions::ReadFromBuffer(data, bufferIndex, players[playerNumber - 1].playerData);
 }
 
 void Engine::SendTimeSync(const TCPsocket& socket) const
@@ -251,7 +306,7 @@ void Engine::ReceiveTimeSyncResponse(char* data, int& bufferIndex)
 void Engine::OnClientConnected(const TCPsocket& socket) const
 {
 	printf("OnClientConnected callback\n");
-	for (short i = 1; i != renderObjectsData.size() + 1; ++i)
+	for (short i = 1; i != players.size() + 1; ++i)
 	{
 		SendSyncPlayer(i, socket);
 	}
@@ -268,16 +323,16 @@ void Engine::OnClientConnected(const TCPsocket& socket) const
 
 void Engine::InsertPlayerTime(short playerNumber, int32 timeBehind)
 {
-	while (playerTimeBehind.size() < playerNumber)
+	while (players.size() < playerNumber)
 	{
-		playerTimeBehind.push_back(0);
+		players[players.size() - 1].timeBehind = 0;
 	}
-	playerTimeBehind[playerNumber] = timeBehind;
+	players[playerNumber].timeBehind = timeBehind;
 }
 
 int32 Engine::GetPlayerTime(short playerNumber)
 {
-	return playerTimeBehind[playerNumber - 1];
+	return players[playerNumber - 1].timeBehind;
 }
 
 void Engine::SetUpCamera()
@@ -290,15 +345,6 @@ void Engine::SetUpCamera()
 	camera->eye = glm::vec3(1.0, 1.0, 1.0);
 	camera->center = glm::vec3(0.0, 0.0, 0.0);
 	Renderer::GetCamera(camera, Renderer::Projection::PERSPECTIVE, fov, aspectRatio, zNear, zFar);
-}
-
-int Engine::ServerLoop(void* data)
-{
-	while ((TCPServer*)data != NULL)
-	{
-		//((TCPServer*)data)->ListenForMessages();
-	}
-	return 0;
 }
 
 void Engine::Init()
@@ -338,10 +384,15 @@ void Engine::Init()
 
 void Engine::CreateCube()
 {
+	Player player;
+
 	Renderer::RenderData* cube = new Renderer::RenderData();
-	renderObjectsData.push_back(cube);
+	player.renderObjectData = cube;
+	player.velocity = glm::vec3(0);
+	players.push_back(player);
+
 	Renderer::GetRenderData(cube);
-	if (renderObjectsData.size() == myPlayerNumber)
+	if (players.size() == myPlayerNumber)
 	{
 		SendSyncPlayer(myPlayerNumber, NULL);
 	}
@@ -354,7 +405,7 @@ void Engine::CreatePlayerData()
 	data.rotation = glm::mat4(1);
 	data.translation = glm::mat4(1);
 	data.scale = glm::mat4(1);
-	playerData.push_back(data);
+	players[players.size() - 1].playerData = data;
 }
 
 void Engine::PollEvent()
@@ -553,16 +604,17 @@ void Engine::PollInputStatus()
 	}
 }
 
-void Engine::SendMessagesMethodType()
+void Engine::SendMessagesMethodType(glm::vec3 velocityChange)
 {
 	//dead reckoning
 	if (useDeadReckoning)
 	{
 		if (updateCounter % 100 == 0)
 		{
-			SendSyncPlayer(myPlayerNumber, NULL);
+			//SendSyncPlayer(myPlayerNumber, NULL);
 		}
-		SendPlayerMatrixChange(NULL);
+		//SendPlayerMatrixChange(NULL);
+		SendPlayerVelocityChange(NULL, velocityChange);
 	}
 	else
 	{
@@ -572,32 +624,37 @@ void Engine::SendMessagesMethodType()
 
 void Engine::Movement()
 {
-	playerData[myPlayerNumber - 1].translation = glm::mat4(1);
-	playerData[myPlayerNumber - 1].rotation = glm::mat4(1);
-	playerData[myPlayerNumber - 1].scale = glm::mat4(1);
+	players[myPlayerNumber - 1].playerData.translation = glm::mat4(1);
+	players[myPlayerNumber - 1].playerData.rotation = glm::mat4(1);
+	players[myPlayerNumber - 1].playerData.scale = glm::mat4(1);
+	glm::vec3 velocityChange(0, 0, 0);
 
 	if (up)
 	{
-		playerData[myPlayerNumber - 1].translation = glm::translate(playerData[myPlayerNumber - 1].translation, glm::vec3(0.1f, 0.0f, 0.0f));
+		players[myPlayerNumber - 1].playerData.translation = glm::translate(players[myPlayerNumber - 1].playerData.translation, glm::vec3(0.1f, 0.0f, 0.0f));
+		velocityChange.x = 0.1f;
 	}
-	if (down)
+	else if (down)
 	{
-		playerData[myPlayerNumber - 1].translation = glm::translate(playerData[myPlayerNumber - 1].translation, glm::vec3(-0.1f, 0.0f, 0.0f));
+		players[myPlayerNumber - 1].playerData.translation = glm::translate(players[myPlayerNumber - 1].playerData.translation, glm::vec3(-0.1f, 0.0f, 0.0f));
+		velocityChange.x = -0.1f;
 	}
 	if (left)
 	{
-		playerData[myPlayerNumber - 1].rotation = glm::rotate(playerData[myPlayerNumber - 1].rotation, glm::radians(1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
+		players[myPlayerNumber - 1].playerData.rotation = glm::rotate(players[myPlayerNumber - 1].playerData.rotation, glm::radians(1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
+		velocityChange.y = 0.1f;
 	}
-	if (right)
+	else if (right)
 	{
-		playerData[myPlayerNumber - 1].rotation = glm::rotate(playerData[myPlayerNumber - 1].rotation, glm::radians(-1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
+		players[myPlayerNumber - 1].playerData.rotation = glm::rotate(players[myPlayerNumber - 1].playerData.rotation, glm::radians(1.0f), glm::vec3(0.0f, -0.1f, 0.0f));
+		velocityChange.y = -0.1f;
 	}
 
-	SendMessagesMethodType();
+	SendMessagesMethodType(velocityChange);
 
-	for (int i = 0; i < playerData.size(); ++i)
+	for (int i = 0; i < players.size(); ++i)
 	{
-		renderObjectsData[i]->model *= playerData[i].scale * playerData[i].rotation * playerData[i].translation;
+		players[i].renderObjectData->model *= players[myPlayerNumber - 1].playerData.scale * players[myPlayerNumber - 1].playerData.rotation * players[myPlayerNumber - 1].playerData.translation;
 	}
 }
 
@@ -630,6 +687,11 @@ void Engine::HandleIncomingNetData()
 			case NetMessageType::TimeSyncResponse:
 			{
 				ReceiveTimeSyncResponse(data, index);
+				break;
+			}
+			case NetMessageType::PlayerVelocityChange:
+			{
+				ReceivePlayerVelocityChange(data, index);
 				break;
 			}
 			case NetMessageType::SyncNpc:
@@ -719,9 +781,9 @@ void Engine::UpdateLoop()
 		glClearColor( 0.2, 0.2, 0.2, 1.0 );
 		glClear(GL_COLOR_BUFFER_BIT); //GL_DEPTH_BUFFER_BIT
 
-		for (std::vector<Renderer::RenderData*>::iterator it = renderObjectsData.begin(); it != renderObjectsData.end(); ++it)
+		for (int i = 0; i < players.size(); ++i)
 		{
-			Renderer::Render(SDL_GetTicks(), camera, *it);
+			Renderer::Render(SDL_GetTicks(), camera, players[i].renderObjectData);
 		}
 
 		ShowSimpleWindowOne(show_test_window, show_another_window);
@@ -744,9 +806,9 @@ void Engine::UpdateLoop()
 		//	render.draw(normalizedInterpolationValue)
 	}
 
-	for (std::vector<Renderer::RenderData*>::iterator it = renderObjectsData.begin(); it != renderObjectsData.end(); ++it)
+	for (int i = 0; i < players.size(); ++i)
 	{
-		CloseWindow(window, glcontext, *it, camera);
+		CloseWindow(window, glcontext, players[i].renderObjectData, camera);
 	}
 }
 

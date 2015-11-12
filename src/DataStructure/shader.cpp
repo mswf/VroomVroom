@@ -113,6 +113,7 @@ void Shader::ShaderInfoLog( GLuint program, GLenum status )
 	{
 		GLchar message[255];
 		glGetProgramInfoLog( program, sizeof(message), 0, &message[0]);
+		printf("%s", message);
 		std::cout << message << std::endl;
 		//TODO(Valentinas): Do not assert when HOTReloading
 		//Terminal.Warning( std::string( message ) );

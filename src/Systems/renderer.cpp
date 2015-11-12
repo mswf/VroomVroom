@@ -21,7 +21,7 @@ namespace Renderer
 		glEnable(GL_DEPTH_TEST);
 		
 		glBindVertexArray( rend->vao );
-		s->ValidateProgram();
+		//s->ValidateProgram();
 		
 		glUseProgram(s->program);
 		

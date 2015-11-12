@@ -639,6 +639,9 @@
     <ClInclude Include="..\..\src\Components\entity.h">
       <Filter>VroomVroom\Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\IO\stb_image.h">
+      <Filter>VroomVroom\IO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Networking\TCPData.cpp">

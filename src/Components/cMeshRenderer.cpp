@@ -76,8 +76,8 @@ void CMeshRenderer::Buffer( const Mesh* m )
 		glGenBuffers( 1, &uvBuffer );
 		glBindBuffer( GL_ARRAY_BUFFER, uvBuffer );
 		glBufferData( GL_ARRAY_BUFFER, m->uvs.size() * sizeof(glm::vec2), &m->uvs.front(), GL_STATIC_DRAW);
-	 	glEnableVertexAttribArray( texcoord_attrib_index );
 		glVertexAttribPointer( texcoord_attrib_index, 2, GL_FLOAT, GL_FALSE, 0, 0 );
+		glEnableVertexAttribArray( texcoord_attrib_index );
 	}
 	
 	/*

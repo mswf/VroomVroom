@@ -116,6 +116,7 @@ void ResourceManager::LoadMesh(const aiScene* sc)
 		rMeshes->push_back( mesh );
 	}
 	
+	//TODO(Valentinas): Potential leak of memory pointed to by 'mesh'. Change the way the mesh is buffered by MeshRenderer
 	tempMesh = rMeshes->front();
 	//Terminal.Log( std::string( "Number of meshs: " + std::to_string(rMeshes->size()) ) );
 }

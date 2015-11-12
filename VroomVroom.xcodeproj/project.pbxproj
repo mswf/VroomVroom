@@ -60,6 +60,14 @@
 		E5EF59021BB95EDD00F85754 /* libGLEW.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E54D30901BB29675006FBC68 /* libGLEW.dylib */; };
 		E5F4A36A1BCE59A1000C8876 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5F4A3691BCE59A1000C8876 /* CoreAudio.framework */; };
 		E5F4A36C1BCE59B4000C8876 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5F4A36B1BCE59B4000C8876 /* CoreFoundation.framework */; };
+		E5FDC8361BF4A3E400312151 /* libfmod.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FDC8341BF4A3E400312151 /* libfmod.dylib */; };
+		E5FDC8371BF4A3E400312151 /* libfmodL.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FDC8351BF4A3E400312151 /* libfmodL.dylib */; };
+		E5FDC83A1BF4A3FA00312151 /* libfmodstudio.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FDC8381BF4A3FA00312151 /* libfmodstudio.dylib */; };
+		E5FDC83B1BF4A3FA00312151 /* libfmodstudioL.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FDC8391BF4A3FA00312151 /* libfmodstudioL.dylib */; };
+		E5FDC83C1BF4A40600312151 /* libfmodstudio.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E5FDC8381BF4A3FA00312151 /* libfmodstudio.dylib */; };
+		E5FDC83D1BF4A40600312151 /* libfmodstudioL.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E5FDC8391BF4A3FA00312151 /* libfmodstudioL.dylib */; };
+		E5FDC83E1BF4A40600312151 /* libfmod.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E5FDC8341BF4A3E400312151 /* libfmod.dylib */; };
+		E5FDC83F1BF4A40600312151 /* libfmodL.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E5FDC8351BF4A3E400312151 /* libfmodL.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -69,6 +77,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
+				E5FDC83C1BF4A40600312151 /* libfmodstudio.dylib in CopyFiles */,
+				E5FDC83D1BF4A40600312151 /* libfmodstudioL.dylib in CopyFiles */,
+				E5FDC83E1BF4A40600312151 /* libfmod.dylib in CopyFiles */,
+				E5FDC83F1BF4A40600312151 /* libfmodL.dylib in CopyFiles */,
 				E59E13381BC04C3800DBD349 /* libluajit-5.1.2.0.4.dylib in CopyFiles */,
 				234C8B291BB96A4600E61132 /* libassimpd.3.1.1.dylib in CopyFiles */,
 				E5EF59021BB95EDD00F85754 /* libGLEW.dylib in CopyFiles */,
@@ -184,6 +196,10 @@
 		E5D9F8E61BE247DF005AFAB1 /* mEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mEntity.h; path = src/Modules/mEntity.h; sourceTree = SOURCE_ROOT; };
 		E5F4A3691BCE59A1000C8876 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		E5F4A36B1BCE59B4000C8876 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		E5FDC8341BF4A3E400312151 /* libfmod.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmod.dylib; path = Framework/FMOD/Mac/lowlevel/lib/libfmod.dylib; sourceTree = "<group>"; };
+		E5FDC8351BF4A3E400312151 /* libfmodL.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmodL.dylib; path = Framework/FMOD/Mac/lowlevel/lib/libfmodL.dylib; sourceTree = "<group>"; };
+		E5FDC8381BF4A3FA00312151 /* libfmodstudio.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmodstudio.dylib; path = Framework/FMOD/Mac/studio/lib/libfmodstudio.dylib; sourceTree = "<group>"; };
+		E5FDC8391BF4A3FA00312151 /* libfmodstudioL.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmodstudioL.dylib; path = Framework/FMOD/Mac/studio/lib/libfmodstudioL.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +207,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5FDC83A1BF4A3FA00312151 /* libfmodstudio.dylib in Frameworks */,
+				E5FDC83B1BF4A3FA00312151 /* libfmodstudioL.dylib in Frameworks */,
+				E5FDC8361BF4A3E400312151 /* libfmod.dylib in Frameworks */,
+				E5FDC8371BF4A3E400312151 /* libfmodL.dylib in Frameworks */,
 				E5F4A36C1BCE59B4000C8876 /* CoreFoundation.framework in Frameworks */,
 				E5F4A36A1BCE59A1000C8876 /* CoreAudio.framework in Frameworks */,
 				E5B2828A1BCD4DA300759348 /* CoreMIDI.framework in Frameworks */,
@@ -254,6 +274,10 @@
 		E53768661BA6D3B600D0BC14 = {
 			isa = PBXGroup;
 			children = (
+				E5FDC8381BF4A3FA00312151 /* libfmodstudio.dylib */,
+				E5FDC8391BF4A3FA00312151 /* libfmodstudioL.dylib */,
+				E5FDC8341BF4A3E400312151 /* libfmod.dylib */,
+				E5FDC8351BF4A3E400312151 /* libfmodL.dylib */,
 				E5F4A36B1BCE59B4000C8876 /* CoreFoundation.framework */,
 				E5F4A3691BCE59A1000C8876 /* CoreAudio.framework */,
 				E5B282891BCD4DA300759348 /* CoreMIDI.framework */,
@@ -480,7 +504,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\nEXECFILE=${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\nLIBPATH=${BUILT_PRODUCTS_DIR}/${SHARED_SUPPORT_FOLDER_PATH}\nNEWLIBPATH=\"@executable_path/\"\n\n# space separated list of libraries\nTARGETS=\"libGLEW.dylib libassimpd.3.1.1.dylib libluajit-5.1.2.0.4.dylib\"\nfor TARGET in ${TARGETS} ; do\nLIBFILE=${LIBPATH}${TARGET}\nTARGETID=`otool -DX ${LIBPATH}$TARGET`\nNEWTARGETID=${NEWLIBPATH}${TARGET}\ninstall_name_tool -id ${NEWTARGETID} ${LIBFILE}\ninstall_name_tool -change ${TARGETID} ${NEWTARGETID} ${EXECFILE}\ndone";
+			shellScript = "#!/bin/bash\nEXECFILE=${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\nLIBPATH=${BUILT_PRODUCTS_DIR}/${SHARED_SUPPORT_FOLDER_PATH}\nNEWLIBPATH=\"@executable_path/\"\n\n# space separated list of libraries\nTARGETS=\"libGLEW.dylib libassimpd.3.1.1.dylib libluajit-5.1.2.0.4.dylib libfmod.dylib libfmodL.dylib libfmodstudio.dylib libfmodstudioL.dylib\"\nfor TARGET in ${TARGETS} ; do\nLIBFILE=${LIBPATH}${TARGET}\nTARGETID=`otool -DX ${LIBPATH}$TARGET`\nNEWTARGETID=${NEWLIBPATH}${TARGET}\ninstall_name_tool -id ${NEWTARGETID} ${LIBFILE}\ninstall_name_tool -change ${TARGETID} ${NEWTARGETID} ${EXECFILE}\ndone";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -661,6 +685,7 @@
 					"$(PROJECT_DIR)/Framework/glew/Include",
 					"$(PROJECT_DIR)/Framework/LJIT/include",
 					"$(PROJECT_DIR)/Framework/assimp/Include",
+					"$(PROJECT_DIR)/Framework/FMOD/Include",
 				);
 				INSTALL_PATH = "@rpath";
 				LIBRARY_SEARCH_PATHS = (
@@ -669,6 +694,8 @@
 					"$(PROJECT_DIR)/Framework/LJIT/lib",
 					"$(PROJECT_DIR)/Framework/assimp/Debug",
 					"$(PROJECT_DIR)/Framework/assimp/Release",
+					"$(PROJECT_DIR)/Framework/FMOD/Mac/lowlevel/lib",
+					"$(PROJECT_DIR)/Framework/FMOD/Mac/studio/lib",
 				);
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = "";
@@ -697,6 +724,7 @@
 					"$(PROJECT_DIR)/Framework/glew/Include",
 					"$(PROJECT_DIR)/Framework/LJIT/include",
 					"$(PROJECT_DIR)/Framework/assimp/Include",
+					"$(PROJECT_DIR)/Framework/FMOD/Include",
 				);
 				INSTALL_PATH = "@rpath";
 				LIBRARY_SEARCH_PATHS = (
@@ -705,6 +733,8 @@
 					"$(PROJECT_DIR)/Framework/LJIT/lib",
 					"$(PROJECT_DIR)/Framework/assimp/Release",
 					"$(PROJECT_DIR)/Framework/assimp/Debug",
+					"$(PROJECT_DIR)/Framework/FMOD/Mac/lowlevel/lib",
+					"$(PROJECT_DIR)/Framework/FMOD/Mac/studio/lib",
 				);
 				OTHER_CFLAGS = "";
 				OTHER_CPLUSPLUSFLAGS = "";

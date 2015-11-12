@@ -2,6 +2,7 @@
 #include "importer.hpp"
 #include "../console.h"
 #include <fstream>
+#include <iostream>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "../IO/stb_image.h"
@@ -95,13 +96,18 @@ void ResourceManager::LoadMesh(const aiScene* sc)
 		// buffer for vertex texture coordinates
 		if (m->HasTextureCoords(0))
 		{
-			 mesh->hasUVs = true;
+			mesh->hasUVs = true;
 			//float *texCoords = (float *)malloc( sizeof(float) * 2 * m->mNumVertices );
 			for (unsigned int k = 0; k < m->mNumVertices; ++k)
 			{
 				mesh->uvs.push_back( glm::vec2( m->mTextureCoords[0][k].x, m->mTextureCoords[0][k].y ) );
 				//texCoords[k*2]   = m->mTextureCoords[0][k].x;
 				//texCoords[k*2+1] = m->mTextureCoords[0][k].y;
+			}
+			//std::cout <<  m->mNumVertices << " vs " << mesh->uvs.size() << std::endl;
+			//for (int i=0; i < mesh->uvs.size(); ++i)
+			{
+			//	std::cout << mesh->uvs[i].x << " : " << mesh->uvs[i].y << std::endl;
 			}
 		}
 		
@@ -116,6 +122,7 @@ void ResourceManager::LoadMesh(const aiScene* sc)
 
 const unsigned int ResourceManager::LoadTexture( const char* filename )
 {
+	stbi_set_flip_vertically_on_load(true);
 	int w, h, comp;
 	int req_comp = STBI_rgb_alpha;
 	unsigned char* image = stbi_load( filename, &w, &h, &comp, req_comp);
@@ -131,11 +138,12 @@ const unsigned int ResourceManager::LoadTexture( const char* filename )
 	
 	Terminal.LogOpenGL( "Texture size: " + std::to_string(w) + " x " + std::to_string(h) );
 	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
 	

@@ -38,8 +38,8 @@ Shader::Shader()
 	
 	// ATTRIBUTE & UNIFORM INFORMATION
 	
-	LogActiveProperties(GL_ACTIVE_ATTRIBUTES);
-	LogActiveProperties(GL_ACTIVE_UNIFORMS);
+	//LogActiveProperties(GL_ACTIVE_ATTRIBUTES);
+	//LogActiveProperties(GL_ACTIVE_UNIFORMS);
 	
 	// END ATTRIBUTE & UNIFORM INFORMATION
 	

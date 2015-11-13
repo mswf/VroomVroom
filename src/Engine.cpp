@@ -169,6 +169,8 @@ void Engine::InitGlew()
 	Terminal.LogOpenGL( glslVersion, true );
 	Terminal.LogOpenGL( "GLEW version " + majorGlew + "." + minorGlew, true  );
 	
+	//#define LOG_EXTENSIONS
+	#ifdef LOG_EXTENSIONS
 	int NumberOfExtensions, i;
  	glGetIntegerv(GL_NUM_EXTENSIONS, &NumberOfExtensions);
  	for( i = 0; i < NumberOfExtensions; ++i )
@@ -176,7 +178,7 @@ void Engine::InitGlew()
 		std::string extensions( (const char*)glGetStringi(GL_EXTENSIONS, i) );
 		Terminal.LogOpenGL( extensions );
  	}
-	
+	#endif
 #endif
 }
 
@@ -367,7 +369,7 @@ void Engine::UpdateLoop()
 }
 
 void Engine::InitSDL()
-{	
+{
 	if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0)
 	{
 		printf("Error: %s\n", SDL_GetError());

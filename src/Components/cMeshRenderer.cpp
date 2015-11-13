@@ -41,7 +41,7 @@ void CMeshRenderer::Buffer( const Mesh* m )
 	glBindVertexArray( vao );
 	
 	//EBO, storing indices
-	Terminal.LogRender( "Buffering indices" );
+	//Terminal.LogRender( "Buffering indices" );
 	glGenBuffers( 1, &eab);
 	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, eab );
 	glBufferData( GL_ELEMENT_ARRAY_BUFFER, m->indices.size() * sizeof(unsigned int), &m->indices.front(), GL_STATIC_DRAW);
@@ -52,7 +52,7 @@ void CMeshRenderer::Buffer( const Mesh* m )
 	GLint normal_attrib_index = glGetAttribLocation(p, "normal");
 	GLint texcoord_attrib_index = glGetAttribLocation(p, "texcoord");
 	
-	Terminal.LogRender( "Buffering vertices" );
+	//Terminal.LogRender( "Buffering vertices" );
 	
 	glGenBuffers( 1, &vertexBuffer );
 	glBindBuffer( GL_ARRAY_BUFFER, vertexBuffer );
@@ -62,7 +62,7 @@ void CMeshRenderer::Buffer( const Mesh* m )
 	
 	if (m->hasNormals)
 	{
-		Terminal.LogRender( "Buffering normals" );
+		//Terminal.LogRender( "Buffering normals" );
 		glGenBuffers( 1, &normalBuffer );
 		glBindBuffer( GL_ARRAY_BUFFER, normalBuffer );
 		glBufferData( GL_ARRAY_BUFFER, m->normals.size() * sizeof(glm::vec3), &m->normals.front(), GL_STATIC_DRAW);
@@ -72,7 +72,7 @@ void CMeshRenderer::Buffer( const Mesh* m )
 	
 	if (m->hasUVs)
 	{
-		Terminal.LogRender( "Buffering uvs" );
+		//Terminal.LogRender( "Buffering uvs" );
 		glGenBuffers( 1, &uvBuffer );
 		glBindBuffer( GL_ARRAY_BUFFER, uvBuffer );
 		glBufferData( GL_ARRAY_BUFFER, m->uvs.size() * sizeof(glm::vec2), &m->uvs.front(), GL_STATIC_DRAW);

@@ -46,7 +46,7 @@ bool ResourceManager::ImportObjFile( const std::string& pFile, int flags )
 	}
  
 	// Now we can access the file's contents.
-	Terminal.Log( "Import of scene succeeded." );
+	//Terminal.Log( "Import of scene succeeded." );
 	LoadMesh(scene);
 	return true;
 }
@@ -54,7 +54,7 @@ bool ResourceManager::ImportObjFile( const std::string& pFile, int flags )
 void ResourceManager::LoadMesh(const aiScene* sc)
 {
 	Mesh* mesh = new Mesh();
-	Terminal.Log( "Num of children: " + std::to_string( sc->mRootNode->mNumChildren ) );
+	//Terminal.Log( "Num of children: " + std::to_string( sc->mRootNode->mNumChildren ) );
 	
 	// For each mesh
 	for (unsigned int n = 0; n < sc->mNumMeshes; ++n)
@@ -140,7 +140,7 @@ const unsigned int ResourceManager::LoadTexture( const char* filename )
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	
-	Terminal.LogOpenGL( "Texture size: " + std::to_string(w) + " x " + std::to_string(h) );
+	//Terminal.LogOpenGL( "Texture size: " + std::to_string(w) + " x " + std::to_string(h) );
 	
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);

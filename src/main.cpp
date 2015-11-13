@@ -36,7 +36,7 @@ int main(int argc, char** a)
 		std::cout <<  "Error: FMOD did not find the file" << std::endl;
 	}
 	result = sound1->setMode(FMOD_LOOP_OFF);
-	result = system->playSound(sound1, 0, false, &channel);
+	//result = system->playSound(sound1, 0, false, &channel);
 	
 	Engine engine;
 	engine.InitSDL();

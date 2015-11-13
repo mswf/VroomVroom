@@ -77,7 +77,8 @@ void ResourceManager::LoadMesh(const aiScene* sc)
 			for (int i = 0; i < m->mNumVertices; ++i)
 			{
 				aiVector3D v =m->mVertices[i];
-				mesh->vertices.push_back( glm::vec3( v.x, v.y, v.z ) );
+				glm::vec3 vert( v.x, v.y, v.z );
+				mesh->vertices.push_back( vert );
 			}
 		}
 		
@@ -88,7 +89,8 @@ void ResourceManager::LoadMesh(const aiScene* sc)
 			for (int i = 0; i < m->mNumVertices; ++i)
 			{
 				aiVector3D n =m->mNormals[i];
-				mesh->normals.push_back( glm::vec3( n.x, n.y, n.z ) );
+				glm::vec3 norm( n.x, n.y, n.z );
+				mesh->normals.push_back( norm );
 			}
 		}
 		mesh->hasUVs = false;
@@ -100,7 +102,8 @@ void ResourceManager::LoadMesh(const aiScene* sc)
 			//float *texCoords = (float *)malloc( sizeof(float) * 2 * m->mNumVertices );
 			for (unsigned int k = 0; k < m->mNumVertices; ++k)
 			{
-				mesh->uvs.push_back( glm::vec2( m->mTextureCoords[0][k].x, m->mTextureCoords[0][k].y ) );
+				glm::vec2 uv( m->mTextureCoords[0][k].x, m->mTextureCoords[0][k].y );
+				mesh->uvs.push_back( uv );
 				//texCoords[k*2]   = m->mTextureCoords[0][k].x;
 				//texCoords[k*2+1] = m->mTextureCoords[0][k].y;
 			}

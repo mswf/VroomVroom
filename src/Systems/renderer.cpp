@@ -25,19 +25,33 @@ namespace Renderer
 		
 		glUseProgram(s->program);
 		
+		glm::mat3 mvMatrix = glm::mat3( cam->GetViewMatrix()* trans->GetTransform() );
+		glm::mat3 normalMatrix = glm::transpose(glm::inverse(mvMatrix));
+		glm::vec3 lightPosition( 1.0 );
+		
 		s->SetUniformMat4( "model", trans->GetTransform() );
 		s->SetUniformMat4( "view", cam->GetViewMatrix() );
+		s->SetUniformMat3( "normalMatrix", normalMatrix );
+		s->SetUniformMat3( "mvMatrix", mvMatrix );
 		s->SetUniformMat4( "projection", cam->GetProjectionMatrix() );
 		s->SetUniformFloat( "time", (float)time );
+		s->SetUniformFloat3( "lightPos", lightPosition);
 		
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture( GL_ACTIVE_TEXTURE, rend->material->texture );
-		s->SetUniformInt( "tex", 0 );
+		glBindTexture( GL_TEXTURE_2D, rend->material->diff_texture );
+		s->SetUniformInt( "colorMap", 0 );
+		
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture( GL_TEXTURE_2D, rend->material->normal_texture );
+		s->SetUniformInt( "normalMap", 1 );
 		
 		glDrawElements( rend->drawType, rend->numIndices, GL_UNSIGNED_INT, (void*)0 );
 		
 		glBindVertexArray( 0 );
 		glBindBuffer( GL_ARRAY_BUFFER, 0 );
+		
+		//TODO(Valentinas): Disable Vertex Attributes after drawing
+		
 		//glBindTexture(GL_ACTIVE_TEXTURE, 0);
 		glUseProgram(0);
 	}

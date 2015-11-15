@@ -292,7 +292,7 @@ void Engine::UpdateLoop()
 					running = false;
 				}
 
-				//t->Yaw(1.0f);
+				t->Yaw(1.0f);
 				//t->Rotate( glm::vec3(1.0f, 1.0f, 1.0f) );
 
 				/*

@@ -147,8 +147,12 @@ void Shader::SetUniformFloat3(const char* uniform, glm::vec3 value)
 	glUniform3f( glGetUniformLocation( program, uniform ), value.x, value.y, value.z);
 }
 
+void Shader::SetUniformMat3( const char* uniform, glm::mat3 value )
+{
+	glUniformMatrix3fv( glGetUniformLocation( program, uniform ), 1, GL_FALSE, glm::value_ptr(value) );
+}
+
 void Shader::SetUniformMat4( const char* uniform, glm::mat4 value )
 {
 	glUniformMatrix4fv( glGetUniformLocation( program, uniform ), 1, GL_FALSE, glm::value_ptr(value) );
-	
 }

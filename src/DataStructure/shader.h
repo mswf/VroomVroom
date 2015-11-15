@@ -21,6 +21,7 @@ class Shader
 		void SetUniformFloat( const char* uniform, float value );
 		void SetUniformFloat2( const char* uniform, glm::vec2 value );
 		void SetUniformFloat3( const char* uniform, glm::vec3 value );
+		void SetUniformMat3( const char* uniform, glm::mat3 value );
 		void SetUniformMat4( const char* uniform, glm::mat4 value );
 		void ValidateProgram();
 	void LogActiveProperties( GLenum activeProperties );

@@ -53,7 +53,6 @@ void Engine::Init()
 	resourceManager = new ResourceManager();
 	listener = new UpdateListener();
 	fileWatcher = new FW::FileWatcher();
-	//inputManager->BindKey("shoot", SDL_SCANCODE_SPACE);
 
 	//TODO: I don't really want to bind this here, but I also don't want to pass inputManager all over the place
 	//Does it have to be a singular instance contained in Engine?
@@ -147,6 +146,7 @@ void Engine::SetupWindow(SDL_Window*& window, SDL_GLContext& glcontext)
 	SDL_GetCurrentDisplayMode(0, &current);
 	window = SDL_CreateWindow("VroomVroom", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 	glcontext = SDL_GL_CreateContext(window);
+	InitGlew();
 }
 
 // TODO: Move to renderer
@@ -206,28 +206,31 @@ void Engine::UpdateLoop()
 	SDL_Window* window;
 	SDL_GLContext glcontext;
 	SetupWindow(window, glcontext);
-	InitGlew();
 	
 	ImGui_ImplSdl_Init(window);
 
-	std::string monocar = "/objects/monocar.obj";
 	std::string rabbit = "/objects/Rabbit/Rabbit.obj";
-	std::string snowman = "/objects/icy_snowman.obj";
 	std::string rabbit_diffuse = "/objects/Rabbit/Rabbit_D.tga";
+	std::string rabbit_normal = "/objects/Rabbit/Rabbit_N.tga";
+	std::string snowman = "/objects/icy_snowman.obj";
+	std::string snowman_diffuse = "/objects/snowman.png";
 	
 	string objectRabbit( Content::GetPath() + rabbit );
-	string objectSnowman( Content::GetPath() + snowman );
 	string textureRabbitD( Content::GetPath() + rabbit_diffuse );
-	string textureSnowman( Content::GetPath() + "/objects/snowman.png" );
+	string textureRabbitN( Content::GetPath() + rabbit_normal );
+	//string objectSnowman( Content::GetPath() + snowman );
+	//string textureSnowman( Content::GetPath() + snowman_diffuse );
 	
-	resourceManager->ImportObjFile( objectRabbit, 0 );
-	unsigned int tex = resourceManager->LoadTexture( textureRabbitD.c_str() );
-
+	resourceManager->ImportObjFile( objectRabbit );
+	unsigned int texD = resourceManager->LoadTexture( textureRabbitD.c_str() );
+	unsigned int texN = resourceManager->LoadTexture( textureRabbitN.c_str() );
+	
 	/// TINAS PLAYGROUND!!!
 	
 	Shader* currentShader = new Shader();
 	Material* mat = new Material( currentShader );
-	mat->texture = tex;
+	mat->SetDiffuse(texD);
+	mat->SetNormal(texN);
 	
 	CMeshRenderer* meshRenderer = new CMeshRenderer();
 	//const Mesh* meshData = resourceManager->CreateCubeMesh();
@@ -289,7 +292,7 @@ void Engine::UpdateLoop()
 					running = false;
 				}
 
-				t->Yaw(1.0f);
+				//t->Yaw(1.0f);
 				//t->Rotate( glm::vec3(1.0f, 1.0f, 1.0f) );
 
 				/*

@@ -16,7 +16,12 @@ void Material::SetShader( Shader* sh )
 	shader = sh;
 }
 
-void Material::SetTexture( unsigned int tex )
+void Material::SetDiffuse( unsigned int tex )
 {
-	texture = tex;
+	diff_texture = tex;
+}
+
+void Material::SetNormal( unsigned int tex )
+{
+	normal_texture = tex;
 }

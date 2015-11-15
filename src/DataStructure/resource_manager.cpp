@@ -92,6 +92,22 @@ void ResourceManager::LoadMesh(const aiScene* sc)
 				glm::vec3 norm( n.x, n.y, n.z );
 				mesh->normals.push_back( norm );
 			}
+			if (m->HasTangentsAndBitangents())
+			{
+				mesh->hasTangentsAndBitangets = true;
+				for (int i = 0; i < m->mNumVertices; ++i)
+				{
+					aiVector3D bi = m->mBitangents[i];
+					glm::vec3 bitangent( bi.x, bi.y, bi.z );
+					mesh->bitangents.push_back( bitangent );
+					
+					aiVector3D ta = m->mTangents[i];
+					glm::vec3 tangent( ta.x, ta.y, ta.z );
+					mesh->tangents.push_back( tangent );
+				}
+				
+				
+			}
 		}
 		mesh->hasUVs = false;
 		
@@ -142,12 +158,14 @@ const unsigned int ResourceManager::LoadTexture( const char* filename )
 	
 	//Terminal.LogOpenGL( "Texture size: " + std::to_string(w) + " x " + std::to_string(h) );
 	
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	
+	//TODO(Valentinas): Use sRGB for linear workflow
 	
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
 	

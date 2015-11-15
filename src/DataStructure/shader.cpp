@@ -11,24 +11,31 @@ Shader::Shader()
 	std::string path = Content::GetPath() + "/shaders/";
 
 	std::string vs = HelperFunctions::ReadFile(path + std::string("vertexShader.vert"));
+	//std::string gs = HelperFunctions::ReadFile(path + std::string("geometryShader.geom"));
 	std::string fs = HelperFunctions::ReadFile(path + std::string("fragmentShader.frag"));
 	
 	const char * src_vertex   = vs.c_str();
+	//const char * src_geometry = gs.c_str();
 	const char * src_fragment = fs.c_str();
 	program = glCreateProgram();
 	
 	GLuint vertex_shader = glCreateShader(GL_VERTEX_SHADER);
 	GLuint fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
+	//GLuint geometry_shader = glCreateShader(GL_GEOMETRY_SHADER);
 	
-	glShaderSource( vertex_shader, 1, &src_vertex, NULL);
-	glShaderSource( fragment_shader, 1, &src_fragment, NULL);
+	glShaderSource( vertex_shader, 1, &src_vertex, NULL );
+	glShaderSource( fragment_shader, 1, &src_fragment, NULL );
+	//glShaderSource( geometry_shader, 1, &src_geometry, NULL );
 	
 	glCompileShader( vertex_shader );
 	ShaderInfoLog(vertex_shader, GL_COMPILE_STATUS);
+	//glCompileShader( geometry_shader );
+	//ShaderInfoLog(geometry_shader, GL_COMPILE_STATUS);
 	glCompileShader( fragment_shader );
 	ShaderInfoLog(fragment_shader, GL_COMPILE_STATUS);
 	
 	glAttachShader( program, vertex_shader );
+	//glAttachShader( program, geometry_shader );
 	glAttachShader( program, fragment_shader );
 	
 	//glBindFragDataLocation(program, 0, "outColor");
@@ -44,6 +51,7 @@ Shader::Shader()
 	// END ATTRIBUTE & UNIFORM INFORMATION
 	
 	glDeleteShader( vertex_shader );
+	//glDeleteShader( geometry_shader );
 	glDeleteShader( fragment_shader );
 }
 
@@ -101,7 +109,7 @@ void Shader::ProgramInfoLog( GLuint program, GLenum status )
 		std::cout << message << std::endl;
 		//TODO(Valentinas): Find out why the Warning message not passed
 		//Terminal.Warning( std::string( message ) );
-		assert(false);
+		//assert(false);
 	}
 }
 
@@ -112,12 +120,12 @@ void Shader::ShaderInfoLog( GLuint program, GLenum status )
 	if (log == GL_FALSE)
 	{
 		GLchar message[255];
-		glGetProgramInfoLog( program, sizeof(message), 0, &message[0]);
+		glGetShaderInfoLog( program, sizeof(message), 0, &message[0]);
 		printf("%s", message);
 		std::cout << message << std::endl;
 		//TODO(Valentinas): Do not assert when HOTReloading
 		//Terminal.Warning( std::string( message ) );
-		assert(false);
+		//assert(false);
 	}
 }
 

@@ -20,6 +20,8 @@ class CMeshRenderer : public Component
 		GLuint normalBuffer;
 		GLuint vertexBuffer;
 		GLuint uvBuffer;
+		GLuint tangentBuffer;
+		GLuint bitangentBuffer;
 		// Element Array Buffer
 		GLuint eab;
 	

@@ -51,6 +51,8 @@ void CMeshRenderer::Buffer( const Mesh* m )
 	GLint position_attrib_index = glGetAttribLocation(p, "position");
 	GLint normal_attrib_index = glGetAttribLocation(p, "normal");
 	GLint texcoord_attrib_index = glGetAttribLocation(p, "texcoord");
+	GLint tangent_attrib_index = glGetAttribLocation(p, "tangent");
+	GLint bitangent_attrib_index = glGetAttribLocation(p, "bitangent");
 	
 	//Terminal.LogRender( "Buffering vertices" );
 	
@@ -78,6 +80,21 @@ void CMeshRenderer::Buffer( const Mesh* m )
 		glBufferData( GL_ARRAY_BUFFER, m->uvs.size() * sizeof(glm::vec2), &m->uvs.front(), GL_STATIC_DRAW);
 		glVertexAttribPointer( texcoord_attrib_index, 2, GL_FLOAT, GL_FALSE, 0, 0 );
 		glEnableVertexAttribArray( texcoord_attrib_index );
+	}
+	
+	if (m->hasTangentsAndBitangets)
+	{
+		glGenBuffers( 1, &tangentBuffer );
+		glBindBuffer( GL_ARRAY_BUFFER, tangentBuffer );
+		glBufferData( GL_ARRAY_BUFFER, m->tangents.size() * sizeof(glm::vec3), &m->tangents.front(), GL_STATIC_DRAW);
+		glEnableVertexAttribArray( tangent_attrib_index );
+		glVertexAttribPointer( tangent_attrib_index, 3, GL_FLOAT, GL_FALSE, 0, 0 );
+		
+		glGenBuffers( 1, &bitangentBuffer );
+		glBindBuffer( GL_ARRAY_BUFFER, bitangentBuffer );
+		glBufferData( GL_ARRAY_BUFFER, m->bitangents.size() * sizeof(glm::vec3), &m->bitangents.front(), GL_STATIC_DRAW);
+		glEnableVertexAttribArray( bitangent_attrib_index );
+		glVertexAttribPointer( bitangent_attrib_index, 3, GL_FLOAT, GL_FALSE, 0, 0 );
 	}
 	
 	/*

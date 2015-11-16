@@ -79,6 +79,7 @@ void Engine::PollEvent()
 		}
 		inputManager->Update(&event);
 	}
+	//inputManager->MidiListener();
 	inputManager->StateReset();
 }
 
@@ -235,6 +236,7 @@ void Engine::UpdateLoop()
 	CMeshRenderer* meshRenderer = new CMeshRenderer();
 	//const Mesh* meshData = resourceManager->CreateCubeMesh();
 	//const Mesh* meshData = resourceManager->CreateTriangleMesh();
+	//const Mesh* meshData = resourceManager->CreateTetrahedronMesh();
 	const Mesh* meshData = resourceManager->tempMesh;
 	
 	meshRenderer->SetMaterial(mat);
@@ -275,8 +277,6 @@ void Engine::UpdateLoop()
 		PollEvent();
 		fileWatcher->update();
 
-		//inputManager->MidiListener();
-
 
 		while (deltaTimeGame > gameUpdateInterval)
 		{
@@ -294,7 +294,17 @@ void Engine::UpdateLoop()
 
 				t->Yaw(1.0f);
 				//t->Rotate( glm::vec3(1.0f, 1.0f, 1.0f) );
-
+				
+				if ( inputManager->OnKeyDown(SDLK_d) )
+				{
+					meshRenderer->drawType = GL_LINES;
+				}
+				
+				if ( inputManager->OnKeyUp(SDLK_d) )
+				{
+					meshRenderer->drawType = GL_TRIANGLES;
+				}
+				
 				/*
 				if ( inputManager->OnKeyDown(SDL_SCANCODE_UP) )
 				{

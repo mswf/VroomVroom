@@ -55,6 +55,8 @@
 		E59FDC911BBAC0EE008935C5 /* random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E59FDC8E1BBAC0EE008935C5 /* random.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5B282801BCAE76500759348 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B2827E1BCAE76500759348 /* Input.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5B2828A1BCD4DA300759348 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5B282891BCD4DA300759348 /* CoreMIDI.framework */; };
+		E5C45A211BF923B90023C1C8 /* importer_imp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5C45A1F1BF923B90023C1C8 /* importer_imp.cpp */; settings = {ASSET_TAGS = (); }; };
+		E5C45A241BF924300023C1C8 /* importer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5C45A221BF924300023C1C8 /* importer.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5D664DC1BC16C390042350B /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D664DB1BC16C390042350B /* SDL2.framework */; };
 		E5D9F8E51BE247C7005AFAB1 /* mEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5D9F8E41BE247C7005AFAB1 /* mEntity.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5EF59021BB95EDD00F85754 /* libGLEW.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E54D30901BB29675006FBC68 /* libGLEW.dylib */; };
@@ -191,6 +193,10 @@
 		E5B2827F1BCAE76500759348 /* Input.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Input.hpp; path = src/Input.hpp; sourceTree = SOURCE_ROOT; };
 		E5B282891BCD4DA300759348 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		E5B4685A1BF23FA400429772 /* stb_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_image.h; path = src/IO/stb_image.h; sourceTree = SOURCE_ROOT; };
+		E5C45A1F1BF923B90023C1C8 /* importer_imp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = importer_imp.cpp; path = src/IO/importer_imp.cpp; sourceTree = SOURCE_ROOT; };
+		E5C45A201BF923B90023C1C8 /* importer_imp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = importer_imp.h; path = src/IO/importer_imp.h; sourceTree = SOURCE_ROOT; };
+		E5C45A221BF924300023C1C8 /* importer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = importer.cpp; path = src/IO/importer.cpp; sourceTree = SOURCE_ROOT; };
+		E5C45A231BF924300023C1C8 /* importer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = importer.h; path = src/IO/importer.h; sourceTree = SOURCE_ROOT; };
 		E5D664DB1BC16C390042350B /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = Framework/SDL2.framework; sourceTree = "<group>"; };
 		E5D9F8E41BE247C7005AFAB1 /* mEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mEntity.cpp; path = src/Modules/mEntity.cpp; sourceTree = SOURCE_ROOT; };
 		E5D9F8E61BE247DF005AFAB1 /* mEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mEntity.h; path = src/Modules/mEntity.h; sourceTree = SOURCE_ROOT; };
@@ -229,6 +235,10 @@
 		23C2AAFA1BCBD8050043F141 /* IO */ = {
 			isa = PBXGroup;
 			children = (
+				E5C45A1F1BF923B90023C1C8 /* importer_imp.cpp */,
+				E5C45A201BF923B90023C1C8 /* importer_imp.h */,
+				E5C45A221BF924300023C1C8 /* importer.cpp */,
+				E5C45A231BF924300023C1C8 /* importer.h */,
 				E5B4685A1BF23FA400429772 /* stb_image.h */,
 				E50529541BE8CDD50017400B /* RtMidi.cpp */,
 				E50529551BE8CDD50017400B /* RtMidi.h */,
@@ -517,6 +527,7 @@
 				E50529431BE8CDBA0017400B /* shader.cpp in Sources */,
 				E54726101BC6A78F00316B26 /* base64.cpp in Sources */,
 				E5B282801BCAE76500759348 /* Input.cpp in Sources */,
+				E5C45A211BF923B90023C1C8 /* importer_imp.cpp in Sources */,
 				233B2A5C1BE8E11F0032447A /* mUiWindow.cpp in Sources */,
 				E53CB2321BECC529004B0F58 /* file_watcher_impl.cpp in Sources */,
 				E50529441BE8CDBA0017400B /* texture.cpp in Sources */,
@@ -542,6 +553,7 @@
 				E59FDC911BBAC0EE008935C5 /* random.cpp in Sources */,
 				E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */,
 				23C59A321BCD305B00A37E29 /* mEngine.cpp in Sources */,
+				E5C45A241BF924300023C1C8 /* importer.cpp in Sources */,
 				23C59A361BCD3ACA00A37E29 /* mInput.cpp in Sources */,
 				E50529271BE8CD650017400B /* renderer.cpp in Sources */,
 				E59FDC901BBAC0EE008935C5 /* helperFunctions.cpp in Sources */,

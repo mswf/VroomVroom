@@ -201,6 +201,31 @@ void Engine::Update(float deltaTime)
 	Terminal.Update(deltaTime);
 }
 
+void Engine::LoadStuff()
+{
+	
+	std::string objectRabbit( Content::GetPath() + "/objects/Rabbit/Rabbit.obj" );
+	std::string textureRabbitD( Content::GetPath() + "/objects/Rabbit/Rabbit_D.tga" );
+	std::string textureRabbitN( Content::GetPath() + "/objects/Rabbit/Rabbit_N.tga" );
+	
+	std::string test = "ObjectGroupTest.obj";
+	std::string test2 = "MasterCubeTest.obj";
+
+	std::string objectTest( Content::GetPath() + "/objects/object_group_test/" + test2 );
+	std::string objectTextureD( Content::GetPath() + "/objects/object_group_test/checker_1.png" );
+	std::string objectTextureS( Content::GetPath() + "/objects/object_group_test/checker_2.png" );
+	std::string objectTextureN( Content::GetPath() + "/objects/object_group_test/checker_3.png" );
+	
+	resourceManager->ImportObjFile( objectRabbit );
+	//unsigned int texD = resourceManager->LoadTexture( textureRabbitD.c_str() );
+	//unsigned int texN = resourceManager->LoadTexture( textureRabbitN.c_str() );
+	
+	//resourceManager->ImportObjFile( objectTest );
+	//unsigned int texD = resourceManager->LoadTexture( objectTextureD.c_str() );
+	//unsigned int texN = resourceManager->LoadTexture( objectTextureN.c_str() );
+
+}
+
 void Engine::UpdateLoop()
 {
 
@@ -209,37 +234,28 @@ void Engine::UpdateLoop()
 	SetupWindow(window, glcontext);
 	
 	ImGui_ImplSdl_Init(window);
-
-	std::string rabbit = "/objects/Rabbit/Rabbit.obj";
-	std::string rabbit_diffuse = "/objects/Rabbit/Rabbit_D.tga";
-	std::string rabbit_normal = "/objects/Rabbit/Rabbit_N.tga";
-	std::string snowman = "/objects/icy_snowman.obj";
-	std::string snowman_diffuse = "/objects/snowman.png";
-	
-	string objectRabbit( Content::GetPath() + rabbit );
-	string textureRabbitD( Content::GetPath() + rabbit_diffuse );
-	string textureRabbitN( Content::GetPath() + rabbit_normal );
-	//string objectSnowman( Content::GetPath() + snowman );
-	//string textureSnowman( Content::GetPath() + snowman_diffuse );
-	
-	resourceManager->ImportObjFile( objectRabbit );
-	unsigned int texD = resourceManager->LoadTexture( textureRabbitD.c_str() );
-	unsigned int texN = resourceManager->LoadTexture( textureRabbitN.c_str() );
 	
 	/// TINAS PLAYGROUND!!!
 	
+	LoadStuff();
+	
 	Shader* currentShader = new Shader();
 	Material* mat = new Material( currentShader );
-	mat->SetDiffuse(texD);
-	mat->SetNormal(texN);
+	//mat->SetDiffuse(texD);
+	//mat->SetNormal(texN);
 	
 	CMeshRenderer* meshRenderer = new CMeshRenderer();
 	//const Mesh* meshData = resourceManager->CreateCubeMesh();
 	//const Mesh* meshData = resourceManager->CreateTriangleMesh();
 	//const Mesh* meshData = resourceManager->CreateTetrahedronMesh();
-	const Mesh* meshData = resourceManager->tempMesh;
+	for ( int i = 0; i < resourceManager->group->meshes.size(); ++i )
+	{
+		resourceManager->group->meshes[i];
+	}
+	const MeshGroup* meshData = resourceManager->group;
 	
 	meshRenderer->SetMaterial(mat);
+	std::vector< ModelInstance* > instances;
 	meshRenderer->Buffer( meshData );
 	
 	Entity* box = new Entity( "MyLittleBox" );
@@ -291,18 +307,18 @@ void Engine::UpdateLoop()
 				{
 					running = false;
 				}
-
+				t->SetPosition(glm::vec3( -1.0f ));
 				t->Yaw(1.0f);
 				//t->Rotate( glm::vec3(1.0f, 1.0f, 1.0f) );
 				
 				if ( inputManager->OnKeyDown(SDLK_d) )
 				{
-					meshRenderer->drawType = GL_LINES;
+					//meshRenderer->drawType = GL_LINES;
 				}
 				
 				if ( inputManager->OnKeyUp(SDLK_d) )
 				{
-					meshRenderer->drawType = GL_TRIANGLES;
+					//meshRenderer->drawType = GL_TRIANGLES;
 				}
 				
 				/*

@@ -38,6 +38,7 @@ class Engine
 		FW::FileWatcher* fileWatcher;
 		Input* inputManager;
 		void Update(float deltaTime);
+		void LoadStuff();
 };
 
 #endif

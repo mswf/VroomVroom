@@ -18,7 +18,7 @@ void Importer::SetSceneImportFlags( int flags )
 
 bool Importer::ImportObjFile( const std::string &pFile )
 {
-	int imp_err = imp_->ImportObjFile(pFile);
+	int imp_err = 1;// imp_->ImportObjFile(pFile);
 	
 	if ( (imp_err = (int)IMPORTER_MESSAGE::FILE_NOT_FOUND) )
 	{
@@ -28,7 +28,7 @@ bool Importer::ImportObjFile( const std::string &pFile )
 	
 	if ( (imp_err = (int)IMPORTER_MESSAGE::FILE_CORRUPT) )
 	{
-		Terminal.Log( imp_->GetError( IMPORTER_ERROR_TYPE::SCENE ) );
+		Terminal.Log( imp_->import_scene_failure_reason );
 		return false;
 	}
 	
@@ -37,10 +37,10 @@ bool Importer::ImportObjFile( const std::string &pFile )
 
 bool Importer::ImportImage( const char* filename )
 {
-	int imp_err = imp_->ImportImage(filename);
+	int imp_err = 1; //imp_->ImportImage(filename);
 	if ( (imp_err = (int)IMPORTER_MESSAGE::TEXTURE_FAILED_TO_LOAD) )
 	{
-		Terminal.Log( "Failed to load texture, error: " + imp_->GetError( IMPORTER_ERROR_TYPE::IMAGE ) );
+		Terminal.Log( "Failed to load texture, error: " + imp_->import_image_failure_reason );
 		return false;
 	}
 	return true;

@@ -1,4 +1,5 @@
 #include "Input.hpp"
+#include <iostream>
 
 Input::Input()
 {
@@ -225,49 +226,46 @@ void Input::Update( SDL_Event* event )
     }
 }
 
-/*
- void Input::MidiTest()
- {
- midiin = new RtMidiIn();
- unsigned int nPortsIn = midiin->getPortCount();
- std::cout << "\nThere are " << nPortsIn << " MIDI input sources available." << std::endl;
- std::string portNameIn;
- for ( unsigned int i=0; i<nPortsIn; i++ )
- {
- portNameIn = midiin->getPortName(i);
- std::cout << "  Input Port #" << i+1 << ": " << portNameIn << std::endl;
- }
- 
- midiout = new RtMidiOut();
- unsigned int nPortsOut = midiout->getPortCount();
- std::cout << "\nThere are " << nPortsOut << " MIDI output sources available." << std::endl;
- std::string portNameOut;
- for ( unsigned int i=0; i<nPortsOut; i++ )
- {
- portNameOut = midiin->getPortName(i);
- std::cout << "  Input Port #" << i+1 << ": " << portNameOut << std::endl;
- }
- 
- midiin->openPort( 0 );
- }
- */
 
-/*
- ** Experamental code for Midi controller
- void Input::MidiListener()
- {
- std::vector<unsigned char> message;
+void Input::MidiTest()
+{
+ 	midiin = new RtMidiIn();
+	unsigned int nPortsIn = midiin->getPortCount();
+	std::cout << "\nThere are " << nPortsIn << " MIDI input sources available." << std::endl;
+	std::string portNameIn;
+	for ( unsigned int i=0; i<nPortsIn; i++ )
+ 	{
+		portNameIn = midiin->getPortName(i);
+		std::cout << "  Input Port #" << i+1 << ": " << portNameIn << std::endl;
+	}
+
+	midiout = new RtMidiOut();
+	unsigned int nPortsOut = midiout->getPortCount();
+	std::cout << "\nThere are " << nPortsOut << " MIDI output sources available." << std::endl;
+	std::string portNameOut;
+	for ( unsigned int i=0; i<nPortsOut; i++ )
+	{
+		portNameOut = midiin->getPortName(i);
+		std::cout << "  Input Port #" << i+1 << ": " << portNameOut << std::endl;
+	}
+
+	midiin->openPort( 0 );
+}
+
+
+//** Experamental code for Midi controller
+void Input::MidiListener()
+{
+	double stamp = midiin->getMessage( &midiMessage );
+	size_t nBytes = midiMessage.size();
+	size_t i;
+	for (i = 0; i < nBytes; i++ )
+	{
+		std::cout << "Byte " << i << " = " << (int)midiMessage[i] << ", ";
+	}
+	if ( nBytes > 0 )
+	{
+		std::cout << "stamp = " << stamp << std::endl;
+	}
+}
  
- double stamp = midiin->getMessage( &message );
- int nBytes = message.size();
- for (int i = 0; i < nBytes; i++ )
- {
- std::cout << "Byte " << i << " = " << (int)message[i] << ", ";
- }
- if ( nBytes > 0 )
- {
- std::cout << "stamp = " << stamp << std::endl;
- }
- 
- }
- */

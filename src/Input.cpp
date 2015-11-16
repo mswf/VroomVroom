@@ -230,7 +230,7 @@ void Input::Update( SDL_Event* event )
 void Input::MidiTest()
 {
  	midiin = new RtMidiIn();
-	unsigned int nPortsIn = midiin->getPortCount();
+	unsigned long nPortsIn = midiin->getPortCount();
 	std::cout << "\nThere are " << nPortsIn << " MIDI input sources available." << std::endl;
 	std::string portNameIn;
 	for ( unsigned int i=0; i<nPortsIn; i++ )
@@ -240,7 +240,7 @@ void Input::MidiTest()
 	}
 
 	midiout = new RtMidiOut();
-	unsigned int nPortsOut = midiout->getPortCount();
+	unsigned long nPortsOut = midiout->getPortCount();
 	std::cout << "\nThere are " << nPortsOut << " MIDI output sources available." << std::endl;
 	std::string portNameOut;
 	for ( unsigned int i=0; i<nPortsOut; i++ )

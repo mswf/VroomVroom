@@ -12,7 +12,7 @@ int main(int argc, char** a)
 {
     FMOD::System     *system;
 	FMOD::Sound      *sound1;
-	FMOD::Channel    *channel = 0;
+	//FMOD::Channel    *channel = 0;
 	FMOD_RESULT       result;
 	unsigned int      version;
 	void             *extradriverdata = 0;

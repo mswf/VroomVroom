@@ -1,4 +1,5 @@
 #include "resource_manager.h"
+//#include "../IO/importer.h"
 #include "importer.hpp"
 #include "../console.h"
 #include <fstream>
@@ -62,7 +63,7 @@ void ResourceManager::LoadMesh(const aiScene* sc)
 		const aiMesh* m = sc->mMeshes[n];
 		
 		// buffer for indices
-		mesh->numIndices = sc->mMeshes[n]->mNumFaces * 3;
+		mesh->numIndices = m->mNumFaces * 3;
 		for (unsigned int t = 0; t < m->mNumFaces; ++t)
 		{
 			const aiFace* face = &m->mFaces[t];
@@ -130,7 +131,75 @@ void ResourceManager::LoadMesh(const aiScene* sc)
 			}
 		}
 		
+		
+		
 		// MATERIAL IMPORTING HERE ALSO???
+		
+		// create material uniform buffer
+		aiMaterial *mtl = sc->mMaterials[ m->mMaterialIndex ];
+		
+		aiString texPath;   //contains filename of texture
+		
+		for (unsigned int k = 0; k < mtl->mNumProperties; ++k)
+		{
+			//std::cout << "Property " << k << ": " << (&mtl->mProperties[k]->mKey)->C_Str() << std::endl;
+		}
+		
+		if( AI_SUCCESS == mtl->GetTexture( aiTextureType_DIFFUSE, 0, &texPath ) )
+		{
+			//bind texture
+			//TEXTURE INDEX unsigned int texId = textureIdMap[texPath.data];
+			//TEXTURE INDEX aMesh.texIndex = texId;
+			//TEXTURE COUNT aMat.texCount = 1;
+		}
+		else
+		{
+			//TEXTURE COUNT aMat.texCount = 0;
+		}
+		
+		float c[4];
+		//SET DEFAULT DIFFUSE COLOR set_float4(c, 0.8f, 0.8f, 0.8f, 1.0f);
+		aiColor4D diffuse;
+		if( AI_SUCCESS == aiGetMaterialColor( mtl, AI_MATKEY_COLOR_DIFFUSE, &diffuse ) )
+		{
+			// ??? color4_to_float4(&diffuse, c);
+		}
+		//COPY TO MATERIAL memcpy(aMat.diffuse, c, sizeof(c));
+		
+		//SET DEFAULT AMBIENT COLOR set_float4(c, 0.2f, 0.2f, 0.2f, 1.0f);
+		aiColor4D ambient;
+		if( AI_SUCCESS == aiGetMaterialColor( mtl, AI_MATKEY_COLOR_AMBIENT, &ambient ) )
+		{
+			// ??? color4_to_float4(&ambient, c);
+		}
+		//COPY TO MATERIAL memcpy(aMat.ambient, c, sizeof(c));
+		
+		//SET DEFAULT SPECULAR COLOR set_float4(c, 0.0f, 0.0f, 0.0f, 1.0f);
+		aiColor4D specular;
+		if( AI_SUCCESS == aiGetMaterialColor( mtl, AI_MATKEY_COLOR_SPECULAR, &specular ) )
+		{
+			// ??? color4_to_float4(&specular, c);
+		}
+		//COPY TO MATERIAL memcpy(aMat.specular, c, sizeof(c));
+		
+		//SET DEFAULT EMISSION COLOR set_float4(c, 0.0f, 0.0f, 0.0f, 1.0f);
+		aiColor4D emission;
+		if( AI_SUCCESS == aiGetMaterialColor( mtl, AI_MATKEY_COLOR_EMISSIVE, &emission ) )
+		{
+			// ??? color4_to_float4(&emission, c);
+		}
+		//COPY TO MATERIAL memcpy(aMat.emissive, c, sizeof(c));
+		
+		float shininess = 0.0;
+		unsigned int max;
+		aiGetMaterialFloatArray(mtl, AI_MATKEY_SHININESS, &shininess, &max);
+		//std::cout << "MAX: " << max << std::endl;
+		// MATERIAL SHININESS aMat.shininess = shininess;
+		
+		//glGenBuffers(1,&(aMesh.uniformBlockIndex));
+		//glBindBuffer(GL_UNIFORM_BUFFER,aMesh.uniformBlockIndex);
+		//glBufferData(GL_UNIFORM_BUFFER, sizeof(aMat), (void *)(&aMat), GL_STATIC_DRAW);
+		
 		
 		rMeshes->push_back( mesh );
 	}
@@ -157,6 +226,7 @@ const unsigned int ResourceManager::LoadTexture( const char* filename )
 	glBindTexture(GL_TEXTURE_2D, texture);
 	
 	//Terminal.LogOpenGL( "Texture size: " + std::to_string(w) + " x " + std::to_string(h) );
+	//Terminal.LogOpenGL( "Component: " + std::to_string(comp) );
 	
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
@@ -183,36 +253,58 @@ const Mesh* ResourceManager::CreateTriangleMesh()
 {	
 	Mesh* triangleMesh = new Mesh();
 	
-	std::vector< glm::vec3 > vertices;
-	std::vector< glm::vec2 > uv;
-	std::vector< glm::vec3 > normals;
-	std::vector< unsigned int > indices;
+	triangleMesh->vertices.push_back(glm::vec3( 0.0f, 0.0f, 0.0f ));
+	triangleMesh->vertices.push_back(glm::vec3( 0.5f, 0.0f, 0.0f ));
+	triangleMesh->vertices.push_back(glm::vec3( 0.25f, 0.5f, 0.0f ));
 	
-	vertices.push_back(glm::vec3( 0.0f, 0.0f, 0.0f ));
-	vertices.push_back(glm::vec3( 0.5f, 0.0f, 0.0f ));
-	vertices.push_back(glm::vec3( 0.25f, 0.5f, 0.0f ));
-	
-	uv.push_back(glm::vec2( 0.0f, 0.0f ));
-	uv.push_back(glm::vec2( 1.0f, 0.0f ));
-	uv.push_back(glm::vec2( 0.5f, 1.0f ));
+	triangleMesh->uvs.push_back(glm::vec2( 0.0f, 0.0f ));
+	triangleMesh->uvs.push_back(glm::vec2( 1.0f, 0.0f ));
+	triangleMesh->uvs.push_back(glm::vec2( 0.5f, 1.0f ));
 	triangleMesh->hasUVs = true;
 	
-	normals.push_back(glm::vec3( 0.0f, 1.0f, 0.0f ));
-	normals.push_back(glm::vec3( 0.0f, 1.0f, 0.0f ));
-	normals.push_back(glm::vec3( 0.0f, 1.0f, 0.0f ));
+	triangleMesh->normals.push_back(glm::vec3( 0.0f, 1.0f, 0.0f ));
+	triangleMesh->normals.push_back(glm::vec3( 0.0f, 1.0f, 0.0f ));
+	triangleMesh->normals.push_back(glm::vec3( 0.0f, 1.0f, 0.0f ));
 	triangleMesh->hasNormals = true;
 	
-	indices.push_back(0);
-	indices.push_back(1);
-	indices.push_back(2);
-
-	triangleMesh->vertices = vertices;
-	triangleMesh->uvs = uv;
-	triangleMesh->normals = normals;
-	triangleMesh->indices = indices;
+	triangleMesh->indices.push_back(0);
+	triangleMesh->indices.push_back(1);
+	triangleMesh->indices.push_back(2);
 	triangleMesh->numIndices = 3;
 	
 	rMeshes->push_back( triangleMesh );
+	
+	return rMeshes->back();
+}
+
+const Mesh* ResourceManager::CreateTetrahedronMesh()
+{
+	Mesh* tetrahedronMesh = new Mesh();
+	
+	// VERTICES
+	tetrahedronMesh->vertices.push_back( glm::vec3( 0.0f, 0.0f, 0.0f ) );
+	tetrahedronMesh->vertices.push_back( glm::vec3( 1.0f, 0.0f, 0.0f ) );
+	tetrahedronMesh->vertices.push_back( glm::vec3( 0.0f, 1.0f, 0.0f ) );
+	tetrahedronMesh->vertices.push_back( glm::vec3( 0.0f, 0.0f, 1.0f ) );
+	
+	// INDICES
+	const int indiceCount = 12;
+	const unsigned int indiceArray[indiceCount] =
+	{
+		1,3,2,
+		1,4,3,
+		1,2,4,
+		2,3,4
+	};
+	
+	int i;
+	for ( i = 0; i < indiceCount; ++i )
+	{
+		tetrahedronMesh->indices.push_back( indiceArray[i] );
+	}
+	tetrahedronMesh->numIndices = indiceCount;
+	
+	rMeshes->push_back( tetrahedronMesh );
 	
 	return rMeshes->back();
 }
@@ -233,14 +325,9 @@ const Mesh* ResourceManager::CreateTriangleMesh()
 
 const Mesh* ResourceManager::CreateCubeMesh( bool centered )
 {
-	printf("Creating Cube mesh \n");
+	//printf("Creating Cube mesh \n");
 	
-	Mesh* triangleMesh = new Mesh();
-	
-	std::vector< glm::vec3 > vertices;
-	//std::vector< glm::vec2 > uv;
-	//std::vector< glm::vec3 > normals;
-	std::vector< unsigned int > indices;
+	Mesh* cubeMesh = new Mesh();
 	
 	float offset = centered ? 0.5f : 0.0f;
 	int i, j;
@@ -251,8 +338,7 @@ const Mesh* ResourceManager::CreateCubeMesh( bool centered )
 		float x = ( (i & 1) == 0 ? 0.0f : 1.0f );
 		float y = ( (i & 2) == 0 ? 0.0f : 1.0f );
 		float z = ( (i & 4) == 0 ? 0.0f : 1.0f );
-		vertices.push_back( glm::vec3( x, y, z ) - offset );
-		triangleMesh->vertices = vertices;
+		cubeMesh->vertices.push_back( glm::vec3( x, y, z ) - offset );
 	}
 	
 	// INDICES
@@ -274,12 +360,11 @@ const Mesh* ResourceManager::CreateCubeMesh( bool centered )
 	
 	for (j = 0; j < indiceCount; ++j)
 	{
-		indices.push_back( indiceArray[j] );
+		cubeMesh->indices.push_back( indiceArray[j] );
 	}
-	triangleMesh->indices = indices;
-	triangleMesh->numIndices = 36;
+	cubeMesh->numIndices = indiceCount;
 	
-	rMeshes->push_back( triangleMesh );
+	rMeshes->push_back( cubeMesh );
 	
 	return rMeshes->back();
 }

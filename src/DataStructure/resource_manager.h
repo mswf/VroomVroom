@@ -20,6 +20,9 @@ public:
 	const unsigned int LoadTexture( const char* filename );
 	const Mesh* CreateTriangleMesh();
 	const Mesh* CreateCubeMesh( bool centered = true );
+	const Mesh* CreateTetrahedronMesh();
+	const Mesh* CreateIcosahedronMesh();
+	const Mesh* CreateOctahedronMesh();
 	
 	Mesh* tempMesh;
 	std::vector< Mesh* >* rMeshes;
@@ -28,3 +31,4 @@ public:
 };
 
 #endif /* resource_manager_h */
+

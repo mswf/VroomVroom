@@ -129,7 +129,7 @@ void sTerminal::Update(int deltaTime)
             string msg = HelperFunctions::VoidPtrToString(it->data, it->length);
             if(msg.find("::ATOM;") == 0)
             {
-                int sepIndex = msg.find(";", 7);
+                int sepIndex = (int)msg.find(";", 7);
                 string filePath = msg.substr(7, sepIndex-7);
                 int lineNumber = std::stoi(msg.substr(sepIndex+1));
                 LuaSystem.OpenAtom(filePath, lineNumber);

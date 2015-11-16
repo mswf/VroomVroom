@@ -14,10 +14,21 @@ enum class IMPORTER_MESSAGE
 	TEXTURE_FAILED_TO_LOAD = 4
 };
 
-enum class IMPORTER_ERROR_TYPE
+struct MaterialProperties
 {
-	SCENE,
-	IMAGE
+	std::string name;
+	int wireframe_enabled;
+	int two_sided;
+	float shininess;
+	float shininess_strenght;
+	float opacity;
+	float bump_scaling;
+	float diffuse[4];
+	float ambient[4];
+	float specular[4];
+	float emissive[4];
+	float transparent[4];
+	float reflective[4];
 };
 
 class ImporterImp
@@ -30,25 +41,17 @@ class ImporterImp
 		virtual void FreeScene( aiScene* sc );
 		virtual void FreeImage( unsigned char* img );
 		virtual void ExtractMesh( const aiMesh* mesh );
-		virtual void ExtractMaterial( const aiMaterial* material );
-		//virtual void ExtractTextures();
-		virtual int ImportObjFile( const std::string& pFile );
-		virtual int ImportImage( const char* filename );
-		virtual const std::string& GetError( IMPORTER_ERROR_TYPE type ) const;
-		virtual void SetSceneImportFlags( int flags );
+		virtual void ExtractMaterial( const aiMaterial* material, MaterialProperties* properties );
+		virtual int ImportObjFile( const std::string& pFile, aiScene* scene );
+		virtual int ImportImage( const char* filename, unsigned char* image, int& width, int& height );
+		virtual void SetSceneImportFlags( int flags ) { importFlags = flags; }
+	
+		std::string import_scene_failure_reason;
+		std::string import_image_failure_reason;
 	
 	protected:
 	
-		aiScene* loadedScene;
-		unsigned char* loadedImage;
-	
 		int importFlags;
-		std::string importSceneError;
-		std::string importImageError;
-	
-	private:
-	
-		std::string unknownError = "Unknown error type";
 };
 
 

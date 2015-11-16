@@ -4,41 +4,39 @@
 #include "importer.hpp"
 #include "postprocess.h"
 
-//#define STB_IMAGE_IMPLEMENTATION
-//#include "../IO/stb_image.h"
+#ifdef WORKING
+	#define STB_IMAGE_IMPLEMENTATION
+	#include "../IO/stb_image.h"
+#endif
 
 #include "../glm/vec2.hpp"
 #include "../glm/vec3.hpp"
 
 ImporterImp::ImporterImp():
 	importFlags(aiProcessPreset_TargetRealtime_Quality),
-	loadedScene(NULL),
-	loadedImage(NULL),
-	importSceneError("No errors logged."),
-	importImageError("No errors logged.")
+	import_scene_failure_reason("No errors logged."),
+	import_image_failure_reason("No errors logged.")
 {}
 
 ImporterImp::~ImporterImp()
-{
-	FreeScene( loadedScene );
-	FreeImage( loadedImage );
-}
+{}
 
-int ImporterImp::ImportImage( const char* filename )
+int ImporterImp::ImportImage( const char* filename, unsigned char* image, int& width, int& height )
 {
+#ifdef WORKING
 	//stbi_set_flip_vertically_on_load(true);
-	int w, h, comp;
+	int comp;
 	//int req_comp = STBI_rgb_alpha;
 	
-	FreeImage(loadedImage);
-	//loadedImage = stbi_load( filename, &w, &h, &comp, req_comp);
+	FreeImage(image);
+	//image = stbi_load( filename, &width, &height, &comp, req_comp);
 	
-	if( loadedImage == nullptr )
+	if( image == nullptr )
 	{
-		//importImageError = std::string(stbi__g_failure_reason);
+		//import_image_failure_reason = std::string(stbi__g_failure_reason);
 		return (int)IMPORTER_MESSAGE::TEXTURE_FAILED_TO_LOAD;
 	}
-	
+#endif
 	return (int)IMPORTER_MESSAGE::TEXTURE_LOAD_OK;
 }
 
@@ -46,12 +44,14 @@ void ImporterImp::FreeImage( unsigned char* img )
 {
 	if (img != NULL)
 	{
+#ifdef WORKING
 		//stbi_image_free(img);
+#endif
 		img = NULL;
 	}
 }
 
-int ImporterImp::ImportObjFile( const std::string& pFile )
+int ImporterImp::ImportObjFile( const std::string& pFile, aiScene* scene )
 {
 	Assimp::Importer importer;
 	std::ifstream fin( pFile.c_str() );
@@ -65,17 +65,17 @@ int ImporterImp::ImportObjFile( const std::string& pFile )
 		return (int)IMPORTER_MESSAGE::FILE_NOT_FOUND;
 	}
 	
-	const aiScene* scene = importer.ReadFile( pFile, importFlags );
+	const aiScene* sc = importer.ReadFile( pFile, importFlags );
  
-	if( !scene )
+	if( !sc )
 	{
 		// If the import failed, save error for request
-		importSceneError = importer.GetErrorString();
+		import_scene_failure_reason = importer.GetErrorString();
 		return (int)IMPORTER_MESSAGE::FILE_CORRUPT;
 	}
  
-	FreeScene( loadedScene );
-	loadedScene = importer.GetOrphanedScene();
+	FreeScene( scene );
+	scene = importer.GetOrphanedScene();
 	return (int)IMPORTER_MESSAGE::FILE_OK;
 }
 
@@ -88,6 +88,7 @@ void ImporterImp::FreeScene( aiScene* sc )
 	}
 }
 
+//TODO(Valentinas): Use C-Arrays instead of GLM library vectors for portability
 void ImporterImp::ExtractMesh( const aiMesh* mesh )
 {
 	
@@ -176,88 +177,189 @@ void ImporterImp::ExtractMesh( const aiMesh* mesh )
 
 }
 
-void ImporterImp::ExtractMaterial( const aiMaterial* material )
+void ImporterImp::ExtractMaterial( const aiMaterial* material, MaterialProperties* prop )
 {
-	int materialTextureCount = 0;
+	unsigned int max = 1;
+	int wireframe = 0;
+	int two_sided = 0;
+	aiString name( "Undefined" );
+	aiColor4D diffuse, ambient, specular, emissive, transparent, reflective;
+	float opacity = 0.0;
+	float bumpScaling = 0.0;
+	float shininess = 0.0;
+	float shininess_strenght = 0.0;
+	float color[4];
 	
-	// 0: Name
-	// 1: Shading mode
-	// 2: Color ambient
-	// 3: Color diffuse
-	// 4: Color specular
-	// 5: Color emissive
-	// 6: Shininess
-	// 7: Opacity
-	// 8: Refractive
-	// 9: Texture file
+	//printf( "Number of properties: %i, expected 13. \n", material->mNumProperties );
 	
-	int i, j, k;
-	
-	// DIFFUSE
-	for ( i = 0; i < material->GetTextureCount(aiTextureType_DIFFUSE); ++i )
+	// A COUPLE OF HELPER CLOSURES/LAMBDAS
+	auto SetFloat4 = []( float* c, float r, float g, float b, float a )
 	{
-		aiString path;
-		if ( AI_SUCCESS == material->GetTexture( aiTextureType_DIFFUSE, i, &path ) )
-		{
-			//TEXTURE INDEX unsigned int texId = textureIdMap[texPath.data];
-			//TEXTURE INDEX aMesh.texIndex = texId;
-			
-			//TEXTURE COUNT aMat.texCount = 1;
-			++materialTextureCount;
-		}
-	}
+		c[0] = r; c[1] = g; c[2] = b; c[3] = a;
+	};
 	
-	// SPECULAR
-	for ( j = 0; j < material->GetTextureCount(aiTextureType_SPECULAR); ++j )
+	auto aiColorToFloat4 = []( aiColor4D* aiColor, float* color )
 	{
-		aiString path;
-		if ( AI_SUCCESS == material->GetTexture( aiTextureType_SPECULAR, j, &path ) )
-		{
-			//bind texture
-			//TEXTURE INDEX unsigned int texId = textureIdMap[texPath.data];
-			//TEXTURE INDEX aMesh.texIndex = texId;
-			//TEXTURE COUNT aMat.texCount = 1;
-		}
-	}
+		color[0] = aiColor->r; color[1] = aiColor->g; color[2] = aiColor->b; color[3] = aiColor->a;
+	};
 	
-	// HEIGHT / NORMAL
-	for ( k = 0; k < material->GetTextureCount(aiTextureType_HEIGHT); ++k )
+	/*
+	auto printFloat4 = []( float* color, const char* name )
 	{
-		aiString path;
-		if ( AI_SUCCESS == material->GetTexture( aiTextureType_HEIGHT, k, &path ) )
-		{
-			//bind texture
-			//TEXTURE INDEX unsigned int texId = textureIdMap[texPath.data];
-			//TEXTURE INDEX aMesh.texIndex = texId;
-			//TEXTURE COUNT aMat.texCount = 1;
-		}
-	}
+		printf("Material %s color: %f , %f , %f , %f \n", name, color[0], color[1], color[2], color[3] );
+	};
+	*/
+	// END OF HELPERS
 	
-}
+	if( AI_SUCCESS == aiGetMaterialString(material, AI_MATKEY_NAME, &name) )
+	{
+		prop->name = name.C_Str();
+		//printf("Material name: %s \n", name.C_Str() );
+	}
 
-void ImporterImp::SetSceneImportFlags( int flags )
-{
-	importFlags = flags;
-}
-
-const std::string& ImporterImp::GetError( IMPORTER_ERROR_TYPE type ) const
-{
-	switch (type)
+	if( AI_SUCCESS == aiGetMaterialIntegerArray( material, AI_MATKEY_ENABLE_WIREFRAME, &wireframe, &max ) )
 	{
-		case IMPORTER_ERROR_TYPE::SCENE:
-		{
-			return importSceneError;
-			break;
-		}
-		case IMPORTER_ERROR_TYPE::IMAGE:
-		{
-			return importImageError;
-			break;
-		}
-		default:
-		{
-			return unknownError;
-			break;
-		}
+		//fill_mode = wireframe ? GL_LINE : GL_FILL;
+		prop->wireframe_enabled = wireframe;
+		//printf("Material wireframe_mode: %i \n", wireframe );
 	}
+	
+	if( ( AI_SUCCESS == aiGetMaterialIntegerArray( material, AI_MATKEY_TWOSIDED, &two_sided, &max) ) && two_sided )
+	{
+		// two_sided ? glEnable(CULL_FACE) : glDisable(CULL_FACE)
+		prop->two_sided = two_sided;
+		//printf("Material is two_sided?: %i \n", two_sided );
+	}
+
+	
+	aiGetMaterialFloatArray(material, AI_MATKEY_OPACITY, &opacity, &max);
+	prop->opacity = opacity;
+	//printf("Material opacity: %f \n", opacity );
+
+	
+	aiGetMaterialFloatArray(material, AI_MATKEY_BUMPSCALING, &bumpScaling, &max);
+	prop->bump_scaling = bumpScaling;
+	//printf("Material bumpScaling: %f \n", bumpScaling );
+
+	
+	aiGetMaterialFloatArray(material, AI_MATKEY_SHININESS, &shininess, &max);
+	prop->shininess = shininess;
+	//printf("Material shininess: %f \n", shininess );
+
+	
+	aiGetMaterialFloatArray(material, AI_MATKEY_SHININESS_STRENGTH, &shininess_strenght, &max);
+	prop->shininess_strenght = shininess_strenght;
+	//printf("Material shininess_strenght: %f \n", shininess_strenght );
+
+	
+	SetFloat4(color, 0.8f, 0.8f, 0.8f, 1.0f);
+	if( AI_SUCCESS == aiGetMaterialColor( material, AI_MATKEY_COLOR_DIFFUSE, &diffuse ) )
+	{
+		aiColorToFloat4(&diffuse, color);
+	}
+	memcpy(prop->diffuse, color, sizeof(color));
+	//printFloat4( prop->diffuse, "diffuse" );
+	
+	SetFloat4(color, 0.2f, 0.2f, 0.2f, 1.0f);
+	if( AI_SUCCESS == aiGetMaterialColor( material, AI_MATKEY_COLOR_AMBIENT, &ambient ) )
+	{
+		aiColorToFloat4(&ambient, color);
+	}
+	memcpy(prop->ambient, color, sizeof(color));
+	//printFloat4( prop->ambient, "ambient" );
+	
+	SetFloat4(color, 0.0f, 0.0f, 0.0f, 1.0f);
+	if( AI_SUCCESS == aiGetMaterialColor( material, AI_MATKEY_COLOR_SPECULAR, &specular ) )
+	{
+		aiColorToFloat4(&specular, color);
+	}
+	memcpy(prop->specular, color, sizeof(color));
+	//printFloat4( prop->specular, "specular" );
+	
+	SetFloat4(color, 0.0f, 0.0f, 0.0f, 1.0f);
+	if( AI_SUCCESS == aiGetMaterialColor( material, AI_MATKEY_COLOR_EMISSIVE, &emissive ) )
+	{
+		aiColorToFloat4(&emissive, color);
+	}
+	memcpy(prop->emissive, color, sizeof(color));
+	//printFloat4( prop->emissive, "emissive" );
+
+	SetFloat4(color, 0.0f, 0.0f, 0.0f, 1.0f);
+	if( AI_SUCCESS == aiGetMaterialColor( material, AI_MATKEY_COLOR_TRANSPARENT, &transparent ) )
+	{
+		aiColorToFloat4(&transparent, color);
+	}
+	memcpy(prop->transparent, color, sizeof(color));
+	//printFloat4( prop->transparent, "transparent" );
+	
+	SetFloat4(color, 0.0f, 0.0f, 0.0f, 1.0f);
+	if( AI_SUCCESS == aiGetMaterialColor( material, AI_MATKEY_COLOR_REFLECTIVE, &reflective ) )
+	{
+		aiColorToFloat4(&reflective, color);
+	}
+	memcpy(prop->reflective, color, sizeof(color));
+	//printFloat4( prop->reflective, "reflective" );
+	
+	
+	//FINDING TEXTURES
+	
+	std::vector<unsigned int> textureIdMap;
+	
+	auto FindTextures1 = []( const aiMaterial* mtl, aiTextureType t, std::vector<unsigned int>& textureIdMap )
+	{
+		printf("FindTexture 1: \n");
+		int i;
+		for ( i = 0; i < mtl->GetTextureCount(t); ++i )
+		{
+			aiString path;
+			if ( AI_SUCCESS == mtl->GetTexture( t, i, &path ) )
+			{
+				printf("Texture: %s \n", path.C_Str() );
+				//TEXTURE INDEX unsigned int texId = textureIdMap[texPath.data];
+				//TEXTURE INDEX aMesh.texIndex = texId;
+				//TEXTURE COUNT aMat.texCount = 1;
+			}
+		}
+	};
+	
+	auto FindTextures2 = []( const aiMaterial* mtl, aiTextureType t, std::vector<unsigned int>& textureIdMap )
+	{
+		printf("FindTexture 2: \n");
+		int index = 0;
+		aiString path;
+		aiReturn texFound = mtl->GetTexture(t, index, &path);
+		while (texFound == AI_SUCCESS)
+		{
+			printf("Texture: %s \n", path.C_Str() );
+			//fill map with textures, OpenGL image ids set to 0
+			//textureIdMap[path.data] = 0;
+			++index;
+			texFound = mtl->GetTexture(aiTextureType_DIFFUSE, index, &path);
+		}
+	};
+	
+	//TEXTURE TYPES
+	/*
+		aiTextureType_DIFFUSE = 0x1,
+		aiTextureType_SPECULAR = 0x2,
+		aiTextureType_AMBIENT = 0x3,
+		aiTextureType_EMISSIVE = 0x4,
+		aiTextureType_HEIGHT = 0x5,
+		aiTextureType_NORMALS = 0x6,
+		aiTextureType_SHININESS = 0x7,
+		aiTextureType_OPACITY = 0x8,
+		aiTextureType_DISPLACEMENT = 0x9,
+		aiTextureType_LIGHTMAP = 0xA,
+		aiTextureType_REFLECTION = 0xB,
+	*/
+	
+	/*
+	FindTextures1(material, aiTextureType_DIFFUSE, textureIdMap);
+	FindTextures1(material, aiTextureType_SPECULAR, textureIdMap);
+	FindTextures1(material, aiTextureType_HEIGHT, textureIdMap);
+	
+	FindTextures2(material, aiTextureType_DIFFUSE, textureIdMap);
+	FindTextures2(material, aiTextureType_SPECULAR, textureIdMap);
+	FindTextures2(material, aiTextureType_HEIGHT, textureIdMap);
+	*/
 }

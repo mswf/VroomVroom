@@ -1,14 +1,20 @@
-//
-//  importer.hpp
-//  VroomVroom
-//
-//  Created by Valentinas Rimeika on 15/11/15.
-//  Copyright © 2015 Valentinas Rimeika. All rights reserved.
-//
+#ifndef importer_h
+#define importer_h
 
-#ifndef importer_hpp
-#define importer_hpp
+#include "importer_imp.h"
 
-#include <stdio.h>
+class Importer
+{
+	public:
+	
+		Importer();
+		~Importer();
+		void SetSceneImportFlags( int flags );
+		bool ImportObjFile( const std::string& pFile );
+		bool ImportImage( const char* filename );
+	
+	protected:
+		ImporterImp* imp_;
+};
 
-#endif /* importer_hpp */
+#endif /* importer_h */

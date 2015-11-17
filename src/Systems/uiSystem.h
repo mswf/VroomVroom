@@ -122,6 +122,7 @@ struct uiWindowPropertiesElement
 	double height;
 	double x;
 	double y;
+	
 	bool resizable;
 	bool collapsable;
 	bool closable;
@@ -133,6 +134,7 @@ struct uiWindowPropertiesElement
 struct uiWindowTextElement
 {
 	string text;
+	double wrapWidth;
 	
 	uiWindowElement* parent;
 };

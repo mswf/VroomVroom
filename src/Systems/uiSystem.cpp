@@ -99,8 +99,11 @@ uiWindowTextElement* sUiSystem::AddText(uiWindow* w)
 	uiWindowTextElement* data = new uiWindowTextElement;
 	data->parent = ee;
 	data->text = "lorum ipsum";
+	data->wrapWidth = 0;
 	
 	ee->propertyMap["text"] = &(data->text);
+	ee->propertyMap["wrapWidth"] = &(data->wrapWidth);
+
 
 
 	ee->data = data;
@@ -214,15 +217,15 @@ void sUiSystem::Render()
 		int windowFlags = 0;
 		if (properties->movable == false)
 		{
-			windowFlags = windowFlags | ImGuiWindowFlags_NoMove;
+			windowFlags |= ImGuiWindowFlags_NoMove;
 		}
 		if (properties->resizable == false)
 		{
-			windowFlags = windowFlags | ImGuiWindowFlags_NoResize;
+			windowFlags |= ImGuiWindowFlags_NoResize;
 		}
 		if (properties->collapsable == false)
 		{
-			windowFlags = windowFlags | ImGuiWindowFlags_NoCollapse;
+			windowFlags |= ImGuiWindowFlags_NoCollapse;
 		}
 
 		bool isOpened = true;   //will be set to false if user presses X button
@@ -330,7 +333,16 @@ void sUiSystem::HandleButton(uiWindowElement* e)
 void sUiSystem::HandleText(uiWindowElement* e)
 {
 	uiWindowTextElement* data = (uiWindowTextElement*)(e->data);
-	ImGui::Text(data->text.c_str());
+	if(data->wrapWidth <= 0)
+	{
+		ImGui::TextWrapped(data->text.c_str());
+	}
+	else
+	{
+		ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + data->wrapWidth);
+		ImGui::Text(data->text.c_str());
+		ImGui::PopTextWrapPos();
+	}
 }
 
 void sUiSystem::RemoveButton(uiWindowElement* e)

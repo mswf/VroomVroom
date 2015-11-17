@@ -170,17 +170,17 @@ lFuncImp(mUiWindow, mtNewIndex)
 		
 		if(lua_type(L, 3) == LUA_TSTRING)
 		{
-			UiSystem.SetNamedProperty(window, lua_tostring(L, 2), string(lua_tostring(L, 3)));
+			UiSystem.SetNamedProperty<string>(window, lua_tostring(L, 2), string(lua_tostring(L, 3)));
 			return 0;
 		}
 		if(lua_type(L, 3) == LUA_TBOOLEAN)
 		{
-			UiSystem.SetNamedProperty(window, lua_tostring(L, 2), lua_toboolean(L, 3));
+			UiSystem.SetNamedProperty<bool>(window, lua_tostring(L, 2), lua_toboolean(L, 3));
 			return 0;
 		}
 		if(lua_type(L, 3) == LUA_TNUMBER)
 		{
-			UiSystem.SetNamedProperty(window, lua_tostring(L, 2), lua_tonumber(L, 3));
+			UiSystem.SetNamedProperty<double>(window, lua_tostring(L, 2), lua_tonumber(L, 3));
 			return 0;
 		}
 	}
@@ -210,6 +210,7 @@ lFuncImp(mUiWindow, addText)
 	
 	lua_newtable(L);
 	lstString("text", text->text.c_str());
+	lstString("wrapWidth", text->text.c_str());
 	lua_setfield(L, -2, "__coreProperties__");
 	
 	luaL_getmetatable(L, "__mtUiElement");

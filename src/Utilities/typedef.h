@@ -2,7 +2,6 @@
 #include <string>
 #include "SDL2/SDL.h"
 
-//TODO(Weikie) write unit test to see if 8/16/32/64bit is set up correct
 typedef std::string		string;
 typedef Uint8			uint8;
 typedef Uint16			uint16;

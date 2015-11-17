@@ -17,9 +17,9 @@ void mUiWindow::Bind(lua_State* L){
         lBind(create)
     lEnd(UiWindow)
     
-    luaL_newmetatable(L, "__mtUiWindow");
+    luaL_newmetatable(L, "__mtUiElement");
     
-    const luaL_reg __mtUiWindow_methods[] =
+    const luaL_reg __mtUiElement_methods[] =
     {
         {"__index", lw_mtIndex__},
         {"__newindex", lw_mtNewIndex__},
@@ -28,7 +28,27 @@ void mUiWindow::Bind(lua_State* L){
 		{0, 0}
 	};
     
-    luaL_openlib(L, 0, __mtUiWindow_methods, 0);
+    luaL_openlib(L, 0, __mtUiElement_methods, 0);
+
+	UiSystem.SetLuaState(L);
+}
+
+void mUiWindow::HandleButtonCallback(lua_State* L, int tableKey)
+{
+	
+	lua_pushnumber(L, tableKey);
+	lua_gettable(L, LUA_REGISTRYINDEX);
+	
+	LuaSystem.Dump(L);
+	
+	
+	
+	lua_getfield(L, -1, "callback");
+	if(lua_isnil(L, -1) == 0)
+	{
+		lua_pushvalue(L, 1);
+		LuaSystem.Call(L, 1, 0);
+	}
 
 }
 
@@ -40,18 +60,23 @@ lFuncImp(mUiWindow, create){
     lua_settop(L, 0);
     
 	uiWindow* window = UiSystem.ConstructWindow();
+	uiWindowPropertiesElement* properties = (uiWindowPropertiesElement*)window->propertiesElement->data;
     
-    window->title = title;
-    window->width = width;
-    window->height = height;
-    
+    properties->title = title;
+    properties->width = width;
+    properties->height = height;
+	
     lua_newtable(L);
     
     //TODO(robin) PLS PLS PLS this memory needs to be managed properly,
     //perhaps add some garbage regular userdata to be notified of garbage collection?
-    lua_pushlightuserdata(L, window);
-    lua_setfield(L, -2, "__coreWindow__");
-    
+    lua_pushlightuserdata(L, window->propertiesElement);
+    lua_setfield(L, -2, "__coreElement__");
+	
+	lua_pushlightuserdata(L, window);
+	lua_setfield(L, -2, "__coreWindow__");
+
+	
     lua_newtable(L);
 
     lstString("title", title.c_str());
@@ -60,17 +85,14 @@ lFuncImp(mUiWindow, create){
     lstNumber("x", 0)
     lstNumber("y", 0)
     
-    lstBoolean("resizable", window->resizable)
-    lstBoolean("movable", window->movable)
-    lstBoolean("closable", window->closable)
-    lstBoolean("collapsable", window->collapsable)
+    lstBoolean("resizable", properties->resizable)
+    lstBoolean("movable", properties->movable)
+    lstBoolean("closable", properties->closable)
+    lstBoolean("collapsable", properties->collapsable)
     
     lua_setfield(L, -2, "__coreProperties__");
     
-    //TODO(robin) create (light?) userdata to the window, garbage collector et all
-    //TODO(robin) lua references
-    
-    luaL_getmetatable(L, "__mtUiWindow");
+    luaL_getmetatable(L, "__mtUiElement");
     lua_setmetatable(L, -2);
     return 1;
 }
@@ -88,7 +110,7 @@ lFuncImp(mUiWindow, mtIndex)
     //we failed, so we pop all the values we put on the stack in our first check
     lua_settop(L, 2);
     //then try the methods in our metatable
-    luaL_getmetatable(L,"__mtUiWindow");
+    luaL_getmetatable(L,"__mtUiElement");
     lua_getfield(L, -1, lua_tostring(L, -2));
     if(!lua_isnil(L, -1))
     {
@@ -109,49 +131,26 @@ lFuncImp(mUiWindow, mtNewIndex)
         lua_pushvalue(L,-2);
         lua_pushvalue(L,3);
         lua_setfield(L, -2, lua_tostring(L, 2));
-        
-        lua_getfield(L, 1, "__coreWindow__");
-        uiWindow* window = (uiWindow*)lua_touserdata(L,-1);
+		lua_getfield(L, 1, "__coreElement__");
+        uiWindowElement* window = (uiWindowElement*)lua_touserdata(L,-1);
         lua_pop(L, 1);
-        
-        lua_getfield(L, -1, "collapsable");
-        window->collapsable = lua_toboolean(L, -1);
-        lua_pop(L,1);
-        
-        lua_getfield(L, -1, "resizable");
-        window->resizable = lua_toboolean(L, -1);
-        lua_pop(L,1);
-        
-        lua_getfield(L, -1, "closable");
-        window->closable = lua_toboolean(L, -1);
-        lua_pop(L,1);
-        
-        lua_getfield(L, -1, "movable");
-        window->movable = lua_toboolean(L, -1);
-        lua_pop(L,1);
-        
-        lua_getfield(L, -1, "width");
-        window->width = lua_tonumber(L, -1);
-        lua_pop(L,1);
-        
-        lua_getfield(L, -1, "height");
-        window->height = lua_tonumber(L, -1);
-        lua_pop(L,1);
-        
-        lua_getfield(L, -1, "x");
-        window->x = lua_tonumber(L, -1);
-        lua_pop(L,1);
-        
-        lua_getfield(L, -1, "y");
-        window->y = lua_tonumber(L, -1);
-        lua_pop(L,1);
-        
-        lua_getfield(L, -1, "title");
-        window->title = lua_tostring(L, -1);
-        lua_pop(L,1);
-        
-        return 0;
-    }
+		
+		if(lua_type(L, 3) == LUA_TSTRING)
+		{
+			UiSystem.SetNamedProperty(window, lua_tostring(L, 2), string(lua_tostring(L, 3)));
+			return 0;
+		}
+		if(lua_type(L, 3) == LUA_TBOOLEAN)
+		{
+			UiSystem.SetNamedProperty(window, lua_tostring(L, 2), lua_toboolean(L, 3));
+			return 0;
+		}
+		if(lua_type(L, 3) == LUA_TNUMBER)
+		{
+			UiSystem.SetNamedProperty(window, lua_tostring(L, 2), lua_tonumber(L, 3));
+			return 0;
+		}
+	}
     //we failed, so we pop all the values we put on the stack in our first check
     lua_settop(L, 3);
     //it was not a core property, so add it to the base table (we use rawset to bypass an infinite __newindex loop)
@@ -161,31 +160,68 @@ lFuncImp(mUiWindow, mtNewIndex)
 
 lFuncImp(mUiWindow, addText)
 {
-    //TODO(robin) create a table whose properties are modifiable,
-    //TODO(robin) add a reference to said table in the uiWindowElement
-    lgString(content,2,"lorum ipsum");
+	lua_settop(L, 2);
+    lgString(startText,2,"lorum ipsum");
     lua_getfield(L, 1, "__coreWindow__");
     uiWindow* window = (uiWindow*)lua_touserdata(L,-1);
-    lua_pop(L, 1);
-    
-    UiSystem.AddText(window)->content = content;
-    
-    return 0;
+	lua_pop(L, 1);
+	
+	
+	uiWindowTextElement* text = UiSystem.AddText(window);
+	
+	text->text = startText;
+	
+	lua_newtable(L);
+	lua_pushlightuserdata(L, text->parent);
+	lua_setfield(L, -2, "__coreElement__");
+	
+	lua_newtable(L);
+	lstString("text", text->text.c_str());
+	lua_setfield(L, -2, "__coreProperties__");
+	
+	luaL_getmetatable(L, "__mtUiElement");
+	lua_setmetatable(L, -2);
+	
+	lua_pushvalue(L, 1);
+	lua_setfield(L, -2, "parent");
+    return 1;
 }
 
 lFuncImp(mUiWindow, addButton)
 {
-    Terminal.Warning("uiWindow:addButton is not fully implemented yet");
-    
-    lgString(label,2,"butts");
+	lua_settop(L, 3);
+    lgString(label, 2, "butts");
+	//lgFunc(callback, 3, -1);
+	
     lua_getfield(L, 1, "__coreWindow__");
     uiWindow* window = (uiWindow*)lua_touserdata(L,-1);
     lua_pop(L, 1);
+	
+	uiWindowButtonElement* button = UiSystem.AddButton(window);
     
-    UiSystem.AddButton(window)->label = label;
-    
-    return 0;
+    button->label = label;
+	
+	lua_newtable(L);
+	lua_pushlightuserdata(L, button->parent);
+	lua_setfield(L, -2, "__coreElement__");
+	
+	lua_newtable(L);
+	lstString("label", button->label.c_str());
+	lua_setfield(L, -2, "__coreProperties__");
+	
+	lua_pushvalue(L, 3);
+	lua_setfield(L, -2, "callback");
 
+	luaL_getmetatable(L, "__mtUiElement");
+	lua_setmetatable(L, -2);
+
+	lua_pushvalue(L, -1);
+	button->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
+	
+	lua_pushvalue(L, 1);
+	lua_setfield(L, -2, "parent");
+
+    return 1;
 }
 
 //TODO(robin):

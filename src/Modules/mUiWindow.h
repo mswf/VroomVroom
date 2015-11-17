@@ -14,6 +14,8 @@
 class mUiWindow {
     public:
         static void Bind(lua_State*);
+	
+		static void HandleButtonCallback(lua_State*, int);
     private:
         mUiWindow();
         ~mUiWindow();

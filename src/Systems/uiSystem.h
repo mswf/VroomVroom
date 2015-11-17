@@ -13,21 +13,17 @@
 
 #include "../Utilities/typedef.h"
 #include "../Patterns/singleton.h"
+#include <map>
+
+struct lua_State;
 
 #define UiSystem sUiSystem::getInstance()
 
-enum WindowElementTypes
-{
-    uweTEXT,
-    uweBUTTON,
-    uweNONE
-};
-
 struct uiWindow;
+
 
 struct uiWindowElement
 {
-    //WindowElementTypes type;
     void (*handle)(uiWindowElement*);
     void (*remove)(uiWindowElement*);
     void* data;
@@ -35,42 +31,28 @@ struct uiWindowElement
     uiWindowElement* prevElement;
     
     uiWindow* parent;
+	
+	std::map<string, void*> propertyMap;
 };
 
 struct uiWindow
 {
     uint8 id;
-    string title;
-    uint16 width;
-    uint16 height;
-    uint16 x;
-    uint16 y;
-    bool resizable;
-    bool collapsable;
-    bool closable;
-    bool movable;
-    
+	
+	uiWindowElement* propertiesElement;
+	
     uiWindowElement* firstElement;
     uiWindowElement* lastElement;
     uiWindow* nextWindow;
     uiWindow* prevWindow;
+	
+	//std::map<string, void*> propertyMap;
 };
 
+struct uiWindowPropertiesElement;
+struct uiWindowTextElement;
+struct uiWindowButtonElement;
 
-struct uiWindowTextElement
-{
-    string content;
-    
-    uiWindowElement* parent;
-};
-
-struct uiWindowButtonElement
-{
-    string label;
-    void (*callback)();
-    
-    uiWindowElement* parent;
-};
 
 class sUiSystem : public Singleton<sUiSystem>
 {
@@ -87,7 +69,20 @@ class sUiSystem : public Singleton<sUiSystem>
         void RemoveElement(uiWindow*, uiWindowElement*);
     
         void Render();
-    
+	
+		void SetLuaState(lua_State*);
+	
+		template<typename T>
+			void SetNamedProperty(uiWindowElement* target, string property, T value)
+			{
+				std::map<string, void*>::iterator it = target->propertyMap.find(property);
+				if(it != target->propertyMap.end())
+				{
+					T* tv = (T*)(target->propertyMap[property]);
+					*tv = value;
+				}
+			}
+	
     private:
         void AddWindow(uiWindow*);
         void AddElement(uiWindow*, uiWindowElement*);
@@ -104,6 +99,38 @@ class sUiSystem : public Singleton<sUiSystem>
         uint8 windowCount;
         uiWindow* firstWindow;
         uiWindow* lastWindow;
+	
+		static lua_State* lState;
+};
+
+struct uiWindowPropertiesElement
+{
+	string title;
+	double width;
+	double height;
+	double x;
+	double y;
+	bool resizable;
+	bool collapsable;
+	bool closable;
+	bool movable;
+	
+	uiWindowElement* parent;
+};
+
+struct uiWindowTextElement
+{
+	string text;
+	
+	uiWindowElement* parent;
+};
+
+struct uiWindowButtonElement
+{
+	string label;
+	int luaTableKey;
+	
+	uiWindowElement* parent;
 };
 
 #endif /* uiSystem_h */

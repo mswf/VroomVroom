@@ -20,14 +20,14 @@
 sTerminal::sTerminal():
 	socket(NULL),
 	logFile(NULL),
-    reconnectDelay(-1)
+	reconnectDelay(-1)
 {
 	socket = new TCPClient("localhost", CONSOLE_PORT);
-    if(!socket->IsConnected())
-    {
-        ReattemptConnection(10000);
-    }
-    
+	if (!socket->IsConnected())
+	{
+		ReattemptConnection(10000);
+	}
+
 	CreateLogFile();
 	Log("Terminal initialized", true);
 
@@ -85,11 +85,11 @@ void sTerminal::Warning(const string msg)
 
 void sTerminal::Error(string msg)
 {
-    string line = "[ERROR]" + msg;
-    std::cout << line << std::endl;
-    WriteToFile(line);
-    SendToExternal(line, "#ff0000", "#ffffff");
-    //TODO(robin): Better error handling
+	string line = "[ERROR]" + msg;
+	std::cout << line << std::endl;
+	WriteToFile(line);
+	SendToExternal(line, "#ff0000", "#ffffff");
+	//TODO(robin): Better error handling
 }
 
 void sTerminal::Custom(const string msg, string background, string color)
@@ -109,12 +109,12 @@ void sTerminal::LuaError(const string msg)
 
 void sTerminal::LuaLinkedError(const string msg, const string cleanMsg)
 {
-    string line = "[LUA]" + msg;
-    SendToExternal(line, "#C5251D", "#70B7BE");
-    
-    string cleanLine = "[LUA]" + cleanMsg;
-    std::cout << cleanLine << std::endl;
-    WriteToFile(cleanLine);
+	string line = "[LUA]" + msg;
+	SendToExternal(line, "#C5251D", "#70B7BE");
+
+	string cleanLine = "[LUA]" + cleanMsg;
+	std::cout << cleanLine << std::endl;
+	WriteToFile(cleanLine);
 }
 
 //TODO replace with callback when messages are recieved rather than having to poll each update
@@ -122,73 +122,75 @@ void sTerminal::Update(int deltaTime)
 {
 	if (socket->IsConnected())
 	{
-        std::vector<NetworkData> messages = socket->ReceiveMessage();
-        std::vector<NetworkData>::iterator it;
-        for (it = messages.begin(); it != messages.end(); ++it)
-        {
-            string msg = HelperFunctions::VoidPtrToString(it->data, it->length);
-            if(msg.find("::ATOM;") == 0)
-            {
-                int sepIndex = msg.find(";", 7);
-                string filePath = msg.substr(7, sepIndex-7);
-                int lineNumber = std::stoi(msg.substr(sepIndex+1));
-                LuaSystem.OpenAtom(filePath, lineNumber);
-            }
-            else if(msg.find("::RESUME;") == 0)
-            {
-                LuaSystem.Resume();
-            }
-            else if(msg.find("::HALT;") == 0)
-            {
-                LuaSystem.Halt();
-            }
-            else
-            {
-                LuaSystem.Attempt(msg);
-            }
-        }
+		std::vector<NetworkData> messages = socket->ReceiveMessage();
+		std::vector<NetworkData>::iterator it;
+		for (it = messages.begin(); it != messages.end(); ++it)
+		{
+			string msg = HelperFunctions::VoidPtrToString(it->data, it->length);
+			if (msg.find("::ATOM;") == 0)
+			{
+				int sepIndex = msg.find(";", 7);
+				string filePath = msg.substr(7, sepIndex - 7);
+				int lineNumber = std::stoi(msg.substr(sepIndex + 1));
+				LuaSystem.OpenAtom(filePath, lineNumber);
+			}
+			else if (msg.find("::RESUME;") == 0)
+			{
+				LuaSystem.Resume();
+			}
+			else if (msg.find("::HALT;") == 0)
+			{
+				LuaSystem.Halt();
+			}
+			else
+			{
+				LuaSystem.Attempt(msg);
+			}
+			delete it->data;
+		}
 
 	}
-    if(reconnectDelay > 0){
-        ReattemptConnection(reconnectDelay - deltaTime);
-    }
-    else if (!socket->IsConnected())
-    {
-        ReattemptConnection(10000);
-    }
+	if (reconnectDelay > 0)
+	{
+		ReattemptConnection(reconnectDelay - deltaTime);
+	}
+	else if (!socket->IsConnected())
+	{
+		ReattemptConnection(10000);
+	}
 }
 
 bool sTerminal::IsConnected() const
 {
-    return socket->IsConnected();
+	return socket->IsConnected();
 }
 
 void sTerminal::ReattemptConnection(int delay)
 {
-    if(socket->IsConnected())
-    {
-        return;
-    }
-    if(delay <= 0)
-    {
+	if (socket->IsConnected())
+	{
+		return;
+	}
+	if (delay <= 0)
+	{
 		//TODO: delay value is never read
-        delay = -1;
-        if(socket != NULL)
-        {
-            delete socket;
-        }
-        Log("Attempting to reconnect with external console");
-        socket = new TCPClient("localhost", CONSOLE_PORT);
-        if(!socket->IsConnected())
-        {
-            //try again in 10 seconds
-            ReattemptConnection(10000);
-        }
-    }
-    else
-    {
-        reconnectDelay = delay;
-    }
+		delay = -1;
+		if (socket != NULL)
+		{
+			delete socket;
+		}
+		Log("Attempting to reconnect with external console");
+		socket = new TCPClient("localhost", CONSOLE_PORT);
+		if (!socket->IsConnected())
+		{
+			//try again in 10 seconds
+			ReattemptConnection(10000);
+		}
+	}
+	else
+	{
+		reconnectDelay = delay;
+	}
 }
 
 
@@ -199,19 +201,19 @@ void sTerminal::WriteToFile(const string msg)
 	{
 		return;
 	}
-	
-	logFile->WriteString(GetTimeString()+msg+"\r\n");
+
+	logFile->WriteString(GetTimeString() + msg + "\r\n");
 }
 
 void sTerminal::SendToExternal(const string msg, const string background, const string color)
 {
-    string timedMessage = GetTimeString() + msg;
+	string timedMessage = GetTimeString() + msg;
 	string consoleString = "MSG[|]";
 	consoleString += timedMessage + "[|]";
 	consoleString += "BG[|]" + background + "[|]";
 	consoleString += "CLR[|]" + color + "[|]";
-    
-    consoleString += "<///>";
+
+	consoleString += "<///>";
 
 	if (socket->IsConnected())
 	{
@@ -269,14 +271,23 @@ struct tm GetTimeStruct()
 
 string GetTimeString()
 {
-    string line = "<";
-    
-    struct tm time_info = GetTimeStruct();
-    if(time_info.tm_hour < 10) line += "0";
-    line += std::to_string(time_info.tm_hour) + ":";
-    if(time_info.tm_min < 10) line += "0";
-    line += std::to_string(time_info.tm_min) + ":";
-    if(time_info.tm_sec < 10) line += "0";
-    line += std::to_string(time_info.tm_sec) + ">";
-    return line;
+	string line = "<";
+
+	struct tm time_info = GetTimeStruct();
+	if (time_info.tm_hour < 10)
+	{
+		line += "0";
+	}
+	line += std::to_string(time_info.tm_hour) + ":";
+	if (time_info.tm_min < 10)
+	{
+		line += "0";
+	}
+	line += std::to_string(time_info.tm_min) + ":";
+	if (time_info.tm_sec < 10)
+	{
+		line += "0";
+	}
+	line += std::to_string(time_info.tm_sec) + ">";
+	return line;
 }

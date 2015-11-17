@@ -18,18 +18,27 @@ void mUiWindow::Bind(lua_State* L){
     lEnd(UiWindow)
     
     luaL_newmetatable(L, "__mtUiElement");
-    
     const luaL_reg __mtUiElement_methods[] =
     {
         {"__index", lw_mtIndex__},
         {"__newindex", lw_mtNewIndex__},
-        lBind(addText)
-		lBind(addButton)
 		{0, 0}
 	};
-    
     luaL_openlib(L, 0, __mtUiElement_methods, 0);
-
+	
+	
+	luaL_newmetatable(L, "__mtUiWindow");
+	const luaL_reg __mtUiWindow_methods[] =
+	{
+		{"__index", lw_mtIndex__},
+		{"__newindex", lw_mtNewIndex__},
+		lBind(addText)
+		lBind(addButton)
+		lBind(destroy)
+		{0, 0}
+	};
+	luaL_openlib(L, 0, __mtUiWindow_methods, 0);
+	
 	UiSystem.SetLuaState(L);
 }
 
@@ -38,9 +47,6 @@ void mUiWindow::HandleButtonCallback(lua_State* L, int tableKey)
 	
 	lua_pushnumber(L, tableKey);
 	lua_gettable(L, LUA_REGISTRYINDEX);
-	
-	LuaSystem.Dump(L);
-	
 	
 	
 	lua_getfield(L, -1, "callback");
@@ -92,9 +98,14 @@ lFuncImp(mUiWindow, create){
     
     lua_setfield(L, -2, "__coreProperties__");
     
-    luaL_getmetatable(L, "__mtUiElement");
+    luaL_getmetatable(L, "__mtUiWindow");
     lua_setmetatable(L, -2);
+	
     return 1;
+}
+
+lFuncImp(mUiWindow, destroy){
+	return 0;
 }
 
 lFuncImp(mUiWindow, mtIndex)
@@ -104,16 +115,36 @@ lFuncImp(mUiWindow, mtIndex)
     lua_getfield(L, -1, lua_tostring(L, -2));
     if(!lua_isnil(L, -1))
     {
-        return 1;
+		lua_getfield(L, 1, "__coreElement__");
+		uiWindowElement* window = (uiWindowElement*)lua_touserdata(L,-1);
+		lua_pop(L, 1);
+		
+		if(lua_type(L, -1) == LUA_TSTRING)
+		{
+			lua_pushstring(L, UiSystem.GetNamedProperty<string>(window, lua_tostring(L, 2)).c_str());
+			return 1;
+		}
+		if(lua_type(L, -1) == LUA_TBOOLEAN)
+		{
+			lua_pushboolean(L, UiSystem.GetNamedProperty<bool>(window, lua_tostring(L, 2)));
+			return 1;
+		}
+		if(lua_type(L, -1) == LUA_TNUMBER)
+		{
+			lua_pushnumber(L, UiSystem.GetNamedProperty<double>(window, lua_tostring(L, 2)));
+			return 1;
+		}
+
     }
     
     //we failed, so we pop all the values we put on the stack in our first check
     lua_settop(L, 2);
     //then try the methods in our metatable
-    luaL_getmetatable(L,"__mtUiElement");
+	lua_getmetatable(L, 1);
     lua_getfield(L, -1, lua_tostring(L, -2));
     if(!lua_isnil(L, -1))
     {
+		
         return 1;
     }
 
@@ -128,9 +159,11 @@ lFuncImp(mUiWindow, mtNewIndex)
     lua_getfield(L, -1, lua_tostring(L, -3));
     if(!lua_isnil(L, -1))
     {
+		//set the property in our properties field
         lua_pushvalue(L,-2);
         lua_pushvalue(L,3);
         lua_setfield(L, -2, lua_tostring(L, 2));
+		
 		lua_getfield(L, 1, "__coreElement__");
         uiWindowElement* window = (uiWindowElement*)lua_touserdata(L,-1);
         lua_pop(L, 1);

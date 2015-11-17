@@ -21,7 +21,8 @@ class mUiWindow {
         ~mUiWindow();
     
         lFuncDef(create);
-    
+		lFuncDef(destroy);
+	
         lFuncDef(mtIndex);
         lFuncDef(mtNewIndex);
     

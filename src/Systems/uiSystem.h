@@ -81,7 +81,19 @@ class sUiSystem : public Singleton<sUiSystem>
 					T* tv = (T*)(target->propertyMap[property]);
 					*tv = value;
 				}
-			}
+			};
+	
+		template<typename T>
+			T GetNamedProperty(uiWindowElement* target, string property)
+			{
+				std::map<string, void*>::iterator it = target->propertyMap.find(property);
+				if(it != target->propertyMap.end())
+				{
+					T* tv = (T*)(target->propertyMap[property]);
+					return *tv;
+				}
+				return NULL;
+			};
 	
     private:
         void AddWindow(uiWindow*);

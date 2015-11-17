@@ -40,78 +40,69 @@ uiWindow* sUiSystem::ConstructWindow()
 	
 	window->luaTableKey = -1;
 	
-	uiWindowPropertiesElement* properties = new uiWindowPropertiesElement();
-	window->propertiesElement = new uiWindowElement();
-	window->propertiesElement->data = properties;
-	
-	properties->title = string("untitled window");
-	properties->x = 0;
-	properties->y = 0;
-	properties->width = 100;
-	properties->height = 100;
+	window->title = string("untitled window");
+	window->x = 0;
+	window->y = 0;
+	window->width = 100;
+	window->height = 100;
 
-	properties->movable = true;
-	properties->resizable = true;
-	properties->collapsable = true;
-	properties->closable = true;
+	window->movable = true;
+	window->resizable = true;
+	window->collapsable = true;
+	window->closable = true;
 	
-	window->propertiesElement->propertyMap["title"] = &(properties->title);
-	window->propertiesElement->propertyMap["x"] = &(properties->x);
-	window->propertiesElement->propertyMap["y"] = &(properties->y);
-	window->propertiesElement->propertyMap["width"] = &(properties->width);
-	window->propertiesElement->propertyMap["height"] = &(properties->height);
+	window->propertyMap["title"] = &(window->title);
+	window->propertyMap["x"] = &(window->x);
+	window->propertyMap["y"] = &(window->y);
+	window->propertyMap["width"] = &(window->width);
+	window->propertyMap["height"] = &(window->height);
 	
-	window->propertiesElement->propertyMap["movable"] = &(properties->movable);
-	window->propertiesElement->propertyMap["resizable"] = &(properties->resizable);
-	window->propertiesElement->propertyMap["collapsable"] = &(properties->collapsable);
-	window->propertiesElement->propertyMap["closable"] = &(properties->closable);
+	window->propertyMap["movable"] = &(window->movable);
+	window->propertyMap["resizable"] = &(window->resizable);
+	window->propertyMap["collapsable"] = &(window->collapsable);
+	window->propertyMap["closable"] = &(window->closable);
 
 	AddWindow(window);
 
 	return window;
 }
 
-uiWindowButtonElement* sUiSystem::AddButton(uiWindow* w)
+uiButtonElement* sUiSystem::AddButton(uiWindow* w)
 {
-	uiWindowElement* ee = new uiWindowElement;
+	uiButtonElement* bb = new uiButtonElement;
+	//uiWindowElement* ee = new uiWindowElement;
 	//ee->type = WindowElementTypes::uweBUTTON;
-	ee->handle = HandleButton;
-	ee->remove = RemoveButton;
+	bb->handle = HandleButton;
+	bb->remove = RemoveButton;
 
-	uiWindowButtonElement* data = new uiWindowButtonElement;
-	data->parent = ee;
-	data->label = "button";
-	data->luaTableKey = -1;
+	bb->parent = w;
 	
-	ee->propertyMap["label"] = &(data->label);
+	bb->label = "button";
+	bb->luaTableKey = -1;
+	
+	bb->propertyMap["label"] = &(bb->label);
 
-	ee->data = data;
-	AddElement(w, ee);
+	AddElement(w, bb);
 
-	return data;
+	return bb;
 }
 
-uiWindowTextElement* sUiSystem::AddText(uiWindow* w)
+uiTextElement* sUiSystem::AddText(uiWindow* w)
 {
-	uiWindowElement* ee = new uiWindowElement;
-	//ee->type = WindowElementTypes::uweTEXT;
-	ee->handle = HandleText;
-	ee->remove = RemoveText;
+	uiTextElement* tt = new uiTextElement;
+	tt->handle = HandleText;
+	tt->remove = RemoveText;
 
-	uiWindowTextElement* data = new uiWindowTextElement;
-	data->parent = ee;
-	data->text = "lorum ipsum";
-	data->wrapWidth = 0;
+	tt->parent = w;
+	tt->text = "lorum ipsum";
+	tt->wrapWidth = 0;
 	
-	ee->propertyMap["text"] = &(data->text);
-	ee->propertyMap["wrapWidth"] = &(data->wrapWidth);
+	tt->propertyMap["text"] = &(tt->text);
+	tt->propertyMap["wrapWidth"] = &(tt->wrapWidth);
 
+	AddElement(w, tt);
 
-
-	ee->data = data;
-	AddElement(w, ee);
-
-	return data;
+	return tt;
 }
 
 void sUiSystem::RemoveWindow(uiWindow* w)
@@ -140,19 +131,13 @@ void sUiSystem::RemoveWindow(uiWindow* w)
 			}
 
 			//clear all the elements properly
-			uiWindowElement* currentElement = currentWindow->lastElement;
+			uiElement* currentElement = currentWindow->lastElement;
 			while (currentElement != NULL)
 			{
-				uiWindowElement* temp = currentElement->prevElement;
+				uiElement* temp = currentElement->prevElement;
 				currentElement->remove(currentElement); //clears the data
-				delete currentElement;
 				currentElement = temp;
 			}
-			
-			//remove the properties element;
-			uiWindowPropertiesElement* properties = (uiWindowPropertiesElement*)currentWindow->propertiesElement->data;
-			delete properties;
-			delete currentWindow->propertiesElement;
 			
 			if (currentWindow->luaTableKey != -1 && lState != NULL)
 			{
@@ -169,9 +154,9 @@ void sUiSystem::RemoveWindow(uiWindow* w)
 	}
 }
 
-void sUiSystem::RemoveElement(uiWindow* ww, uiWindowElement* ee)
+void sUiSystem::RemoveElement(uiWindow* ww, uiElement* ee)
 {
-	uiWindowElement* currentElement = ww->lastElement;
+	uiElement* currentElement = ww->lastElement;
 	while (currentElement != NULL)
 	{
 		if (currentElement == ee)
@@ -212,25 +197,24 @@ void sUiSystem::Render()
 
 	while (currentWindow != NULL)
 	{
-		uiWindowPropertiesElement* properties = (uiWindowPropertiesElement*)currentWindow->propertiesElement->data;
-		string uniqueName = string(properties->title);
+		string uniqueName = string(currentWindow->title);
 		uniqueName += "##";
 		uniqueName += std::to_string(currentWindow->id);
 
-		ImGui::SetNextWindowPos(ImVec2(properties->x, properties->y), ImGuiSetCond_Always);
-		ImGui::SetNextWindowSize(ImVec2(properties->width, properties->height), ImGuiSetCond_Always);
+		ImGui::SetNextWindowPos(ImVec2(currentWindow->x, currentWindow->y), ImGuiSetCond_Always);
+		ImGui::SetNextWindowSize(ImVec2(currentWindow->width, currentWindow->height), ImGuiSetCond_Always);
 
 		//TODO(robin) window flags and close button
 		int windowFlags = 0;
-		if (properties->movable == false)
+		if (currentWindow->movable == false)
 		{
 			windowFlags |= ImGuiWindowFlags_NoMove;
 		}
-		if (properties->resizable == false)
+		if (currentWindow->resizable == false)
 		{
 			windowFlags |= ImGuiWindowFlags_NoResize;
 		}
-		if (properties->collapsable == false)
+		if (currentWindow->collapsable == false)
 		{
 			windowFlags |= ImGuiWindowFlags_NoCollapse;
 		}
@@ -238,7 +222,7 @@ void sUiSystem::Render()
 		bool isOpened = true;   //will be set to false if user presses X button
 		bool* pOpened = &isOpened;
 
-		if (properties->closable == false)
+		if (currentWindow->closable == false)
 		{
 			pOpened = NULL;
 		}
@@ -248,7 +232,7 @@ void sUiSystem::Render()
 
 		if (isExpanded && isOpened)
 		{
-			uiWindowElement* currentElement = currentWindow->firstElement;
+			uiElement* currentElement = currentWindow->firstElement;
 			while (currentElement != NULL)
 			{
 				currentElement->handle(currentElement);
@@ -256,18 +240,18 @@ void sUiSystem::Render()
 			}
 		}
 
-		if (properties->movable)
+		if (currentWindow->movable)
 		{
 			ImVec2 newPos = ImGui::GetWindowPos();
-			properties->x = newPos.x;
-			properties->y = newPos.y;
+			currentWindow->x = newPos.x;
+			currentWindow->y = newPos.y;
 		}
 
-		if (properties->resizable && isExpanded)
+		if (currentWindow->resizable && isExpanded)
 		{
 			ImVec2 newSize = ImGui::GetWindowSize();
-			properties->width = newSize.x;
-			properties->height = newSize.y;
+			currentWindow->width = newSize.x;
+			currentWindow->height = newSize.y;
 		}
 
 		ImGui::End();
@@ -308,7 +292,7 @@ void sUiSystem::AddWindow(uiWindow* w)
 	}
 }
 
-void sUiSystem::AddElement(uiWindow* w, uiWindowElement* e)
+void sUiSystem::AddElement(uiWindow* w, uiElement* e)
 {
 	e->parent = w;
 	e->nextElement = NULL;
@@ -326,41 +310,41 @@ void sUiSystem::AddElement(uiWindow* w, uiWindowElement* e)
 	}
 }
 
-void sUiSystem::HandleButton(uiWindowElement* e)
+void sUiSystem::HandleButton(uiElement* e)
 {
-	uiWindowButtonElement* data = (uiWindowButtonElement*)(e->data);
-	bool pressed = ImGui::Button(data->label.c_str(), ImVec2(80, 30));
+	uiButtonElement* bb = (uiButtonElement*)e;
+	bool pressed = ImGui::Button(bb->label.c_str(), ImVec2(80, 30));
 
-	if (pressed && data->luaTableKey != -1 && lState != NULL)
+	if (pressed && bb->luaTableKey != -1 && lState != NULL)
 	{
-		mUiWindow::HandleButtonCallback(lState, data->luaTableKey);
+		mUiWindow::HandleButtonCallback(lState, bb->luaTableKey);
 	}
 }
 
-void sUiSystem::HandleText(uiWindowElement* e)
+void sUiSystem::HandleText(uiElement* e)
 {
-	uiWindowTextElement* data = (uiWindowTextElement*)(e->data);
-	if(data->wrapWidth <= 0)
+	uiTextElement* tt = (uiTextElement*)e;
+	if(tt->wrapWidth <= 0)
 	{
-		ImGui::TextWrapped(data->text.c_str());
+		ImGui::TextWrapped(tt->text.c_str());
 	}
 	else
 	{
-		ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + data->wrapWidth);
-		ImGui::Text(data->text.c_str());
+		ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + tt->wrapWidth);
+		ImGui::Text(tt->text.c_str());
 		ImGui::PopTextWrapPos();
 	}
 }
 
-void sUiSystem::RemoveButton(uiWindowElement* e)
+void sUiSystem::RemoveButton(uiElement* e)
 {
-	uiWindowButtonElement* data = (uiWindowButtonElement*)(e->data);
+	uiButtonElement* data = (uiButtonElement*)(e);
 	delete data;
 }
 
-void sUiSystem::RemoveText(uiWindowElement* e)
+void sUiSystem::RemoveText(uiElement* e)
 {
-	uiWindowTextElement* data = (uiWindowTextElement*)(e->data);
+	uiTextElement* data = (uiTextElement*)(e);
 	delete data;
 }
 

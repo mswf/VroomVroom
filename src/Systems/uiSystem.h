@@ -19,41 +19,47 @@ struct lua_State;
 
 #define UiSystem sUiSystem::getInstance()
 
-struct uiWindow;
-
-
-struct uiWindowElement
+struct uiNode
 {
-    void (*handle)(uiWindowElement*);
-    void (*remove)(uiWindowElement*);
-    void* data;
-    uiWindowElement* nextElement;
-    uiWindowElement* prevElement;
-    
-    uiWindow* parent;
-	
+	int luaTableKey;
 	std::map<string, void*> propertyMap;
 };
 
-struct uiWindow
+
+struct uiElement : uiNode
+{
+    void (*handle)(uiElement*);
+    void (*remove)(uiElement*);
+    void* data;
+    uiElement* nextElement;
+    uiElement* prevElement;
+    
+    uiNode* parent;
+};
+
+struct uiWindow : uiNode
 {
     uint8 id;
 	
-	uiWindowElement* propertiesElement;
+	string title;
+	double width;
+	double height;
+	double x;
+	double y;
 	
-    uiWindowElement* firstElement;
-    uiWindowElement* lastElement;
+	bool resizable;
+	bool collapsable;
+	bool closable;
+	bool movable;
+	
+    uiElement* firstElement;
+    uiElement* lastElement;
     uiWindow* nextWindow;
     uiWindow* prevWindow;
-	
-	int luaTableKey;
-	
-	//std::map<string, void*> propertyMap;
 };
 
-struct uiWindowPropertiesElement;
-struct uiWindowTextElement;
-struct uiWindowButtonElement;
+struct uiTextElement;
+struct uiButtonElement;
 
 
 class sUiSystem : public Singleton<sUiSystem>
@@ -64,18 +70,18 @@ class sUiSystem : public Singleton<sUiSystem>
     
     
         uiWindow* ConstructWindow(void);
-        uiWindowTextElement* AddText(uiWindow*);
-        uiWindowButtonElement* AddButton(uiWindow*);
+        uiTextElement* AddText(uiWindow*);
+        uiButtonElement* AddButton(uiWindow*);
     
         void RemoveWindow(uiWindow*);
-        void RemoveElement(uiWindow*, uiWindowElement*);
+        void RemoveElement(uiWindow*, uiElement*);
     
         void Render();
 	
 		void SetLuaState(lua_State*);
 	
 		template<typename T>
-			void SetNamedProperty(uiWindowElement* target, string property, T value)
+			void SetNamedProperty(uiNode* target, string property, T value)
 			{
 				std::map<string, void*>::iterator it = target->propertyMap.find(property);
 				if(it != target->propertyMap.end())
@@ -86,7 +92,7 @@ class sUiSystem : public Singleton<sUiSystem>
 			};
 	
 		template<typename T>
-			T GetNamedProperty(uiWindowElement* target, string property)
+			T GetNamedProperty(uiNode* target, string property)
 			{
 				std::map<string, void*>::iterator it = target->propertyMap.find(property);
 				if(it != target->propertyMap.end())
@@ -99,13 +105,13 @@ class sUiSystem : public Singleton<sUiSystem>
 	
     private:
         void AddWindow(uiWindow*);
-        void AddElement(uiWindow*, uiWindowElement*);
+        void AddElement(uiWindow*, uiElement*);
     
-        static void HandleText(uiWindowElement*);
-        static void HandleButton(uiWindowElement*);
+        static void HandleText(uiElement*);
+        static void HandleButton(uiElement*);
     
-        static void RemoveText(uiWindowElement*);
-        static void RemoveButton(uiWindowElement*);
+        static void RemoveText(uiElement*);
+        static void RemoveButton(uiElement*);
     
         void SetNextFreeId();
     
@@ -117,36 +123,18 @@ class sUiSystem : public Singleton<sUiSystem>
 		static lua_State* lState;
 };
 
-struct uiWindowPropertiesElement
-{
-	string title;
-	double width;
-	double height;
-	double x;
-	double y;
-	
-	bool resizable;
-	bool collapsable;
-	bool closable;
-	bool movable;
-	
-	uiWindowElement* parent;
-};
-
-struct uiWindowTextElement
+struct uiTextElement : uiElement
 {
 	string text;
 	double wrapWidth;
-	
-	uiWindowElement* parent;
 };
 
-struct uiWindowButtonElement
+struct uiButtonElement : uiElement
 {
 	string label;
 	int luaTableKey;
-	
-	uiWindowElement* parent;
 };
+
+
 
 #endif /* uiSystem_h */

@@ -81,11 +81,10 @@ lFuncImp(mUiWindow, create){
     lua_settop(L, 0);
     
 	uiWindow* window = UiSystem.ConstructWindow();
-	uiWindowPropertiesElement* properties = (uiWindowPropertiesElement*)window->propertiesElement->data;
     
-    properties->title = title;
-    properties->width = width;
-    properties->height = height;
+    window->title = title;
+    window->width = width;
+    window->height = height;
 	
     lua_newtable(L);
 	
@@ -94,12 +93,8 @@ lFuncImp(mUiWindow, create){
     
     //TODO(robin) PLS PLS PLS this memory needs to be managed properly,
     //perhaps add some garbage regular userdata to be notified of garbage collection?
-    lua_pushlightuserdata(L, window->propertiesElement);
+    lua_pushlightuserdata(L, window);
     lua_setfield(L, -2, "__coreElement__");
-	
-	lua_pushlightuserdata(L, window);
-	lua_setfield(L, -2, "__coreWindow__");
-
 	
     lua_newtable(L);
 
@@ -109,10 +104,10 @@ lFuncImp(mUiWindow, create){
     lstNumber("x", 0)
     lstNumber("y", 0)
     
-    lstBoolean("resizable", properties->resizable)
-    lstBoolean("movable", properties->movable)
-    lstBoolean("closable", properties->closable)
-    lstBoolean("collapsable", properties->collapsable)
+    lstBoolean("resizable", window->resizable)
+    lstBoolean("movable", window->movable)
+    lstBoolean("closable", window->closable)
+    lstBoolean("collapsable", window->collapsable)
     
     lua_setfield(L, -2, "__coreProperties__");
     
@@ -124,7 +119,7 @@ lFuncImp(mUiWindow, create){
 
 lFuncImp(mUiWindow, close)
 {
-	lua_getfield(L, 1, "__coreWindow__");
+	lua_getfield(L, 1, "__coreElement__");
 	uiWindow* window = (uiWindow*)lua_touserdata(L,-1);
 	lua_pop(L, 1);
 
@@ -141,22 +136,22 @@ lFuncImp(mUiWindow, mtIndex)
     if(!lua_isnil(L, -1))
     {
 		lua_getfield(L, 1, "__coreElement__");
-		uiWindowElement* window = (uiWindowElement*)lua_touserdata(L,-1);
+		uiNode* node = (uiNode*)lua_touserdata(L,-1);
 		lua_pop(L, 1);
 		
 		if(lua_type(L, -1) == LUA_TSTRING)
 		{
-			lua_pushstring(L, UiSystem.GetNamedProperty<string>(window, lua_tostring(L, 2)).c_str());
+			lua_pushstring(L, UiSystem.GetNamedProperty<string>(node, lua_tostring(L, 2)).c_str());
 			return 1;
 		}
 		if(lua_type(L, -1) == LUA_TBOOLEAN)
 		{
-			lua_pushboolean(L, UiSystem.GetNamedProperty<bool>(window, lua_tostring(L, 2)));
+			lua_pushboolean(L, UiSystem.GetNamedProperty<bool>(node, lua_tostring(L, 2)));
 			return 1;
 		}
 		if(lua_type(L, -1) == LUA_TNUMBER)
 		{
-			lua_pushnumber(L, UiSystem.GetNamedProperty<double>(window, lua_tostring(L, 2)));
+			lua_pushnumber(L, UiSystem.GetNamedProperty<double>(node, lua_tostring(L, 2)));
 			return 1;
 		}
 
@@ -190,22 +185,22 @@ lFuncImp(mUiWindow, mtNewIndex)
         lua_setfield(L, -2, lua_tostring(L, 2));
 		
 		lua_getfield(L, 1, "__coreElement__");
-        uiWindowElement* window = (uiWindowElement*)lua_touserdata(L,-1);
+        uiNode* node = (uiNode*)lua_touserdata(L,-1);
         lua_pop(L, 1);
 		
 		if(lua_type(L, 3) == LUA_TSTRING)
 		{
-			UiSystem.SetNamedProperty<string>(window, lua_tostring(L, 2), string(lua_tostring(L, 3)));
+			UiSystem.SetNamedProperty<string>(node, lua_tostring(L, 2), string(lua_tostring(L, 3)));
 			return 0;
 		}
 		if(lua_type(L, 3) == LUA_TBOOLEAN)
 		{
-			UiSystem.SetNamedProperty<bool>(window, lua_tostring(L, 2), lua_toboolean(L, 3));
+			UiSystem.SetNamedProperty<bool>(node, lua_tostring(L, 2), lua_toboolean(L, 3));
 			return 0;
 		}
 		if(lua_type(L, 3) == LUA_TNUMBER)
 		{
-			UiSystem.SetNamedProperty<double>(window, lua_tostring(L, 2), lua_tonumber(L, 3));
+			UiSystem.SetNamedProperty<double>(node, lua_tostring(L, 2), lua_tonumber(L, 3));
 			return 0;
 		}
 	}
@@ -220,17 +215,17 @@ lFuncImp(mUiWindow, addText)
 {
 	lua_settop(L, 2);
     lgString(startText,2,"lorum ipsum");
-    lua_getfield(L, 1, "__coreWindow__");
+    lua_getfield(L, 1, "__coreElement__");
     uiWindow* window = (uiWindow*)lua_touserdata(L,-1);
 	lua_pop(L, 1);
 	
 	
-	uiWindowTextElement* text = UiSystem.AddText(window);
+	uiTextElement* text = UiSystem.AddText(window);
 	
 	text->text = startText;
 	
 	lua_newtable(L);
-	lua_pushlightuserdata(L, text->parent);
+	lua_pushlightuserdata(L, text);
 	lua_setfield(L, -2, "__coreElement__");
 	
 	lua_newtable(L);
@@ -250,18 +245,17 @@ lFuncImp(mUiWindow, addButton)
 {
 	lua_settop(L, 3);
     lgString(label, 2, "butts");
-	//lgFunc(callback, 3, -1);
 	
-    lua_getfield(L, 1, "__coreWindow__");
+    lua_getfield(L, 1, "__coreElement__");
     uiWindow* window = (uiWindow*)lua_touserdata(L,-1);
     lua_pop(L, 1);
 	
-	uiWindowButtonElement* button = UiSystem.AddButton(window);
+	uiButtonElement* button = UiSystem.AddButton(window);
     
     button->label = label;
 	
 	lua_newtable(L);
-	lua_pushlightuserdata(L, button->parent);
+	lua_pushlightuserdata(L, button);
 	lua_setfield(L, -2, "__coreElement__");
 	
 	lua_newtable(L);

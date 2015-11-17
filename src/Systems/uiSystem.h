@@ -46,6 +46,8 @@ struct uiWindow
     uiWindow* nextWindow;
     uiWindow* prevWindow;
 	
+	int luaTableKey;
+	
 	//std::map<string, void*> propertyMap;
 };
 

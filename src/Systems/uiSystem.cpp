@@ -38,6 +38,8 @@ uiWindow* sUiSystem::ConstructWindow()
 	window->nextWindow = NULL;
 	window->prevWindow = NULL;
 	
+	window->luaTableKey = -1;
+	
 	uiWindowPropertiesElement* properties = new uiWindowPropertiesElement();
 	window->propertiesElement = new uiWindowElement();
 	window->propertiesElement->data = properties;
@@ -151,6 +153,11 @@ void sUiSystem::RemoveWindow(uiWindow* w)
 			uiWindowPropertiesElement* properties = (uiWindowPropertiesElement*)currentWindow->propertiesElement->data;
 			delete properties;
 			delete currentWindow->propertiesElement;
+			
+			if (currentWindow->luaTableKey != -1 && lState != NULL)
+			{
+				mUiWindow::HandleWindowClose(lState, currentWindow->luaTableKey);
+			}
 
 			//delete the window
 			delete currentWindow;

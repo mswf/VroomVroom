@@ -34,7 +34,7 @@ void mUiWindow::Bind(lua_State* L){
 		{"__newindex", lw_mtNewIndex__},
 		lBind(addText)
 		lBind(addButton)
-		lBind(destroy)
+		lBind(close)
 		{0, 0}
 	};
 	luaL_openlib(L, 0, __mtUiWindow_methods, 0);
@@ -55,7 +55,22 @@ void mUiWindow::HandleButtonCallback(lua_State* L, int tableKey)
 		lua_pushvalue(L, 1);
 		LuaSystem.Call(L, 1, 0);
 	}
+}
 
+void mUiWindow::HandleWindowClose(lua_State* L, int tableKey)
+{
+	
+	lua_pushnumber(L, tableKey);
+	lua_gettable(L, LUA_REGISTRYINDEX);
+	
+	
+	lua_getfield(L, -1, "onClose");
+	if(lua_isnil(L, -1) == 0)
+	{
+		lua_pushvalue(L, 1);
+		LuaSystem.Call(L, 1, 0);
+	}
+	
 }
 
 lFuncImp(mUiWindow, create){
@@ -73,6 +88,9 @@ lFuncImp(mUiWindow, create){
     properties->height = height;
 	
     lua_newtable(L);
+	
+	lua_pushvalue(L, -1);
+	window->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
     
     //TODO(robin) PLS PLS PLS this memory needs to be managed properly,
     //perhaps add some garbage regular userdata to be notified of garbage collection?
@@ -104,7 +122,14 @@ lFuncImp(mUiWindow, create){
     return 1;
 }
 
-lFuncImp(mUiWindow, destroy){
+lFuncImp(mUiWindow, close)
+{
+	lua_getfield(L, 1, "__coreWindow__");
+	uiWindow* window = (uiWindow*)lua_touserdata(L,-1);
+	lua_pop(L, 1);
+
+	UiSystem.RemoveWindow(window);
+	
 	return 0;
 }
 

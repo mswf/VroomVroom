@@ -16,12 +16,14 @@ class mUiWindow {
         static void Bind(lua_State*);
 	
 		static void HandleButtonCallback(lua_State*, int);
+		static void HandleWindowClose(lua_State*, int);
+
     private:
         mUiWindow();
         ~mUiWindow();
     
         lFuncDef(create);
-		lFuncDef(destroy);
+		lFuncDef(close);
 	
         lFuncDef(mtIndex);
         lFuncDef(mtNewIndex);

@@ -129,6 +129,8 @@ class sUiSystem : public Singleton<sUiSystem>
         uiWindow* firstWindow;
         uiWindow* lastWindow;
 	
+		uiButtonElement* cachedButton;
+	
 		static lua_State* lState;
 };
 

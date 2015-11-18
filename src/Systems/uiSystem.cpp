@@ -16,7 +16,8 @@ sUiSystem::sUiSystem() :
 	firstFreeId(0),
 	windowCount(0),
 	firstWindow(NULL),
-	lastWindow(NULL)
+	lastWindow(NULL),
+	cachedButton(NULL)
 {
 
 }
@@ -292,6 +293,15 @@ void sUiSystem::Render()
 		currentWindow = (uiWindow*)currentWindow->nextElement;
 	}
 	ImGui::Render();
+	
+	if(cachedButton != NULL)
+	{
+		if (cachedButton->luaTableKey != -1 && lState != NULL)
+		{
+			mUiWindow::HandleButtonCallback(lState, cachedButton->luaTableKey);
+		}
+		cachedButton = NULL;
+	}
 }
 
 void sUiSystem::SetLuaState(lua_State* L)
@@ -359,9 +369,11 @@ bool sUiSystem::HandleButton(uiElement* e)
 	uiButtonElement* bb = (uiButtonElement*)e;
 	bool pressed = ImGui::Button(bb->label.c_str(), ImVec2(80, 30));
 
-	if (pressed && bb->luaTableKey != -1 && lState != NULL)
+	if (pressed)// && bb->luaTableKey != -1 && lState != NULL)
 	{
-		mUiWindow::HandleButtonCallback(lState, bb->luaTableKey);
+		//mUiWindow::HandleButtonCallback(lState, bb->luaTableKey);
+		//we cache this button press until all windows are rendered
+		UiSystem.cachedButton = bb;
 	}
 	
 	return true;

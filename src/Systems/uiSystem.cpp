@@ -318,6 +318,10 @@ void sUiSystem::AddWindow(uiWindow* w)
 
 void sUiSystem::AddElement(uiContainer* w, uiElement* e)
 {
+	
+	e->tooltip = "";
+	e->propertyMap["tooltip"] = &(e->tooltip);
+	
 	e->parent = w;
 	e->nextElement = NULL;
 	e->prevElement = NULL;
@@ -339,12 +343,18 @@ void sUiSystem::RenderContainer(uiContainer* cc)
 	uiElement* currentElement = cc->firstElement;
 	while (currentElement != NULL)
 	{
-		currentElement->handle(currentElement);
+		bool allowToolTip = currentElement->handle(currentElement);
+		
+		if(allowToolTip && currentElement->tooltip != "" && ImGui::IsItemHovered())
+		{
+			ImGui::SetTooltip(currentElement->tooltip.c_str());
+		}
+		
 		currentElement = currentElement->nextElement;
 	}
 };
 
-void sUiSystem::HandleButton(uiElement* e)
+bool sUiSystem::HandleButton(uiElement* e)
 {
 	uiButtonElement* bb = (uiButtonElement*)e;
 	bool pressed = ImGui::Button(bb->label.c_str(), ImVec2(80, 30));
@@ -353,9 +363,11 @@ void sUiSystem::HandleButton(uiElement* e)
 	{
 		mUiWindow::HandleButtonCallback(lState, bb->luaTableKey);
 	}
+	
+	return true;
 }
 
-void sUiSystem::HandleText(uiElement* e)
+bool sUiSystem::HandleText(uiElement* e)
 {
 	uiTextElement* tt = (uiTextElement*)e;
 	if(tt->wrapWidth <= 0)
@@ -368,21 +380,30 @@ void sUiSystem::HandleText(uiElement* e)
 		ImGui::Text(tt->text.c_str());
 		ImGui::PopTextWrapPos();
 	}
+	
+	return true;
 }
 
-void sUiSystem::HandleTree(uiElement* e)
+bool sUiSystem::HandleTree(uiElement* e)
 {
 	uiTreeElement* tt = (uiTreeElement*)e;
 	
 	ImGui::SetNextTreeNodeOpened(tt->opened, ImGuiSetCond_Always);
 	
+	
 	tt->opened = ImGui::TreeNode(tt->label.c_str());
+			if(tt->tooltip != "" && ImGui::IsItemHovered())
+			{
+				ImGui::SetTooltip(tt->tooltip.c_str());
+			}
 	
 	if (tt->opened)
 	{
 		RenderContainer(tt);
 		ImGui::TreePop();
 	}
+	
+	return false;
 }
 
 void sUiSystem::RemoveButton(uiElement* e)

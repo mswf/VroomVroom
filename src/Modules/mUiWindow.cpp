@@ -246,6 +246,7 @@ lFuncImp(mUiWindow, addText)
 	lua_newtable(L);
 	lstString("text", text->text.c_str());
 	lstString("wrapWidth", text->text.c_str());
+	lstString("tooltip", text->tooltip.c_str());
 	lua_setfield(L, -2, "__coreProperties__");
 	
 	luaL_getmetatable(L, "__mtUiElement");
@@ -275,6 +276,7 @@ lFuncImp(mUiWindow, addButton)
 	
 	lua_newtable(L);
 	lstString("label", button->label.c_str());
+	lstString("tooltip", button->tooltip.c_str());
 	lua_setfield(L, -2, "__coreProperties__");
 	
 	lua_pushvalue(L, 3);
@@ -311,6 +313,7 @@ lFuncImp(mUiWindow, addTree)
 	
 	lua_newtable(L);
 	lstString("label", tree->label.c_str());
+	lstString("tooltip", tree->tooltip.c_str());
 	lstBoolean("opened", tree->opened);
 	lua_setfield(L, -2, "__coreProperties__");
 	

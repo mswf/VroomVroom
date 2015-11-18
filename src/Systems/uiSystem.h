@@ -26,10 +26,12 @@ struct uiElement
 	int luaTableKey;
 	std::map<string, void*> propertyMap;
 	
-    void (*handle)(uiElement*);
+    bool (*handle)(uiElement*);
     void (*remove)(uiElement*);
     uiElement* nextElement;
     uiElement* prevElement;
+	
+	string tooltip;
     
     uiContainer* parent;
 };
@@ -112,9 +114,9 @@ class sUiSystem : public Singleton<sUiSystem>
 	
 		static void RenderContainer(uiContainer*);
 	
-        static void HandleText(uiElement*);
-        static void HandleButton(uiElement*);
-		static void HandleTree(uiElement*);
+        static bool HandleText(uiElement*);
+        static bool HandleButton(uiElement*);
+		static bool HandleTree(uiElement*);
     
         static void RemoveText(uiElement*);
         static void RemoveButton(uiElement*);

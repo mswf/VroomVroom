@@ -35,10 +35,14 @@ uiWindow* sUiSystem::ConstructWindow()
 	window->id = id;
 	window->firstElement = NULL;
 	window->lastElement = NULL;
-	window->nextWindow = NULL;
-	window->prevWindow = NULL;
+	window->nextElement = NULL;
+	window->prevElement = NULL;
 	
 	window->luaTableKey = -1;
+	
+	window->handle = NULL;
+	window->remove = NULL;
+	window->parent = NULL;
 	
 	window->title = string("untitled window");
 	window->x = 0;
@@ -67,7 +71,7 @@ uiWindow* sUiSystem::ConstructWindow()
 	return window;
 }
 
-uiButtonElement* sUiSystem::AddButton(uiWindow* w)
+uiButtonElement* sUiSystem::AddButton(uiContainer* w)
 {
 	uiButtonElement* bb = new uiButtonElement;
 	//uiWindowElement* ee = new uiWindowElement;
@@ -87,7 +91,7 @@ uiButtonElement* sUiSystem::AddButton(uiWindow* w)
 	return bb;
 }
 
-uiTextElement* sUiSystem::AddText(uiWindow* w)
+uiTextElement* sUiSystem::AddText(uiContainer* w)
 {
 	uiTextElement* tt = new uiTextElement;
 	tt->handle = HandleText;
@@ -105,6 +109,27 @@ uiTextElement* sUiSystem::AddText(uiWindow* w)
 	return tt;
 }
 
+uiTreeElement* sUiSystem::AddTree(uiContainer* w)
+{
+	uiTreeElement* tt = new uiTreeElement;
+	tt->firstElement = NULL;
+	tt->lastElement = NULL;
+	
+	tt->handle = HandleTree;
+	tt->remove = RemoveTree;
+	
+	tt->parent = w;
+	tt->label = "lorum ipsum";
+	tt->opened = true;
+	
+	tt->propertyMap["label"] = &(tt->label);
+	tt->propertyMap["opened"] = &(tt->opened);
+	
+	AddElement(w, tt);
+	
+	return tt;
+}
+
 void sUiSystem::RemoveWindow(uiWindow* w)
 {
 	uiWindow* currentWindow = lastWindow;
@@ -112,32 +137,26 @@ void sUiSystem::RemoveWindow(uiWindow* w)
 	{
 		if (currentWindow == w)
 		{
-			if (currentWindow->prevWindow != NULL)
+			if (currentWindow->prevElement != NULL)
 			{
-				currentWindow->prevWindow->nextWindow = currentWindow->nextWindow;
+				currentWindow->prevElement->nextElement = currentWindow->nextElement;
 			}
-			if (currentWindow->nextWindow != NULL)
+			if (currentWindow->nextElement != NULL)
 			{
-				currentWindow->nextWindow->prevWindow = currentWindow->prevWindow;
+				currentWindow->nextElement->prevElement = currentWindow->prevElement;
 			}
 
 			if (firstWindow == currentWindow)
 			{
-				firstWindow = currentWindow->nextWindow;
+				firstWindow = (uiWindow*)currentWindow->nextElement;
 			}
 			if (lastWindow == currentWindow)
 			{
-				lastWindow = currentWindow->prevWindow;
+				lastWindow = (uiWindow*)currentWindow->prevElement;
 			}
 
 			//clear all the elements properly
-			uiElement* currentElement = currentWindow->lastElement;
-			while (currentElement != NULL)
-			{
-				uiElement* temp = currentElement->prevElement;
-				currentElement->remove(currentElement); //clears the data
-				currentElement = temp;
-			}
+			RemoveChildren(currentWindow);
 			
 			if (currentWindow->luaTableKey != -1 && lState != NULL)
 			{
@@ -150,11 +169,23 @@ void sUiSystem::RemoveWindow(uiWindow* w)
 			break;
 		}
 
-		currentWindow = currentWindow->prevWindow;
+		currentWindow = (uiWindow*)currentWindow->prevElement;
 	}
 }
 
-void sUiSystem::RemoveElement(uiWindow* ww, uiElement* ee)
+void sUiSystem::RemoveChildren(uiContainer* ee)
+{
+	//clear all the elements properly
+	uiElement* currentChild = ee->lastElement;
+	while (currentChild != NULL)
+	{
+		uiElement* temp = currentChild->prevElement;
+		currentChild->remove(currentChild); //clears the data
+		currentChild = temp;
+	}
+}
+
+void sUiSystem::RemoveElement(uiContainer* ww, uiElement* ee)
 {
 	uiElement* currentElement = ww->lastElement;
 	while (currentElement != NULL)
@@ -179,9 +210,7 @@ void sUiSystem::RemoveElement(uiWindow* ww, uiElement* ee)
 				ww->lastElement = currentElement->nextElement;
 			}
 
-
 			currentElement->remove(currentElement); //clears the data
-			delete currentElement;
 
 			break;
 		}
@@ -232,12 +261,7 @@ void sUiSystem::Render()
 
 		if (isExpanded && isOpened)
 		{
-			uiElement* currentElement = currentWindow->firstElement;
-			while (currentElement != NULL)
-			{
-				currentElement->handle(currentElement);
-				currentElement = currentElement->nextElement;
-			}
+			RenderContainer(currentWindow);
 		}
 
 		if (currentWindow->movable)
@@ -258,14 +282,14 @@ void sUiSystem::Render()
 
 		if (!isOpened)
 		{
-			uiWindow* temp = currentWindow->nextWindow;
+			uiWindow* temp = (uiWindow*)currentWindow->nextElement;
 			RemoveWindow(currentWindow);
 			currentWindow = temp;
 			continue;
 		}
 
 
-		currentWindow = currentWindow->nextWindow;
+		currentWindow = (uiWindow*)currentWindow->nextElement;
 	}
 	ImGui::Render();
 }
@@ -286,13 +310,13 @@ void sUiSystem::AddWindow(uiWindow* w)
 	}
 	else
 	{
-		w->prevWindow = lastWindow;
-		lastWindow->nextWindow = w;
+		w->prevElement = lastWindow;
+		lastWindow->nextElement = w;
 		lastWindow = w;
 	}
 }
 
-void sUiSystem::AddElement(uiWindow* w, uiElement* e)
+void sUiSystem::AddElement(uiContainer* w, uiElement* e)
 {
 	e->parent = w;
 	e->nextElement = NULL;
@@ -309,6 +333,16 @@ void sUiSystem::AddElement(uiWindow* w, uiElement* e)
 		w->lastElement = e;
 	}
 }
+
+void sUiSystem::RenderContainer(uiContainer* cc)
+{
+	uiElement* currentElement = cc->firstElement;
+	while (currentElement != NULL)
+	{
+		currentElement->handle(currentElement);
+		currentElement = currentElement->nextElement;
+	}
+};
 
 void sUiSystem::HandleButton(uiElement* e)
 {
@@ -336,6 +370,21 @@ void sUiSystem::HandleText(uiElement* e)
 	}
 }
 
+void sUiSystem::HandleTree(uiElement* e)
+{
+	uiTreeElement* tt = (uiTreeElement*)e;
+	
+	ImGui::SetNextTreeNodeOpened(tt->opened, ImGuiSetCond_Always);
+	
+	tt->opened = ImGui::TreeNode(tt->label.c_str());
+	
+	if (tt->opened)
+	{
+		RenderContainer(tt);
+		ImGui::TreePop();
+	}
+}
+
 void sUiSystem::RemoveButton(uiElement* e)
 {
 	uiButtonElement* data = (uiButtonElement*)(e);
@@ -345,6 +394,13 @@ void sUiSystem::RemoveButton(uiElement* e)
 void sUiSystem::RemoveText(uiElement* e)
 {
 	uiTextElement* data = (uiTextElement*)(e);
+	delete data;
+}
+
+void sUiSystem::RemoveTree(uiElement* e)
+{
+	uiTreeElement* data = (uiTreeElement*)(e);
+	UiSystem.RemoveChildren(data);
 	delete data;
 }
 

@@ -34,10 +34,25 @@ void mUiWindow::Bind(lua_State* L){
 		{"__newindex", lw_mtNewIndex__},
 		lBind(addText)
 		lBind(addButton)
+		lBind(addTree)
 		lBind(close)
 		{0, 0}
 	};
 	luaL_openlib(L, 0, __mtUiWindow_methods, 0);
+	
+	
+	luaL_newmetatable(L, "__mtUiContainer");
+	const luaL_reg __mtUiContainer_methods[] =
+	{
+		{"__index", lw_mtIndex__},
+		{"__newindex", lw_mtNewIndex__},
+		lBind(addText)
+		lBind(addButton)
+		lBind(addTree)
+		{0, 0}
+	};
+	luaL_openlib(L, 0, __mtUiContainer_methods, 0);
+
 	
 	UiSystem.SetLuaState(L);
 }
@@ -136,7 +151,7 @@ lFuncImp(mUiWindow, mtIndex)
     if(!lua_isnil(L, -1))
     {
 		lua_getfield(L, 1, "__coreElement__");
-		uiNode* node = (uiNode*)lua_touserdata(L,-1);
+		uiElement* node = (uiElement*)lua_touserdata(L,-1);
 		lua_pop(L, 1);
 		
 		if(lua_type(L, -1) == LUA_TSTRING)
@@ -185,7 +200,7 @@ lFuncImp(mUiWindow, mtNewIndex)
         lua_setfield(L, -2, lua_tostring(L, 2));
 		
 		lua_getfield(L, 1, "__coreElement__");
-        uiNode* node = (uiNode*)lua_touserdata(L,-1);
+        uiElement* node = (uiElement*)lua_touserdata(L,-1);
         lua_pop(L, 1);
 		
 		if(lua_type(L, 3) == LUA_TSTRING)
@@ -216,11 +231,11 @@ lFuncImp(mUiWindow, addText)
 	lua_settop(L, 2);
     lgString(startText,2,"lorum ipsum");
     lua_getfield(L, 1, "__coreElement__");
-    uiWindow* window = (uiWindow*)lua_touserdata(L,-1);
+    uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
 	lua_pop(L, 1);
 	
 	
-	uiTextElement* text = UiSystem.AddText(window);
+	uiTextElement* text = UiSystem.AddText(container);
 	
 	text->text = startText;
 	
@@ -247,10 +262,10 @@ lFuncImp(mUiWindow, addButton)
     lgString(label, 2, "butts");
 	
     lua_getfield(L, 1, "__coreElement__");
-    uiWindow* window = (uiWindow*)lua_touserdata(L,-1);
+    uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
     lua_pop(L, 1);
 	
-	uiButtonElement* button = UiSystem.AddButton(window);
+	uiButtonElement* button = UiSystem.AddButton(container);
     
     button->label = label;
 	
@@ -275,6 +290,43 @@ lFuncImp(mUiWindow, addButton)
 	lua_setfield(L, -2, "parent");
 
     return 1;
+}
+
+lFuncImp(mUiWindow, addTree)
+{
+	lua_settop(L, 3);
+	lgString(label, 2, "butts");
+	
+	lua_getfield(L, 1, "__coreElement__");
+	uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
+	lua_pop(L, 1);
+	
+	uiTreeElement* tree = UiSystem.AddTree(container);
+	
+	tree->label = label;
+	
+	lua_newtable(L);
+	lua_pushlightuserdata(L, tree);
+	lua_setfield(L, -2, "__coreElement__");
+	
+	lua_newtable(L);
+	lstString("label", tree->label.c_str());
+	lstBoolean("opened", tree->opened);
+	lua_setfield(L, -2, "__coreProperties__");
+	
+	lua_pushvalue(L, 3);
+	lua_setfield(L, -2, "callback");
+	
+	luaL_getmetatable(L, "__mtUiContainer");
+	lua_setmetatable(L, -2);
+	
+	lua_pushvalue(L, -1);
+	tree->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
+	
+	lua_pushvalue(L, 1);
+	lua_setfield(L, -2, "parent");
+	
+	return 1;
 }
 
 //TODO(robin):

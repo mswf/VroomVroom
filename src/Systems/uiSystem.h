@@ -34,6 +34,8 @@ struct uiElement
 	string tooltip;
     
     uiContainer* parent;
+	
+	bool visible;
 };
 
 
@@ -63,6 +65,7 @@ struct uiTextElement;
 struct uiButtonElement;
 struct uiTreeElement;
 struct uiInputTextElement;
+struct uiCheckboxElement;
 
 
 class sUiSystem : public Singleton<sUiSystem>
@@ -78,6 +81,7 @@ class sUiSystem : public Singleton<sUiSystem>
         uiButtonElement* AddButton(uiContainer*);
 		uiTreeElement* AddTree(uiContainer*);
 		uiInputTextElement* AddInputText(uiContainer*);
+		uiCheckboxElement* AddCheckbox(uiContainer*);
 	
 		void RemoveWindow(uiWindow*);
         void RemoveChildren(uiContainer*);
@@ -120,11 +124,13 @@ class sUiSystem : public Singleton<sUiSystem>
         static bool HandleButton(uiElement*);
 		static bool HandleTree(uiElement*);
 		static bool HandleInputText(uiElement*);
-    
+		static bool HandleCheckbox(uiElement *);
+	
         static void RemoveText(uiElement*);
         static void RemoveButton(uiElement*);
 		static void RemoveTree(uiElement*);
 		static void RemoveInputText(uiElement*);
+		static void RemoveCheckbox(uiElement*);
 	
         void SetNextFreeId();
     
@@ -160,6 +166,12 @@ struct uiInputTextElement : uiElement
 {
 	string text;
 	string label;
+};
+
+struct uiCheckboxElement : uiElement
+{
+	string label;
+	bool checked;
 };
 
 

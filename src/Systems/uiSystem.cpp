@@ -116,6 +116,8 @@ uiWindow* sUiSystem::ConstructWindow()
 	window->collapsable = true;
 	window->closable = true;
 	
+	window->visible = true;
+	
 	window->propertyMap["title"] = &(window->title);
 	window->propertyMap["x"] = &(window->x);
 	window->propertyMap["y"] = &(window->y);
@@ -126,6 +128,8 @@ uiWindow* sUiSystem::ConstructWindow()
 	window->propertyMap["resizable"] = &(window->resizable);
 	window->propertyMap["collapsable"] = &(window->collapsable);
 	window->propertyMap["closable"] = &(window->closable);
+	
+	window->propertyMap["visible"] = &(window->visible);
 
 	AddWindow(window);
 
@@ -191,6 +195,43 @@ uiTreeElement* sUiSystem::AddTree(uiContainer* w)
 	return tt;
 }
 
+uiInputTextElement* sUiSystem::AddInputText(uiContainer* w)
+{
+	uiInputTextElement* tt = new uiInputTextElement;
+	tt->handle = HandleInputText;
+	tt->remove = RemoveInputText;
+	
+	tt->parent = w;
+	tt->text = "lorum ipsum";
+	tt->label = "nerd";
+	
+	tt->propertyMap["text"] = &(tt->text);
+	tt->propertyMap["label"] = &(tt->label);
+	
+	AddElement(w, tt);
+	
+	return tt;
+}
+
+uiCheckboxElement* sUiSystem::AddCheckbox(uiContainer* w)
+{
+	uiCheckboxElement* cb = new uiCheckboxElement;
+	cb->handle = HandleCheckbox;
+	cb->remove = RemoveCheckbox;
+	
+	cb->parent = w;
+	cb->label = "nerd";
+	cb->checked = false;
+	
+	cb->propertyMap["label"] = &(cb->label);
+	cb->propertyMap["checked"] = &(cb->checked);
+	
+	AddElement(w, cb);
+	
+	return cb;
+
+}
+
 void sUiSystem::RemoveWindow(uiWindow* w)
 {
 	uiWindow* currentWindow = lastWindow;
@@ -232,24 +273,6 @@ void sUiSystem::RemoveWindow(uiWindow* w)
 
 		currentWindow = (uiWindow*)currentWindow->prevElement;
 	}
-}
-
-uiInputTextElement* sUiSystem::AddInputText(uiContainer* w)
-{
-	uiInputTextElement* tt = new uiInputTextElement;
-	tt->handle = HandleInputText;
-	tt->remove = RemoveInputText;
-	
-	tt->parent = w;
-	tt->text = "lorum ipsum";
-	tt->label = "nerd";
-	
-	tt->propertyMap["text"] = &(tt->text);
-	tt->propertyMap["label"] = &(tt->label);
-	
-	AddElement(w, tt);
-	
-	return tt;
 }
 
 void sUiSystem::RemoveChildren(uiContainer* ee)
@@ -305,6 +328,11 @@ void sUiSystem::Render()
 
 	while (currentWindow != NULL)
 	{
+		if(!currentWindow->visible)
+		{
+			currentWindow = (uiWindow*)currentWindow->nextElement;
+			continue;
+		}
 		string uniqueName = string(currentWindow->title);
 		uniqueName += "##";
 		uniqueName += std::to_string(currentWindow->id);
@@ -410,6 +438,9 @@ void sUiSystem::AddElement(uiContainer* w, uiElement* e)
 	e->tooltip = "";
 	e->propertyMap["tooltip"] = &(e->tooltip);
 	
+	e->visible = true;
+	e->propertyMap["visible"] = &(e->visible);
+	
 	e->parent = w;
 	e->nextElement = NULL;
 	e->prevElement = NULL;
@@ -431,6 +462,10 @@ void sUiSystem::RenderContainer(uiContainer* cc)
 	uiElement* currentElement = cc->firstElement;
 	while (currentElement != NULL)
 	{
+		if(!currentElement->visible)
+		{
+			currentElement = currentElement->nextElement;
+		}
 		bool allowToolTip = currentElement->handle(currentElement);
 		
 		if(allowToolTip && currentElement->tooltip != "" && ImGui::IsItemHovered())
@@ -510,6 +545,15 @@ bool sUiSystem::HandleInputText(uiElement* e)
 	return true;
 }
 
+bool sUiSystem::HandleCheckbox(uiElement* e)
+{
+	uiCheckboxElement* cb = (uiCheckboxElement*)e;
+	
+	ImGui::Checkbox(cb->label.c_str(), &(cb->checked));
+	
+	return true;
+}
+
 void sUiSystem::RemoveButton(uiElement* e)
 {
 	uiButtonElement* data = (uiButtonElement*)(e);
@@ -532,6 +576,13 @@ void sUiSystem::RemoveTree(uiElement* e)
 void sUiSystem::RemoveInputText(uiElement* e)
 {
 	uiInputTextElement* data = (uiInputTextElement*)(e);
+	delete data;
+}
+
+
+void sUiSystem::RemoveCheckbox(uiElement* e)
+{
+	uiCheckboxElement* data = (uiCheckboxElement*)(e);
 	delete data;
 }
 

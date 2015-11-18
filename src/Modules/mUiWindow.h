@@ -32,7 +32,8 @@ class mUiWindow {
         lFuncDef(addButton);
 		lFuncDef(addTree);
 		lFuncDef(addInputText);
-    
+		lFuncDef(addCheckbox);
+	
         lFuncDef(remove);
 };
 

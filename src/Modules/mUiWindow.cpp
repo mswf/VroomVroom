@@ -37,6 +37,7 @@ void mUiWindow::Bind(lua_State* L){
 		lBind(addButton)
 		lBind(addTree)
 		lBind(addInputText)
+		lBind(addCheckbox)
 		lBind(close)
 		{0, 0}
 	};
@@ -52,6 +53,7 @@ void mUiWindow::Bind(lua_State* L){
 		lBind(addButton)
 		lBind(addTree)
 		lBind(addInputText)
+		lBind(addCheckbox)
 		{0, 0}
 	};
 	luaL_openlib(L, 0, __mtUiContainer_methods, 0);
@@ -126,6 +128,8 @@ lFuncImp(mUiWindow, create){
     lstBoolean("movable", window->movable)
     lstBoolean("closable", window->closable)
     lstBoolean("collapsable", window->collapsable)
+	
+	lstBoolean("visible", window->visible)
     
     lua_setfield(L, -2, "__coreProperties__");
     
@@ -250,6 +254,7 @@ lFuncImp(mUiWindow, addText)
 	lstString("text", text->text.c_str());
 	lstString("wrapWidth", text->text.c_str());
 	lstString("tooltip", text->tooltip.c_str());
+	lstBoolean("visible", text->visible)
 	lua_setfield(L, -2, "__coreProperties__");
 	
 	luaL_getmetatable(L, "__mtUiElement");
@@ -280,6 +285,7 @@ lFuncImp(mUiWindow, addButton)
 	lua_newtable(L);
 	lstString("label", button->label.c_str());
 	lstString("tooltip", button->tooltip.c_str());
+	lstBoolean("visible", button->visible)
 	lua_setfield(L, -2, "__coreProperties__");
 	
 	lua_pushvalue(L, 3);
@@ -318,6 +324,7 @@ lFuncImp(mUiWindow, addTree)
 	lstString("label", tree->label.c_str());
 	lstString("tooltip", tree->tooltip.c_str());
 	lstBoolean("opened", tree->opened);
+	lstBoolean("visible", tree->visible)
 	lua_setfield(L, -2, "__coreProperties__");
 	
 	lua_pushvalue(L, 3);
@@ -359,6 +366,7 @@ lFuncImp(mUiWindow, addInputText)
 	lstString("label", itext->label.c_str());
 	lstString("tooltip", itext->tooltip.c_str());
 	lstString("text", itext->text.c_str());
+	lstBoolean("visible", itext->visible)
 	lua_setfield(L, -2, "__coreProperties__");
 	
 	lua_pushvalue(L, 3);
@@ -369,6 +377,47 @@ lFuncImp(mUiWindow, addInputText)
 	
 	lua_pushvalue(L, -1);
 	itext->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
+	
+	lua_pushvalue(L, 1);
+	lua_setfield(L, -2, "parent");
+	
+	return 1;
+}
+
+lFuncImp(mUiWindow, addCheckbox)
+{
+	lua_settop(L, 3);
+	lgString(label, 2, "butts");
+	lgBool(checked, 3, false);
+	
+	lua_getfield(L, 1, "__coreElement__");
+	uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
+	lua_pop(L, 1);
+	
+	uiCheckboxElement* box = UiSystem.AddCheckbox(container);
+	
+	box->label = label;
+	box->checked = checked;
+	
+	lua_newtable(L);
+	lua_pushlightuserdata(L, box);
+	lua_setfield(L, -2, "__coreElement__");
+	
+	lua_newtable(L);
+	lstString("label", box->label.c_str());
+	lstString("tooltip", box->tooltip.c_str());
+	lstBoolean("checked", box->checked);
+	lstBoolean("visible", box->visible)
+	lua_setfield(L, -2, "__coreProperties__");
+	
+	lua_pushvalue(L, 3);
+	lua_setfield(L, -2, "callback");
+	
+	luaL_getmetatable(L, "__mtUiElement");
+	lua_setmetatable(L, -2);
+	
+	lua_pushvalue(L, -1);
+	box->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
 	
 	lua_pushvalue(L, 1);
 	lua_setfield(L, -2, "parent");

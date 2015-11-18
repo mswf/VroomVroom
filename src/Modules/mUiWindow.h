@@ -33,6 +33,7 @@ class mUiWindow {
 		lFuncDef(addTree);
 		lFuncDef(addInputText);
 		lFuncDef(addCheckbox);
+		lFuncDef(addSlider);
 	
         lFuncDef(remove);
 };

@@ -38,6 +38,7 @@ void mUiWindow::Bind(lua_State* L){
 		lBind(addTree)
 		lBind(addInputText)
 		lBind(addCheckbox)
+		lBind(addSlider)
 		lBind(close)
 		{0, 0}
 	};
@@ -54,6 +55,7 @@ void mUiWindow::Bind(lua_State* L){
 		lBind(addTree)
 		lBind(addInputText)
 		lBind(addCheckbox)
+		lBind(addSlider)
 		{0, 0}
 	};
 	luaL_openlib(L, 0, __mtUiContainer_methods, 0);
@@ -418,6 +420,50 @@ lFuncImp(mUiWindow, addCheckbox)
 	
 	lua_pushvalue(L, -1);
 	box->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
+	
+	lua_pushvalue(L, 1);
+	lua_setfield(L, -2, "parent");
+	
+	return 1;
+}
+
+lFuncImp(mUiWindow, addSlider)
+{
+	lua_settop(L, 2);
+	lgString(label, 2, "butts");
+	
+	lua_getfield(L, 1, "__coreElement__");
+	uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
+	lua_pop(L, 1);
+	
+	uiSliderElement* slider = UiSystem.AddSlider(container);
+	
+	slider->label = label;
+	
+	lua_newtable(L);
+	lua_pushlightuserdata(L, slider);
+	lua_setfield(L, -2, "__coreElement__");
+	
+	lua_newtable(L);
+	lstString("label", slider->label.c_str());
+	lstNumber("minValue", slider->minValue);
+	lstNumber("maxValue", slider->maxValue);
+	lstNumber("value", slider->value);
+	lstBoolean("rounded", slider->rounded);
+	lstString("format", slider->format.c_str());
+	
+	lstString("tooltip", slider->tooltip.c_str());
+	lstBoolean("visible", slider->visible)
+	lua_setfield(L, -2, "__coreProperties__");
+	
+	lua_pushvalue(L, 3);
+	lua_setfield(L, -2, "callback");
+	
+	luaL_getmetatable(L, "__mtUiElement");
+	lua_setmetatable(L, -2);
+	
+	lua_pushvalue(L, -1);
+	slider->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
 	
 	lua_pushvalue(L, 1);
 	lua_setfield(L, -2, "parent");

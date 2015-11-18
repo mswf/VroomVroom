@@ -66,6 +66,7 @@ struct uiButtonElement;
 struct uiTreeElement;
 struct uiInputTextElement;
 struct uiCheckboxElement;
+struct uiSliderElement;
 
 
 class sUiSystem : public Singleton<sUiSystem>
@@ -82,6 +83,7 @@ class sUiSystem : public Singleton<sUiSystem>
 		uiTreeElement* AddTree(uiContainer*);
 		uiInputTextElement* AddInputText(uiContainer*);
 		uiCheckboxElement* AddCheckbox(uiContainer*);
+		uiSliderElement* AddSlider(uiContainer*);
 	
 		void RemoveWindow(uiWindow*);
         void RemoveChildren(uiContainer*);
@@ -125,12 +127,14 @@ class sUiSystem : public Singleton<sUiSystem>
 		static bool HandleTree(uiElement*);
 		static bool HandleInputText(uiElement*);
 		static bool HandleCheckbox(uiElement *);
+		static bool HandleSlider(uiElement *);
 	
         static void RemoveText(uiElement*);
         static void RemoveButton(uiElement*);
 		static void RemoveTree(uiElement*);
 		static void RemoveInputText(uiElement*);
 		static void RemoveCheckbox(uiElement*);
+		static void RemoveSlider(uiElement *);
 	
         void SetNextFreeId();
     
@@ -174,6 +178,15 @@ struct uiCheckboxElement : uiElement
 	bool checked;
 };
 
+struct uiSliderElement : uiElement
+{
+	string label;
+	double minValue;
+	double maxValue;
+	double value;
+	bool rounded;
+	string format;
+};
 
 
 #endif /* uiSystem_h */

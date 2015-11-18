@@ -229,7 +229,32 @@ uiCheckboxElement* sUiSystem::AddCheckbox(uiContainer* w)
 	AddElement(w, cb);
 	
 	return cb;
+}
 
+uiSliderElement* sUiSystem::AddSlider(uiContainer* w)
+{
+	uiSliderElement* sl = new uiSliderElement;
+	sl->handle = HandleSlider;
+	sl->remove = RemoveSlider;
+	
+	sl->parent = w;
+	sl->label = "nerd";
+	sl->minValue = 0;
+	sl->maxValue = 100;
+	sl->value = 50;
+	sl->format = "%.3f";
+	sl->rounded = false;
+	
+	sl->propertyMap["label"] = &(sl->label);
+	sl->propertyMap["minValue"] = &(sl->minValue);
+	sl->propertyMap["maxValue"] = &(sl->maxValue);
+	sl->propertyMap["value"] = &(sl->value);
+	sl->propertyMap["format"] = &(sl->format);
+	sl->propertyMap["rounded"] = &(sl->rounded);
+	
+	AddElement(w, sl);
+	
+	return sl;
 }
 
 void sUiSystem::RemoveWindow(uiWindow* w)
@@ -554,6 +579,27 @@ bool sUiSystem::HandleCheckbox(uiElement* e)
 	return true;
 }
 
+
+bool sUiSystem::HandleSlider(uiElement* e)
+{
+	uiSliderElement* sl = (uiSliderElement*)e;
+	
+	if(sl->rounded)
+	{
+		int valueBuffer = (int)sl->value;
+		ImGui::SliderInt(sl->label.c_str(), &valueBuffer, sl->minValue, sl->maxValue, sl->format.c_str());
+		sl->value = (double)valueBuffer;
+	}
+	else
+	{
+		float valueBuffer = (float)sl->value;
+	 	ImGui::SliderFloat(sl->label.c_str(), &valueBuffer, sl->minValue, sl->maxValue, sl->format.c_str());
+		sl->value = (double)valueBuffer;
+	}
+	
+	return true;
+}
+
 void sUiSystem::RemoveButton(uiElement* e)
 {
 	uiButtonElement* data = (uiButtonElement*)(e);
@@ -583,6 +629,12 @@ void sUiSystem::RemoveInputText(uiElement* e)
 void sUiSystem::RemoveCheckbox(uiElement* e)
 {
 	uiCheckboxElement* data = (uiCheckboxElement*)(e);
+	delete data;
+}
+
+void sUiSystem::RemoveSlider(uiElement* e)
+{
+	uiSliderElement* data = (uiSliderElement*)(e);
 	delete data;
 }
 

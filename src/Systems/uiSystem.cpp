@@ -234,6 +234,24 @@ void sUiSystem::RemoveWindow(uiWindow* w)
 	}
 }
 
+uiInputTextElement* sUiSystem::AddInputText(uiContainer* w)
+{
+	uiInputTextElement* tt = new uiInputTextElement;
+	tt->handle = HandleInputText;
+	tt->remove = RemoveInputText;
+	
+	tt->parent = w;
+	tt->text = "lorum ipsum";
+	tt->label = "nerd";
+	
+	tt->propertyMap["text"] = &(tt->text);
+	tt->propertyMap["label"] = &(tt->label);
+	
+	AddElement(w, tt);
+	
+	return tt;
+}
+
 void sUiSystem::RemoveChildren(uiContainer* ee)
 {
 	//clear all the elements properly
@@ -478,6 +496,20 @@ bool sUiSystem::HandleTree(uiElement* e)
 	return false;
 }
 
+bool sUiSystem::HandleInputText(uiElement* e)
+{
+	//TODO scalable buffer size;
+	uiInputTextElement* tt = (uiInputTextElement*)e;
+	char buffer[64];
+	tt->text.copy(buffer, 64);
+	
+	ImGui::InputText(tt->label.c_str(), buffer, 64);
+	
+	tt->text = string(buffer);
+	
+	return true;
+}
+
 void sUiSystem::RemoveButton(uiElement* e)
 {
 	uiButtonElement* data = (uiButtonElement*)(e);
@@ -494,6 +526,12 @@ void sUiSystem::RemoveTree(uiElement* e)
 {
 	uiTreeElement* data = (uiTreeElement*)(e);
 	UiSystem.RemoveChildren(data);
+	delete data;
+}
+
+void sUiSystem::RemoveInputText(uiElement* e)
+{
+	uiInputTextElement* data = (uiInputTextElement*)(e);
 	delete data;
 }
 

@@ -62,6 +62,7 @@ struct uiWindow : uiContainer
 struct uiTextElement;
 struct uiButtonElement;
 struct uiTreeElement;
+struct uiInputTextElement;
 
 
 class sUiSystem : public Singleton<sUiSystem>
@@ -76,6 +77,7 @@ class sUiSystem : public Singleton<sUiSystem>
         uiTextElement* AddText(uiContainer*);
         uiButtonElement* AddButton(uiContainer*);
 		uiTreeElement* AddTree(uiContainer*);
+		uiInputTextElement* AddInputText(uiContainer*);
 	
 		void RemoveWindow(uiWindow*);
         void RemoveChildren(uiContainer*);
@@ -117,10 +119,12 @@ class sUiSystem : public Singleton<sUiSystem>
         static bool HandleText(uiElement*);
         static bool HandleButton(uiElement*);
 		static bool HandleTree(uiElement*);
+		static bool HandleInputText(uiElement*);
     
         static void RemoveText(uiElement*);
         static void RemoveButton(uiElement*);
 		static void RemoveTree(uiElement*);
+		static void RemoveInputText(uiElement*);
 	
         void SetNextFreeId();
     
@@ -150,6 +154,12 @@ struct uiTreeElement : uiContainer
 	string label;
 	
 	bool opened;
+};
+
+struct uiInputTextElement : uiElement
+{
+	string text;
+	string label;
 };
 
 

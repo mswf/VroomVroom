@@ -31,6 +31,7 @@ class mUiWindow {
         lFuncDef(addText);
         lFuncDef(addButton);
 		lFuncDef(addTree);
+		lFuncDef(addInputText);
     
         lFuncDef(remove);
 };

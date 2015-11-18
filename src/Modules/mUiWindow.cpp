@@ -13,6 +13,7 @@
 #include "../console.h"
 
 void mUiWindow::Bind(lua_State* L){
+	//TODO(tobin): Go do some metatable inheritance witchery
     lStart(UiWindow)
         lBind(create)
     lEnd(UiWindow)
@@ -35,6 +36,7 @@ void mUiWindow::Bind(lua_State* L){
 		lBind(addText)
 		lBind(addButton)
 		lBind(addTree)
+		lBind(addInputText)
 		lBind(close)
 		{0, 0}
 	};
@@ -49,6 +51,7 @@ void mUiWindow::Bind(lua_State* L){
 		lBind(addText)
 		lBind(addButton)
 		lBind(addTree)
+		lBind(addInputText)
 		{0, 0}
 	};
 	luaL_openlib(L, 0, __mtUiContainer_methods, 0);
@@ -325,6 +328,47 @@ lFuncImp(mUiWindow, addTree)
 	
 	lua_pushvalue(L, -1);
 	tree->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
+	
+	lua_pushvalue(L, 1);
+	lua_setfield(L, -2, "parent");
+	
+	return 1;
+}
+
+
+lFuncImp(mUiWindow, addInputText)
+{
+	lua_settop(L, 3);
+	lgString(label, 2, "butts");
+	lgString(text, 3, "poop");
+	
+	lua_getfield(L, 1, "__coreElement__");
+	uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
+	lua_pop(L, 1);
+	
+	uiInputTextElement* itext = UiSystem.AddInputText(container);
+	
+	itext->label = label;
+	itext->text = text;
+	
+	lua_newtable(L);
+	lua_pushlightuserdata(L, itext);
+	lua_setfield(L, -2, "__coreElement__");
+	
+	lua_newtable(L);
+	lstString("label", itext->label.c_str());
+	lstString("tooltip", itext->tooltip.c_str());
+	lstString("text", itext->text.c_str());
+	lua_setfield(L, -2, "__coreProperties__");
+	
+	lua_pushvalue(L, 3);
+	lua_setfield(L, -2, "callback");
+	
+	luaL_getmetatable(L, "__mtUiElement");
+	lua_setmetatable(L, -2);
+	
+	lua_pushvalue(L, -1);
+	itext->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
 	
 	lua_pushvalue(L, 1);
 	lua_setfield(L, -2, "parent");

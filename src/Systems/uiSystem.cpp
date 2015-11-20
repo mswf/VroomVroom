@@ -560,8 +560,11 @@ bool sUiSystem::HandleInputText(uiElement* e)
 {
 	//TODO scalable buffer size;
 	uiInputTextElement* tt = (uiInputTextElement*)e;
-	char buffer[64];
-	tt->text.copy(buffer, 64);
+	const int BUFFER_SIZE = 64;
+	char buffer[BUFFER_SIZE];
+	//fill with 0's
+	std::fill(&buffer[0], &buffer[BUFFER_SIZE - 1], 0);
+	tt->text._Copy_s(buffer, BUFFER_SIZE, BUFFER_SIZE);
 
 	ImGui::InputText(tt->label.c_str(), buffer, 64);
 

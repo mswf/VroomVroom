@@ -29,7 +29,7 @@ sUiSystem::sUiSystem() :
 	style.ScrollbarRounding			= 4.0f;
 	style.GrabRounding				= 4.0f;
 
-	style.GrabMinSize				=14.0f;
+	style.GrabMinSize				= 14.0f;
 
 
 	// Colors
@@ -98,13 +98,13 @@ uiWindow* sUiSystem::ConstructWindow()
 	window->lastElement = NULL;
 	window->nextElement = NULL;
 	window->prevElement = NULL;
-	
+
 	window->luaTableKey = -1;
-	
+
 	window->handle = NULL;
 	window->remove = NULL;
 	window->parent = NULL;
-	
+
 	window->title = string("untitled window");
 	window->x = 0;
 	window->y = 0;
@@ -115,20 +115,20 @@ uiWindow* sUiSystem::ConstructWindow()
 	window->resizable = true;
 	window->collapsable = true;
 	window->closable = true;
-	
+
 	window->visible = true;
-	
+
 	window->propertyMap["title"] = &(window->title);
 	window->propertyMap["x"] = &(window->x);
 	window->propertyMap["y"] = &(window->y);
 	window->propertyMap["width"] = &(window->width);
 	window->propertyMap["height"] = &(window->height);
-	
+
 	window->propertyMap["movable"] = &(window->movable);
 	window->propertyMap["resizable"] = &(window->resizable);
 	window->propertyMap["collapsable"] = &(window->collapsable);
 	window->propertyMap["closable"] = &(window->closable);
-	
+
 	window->propertyMap["visible"] = &(window->visible);
 
 	AddWindow(window);
@@ -145,10 +145,10 @@ uiButtonElement* sUiSystem::AddButton(uiContainer* w)
 	bb->remove = RemoveButton;
 
 	bb->parent = w;
-	
+
 	bb->label = "button";
 	bb->luaTableKey = -1;
-	
+
 	bb->propertyMap["label"] = &(bb->label);
 
 	AddElement(w, bb);
@@ -165,7 +165,7 @@ uiTextElement* sUiSystem::AddText(uiContainer* w)
 	tt->parent = w;
 	tt->text = "lorum ipsum";
 	tt->wrapWidth = 0;
-	
+
 	tt->propertyMap["text"] = &(tt->text);
 	tt->propertyMap["wrapWidth"] = &(tt->wrapWidth);
 
@@ -179,19 +179,19 @@ uiTreeElement* sUiSystem::AddTree(uiContainer* w)
 	uiTreeElement* tt = new uiTreeElement;
 	tt->firstElement = NULL;
 	tt->lastElement = NULL;
-	
+
 	tt->handle = HandleTree;
 	tt->remove = RemoveTree;
-	
+
 	tt->parent = w;
 	tt->label = "lorum ipsum";
 	tt->opened = true;
-	
+
 	tt->propertyMap["label"] = &(tt->label);
 	tt->propertyMap["opened"] = &(tt->opened);
-	
+
 	AddElement(w, tt);
-	
+
 	return tt;
 }
 
@@ -200,16 +200,16 @@ uiInputTextElement* sUiSystem::AddInputText(uiContainer* w)
 	uiInputTextElement* tt = new uiInputTextElement;
 	tt->handle = HandleInputText;
 	tt->remove = RemoveInputText;
-	
+
 	tt->parent = w;
 	tt->text = "lorum ipsum";
 	tt->label = "nerd";
-	
+
 	tt->propertyMap["text"] = &(tt->text);
 	tt->propertyMap["label"] = &(tt->label);
-	
+
 	AddElement(w, tt);
-	
+
 	return tt;
 }
 
@@ -218,16 +218,16 @@ uiCheckboxElement* sUiSystem::AddCheckbox(uiContainer* w)
 	uiCheckboxElement* cb = new uiCheckboxElement;
 	cb->handle = HandleCheckbox;
 	cb->remove = RemoveCheckbox;
-	
+
 	cb->parent = w;
 	cb->label = "nerd";
 	cb->checked = false;
-	
+
 	cb->propertyMap["label"] = &(cb->label);
 	cb->propertyMap["checked"] = &(cb->checked);
-	
+
 	AddElement(w, cb);
-	
+
 	return cb;
 }
 
@@ -236,7 +236,7 @@ uiSliderElement* sUiSystem::AddSlider(uiContainer* w)
 	uiSliderElement* sl = new uiSliderElement;
 	sl->handle = HandleSlider;
 	sl->remove = RemoveSlider;
-	
+
 	sl->parent = w;
 	sl->label = "nerd";
 	sl->minValue = 0;
@@ -244,16 +244,16 @@ uiSliderElement* sUiSystem::AddSlider(uiContainer* w)
 	sl->value = 50;
 	sl->format = "%.3f";
 	sl->rounded = false;
-	
+
 	sl->propertyMap["label"] = &(sl->label);
 	sl->propertyMap["minValue"] = &(sl->minValue);
 	sl->propertyMap["maxValue"] = &(sl->maxValue);
 	sl->propertyMap["value"] = &(sl->value);
 	sl->propertyMap["format"] = &(sl->format);
 	sl->propertyMap["rounded"] = &(sl->rounded);
-	
+
 	AddElement(w, sl);
-	
+
 	return sl;
 }
 
@@ -284,7 +284,7 @@ void sUiSystem::RemoveWindow(uiWindow* w)
 
 			//clear all the elements properly
 			RemoveChildren(currentWindow);
-			
+
 			if (currentWindow->luaTableKey != -1 && lState != NULL)
 			{
 				mUiWindow::HandleWindowClose(lState, currentWindow->luaTableKey);
@@ -353,7 +353,7 @@ void sUiSystem::Render()
 
 	while (currentWindow != NULL)
 	{
-		if(!currentWindow->visible)
+		if (!currentWindow->visible)
 		{
 			currentWindow = (uiWindow*)currentWindow->nextElement;
 			continue;
@@ -424,8 +424,8 @@ void sUiSystem::Render()
 		currentWindow = (uiWindow*)currentWindow->nextElement;
 	}
 	ImGui::Render();
-	
-	if(cachedButton != NULL)
+
+	if (cachedButton != NULL)
 	{
 		if (cachedButton->luaTableKey != -1 && lState != NULL)
 		{
@@ -459,13 +459,13 @@ void sUiSystem::AddWindow(uiWindow* w)
 
 void sUiSystem::AddElement(uiContainer* w, uiElement* e)
 {
-	
+
 	e->tooltip = "";
 	e->propertyMap["tooltip"] = &(e->tooltip);
-	
+
 	e->visible = true;
 	e->propertyMap["visible"] = &(e->visible);
-	
+
 	e->parent = w;
 	e->nextElement = NULL;
 	e->prevElement = NULL;
@@ -487,17 +487,17 @@ void sUiSystem::RenderContainer(uiContainer* cc)
 	uiElement* currentElement = cc->firstElement;
 	while (currentElement != NULL)
 	{
-		if(!currentElement->visible)
+		if (!currentElement->visible)
 		{
 			currentElement = currentElement->nextElement;
 		}
 		bool allowToolTip = currentElement->handle(currentElement);
-		
-		if(allowToolTip && currentElement->tooltip != "" && ImGui::IsItemHovered())
+
+		if (allowToolTip && currentElement->tooltip != "" && ImGui::IsItemHovered())
 		{
 			ImGui::SetTooltip(currentElement->tooltip.c_str());
 		}
-		
+
 		currentElement = currentElement->nextElement;
 	}
 };
@@ -513,14 +513,14 @@ bool sUiSystem::HandleButton(uiElement* e)
 		//we cache this button press until all windows are rendered
 		UiSystem.cachedButton = bb;
 	}
-	
+
 	return true;
 }
 
 bool sUiSystem::HandleText(uiElement* e)
 {
 	uiTextElement* tt = (uiTextElement*)e;
-	if(tt->wrapWidth <= 0)
+	if (tt->wrapWidth <= 0)
 	{
 		ImGui::TextWrapped(tt->text.c_str());
 	}
@@ -530,29 +530,29 @@ bool sUiSystem::HandleText(uiElement* e)
 		ImGui::Text(tt->text.c_str());
 		ImGui::PopTextWrapPos();
 	}
-	
+
 	return true;
 }
 
 bool sUiSystem::HandleTree(uiElement* e)
 {
 	uiTreeElement* tt = (uiTreeElement*)e;
-	
+
 	ImGui::SetNextTreeNodeOpened(tt->opened, ImGuiSetCond_Always);
-	
-	
+
+
 	tt->opened = ImGui::TreeNode(tt->label.c_str());
-			if(tt->tooltip != "" && ImGui::IsItemHovered())
-			{
-				ImGui::SetTooltip(tt->tooltip.c_str());
-			}
-	
+	if (tt->tooltip != "" && ImGui::IsItemHovered())
+	{
+		ImGui::SetTooltip(tt->tooltip.c_str());
+	}
+
 	if (tt->opened)
 	{
 		RenderContainer(tt);
 		ImGui::TreePop();
 	}
-	
+
 	return false;
 }
 
@@ -562,20 +562,20 @@ bool sUiSystem::HandleInputText(uiElement* e)
 	uiInputTextElement* tt = (uiInputTextElement*)e;
 	char buffer[64];
 	tt->text.copy(buffer, 64);
-	
+
 	ImGui::InputText(tt->label.c_str(), buffer, 64);
-	
+
 	tt->text = string(buffer);
-	
+
 	return true;
 }
 
 bool sUiSystem::HandleCheckbox(uiElement* e)
 {
 	uiCheckboxElement* cb = (uiCheckboxElement*)e;
-	
+
 	ImGui::Checkbox(cb->label.c_str(), &(cb->checked));
-	
+
 	return true;
 }
 
@@ -583,8 +583,8 @@ bool sUiSystem::HandleCheckbox(uiElement* e)
 bool sUiSystem::HandleSlider(uiElement* e)
 {
 	uiSliderElement* sl = (uiSliderElement*)e;
-	
-	if(sl->rounded)
+
+	if (sl->rounded)
 	{
 		int valueBuffer = (int)sl->value;
 		ImGui::SliderInt(sl->label.c_str(), &valueBuffer, sl->minValue, sl->maxValue, sl->format.c_str());
@@ -593,10 +593,10 @@ bool sUiSystem::HandleSlider(uiElement* e)
 	else
 	{
 		float valueBuffer = (float)sl->value;
-	 	ImGui::SliderFloat(sl->label.c_str(), &valueBuffer, sl->minValue, sl->maxValue, sl->format.c_str());
+		ImGui::SliderFloat(sl->label.c_str(), &valueBuffer, sl->minValue, sl->maxValue, sl->format.c_str());
 		sl->value = (double)valueBuffer;
 	}
-	
+
 	return true;
 }
 

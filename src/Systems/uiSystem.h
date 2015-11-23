@@ -10,6 +10,7 @@
 #define uiSystem_h
 
 #include <stdio.h>
+#include <bitset>
 
 #include "../Utilities/typedef.h"
 #include "../Patterns/singleton.h"
@@ -18,6 +19,8 @@
 struct lua_State;
 
 #define UiSystem sUiSystem::getInstance()
+
+#define WINDOW_ID_BUFFER_SIZE 1024
 
 struct uiContainer;
 
@@ -130,6 +133,8 @@ class sUiSystem : public Singleton<sUiSystem>
 				return NULL;
 			};
 	
+		uint8 GetNextFreeId();
+		void FreeId(uint8);
     private:
         void AddWindow(uiWindow*);
         void AddElement(uiContainer*, uiElement*);
@@ -149,11 +154,10 @@ class sUiSystem : public Singleton<sUiSystem>
 			*property = value;
 			e->propertyMap[name] = property;
 		}
-	
-        void SetNextFreeId();
     
-        uint8 firstFreeId;
-        uint8 windowCount;
+        uint8 idIndex;
+		std::bitset<WINDOW_ID_BUFFER_SIZE> idMap;
+	
         uiWindow* firstWindow;
         uiWindow* lastWindow;
 	
@@ -211,7 +215,9 @@ struct uiRegionElement : uiContainer
 	~uiRegionElement()
 	{
 		UiSystem.RemoveChildren(this);
+		UiSystem.FreeId(this->id);
 	}
+	int id;
 	string name;
 	double width;
 	double height;

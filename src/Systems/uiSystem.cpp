@@ -9,12 +9,12 @@
 #include "uiSystem.h"
 #include "../ImGUI/imgui.h"
 #include "../modules/mUiWindow.h"
+#include "../console.h"
 
 lua_State* sUiSystem::lState(NULL);
 
 sUiSystem::sUiSystem() :
-	firstFreeId(0),
-	windowCount(0),
+	idIndex(0),
 	firstWindow(NULL),
 	lastWindow(NULL),
 	cachedButton(NULL)
@@ -76,10 +76,6 @@ sUiSystem::sUiSystem() :
 	style.Colors[ImGuiCol_TextSelectedBg] = ImVec4(0.00f, 0.00f, 1.00f, 0.35f);
 	style.Colors[ImGuiCol_TooltipBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.89f);
 	style.Colors[ImGuiCol_ModalWindowDarkening] = ImVec4(0.20f, 0.20f, 0.20f, 0.35f);
-
-
-
-
 }
 
 sUiSystem::~sUiSystem()
@@ -89,8 +85,7 @@ sUiSystem::~sUiSystem()
 
 uiWindow* sUiSystem::ConstructWindow()
 {
-	uint8 id = firstFreeId;
-	SetNextFreeId();
+	uint8 id = GetNextFreeId();
 
 	uiWindow* window = new uiWindow;
 	window->id = id;
@@ -217,13 +212,13 @@ uiRegionElement* sUiSystem::AddRegion(uiContainer* w)
 	InitBoundProperty(rr, "height", &(rr->height), 0.0);
 	InitBoundProperty(rr, "bordered", &(rr->bordered), false);
 	
-	
+	uint8 id = GetNextFreeId();
 	string uniqueName = "region";
 	uniqueName += "#";
-	uniqueName += std::to_string(firstFreeId);
-	SetNextFreeId();
+	uniqueName += std::to_string(id);
 	
 	rr->name = uniqueName;
+	rr->id = id;
 	
 	AddElement(w, rr);
 	
@@ -265,6 +260,7 @@ void sUiSystem::RemoveWindow(uiWindow* w)
 			}
 
 			//delete the window
+			FreeId(currentWindow->id);
 			delete currentWindow;
 
 			break;
@@ -436,7 +432,6 @@ void sUiSystem::AddWindow(uiWindow* w)
 
 void sUiSystem::AddElement(uiContainer* w, uiElement* e)
 {
-
 	e->tooltip = "";
 	e->propertyMap["tooltip"] = &(e->tooltip);
 
@@ -595,8 +590,33 @@ bool sUiSystem::HandleRegion(uiElement* e)
 	return false;
 }
 
-void sUiSystem::SetNextFreeId()
+uint8 sUiSystem::GetNextFreeId()
 {
-	//TODO(robin) actually find a free id :)
-	firstFreeId++;
+	uint8 currentId= (idIndex + 1)%WINDOW_ID_BUFFER_SIZE;
+	do
+	{
+		if(idMap[currentId] == false)
+		{
+			idIndex = currentId;
+			idMap[currentId] = true;
+			return currentId;
+		}
+		currentId = (currentId + 1)%WINDOW_ID_BUFFER_SIZE;
+	}
+	while(currentId != (idIndex + 1)%WINDOW_ID_BUFFER_SIZE);
+	
+	Terminal.Error("Insufficient IDs to create anymore concurrent window elements requiring an ID. If this keeps occuring, please increase the value of WINDOW_ID_BUFFER_SIZE. Be responsible ;)");
+	return -1;
+}
+
+void sUiSystem::FreeId(uint8 id)
+{
+	if(idMap[idIndex] == true)
+	{
+		idMap[idIndex] = false;
+	}
+	else
+	{
+		Terminal.Warning("Trying to free a window ID that was not occupied");
+	}
 }

@@ -235,7 +235,7 @@ void Engine::UpdateLoop()
 	// IMPORTING!!!
 	
 	Importer imp;
-	bool successfulImport = imp.ImportObjFile( std::string ( Content::GetPath() + "/objects/Rabbit/Rabbit.obj" ), false );
+	bool successfulImport = imp.ImportObjFile( std::string ( "/objects/Rabbit/Rabbit.obj" ) );
 	if (!successfulImport)
 	{
 		Terminal.Log("Import failed", true);
@@ -248,9 +248,10 @@ void Engine::UpdateLoop()
 	//  RESOURCE MANAGING !!!
 	
 	CMeshRenderer* meshRenderer = new CMeshRenderer();
-	ResourceManager::getInstance().GetMaterialByName("Rabbit")->SetDiffuseTexture("/objects/snowman.png");
-	meshRenderer->SetModel( "Rabbit.obj" );
+	//ResourceManager::getInstance().GetMaterialByName("Rabbit")->SetDiffuseTexture("/objects/snowman.png");
+	meshRenderer->SetModel( "/objects/Rabbit/Rabbit.obj" );
 	meshRenderer->SetMaterial( "Rabbit" );
+	ResourceManager::getInstance().GetMaterialByName("Rabbit")->SetDiffuseTexture("/objects/Rabbit/Rabbit_D.tga");
 	
 	// RESOURCE MANAGING ENDS!!!
 	

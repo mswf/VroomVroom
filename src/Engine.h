@@ -32,13 +32,14 @@ class Engine
 
 	private:
 
-		//Renderer::RenderSystem* renderer;
-		ResourceManager* resourceManager;
+		void Update(float deltaTime);
+		void LoadMeshes();
+		void LoadTextures();
+	
 		UpdateListener* listener;
 		FW::FileWatcher* fileWatcher;
 		Input* inputManager;
-		void Update(float deltaTime);
-		void LoadStuff();
+	
 };
 
 #endif

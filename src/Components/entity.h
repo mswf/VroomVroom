@@ -31,7 +31,13 @@ class Entity
 			e->entityComponents.insert( std::pair< int, Component* >( T::familyId, comp ) );
 			comp->entity = e;
 		}
-
+	
+		template<typename T>
+		static void RemoveComponent( Entity* e, T::familyId )
+		{
+			Entity::componentStorage.erase( T::familyId );
+			e->entityComponents.erase( T::familyId );
+		}
 	
 		template<typename T>
 		static T* GetComponent( Entity* e )
@@ -50,9 +56,9 @@ class Entity
 			}
 		}
 	
-
-	protected:
 		glm::mat4 worldTransform;
+	protected:
+//		glm::mat4 worldTransform;
 		Entity* parent;
 		std::vector< Entity* > children;
 		std::string name;

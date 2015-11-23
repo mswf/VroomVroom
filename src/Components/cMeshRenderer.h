@@ -11,33 +11,22 @@ class CMeshRenderer : public Component
 	
 		static const int familyId;
 
-		GLenum drawType;
-	
-		// Vertex Array Object
-		GLuint vao;
-		GLuint vbo;
-		// Vertex Buffer Object
-		GLuint normalBuffer;
-		GLuint vertexBuffer;
-		GLuint uvBuffer;
-		GLuint tangentBuffer;
-		GLuint bitangentBuffer;
-		// Element Array Buffer
-		GLuint eab;
-	
-		unsigned int numIndices;
-	
-		Material* material;
-	
 		CMeshRenderer();
 		~CMeshRenderer();
 	
-		void Buffer( const Mesh* mesh );
-		void UnBuffer();
-		void SetMaterial( Material* material );
-		
+		void SetModel( const char* name );
+		void SetMaterial( const char* name );
+		void SetMaterial( Material* mtl );
+	
+		void GetUniformValues();
+		//void Buffer( const Mesh* m, ModelInstance* instance );
+		//void UnBuffer();
+		ModelInstance* model;
+		Material* material;
 	private:
 	
+		//Material* material;
+		//ModelInstance* model;
 };
 
 #endif /* cMeshRenderer_h */

@@ -5,7 +5,7 @@
 #include "scene.h"
 
 //TODO(Valentinas): Don't use data_type, if portability is prefered
-#include "data_types.h"
+#include "DataStructure/data_types.h"
 
 class Material;
 
@@ -21,23 +21,26 @@ enum class IMPORTER_MESSAGE
 class ImporterImp
 {
 	public:
-	
+
 		ImporterImp();
 		~ImporterImp();
-	
+
 		void FreeScene( aiScene* sc );
 		void FreeImage( unsigned char* img );
 		void ExtractMesh( const aiMesh* mesh, Mesh* m );
 		void ExtractMaterial( const aiMaterial* mtl, Material* material, std::vector< std::string >* textureIdMap );
 		aiScene* ImportObjFile( const std::string& pFile, IMPORTER_MESSAGE& message );
 		unsigned char* ImportImage( const char* filename, unsigned int& width, unsigned int& height, unsigned int requiring_components, IMPORTER_MESSAGE& message );
-		void SetSceneImportFlags( int flags ) { importFlags = flags; }
-	
+		void SetSceneImportFlags( int flags )
+		{
+			importFlags = flags;
+		}
+
 		std::string import_scene_failure_reason;
 		std::string import_image_failure_reason;
-	
+
 	protected:
-	
+
 		int importFlags;
 };
 

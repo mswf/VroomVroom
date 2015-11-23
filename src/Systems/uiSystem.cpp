@@ -147,7 +147,6 @@ uiButtonElement* sUiSystem::AddButton(uiContainer* w)
 	bb->parent = w;
 
 	bb->label = "button";
-	bb->luaTableKey = -1;
 
 	bb->propertyMap["label"] = &(bb->label);
 
@@ -288,6 +287,7 @@ void sUiSystem::RemoveWindow(uiWindow* w)
 			if (currentWindow->luaTableKey != -1 && lState != NULL)
 			{
 				mUiWindow::HandleWindowClose(lState, currentWindow->luaTableKey);
+				mUiWindow::UnreferenceTable(lState, currentWindow->luaTableKey);
 			}
 
 			//delete the window
@@ -336,7 +336,11 @@ void sUiSystem::RemoveElement(uiContainer* ww, uiElement* ee)
 			{
 				ww->lastElement = currentElement->nextElement;
 			}
-
+			
+			if (currentElement->luaTableKey != -1 && lState != NULL)
+			{
+				mUiWindow::UnreferenceTable(lState, currentElement->luaTableKey);
+			}
 			currentElement->remove(currentElement); //clears the data
 
 			break;
@@ -469,6 +473,9 @@ void sUiSystem::AddElement(uiContainer* w, uiElement* e)
 	e->parent = w;
 	e->nextElement = NULL;
 	e->prevElement = NULL;
+	
+	e->luaTableKey = -1;
+	
 	if (w->firstElement == NULL)
 	{
 		w->firstElement = e;

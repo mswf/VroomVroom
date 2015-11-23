@@ -64,6 +64,15 @@ void mUiWindow::Bind(lua_State* L){
 	UiSystem.SetLuaState(L);
 }
 
+void mUiWindow::UnreferenceTable(lua_State* L, int tableKey)
+{
+	lua_pushnumber(L, tableKey);
+	lua_gettable(L, LUA_REGISTRYINDEX);
+	lstBoolean("__exists__", false);
+	
+	luaL_unref(L, LUA_REGISTRYINDEX, tableKey);
+}
+
 void mUiWindow::HandleButtonCallback(lua_State* L, int tableKey)
 {
 	
@@ -134,6 +143,8 @@ lFuncImp(mUiWindow, create){
 	lstBoolean("visible", window->visible)
     
     lua_setfield(L, -2, "__coreProperties__");
+	
+	lstBoolean("__exists__", true);
     
     luaL_getmetatable(L, "__mtUiWindow");
     lua_setmetatable(L, -2);
@@ -156,29 +167,45 @@ lFuncImp(mUiWindow, mtIndex)
 {
     //first try our core properties
     lua_getfield(L, 1, "__coreProperties__");
-    lua_getfield(L, -1, lua_tostring(L, -2));
+    lua_getfield(L, -1, lua_tostring(L, 2));
     if(!lua_isnil(L, -1))
     {
-		lua_getfield(L, 1, "__coreElement__");
-		uiElement* node = (uiElement*)lua_touserdata(L,-1);
-		lua_pop(L, 1);
-		
-		if(lua_type(L, -1) == LUA_TSTRING)
+		//then check if our cpp side of the uiElement still exists
+		lua_getfield(L, 1, "__exists__");
+		if(lua_toboolean(L, -1))
 		{
-			lua_pushstring(L, UiSystem.GetNamedProperty<string>(node, lua_tostring(L, 2)).c_str());
+			lua_pop(L, 1);
+			//if it does get the value from our cpp element
+			lua_getfield(L, 1, "__coreElement__");
+			uiElement* node = (uiElement*)lua_touserdata(L,-1);
+			lua_pop(L, 1);
+			
+			if(lua_type(L, -1) == LUA_TSTRING)
+			{
+				lua_pushstring(L, UiSystem.GetNamedProperty<string>(node, lua_tostring(L, 2)).c_str());
+				lstString(lua_tostring(L, 2), lua_tostring(L, -1));
+				return 1;
+			}
+			if(lua_type(L, -1) == LUA_TBOOLEAN)
+			{
+				lua_pushboolean(L, UiSystem.GetNamedProperty<bool>(node, lua_tostring(L, 2)));
+				lstBoolean(lua_tostring(L, 2), lua_toboolean(L, -1));
+				return 1;
+			}
+			if(lua_type(L, -1) == LUA_TNUMBER)
+			{
+				lua_pushnumber(L, UiSystem.GetNamedProperty<double>(node, lua_tostring(L, 2)));
+				lstNumber(lua_tostring(L, 2), lua_tonumber(L, -1));
+				return 1;
+			}
+		}
+		else
+		{
+			//otherwise just return the current value in our __coreProperties__ table
+			lua_getfield(L, 1, "__coreProperties__");
+			lua_getfield(L, -1, lua_tostring(L, 2));
 			return 1;
 		}
-		if(lua_type(L, -1) == LUA_TBOOLEAN)
-		{
-			lua_pushboolean(L, UiSystem.GetNamedProperty<bool>(node, lua_tostring(L, 2)));
-			return 1;
-		}
-		if(lua_type(L, -1) == LUA_TNUMBER)
-		{
-			lua_pushnumber(L, UiSystem.GetNamedProperty<double>(node, lua_tostring(L, 2)));
-			return 1;
-		}
-
     }
     
     //we failed, so we pop all the values we put on the stack in our first check
@@ -186,14 +213,7 @@ lFuncImp(mUiWindow, mtIndex)
     //then try the methods in our metatable
 	lua_getmetatable(L, 1);
     lua_getfield(L, -1, lua_tostring(L, -2));
-    if(!lua_isnil(L, -1))
-    {
-		
-        return 1;
-    }
-
-    lua_pushnil(L);
-    return 1;
+	return 1;
 }
 
 lFuncImp(mUiWindow, mtNewIndex)
@@ -208,26 +228,34 @@ lFuncImp(mUiWindow, mtNewIndex)
         lua_pushvalue(L,3);
         lua_setfield(L, -2, lua_tostring(L, 2));
 		
-		lua_getfield(L, 1, "__coreElement__");
-        uiElement* node = (uiElement*)lua_touserdata(L,-1);
-        lua_pop(L, 1);
+		//check if the cpp uiElement still exists, and if so update the value there too
+		lua_getfield(L, 1, "__exists__");
+		if(lua_toboolean(L, -1))
+		{
+			lua_pop(L, 1);
 		
-		if(lua_type(L, 3) == LUA_TSTRING)
-		{
-			UiSystem.SetNamedProperty<string>(node, lua_tostring(L, 2), string(lua_tostring(L, 3)));
-			return 0;
-		}
-		if(lua_type(L, 3) == LUA_TBOOLEAN)
-		{
-			UiSystem.SetNamedProperty<bool>(node, lua_tostring(L, 2), lua_toboolean(L, 3));
-			return 0;
-		}
-		if(lua_type(L, 3) == LUA_TNUMBER)
-		{
-			UiSystem.SetNamedProperty<double>(node, lua_tostring(L, 2), lua_tonumber(L, 3));
-			return 0;
+			lua_getfield(L, 1, "__coreElement__");
+			uiElement* node = (uiElement*)lua_touserdata(L,-1);
+			lua_pop(L, 1);
+			
+			if(lua_type(L, 3) == LUA_TSTRING)
+			{
+				UiSystem.SetNamedProperty<string>(node, lua_tostring(L, 2), string(lua_tostring(L, 3)));
+				return 0;
+			}
+			if(lua_type(L, 3) == LUA_TBOOLEAN)
+			{
+				UiSystem.SetNamedProperty<bool>(node, lua_tostring(L, 2), lua_toboolean(L, 3));
+				return 0;
+			}
+			if(lua_type(L, 3) == LUA_TNUMBER)
+			{
+				UiSystem.SetNamedProperty<double>(node, lua_tostring(L, 2), lua_tonumber(L, 3));
+				return 0;
+			}
 		}
 	}
+		
     //we failed, so we pop all the values we put on the stack in our first check
     lua_settop(L, 3);
     //it was not a core property, so add it to the base table (we use rawset to bypass an infinite __newindex loop)
@@ -261,6 +289,11 @@ lFuncImp(mUiWindow, addText)
 	
 	luaL_getmetatable(L, "__mtUiElement");
 	lua_setmetatable(L, -2);
+	
+	lua_pushvalue(L, -1);
+	text->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
+	
+	
 	
 	lua_pushvalue(L, 1);
 	lua_setfield(L, -2, "parent");
@@ -298,6 +331,8 @@ lFuncImp(mUiWindow, addButton)
 
 	lua_pushvalue(L, -1);
 	button->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
+	
+	lstBoolean("__exists__", true);
 	
 	lua_pushvalue(L, 1);
 	lua_setfield(L, -2, "parent");
@@ -337,6 +372,8 @@ lFuncImp(mUiWindow, addTree)
 	
 	lua_pushvalue(L, -1);
 	tree->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
+	
+	lstBoolean("__exists__", true);
 	
 	lua_pushvalue(L, 1);
 	lua_setfield(L, -2, "parent");
@@ -380,6 +417,8 @@ lFuncImp(mUiWindow, addInputText)
 	lua_pushvalue(L, -1);
 	itext->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
 	
+	lstBoolean("__exists__", true);
+	
 	lua_pushvalue(L, 1);
 	lua_setfield(L, -2, "parent");
 	
@@ -420,6 +459,8 @@ lFuncImp(mUiWindow, addCheckbox)
 	
 	lua_pushvalue(L, -1);
 	box->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
+	
+	lstBoolean("__exists__", true);
 	
 	lua_pushvalue(L, 1);
 	lua_setfield(L, -2, "parent");
@@ -464,6 +505,8 @@ lFuncImp(mUiWindow, addSlider)
 	
 	lua_pushvalue(L, -1);
 	slider->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
+	
+	lstBoolean("__exists__", true);
 	
 	lua_pushvalue(L, 1);
 	lua_setfield(L, -2, "parent");

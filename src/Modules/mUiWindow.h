@@ -15,9 +15,10 @@ class mUiWindow {
     public:
         static void Bind(lua_State*);
 	
+		static void UnreferenceTable(lua_State*, int);
 		static void HandleButtonCallback(lua_State*, int);
 		static void HandleWindowClose(lua_State*, int);
-
+	
     private:
         mUiWindow();
         ~mUiWindow();

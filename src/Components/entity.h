@@ -7,13 +7,11 @@
 #include <vector>
 #include <map>
 
-const std::string DEFAULT_ENTITY_NAME = "ent_obj";
-
 class Entity
 {
 	public:
 	
-		Entity( std::string name = DEFAULT_ENTITY_NAME, Entity* parent = NULL );
+		Entity( std::string name = "Entity_Object", Entity* parent = NULL );
 		~Entity();
 	
 		std::map< int, Component* > entityComponents;

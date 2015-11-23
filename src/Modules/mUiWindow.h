@@ -11,18 +11,21 @@
 
 #include "moduleMacros.h"
 
+struct uiElement;
+
 class mUiWindow {
     public:
         static void Bind(lua_State*);
 	
 		static void UnreferenceTable(lua_State*, int);
-		static void HandleButtonCallback(lua_State*, int);
-		static void HandleWindowClose(lua_State*, int);
+		static void HandleCallback(lua_State*, int, const char*);
 	
     private:
         mUiWindow();
         ~mUiWindow();
-    
+	
+		static void BasicElementBind(lua_State*, uiElement*, int);
+	
         lFuncDef(create);
 		lFuncDef(close);
 	

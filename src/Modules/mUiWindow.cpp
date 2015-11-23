@@ -28,28 +28,10 @@ void mUiWindow::Bind(lua_State* L){
     luaL_openlib(L, 0, __mtUiElement_methods, 0);
 	
 	
-	luaL_newmetatable(L, "__mtUiWindow");
-	const luaL_reg __mtUiWindow_methods[] =
-	{
-		{"__index", lw_mtIndex__},
-		{"__newindex", lw_mtNewIndex__},
-		lBind(addText)
-		lBind(addButton)
-		lBind(addTree)
-		lBind(addInputText)
-		lBind(addCheckbox)
-		lBind(addSlider)
-		lBind(close)
-		{0, 0}
-	};
-	luaL_openlib(L, 0, __mtUiWindow_methods, 0);
-	
 	
 	luaL_newmetatable(L, "__mtUiContainer");
 	const luaL_reg __mtUiContainer_methods[] =
 	{
-		{"__index", lw_mtIndex__},
-		{"__newindex", lw_mtNewIndex__},
 		lBind(addText)
 		lBind(addButton)
 		lBind(addTree)
@@ -58,8 +40,22 @@ void mUiWindow::Bind(lua_State* L){
 		lBind(addSlider)
 		{0, 0}
 	};
+	luaL_openlib(L, 0, __mtUiElement_methods, 0);
 	luaL_openlib(L, 0, __mtUiContainer_methods, 0);
-
+	
+	
+	
+	luaL_newmetatable(L, "__mtUiWindow");
+	const luaL_reg __mtUiWindow_methods[] =
+	{
+		lBind(close)
+		{0, 0}
+	};
+	luaL_openlib(L, 0, __mtUiElement_methods, 0);
+	luaL_openlib(L, 0, __mtUiContainer_methods, 0);
+	luaL_openlib(L, 0, __mtUiWindow_methods, 0);
+	
+	
 	
 	UiSystem.SetLuaState(L);
 }
@@ -73,14 +69,14 @@ void mUiWindow::UnreferenceTable(lua_State* L, int tableKey)
 	luaL_unref(L, LUA_REGISTRYINDEX, tableKey);
 }
 
-void mUiWindow::HandleButtonCallback(lua_State* L, int tableKey)
+void mUiWindow::HandleCallback(lua_State* L, int tableKey, const char* funcName)
 {
 	
 	lua_pushnumber(L, tableKey);
 	lua_gettable(L, LUA_REGISTRYINDEX);
 	
 	
-	lua_getfield(L, -1, "callback");
+	lua_getfield(L, -1, funcName);
 	if(lua_isnil(L, -1) == 0)
 	{
 		lua_pushvalue(L, 1);
@@ -88,20 +84,28 @@ void mUiWindow::HandleButtonCallback(lua_State* L, int tableKey)
 	}
 }
 
-void mUiWindow::HandleWindowClose(lua_State* L, int tableKey)
+void mUiWindow::BasicElementBind(lua_State* L, uiElement* e, int parentIndex)
 {
+	lua_pushvalue(L, -1);
+	e->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
 	
-	lua_pushnumber(L, tableKey);
-	lua_gettable(L, LUA_REGISTRYINDEX);
+	lua_pushlightuserdata(L, e);
+	lua_setfield(L, -2, "__coreElement__");
+
+	lua_newtable(L);
 	
+	lstBoolean("visible", e->visible)
+	lstString("tooltip", e->tooltip.c_str())
 	
-	lua_getfield(L, -1, "onClose");
-	if(lua_isnil(L, -1) == 0)
+	lua_setfield(L, -2, "__coreProperties__");
+	
+	lstBoolean("__exists__", true);
+	
+	if(parentIndex != -1)
 	{
-		lua_pushvalue(L, 1);
-		LuaSystem.Call(L, 1, 0);
+		lua_pushvalue(L, parentIndex);
+		lua_setfield(L, -2, "parent");
 	}
-	
 }
 
 lFuncImp(mUiWindow, create){
@@ -117,17 +121,11 @@ lFuncImp(mUiWindow, create){
     window->width = width;
     window->height = height;
 	
-    lua_newtable(L);
+	lua_newtable(L);
 	
-	lua_pushvalue(L, -1);
-	window->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
-    
-    //TODO(robin) PLS PLS PLS this memory needs to be managed properly,
-    //perhaps add some garbage regular userdata to be notified of garbage collection?
-    lua_pushlightuserdata(L, window);
-    lua_setfield(L, -2, "__coreElement__");
+	BasicElementBind(L, window, -1);
 	
-    lua_newtable(L);
+	lua_getfield(L, -1, "__coreProperties__");
 
     lstString("title", title.c_str());
     lstNumber("width", width)
@@ -139,13 +137,9 @@ lFuncImp(mUiWindow, create){
     lstBoolean("movable", window->movable)
     lstBoolean("closable", window->closable)
     lstBoolean("collapsable", window->collapsable)
-	
-	lstBoolean("visible", window->visible)
     
-    lua_setfield(L, -2, "__coreProperties__");
+	lua_pop(L, 1);
 	
-	lstBoolean("__exists__", true);
-    
     luaL_getmetatable(L, "__mtUiWindow");
     lua_setmetatable(L, -2);
 	
@@ -268,6 +262,7 @@ lFuncImp(mUiWindow, addText)
 {
 	lua_settop(L, 2);
     lgString(startText,2,"lorum ipsum");
+	
     lua_getfield(L, 1, "__coreElement__");
     uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
 	lua_pop(L, 1);
@@ -278,23 +273,12 @@ lFuncImp(mUiWindow, addText)
 	text->text = startText;
 	
 	lua_newtable(L);
-	lua_pushlightuserdata(L, text);
-	lua_setfield(L, -2, "__coreElement__");
+	BasicElementBind(L, text, 1);
 	
-	lua_newtable(L);
+	lua_getfield(L, -1, "__coreProperties__");
 	lstString("text", text->text.c_str());
 	lstString("wrapWidth", text->text.c_str());
-	lstString("tooltip", text->tooltip.c_str());
-	lstBoolean("visible", text->visible)
-	lua_setfield(L, -2, "__coreProperties__");
-	
-	lua_pushvalue(L, -1);
-	text->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
-	
-	lstBoolean("__exists__", true);
-	
-	lua_pushvalue(L, 1);
-	lua_setfield(L, -2, "parent");
+	lua_pop(L, 1);
 	
 	luaL_getmetatable(L, "__mtUiElement");
 	lua_setmetatable(L, -2);
@@ -317,28 +301,15 @@ lFuncImp(mUiWindow, addButton)
     button->label = label;
 	
 	lua_newtable(L);
-	lua_pushlightuserdata(L, button);
-	lua_setfield(L, -2, "__coreElement__");
+	BasicElementBind(L, button, 1);
 	
-	lua_newtable(L);
+	lua_getfield(L, -1, "__coreProperties__");
 	lstString("label", button->label.c_str());
-	lstString("tooltip", button->tooltip.c_str());
-	lstBoolean("visible", button->visible)
-	lua_setfield(L, -2, "__coreProperties__");
+	lua_pop(L, 1);
 	
 	lua_pushvalue(L, 3);
 	lua_setfield(L, -2, "callback");
 
-	
-
-	lua_pushvalue(L, -1);
-	button->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
-	
-	lstBoolean("__exists__", true);
-	
-	lua_pushvalue(L, 1);
-	lua_setfield(L, -2, "parent");
-	
 	luaL_getmetatable(L, "__mtUiElement");
 	lua_setmetatable(L, -2);
 
@@ -359,31 +330,14 @@ lFuncImp(mUiWindow, addTree)
 	tree->label = label;
 	
 	lua_newtable(L);
-	lua_pushlightuserdata(L, tree);
-	lua_setfield(L, -2, "__coreElement__");
+	BasicElementBind(L, tree, 1);
 	
-	lua_newtable(L);
-	lstString("label", tree->label.c_str());
-	lstString("tooltip", tree->tooltip.c_str());
+	lua_getfield(L, -1, "__coreProperties__");	lstString("label", tree->label.c_str());
 	lstBoolean("opened", tree->opened);
-	lstBoolean("visible", tree->visible)
-	lua_setfield(L, -2, "__coreProperties__");
-	
-	lua_pushvalue(L, 3);
-	lua_setfield(L, -2, "callback");
-	
-	
-	lua_pushvalue(L, -1);
-	tree->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
-	
-	lstBoolean("__exists__", true);
-	
-	lua_pushvalue(L, 1);
-	lua_setfield(L, -2, "parent");
+	lua_pop(L, 1);
 	
 	luaL_getmetatable(L, "__mtUiContainer");
 	lua_setmetatable(L, -2);
-
 	
 	return 1;
 }
@@ -405,30 +359,15 @@ lFuncImp(mUiWindow, addInputText)
 	itext->text = text;
 	
 	lua_newtable(L);
-	lua_pushlightuserdata(L, itext);
-	lua_setfield(L, -2, "__coreElement__");
+	BasicElementBind(L, itext, 1);
 	
-	lua_newtable(L);
+	lua_getfield(L, -1, "__coreProperties__");
 	lstString("label", itext->label.c_str());
-	lstString("tooltip", itext->tooltip.c_str());
 	lstString("text", itext->text.c_str());
-	lstBoolean("visible", itext->visible)
-	lua_setfield(L, -2, "__coreProperties__");
-	
-	lua_pushvalue(L, 3);
-	lua_setfield(L, -2, "callback");
-	
-	lua_pushvalue(L, -1);
-	itext->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
-	
-	lstBoolean("__exists__", true);
-	
-	lua_pushvalue(L, 1);
-	lua_setfield(L, -2, "parent");
+	lua_pop(L, 1);
 	
 	luaL_getmetatable(L, "__mtUiElement");
 	lua_setmetatable(L, -2);
-
 	
 	return 1;
 }
@@ -449,32 +388,16 @@ lFuncImp(mUiWindow, addCheckbox)
 	box->checked = checked;
 	
 	lua_newtable(L);
-	lua_pushlightuserdata(L, box);
-	lua_setfield(L, -2, "__coreElement__");
+	BasicElementBind(L, box, 1);
 	
-	lua_newtable(L);
+	lua_getfield(L, -1, "__coreProperties__");
 	lstString("label", box->label.c_str());
-	lstString("tooltip", box->tooltip.c_str());
 	lstBoolean("checked", box->checked);
-	lstBoolean("visible", box->visible)
-	lua_setfield(L, -2, "__coreProperties__");
-	
-	lua_pushvalue(L, 3);
-	lua_setfield(L, -2, "callback");
-	
-	
-	lua_pushvalue(L, -1);
-	box->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
-	
-	lstBoolean("__exists__", true);
-	
-	lua_pushvalue(L, 1);
-	lua_setfield(L, -2, "parent");
+	lua_pop(L, 1);
 	
 	luaL_getmetatable(L, "__mtUiElement");
 	lua_setmetatable(L, -2);
 
-	
 	return 1;
 }
 
@@ -492,33 +415,16 @@ lFuncImp(mUiWindow, addSlider)
 	slider->label = label;
 	
 	lua_newtable(L);
-	lua_pushlightuserdata(L, slider);
-	lua_setfield(L, -2, "__coreElement__");
+	BasicElementBind(L, slider, 1);
 	
-	lua_newtable(L);
+	lua_getfield(L, -1, "__coreProperties__");
 	lstString("label", slider->label.c_str());
 	lstNumber("minValue", slider->minValue);
 	lstNumber("maxValue", slider->maxValue);
 	lstNumber("value", slider->value);
 	lstBoolean("rounded", slider->rounded);
 	lstString("format", slider->format.c_str());
-	
-	lstString("tooltip", slider->tooltip.c_str());
-	lstBoolean("visible", slider->visible)
-	lua_setfield(L, -2, "__coreProperties__");
-	
-	lua_pushvalue(L, 3);
-	lua_setfield(L, -2, "callback");
-	
-	
-	
-	lua_pushvalue(L, -1);
-	slider->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
-	
-	lstBoolean("__exists__", true);
-	
-	lua_pushvalue(L, 1);
-	lua_setfield(L, -2, "parent");
+	lua_pop(L, 1);
 	
 	luaL_getmetatable(L, "__mtUiElement");
 	lua_setmetatable(L, -2);

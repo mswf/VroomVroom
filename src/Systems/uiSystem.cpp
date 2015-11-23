@@ -94,42 +94,20 @@ uiWindow* sUiSystem::ConstructWindow()
 
 	uiWindow* window = new uiWindow;
 	window->id = id;
-	window->firstElement = NULL;
-	window->lastElement = NULL;
-	window->nextElement = NULL;
-	window->prevElement = NULL;
+	
+	InitBoundProperty(window, "title", &(window->title), string("untitled window"));
+	InitBoundProperty(window, "x", &(window->x), 0.0);
+	InitBoundProperty(window, "y", &(window->y), 0.0);
+	InitBoundProperty(window, "width", &(window->width), 100.0);
+	InitBoundProperty(window, "height", &(window->height), 100.0);
 
-	window->luaTableKey = -1;
-
-	window->handle = NULL;
-	window->remove = NULL;
-	window->parent = NULL;
-
-	window->title = string("untitled window");
-	window->x = 0;
-	window->y = 0;
-	window->width = 100;
-	window->height = 100;
-
-	window->movable = true;
-	window->resizable = true;
-	window->collapsable = true;
-	window->closable = true;
-
-	window->visible = true;
-
-	window->propertyMap["title"] = &(window->title);
-	window->propertyMap["x"] = &(window->x);
-	window->propertyMap["y"] = &(window->y);
-	window->propertyMap["width"] = &(window->width);
-	window->propertyMap["height"] = &(window->height);
-
-	window->propertyMap["movable"] = &(window->movable);
-	window->propertyMap["resizable"] = &(window->resizable);
-	window->propertyMap["collapsable"] = &(window->collapsable);
-	window->propertyMap["closable"] = &(window->closable);
-
-	window->propertyMap["visible"] = &(window->visible);
+	InitBoundProperty(window, "movable", &(window->movable), true);
+	InitBoundProperty(window, "resizable", &(window->resizable), true);
+	InitBoundProperty(window, "collapsable", &(window->collapsable), true);
+	InitBoundProperty(window, "closable", &(window->closable), true);
+	InitBoundProperty(window, "visible", &(window->visible), true);
+	
+	InitBoundProperty(window, "tooltip", &(window->tooltip), string(""));
 
 	AddWindow(window);
 
@@ -139,16 +117,11 @@ uiWindow* sUiSystem::ConstructWindow()
 uiButtonElement* sUiSystem::AddButton(uiContainer* w)
 {
 	uiButtonElement* bb = new uiButtonElement;
-	//uiWindowElement* ee = new uiWindowElement;
-	//ee->type = WindowElementTypes::uweBUTTON;
 	bb->handle = HandleButton;
-	bb->remove = RemoveButton;
 
 	bb->parent = w;
 
-	bb->label = "button";
-
-	bb->propertyMap["label"] = &(bb->label);
+	InitBoundProperty(bb, "label", &(bb->label), string("button"));
 
 	AddElement(w, bb);
 
@@ -159,14 +132,11 @@ uiTextElement* sUiSystem::AddText(uiContainer* w)
 {
 	uiTextElement* tt = new uiTextElement;
 	tt->handle = HandleText;
-	tt->remove = RemoveText;
 
 	tt->parent = w;
-	tt->text = "lorum ipsum";
-	tt->wrapWidth = 0;
 
-	tt->propertyMap["text"] = &(tt->text);
-	tt->propertyMap["wrapWidth"] = &(tt->wrapWidth);
+	InitBoundProperty(tt, "text", &(tt->text), string("lorum ipsum"));
+	InitBoundProperty(tt, "wrapWidth", &(tt->wrapWidth), 0.0);
 
 	AddElement(w, tt);
 
@@ -180,14 +150,11 @@ uiTreeElement* sUiSystem::AddTree(uiContainer* w)
 	tt->lastElement = NULL;
 
 	tt->handle = HandleTree;
-	tt->remove = RemoveTree;
 
 	tt->parent = w;
-	tt->label = "lorum ipsum";
-	tt->opened = true;
-
-	tt->propertyMap["label"] = &(tt->label);
-	tt->propertyMap["opened"] = &(tt->opened);
+	
+	InitBoundProperty(tt, "label", &(tt->label), string("lorum ipsum"));
+	InitBoundProperty(tt, "opened", &(tt->opened), true);
 
 	AddElement(w, tt);
 
@@ -198,14 +165,11 @@ uiInputTextElement* sUiSystem::AddInputText(uiContainer* w)
 {
 	uiInputTextElement* tt = new uiInputTextElement;
 	tt->handle = HandleInputText;
-	tt->remove = RemoveInputText;
 
 	tt->parent = w;
-	tt->text = "lorum ipsum";
-	tt->label = "nerd";
-
-	tt->propertyMap["text"] = &(tt->text);
-	tt->propertyMap["label"] = &(tt->label);
+	
+	InitBoundProperty(tt, "text", &(tt->text), string("lorum ipsum"));
+	InitBoundProperty(tt, "label", &(tt->label), string("nert"));
 
 	AddElement(w, tt);
 
@@ -216,14 +180,11 @@ uiCheckboxElement* sUiSystem::AddCheckbox(uiContainer* w)
 {
 	uiCheckboxElement* cb = new uiCheckboxElement;
 	cb->handle = HandleCheckbox;
-	cb->remove = RemoveCheckbox;
 
 	cb->parent = w;
-	cb->label = "nerd";
-	cb->checked = false;
 
-	cb->propertyMap["label"] = &(cb->label);
-	cb->propertyMap["checked"] = &(cb->checked);
+	InitBoundProperty(cb, "label", &(cb->label), string("nert"));
+	InitBoundProperty(cb, "checked", &(cb->checked), false);
 
 	AddElement(w, cb);
 
@@ -234,22 +195,13 @@ uiSliderElement* sUiSystem::AddSlider(uiContainer* w)
 {
 	uiSliderElement* sl = new uiSliderElement;
 	sl->handle = HandleSlider;
-	sl->remove = RemoveSlider;
 
-	sl->parent = w;
-	sl->label = "nerd";
-	sl->minValue = 0;
-	sl->maxValue = 100;
-	sl->value = 50;
-	sl->format = "%.3f";
-	sl->rounded = false;
-
-	sl->propertyMap["label"] = &(sl->label);
-	sl->propertyMap["minValue"] = &(sl->minValue);
-	sl->propertyMap["maxValue"] = &(sl->maxValue);
-	sl->propertyMap["value"] = &(sl->value);
-	sl->propertyMap["format"] = &(sl->format);
-	sl->propertyMap["rounded"] = &(sl->rounded);
+	InitBoundProperty(sl, "label", &(sl->label), string("nert"));
+	InitBoundProperty(sl, "rounded", &(sl->rounded), false);
+	InitBoundProperty(sl, "format", &(sl->format), string("0.2f"));
+	InitBoundProperty(sl, "minValue", &(sl->minValue), 0.0);
+	InitBoundProperty(sl, "maxValue", &(sl->maxValue), 100.0);
+	InitBoundProperty(sl, "value", &(sl->value), 50.0);
 
 	AddElement(w, sl);
 
@@ -286,7 +238,7 @@ void sUiSystem::RemoveWindow(uiWindow* w)
 
 			if (currentWindow->luaTableKey != -1 && lState != NULL)
 			{
-				mUiWindow::HandleWindowClose(lState, currentWindow->luaTableKey);
+				mUiWindow::HandleCallback(lState, currentWindow->luaTableKey, "onClose");
 				mUiWindow::UnreferenceTable(lState, currentWindow->luaTableKey);
 			}
 
@@ -307,7 +259,7 @@ void sUiSystem::RemoveChildren(uiContainer* ee)
 	while (currentChild != NULL)
 	{
 		uiElement* temp = currentChild->prevElement;
-		currentChild->remove(currentChild); //clears the data
+		delete currentChild;
 		currentChild = temp;
 	}
 }
@@ -341,8 +293,7 @@ void sUiSystem::RemoveElement(uiContainer* ww, uiElement* ee)
 			{
 				mUiWindow::UnreferenceTable(lState, currentElement->luaTableKey);
 			}
-			currentElement->remove(currentElement); //clears the data
-
+			delete currentElement;
 			break;
 		}
 
@@ -433,7 +384,7 @@ void sUiSystem::Render()
 	{
 		if (cachedButton->luaTableKey != -1 && lState != NULL)
 		{
-			mUiWindow::HandleButtonCallback(lState, cachedButton->luaTableKey);
+			mUiWindow::HandleCallback(lState, cachedButton->luaTableKey, "callback");
 		}
 		cachedButton = NULL;
 	}
@@ -607,44 +558,6 @@ bool sUiSystem::HandleSlider(uiElement* e)
 	}
 
 	return true;
-}
-
-void sUiSystem::RemoveButton(uiElement* e)
-{
-	uiButtonElement* data = (uiButtonElement*)(e);
-	delete data;
-}
-
-void sUiSystem::RemoveText(uiElement* e)
-{
-	uiTextElement* data = (uiTextElement*)(e);
-	delete data;
-}
-
-void sUiSystem::RemoveTree(uiElement* e)
-{
-	uiTreeElement* data = (uiTreeElement*)(e);
-	UiSystem.RemoveChildren(data);
-	delete data;
-}
-
-void sUiSystem::RemoveInputText(uiElement* e)
-{
-	uiInputTextElement* data = (uiInputTextElement*)(e);
-	delete data;
-}
-
-
-void sUiSystem::RemoveCheckbox(uiElement* e)
-{
-	uiCheckboxElement* data = (uiCheckboxElement*)(e);
-	delete data;
-}
-
-void sUiSystem::RemoveSlider(uiElement* e)
-{
-	uiSliderElement* data = (uiSliderElement*)(e);
-	delete data;
 }
 
 void sUiSystem::SetNextFreeId()

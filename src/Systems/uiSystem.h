@@ -23,11 +23,19 @@ struct uiContainer;
 
 struct uiElement
 {
+	uiElement():
+		luaTableKey(-1),
+		handle(NULL),
+		nextElement(NULL),
+		prevElement(NULL),
+		tooltip(""),
+		parent(NULL)
+	{};
+	
 	int luaTableKey;
 	std::map<string, void*> propertyMap;
 	
     bool (*handle)(uiElement*);
-    void (*remove)(uiElement*);
     uiElement* nextElement;
     uiElement* prevElement;
 	
@@ -41,6 +49,10 @@ struct uiElement
 
 struct uiContainer : uiElement
 {
+	uiContainer() :
+		firstElement(NULL),
+		lastElement(NULL)
+	{};
 	uiElement* firstElement;
 	uiElement* lastElement;
 };
@@ -129,12 +141,11 @@ class sUiSystem : public Singleton<sUiSystem>
 		static bool HandleCheckbox(uiElement *);
 		static bool HandleSlider(uiElement *);
 	
-        static void RemoveText(uiElement*);
-        static void RemoveButton(uiElement*);
-		static void RemoveTree(uiElement*);
-		static void RemoveInputText(uiElement*);
-		static void RemoveCheckbox(uiElement*);
-		static void RemoveSlider(uiElement *);
+		template<typename T>
+		static void InitBoundProperty(uiElement* e, const char* name, T* property, T value) {
+			*property = value;
+			e->propertyMap[name] = property;
+		}
 	
         void SetNextFreeId();
     
@@ -161,6 +172,10 @@ struct uiButtonElement : uiElement
 
 struct uiTreeElement : uiContainer
 {
+	~uiTreeElement()
+	{
+		UiSystem.RemoveChildren(this);
+	}
 	string label;
 	
 	bool opened;

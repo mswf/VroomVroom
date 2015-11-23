@@ -6,48 +6,48 @@
 //TODO(VALENTINAS): Keep track of loaded shader programs, detach & link when reloading,
 //TODO(VALENTINAS): Detach shader from all programs when deleting,
 Shader::Shader()
-: program(0)
+	: program(0)
 {
 	std::string vs, fs;
 	LoadDefault( vs, fs );
 	//std::string gs = HelperFunctions::ReadFile(path + std::string("geometryShader.geom"));
-	
+
 	const char * src_vertex   = vs.c_str();
 	//const char * src_geometry = gs.c_str();
 	const char * src_fragment = fs.c_str();
 	program = glCreateProgram();
-	
+
 	GLuint vertex_shader = glCreateShader(GL_VERTEX_SHADER);
 	GLuint fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
 	//GLuint geometry_shader = glCreateShader(GL_GEOMETRY_SHADER);
-	
+
 	glShaderSource( vertex_shader, 1, &src_vertex, NULL );
 	glShaderSource( fragment_shader, 1, &src_fragment, NULL );
 	//glShaderSource( geometry_shader, 1, &src_geometry, NULL );
-	
+
 	glCompileShader( vertex_shader );
 	ShaderInfoLog(vertex_shader, GL_COMPILE_STATUS);
 	//glCompileShader( geometry_shader );
 	//ShaderInfoLog(geometry_shader, GL_COMPILE_STATUS);
 	glCompileShader( fragment_shader );
 	ShaderInfoLog(fragment_shader, GL_COMPILE_STATUS);
-	
+
 	glAttachShader( program, vertex_shader );
 	//glAttachShader( program, geometry_shader );
 	glAttachShader( program, fragment_shader );
-	
+
 	//glBindFragDataLocation(program, 0, "outColor");
-	
+
 	glLinkProgram( program );
 	ProgramInfoLog(program, GL_LINK_STATUS);
-	
+
 	// ATTRIBUTE & UNIFORM INFORMATION
-	
+
 	//LogActiveProperties(GL_ACTIVE_ATTRIBUTES);
 	//LogActiveProperties(GL_ACTIVE_UNIFORMS);
-	
+
 	// END ATTRIBUTE & UNIFORM INFORMATION
-	
+
 	glDeleteShader( vertex_shader );
 	//glDeleteShader( geometry_shader );
 	glDeleteShader( fragment_shader );
@@ -66,11 +66,11 @@ void Shader::UseProgram()
 void Shader::LoadDefault( std::string &vs, std::string &fs )
 {
 	std::string path = Content::GetPath() + "/shaders/";
-	std::string defaultVertex = path + std::string("vertexShader1.vert");
-	std::string defaultFragment = path + std::string("fragmentShader1.frag");
+	std::string defaultVertex = path + std::string("vertexShader.vert");
+	std::string defaultFragment = path + std::string("fragmentShader.frag");
 	bool vExists = HelperFunctions::FileExists( defaultVertex.c_str() );
 	bool fExists = HelperFunctions::FileExists( defaultFragment.c_str() );
-	
+
 	if ( vExists && fExists )
 	{
 		vs = HelperFunctions::ReadFile(path + std::string("vertexShader.vert"));
@@ -90,9 +90,9 @@ void Shader::LogActiveProperties( GLenum activeProperties )
 	GLchar property_name[256];
 	GLsizei length;
 	GLenum type;
-	
+
 	glGetProgramiv(program, activeProperties, &num_properties);
-	
+
 	switch (activeProperties)
 	{
 		case GL_ACTIVE_ATTRIBUTES:

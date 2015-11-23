@@ -16,6 +16,8 @@
 #include "ImGUI/imgui.h"
 #include "ImGUI/imgui_impl_sdl.h"
 
+#include "IO/importer.h"
+
 #include "Modules/mInput.h"
 
 #include <SDL2/SDL.h>
@@ -26,6 +28,9 @@
 #include "Systems/luaSystem.h"
 #include "Systems/uiSystem.h"
 
+#include "mesh.h"
+#include "texture.h"
+
 #include "Utilities/helperFunctions.h"
 #include "Utilities/standardIncludes.h"
 //defines runCommand
@@ -34,8 +39,7 @@
 Engine::Engine() :
 	inputManager(NULL),
 	listener(NULL),
-	fileWatcher(NULL),
-	resourceManager(NULL)
+	fileWatcher(NULL)
 {
 }
 
@@ -43,14 +47,13 @@ Engine::~Engine()
 {
 	//TODO: Clean up all entities and their components
 	delete inputManager;
-	delete resourceManager;
 	delete listener;
+	delete fileWatcher;
 }
 
 void Engine::Init()
 {
 	inputManager = new Input();
-	resourceManager = new ResourceManager();
 	listener = new UpdateListener();
 	fileWatcher = new FW::FileWatcher();
 
@@ -201,29 +204,21 @@ void Engine::Update(float deltaTime)
 	Terminal.Update(deltaTime);
 }
 
-void Engine::LoadStuff()
+void Engine::LoadMeshes()
 {
-	
-	std::string objectRabbit( Content::GetPath() + "/objects/Rabbit/Rabbit.obj" );
-	std::string textureRabbitD( Content::GetPath() + "/objects/Rabbit/Rabbit_D.tga" );
-	std::string textureRabbitN( Content::GetPath() + "/objects/Rabbit/Rabbit_N.tga" );
-	
-	std::string test = "ObjectGroupTest.obj";
-	std::string test2 = "MasterCubeTest.obj";
+	std::string ( Content::GetPath() + "/objects/Rabbit/Rabbit.obj" );
+	std::string ( Content::GetPath() + "/objects/object_group_test/ObjectGroupTest.obj" );
+	std::string ( Content::GetPath() + "/objects/object_group_test/MasterCubeTest.obj" );
+	std::string ( Content::GetPath() + "/objects/sibenik.obj" );
+}
 
-	std::string objectTest( Content::GetPath() + "/objects/object_group_test/" + test2 );
-	std::string objectTextureD( Content::GetPath() + "/objects/object_group_test/checker_1.png" );
-	std::string objectTextureS( Content::GetPath() + "/objects/object_group_test/checker_2.png" );
-	std::string objectTextureN( Content::GetPath() + "/objects/object_group_test/checker_3.png" );
-	
-	resourceManager->ImportObjFile( objectRabbit );
-	//unsigned int texD = resourceManager->LoadTexture( textureRabbitD.c_str() );
-	//unsigned int texN = resourceManager->LoadTexture( textureRabbitN.c_str() );
-	
-	//resourceManager->ImportObjFile( objectTest );
-	//unsigned int texD = resourceManager->LoadTexture( objectTextureD.c_str() );
-	//unsigned int texN = resourceManager->LoadTexture( objectTextureN.c_str() );
-
+void Engine::LoadTextures()
+{
+	std::string ( Content::GetPath() + "/objects/Rabbit/Rabbit_D.tga" );
+	std::string ( Content::GetPath() + "/objects/Rabbit/Rabbit_N.tga" );
+	std::string ( Content::GetPath() + "/objects/object_group_test/checker_1.png" );
+	std::string ( Content::GetPath() + "/objects/object_group_test/checker_2.png" );
+	std::string ( Content::GetPath() + "/objects/object_group_test/checker_3.png" );
 }
 
 void Engine::UpdateLoop()
@@ -235,41 +230,43 @@ void Engine::UpdateLoop()
 	
 	ImGui_ImplSdl_Init(window);
 	
-	/// TINAS PLAYGROUND!!!
+/// TINAS PLAYGROUND!!!
 	
-	LoadStuff();
+	// IMPORTING!!!
 	
-	Shader* currentShader = new Shader();
-	Material* mat = new Material( currentShader );
-	//mat->SetDiffuse(texD);
-	//mat->SetNormal(texN);
+	Importer imp;
+	bool successfulImport = imp.ImportObjFile( std::string ( Content::GetPath() + "/objects/Rabbit/Rabbit.obj" ), false );
+	if (!successfulImport)
+	{
+		Terminal.Log("Import failed", true);
+	}
+	imp.ImportImage( "/objects/snowman.png" );
+	
+	// IMPORTING ENDS!!!
+	
+	
+	//  RESOURCE MANAGING !!!
 	
 	CMeshRenderer* meshRenderer = new CMeshRenderer();
-	//const Mesh* meshData = resourceManager->CreateCubeMesh();
-	//const Mesh* meshData = resourceManager->CreateTriangleMesh();
-	//const Mesh* meshData = resourceManager->CreateTetrahedronMesh();
-	for ( int i = 0; i < resourceManager->group->meshes.size(); ++i )
-	{
-		resourceManager->group->meshes[i];
-	}
-	const MeshGroup* meshData = resourceManager->group;
+	ResourceManager::getInstance().GetMaterialByName("Rabbit")->SetDiffuseTexture("/objects/snowman.png");
+	meshRenderer->SetModel( "Rabbit.obj" );
+	meshRenderer->SetMaterial( "Rabbit" );
 	
-	meshRenderer->SetMaterial(mat);
-	std::vector< ModelInstance* > instances;
-	meshRenderer->Buffer( meshData );
+	// RESOURCE MANAGING ENDS!!!
+	
+	std::vector< Entity* > entityList;
+	Entity* root = new Entity("Root");
 	
 	Entity* box = new Entity( "MyLittleBox" );
 	CTransform* t = Entity::GetComponent<CTransform>(box);
 	Entity::AddComponent(box, meshRenderer);
-
-	Entity* root = new Entity("Root");
 	root->AddChild(box);
-
+	
 	Entity* camera = new Entity( "Main Camera" );
 	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 90.0f, 1280.0f / 720.0f, 0.2f, 1000.0f );
 	Entity::AddComponent(camera, cam);
 
-	/// TINAS PLAYGROUND ENDS!!!
+/// TINAS PLAYGROUND ENDS!!!
 
 	const float millisecondModifier = 1000.0f;
 	const float gameFPS = 60.0f;
@@ -307,7 +304,7 @@ void Engine::UpdateLoop()
 				{
 					running = false;
 				}
-				t->SetPosition(glm::vec3( -1.0f ));
+
 				t->Yaw(1.0f);
 				//t->Rotate( glm::vec3(1.0f, 1.0f, 1.0f) );
 				
@@ -404,6 +401,7 @@ void Engine::InitSDL()
 		printf("Error: %s\n", SDL_GetError());
 		assert(false);
 	}
+	Terminal.Log("Initializing: SDL_TIMER, SDL_VIDEO, SDL_EVENTS");
 }
 
 void Engine::InitSDLNet()

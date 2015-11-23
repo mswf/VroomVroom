@@ -179,25 +179,26 @@ lFuncImp(mUiWindow, mtIndex)
 			lua_getfield(L, 1, "__coreElement__");
 			uiElement* node = (uiElement*)lua_touserdata(L,-1);
 			lua_pop(L, 1);
-			
 			if(lua_type(L, -1) == LUA_TSTRING)
 			{
 				lua_pushstring(L, UiSystem.GetNamedProperty<string>(node, lua_tostring(L, 2)).c_str());
-				lstString(lua_tostring(L, 2), lua_tostring(L, -1));
-				return 1;
 			}
-			if(lua_type(L, -1) == LUA_TBOOLEAN)
+			else if(lua_type(L, -1) == LUA_TBOOLEAN)
 			{
 				lua_pushboolean(L, UiSystem.GetNamedProperty<bool>(node, lua_tostring(L, 2)));
-				lstBoolean(lua_tostring(L, 2), lua_toboolean(L, -1));
-				return 1;
 			}
-			if(lua_type(L, -1) == LUA_TNUMBER)
+			else if(lua_type(L, -1) == LUA_TNUMBER)
 			{
 				lua_pushnumber(L, UiSystem.GetNamedProperty<double>(node, lua_tostring(L, 2)));
-				lstNumber(lua_tostring(L, 2), lua_tonumber(L, -1));
+			}
+			else
+			{
+				lua_pushnil(L);
 				return 1;
 			}
+			lua_pushvalue(L, -1);
+			lua_setfield(L, 3, lua_tostring(L, 2));
+			return 1;
 		}
 		else
 		{
@@ -287,16 +288,18 @@ lFuncImp(mUiWindow, addText)
 	lstBoolean("visible", text->visible)
 	lua_setfield(L, -2, "__coreProperties__");
 	
-	luaL_getmetatable(L, "__mtUiElement");
-	lua_setmetatable(L, -2);
-	
 	lua_pushvalue(L, -1);
 	text->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
 	
-	
+	lstBoolean("__exists__", true);
 	
 	lua_pushvalue(L, 1);
 	lua_setfield(L, -2, "parent");
+	
+	luaL_getmetatable(L, "__mtUiElement");
+	lua_setmetatable(L, -2);
+	
+
     return 1;
 }
 
@@ -326,8 +329,7 @@ lFuncImp(mUiWindow, addButton)
 	lua_pushvalue(L, 3);
 	lua_setfield(L, -2, "callback");
 
-	luaL_getmetatable(L, "__mtUiElement");
-	lua_setmetatable(L, -2);
+	
 
 	lua_pushvalue(L, -1);
 	button->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
@@ -336,6 +338,9 @@ lFuncImp(mUiWindow, addButton)
 	
 	lua_pushvalue(L, 1);
 	lua_setfield(L, -2, "parent");
+	
+	luaL_getmetatable(L, "__mtUiElement");
+	lua_setmetatable(L, -2);
 
     return 1;
 }
@@ -367,8 +372,6 @@ lFuncImp(mUiWindow, addTree)
 	lua_pushvalue(L, 3);
 	lua_setfield(L, -2, "callback");
 	
-	luaL_getmetatable(L, "__mtUiContainer");
-	lua_setmetatable(L, -2);
 	
 	lua_pushvalue(L, -1);
 	tree->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
@@ -377,6 +380,10 @@ lFuncImp(mUiWindow, addTree)
 	
 	lua_pushvalue(L, 1);
 	lua_setfield(L, -2, "parent");
+	
+	luaL_getmetatable(L, "__mtUiContainer");
+	lua_setmetatable(L, -2);
+
 	
 	return 1;
 }
@@ -411,9 +418,6 @@ lFuncImp(mUiWindow, addInputText)
 	lua_pushvalue(L, 3);
 	lua_setfield(L, -2, "callback");
 	
-	luaL_getmetatable(L, "__mtUiElement");
-	lua_setmetatable(L, -2);
-	
 	lua_pushvalue(L, -1);
 	itext->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
 	
@@ -421,6 +425,10 @@ lFuncImp(mUiWindow, addInputText)
 	
 	lua_pushvalue(L, 1);
 	lua_setfield(L, -2, "parent");
+	
+	luaL_getmetatable(L, "__mtUiElement");
+	lua_setmetatable(L, -2);
+
 	
 	return 1;
 }
@@ -454,8 +462,6 @@ lFuncImp(mUiWindow, addCheckbox)
 	lua_pushvalue(L, 3);
 	lua_setfield(L, -2, "callback");
 	
-	luaL_getmetatable(L, "__mtUiElement");
-	lua_setmetatable(L, -2);
 	
 	lua_pushvalue(L, -1);
 	box->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
@@ -464,6 +470,10 @@ lFuncImp(mUiWindow, addCheckbox)
 	
 	lua_pushvalue(L, 1);
 	lua_setfield(L, -2, "parent");
+	
+	luaL_getmetatable(L, "__mtUiElement");
+	lua_setmetatable(L, -2);
+
 	
 	return 1;
 }
@@ -500,8 +510,7 @@ lFuncImp(mUiWindow, addSlider)
 	lua_pushvalue(L, 3);
 	lua_setfield(L, -2, "callback");
 	
-	luaL_getmetatable(L, "__mtUiElement");
-	lua_setmetatable(L, -2);
+	
 	
 	lua_pushvalue(L, -1);
 	slider->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
@@ -510,6 +519,9 @@ lFuncImp(mUiWindow, addSlider)
 	
 	lua_pushvalue(L, 1);
 	lua_setfield(L, -2, "parent");
+	
+	luaL_getmetatable(L, "__mtUiElement");
+	lua_setmetatable(L, -2);
 	
 	return 1;
 }

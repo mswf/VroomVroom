@@ -8,11 +8,9 @@
 Shader::Shader()
 : program(0)
 {
-	std::string path = Content::GetPath() + "/shaders/";
-
-	std::string vs = HelperFunctions::ReadFile(path + std::string("vertexShader.vert"));
+	std::string vs, fs;
+	LoadDefault( vs, fs );
 	//std::string gs = HelperFunctions::ReadFile(path + std::string("geometryShader.geom"));
-	std::string fs = HelperFunctions::ReadFile(path + std::string("fragmentShader.frag"));
 	
 	const char * src_vertex   = vs.c_str();
 	//const char * src_geometry = gs.c_str();
@@ -58,6 +56,31 @@ Shader::Shader()
 Shader::~Shader()
 {
 	glDeleteProgram( program );
+}
+
+void Shader::UseProgram()
+{
+	glUseProgram( program );
+}
+
+void Shader::LoadDefault( std::string &vs, std::string &fs )
+{
+	std::string path = Content::GetPath() + "/shaders/";
+	std::string defaultVertex = path + std::string("vertexShader1.vert");
+	std::string defaultFragment = path + std::string("fragmentShader1.frag");
+	bool vExists = HelperFunctions::FileExists( defaultVertex.c_str() );
+	bool fExists = HelperFunctions::FileExists( defaultFragment.c_str() );
+	
+	if ( vExists && fExists )
+	{
+		vs = HelperFunctions::ReadFile(path + std::string("vertexShader.vert"));
+		fs = HelperFunctions::ReadFile(path + std::string("fragmentShader.frag"));
+	}
+	else
+	{
+		vs = builtin_vertex;
+		fs = builtin_fragment;
+	}
 }
 
 void Shader::LogActiveProperties( GLenum activeProperties )

@@ -564,9 +564,12 @@ bool sUiSystem::HandleInputText(uiElement* e)
 	char buffer[BUFFER_SIZE];
 	//fill with 0's
 	std::fill(&buffer[0], &buffer[BUFFER_SIZE - 1], 0);
+#ifdef _WIN32
 	tt->text._Copy_s(buffer, BUFFER_SIZE, BUFFER_SIZE);
-
-	ImGui::InputText(tt->label.c_str(), buffer, 64);
+#else
+	tt->text.copy(buffer, BUFFER_SIZE);
+#endif
+	ImGui::InputText(tt->label.c_str(), buffer, BUFFER_SIZE);
 
 	tt->text = string(buffer);
 

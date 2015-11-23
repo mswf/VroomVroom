@@ -23,6 +23,8 @@ class CMeshRenderer : public Component
 		//void UnBuffer();
 		ModelInstance* model;
 		Material* material;
+		
+	
 	private:
 	
 		//Material* material;

@@ -20,6 +20,10 @@ CMeshRenderer::~CMeshRenderer()
 void CMeshRenderer::SetModel( const char* name )
 {
 	model = ResourceManager::getInstance().GetModel(name);
+	if (model != NULL)
+	{
+		SetMaterial( ResourceManager::getInstance().GetMaterialById( model->materialId ) );
+	}
 }
 
 void CMeshRenderer::SetMaterial( const char* name )

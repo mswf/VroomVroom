@@ -8,9 +8,12 @@
 // TODO(Valentinas): Add possibility to allocate or deallocate multiple textures in one go
 // TODO(Valentinas): Support odd texture dimensions
 
-GLuint BufferTexture2D( GLenum target, GLint levelOfDetail, GLint internalFormat, GLint width, GLint height, GLint pixelFormat, GLenum type, GLvoid* data, const std::vector< std::pair< GLenum, GLint > >* textureParameters, bool generateMipMap = false );
+GLuint BufferTexture2D( GLint levelOfDetail, GLint internalFormat, GLint width, GLint height, GLint pixelFormat, GLenum type, unsigned char* data, const std::vector< std::pair< GLenum, GLint > >* textureParameters, bool generateMipMap = false );
 
-GLuint BufferTexture1D( GLenum target, GLint levelOfDetail, GLint internalFormat, GLint width, GLint pixelFormat, GLenum type, GLvoid* data, const std::vector< std::pair< GLenum, GLint > >* textureParameters, bool generateMipMap = false );
+GLuint BufferTexture1D( GLint levelOfDetail, GLint internalFormat, GLint width, GLint pixelFormat, GLenum type, GLvoid* data, const std::vector< std::pair< GLenum, GLint > >* textureParameters, bool generateMipMap = false );
+
+void BindTexture( GLenum textureUnit, GLenum target, GLuint program );
+void UnbindTexture();
 
 void DeleteTexture( GLuint textureId );
 

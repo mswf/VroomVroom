@@ -38,8 +38,9 @@ class ResourceManager : public Singleton<ResourceManager>
 		ImageData* GetImageData( const char* name );
 		unsigned int GetImageId( const char* name );
 	
-		void BufferImage1D( const char* name );
+		bool BufferImage1D( const char* name );
 		bool BufferImage2D( const char* name );
+		bool BufferImage3D( const char* name );
 		void UpdateMeshBuffer();
 	
 		bool MeshExists( const char* name );

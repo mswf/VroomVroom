@@ -5,7 +5,7 @@
 #include "scene.h"
 
 //TODO(Valentinas): Don't use data_type, if portability is prefered
-#include "DataStructure/data_types.h"
+#include "../DataStructure/data_types.h"
 
 class Material;
 

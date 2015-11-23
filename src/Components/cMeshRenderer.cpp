@@ -3,7 +3,7 @@
 #include "cCamera.h"
 #include "glew.h"
 #include "console.h"
-#include "DataStructure/resource_manager.h"
+#include "../DataStructure/resource_manager.h"
 
 const int CMeshRenderer::familyId = (int)ComponentTypes::MESH_RENDERER;
 

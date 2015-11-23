@@ -4,7 +4,7 @@
 #include "../Components/cCamera.h"
 #include "console.h"
 #include <iostream>
-#include "DataStructure/texture.h"
+#include "../DataStructure/texture.h"
 
 namespace Renderer
 {

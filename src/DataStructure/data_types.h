@@ -43,6 +43,7 @@ struct ModelInstance
 	unsigned int uvBuffer;
 	unsigned int tangentBuffer;
 	unsigned int bitangentBuffer;
+	unsigned int materialId;
 	ModelInstance():
 		vao(0),
 		numIndices(0),
@@ -51,7 +52,8 @@ struct ModelInstance
 		vertexBuffer(0),
 		uvBuffer(0),
 		tangentBuffer(0),
-		bitangentBuffer(0)
+		bitangentBuffer(0),
+		materialId(0)
 	{}
 
 };

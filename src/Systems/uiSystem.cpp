@@ -336,7 +336,7 @@ void sUiSystem::RemoveElement(uiContainer* ww, uiElement* ee)
 			{
 				ww->lastElement = currentElement->nextElement;
 			}
-			
+
 			if (currentElement->luaTableKey != -1 && lState != NULL)
 			{
 				mUiWindow::UnreferenceTable(lState, currentElement->luaTableKey);
@@ -473,9 +473,9 @@ void sUiSystem::AddElement(uiContainer* w, uiElement* e)
 	e->parent = w;
 	e->nextElement = NULL;
 	e->prevElement = NULL;
-	
+
 	e->luaTableKey = -1;
-	
+
 	if (w->firstElement == NULL)
 	{
 		w->firstElement = e;
@@ -571,11 +571,7 @@ bool sUiSystem::HandleInputText(uiElement* e)
 	char buffer[BUFFER_SIZE];
 	//fill with 0's
 	std::fill(&buffer[0], &buffer[BUFFER_SIZE - 1], 0);
-#ifdef _WIN32
-	tt->text._Copy_s(buffer, BUFFER_SIZE, BUFFER_SIZE);
-#else
 	tt->text.copy(buffer, BUFFER_SIZE);
-#endif
 	ImGui::InputText(tt->label.c_str(), buffer, BUFFER_SIZE);
 
 	tt->text = string(buffer);

@@ -38,6 +38,7 @@ class mUiWindow {
 		lFuncDef(addInputText);
 		lFuncDef(addCheckbox);
 		lFuncDef(addSlider);
+		lFuncDef(addRegion);
 	
         lFuncDef(remove);
 };

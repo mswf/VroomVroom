@@ -208,6 +208,28 @@ uiSliderElement* sUiSystem::AddSlider(uiContainer* w)
 	return sl;
 }
 
+uiRegionElement* sUiSystem::AddRegion(uiContainer* w)
+{
+	uiRegionElement* rr = new uiRegionElement;
+	rr->handle = HandleRegion;
+	
+	InitBoundProperty(rr, "width", &(rr->width), 0.0);
+	InitBoundProperty(rr, "height", &(rr->height), 0.0);
+	InitBoundProperty(rr, "bordered", &(rr->bordered), false);
+	
+	
+	string uniqueName = "region";
+	uniqueName += "#";
+	uniqueName += std::to_string(firstFreeId);
+	SetNextFreeId();
+	
+	rr->name = uniqueName;
+	
+	AddElement(w, rr);
+	
+	return rr;
+}
+
 void sUiSystem::RemoveWindow(uiWindow* w)
 {
 	uiWindow* currentWindow = lastWindow;
@@ -558,6 +580,19 @@ bool sUiSystem::HandleSlider(uiElement* e)
 	}
 
 	return true;
+}
+
+bool sUiSystem::HandleRegion(uiElement* e)
+{
+	uiRegionElement* rr = (uiRegionElement*)e;
+	
+	ImGui::BeginChild(rr->name.c_str(), ImVec2(rr->width, rr->height), rr->bordered);
+	
+	RenderContainer(rr);
+	
+	ImGui::EndChild();
+	
+	return false;
 }
 
 void sUiSystem::SetNextFreeId()

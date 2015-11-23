@@ -38,6 +38,7 @@ void mUiWindow::Bind(lua_State* L){
 		lBind(addInputText)
 		lBind(addCheckbox)
 		lBind(addSlider)
+		lBind(addRegion)
 		{0, 0}
 	};
 	luaL_openlib(L, 0, __mtUiElement_methods, 0);
@@ -432,6 +433,30 @@ lFuncImp(mUiWindow, addSlider)
 	return 1;
 }
 
+lFuncImp(mUiWindow, addRegion)
+{
+	lua_settop(L, 1);
+	
+	lua_getfield(L, 1, "__coreElement__");
+	uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
+	lua_pop(L, 1);
+	
+	uiRegionElement* region = UiSystem.AddRegion(container);
+	
+	lua_newtable(L);
+	BasicElementBind(L, region, 1);
+	
+	lua_getfield(L, -1, "__coreProperties__");
+	lstNumber("width", region->width);
+	lstNumber("height", region->height);
+	lstBoolean("bordered", region->bordered);
+	lua_pop(L, 1);
+	
+	luaL_getmetatable(L, "__mtUiContainer");
+	lua_setmetatable(L, -2);
+	
+	return 1;
+}
 //TODO(robin):
 /*
     userdata garbage collection

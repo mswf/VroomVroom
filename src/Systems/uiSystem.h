@@ -79,6 +79,7 @@ struct uiTreeElement;
 struct uiInputTextElement;
 struct uiCheckboxElement;
 struct uiSliderElement;
+struct uiRegionElement;
 
 
 class sUiSystem : public Singleton<sUiSystem>
@@ -96,6 +97,7 @@ class sUiSystem : public Singleton<sUiSystem>
 		uiInputTextElement* AddInputText(uiContainer*);
 		uiCheckboxElement* AddCheckbox(uiContainer*);
 		uiSliderElement* AddSlider(uiContainer*);
+		uiRegionElement* AddRegion(uiContainer*);
 	
 		void RemoveWindow(uiWindow*);
         void RemoveChildren(uiContainer*);
@@ -140,6 +142,7 @@ class sUiSystem : public Singleton<sUiSystem>
 		static bool HandleInputText(uiElement*);
 		static bool HandleCheckbox(uiElement *);
 		static bool HandleSlider(uiElement *);
+		static bool HandleRegion(uiElement *);
 	
 		template<typename T>
 		static void InitBoundProperty(uiElement* e, const char* name, T* property, T value) {
@@ -201,6 +204,18 @@ struct uiSliderElement : uiElement
 	double value;
 	bool rounded;
 	string format;
+};
+
+struct uiRegionElement : uiContainer
+{
+	~uiRegionElement()
+	{
+		UiSystem.RemoveChildren(this);
+	}
+	string name;
+	double width;
+	double height;
+	bool bordered;
 };
 
 

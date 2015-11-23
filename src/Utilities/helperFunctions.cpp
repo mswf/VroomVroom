@@ -81,7 +81,9 @@ std::string HelperFunctions::ReadFile(const char* file)
 
 bool HelperFunctions::FileExists( const char *file )
 {
-	if( FILE *f = fopen(file, "r") )
+	FILE *f;
+	errno_t error = fopen_s(&f, file, "r");
+	if (f != NULL)
 	{
 		fclose(f);
 		return true;

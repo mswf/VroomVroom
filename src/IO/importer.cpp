@@ -48,6 +48,11 @@ bool Importer::ImportObjFile( const std::string &pFile, bool importTextures )
 	}
 	
 	unsigned int n;
+	if (scene->mNumMeshes > 1)
+	{
+		Terminal.Warning("Object file contains multiple meshes!");
+	}
+	
 	for ( n = 0; n < scene->mNumMeshes; ++n )
 	{
 		const aiMesh* m = scene->mMeshes[n];

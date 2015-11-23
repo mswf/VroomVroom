@@ -1,5 +1,6 @@
 #include "helperFunctions.h"
 #include "standardIncludes.h"
+#include <stdlib.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -81,9 +82,7 @@ std::string HelperFunctions::ReadFile(const char* file)
 
 bool HelperFunctions::FileExists( const char *file )
 {
-	FILE *f;
-	errno_t error = fopen_s(&f, file, "r");
-	if (f != NULL)
+	if ( FILE *f = fopen(file, "r") )
 	{
 		fclose(f);
 		return true;

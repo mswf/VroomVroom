@@ -413,7 +413,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\..\Framework\Win32Libraries\include;..\..\Framework\LJIT\include;..\..\Framework\assimp\Include;..\..\src;..\..\Framework\Win32Libraries\include\SDL2_net;..\..\Framework\Win32Libraries\include\SDL2;..\..\Framework\FMOD\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>DEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;DEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

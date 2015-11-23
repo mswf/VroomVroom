@@ -24,6 +24,8 @@
     <ClInclude Include="..\..\src\content.h" />
     <ClInclude Include="..\..\src\DataStructure\data_types.h" />
     <ClInclude Include="..\..\src\DataStructure\material.h" />
+    <ClInclude Include="..\..\src\DataStructure\mesh.h" />
+    <ClInclude Include="..\..\src\DataStructure\mesh_generator.h" />
     <ClInclude Include="..\..\src\DataStructure\resource_manager.h" />
     <ClInclude Include="..\..\src\DataStructure\shader.h" />
     <ClInclude Include="..\..\src\DataStructure\texture.h" />
@@ -179,6 +181,8 @@
     <ClInclude Include="..\..\src\ImGUI\stb_truetype.h" />
     <ClInclude Include="..\..\src\Input.hpp" />
     <ClInclude Include="..\..\src\IO\file.h" />
+    <ClInclude Include="..\..\src\IO\importer.h" />
+    <ClInclude Include="..\..\src\IO\importer_imp.h" />
     <ClInclude Include="..\..\src\IO\RtMidi.h" />
     <ClInclude Include="..\..\src\IO\stb_image.h" />
     <ClInclude Include="..\..\src\Modules\mAll.h" />
@@ -193,6 +197,7 @@
     <ClInclude Include="..\..\src\Networking\UDPMessage.h" />
     <ClInclude Include="..\..\src\Patterns\singleton.h" />
     <ClInclude Include="..\..\src\Systems\componentSystem.h" />
+    <ClInclude Include="..\..\src\Systems\entitySystem.h" />
     <ClInclude Include="..\..\src\Systems\luaSystem.h" />
     <ClInclude Include="..\..\src\Systems\renderer.h" />
     <ClInclude Include="..\..\src\Systems\uiSystem.h" />
@@ -218,6 +223,8 @@
     <ClCompile Include="..\..\src\console.cpp" />
     <ClCompile Include="..\..\src\content.cpp" />
     <ClCompile Include="..\..\src\DataStructure\material.cpp" />
+    <ClCompile Include="..\..\src\DataStructure\mesh.cpp" />
+    <ClCompile Include="..\..\src\DataStructure\mesh_generator.cpp" />
     <ClCompile Include="..\..\src\DataStructure\resource_manager.cpp" />
     <ClCompile Include="..\..\src\DataStructure\shader.cpp" />
     <ClCompile Include="..\..\src\DataStructure\texture.cpp" />
@@ -229,6 +236,8 @@
     <ClCompile Include="..\..\src\ImGUI\imgui_impl_sdl.cpp" />
     <ClCompile Include="..\..\src\Input.cpp" />
     <ClCompile Include="..\..\src\IO\file.cpp" />
+    <ClCompile Include="..\..\src\IO\importer.cpp" />
+    <ClCompile Include="..\..\src\IO\importer_imp.cpp" />
     <ClCompile Include="..\..\src\IO\RtMidi.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\Modules\mEngine.cpp" />
@@ -239,6 +248,7 @@
     <ClCompile Include="..\..\src\Networking\TCPData.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPServer.cpp" />
     <ClCompile Include="..\..\src\Networking\UDPMessage.cpp" />
+    <ClCompile Include="..\..\src\Systems\entitySystem.cpp" />
     <ClCompile Include="..\..\src\Systems\luaSystem.cpp" />
     <ClCompile Include="..\..\src\Systems\renderer.cpp" />
     <ClCompile Include="..\..\src\Systems\uiSystem.cpp" />

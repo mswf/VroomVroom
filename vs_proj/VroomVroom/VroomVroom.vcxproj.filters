@@ -642,6 +642,21 @@
     <ClInclude Include="..\..\src\IO\stb_image.h">
       <Filter>VroomVroom\IO</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\DataStructure\mesh.h">
+      <Filter>VroomVroom\Data structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\DataStructure\mesh_generator.h">
+      <Filter>VroomVroom\Data structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\IO\importer.h">
+      <Filter>VroomVroom\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\IO\importer_imp.h">
+      <Filter>VroomVroom\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Systems\entitySystem.h">
+      <Filter>VroomVroom\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Networking\TCPData.cpp">
@@ -766,6 +781,21 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Components\entity.cpp">
       <Filter>VroomVroom\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\DataStructure\mesh.cpp">
+      <Filter>VroomVroom\Data structure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\DataStructure\mesh_generator.cpp">
+      <Filter>VroomVroom\Data structure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\IO\importer.cpp">
+      <Filter>VroomVroom\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\IO\importer_imp.cpp">
+      <Filter>VroomVroom\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Systems\entitySystem.cpp">
+      <Filter>VroomVroom\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

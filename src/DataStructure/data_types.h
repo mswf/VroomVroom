@@ -14,10 +14,49 @@ struct Mesh
 	std::vector< glm::vec3 > tangents;
 	std::vector< unsigned int > indices;
 	unsigned int numIndices;
+	unsigned int materialId;
+	bool isBuffered;
+	bool hasBufferChanged;
+	bool hasPositions;
 	bool hasNormals;
 	bool hasTangentsAndBitangets;
 	bool hasUVs;
+	Mesh():
+		numIndices(0),
+		materialId(0),
+		isBuffered(false),
+		hasBufferChanged(false),
+		hasPositions(false),
+		hasNormals(false),
+		hasTangentsAndBitangets(false),
+		hasUVs(false)
+ 	{}
 };
+
+struct ModelInstance
+{
+	unsigned int vao;
+	unsigned int numIndices;
+	unsigned int indiceBuffer;
+	unsigned int normalBuffer;
+	unsigned int vertexBuffer;
+	unsigned int uvBuffer;
+	unsigned int tangentBuffer;
+	unsigned int bitangentBuffer;
+	ModelInstance():
+		vao(0),
+		numIndices(0),
+		indiceBuffer(0),
+		normalBuffer(0),
+		vertexBuffer(0),
+		uvBuffer(0),
+		tangentBuffer(0),
+		bitangentBuffer(0)
+	{}
+
+};
+
+
 
 
 

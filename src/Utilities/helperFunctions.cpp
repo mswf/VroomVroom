@@ -79,6 +79,36 @@ std::string HelperFunctions::ReadFile(const char* file)
 	return ConvertLineEndings(fileData.str());
 }
 
+bool HelperFunctions::FileExists( const char *file )
+{
+	if( FILE *f = fopen(file, "r") )
+	{
+		fclose(f);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void HelperFunctions::PrintImageData( unsigned char* image, int width, int height )
+{
+	//static int num = 0;
+	for (int i = 0; i < height; ++i)
+	{
+		for (int j = 0; j < width; ++j)
+		{
+			int index = ( i * width ) + j;
+			//std::cout << j << ":" << i << ", ";
+			//++num;
+			std::cout << image[index];
+		}
+		std::cout <<  std::endl;
+	}
+	//std::cout << num << std::endl;
+}
+
 std::string HelperFunctions::VoidPtrToString(void* data, const int size)
 {
 	return string(static_cast<char*>(data), size);

@@ -99,7 +99,7 @@ uiWindow* sUiSystem::ConstructWindow()
 	InitBoundProperty(window, "movable", &(window->movable), true);
 	InitBoundProperty(window, "resizable", &(window->resizable), true);
 	InitBoundProperty(window, "collapsable", &(window->collapsable), true);
-	InitBoundProperty(window, "displayTitleBar", &(window->displayTitleBar), true);
+	InitBoundProperty(window, "displayTitle", &(window->displayTitle), true);
 	InitBoundProperty(window, "closable", &(window->closable), true);
 	InitBoundProperty(window, "visible", &(window->visible), true);
 	
@@ -353,7 +353,7 @@ void sUiSystem::Render()
 		{
 			windowFlags |= ImGuiWindowFlags_NoCollapse;
 		}
-		if (currentWindow->displayTitleBar == false)
+		if (currentWindow->displayTitle == false)
 		{
 			windowFlags |= ImGuiWindowFlags_NoTitleBar;
 		}

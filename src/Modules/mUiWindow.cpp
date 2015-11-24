@@ -138,7 +138,7 @@ lFuncImp(mUiWindow, create){
     lstBoolean("movable", window->movable)
     lstBoolean("closable", window->closable)
     lstBoolean("collapsable", window->collapsable)
-	lstBoolean("displayTitleBar", window->displayTitleBar)
+	lstBoolean("displayTitle", window->displayTitle)
     
 	lua_pop(L, 1);
 	

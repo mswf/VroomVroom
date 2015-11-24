@@ -73,7 +73,7 @@ struct uiWindow : uiContainer
 	bool resizable;
 	bool collapsable;
 	bool closable;
-	bool displayTitleBar;
+	bool displayTitle;
 	bool movable;
 };
 

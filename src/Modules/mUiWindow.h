@@ -41,6 +41,7 @@ class mUiWindow {
 		lFuncDef(addRegion);
 		lFuncDef(addHorizontalLayout);
 	
+		lFuncDef(destroy);
         lFuncDef(remove);
 };
 

@@ -23,6 +23,7 @@ void mUiWindow::Bind(lua_State* L){
     {
         {"__index", lw_mtIndex__},
         {"__newindex", lw_mtNewIndex__},
+		lBind(destroy)
 		{0, 0}
 	};
     luaL_openlib(L, 0, __mtUiElement_methods, 0);
@@ -40,6 +41,7 @@ void mUiWindow::Bind(lua_State* L){
 		lBind(addSlider)
 		lBind(addRegion)
 		lBind(addHorizontalLayout)
+		lBind(remove)
 		{0, 0}
 	};
 	luaL_openlib(L, 0, __mtUiElement_methods, 0);
@@ -485,8 +487,35 @@ lFuncImp(mUiWindow, addHorizontalLayout)
 	
 	return 1;
 }
-//TODO(robin):
-/*
-    userdata garbage collection
- */
 
+lFuncImp(mUiWindow, destroy)
+{
+	lua_getfield(L, 1, "__coreElement__");
+	uiElement* element = (uiElement*)lua_touserdata(L,-1);
+	lua_pop(L, 1);
+	
+	if(element->parent != NULL){
+		UiSystem.RemoveElement(element->parent, element);
+	}
+	
+	return 0;
+}
+
+lFuncImp(mUiWindow, remove)
+{
+	LuaSystem.Dump(L);
+	lua_getfield(L, 1, "__coreElement__");
+	uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
+	lua_pop(L, 1);
+	
+	lua_getfield(L, 2, "__coreElement__");
+	uiElement* element = (uiElement*)lua_touserdata(L,-1);
+	lua_pop(L, 2);
+	
+	if(element->parent == container)
+	{
+		UiSystem.RemoveElement(container, element);
+	}
+
+	return 0;
+}

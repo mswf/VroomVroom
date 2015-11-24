@@ -39,6 +39,7 @@ class mUiWindow {
 		lFuncDef(addCheckbox);
 		lFuncDef(addSlider);
 		lFuncDef(addRegion);
+		lFuncDef(addHorizontalLayout);
 	
         lFuncDef(remove);
 };

@@ -95,6 +95,8 @@ uiWindow* sUiSystem::ConstructWindow()
 	InitBoundProperty(window, "y", &(window->y), 0.0);
 	InitBoundProperty(window, "width", &(window->width), 100.0);
 	InitBoundProperty(window, "height", &(window->height), 100.0);
+	
+	InitBoundProperty(window, "expanded", &(window->expanded), false);
 
 	InitBoundProperty(window, "movable", &(window->movable), true);
 	InitBoundProperty(window, "resizable", &(window->resizable), true);
@@ -115,8 +117,11 @@ uiButtonElement* sUiSystem::AddButton(uiContainer* w)
 	bb->handle = HandleButton;
 
 	bb->parent = w;
+	bb->prevHovered = false;
 
-	InitBoundProperty(bb, "label", &(bb->label), string("button"));
+	InitBoundProperty(bb, "text", &(bb->text), string("button"));
+	InitBoundProperty(bb, "height", &(bb->height), 0.0);
+
 
 	AddElement(w, bb);
 
@@ -162,6 +167,7 @@ uiInputTextElement* sUiSystem::AddInputText(uiContainer* w)
 	tt->handle = HandleInputText;
 
 	tt->parent = w;
+	tt->prevFocus = false;
 	
 	InitBoundProperty(tt, "text", &(tt->text), string("lorum ipsum"));
 	InitBoundProperty(tt, "label", &(tt->label), string("nert"));
@@ -208,21 +214,24 @@ uiRegionElement* sUiSystem::AddRegion(uiContainer* w)
 	uiRegionElement* rr = new uiRegionElement;
 	rr->handle = HandleRegion;
 	
-	InitBoundProperty(rr, "width", &(rr->width), 0.0);
 	InitBoundProperty(rr, "height", &(rr->height), 0.0);
 	InitBoundProperty(rr, "bordered", &(rr->bordered), false);
-	
-	uint8 id = GetNextFreeId();
-	string uniqueName = "region";
-	uniqueName += "#";
-	uniqueName += std::to_string(id);
-	
-	rr->name = uniqueName;
-	rr->id = id;
 	
 	AddElement(w, rr);
 	
 	return rr;
+}
+
+uiHorizontalLayoutElement* sUiSystem::AddHorizontalLayout(uiContainer* w)
+{
+	uiHorizontalLayoutElement* hl = new uiHorizontalLayoutElement;
+	hl->handle = HandleHorizontalLayout;
+	
+	InitBoundProperty(hl, "spacing", &(hl->spacing), 0.0);
+
+	AddElement(w, hl);
+	
+	return hl;
 }
 
 void sUiSystem::RemoveWindow(uiWindow* w)
@@ -255,7 +264,7 @@ void sUiSystem::RemoveWindow(uiWindow* w)
 
 			if (currentWindow->luaTableKey != -1 && lState != NULL)
 			{
-				mUiWindow::HandleCallback(lState, currentWindow->luaTableKey, "onClose");
+				HandleCallback(currentWindow, "onClose");
 				mUiWindow::UnreferenceTable(lState, currentWindow->luaTableKey);
 			}
 
@@ -277,7 +286,7 @@ void sUiSystem::RemoveChildren(uiContainer* ee)
 	while (currentChild != NULL)
 	{
 		uiElement* temp = currentChild->prevElement;
-		delete currentChild;
+		RemoveElement(ee, currentChild);
 		currentChild = temp;
 	}
 }
@@ -352,6 +361,7 @@ void sUiSystem::Render()
 		{
 			windowFlags |= ImGuiWindowFlags_NoCollapse;
 		}
+		ImGui::SetNextWindowCollapsed(!currentWindow->expanded, ImGuiSetCond_Always);
 
 		bool isOpened = true;   //will be set to false if user presses X button
 		bool* pOpened = &isOpened;
@@ -364,6 +374,19 @@ void sUiSystem::Render()
 		bool isExpanded = true;
 		isExpanded = ImGui::Begin(uniqueName.c_str(), pOpened, windowFlags);
 
+		if (isExpanded != currentWindow->expanded )
+		{
+			if(isExpanded)
+			{
+				HandleCallback(currentWindow, "onExpand");
+			}
+			else
+			{
+				HandleCallback(currentWindow, "onCollapse");
+			}
+			currentWindow->expanded = isExpanded;
+		}
+		
 		if (isExpanded && isOpened)
 		{
 			RenderContainer(currentWindow);
@@ -372,15 +395,26 @@ void sUiSystem::Render()
 		if (currentWindow->movable)
 		{
 			ImVec2 newPos = ImGui::GetWindowPos();
-			currentWindow->x = newPos.x;
-			currentWindow->y = newPos.y;
+			if(newPos.x != currentWindow->x || newPos.y != currentWindow->y)
+			{
+				
+				HandleCallback(currentWindow, "onMove");
+				currentWindow->x = newPos.x;
+				currentWindow->y = newPos.y;
+
+			}
+			
 		}
 
 		if (currentWindow->resizable && isExpanded)
 		{
 			ImVec2 newSize = ImGui::GetWindowSize();
-			currentWindow->width = newSize.x;
-			currentWindow->height = newSize.y;
+			if(newSize.x != currentWindow->width || newSize.y != currentWindow->height)
+			{
+				HandleCallback(currentWindow, "onResize");
+				currentWindow->width = newSize.x;
+				currentWindow->height = newSize.y;
+			}
 		}
 
 		ImGui::End();
@@ -400,10 +434,7 @@ void sUiSystem::Render()
 
 	if (cachedButton != NULL)
 	{
-		if (cachedButton->luaTableKey != -1 && lState != NULL)
-		{
-			mUiWindow::HandleCallback(lState, cachedButton->luaTableKey, "callback");
-		}
+		HandleCallback(cachedButton, "onPress");
 		cachedButton = NULL;
 	}
 }
@@ -432,11 +463,9 @@ void sUiSystem::AddWindow(uiWindow* w)
 
 void sUiSystem::AddElement(uiContainer* w, uiElement* e)
 {
-	e->tooltip = "";
-	e->propertyMap["tooltip"] = &(e->tooltip);
-
-	e->visible = true;
-	e->propertyMap["visible"] = &(e->visible);
+	InitBoundProperty(e, "visible", &(e->visible), true);
+	InitBoundProperty(e, "tooltip", &(e->tooltip), string(""));
+	InitBoundProperty(e, "width", &(e->width), 0.0);
 
 	e->parent = w;
 	e->nextElement = NULL;
@@ -457,6 +486,14 @@ void sUiSystem::AddElement(uiContainer* w, uiElement* e)
 	}
 }
 
+void sUiSystem::HandleCallback(uiElement* e, const char* func)
+{
+	if(lState != NULL && e->luaTableKey != -1)
+	{
+		mUiWindow::HandleCallback(lState, e->luaTableKey, func);
+	}
+}
+
 void sUiSystem::RenderContainer(uiContainer* cc)
 {
 	uiElement* currentElement = cc->firstElement;
@@ -466,7 +503,13 @@ void sUiSystem::RenderContainer(uiContainer* cc)
 		{
 			currentElement = currentElement->nextElement;
 		}
+		
+		//we push the pointer to the element on the ID-stack, this way even equally-named elements will have unique ids, and ImGui won't get confused!
+		ImGui::PushID((long)currentElement);
+		ImGui::PushItemWidth(currentElement->width);
 		bool allowToolTip = currentElement->handle(currentElement);
+		ImGui::PopItemWidth();
+		ImGui::PopID();
 
 		if (allowToolTip && currentElement->tooltip != "" && ImGui::IsItemHovered())
 		{
@@ -480,13 +523,27 @@ void sUiSystem::RenderContainer(uiContainer* cc)
 bool sUiSystem::HandleButton(uiElement* e)
 {
 	uiButtonElement* bb = (uiButtonElement*)e;
-	bool pressed = ImGui::Button(bb->label.c_str(), ImVec2(80, 30));
+	bool pressed = ImGui::Button(bb->text.c_str(), ImVec2(bb->width, bb->height));
 
-	if (pressed)// && bb->luaTableKey != -1 && lState != NULL)
+	if (pressed)
 	{
-		//mUiWindow::HandleButtonCallback(lState, bb->luaTableKey);
 		//we cache this button press until all windows are rendered
 		UiSystem.cachedButton = bb;
+	}
+	
+	bool hovered = ImGui::IsItemHovered();
+	if(hovered != bb->prevHovered)
+	{
+		bb->prevHovered = hovered;
+		if(hovered)
+		{
+			HandleCallback(bb, "onHoverIn");
+		}
+		else
+		{
+			HandleCallback(bb, "onHoverOut");
+		}
+	
 	}
 
 	return true;
@@ -515,11 +572,23 @@ bool sUiSystem::HandleTree(uiElement* e)
 
 	ImGui::SetNextTreeNodeOpened(tt->opened, ImGuiSetCond_Always);
 
-
-	tt->opened = ImGui::TreeNode(tt->label.c_str());
+	bool opened = ImGui::TreeNode(tt->label.c_str());
 	if (tt->tooltip != "" && ImGui::IsItemHovered())
 	{
 		ImGui::SetTooltip(tt->tooltip.c_str());
+	}
+	
+	if(tt->opened != opened)
+	{
+		tt->opened = opened;
+		if(opened)
+		{
+			HandleCallback(tt, "onExpand");
+		}
+		else
+		{
+			HandleCallback(tt, "onCollapse");
+		}
 	}
 
 	if (tt->opened)
@@ -540,9 +609,26 @@ bool sUiSystem::HandleInputText(uiElement* e)
 	//fill with 0's
 	std::fill(&buffer[0], &buffer[BUFFER_SIZE - 1], 0);
 	tt->text.copy(buffer, BUFFER_SIZE);
-	ImGui::InputText(tt->label.c_str(), buffer, BUFFER_SIZE);
-
-	tt->text = string(buffer);
+	bool edited = ImGui::InputText(tt->label.c_str(), buffer, BUFFER_SIZE);
+	
+	if(edited)
+	{
+		tt->text = string(buffer);
+		HandleCallback(tt, "onChange");
+	}
+	
+	if (ImGui::IsItemActive() != tt->prevFocus)
+	{
+		tt->prevFocus = !tt->prevFocus;
+		if(tt->prevFocus)
+		{
+			HandleCallback(tt, "onFocusGain");
+		}
+		else
+		{
+			HandleCallback(tt, "onFocusLose");
+		}
+	}
 
 	return true;
 }
@@ -550,8 +636,15 @@ bool sUiSystem::HandleInputText(uiElement* e)
 bool sUiSystem::HandleCheckbox(uiElement* e)
 {
 	uiCheckboxElement* cb = (uiCheckboxElement*)e;
+	
+	bool prevChecked = cb->checked;
 
 	ImGui::Checkbox(cb->label.c_str(), &(cb->checked));
+	
+	if(cb->checked != prevChecked)
+	{
+		HandleCallback(cb, "onChange");
+	}
 
 	return true;
 }
@@ -565,7 +658,14 @@ bool sUiSystem::HandleSlider(uiElement* e)
 	{
 		int valueBuffer = (int)sl->value;
 		ImGui::SliderInt(sl->label.c_str(), &valueBuffer, sl->minValue, sl->maxValue, sl->format.c_str());
-		sl->value = (double)valueBuffer;
+		
+		if(sl->value != (double)valueBuffer)
+		{
+			sl->value = (double)valueBuffer;
+			
+			HandleCallback(sl, "onChange");
+		}
+		
 	}
 	else
 	{
@@ -581,7 +681,7 @@ bool sUiSystem::HandleRegion(uiElement* e)
 {
 	uiRegionElement* rr = (uiRegionElement*)e;
 	
-	ImGui::BeginChild(rr->name.c_str(), ImVec2(rr->width, rr->height), rr->bordered);
+	ImGui::BeginChild("region", ImVec2(rr->width, rr->height), rr->bordered);
 	
 	RenderContainer(rr);
 	
@@ -590,6 +690,43 @@ bool sUiSystem::HandleRegion(uiElement* e)
 	return false;
 }
 
+bool sUiSystem::HandleHorizontalLayout(uiElement* e)
+{
+	uiHorizontalLayoutElement* hl = (uiHorizontalLayoutElement*)e;
+	
+	//essentially the same as RenderContainer, except we have to make an extra call in there after every element
+	uiElement* currentElement = hl->firstElement;
+	while (currentElement != NULL)
+	{
+		if (!currentElement->visible)
+		{
+			currentElement = currentElement->nextElement;
+		}
+		
+		//we push the pointer to the element on the ID-stack, this way even equally-named elements will have unique ids, and ImGui won't get confused!
+		ImGui::PushID((long)currentElement);
+		ImGui::PushItemWidth(currentElement->width);
+		bool allowToolTip = currentElement->handle(currentElement);
+		ImGui::PopItemWidth();
+		ImGui::PopID();
+		
+		if (allowToolTip && currentElement->tooltip != "" && ImGui::IsItemHovered())
+		{
+			ImGui::SetTooltip(currentElement->tooltip.c_str());
+		}
+		
+		currentElement = currentElement->nextElement;
+		if(currentElement != NULL){
+			ImGui::SameLine(0, hl->spacing);
+		}
+	}
+
+	
+	return false;
+}
+
+
+//IDs
 uint8 sUiSystem::GetNextFreeId()
 {
 	uint8 currentId= (idIndex + 1)%WINDOW_ID_BUFFER_SIZE;

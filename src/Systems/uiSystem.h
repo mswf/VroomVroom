@@ -20,7 +20,7 @@ struct lua_State;
 
 #define UiSystem sUiSystem::getInstance()
 
-#define WINDOW_ID_BUFFER_SIZE 1024
+#define WINDOW_ID_BUFFER_SIZE 256
 
 struct uiContainer;
 
@@ -32,7 +32,8 @@ struct uiElement
 		nextElement(NULL),
 		prevElement(NULL),
 		tooltip(""),
-		parent(NULL)
+		parent(NULL),
+		width(0)
 	{};
 	
 	int luaTableKey;
@@ -47,6 +48,7 @@ struct uiElement
     uiContainer* parent;
 	
 	bool visible;
+	double width;
 };
 
 
@@ -74,6 +76,8 @@ struct uiWindow : uiContainer
 	bool collapsable;
 	bool closable;
 	bool movable;
+	
+	bool expanded;
 };
 
 struct uiTextElement;
@@ -83,6 +87,7 @@ struct uiInputTextElement;
 struct uiCheckboxElement;
 struct uiSliderElement;
 struct uiRegionElement;
+struct uiHorizontalLayoutElement;
 
 
 class sUiSystem : public Singleton<sUiSystem>
@@ -101,6 +106,7 @@ class sUiSystem : public Singleton<sUiSystem>
 		uiCheckboxElement* AddCheckbox(uiContainer*);
 		uiSliderElement* AddSlider(uiContainer*);
 		uiRegionElement* AddRegion(uiContainer*);
+		uiHorizontalLayoutElement* AddHorizontalLayout(uiContainer*);
 	
 		void RemoveWindow(uiWindow*);
         void RemoveChildren(uiContainer*);
@@ -139,6 +145,8 @@ class sUiSystem : public Singleton<sUiSystem>
         void AddWindow(uiWindow*);
         void AddElement(uiContainer*, uiElement*);
 	
+		static void HandleCallback(uiElement*, const char*);
+	
 		static void RenderContainer(uiContainer*);
 	
         static bool HandleText(uiElement*);
@@ -148,6 +156,7 @@ class sUiSystem : public Singleton<sUiSystem>
 		static bool HandleCheckbox(uiElement *);
 		static bool HandleSlider(uiElement *);
 		static bool HandleRegion(uiElement *);
+		static bool HandleHorizontalLayout(uiElement *);
 	
 		template<typename T>
 		static void InitBoundProperty(uiElement* e, const char* name, T* property, T value) {
@@ -174,7 +183,9 @@ struct uiTextElement : uiElement
 
 struct uiButtonElement : uiElement
 {
-	string label;
+	string text;
+	double height;
+	bool prevHovered;
 };
 
 struct uiTreeElement : uiContainer
@@ -192,6 +203,8 @@ struct uiInputTextElement : uiElement
 {
 	string text;
 	string label;
+	
+	bool prevFocus;
 };
 
 struct uiCheckboxElement : uiElement
@@ -215,13 +228,18 @@ struct uiRegionElement : uiContainer
 	~uiRegionElement()
 	{
 		UiSystem.RemoveChildren(this);
-		UiSystem.FreeId(this->id);
 	}
-	int id;
-	string name;
-	double width;
 	double height;
 	bool bordered;
+};
+
+struct uiHorizontalLayoutElement : uiContainer
+{
+	~uiHorizontalLayoutElement()
+	{
+		UiSystem.RemoveChildren(this);
+	}
+	double spacing;
 };
 
 

@@ -39,6 +39,7 @@ void mUiWindow::Bind(lua_State* L){
 		lBind(addCheckbox)
 		lBind(addSlider)
 		lBind(addRegion)
+		lBind(addHorizontalLayout)
 		{0, 0}
 	};
 	luaL_openlib(L, 0, __mtUiElement_methods, 0);
@@ -68,21 +69,20 @@ void mUiWindow::UnreferenceTable(lua_State* L, int tableKey)
 	lstBoolean("__exists__", false);
 	
 	luaL_unref(L, LUA_REGISTRYINDEX, tableKey);
+	lua_settop(L, 0);
 }
 
 void mUiWindow::HandleCallback(lua_State* L, int tableKey, const char* funcName)
 {
-	
 	lua_pushnumber(L, tableKey);
 	lua_gettable(L, LUA_REGISTRYINDEX);
-	
-	
 	lua_getfield(L, -1, funcName);
-	if(lua_isnil(L, -1) == 0)
+	if(lua_isfunction(L, -1))
 	{
 		lua_pushvalue(L, 1);
 		LuaSystem.Call(L, 1, 0);
 	}
+	lua_settop(L, 0);
 }
 
 void mUiWindow::BasicElementBind(lua_State* L, uiElement* e, int parentIndex)
@@ -97,6 +97,7 @@ void mUiWindow::BasicElementBind(lua_State* L, uiElement* e, int parentIndex)
 	
 	lstBoolean("visible", e->visible)
 	lstString("tooltip", e->tooltip.c_str())
+	lstNumber("width", e->width)
 	
 	lua_setfield(L, -2, "__coreProperties__");
 	
@@ -138,6 +139,8 @@ lFuncImp(mUiWindow, create){
     lstBoolean("movable", window->movable)
     lstBoolean("closable", window->closable)
     lstBoolean("collapsable", window->collapsable)
+	
+	lstBoolean("expanded", window->expanded)
     
 	lua_pop(L, 1);
 	
@@ -174,6 +177,7 @@ lFuncImp(mUiWindow, mtIndex)
 			lua_getfield(L, 1, "__coreElement__");
 			uiElement* node = (uiElement*)lua_touserdata(L,-1);
 			lua_pop(L, 1);
+			
 			if(lua_type(L, -1) == LUA_TSTRING)
 			{
 				lua_pushstring(L, UiSystem.GetNamedProperty<string>(node, lua_tostring(L, 2)).c_str());
@@ -191,6 +195,7 @@ lFuncImp(mUiWindow, mtIndex)
 				lua_pushnil(L);
 				return 1;
 			}
+			
 			lua_pushvalue(L, -1);
 			lua_setfield(L, 3, lua_tostring(L, 2));
 			return 1;
@@ -299,13 +304,13 @@ lFuncImp(mUiWindow, addButton)
 	
 	uiButtonElement* button = UiSystem.AddButton(container);
     
-    button->label = label;
+    button->text = label;
 	
 	lua_newtable(L);
 	BasicElementBind(L, button, 1);
 	
 	lua_getfield(L, -1, "__coreProperties__");
-	lstString("label", button->label.c_str());
+	lstString("text", button->text.c_str());
 	lua_pop(L, 1);
 	
 	lua_pushvalue(L, 3);
@@ -447,9 +452,32 @@ lFuncImp(mUiWindow, addRegion)
 	BasicElementBind(L, region, 1);
 	
 	lua_getfield(L, -1, "__coreProperties__");
-	lstNumber("width", region->width);
+	//lstNumber("width", region->width); //this is a property for all uiElements now
 	lstNumber("height", region->height);
 	lstBoolean("bordered", region->bordered);
+	lua_pop(L, 1);
+	
+	luaL_getmetatable(L, "__mtUiContainer");
+	lua_setmetatable(L, -2);
+	
+	return 1;
+}
+
+lFuncImp(mUiWindow, addHorizontalLayout)
+{
+	lua_settop(L, 1);
+	
+	lua_getfield(L, 1, "__coreElement__");
+	uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
+	lua_pop(L, 1);
+	
+	uiHorizontalLayoutElement* region = UiSystem.AddHorizontalLayout(container);
+	
+	lua_newtable(L);
+	BasicElementBind(L, region, 1);
+	
+	lua_getfield(L, -1, "__coreProperties__");
+	lstNumber("spacing", region->spacing); //this is a property for all uiElements now
 	lua_pop(L, 1);
 	
 	luaL_getmetatable(L, "__mtUiContainer");

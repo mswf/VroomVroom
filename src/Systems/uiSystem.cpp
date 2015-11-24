@@ -99,6 +99,7 @@ uiWindow* sUiSystem::ConstructWindow()
 	InitBoundProperty(window, "movable", &(window->movable), true);
 	InitBoundProperty(window, "resizable", &(window->resizable), true);
 	InitBoundProperty(window, "collapsable", &(window->collapsable), true);
+	InitBoundProperty(window, "displayTitleBar", &(window->displayTitleBar), true);
 	InitBoundProperty(window, "closable", &(window->closable), true);
 	InitBoundProperty(window, "visible", &(window->visible), true);
 	
@@ -339,7 +340,7 @@ void sUiSystem::Render()
 		ImGui::SetNextWindowSize(ImVec2(currentWindow->width, currentWindow->height), ImGuiSetCond_Always);
 
 		//TODO(robin) window flags and close button
-		int windowFlags = 0;
+		int windowFlags = ImGuiWindowFlags_NoSavedSettings;
 		if (currentWindow->movable == false)
 		{
 			windowFlags |= ImGuiWindowFlags_NoMove;
@@ -351,6 +352,10 @@ void sUiSystem::Render()
 		if (currentWindow->collapsable == false)
 		{
 			windowFlags |= ImGuiWindowFlags_NoCollapse;
+		}
+		if (currentWindow->displayTitleBar == false)
+		{
+			windowFlags |= ImGuiWindowFlags_NoTitleBar;
 		}
 
 		bool isOpened = true;   //will be set to false if user presses X button

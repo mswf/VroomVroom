@@ -16,7 +16,7 @@
 		23C59A321BCD305B00A37E29 /* mLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23C59A301BCD305B00A37E29 /* mLog.cpp */; settings = {ASSET_TAGS = (); }; };
 		23C59A361BCD3ACA00A37E29 /* mInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23C59A341BCD3ACA00A37E29 /* mInput.cpp */; settings = {ASSET_TAGS = (); }; };
 		23CBC8741BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */; };
-		23E22F5F1BE9FEBA00987545 /* uiSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E22F5D1BE9FEBA00987545 /* uiSystem.cpp */; settings = {ASSET_TAGS = (); }; };
+		23E22F5F1BE9FEBA00987545 /* uiSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E22F5D1BE9FEBA00987545 /* uiSystem.cpp */; settings = {ASSET_TAGS = (); COMPILER_FLAGS = "-w"; }; };
 		23EE7EC31BC686020006581F /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23EE7EC11BC686020006581F /* Engine.cpp */; settings = {ASSET_TAGS = (); }; };
 		23EE7EE41BC6C2B90006581F /* console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23EE7EE21BC6C2B90006581F /* console.cpp */; settings = {ASSET_TAGS = (); }; };
 		23FEEEA51BF0EE8600A83377 /* command.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23FEEEA41BF0EE8600A83377 /* command.cpp */; settings = {ASSET_TAGS = (); }; };

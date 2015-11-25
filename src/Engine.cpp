@@ -401,7 +401,7 @@ void Engine::InitSDL()
 		printf("Error: %s\n", SDL_GetError());
 		assert(false);
 	}
-	Terminal.Log("Initializing: SDL_TIMER, SDL_VIDEO, SDL_EVENTS");
+	//Terminal.Log("Initializing: SDL_TIMER, SDL_VIDEO, SDL_EVENTS");
 }
 
 void Engine::InitSDLNet()

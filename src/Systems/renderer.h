@@ -20,7 +20,9 @@ namespace Renderer
         
             RenderSystem();
             ~RenderSystem();
-        
+		
+			void RenderPass();
+		
             bool Initialize() override;
             void Update(void* data) override;
             void SendMessage(void* message) override;

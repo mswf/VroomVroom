@@ -11,32 +11,41 @@ namespace Renderer
 
 void Render( glm::uint32 time, Entity* camera, Entity* object )
 {
-	CTransform* trans = Entity::GetComponent<CTransform>(object);
-	CCamera* cam =		Entity::GetComponent<CCamera>(camera);
 	ModelInstance* m = Entity::GetComponent<CMeshRenderer>(object)->model;
-	Material* mtl = Entity::GetComponent<CMeshRenderer>(object)->material;
-	Shader* s = mtl->shader;
-
 	if (m == NULL)
 	{
 		return;
 	}
+	
+	//CTransform* trans = Entity::GetComponent<CTransform>(object);
+	CCamera* cam =		Entity::GetComponent<CCamera>(camera);
+	Material* mtl = Entity::GetComponent<CMeshRenderer>(object)->material;
+	Shader* s = mtl->shader;
 
+	// RENDERER MODE FOR RENDERING POINTS
 	//glEnable(GL_PROGRAM_POINT_SIZE);
-	glEnable(GL_CULL_FACE);
-	glEnable(GL_BACK);
-	//glPolygonMode(GL_FRONT, m->material->wireframe_enabled ? GL_FILL : GL_LINE );
+	
+	// RENDERER MODE FOR CULL FACES
+	//glEnable(GL_CULL_FACE);
+	//glEnable(GL_BACK);
+	
+	// RENDERER MODE FOR WIREFRAME
+	//glPolygonMode(GL_FRONT_AND_BACK, mtl->wireframe_enabled ? GL_LINE : GL_FILL );
+	//GLint polygonMode[2];
+	//glGetIntegerv( GL_POLYGON_MODE, polygonMode );
+	
+	// RENDERER MODE FOR DEPTH TESTING
 	glEnable(GL_DEPTH_TEST);
 
 	glBindVertexArray( m->vao );
 
 	mtl->UseMaterial();
 
-	glm::mat3 mvMatrix = glm::mat3( cam->GetViewMatrix() * trans->GetTransform() );
+	glm::mat3 mvMatrix = glm::mat3( cam->GetViewMatrix() * object->worldTransform );
 	glm::mat3 normalMatrix = glm::transpose(glm::inverse(mvMatrix));
 	glm::vec3 lightPosition( 1.0 );
 
-	s->SetUniformMat4( 		"model", 		trans->GetTransform() );
+	s->SetUniformMat4( 		"model", 		object->worldTransform );
 	s->SetUniformMat4( 		"view", 		cam->GetViewMatrix() );
 	s->SetUniformMat3( 		"normalMatrix", normalMatrix );
 	s->SetUniformMat3( 		"mvMatrix", 	mvMatrix );
@@ -55,7 +64,7 @@ void Render( glm::uint32 time, Entity* camera, Entity* object )
 	glBindVertexArray( 0 );
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
 
-	//TODO(Valentinas): Disable Vertex Attributes after drawing
+	//TODO(Valentinas): Disable Vertex Attributes after drawing?
 
 	UnbindTexture();
 	glUseProgram(0);

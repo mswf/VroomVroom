@@ -47,7 +47,7 @@ ModelInstance* ResourceManager::GetModel( const char* name )
 		ModelInstance* newInstance = new ModelInstance();
 		unsigned int mtl = (*iter_mesh).second->materialId;
 		newInstance->materialId = mtl;
-		BufferMesh( (*iter_mesh).second, newInstance, GetMaterialById( mtl ) );
+		BufferMesh( (*iter_mesh).second, newInstance );
 		
 		// Set the mesh's buffer to true
 		(*iter_mesh).second->isBuffered = true;

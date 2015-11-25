@@ -1,6 +1,5 @@
 #include "helperFunctions.h"
 #include "standardIncludes.h"
-#include <stdlib.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>

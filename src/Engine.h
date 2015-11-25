@@ -33,8 +33,6 @@ class Engine
 	private:
 
 		void Update(float deltaTime);
-		void LoadMeshes();
-		void LoadTextures();
 	
 		UpdateListener* listener;
 		FW::FileWatcher* fileWatcher;

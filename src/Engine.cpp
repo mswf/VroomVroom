@@ -204,23 +204,6 @@ void Engine::Update(float deltaTime)
 	Terminal.Update(deltaTime);
 }
 
-void Engine::LoadMeshes()
-{
-	std::string ( Content::GetPath() + "/objects/Rabbit/Rabbit.obj" );
-	std::string ( Content::GetPath() + "/objects/object_group_test/ObjectGroupTest.obj" );
-	std::string ( Content::GetPath() + "/objects/object_group_test/MasterCubeTest.obj" );
-	std::string ( Content::GetPath() + "/objects/sibenik.obj" );
-}
-
-void Engine::LoadTextures()
-{
-	std::string ( Content::GetPath() + "/objects/Rabbit/Rabbit_D.tga" );
-	std::string ( Content::GetPath() + "/objects/Rabbit/Rabbit_N.tga" );
-	std::string ( Content::GetPath() + "/objects/object_group_test/checker_1.png" );
-	std::string ( Content::GetPath() + "/objects/object_group_test/checker_2.png" );
-	std::string ( Content::GetPath() + "/objects/object_group_test/checker_3.png" );
-}
-
 void Engine::UpdateLoop()
 {
 
@@ -240,7 +223,7 @@ void Engine::UpdateLoop()
 	{
 		Terminal.Log("Import failed", true);
 	}
-	imp.ImportImage( "/objects/snowman.png" );
+	imp.ImportImage( "/objects/object_group_test/checker_1.png" );
 	
 	// IMPORTING ENDS!!!
 	
@@ -248,12 +231,18 @@ void Engine::UpdateLoop()
 	//  RESOURCE MANAGING !!!
 	
 	CMeshRenderer* meshRenderer = new CMeshRenderer();
-	//ResourceManager::getInstance().GetMaterialByName("Rabbit")->SetDiffuseTexture("/objects/snowman.png");
 	meshRenderer->SetModel( "/objects/Rabbit/Rabbit.obj" );
-	meshRenderer->SetMaterial( "Rabbit" );
-	ResourceManager::getInstance().GetMaterialByName("Rabbit")->SetDiffuseTexture("/objects/Rabbit/Rabbit_D.tga");
+	
+	Material* mat = ResourceManager::getInstance().GetMaterialByName("Rabbit");
+	mat->SetDiffuseTexture("/objects/object_group_test/checker_1.png");
 	
 	// RESOURCE MANAGING ENDS!!!
+	
+	// Create Camera function
+	// Create Entity function (factory)?
+	
+	// Components consist of smaller components?
+	
 	
 	std::vector< Entity* > entityList;
 	Entity* root = new Entity("Root");
@@ -261,7 +250,13 @@ void Engine::UpdateLoop()
 	Entity* box = new Entity( "MyLittleBox" );
 	CTransform* t = Entity::GetComponent<CTransform>(box);
 	Entity::AddComponent(box, meshRenderer);
+	
+	Entity* box2 = new Entity( "MyLittleBox2" );
+	CTransform* t2 = Entity::GetComponent<CTransform>(box2);
+	Entity::AddComponent(box2, meshRenderer);
+	
 	root->AddChild(box);
+	box->AddChild(box2);
 	
 	Entity* camera = new Entity( "Main Camera" );
 	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 90.0f, 1280.0f / 720.0f, 0.2f, 1000.0f );
@@ -307,6 +302,9 @@ void Engine::UpdateLoop()
 				}
 
 				t->Yaw(1.0f);
+				//t->SetPosition(glm::vec3(-1.0));
+				t2->Roll(1.0f);
+				t2->SetPosition(glm::vec3(-1.0));
 				//t->Rotate( glm::vec3(1.0f, 1.0f, 1.0f) );
 				
 				if ( inputManager->OnKeyDown(SDLK_d) )
@@ -382,6 +380,7 @@ void Engine::UpdateLoop()
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 		Renderer::Render( SDL_GetTicks(), camera, box );
+		Renderer::Render( SDL_GetTicks(), camera, box2 );
 		UiSystem.Render();
 		SDL_GL_SwapWindow(window);
 

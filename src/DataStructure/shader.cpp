@@ -16,6 +16,14 @@ Shader::Shader()
 	
 	program = CreateProgram(vertex_shader_object, fragment_shader_object);
 	
+	GLuint ppo;
+	glGenProgramPipelines(1, &ppo);
+	glBindProgramPipeline(ppo);
+	//glUseProgramStages( ppo, GL_VERTEX_SHADER_BIT, programV );
+	//CheckGlError( "PPO vertex" );
+	//glUseProgramStages( ppo, GL_FRAGMENT_SHADER_BIT, programF );
+	//CheckGlError( "PPO fragment" );
+	
 	//glBindFragDataLocation(program, 0, "outColor");
 
 	DeleteShaderObject( vertex_shader_object );
@@ -74,7 +82,7 @@ bool Shader::ShaderInfoLog( GLuint program, GLenum status )
 		GLchar message[255];
 		glGetShaderInfoLog( program, sizeof(message), 0, &message[0]);
 		//printf("%s", message);
-		Terminal.LogOpenGL( std::string( message ) );
+		Terminal.LogOpenGL( "ShaderLog: " + std::string( message ), true );
 		return false;
 	}
 	return true;
@@ -105,7 +113,7 @@ bool Shader::ProgramInfoLog( GLuint program, GLenum status )
 		GLchar message[255];
 		glGetProgramInfoLog( program, sizeof(message), 0, &message[0]);
 		//TODO(Valentinas): Find out why the Warning message not passed
-		Terminal.LogOpenGL( std::string( message ) );
+		Terminal.LogOpenGL( "ProgramLog: " + std::string( message ), true );
 		return false;
 	}
 	return true;
@@ -219,7 +227,7 @@ void Shader::CheckGlError( const char* caller )
 				break;
 		}
 		string glewErr( (const char*)glewGetErrorString(error_found) );
-		Terminal.LogOpenGL( "Error from caller " + std::string(caller) + ". GL:" + err + "Glew: " + glewErr + "." );
+		Terminal.LogOpenGL( "Error from caller " + std::string(caller) + ". GL:" + err + "Glew: " + glewErr + ".", true );
 	}
 }
 

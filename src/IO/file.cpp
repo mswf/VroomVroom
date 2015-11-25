@@ -105,8 +105,8 @@ void File::WriteString(const string& data)
         return;
     }
     Sint64 size = data.size();
+	//TODO(Robin): Check for errors!
     size_t len = SDL_RWwrite(file, data.c_str(), 1, size);
-    //TODO(Weikie): check if full data got written
 }
 
 void File::Close()

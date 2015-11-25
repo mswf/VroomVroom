@@ -9,6 +9,12 @@
 #include "../glm/mat4x4.hpp"
 #include "../glm/gtc/type_ptr.hpp"
 
+enum class ShaderType
+{
+	VERTEX,
+	GEOMETRY,
+	FRAGMENT
+};
 
 class Shader
 {
@@ -18,19 +24,33 @@ class Shader
 		Shader();
 		~Shader();
 		void UseProgram();
+		GLuint CreateShader( ShaderType shaderType, const char* source );
+	
+		template<typename... Targs>
+		GLuint CreateProgram( Targs... shaders );
+	
+		void DeleteProgram( GLuint program );
+		void DeleteShaderObject( GLuint shader );
+		void DetachShader( GLuint program, GLuint shader );
+		void AttachShader( GLuint program, GLuint shader );
+	
 		void SetUniformInt( const char* uniform, int value );
 		void SetUniformFloat( const char* uniform, float value );
 		void SetUniformFloat2( const char* uniform, glm::vec2 value );
 		void SetUniformFloat3( const char* uniform, glm::vec3 value );
 		void SetUniformMat3( const char* uniform, glm::mat3 value );
 		void SetUniformMat4( const char* uniform, glm::mat4 value );
-		void ValidateProgram();
-		void LogActiveProperties( GLenum activeProperties );
+		bool ValidateProgram( GLuint shaderProgram );
 	
+		void LogActiveAttributes( GLuint program );
+		void LogActiveUniforms( GLuint program );
+		
+		void CheckGlError( const char* caller );
+		GLenum GetGLShaderEnum( ShaderType type );
 	private:
 		void LoadDefault( std::string& vs, std::string& fs );
-		void ProgramInfoLog( GLuint program, GLenum status );
-		void ShaderInfoLog( GLuint shader, GLenum status );
+		bool ProgramInfoLog( GLuint program, GLenum status );
+		bool ShaderInfoLog( GLuint shader, GLenum status );
 	
 		const char* builtin_vertex =
 		"#version 410\n"

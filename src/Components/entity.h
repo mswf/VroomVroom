@@ -33,13 +33,6 @@ class Entity
 		}
 	
 		template<typename T>
-		static void RemoveComponent( Entity* e, T::familyId )
-		{
-			Entity::componentStorage.erase( T::familyId );
-			e->entityComponents.erase( T::familyId );
-		}
-	
-		template<typename T>
 		static T* GetComponent( Entity* e )
 		{
 			return (T*)e->entityComponents[T::familyId];

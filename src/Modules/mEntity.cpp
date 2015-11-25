@@ -21,10 +21,11 @@
 void mEntity::Bind(lua_State* L)
 {
 	lua_getglobal(L, "Engine");
-	
+	lua_newtable(L);
     lStart(BaseEntity)
         lBind(__engineInit)
     lEnd(BaseEntity)
+	luaL_openlib(L, 0, BaseEntity_funcs, 0);
     
     luaL_newmetatable(L, "_mtEntity");
     lua_pushstring(L, "__index");

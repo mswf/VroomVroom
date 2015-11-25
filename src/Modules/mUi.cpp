@@ -496,6 +496,7 @@ lFuncImp(mUi, addHorizontalLayout)
 	return 1;
 }
 
+//TODO set coreElement to nil (userdata quirks maybe)?
 lFuncImp(mUi, destroy)
 {
 	lua_getfield(L, 1, "__coreElement__");
@@ -509,9 +510,9 @@ lFuncImp(mUi, destroy)
 	return 0;
 }
 
+//TODO set coreElement to nil (userdata quirks maybe)?
 lFuncImp(mUi, remove)
 {
-	LuaSystem.Dump(L);
 	lua_getfield(L, 1, "__coreElement__");
 	uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
 	lua_pop(L, 1);

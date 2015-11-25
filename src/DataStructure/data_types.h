@@ -36,26 +36,22 @@ struct Mesh
 struct ModelInstance
 {
 	unsigned int vao;
+	unsigned int vbo;
 	unsigned int numIndices;
 	unsigned int indiceBuffer;
-	unsigned int normalBuffer;
-	unsigned int vertexBuffer;
-	unsigned int uvBuffer;
-	unsigned int tangentBuffer;
-	unsigned int bitangentBuffer;
+	//unsigned int normalBuffer;
+	//unsigned int vertexBuffer;
+	//unsigned int uvBuffer;
+	//unsigned int tangentBuffer;
+	//unsigned int bitangentBuffer;
 	unsigned int materialId;
 	ModelInstance():
 		vao(0),
+		vbo(0),
 		numIndices(0),
 		indiceBuffer(0),
-		normalBuffer(0),
-		vertexBuffer(0),
-		uvBuffer(0),
-		tangentBuffer(0),
-		bitangentBuffer(0),
 		materialId(0)
 	{}
-
 };
 
 

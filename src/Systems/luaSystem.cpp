@@ -298,6 +298,14 @@ int sLuaSystem::LuaError(lua_State* L)
 }
 
 string sLuaSystem::CreateStackLine(string source, int line, string name) {
+	
+#ifdef _WIN32
+	int slashIndex = source.find("/");
+	source = source.substr(slashIndex+1);
+#else
+	source = source.substr(1);
+#endif
+
     string stackLine = "\t@ "+source;
     stackLine += "("+std::to_string(line)+"): ";
     stackLine += name;

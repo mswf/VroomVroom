@@ -22,6 +22,7 @@ Material::Material() :
 	//transparent { 0.0f, 0.0f, 0.0f, 1.0f },
 	//reflective { 0.0f, 0.0f, 0.0f, 1.0f }
 {
+	//ResourceManager::getInstance().GetShader();
 	shader = new Shader();
 }
 

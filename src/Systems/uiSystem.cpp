@@ -8,14 +8,73 @@
 
 #include "uiSystem.h"
 #include "../ImGUI/imgui.h"
+#include "../modules/mUi.h"
+#include "../console.h"
+
 
 sUiSystem::sUiSystem() :
-	firstFreeId(0),
-	windowCount(0),
+	idIndex(0),
 	firstWindow(NULL),
-	lastWindow(NULL)
+	lastWindow(NULL),
+	cachedButton(NULL)
 {
+	ImGuiStyle& style = ImGui::GetStyle();
+	// non-interactive rounding
+	style.WindowRounding			= 2.0f;
+	style.ChildWindowRounding		= 2.0f;
+	style.FrameRounding				= 2.0f;
 
+	// interactive == more rounded
+	style.ScrollbarRounding			= 4.0f;
+	style.GrabRounding				= 4.0f;
+
+	style.GrabMinSize				= 14.0f;
+
+
+	// Colors
+	style.Colors[ImGuiCol_Text] = ImVec4(1.00f, 1.00f, 1.00f, 0.81f);
+	style.Colors[ImGuiCol_TextDisabled] = ImVec4(1.00f, 1.00f, 1.00f, 0.60f);
+	style.Colors[ImGuiCol_WindowBg] = ImVec4(0.05f, 0.06f, 0.07f, 1.00f);
+	style.Colors[ImGuiCol_ChildWindowBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
+	style.Colors[ImGuiCol_Border] = ImVec4(1.00f, 1.00f, 1.00f, 0.62f);
+	style.Colors[ImGuiCol_BorderShadow] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
+	style.Colors[ImGuiCol_FrameBg] = ImVec4(1.00f, 1.00f, 1.00f, 0.11f);
+	style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.90f, 0.80f, 0.80f, 0.40f);
+	style.Colors[ImGuiCol_FrameBgActive] = ImVec4(0.90f, 0.65f, 0.65f, 0.45f);
+	style.Colors[ImGuiCol_TitleBg] = ImVec4(0.50f, 0.50f, 1.00f, 0.45f);
+	style.Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.40f, 0.40f, 0.80f, 0.20f);
+	style.Colors[ImGuiCol_TitleBgActive] = ImVec4(0.50f, 0.50f, 1.00f, 0.55f);
+	style.Colors[ImGuiCol_MenuBarBg] = ImVec4(0.40f, 0.40f, 0.55f, 0.80f);
+	style.Colors[ImGuiCol_ScrollbarBg] = ImVec4(0.40f, 0.40f, 0.80f, 0.15f);
+	style.Colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.40f, 0.40f, 0.80f, 0.30f);
+	style.Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.40f, 0.40f, 0.80f, 0.40f);
+	style.Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.80f, 0.50f, 0.50f, 0.40f);
+	style.Colors[ImGuiCol_ComboBg] = ImVec4(0.20f, 0.20f, 0.20f, 0.99f);
+	style.Colors[ImGuiCol_CheckMark] = ImVec4(0.90f, 0.90f, 0.90f, 0.50f);
+	style.Colors[ImGuiCol_SliderGrab] = ImVec4(1.00f, 1.00f, 1.00f, 0.30f);
+	style.Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.80f, 0.50f, 0.50f, 1.00f);
+	style.Colors[ImGuiCol_Button] = ImVec4(0.65f, 0.39f, 0.11f, 0.87f);
+	style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.60f, 0.43f, 0.21f, 1.00f);
+	style.Colors[ImGuiCol_ButtonActive] = ImVec4(0.80f, 0.62f, 0.26f, 1.00f);
+	style.Colors[ImGuiCol_Header] = ImVec4(0.40f, 0.40f, 0.90f, 0.45f);
+	style.Colors[ImGuiCol_HeaderHovered] = ImVec4(0.45f, 0.45f, 0.90f, 0.80f);
+	style.Colors[ImGuiCol_HeaderActive] = ImVec4(0.53f, 0.53f, 0.87f, 0.80f);
+	style.Colors[ImGuiCol_Column] = ImVec4(0.50f, 0.50f, 0.50f, 1.00f);
+	style.Colors[ImGuiCol_ColumnHovered] = ImVec4(0.70f, 0.60f, 0.60f, 1.00f);
+	style.Colors[ImGuiCol_ColumnActive] = ImVec4(0.90f, 0.70f, 0.70f, 1.00f);
+	style.Colors[ImGuiCol_ResizeGrip] = ImVec4(1.00f, 1.00f, 1.00f, 0.30f);
+	style.Colors[ImGuiCol_ResizeGripHovered] = ImVec4(1.00f, 1.00f, 1.00f, 0.60f);
+	style.Colors[ImGuiCol_ResizeGripActive] = ImVec4(1.00f, 1.00f, 1.00f, 0.90f);
+	style.Colors[ImGuiCol_CloseButton] = ImVec4(0.50f, 0.50f, 0.90f, 0.50f);
+	style.Colors[ImGuiCol_CloseButtonHovered] = ImVec4(0.70f, 0.70f, 0.90f, 0.60f);
+	style.Colors[ImGuiCol_CloseButtonActive] = ImVec4(0.70f, 0.70f, 0.70f, 1.00f);
+	style.Colors[ImGuiCol_PlotLines] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+	style.Colors[ImGuiCol_PlotLinesHovered] = ImVec4(0.90f, 0.70f, 0.00f, 1.00f);
+	style.Colors[ImGuiCol_PlotHistogram] = ImVec4(0.90f, 0.70f, 0.00f, 1.00f);
+	style.Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(1.00f, 0.60f, 0.00f, 1.00f);
+	style.Colors[ImGuiCol_TextSelectedBg] = ImVec4(0.00f, 0.00f, 1.00f, 0.35f);
+	style.Colors[ImGuiCol_TooltipBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.89f);
+	style.Colors[ImGuiCol_ModalWindowDarkening] = ImVec4(0.20f, 0.20f, 0.20f, 0.35f);
 }
 
 sUiSystem::~sUiSystem()
@@ -25,64 +84,154 @@ sUiSystem::~sUiSystem()
 
 uiWindow* sUiSystem::ConstructWindow()
 {
-	uint8 id = firstFreeId;
-	SetNextFreeId();
+	uint8 id = GetNextFreeId();
 
 	uiWindow* window = new uiWindow;
 	window->id = id;
-	window->firstElement = NULL;
-	window->lastElement = NULL;
-	window->nextWindow = NULL;
-	window->prevWindow = NULL;
-	window->title = string("untitled window");
-	window->x = 0;
-	window->y = 0;
-	window->width = 100;
-	window->height = 100;
+	
+	InitBoundProperty(window, "title", &(window->title), string("untitled window"));
+	InitBoundProperty(window, "x", &(window->x), 0.0);
+	InitBoundProperty(window, "y", &(window->y), 0.0);
+	InitBoundProperty(window, "width", &(window->width), 100.0);
+	InitBoundProperty(window, "height", &(window->height), 100.0);
+	
+	InitBoundProperty(window, "expanded", &(window->expanded), true);
 
-	window->movable = true;
-	window->resizable = true;
-	window->collapsable = true;
-	window->closable = true;
+	InitBoundProperty(window, "movable", &(window->movable), true);
+	InitBoundProperty(window, "resizable", &(window->resizable), true);
+	InitBoundProperty(window, "collapsable", &(window->collapsable), true);
+	InitBoundProperty(window, "displayTitle", &(window->displayTitle), true);
+	InitBoundProperty(window, "closable", &(window->closable), true);
+	InitBoundProperty(window, "visible", &(window->visible), true);
+	
+	InitBoundProperty(window, "tooltip", &(window->tooltip), string(""));
 
 	AddWindow(window);
 
 	return window;
 }
 
-uiWindowButtonElement* sUiSystem::AddButton(uiWindow* w)
+uiButtonElement* sUiSystem::AddButton(uiContainer* w)
 {
-	uiWindowElement* ee = new uiWindowElement;
-	//ee->type = WindowElementTypes::uweBUTTON;
-	ee->handle = HandleButton;
-	ee->remove = RemoveButton;
+	uiButtonElement* bb = new uiButtonElement;
+	bb->handle = HandleButton;
 
-	uiWindowButtonElement* data = new uiWindowButtonElement;
-	data->parent = ee;
-	data->label = "button";
-	data->callback = NULL;
+	bb->parent = w;
+	bb->prevHovered = false;
 
-	ee->data = data;
-	AddElement(w, ee);
+	InitBoundProperty(bb, "text", &(bb->text), string("button"));
+	InitBoundProperty(bb, "height", &(bb->height), 0.0);
 
-	return data;
+
+	AddElement(w, bb);
+
+	return bb;
 }
 
-uiWindowTextElement* sUiSystem::AddText(uiWindow* w)
+uiTextElement* sUiSystem::AddText(uiContainer* w)
 {
-	uiWindowElement* ee = new uiWindowElement;
-	//ee->type = WindowElementTypes::uweTEXT;
-	ee->handle = HandleText;
-	ee->remove = RemoveText;
+	uiTextElement* tt = new uiTextElement;
+	tt->handle = HandleText;
 
-	uiWindowTextElement* data = new uiWindowTextElement;
-	data->parent = ee;
-	data->content = "lorum ipsum";
+	tt->parent = w;
 
-	ee->data = data;
-	AddElement(w, ee);
+	InitBoundProperty(tt, "text", &(tt->text), string("lorum ipsum"));
+	InitBoundProperty(tt, "wrapWidth", &(tt->wrapWidth), 0.0);
 
-	return data;
+	AddElement(w, tt);
+
+	return tt;
+}
+
+uiTreeElement* sUiSystem::AddTree(uiContainer* w)
+{
+	uiTreeElement* tt = new uiTreeElement;
+	tt->firstElement = NULL;
+	tt->lastElement = NULL;
+
+	tt->handle = HandleTree;
+
+	tt->parent = w;
+	
+	InitBoundProperty(tt, "label", &(tt->label), string("lorum ipsum"));
+	InitBoundProperty(tt, "opened", &(tt->opened), true);
+
+	AddElement(w, tt);
+
+	return tt;
+}
+
+uiInputTextElement* sUiSystem::AddInputText(uiContainer* w)
+{
+	uiInputTextElement* tt = new uiInputTextElement;
+	tt->handle = HandleInputText;
+
+	tt->parent = w;
+	tt->prevFocus = false;
+	
+	InitBoundProperty(tt, "text", &(tt->text), string("lorum ipsum"));
+	InitBoundProperty(tt, "label", &(tt->label), string("nert"));
+
+	AddElement(w, tt);
+
+	return tt;
+}
+
+uiCheckboxElement* sUiSystem::AddCheckbox(uiContainer* w)
+{
+	uiCheckboxElement* cb = new uiCheckboxElement;
+	cb->handle = HandleCheckbox;
+
+	cb->parent = w;
+
+	InitBoundProperty(cb, "label", &(cb->label), string("nert"));
+	InitBoundProperty(cb, "checked", &(cb->checked), false);
+
+	AddElement(w, cb);
+
+	return cb;
+}
+
+uiSliderElement* sUiSystem::AddSlider(uiContainer* w)
+{
+	uiSliderElement* sl = new uiSliderElement;
+	sl->handle = HandleSlider;
+
+	InitBoundProperty(sl, "label", &(sl->label), string("nert"));
+	InitBoundProperty(sl, "rounded", &(sl->rounded), false);
+	InitBoundProperty(sl, "format", &(sl->format), string("0.2f"));
+	InitBoundProperty(sl, "minValue", &(sl->minValue), 0.0);
+	InitBoundProperty(sl, "maxValue", &(sl->maxValue), 100.0);
+	InitBoundProperty(sl, "value", &(sl->value), 50.0);
+
+	AddElement(w, sl);
+
+	return sl;
+}
+
+uiRegionElement* sUiSystem::AddRegion(uiContainer* w)
+{
+	uiRegionElement* rr = new uiRegionElement;
+	rr->handle = HandleRegion;
+	
+	InitBoundProperty(rr, "height", &(rr->height), 0.0);
+	InitBoundProperty(rr, "bordered", &(rr->bordered), false);
+	
+	AddElement(w, rr);
+	
+	return rr;
+}
+
+uiHorizontalLayoutElement* sUiSystem::AddHorizontalLayout(uiContainer* w)
+{
+	uiHorizontalLayoutElement* hl = new uiHorizontalLayoutElement;
+	hl->handle = HandleHorizontalLayout;
+	
+	InitBoundProperty(hl, "spacing", &(hl->spacing), 0.0);
+
+	AddElement(w, hl);
+	
+	return hl;
 }
 
 void sUiSystem::RemoveWindow(uiWindow* w)
@@ -92,46 +241,59 @@ void sUiSystem::RemoveWindow(uiWindow* w)
 	{
 		if (currentWindow == w)
 		{
-			if (currentWindow->prevWindow != NULL)
+			if (currentWindow->prevElement != NULL)
 			{
-				currentWindow->prevWindow->nextWindow = currentWindow->nextWindow;
+				currentWindow->prevElement->nextElement = currentWindow->nextElement;
 			}
-			if (currentWindow->nextWindow != NULL)
+			if (currentWindow->nextElement != NULL)
 			{
-				currentWindow->nextWindow->prevWindow = currentWindow->prevWindow;
+				currentWindow->nextElement->prevElement = currentWindow->prevElement;
 			}
 
 			if (firstWindow == currentWindow)
 			{
-				firstWindow = currentWindow->nextWindow;
+				firstWindow = (uiWindow*)currentWindow->nextElement;
 			}
 			if (lastWindow == currentWindow)
 			{
-				lastWindow = currentWindow->prevWindow;
+				lastWindow = (uiWindow*)currentWindow->prevElement;
 			}
 
 			//clear all the elements properly
-			uiWindowElement* currentElement = currentWindow->lastElement;
-			while (currentElement != NULL)
+			RemoveChildren(currentWindow);
+
+			if (currentWindow->luaTableKey != -1)
 			{
-				uiWindowElement* temp = currentElement->prevElement;
-				currentElement->remove(currentElement); //clears the data
-				delete currentElement;
-				currentElement = temp;
+				HandleCallback(currentWindow, "onClose");
+				mUi::UnreferenceTable(currentWindow->luaTableKey);
 			}
 
+			//delete the window
+			FreeId(currentWindow->id);
 			delete currentWindow;
 
 			break;
 		}
 
-		currentWindow = currentWindow->prevWindow;
+		currentWindow = (uiWindow*)currentWindow->prevElement;
 	}
 }
 
-void sUiSystem::RemoveElement(uiWindow* ww, uiWindowElement* ee)
+void sUiSystem::RemoveChildren(uiContainer* ee)
 {
-	uiWindowElement* currentElement = ww->lastElement;
+	//clear all the elements properly
+	uiElement* currentChild = ee->lastElement;
+	while (currentChild != NULL)
+	{
+		uiElement* temp = currentChild->prevElement;
+		RemoveElement(ee, currentChild);
+		currentChild = temp;
+	}
+}
+
+void sUiSystem::RemoveElement(uiContainer* ww, uiElement* ee)
+{
+	uiElement* currentElement = ww->lastElement;
 	while (currentElement != NULL)
 	{
 		if (currentElement == ee)
@@ -154,10 +316,11 @@ void sUiSystem::RemoveElement(uiWindow* ww, uiWindowElement* ee)
 				ww->lastElement = currentElement->nextElement;
 			}
 
-
-			currentElement->remove(currentElement); //clears the data
+			if (currentElement->luaTableKey != -1)
+			{
+				mUi::UnreferenceTable(currentElement->luaTableKey);
+			}
 			delete currentElement;
-
 			break;
 		}
 
@@ -172,6 +335,11 @@ void sUiSystem::Render()
 
 	while (currentWindow != NULL)
 	{
+		if (!currentWindow->visible)
+		{
+			currentWindow = (uiWindow*)currentWindow->nextElement;
+			continue;
+		}
 		string uniqueName = string(currentWindow->title);
 		uniqueName += "##";
 		uniqueName += std::to_string(currentWindow->id);
@@ -180,19 +348,25 @@ void sUiSystem::Render()
 		ImGui::SetNextWindowSize(ImVec2(currentWindow->width, currentWindow->height), ImGuiSetCond_Always);
 
 		//TODO(robin) window flags and close button
-		int windowFlags = 0;
+		int windowFlags = ImGuiWindowFlags_NoSavedSettings;
 		if (currentWindow->movable == false)
 		{
-			windowFlags = windowFlags | ImGuiWindowFlags_NoMove;
+			windowFlags |= ImGuiWindowFlags_NoMove;
 		}
 		if (currentWindow->resizable == false)
 		{
-			windowFlags = windowFlags | ImGuiWindowFlags_NoResize;
+			windowFlags |= ImGuiWindowFlags_NoResize;
 		}
 		if (currentWindow->collapsable == false)
 		{
-			windowFlags = windowFlags | ImGuiWindowFlags_NoCollapse;
+			windowFlags |= ImGuiWindowFlags_NoCollapse;
 		}
+		if (currentWindow->displayTitle == false)
+		{
+			windowFlags |= ImGuiWindowFlags_NoTitleBar;
+		}
+
+		ImGui::SetNextWindowCollapsed(!currentWindow->expanded, ImGuiSetCond_Always);
 
 		bool isOpened = true;   //will be set to false if user presses X button
 		bool* pOpened = &isOpened;
@@ -205,44 +379,69 @@ void sUiSystem::Render()
 		bool isExpanded = true;
 		isExpanded = ImGui::Begin(uniqueName.c_str(), pOpened, windowFlags);
 
+		if (isExpanded != currentWindow->expanded )
+		{
+			if(isExpanded)
+			{
+				HandleCallback(currentWindow, "onExpand");
+			}
+			else
+			{
+				HandleCallback(currentWindow, "onCollapse");
+			}
+			currentWindow->expanded = isExpanded;
+		}
+		
 		if (isExpanded && isOpened)
 		{
-			uiWindowElement* currentElement = currentWindow->firstElement;
-			while (currentElement != NULL)
-			{
-				currentElement->handle(currentElement);
-				currentElement = currentElement->nextElement;
-			}
+			RenderContainer(currentWindow);
 		}
 
 		if (currentWindow->movable)
 		{
 			ImVec2 newPos = ImGui::GetWindowPos();
-			currentWindow->x = newPos.x;
-			currentWindow->y = newPos.y;
+			if(newPos.x != currentWindow->x || newPos.y != currentWindow->y)
+			{
+				
+				HandleCallback(currentWindow, "onMove");
+				currentWindow->x = newPos.x;
+				currentWindow->y = newPos.y;
+
+			}
+			
 		}
 
 		if (currentWindow->resizable && isExpanded)
 		{
 			ImVec2 newSize = ImGui::GetWindowSize();
-			currentWindow->width = newSize.x;
-			currentWindow->height = newSize.y;
+			if(newSize.x != currentWindow->width || newSize.y != currentWindow->height)
+			{
+				HandleCallback(currentWindow, "onResize");
+				currentWindow->width = newSize.x;
+				currentWindow->height = newSize.y;
+			}
 		}
 
 		ImGui::End();
 
 		if (!isOpened)
 		{
-			uiWindow* temp = currentWindow->nextWindow;
+			uiWindow* temp = (uiWindow*)currentWindow->nextElement;
 			RemoveWindow(currentWindow);
 			currentWindow = temp;
 			continue;
 		}
 
 
-		currentWindow = currentWindow->nextWindow;
+		currentWindow = (uiWindow*)currentWindow->nextElement;
 	}
 	ImGui::Render();
+
+	if (cachedButton != NULL)
+	{
+		HandleCallback(cachedButton, "onPress");
+		cachedButton = NULL;
+	}
 }
 
 
@@ -256,17 +455,24 @@ void sUiSystem::AddWindow(uiWindow* w)
 	}
 	else
 	{
-		w->prevWindow = lastWindow;
-		lastWindow->nextWindow = w;
+		w->prevElement = lastWindow;
+		lastWindow->nextElement = w;
 		lastWindow = w;
 	}
 }
 
-void sUiSystem::AddElement(uiWindow* w, uiWindowElement* e)
+void sUiSystem::AddElement(uiContainer* w, uiElement* e)
 {
+	InitBoundProperty(e, "visible", &(e->visible), true);
+	InitBoundProperty(e, "tooltip", &(e->tooltip), string(""));
+	InitBoundProperty(e, "width", &(e->width), 0.0);
+
 	e->parent = w;
 	e->nextElement = NULL;
 	e->prevElement = NULL;
+
+	e->luaTableKey = -1;
+
 	if (w->firstElement == NULL)
 	{
 		w->firstElement = e;
@@ -280,37 +486,274 @@ void sUiSystem::AddElement(uiWindow* w, uiWindowElement* e)
 	}
 }
 
-void sUiSystem::HandleButton(uiWindowElement* e)
+void sUiSystem::HandleCallback(uiElement* e, const char* func)
 {
-	uiWindowButtonElement* data = (uiWindowButtonElement*)(e->data);
-	bool pressed = ImGui::Button(data->label.c_str(), ImVec2(80, 30));
-
-	if (pressed && data->callback != NULL)
+	if(e->luaTableKey != -1)
 	{
-		data->callback();
+		mUi::HandleCallback(e->luaTableKey, func);
 	}
 }
 
-void sUiSystem::HandleText(uiWindowElement* e)
+void sUiSystem::RenderContainer(uiContainer* cc)
 {
-	uiWindowTextElement* data = (uiWindowTextElement*)(e->data);
-	ImGui::Text(data->content.c_str());
+	uiElement* currentElement = cc->firstElement;
+	while (currentElement != NULL)
+	{
+		if (!currentElement->visible)
+		{
+			currentElement = currentElement->nextElement;
+		}
+		
+		//we push the pointer to the element on the ID-stack, this way even equally-named elements will have unique ids, and ImGui won't get confused!
+		ImGui::PushID((long)currentElement);
+		ImGui::PushItemWidth(currentElement->width);
+		bool allowToolTip = currentElement->handle(currentElement);
+		ImGui::PopItemWidth();
+		ImGui::PopID();
+
+		if (allowToolTip && currentElement->tooltip != "" && ImGui::IsItemHovered())
+		{
+			ImGui::SetTooltip(currentElement->tooltip.c_str());
+		}
+
+		currentElement = currentElement->nextElement;
+	}
+};
+
+bool sUiSystem::HandleButton(uiElement* e)
+{
+	uiButtonElement* bb = (uiButtonElement*)e;
+	bool pressed = ImGui::Button(bb->text.c_str(), ImVec2(bb->width, bb->height));
+
+	if (pressed)
+	{
+		//we cache this button press until all windows are rendered
+		UiSystem.cachedButton = bb;
+	}
+	
+	bool hovered = ImGui::IsItemHovered();
+	if(hovered != bb->prevHovered)
+	{
+		bb->prevHovered = hovered;
+		if(hovered)
+		{
+			HandleCallback(bb, "onHoverIn");
+		}
+		else
+		{
+			HandleCallback(bb, "onHoverOut");
+		}
+	
+	}
+
+	return true;
 }
 
-void sUiSystem::RemoveButton(uiWindowElement* e)
+bool sUiSystem::HandleText(uiElement* e)
 {
-	uiWindowButtonElement* data = (uiWindowButtonElement*)(e->data);
-	delete data;
+	uiTextElement* tt = (uiTextElement*)e;
+	if (tt->wrapWidth <= 0)
+	{
+		ImGui::TextWrapped(tt->text.c_str());
+	}
+	else
+	{
+		ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + tt->wrapWidth);
+		ImGui::Text(tt->text.c_str());
+		ImGui::PopTextWrapPos();
+	}
+
+	return true;
 }
 
-void sUiSystem::RemoveText(uiWindowElement* e)
+bool sUiSystem::HandleTree(uiElement* e)
 {
-	uiWindowTextElement* data = (uiWindowTextElement*)(e->data);
-	delete data;
+	uiTreeElement* tt = (uiTreeElement*)e;
+
+	ImGui::SetNextTreeNodeOpened(tt->opened, ImGuiSetCond_Always);
+
+	bool opened = ImGui::TreeNode(tt->label.c_str());
+	if (tt->tooltip != "" && ImGui::IsItemHovered())
+	{
+		ImGui::SetTooltip(tt->tooltip.c_str());
+	}
+	
+	if(tt->opened != opened)
+	{
+		tt->opened = opened;
+		if(opened)
+		{
+			HandleCallback(tt, "onExpand");
+		}
+		else
+		{
+			HandleCallback(tt, "onCollapse");
+		}
+	}
+
+	if (tt->opened)
+	{
+		RenderContainer(tt);
+		ImGui::TreePop();
+	}
+
+	return false;
 }
 
-void sUiSystem::SetNextFreeId()
+bool sUiSystem::HandleInputText(uiElement* e)
 {
-	//TODO(robin) actually find a free id :)
-	firstFreeId++;
+	//TODO scalable buffer size;
+	uiInputTextElement* tt = (uiInputTextElement*)e;
+	const int BUFFER_SIZE = 64;
+	char buffer[BUFFER_SIZE];
+	//fill with 0's
+	std::fill(&buffer[0], &buffer[BUFFER_SIZE - 1], 0);
+	tt->text.copy(buffer, BUFFER_SIZE);
+	bool edited = ImGui::InputText(tt->label.c_str(), buffer, BUFFER_SIZE);
+	
+	if(edited)
+	{
+		tt->text = string(buffer);
+		HandleCallback(tt, "onChange");
+	}
+	
+	if (ImGui::IsItemActive() != tt->prevFocus)
+	{
+		tt->prevFocus = !tt->prevFocus;
+		if(tt->prevFocus)
+		{
+			HandleCallback(tt, "onFocusGain");
+		}
+		else
+		{
+			HandleCallback(tt, "onFocusLose");
+		}
+	}
+
+	return true;
+}
+
+bool sUiSystem::HandleCheckbox(uiElement* e)
+{
+	uiCheckboxElement* cb = (uiCheckboxElement*)e;
+	
+	bool prevChecked = cb->checked;
+
+	ImGui::Checkbox(cb->label.c_str(), &(cb->checked));
+	
+	if(cb->checked != prevChecked)
+	{
+		HandleCallback(cb, "onChange");
+	}
+
+	return true;
+}
+
+
+bool sUiSystem::HandleSlider(uiElement* e)
+{
+	uiSliderElement* sl = (uiSliderElement*)e;
+
+	if (sl->rounded)
+	{
+		int valueBuffer = (int)sl->value;
+		ImGui::SliderInt(sl->label.c_str(), &valueBuffer, sl->minValue, sl->maxValue, sl->format.c_str());
+		
+		if(sl->value != (double)valueBuffer)
+		{
+			sl->value = (double)valueBuffer;
+			
+			HandleCallback(sl, "onChange");
+		}
+		
+	}
+	else
+	{
+		float valueBuffer = (float)sl->value;
+		ImGui::SliderFloat(sl->label.c_str(), &valueBuffer, sl->minValue, sl->maxValue, sl->format.c_str());
+		sl->value = (double)valueBuffer;
+	}
+
+	return true;
+}
+
+bool sUiSystem::HandleRegion(uiElement* e)
+{
+	uiRegionElement* rr = (uiRegionElement*)e;
+	
+	ImGui::BeginChild("region", ImVec2(rr->width, rr->height), rr->bordered);
+	
+	RenderContainer(rr);
+	
+	ImGui::EndChild();
+	
+	return false;
+}
+
+bool sUiSystem::HandleHorizontalLayout(uiElement* e)
+{
+	uiHorizontalLayoutElement* hl = (uiHorizontalLayoutElement*)e;
+	
+	//essentially the same as RenderContainer, except we have to make an extra call in there after every element
+	uiElement* currentElement = hl->firstElement;
+	while (currentElement != NULL)
+	{
+		if (!currentElement->visible)
+		{
+			currentElement = currentElement->nextElement;
+		}
+		
+		//we push the pointer to the element on the ID-stack, this way even equally-named elements will have unique ids, and ImGui won't get confused!
+		ImGui::PushID((long)currentElement);
+		ImGui::PushItemWidth(currentElement->width);
+		bool allowToolTip = currentElement->handle(currentElement);
+		ImGui::PopItemWidth();
+		ImGui::PopID();
+		
+		if (allowToolTip && currentElement->tooltip != "" && ImGui::IsItemHovered())
+		{
+			ImGui::SetTooltip(currentElement->tooltip.c_str());
+		}
+		
+		currentElement = currentElement->nextElement;
+		if(currentElement != NULL){
+			ImGui::SameLine(0, hl->spacing);
+		}
+	}
+
+	
+	return false;
+}
+
+
+//IDs
+uint8 sUiSystem::GetNextFreeId()
+{
+	uint8 currentId= (idIndex + 1)%WINDOW_ID_BUFFER_SIZE;
+	do
+	{
+		if(idMap[currentId] == false)
+		{
+			idIndex = currentId;
+			idMap[currentId] = true;
+			return currentId;
+		}
+		currentId = (currentId + 1)%WINDOW_ID_BUFFER_SIZE;
+	}
+	while(currentId != (idIndex + 1)%WINDOW_ID_BUFFER_SIZE);
+	
+	Terminal.Error("Insufficient IDs to create anymore concurrent window elements requiring an ID. If this keeps occuring, please increase the value of WINDOW_ID_BUFFER_SIZE. Be responsible ;)");
+	return -1;
+}
+
+void sUiSystem::FreeId(uint8 id)
+{
+	if(idMap[idIndex] == true)
+	{
+		idMap[idIndex] = false;
+	}
+	else
+	{
+		Terminal.Warning("Trying to free a window ID that was not occupied");
+	}
 }

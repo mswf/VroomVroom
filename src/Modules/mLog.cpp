@@ -6,18 +6,18 @@
 //  Copyright © 2015 Valentinas Rimeika. All rights reserved.
 //
 
-#include "mEngine.h"
+#include "mLog.h"
 #include "../Utilities/typedef.h"
 #include "console.h"
 
-void mEngine::Bind(lua_State* L)
+void mLog::Bind(lua_State* L)
 {
-    lStart(Engine)
-        lBind(log)
-    lEnd(Engine)
+	lua_getglobal(L, "Engine");
+	lua_pushcfunction(L, lw_log__);
+	lua_setfield(L, -2, "log");
 }
 
-lFuncImp(mEngine, log)
+lFuncImp(mLog, log)
 {
     //default values
     string msg = "";

@@ -36,11 +36,14 @@ void sLuaSystem::Init()
 	lState = luaL_newstate();
 	luaL_openlibs(lState);
 	SetPackagePath();
+	
+	lua_newtable(lState);
+	lua_setglobal(lState, "Engine");
 
-	mEngine::Bind(lState);
+	mLog::Bind(lState);
 	mInput::Bind(lState);
 	mEntity::Bind(lState);
-	mUiWindow::Bind(lState);
+	mUi::Bind(lState);
 
 	string path;
 	Content::CreateFilePath("main.lua", &path);
@@ -56,6 +59,7 @@ void sLuaSystem::Init()
 	//try to parse main.lua
 	Call(lState, 0, 0);}
 
+//TODO(robin): safeguard in case Game.main does not exist
 void sLuaSystem::Main()
 {
 	if (!hasMainBeenCalled)
@@ -70,6 +74,7 @@ void sLuaSystem::Main()
 	}
 }
 
+//TODO(robin): safeguard in case Game.update does not exist
 void sLuaSystem::Update(float dt)
 {
 	lua_getglobal(lState, "Game");
@@ -257,7 +262,7 @@ void sLuaSystem::SetPackagePath()
 int sLuaSystem::LuaPanic(lua_State* L)
 {
 	Terminal.LuaError("PANIC!");
-	Terminal.LuaError(string(lua_tostring(L, -1)));
+	LuaError(L);
 	Terminal.Warning("The program will exit...");
 
 	//TODO(robin) close the lua state but keep the engine running
@@ -298,6 +303,14 @@ int sLuaSystem::LuaError(lua_State* L)
 }
 
 string sLuaSystem::CreateStackLine(string source, int line, string name) {
+	
+#ifdef _WIN32
+	int slashIndex = source.find("/");
+	source = source.substr(slashIndex+1);
+#else
+	source = source.substr(1);
+#endif
+
     string stackLine = "\t@ "+source;
     stackLine += "("+std::to_string(line)+"): ";
     stackLine += name;

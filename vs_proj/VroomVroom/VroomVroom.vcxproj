@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Components\cCamera.h" />
+    <ClInclude Include="..\..\src\Components\cLua.h" />
     <ClInclude Include="..\..\src\Components\cMeshRenderer.h" />
     <ClInclude Include="..\..\src\Components\component.h" />
     <ClInclude Include="..\..\src\Components\cTransform.h" />
@@ -186,11 +187,11 @@
     <ClInclude Include="..\..\src\IO\RtMidi.h" />
     <ClInclude Include="..\..\src\IO\stb_image.h" />
     <ClInclude Include="..\..\src\Modules\mAll.h" />
-    <ClInclude Include="..\..\src\Modules\mEngine.h" />
     <ClInclude Include="..\..\src\Modules\mEntity.h" />
     <ClInclude Include="..\..\src\Modules\mInput.h" />
+    <ClInclude Include="..\..\src\Modules\mLog.h" />
     <ClInclude Include="..\..\src\Modules\moduleMacros.h" />
-    <ClInclude Include="..\..\src\Modules\mUiWindow.h" />
+    <ClInclude Include="..\..\src\Modules\mUi.h" />
     <ClInclude Include="..\..\src\Networking\TCPClient.h" />
     <ClInclude Include="..\..\src\Networking\TCPData.h" />
     <ClInclude Include="..\..\src\Networking\TCPServer.h" />
@@ -217,6 +218,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Components\cCamera.cpp" />
+    <ClCompile Include="..\..\src\Components\cLua.cpp" />
     <ClCompile Include="..\..\src\Components\cMeshRenderer.cpp" />
     <ClCompile Include="..\..\src\Components\cTransform.cpp" />
     <ClCompile Include="..\..\src\Components\entity.cpp" />
@@ -240,10 +242,10 @@
     <ClCompile Include="..\..\src\IO\importer_imp.cpp" />
     <ClCompile Include="..\..\src\IO\RtMidi.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
-    <ClCompile Include="..\..\src\Modules\mEngine.cpp" />
     <ClCompile Include="..\..\src\Modules\mEntity.cpp" />
     <ClCompile Include="..\..\src\Modules\mInput.cpp" />
-    <ClCompile Include="..\..\src\Modules\mUiWindow.cpp" />
+    <ClCompile Include="..\..\src\Modules\mLog.cpp" />
+    <ClCompile Include="..\..\src\Modules\mUi.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPClient.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPData.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPServer.cpp" />
@@ -423,7 +425,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\..\Framework\Win32Libraries\include;..\..\Framework\LJIT\include;..\..\Framework\assimp\Include;..\..\src;..\..\Framework\Win32Libraries\include\SDL2_net;..\..\Framework\Win32Libraries\include\SDL2;..\..\Framework\FMOD\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>DEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;DEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

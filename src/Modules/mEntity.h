@@ -11,26 +11,18 @@
 
 #include "moduleMacros.h"
 
-//TODO(robin) remove this once we have proper entities
-class StubEntity
-{
-    public :
-        StubEntity() {};
-        ~StubEntity() {};
-        void DoPls() { printf("pls\n"); };
-        int pls;
-};
-
 class mEntity {
     public :
         static void Bind(lua_State* L);
+	
+		static void UnreferenceTable(int);
+		static void HandleCallback(int, const char*);
     private :
         mEntity();
         ~mEntity();
     
         lFuncDef(__engineInit);
-        lFuncDef(destroy);
-        lFuncDef(doPls);
+        lFuncDef(gcDestroy);
 };
 
 #endif /* mEntity_h */

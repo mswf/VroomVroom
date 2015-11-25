@@ -8,7 +8,8 @@ enum class ComponentTypes
     CAMERA,
 	MESH,
 	MESH_RENDERER,
-    LIGHT
+    LIGHT,
+	LUA
 };
 
 class Entity;

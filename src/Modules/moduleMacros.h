@@ -27,9 +27,6 @@
     #define lEnd(NAME)\
             {0,0}\
         };\
-        luaL_openlib(L, #NAME , NAME##_funcs, 0);\
-        lua_pop(L, 1);
-
 
 
 
@@ -58,6 +55,15 @@
         NAME = FALLBACK;\
     }
 
+#define lgFunc(NAME, IDX, FALLBACK)\
+	int NAME ;\
+	if ( lua_isfunction(L, IDX ) ){\
+		lua_pushvalue(L, IDX);\
+		NAME = luaL_ref(L, LUA_REGISTRYINDEX );\
+	} else {\
+		NAME = FALLBACK;\
+	}
+
 #define lstString(NAME, VALUE)\
     lua_pushstring(L, VALUE);\
     lua_setfield(L, -2, NAME);
@@ -69,6 +75,23 @@
 #define lstBoolean(NAME, VALUE)\
     lua_pushboolean(L, VALUE);\
     lua_setfield(L, -2, NAME);
+
+
+#define lSetCPPPropertyString(TARGET, NAME)\
+	lua_getfield(L, -1, #NAME);\
+	TARGET->NAME = lua_tostring(L, -1);\
+	lua_pop(L, 1);
+
+#define lSetCPPPropertyNumber(TARGET, NAME)\
+	lua_getfield(L, -1, #NAME);\
+	TARGET->NAME = lua_tonumber(L, -1);\
+	lua_pop(L, 1);
+
+#define lSetCPPPropertyBoolean(TARGET, NAME)\
+	lua_getfield(L, -1, #NAME);\
+	TARGET->NAME = lua_toboolean(L, -1);\
+	lua_pop(L, 1);
+
 
 
 

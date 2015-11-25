@@ -11,21 +11,37 @@
 
 #include "moduleMacros.h"
 
-class mUiWindow {
+struct uiElement;
+
+class mUi {
     public:
         static void Bind(lua_State*);
+	
+		static void UnreferenceTable(int);
+		static void HandleCallback(int, const char*);
+	
     private:
-        mUiWindow();
-        ~mUiWindow();
-    
-        lFuncDef(create);
-    
+        mUi();
+        ~mUi();
+	
+		static void BasicElementBind(lua_State*, uiElement*, int);
+	
+        lFuncDef(createWindow);
+		lFuncDef(close);
+	
         lFuncDef(mtIndex);
         lFuncDef(mtNewIndex);
     
         lFuncDef(addText);
         lFuncDef(addButton);
-    
+		lFuncDef(addTree);
+		lFuncDef(addInputText);
+		lFuncDef(addCheckbox);
+		lFuncDef(addSlider);
+		lFuncDef(addRegion);
+		lFuncDef(addHorizontalLayout);
+	
+		lFuncDef(destroy);
         lFuncDef(remove);
 };
 

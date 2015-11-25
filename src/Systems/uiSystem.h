@@ -115,8 +115,6 @@ class sUiSystem : public Singleton<sUiSystem>
     
         void Render();
 	
-		void SetLuaState(lua_State*);
-	
 		template<typename T>
 			void SetNamedProperty(uiElement* target, string property, T value)
 			{
@@ -172,8 +170,6 @@ class sUiSystem : public Singleton<sUiSystem>
         uiWindow* lastWindow;
 	
 		uiButtonElement* cachedButton;
-	
-		static lua_State* lState;
 };
 
 struct uiTextElement : uiElement

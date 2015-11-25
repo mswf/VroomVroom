@@ -13,20 +13,20 @@
 
 struct uiElement;
 
-class mUiWindow {
+class mUi {
     public:
         static void Bind(lua_State*);
 	
-		static void UnreferenceTable(lua_State*, int);
-		static void HandleCallback(lua_State*, int, const char*);
+		static void UnreferenceTable(int);
+		static void HandleCallback(int, const char*);
 	
     private:
-        mUiWindow();
-        ~mUiWindow();
+        mUi();
+        ~mUi();
 	
 		static void BasicElementBind(lua_State*, uiElement*, int);
 	
-        lFuncDef(create);
+        lFuncDef(createWindow);
 		lFuncDef(close);
 	
         lFuncDef(mtIndex);

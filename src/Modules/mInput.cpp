@@ -28,6 +28,9 @@ void mInput::Bind(lua_State* L)
         lBind(mouseDown)
         lBind(mouseUp)
     lEnd(Input)
+	luaL_openlib(L, "Input" , Input_funcs, 0);\
+	lua_pop(L, 1);
+
 }
 
 void mInput::SetInput(Input* I)

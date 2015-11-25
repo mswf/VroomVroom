@@ -6,17 +6,25 @@
 //  Copyright © 2015 Valentinas Rimeika. All rights reserved.
 //
 
-#include "mUiWindow.h"
+#include "mUi.h"
 #include "../Systems/uiSystem.h"
 #include "../Systems/luaSystem.h"
 #include "../Utilities/typedef.h"
 #include "../console.h"
 
-void mUiWindow::Bind(lua_State* L){
+void mUi::Bind(lua_State* L){
 	//TODO(tobin): Go do some metatable inheritance witchery
-    lStart(UiWindow)
-        lBind(create)
+	
+	lua_getglobal(L, "Engine");
+	lua_newtable(L);
+	
+    lStart(ui)
+        lBind(createWindow)
     lEnd(UiWindow)
+	luaL_openlib(L, 0, ui_funcs, 0);
+	lua_setfield(L, -2, "ui");
+	
+
     
     luaL_newmetatable(L, "__mtUiElement");
     const luaL_reg __mtUiElement_methods[] =
@@ -58,14 +66,12 @@ void mUiWindow::Bind(lua_State* L){
 	luaL_openlib(L, 0, __mtUiElement_methods, 0);
 	luaL_openlib(L, 0, __mtUiContainer_methods, 0);
 	luaL_openlib(L, 0, __mtUiWindow_methods, 0);
-	
-	
-	
-	UiSystem.SetLuaState(L);
 }
 
-void mUiWindow::UnreferenceTable(lua_State* L, int tableKey)
+void mUi::UnreferenceTable(int tableKey)
 {
+	lua_State* L = LuaSystem.GetState();
+	
 	lua_pushnumber(L, tableKey);
 	lua_gettable(L, LUA_REGISTRYINDEX);
 	lstBoolean("__exists__", false);
@@ -74,8 +80,10 @@ void mUiWindow::UnreferenceTable(lua_State* L, int tableKey)
 	lua_settop(L, 0);
 }
 
-void mUiWindow::HandleCallback(lua_State* L, int tableKey, const char* funcName)
+void mUi::HandleCallback(int tableKey, const char* funcName)
 {
+	lua_State* L = LuaSystem.GetState();
+	
 	lua_pushnumber(L, tableKey);
 	lua_gettable(L, LUA_REGISTRYINDEX);
 	lua_getfield(L, -1, funcName);
@@ -87,7 +95,7 @@ void mUiWindow::HandleCallback(lua_State* L, int tableKey, const char* funcName)
 	lua_settop(L, 0);
 }
 
-void mUiWindow::BasicElementBind(lua_State* L, uiElement* e, int parentIndex)
+void mUi::BasicElementBind(lua_State* L, uiElement* e, int parentIndex)
 {
 	lua_pushvalue(L, -1);
 	e->luaTableKey = luaL_ref(L, LUA_REGISTRYINDEX);
@@ -112,7 +120,7 @@ void mUiWindow::BasicElementBind(lua_State* L, uiElement* e, int parentIndex)
 	}
 }
 
-lFuncImp(mUiWindow, create){
+lFuncImp(mUi, createWindow){
     lgString(title, 1, "new window")
     lgInt(width, 2, 400)
     lgInt(height, 3, 250)
@@ -152,7 +160,7 @@ lFuncImp(mUiWindow, create){
     return 1;
 }
 
-lFuncImp(mUiWindow, close)
+lFuncImp(mUi, close)
 {
 	lua_getfield(L, 1, "__coreElement__");
 	uiWindow* window = (uiWindow*)lua_touserdata(L,-1);
@@ -163,7 +171,7 @@ lFuncImp(mUiWindow, close)
 	return 0;
 }
 
-lFuncImp(mUiWindow, mtIndex)
+lFuncImp(mUi, mtIndex)
 {
     //first try our core properties
     lua_getfield(L, 1, "__coreProperties__");
@@ -219,7 +227,7 @@ lFuncImp(mUiWindow, mtIndex)
 	return 1;
 }
 
-lFuncImp(mUiWindow, mtNewIndex)
+lFuncImp(mUi, mtNewIndex)
 {
     //first check if this key exists in __coreProperties__
     lua_getfield(L, 1, "__coreProperties__");
@@ -266,7 +274,7 @@ lFuncImp(mUiWindow, mtNewIndex)
     return 0;
 }
 
-lFuncImp(mUiWindow, addText)
+lFuncImp(mUi, addText)
 {
 	lua_settop(L, 2);
     lgString(startText,2,"lorum ipsum");
@@ -295,7 +303,7 @@ lFuncImp(mUiWindow, addText)
     return 1;
 }
 
-lFuncImp(mUiWindow, addButton)
+lFuncImp(mUi, addButton)
 {
 	lua_settop(L, 3);
     lgString(label, 2, "butts");
@@ -324,7 +332,7 @@ lFuncImp(mUiWindow, addButton)
     return 1;
 }
 
-lFuncImp(mUiWindow, addTree)
+lFuncImp(mUi, addTree)
 {
 	lua_settop(L, 3);
 	lgString(label, 2, "butts");
@@ -351,7 +359,7 @@ lFuncImp(mUiWindow, addTree)
 }
 
 
-lFuncImp(mUiWindow, addInputText)
+lFuncImp(mUi, addInputText)
 {
 	lua_settop(L, 3);
 	lgString(label, 2, "butts");
@@ -380,7 +388,7 @@ lFuncImp(mUiWindow, addInputText)
 	return 1;
 }
 
-lFuncImp(mUiWindow, addCheckbox)
+lFuncImp(mUi, addCheckbox)
 {
 	lua_settop(L, 3);
 	lgString(label, 2, "butts");
@@ -409,7 +417,7 @@ lFuncImp(mUiWindow, addCheckbox)
 	return 1;
 }
 
-lFuncImp(mUiWindow, addSlider)
+lFuncImp(mUi, addSlider)
 {
 	lua_settop(L, 2);
 	lgString(label, 2, "butts");
@@ -440,7 +448,7 @@ lFuncImp(mUiWindow, addSlider)
 	return 1;
 }
 
-lFuncImp(mUiWindow, addRegion)
+lFuncImp(mUi, addRegion)
 {
 	lua_settop(L, 1);
 	
@@ -465,7 +473,7 @@ lFuncImp(mUiWindow, addRegion)
 	return 1;
 }
 
-lFuncImp(mUiWindow, addHorizontalLayout)
+lFuncImp(mUi, addHorizontalLayout)
 {
 	lua_settop(L, 1);
 	
@@ -488,7 +496,7 @@ lFuncImp(mUiWindow, addHorizontalLayout)
 	return 1;
 }
 
-lFuncImp(mUiWindow, destroy)
+lFuncImp(mUi, destroy)
 {
 	lua_getfield(L, 1, "__coreElement__");
 	uiElement* element = (uiElement*)lua_touserdata(L,-1);
@@ -501,7 +509,7 @@ lFuncImp(mUiWindow, destroy)
 	return 0;
 }
 
-lFuncImp(mUiWindow, remove)
+lFuncImp(mUi, remove)
 {
 	LuaSystem.Dump(L);
 	lua_getfield(L, 1, "__coreElement__");

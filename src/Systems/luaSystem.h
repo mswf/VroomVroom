@@ -38,6 +38,8 @@ class sLuaSystem : public Singleton<sLuaSystem>
         void SetAtomPath(string);
     
         void OpenAtom(string, int = 0);
+	
+		lua_State* GetState() { return lState; }
 
 	private:
 		void SetPackagePath();

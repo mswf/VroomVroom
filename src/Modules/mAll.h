@@ -10,8 +10,8 @@
 #define mAll_h
 
 #include "mInput.h"
-#include "mEngine.h"
+#include "mLog.h"
 #include "mEntity.h"
-#include "mUiWindow.h"
+#include "mUi.h"
 
 #endif /* mAll_h */

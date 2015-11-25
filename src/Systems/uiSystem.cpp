@@ -8,10 +8,9 @@
 
 #include "uiSystem.h"
 #include "../ImGUI/imgui.h"
-#include "../modules/mUiWindow.h"
+#include "../modules/mUi.h"
 #include "../console.h"
 
-lua_State* sUiSystem::lState(NULL);
 
 sUiSystem::sUiSystem() :
 	idIndex(0),
@@ -96,7 +95,7 @@ uiWindow* sUiSystem::ConstructWindow()
 	InitBoundProperty(window, "width", &(window->width), 100.0);
 	InitBoundProperty(window, "height", &(window->height), 100.0);
 	
-	InitBoundProperty(window, "expanded", &(window->expanded), false);
+	InitBoundProperty(window, "expanded", &(window->expanded), true);
 
 	InitBoundProperty(window, "movable", &(window->movable), true);
 	InitBoundProperty(window, "resizable", &(window->resizable), true);
@@ -263,10 +262,10 @@ void sUiSystem::RemoveWindow(uiWindow* w)
 			//clear all the elements properly
 			RemoveChildren(currentWindow);
 
-			if (currentWindow->luaTableKey != -1 && lState != NULL)
+			if (currentWindow->luaTableKey != -1)
 			{
 				HandleCallback(currentWindow, "onClose");
-				mUiWindow::UnreferenceTable(lState, currentWindow->luaTableKey);
+				mUi::UnreferenceTable(currentWindow->luaTableKey);
 			}
 
 			//delete the window
@@ -317,9 +316,9 @@ void sUiSystem::RemoveElement(uiContainer* ww, uiElement* ee)
 				ww->lastElement = currentElement->nextElement;
 			}
 
-			if (currentElement->luaTableKey != -1 && lState != NULL)
+			if (currentElement->luaTableKey != -1)
 			{
-				mUiWindow::UnreferenceTable(lState, currentElement->luaTableKey);
+				mUi::UnreferenceTable(currentElement->luaTableKey);
 			}
 			delete currentElement;
 			break;
@@ -445,11 +444,6 @@ void sUiSystem::Render()
 	}
 }
 
-void sUiSystem::SetLuaState(lua_State* L)
-{
-	lState = L;
-}
-
 
 //PRIVATE
 void sUiSystem::AddWindow(uiWindow* w)
@@ -494,9 +488,9 @@ void sUiSystem::AddElement(uiContainer* w, uiElement* e)
 
 void sUiSystem::HandleCallback(uiElement* e, const char* func)
 {
-	if(lState != NULL && e->luaTableKey != -1)
+	if(e->luaTableKey != -1)
 	{
-		mUiWindow::HandleCallback(lState, e->luaTableKey, func);
+		mUi::HandleCallback(e->luaTableKey, func);
 	}
 }
 

@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		233B2A5C1BE8E11F0032447A /* mUiWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 233B2A5A1BE8E11F0032447A /* mUiWindow.cpp */; settings = {ASSET_TAGS = (); }; };
+		233B2A5C1BE8E11F0032447A /* mUi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 233B2A5A1BE8E11F0032447A /* mUi.cpp */; settings = {ASSET_TAGS = (); }; };
 		234C8B281BB96A3B00E61132 /* libassimpd.3.1.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */; };
 		234C8B291BB96A4600E61132 /* libassimpd.3.1.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */; };
 		23A4AF551BB2DE3100948D72 /* content.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23A4AF531BB2DE3100948D72 /* content.cpp */; settings = {ASSET_TAGS = (); }; };
+		23B31B581C05E3B6004E31C9 /* cLua.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23B31B561C05E3B6004E31C9 /* cLua.cpp */; settings = {ASSET_TAGS = (); }; };
 		23C2AAFD1BCBD8C00043F141 /* file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23C2AAFB1BCBD8C00043F141 /* file.cpp */; settings = {ASSET_TAGS = (); }; };
-		23C59A321BCD305B00A37E29 /* mEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23C59A301BCD305B00A37E29 /* mEngine.cpp */; settings = {ASSET_TAGS = (); }; };
+		23C59A321BCD305B00A37E29 /* mLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23C59A301BCD305B00A37E29 /* mLog.cpp */; settings = {ASSET_TAGS = (); }; };
 		23C59A361BCD3ACA00A37E29 /* mInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23C59A341BCD3ACA00A37E29 /* mInput.cpp */; settings = {ASSET_TAGS = (); }; };
 		23CBC8741BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */; };
 		23E22F5F1BE9FEBA00987545 /* uiSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E22F5D1BE9FEBA00987545 /* uiSystem.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -91,15 +92,17 @@
 
 /* Begin PBXFileReference section */
 		23040E021BDF78E800662A1B /* mAll.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = mAll.h; path = src/Modules/mAll.h; sourceTree = SOURCE_ROOT; };
-		233B2A5A1BE8E11F0032447A /* mUiWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mUiWindow.cpp; path = src/Modules/mUiWindow.cpp; sourceTree = SOURCE_ROOT; };
-		233B2A5B1BE8E11F0032447A /* mUiWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mUiWindow.h; path = src/Modules/mUiWindow.h; sourceTree = SOURCE_ROOT; };
+		233B2A5A1BE8E11F0032447A /* mUi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mUi.cpp; path = src/Modules/mUi.cpp; sourceTree = SOURCE_ROOT; };
+		233B2A5B1BE8E11F0032447A /* mUi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mUi.h; path = src/Modules/mUi.h; sourceTree = SOURCE_ROOT; };
 		234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimpd.3.1.1.dylib; path = Framework/assimp/Debug/libassimpd.3.1.1.dylib; sourceTree = "<group>"; };
 		23A4AF531BB2DE3100948D72 /* content.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = content.cpp; path = src/content.cpp; sourceTree = SOURCE_ROOT; };
 		23A4AF541BB2DE3100948D72 /* content.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = content.h; path = src/content.h; sourceTree = SOURCE_ROOT; };
+		23B31B561C05E3B6004E31C9 /* cLua.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cLua.cpp; path = src/Components/cLua.cpp; sourceTree = SOURCE_ROOT; };
+		23B31B571C05E3B6004E31C9 /* cLua.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cLua.h; path = src/Components/cLua.h; sourceTree = SOURCE_ROOT; };
 		23C2AAFB1BCBD8C00043F141 /* file.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = file.cpp; path = src/IO/file.cpp; sourceTree = SOURCE_ROOT; };
 		23C2AAFC1BCBD8C00043F141 /* file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = file.h; path = src/IO/file.h; sourceTree = SOURCE_ROOT; };
-		23C59A301BCD305B00A37E29 /* mEngine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mEngine.cpp; path = src/Modules/mEngine.cpp; sourceTree = SOURCE_ROOT; };
-		23C59A311BCD305B00A37E29 /* mEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mEngine.h; path = src/Modules/mEngine.h; sourceTree = SOURCE_ROOT; };
+		23C59A301BCD305B00A37E29 /* mLog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mLog.cpp; path = src/Modules/mLog.cpp; sourceTree = SOURCE_ROOT; };
+		23C59A311BCD305B00A37E29 /* mLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mLog.h; path = src/Modules/mLog.h; sourceTree = SOURCE_ROOT; };
 		23C59A331BCD382300A37E29 /* moduleMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = moduleMacros.h; path = src/Modules/moduleMacros.h; sourceTree = SOURCE_ROOT; };
 		23C59A341BCD3ACA00A37E29 /* mInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mInput.cpp; path = src/Modules/mInput.cpp; sourceTree = SOURCE_ROOT; };
 		23C59A351BCD3ACA00A37E29 /* mInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mInput.h; path = src/Modules/mInput.h; sourceTree = SOURCE_ROOT; };
@@ -243,14 +246,14 @@
 			children = (
 				E5D9F8E41BE247C7005AFAB1 /* mEntity.cpp */,
 				E5D9F8E61BE247DF005AFAB1 /* mEntity.h */,
-				23C59A301BCD305B00A37E29 /* mEngine.cpp */,
-				23C59A311BCD305B00A37E29 /* mEngine.h */,
+				23C59A301BCD305B00A37E29 /* mLog.cpp */,
+				23C59A311BCD305B00A37E29 /* mLog.h */,
 				23C59A331BCD382300A37E29 /* moduleMacros.h */,
 				23C59A341BCD3ACA00A37E29 /* mInput.cpp */,
 				23C59A351BCD3ACA00A37E29 /* mInput.h */,
 				23040E021BDF78E800662A1B /* mAll.h */,
-				233B2A5A1BE8E11F0032447A /* mUiWindow.cpp */,
-				233B2A5B1BE8E11F0032447A /* mUiWindow.h */,
+				233B2A5A1BE8E11F0032447A /* mUi.cpp */,
+				233B2A5B1BE8E11F0032447A /* mUi.h */,
 			);
 			name = Modules;
 			sourceTree = "<group>";
@@ -267,6 +270,8 @@
 				E50529631BE8CE0A0017400B /* component.h */,
 				E50529641BE8CE0A0017400B /* cTransform.cpp */,
 				E50529651BE8CE0A0017400B /* cTransform.h */,
+				23B31B561C05E3B6004E31C9 /* cLua.cpp */,
+				23B31B571C05E3B6004E31C9 /* cLua.h */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -517,10 +522,11 @@
 				E50529431BE8CDBA0017400B /* shader.cpp in Sources */,
 				E54726101BC6A78F00316B26 /* base64.cpp in Sources */,
 				E5B282801BCAE76500759348 /* Input.cpp in Sources */,
-				233B2A5C1BE8E11F0032447A /* mUiWindow.cpp in Sources */,
+				233B2A5C1BE8E11F0032447A /* mUi.cpp in Sources */,
 				E53CB2321BECC529004B0F58 /* file_watcher_impl.cpp in Sources */,
 				E50529441BE8CDBA0017400B /* texture.cpp in Sources */,
 				23EE7EC31BC686020006581F /* Engine.cpp in Sources */,
+				23B31B581C05E3B6004E31C9 /* cLua.cpp in Sources */,
 				E547260A1BC6A74E00316B26 /* TCPClient.cpp in Sources */,
 				E55F88E01BEBA48C00433973 /* cMeshRenderer.cpp in Sources */,
 				E50529561BE8CDD50017400B /* RtMidi.cpp in Sources */,
@@ -541,7 +547,7 @@
 				E53CB22D1BECA88C004B0F58 /* FileWatcherLinux.cpp in Sources */,
 				E59FDC911BBAC0EE008935C5 /* random.cpp in Sources */,
 				E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */,
-				23C59A321BCD305B00A37E29 /* mEngine.cpp in Sources */,
+				23C59A321BCD305B00A37E29 /* mLog.cpp in Sources */,
 				23C59A361BCD3ACA00A37E29 /* mInput.cpp in Sources */,
 				E50529271BE8CD650017400B /* renderer.cpp in Sources */,
 				E59FDC901BBAC0EE008935C5 /* helperFunctions.cpp in Sources */,

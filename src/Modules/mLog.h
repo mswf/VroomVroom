@@ -12,12 +12,12 @@
 #include "moduleMacros.h"
 #include "../Systems/luaSystem.h"
 
-class mEngine {
+class mLog {
     public:
         static void Bind( lua_State* );
     private:
-        mEngine();
-        ~mEngine();
+        mLog();
+        ~mLog();
     
         lFuncDef(log);
 };

@@ -27,9 +27,6 @@
     #define lEnd(NAME)\
             {0,0}\
         };\
-        luaL_openlib(L, #NAME , NAME##_funcs, 0);\
-        lua_pop(L, 1);
-
 
 
 

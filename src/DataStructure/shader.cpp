@@ -243,11 +243,6 @@ GLenum Shader::GetGLShaderEnum( ShaderType t )
 			shader = GL_FRAGMENT_SHADER;
 			break;
 		}
-		case ShaderType::COMPUTE:
-		{
-			shader = GL_COMPUTE_SHADER;
-			break;
-		}
 		default:
 		{
 			shader = 0;

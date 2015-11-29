@@ -58,9 +58,9 @@
 		E5B2828A1BCD4DA300759348 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5B282891BCD4DA300759348 /* CoreMIDI.framework */; };
 		E5D664DC1BC16C390042350B /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D664DB1BC16C390042350B /* SDL2.framework */; };
 		E5D9F8E51BE247C7005AFAB1 /* mEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5D9F8E41BE247C7005AFAB1 /* mEntity.cpp */; settings = {ASSET_TAGS = (); }; };
+		E5DEBDC71C0B5934009F0FB4 /* opengl_common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5DEBDC51C0B5934009F0FB4 /* opengl_common.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5ED45BC1C05F93C0009BD5A /* importer_imp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5ED45B81C05F93C0009BD5A /* importer_imp.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5ED45BD1C05F93C0009BD5A /* importer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5ED45BA1C05F93C0009BD5A /* importer.cpp */; settings = {ASSET_TAGS = (); }; };
-		E5ED45C21C05F95B0009BD5A /* mesh_generator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5ED45BE1C05F95B0009BD5A /* mesh_generator.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5ED45C31C05F95B0009BD5A /* mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5ED45C01C05F95B0009BD5A /* mesh.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5EF59021BB95EDD00F85754 /* libGLEW.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E54D30901BB29675006FBC68 /* libGLEW.dylib */; };
 		E5F4A36A1BCE59A1000C8876 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5F4A3691BCE59A1000C8876 /* CoreAudio.framework */; };
@@ -201,11 +201,12 @@
 		E5D664DB1BC16C390042350B /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = Framework/SDL2.framework; sourceTree = "<group>"; };
 		E5D9F8E41BE247C7005AFAB1 /* mEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mEntity.cpp; path = src/Modules/mEntity.cpp; sourceTree = SOURCE_ROOT; };
 		E5D9F8E61BE247DF005AFAB1 /* mEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mEntity.h; path = src/Modules/mEntity.h; sourceTree = SOURCE_ROOT; };
+		E5DEBDC51C0B5934009F0FB4 /* opengl_common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = opengl_common.cpp; path = src/Utilities/opengl_common.cpp; sourceTree = SOURCE_ROOT; };
+		E5DEBDC61C0B5934009F0FB4 /* opengl_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = opengl_common.h; path = src/Utilities/opengl_common.h; sourceTree = SOURCE_ROOT; };
 		E5ED45B81C05F93C0009BD5A /* importer_imp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = importer_imp.cpp; path = src/IO/importer_imp.cpp; sourceTree = SOURCE_ROOT; };
 		E5ED45B91C05F93C0009BD5A /* importer_imp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = importer_imp.h; path = src/IO/importer_imp.h; sourceTree = SOURCE_ROOT; };
 		E5ED45BA1C05F93C0009BD5A /* importer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = importer.cpp; path = src/IO/importer.cpp; sourceTree = SOURCE_ROOT; };
 		E5ED45BB1C05F93C0009BD5A /* importer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = importer.h; path = src/IO/importer.h; sourceTree = SOURCE_ROOT; };
-		E5ED45BE1C05F95B0009BD5A /* mesh_generator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mesh_generator.cpp; path = src/DataStructure/mesh_generator.cpp; sourceTree = SOURCE_ROOT; };
 		E5ED45BF1C05F95B0009BD5A /* mesh_generator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mesh_generator.h; path = src/DataStructure/mesh_generator.h; sourceTree = SOURCE_ROOT; };
 		E5ED45C01C05F95B0009BD5A /* mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mesh.cpp; path = src/DataStructure/mesh.cpp; sourceTree = SOURCE_ROOT; };
 		E5ED45C11C05F95B0009BD5A /* mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mesh.h; path = src/DataStructure/mesh.h; sourceTree = SOURCE_ROOT; };
@@ -402,6 +403,8 @@
 				E547260F1BC6A78F00316B26 /* base64.h */,
 				E59FDC8C1BBAC0EE008935C5 /* helperFunctions.cpp */,
 				E59FDC8D1BBAC0EE008935C5 /* helperFunctions.h */,
+				E5DEBDC51C0B5934009F0FB4 /* opengl_common.cpp */,
+				E5DEBDC61C0B5934009F0FB4 /* opengl_common.h */,
 				E59FDC8E1BBAC0EE008935C5 /* random.cpp */,
 				E59FDC8F1BBAC0EE008935C5 /* random.h */,
 				23FEEEA31BF0B0BD00A83377 /* command.h */,
@@ -432,7 +435,6 @@
 		E5F4A3781BCFAE66000C8876 /* Data structure */ = {
 			isa = PBXGroup;
 			children = (
-				E5ED45BE1C05F95B0009BD5A /* mesh_generator.cpp */,
 				E5ED45BF1C05F95B0009BD5A /* mesh_generator.h */,
 				E5ED45C01C05F95B0009BD5A /* mesh.cpp */,
 				E5ED45C11C05F95B0009BD5A /* mesh.h */,
@@ -550,7 +552,6 @@
 				E547260A1BC6A74E00316B26 /* TCPClient.cpp in Sources */,
 				E55F88E01BEBA48C00433973 /* cMeshRenderer.cpp in Sources */,
 				E50529561BE8CDD50017400B /* RtMidi.cpp in Sources */,
-				E5ED45C21C05F95B0009BD5A /* mesh_generator.cpp in Sources */,
 				E50529511BE8CDC90017400B /* imgui_draw.cpp in Sources */,
 				E547260B1BC6A74E00316B26 /* TCPServer.cpp in Sources */,
 				E55F88E31BEBB22A00433973 /* material.cpp in Sources */,
@@ -584,6 +585,7 @@
 				E53CB22E1BECA88C004B0F58 /* FileWatcherOSX.cpp in Sources */,
 				E5ED45C31C05F95B0009BD5A /* mesh.cpp in Sources */,
 				E50529531BE8CDC90017400B /* imgui.cpp in Sources */,
+				E5DEBDC71C0B5934009F0FB4 /* opengl_common.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

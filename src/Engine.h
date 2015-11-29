@@ -31,11 +31,11 @@ class Engine
 
 
 	private:
-
-		void Update(float deltaTime);
 	
-		UpdateListener* listener;
+		void Update(float deltaTime);
+		void ImportAssets();
 		FW::FileWatcher* fileWatcher;
+		UpdateListener* listener;
 		Input* inputManager;
 	
 };

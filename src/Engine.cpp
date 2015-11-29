@@ -12,11 +12,10 @@
 #include "Components/cTransform.h"
 
 #include "DataStructure/material.h"
+#include "DataStructure/mesh_generator.h"
 
 #include "ImGUI/imgui.h"
 #include "ImGUI/imgui_impl_sdl.h"
-
-#include "IO/importer.h"
 
 #include "Modules/mInput.h"
 
@@ -32,6 +31,7 @@
 #include "texture.h"
 
 #include "Utilities/helperFunctions.h"
+#include "Utilities/random.h"
 #include "Utilities/standardIncludes.h"
 //defines runCommand
 #include "Utilities/command.h"
@@ -39,6 +39,7 @@
 Engine::Engine() :
 	inputManager(NULL),
 	listener(NULL),
+	//shadersListener(NULL),
 	fileWatcher(NULL)
 {
 }
@@ -163,8 +164,11 @@ void Engine::InitGlew()
 		std::string err( (const char*)glewGetErrorString(glewError) );
 		Terminal.Warning( std::string("Error initializing GLEW! " + err ) );
 	}
-
+	//Calling to clear Invalid enum error, glew generates it on initialization
+	glGetError();
+	
 #ifdef DEBUG
+
 	std::string glVersion( "GL version " + std::string( (const char*)glGetString(GL_VERSION) ) );
 	std::string glslVersion( "GLSL version " + std::string( (const char*)glGetString(GL_SHADING_LANGUAGE_VERSION) ) );
 	std::string majorGlew( std::string( (const char*)glewGetString(GLEW_VERSION_MAJOR) ) );
@@ -182,6 +186,7 @@ void Engine::InitGlew()
 		std::string extensions( (const char*)glGetStringi(GL_EXTENSIONS, i) );
 		Terminal.LogOpenGL( extensions );
  	}
+	
 	#endif
 #endif
 }
@@ -193,7 +198,8 @@ void Engine::Update(float deltaTime)
 	const std::vector< std::string >* list = listener->GetEvents();
 	for (std::vector<std::string>::const_iterator i = list->begin(); i != list->end(); ++i)
 	{
-		std::string msg = (std::string) * i;
+		std::string msg = (std::string) (*i);
+		std::cout << msg << std::endl;
 		LuaSystem.SendReloadCallback( msg );
 	}
 	listener->ClearEvents();
@@ -202,6 +208,42 @@ void Engine::Update(float deltaTime)
 	//It is neccesary now to poll network events from the socket
     //but it is now also necessary to reattempt connections, so probably it should not be factored out anymore
 	Terminal.Update(deltaTime);
+}
+
+void Engine::ImportAssets()
+{
+	ResourceManager& rm = ResourceManager::getInstance();
+	std::vector< std::string > meshes, images, errors;
+	meshes.push_back( "/objects/Rabbit/Rabbit.obj" );
+	meshes.push_back( "/objects/icy_snowman.obj" );
+	images.push_back( "/objects/snowman.png" );
+	images.push_back( "/objects/object_group_test/checker_1.png" );
+	images.push_back( "/objects/object_group_test/checker_2.png" );
+	
+	bool successfulImport = rm.ImportMesh( meshes, errors );
+	if (!successfulImport)
+	{
+		std::vector<std::string>::const_iterator iter = errors.begin();
+		std::vector<std::string>::const_iterator end = errors.end();
+		for ( ; iter != end; ++iter)
+		{
+			Terminal.Warning( (*iter) );
+		}
+		errors.clear();
+		Terminal.Log("Import failed", true);
+	}
+	successfulImport = rm.ImportImage( images, errors );
+	if (!successfulImport)
+	{
+		std::vector<std::string>::const_iterator iter = errors.begin();
+		std::vector<std::string>::const_iterator end = errors.end();
+		for ( ; iter != end; ++iter)
+		{
+			Terminal.Warning( (*iter) );
+		}
+		errors.clear();
+		Terminal.Log("Import failed", true);
+	}
 }
 
 void Engine::UpdateLoop()
@@ -215,34 +257,89 @@ void Engine::UpdateLoop()
 	
 /// TINAS PLAYGROUND!!!
 	
-	// IMPORTING!!!
-	
-	Importer imp;
-	bool successfulImport = imp.ImportObjFile( std::string ( "/objects/Rabbit/Rabbit.obj" ) );
-	if (!successfulImport)
-	{
-		Terminal.Log("Import failed", true);
-	}
-	imp.ImportImage( "/objects/object_group_test/checker_1.png" );
-	
-	// IMPORTING ENDS!!!
-	
+	ImportAssets();
 	
 	//  RESOURCE MANAGING !!!
 	
 	CMeshRenderer* meshRenderer = new CMeshRenderer();
+	CMeshRenderer* meshRenderer2 = new CMeshRenderer();
+	Material* mt;
 	meshRenderer->SetModel( "/objects/Rabbit/Rabbit.obj" );
+	mt = ResourceManager::getInstance().GetMaterialByName("Rabbit");
+	mt->SetDiffuseTexture("/objects/object_group_test/checker_1.png");
+	mt->SetNormalTexture("/objects/Rabbit/Rabbit_D.tga");
 	
-	Material* mat = ResourceManager::getInstance().GetMaterialByName("Rabbit");
-	mat->SetDiffuseTexture("/objects/object_group_test/checker_1.png");
+	meshRenderer2->SetModel( "/objects/icy_snowman.obj" );
+	mt = ResourceManager::getInstance().GetMaterialByName("Default");
+	mt->SetDiffuseTexture("/objects/snowman.png");
+	
+	meshRenderer2->SetMaterial(mt);
+
 	
 	// RESOURCE MANAGING ENDS!!!
 	
-	// Create Camera function
-	// Create Entity function (factory)?
+	struct Line
+	{
+		glm::vec3 start;
+		glm::vec3 end;
+		Line( glm::vec3 p0, glm::vec3 p1 ) :
+		start( p0 ),
+		end( p1 )
+		{
+		}
+	};
 	
-	// Components consist of smaller components?
+	Shader* lineShader = new Shader( std::string("/shaders/line.vert"), std::string("/shaders/line.frag") );
 	
+	std::vector<Line> lines;
+	float lineLength = 1.0f;
+	int lineAmount = 10;
+	for (int i = 0; i < lineAmount; ++i)
+	{
+		float p = (i * 0.1f);
+		// Along x axis
+		lines.push_back( Line( glm::vec3( 0.0, 0.0, p ), glm::vec3( lineLength, 0.0, p ) ) );
+		lines.push_back( Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( lineLength, p, 0.0 ) ) );
+		// Along y axis
+		lines.push_back( Line( glm::vec3( p, 0.0, 0.0 ), glm::vec3( p, lineLength, 0.0 ) ) );
+		lines.push_back( Line( glm::vec3( p, 0.0, 0.0 ), glm::vec3( p, 0.0, lineLength ) ) );
+		// Along z axis
+		lines.push_back( Line( glm::vec3( 0.0, 0.0, p ), glm::vec3( 0.0, lineLength, p ) ) );
+		lines.push_back( Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( 0.0, p, lineLength ) ) );
+	}
+	std::vector< glm::vec3 > points, colours;
+	
+	/*
+	points.push_back( glm::vec3( 0.5, 0.0, 0.0 ) );
+	colours.push_back( glm::vec3( 1.0, 0.0, 0.0 ) );
+	
+	points.push_back( glm::vec3( 0.0, 0.0, -0.5 ) );
+	colours.push_back( glm::vec3( 0.0, 1.0, 0.0 ) );
+	
+	points.push_back( glm::vec3( 1.0, 0.0, -0.5 ) );
+	colours.push_back( glm::vec3( 0.0, 0.0, 1.0 ) );
+	
+	points.push_back( glm::vec3( 0.25, 0.0, -1.0 ) );
+	colours.push_back( glm::vec3( 1.0, 1.0, 0.0 ) );
+	
+	points.push_back( glm::vec3( 0.75, 0.0, -1.0 ) );
+	colours.push_back( glm::vec3( 1.0, 0.0, 1.0 ) );
+	*/
+	std::vector< Line >::const_iterator iter = lines.begin();
+	std::vector< Line >::const_iterator end = lines.end();
+	for ( ; iter != end; ++iter)
+	{
+		float valueR = Random::Next(100) * 0.01f;
+		float valueG = Random::Next(100) * 0.01f;
+		float valueB = Random::Next(100) * 0.01f;
+		glm::vec3 c( valueR, valueG, valueB );
+		points.push_back( (*iter).start );
+		colours.push_back( c );
+		points.push_back( (*iter).end );
+		colours.push_back( c );
+	}
+	
+ 	GLuint lineVao = BufferPoints( points, colours );
 	
 	std::vector< Entity* > entityList;
 	Entity* root = new Entity("Root");
@@ -253,7 +350,7 @@ void Engine::UpdateLoop()
 	
 	Entity* box2 = new Entity( "MyLittleBox2" );
 	CTransform* t2 = Entity::GetComponent<CTransform>(box2);
-	Entity::AddComponent(box2, meshRenderer);
+	Entity::AddComponent(box2, meshRenderer2);
 	
 	root->AddChild(box);
 	box->AddChild(box2);
@@ -272,7 +369,7 @@ void Engine::UpdateLoop()
 	static bool running = true;
 
 	LuaSystem.Main();
-
+	
 	while (running)
 	{
 		//multithreaded rendering goes here if we decide to do it
@@ -285,7 +382,6 @@ void Engine::UpdateLoop()
 
 		PollEvent();
 		fileWatcher->update();
-
 
 		while (deltaTimeGame > gameUpdateInterval)
 		{
@@ -376,12 +472,15 @@ void Engine::UpdateLoop()
 
 		ImGui_ImplSdl_NewFrame(window);
 
-		glClearColor( 0.2f, 0.2f, 0.2f, 1.0f );
+		glClearColor( 0.91f, 0.91f, 0.91f, 1.0f );
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
+		
+		Renderer::RenderLines(SDL_GetTicks(), lineVao, points.size(), lineShader, camera );
+		
 		Renderer::Render( SDL_GetTicks(), camera, box );
 		Renderer::Render( SDL_GetTicks(), camera, box2 );
 		UiSystem.Render();
+		
 		SDL_GL_SwapWindow(window);
 
 		//rendering
@@ -389,8 +488,6 @@ void Engine::UpdateLoop()
 		//	//Do something with locking
 		//	render.draw(normalizedInterpolationValue)
 	}
-	
-	//TODO(Valentinas): UnBuffer data from GPU
 	CloseWindow(window, glcontext);
 }
 

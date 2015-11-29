@@ -31,6 +31,11 @@ void Material::SetDiffuseTexture( const char* name )
 	diffuseTextureId = ResourceManager::getInstance().GetImageId( name );
 }
 
+void Material::SetNormalTexture( const char* name )
+{
+	normalTextureId = ResourceManager::getInstance().GetImageId( name );
+}
+
 void Material::SetShader( Shader* s )
 {
 	shader = s;
@@ -45,8 +50,3 @@ void Material::SetUniforms()
 {
 
 }
-
-// create material uniform buffer
-//glGenBuffers(1,&(aMesh.uniformBlockIndex));
-//glBindBuffer(GL_UNIFORM_BUFFER,aMesh.uniformBlockIndex);
-//glBufferData(GL_UNIFORM_BUFFER, sizeof(aMat), (void *)(&aMat), GL_STATIC_DRAW);

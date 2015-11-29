@@ -5,6 +5,7 @@
 #include <map>
 #include "data_types.h"
 #include "../Patterns/singleton.h"
+#include "../IO/importer.h"
 
 struct ImageData
 {
@@ -29,14 +30,25 @@ class ResourceManager : public Singleton<ResourceManager>
 {
 	public:
 	
-		ResourceManager(){}
+		ResourceManager();
 		~ResourceManager();
 	
+		static unsigned int materialId;
+	
 		ModelInstance* GetModel( const char* name );
-		Material* GetMaterialByName( const char* name );
-		Material* GetMaterialById( unsigned int materialId );
-		ImageData* GetImageData( const char* name );
+		Material* GetMaterialByName( const char* name ) const;
+		Material* GetMaterialById( unsigned int materialId ) const;
+		ImageData* GetImageData( const char* name ) const;
 		unsigned int GetImageId( const char* name );
+	
+		bool ImportMesh( const char* name );
+		bool ImportImage( const char* name );
+		bool ImportShader( const char* name );
+		bool ImportAudioFile( const char* name );
+		bool ImportMesh( const std::vector<std::string>& list, std::vector< std::string >& errors );
+		bool ImportImage( const std::vector<std::string>& list, std::vector< std::string >& err_f );
+		bool ImportShader( const std::vector<std::string>& list );
+		bool ImportAudioFile( const std::vector<std::string>& list );
 	
 		bool BufferImage1D( const char* name );
 		bool BufferImage2D( const char* name );
@@ -53,14 +65,22 @@ class ResourceManager : public Singleton<ResourceManager>
 	
 	private:
 	
-		unsigned int GetMaterialId( const char* name );
+		unsigned int GetMaterialId( const char* name ) const;
 	
+		Importer imp;
+		// Mesh information
 		std::map< std::string, ModelInstance* > models;
 		std::map< std::string, Mesh* > meshes;
+		// Image information
 		std::map< std::string, ImageData* > images;
 		std::map< std::string, unsigned int > imageIds;
+		// Material information
 		std::map< unsigned int, Material* > materials;
 		std::map< std::string, unsigned int > materialIds;
+		// Shader information
+		std::map< std::string, ShaderProgram > shaderPrograms;
+		std::map< std::string, ShaderObject > shaderObjects;
+		std::map< std::string, std::string > shaderSources;
 };
 
 #endif /* resource_manager_h */

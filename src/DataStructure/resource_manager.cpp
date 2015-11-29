@@ -1,7 +1,28 @@
 #include "resource_manager.h"
+#include "../Utilities/helperFunctions.h"
+#include "../content.h"
 #include "../console.h"
 #include "texture.h"
 #include "mesh.h"
+#include "material.h"
+#include "shader.h"
+
+unsigned int ResourceManager::materialId = 0;
+
+ResourceManager::ResourceManager()
+{
+	
+	bool vertexDefault = ImportShader("shaders/default.vert");
+	bool fragmetDefault = ImportShader("shaders/default.frag");
+	if ( !(vertexDefault && fragmetDefault) )
+	{
+		Terminal.Warning("One of the default shaders were missing.");
+	}
+	Material* defaultMat = new Material();
+	defaultMat->name = "Default";
+	InsertMaterial(0, "Default", defaultMat );
+	++materialId;
+}
 
 //TODO(Valentinas): Reload meshes
 ResourceManager::~ResourceManager()
@@ -9,6 +30,9 @@ ResourceManager::~ResourceManager()
 	images.clear();
 	meshes.clear();
 	materials.clear();
+	shaderSources.clear();
+	shaderObjects.clear();
+	shaderPrograms.clear();
 }
 
 void ResourceManager::UpdateMeshBuffer()
@@ -23,6 +47,68 @@ void ResourceManager::UpdateMeshBuffer()
 		}
 	}
 }
+
+bool ResourceManager::ImportMesh( const char* name )
+{
+	return imp.ImportObjFile( name );
+}
+
+bool ResourceManager::ImportMesh( const std::vector< std::string >& files, std::vector< std::string >& err_f )
+{
+	bool final = true;
+	std::vector< std::string >::const_iterator iter = files.begin();
+	std::vector< std::string >::const_iterator end = files.end();
+	for ( ; iter != end; ++iter )
+	{
+		if ( !imp.ImportObjFile( (*iter) ) )
+		{
+			std::string error( *iter );
+			err_f.push_back( error );
+			final = false;
+		}
+	}
+	return final;
+}
+
+bool ResourceManager::ImportImage( const char* name )
+{
+	return imp.ImportImage( name );
+}
+
+bool ResourceManager::ImportImage( const std::vector< std::string >& files, std::vector< std::string >& err_f )
+{
+	bool final = true;
+	std::vector< std::string >::const_iterator iter = files.begin();
+	std::vector< std::string >::const_iterator end = files.end();
+	for ( ; iter != end; ++iter )
+	{
+		if ( !imp.ImportImage( (*iter).c_str() ) )
+		{
+			std::string error( *iter );
+			err_f.push_back( error );
+			final = false;
+		}
+	}
+	return final;
+}
+
+bool ResourceManager::ImportShader( const char *name )
+{
+	std::string path(Content::GetPath() + "/" + name);
+	if ( HelperFunctions::FileExists( path.c_str() ) )
+	{
+		std::string source = HelperFunctions::ReadFile( path );
+		shaderSources.insert( std::pair< std::string, std::string >( std::string(name), source ) );
+		return true;
+	}
+	return false;
+}
+
+bool ResourceManager::ImportShader( const std::vector<std::string>& list )
+{
+	return false;
+}
+
 
 ModelInstance* ResourceManager::GetModel( const char* name )
 {
@@ -59,18 +145,18 @@ ModelInstance* ResourceManager::GetModel( const char* name )
 	return (*iter_model).second;
 }
 
-Material* ResourceManager::GetMaterialById( unsigned int materialId )
+Material* ResourceManager::GetMaterialById( unsigned int materialId ) const
 {
 	return materials.at( materialId );
 }
 
-Material* ResourceManager::GetMaterialByName( const char* name )
+Material* ResourceManager::GetMaterialByName( const char* name ) const
 {
 	
 	return materials.at( GetMaterialId(name) );
 }
 
-unsigned int ResourceManager::GetMaterialId( const char* name )
+unsigned int ResourceManager::GetMaterialId( const char* name ) const
 {
 	std::map< std::string, unsigned int >::const_iterator iter_mtl = materialIds.find(name);
 	if ( iter_mtl == materialIds.end() )
@@ -100,7 +186,7 @@ unsigned int ResourceManager::GetImageId( const char *name )
 	return imageIds.at(name);
 }
 
-ImageData* ResourceManager::GetImageData( const char* name )
+ImageData* ResourceManager::GetImageData( const char* name ) const
 {
 	std::map< std::string, ImageData* >::const_iterator iter_image = images.find(name);
 	if ( iter_image == images.end() )
@@ -169,9 +255,13 @@ void ResourceManager::InsertMesh( const char* name, Mesh* data )
 
 void ResourceManager::InsertMaterial( unsigned int id, const char* name, Material* data )
 {
-	
-	materialIds.insert( std::pair< std::string, unsigned int >( std::string(name), id ) );
-	materials.insert( std::pair< unsigned int, Material* >( id, data ) );
+	std::map< std::string, unsigned int >::const_iterator iter_mtl = materialIds.find(name);
+
+	if ( iter_mtl == materialIds.end() )
+	{
+		materialIds.insert( std::pair< std::string, unsigned int >( std::string(name), id ) );
+		materials.insert( std::pair< unsigned int, Material* >( id, data ) );
+	}
 }
 
 void ResourceManager::InsertImage( const char* name, ImageData* data )

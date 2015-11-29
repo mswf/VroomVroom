@@ -345,11 +345,12 @@ void Engine::UpdateLoop()
 	Entity* root = new Entity("Root");
 	
 	Entity* box = new Entity( "MyLittleBox" );
-	CTransform* t = Entity::GetComponent<CTransform>(box);
+	CTransform* rabbit_transform = Entity::GetComponent<CTransform>(box);
 	Entity::AddComponent(box, meshRenderer);
 	
 	Entity* box2 = new Entity( "MyLittleBox2" );
-	CTransform* t2 = Entity::GetComponent<CTransform>(box2);
+	CTransform* snowman_transform = Entity::GetComponent<CTransform>(box2);
+	snowman_transform->SetPosition(glm::vec3(-1.0));
 	Entity::AddComponent(box2, meshRenderer2);
 	
 	root->AddChild(box);
@@ -372,11 +373,6 @@ void Engine::UpdateLoop()
 	
 	while (running)
 	{
-		//multithreaded rendering goes here if we decide to do it
-		/*if (threadedDrawingBusy)
-		continue*/
-
-		//game
 		currentTicks = SDL_GetTicks();
 		float deltaTimeGame = currentTicks - prevTicks;
 
@@ -388,6 +384,8 @@ void Engine::UpdateLoop()
 			deltaTimeGame -= gameUpdateInterval;
 
 			Update(gameUpdateInterval);
+			
+			// Scene traversal
 			root->Update();
 			
 			if (deltaTimeGame < gameUpdateInterval)
@@ -397,65 +395,21 @@ void Engine::UpdateLoop()
 					running = false;
 				}
 
-				t->Yaw(1.0f);
-				//t->SetPosition(glm::vec3(-1.0));
-				t2->Roll(1.0f);
-				t2->SetPosition(glm::vec3(-1.0));
-				//t->Rotate( glm::vec3(1.0f, 1.0f, 1.0f) );
+				rabbit_transform->Yaw(1.0f);
+				snowman_transform->Roll(1.0f);
+		
 				
 				if ( inputManager->OnKeyDown(SDLK_d) )
 				{
-					//meshRenderer->drawType = GL_LINES;
+					
 				}
 				
 				if ( inputManager->OnKeyUp(SDLK_d) )
 				{
-					//meshRenderer->drawType = GL_TRIANGLES;
+					
 				}
 				
 				/*
-				if ( inputManager->OnKeyDown(SDL_SCANCODE_UP) )
-				{
-				    translation = glm::translate(translation, glm::vec3(0.1f, 0.0f, 0.0f));
-				}
-
-				if ( inputManager->OnKeyDown(SDL_SCANCODE_DOWN) )
-				{
-				    translation = glm::translate(translation, glm::vec3(-0.1f, 0.0f, 0.0f));
-				}
-
-				if ( inputManager->OnKeyDown(SDL_SCANCODE_LEFT) )
-				{
-				    rotation = glm::rotate(rotation, glm::radians(1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
-				}
-
-				if ( inputManager->OnKeyDown(SDL_SCANCODE_RIGHT) )
-				{
-				    rotation = glm::rotate(rotation, glm::radians(-1.0f), glm::vec3(0.0f, 0.1f, 0.0f));
-				}
-
-				if ( inputManager->OnKeyDown(SDL_SCANCODE_S) )
-				{
-				    scale = glm::scale(scale, glm::vec3(1.1f, 1.1f, 1.1f));
-				}
-				if ( inputManager->OnKeyDown(SDL_SCANCODE_D) )
-				{
-				    scale = glm::scale(scale, glm::vec3(0.9f, 0.9f, 0.9f));
-				}
-
-				if ( inputManager->OnKeyDown(SDL_SCANCODE_1) )
-				{
-					printf( "Pressed key %i \n", SDL_SCANCODE_1 );
-				}
-				if ( inputManager->OnKeyUp(SDL_SCANCODE_1) )
-				{
-					printf( "Released key %i \n", SDL_SCANCODE_1 );
-				}
-				if ( inputManager->OnKey(SDL_SCANCODE_2) )
-				{
-					printf( "Holding key %i \n", SDL_SCANCODE_2 );
-				}
-
 				if ( inputManager->OnMouseDown(SDL_BUTTON_LEFT) )
 				{
 					printf( "Pressed left mouse button at x:%i y:%i \n", inputManager->GetMousePosition().x, inputManager->GetMousePosition().y);
@@ -475,7 +429,7 @@ void Engine::UpdateLoop()
 		glClearColor( 0.91f, 0.91f, 0.91f, 1.0f );
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 		
-		Renderer::RenderLines(SDL_GetTicks(), lineVao, points.size(), lineShader, camera );
+		Renderer::RenderLines(SDL_GetTicks(), lineVao, (unsigned int)points.size(), lineShader, camera );
 		
 		Renderer::Render( SDL_GetTicks(), camera, box );
 		Renderer::Render( SDL_GetTicks(), camera, box2 );
@@ -498,7 +452,7 @@ void Engine::InitSDL()
 		printf("Error: %s\n", SDL_GetError());
 		assert(false);
 	}
-	//Terminal.Log("Initializing: SDL_TIMER, SDL_VIDEO, SDL_EVENTS");
+	printf("Initialized: SDL_TIMER, SDL_VIDEO, SDL_EVENTS");
 }
 
 void Engine::InitSDLNet()

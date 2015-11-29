@@ -21,7 +21,7 @@ struct ShaderProgram
 {
 	unsigned int program;
 	// Create by the number of shader objects & clean up when finished
-	ShaderObject* shaders;
+	std::vector< ShaderObject* > shaders;
 	bool separate;
 };
 

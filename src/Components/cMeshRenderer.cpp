@@ -27,6 +27,11 @@ void CMeshRenderer::SetModel( const char* name )
 	}
 }
 
+const ModelInstance* CMeshRenderer::GetModelInstace() const
+{
+	return model;
+}
+
 void CMeshRenderer::SetMaterial( const char* name )
 {
 	material = ResourceManager::getInstance().GetMaterialByName( name );
@@ -35,6 +40,11 @@ void CMeshRenderer::SetMaterial( const char* name )
 void CMeshRenderer::SetMaterial( Material* mtl )
 {
 	material = mtl;
+}
+
+const Material* CMeshRenderer::GetMaterial() const
+{
+	return material;
 }
 
 void CMeshRenderer::GetUniformValues()

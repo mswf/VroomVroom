@@ -19,16 +19,13 @@ class CMeshRenderer : public Component
 		void SetMaterial( Material* mtl );
 	
 		void GetUniformValues();
-		//void Buffer( const Mesh* m, ModelInstance* instance );
-		//void UnBuffer();
-		ModelInstance* model;
-		Material* material;
-		
+		const ModelInstance* GetModelInstace() const;
+		const Material* GetMaterial() const;
 	
 	private:
 	
-		//Material* material;
-		//ModelInstance* model;
+		Material* material;
+		ModelInstance* model;
 };
 
 #endif /* cMeshRenderer_h */

@@ -1,14 +1,8 @@
-//
-//  opengl_common.hpp
-//  VroomVroom
-//
-//  Created by Valentinas Rimeika on 29/11/15.
-//  Copyright © 2015 Valentinas Rimeika. All rights reserved.
-//
+#ifndef opengl_common_h
+#define opengl_common_h
 
-#ifndef opengl_common_hpp
-#define opengl_common_hpp
+#include "glew.h"
 
-#include <stdio.h>
+void CheckGlError( const char* caller );
 
-#endif /* opengl_common_hpp */
+#endif /* opengl_common_h */

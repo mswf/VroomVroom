@@ -2,8 +2,28 @@
 #define data_types_h
 
 #include <vector>
+#include <map>
 #include "../glm/vec2.hpp"
 #include "../glm/vec3.hpp"
+
+struct ShaderObject
+{
+	unsigned int shader;
+	unsigned int shaderType;
+	// Create by the number of subroutine uniforms & clean up when finished
+	unsigned int* subroutines;
+	unsigned int numSubroutines;
+	bool updateProgram;
+	std::map< std::string, unsigned int > locations;
+};
+
+struct ShaderProgram
+{
+	unsigned int program;
+	// Create by the number of shader objects & clean up when finished
+	ShaderObject* shaders;
+	bool separate;
+};
 
 struct Mesh
 {
@@ -39,11 +59,6 @@ struct ModelInstance
 	unsigned int vbo;
 	unsigned int numIndices;
 	unsigned int indiceBuffer;
-	//unsigned int normalBuffer;
-	//unsigned int vertexBuffer;
-	//unsigned int uvBuffer;
-	//unsigned int tangentBuffer;
-	//unsigned int bitangentBuffer;
 	unsigned int materialId;
 	ModelInstance():
 		vao(0),

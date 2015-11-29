@@ -17,7 +17,7 @@ class Material
 		unsigned int normalTextureId;
 	
 		void SetShader( Shader* shader );
-		void UseMaterial();
+		void UseMaterial() const;
 		void SetDiffuseTexture( const char* image );
 		void SetSpecularTexture( const char* image );
 		void SetNormalTexture( const char* image );

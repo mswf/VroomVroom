@@ -41,7 +41,7 @@ void Material::SetShader( Shader* s )
 	shader = s;
 }
 
-void Material::UseMaterial()
+void Material::UseMaterial() const
 {
 	shader->UseProgram();
 }

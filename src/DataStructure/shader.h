@@ -2,53 +2,80 @@
 #define shader_h
 
 #include <glew.h>
-#include <iostream>
 #include <string>
+#include <map>
 #include "../glm/vec2.hpp"
 #include "../glm/vec3.hpp"
 #include "../glm/mat4x4.hpp"
 #include "../glm/gtc/type_ptr.hpp"
+#include "data_types.h"
 
-enum class ShaderType
+enum class GLSLShaderType
 {
 	VERTEX,
 	GEOMETRY,
-	FRAGMENT
+	FRAGMENT,
+	TESS_CONTROL,
+	TESS_EVALUATION
 };
 
 class Shader
 {
 	public:
+	
 		GLuint program;
-	public:
+	
 		Shader();
+		Shader( std::string vertex, std::string fragment );
+	
 		~Shader();
 		void UseProgram();
-		GLuint CreateShader( ShaderType shaderType, const char* source );
+		void UseProgramStages( GLuint pPipeline, GLSLShaderType shaderType, GLuint program );
+		GLuint CreateShader( GLSLShaderType shaderType, const char* source );
 	
 		template<typename... Targs>
 		GLuint CreateProgram( Targs... shaders );
+		GLuint CreateSeparateProgram( GLenum shaderObject );
 	
 		void DeleteProgram( GLuint program );
 		void DeleteShaderObject( GLuint shader );
 		void DetachShader( GLuint program, GLuint shader );
 		void AttachShader( GLuint program, GLuint shader );
-	
-		void SetUniformInt( const char* uniform, int value );
-		void SetUniformFloat( const char* uniform, float value );
-		void SetUniformFloat2( const char* uniform, glm::vec2 value );
-		void SetUniformFloat3( const char* uniform, glm::vec3 value );
-		void SetUniformMat3( const char* uniform, glm::mat3 value );
-		void SetUniformMat4( const char* uniform, glm::mat4 value );
+		void LinkProgram( GLuint program );
 		bool ValidateProgram( GLuint shaderProgram );
+		bool IsShader( GLuint shader );
+		bool IsProgram( GLuint program );
+	
+		void SetUniform( const char* name, int val );
+		void SetUniform( const char* name, unsigned int val );
+		void SetUniform( const char* name, float val );
+		void SetUniform( const char* name, double val );
+		void SetUniform( const char* name, const glm::vec2& vec );
+		void SetUniform( const char* name, const glm::vec3& vec );
+		void SetUniform( const char* name, const glm::vec4& vec );
+		void SetUniform( const char* name, const glm::ivec2& vec );
+		void SetUniform( const char* name, const glm::ivec3& vec );
+		void SetUniform( const char* name, const glm::ivec4& vec );
+		void SetUniform( const char* name, const glm::uvec2& vec );
+		void SetUniform( const char* name, const glm::uvec3& vec );
+		void SetUniform( const char* name, const glm::uvec4& vec );
+		void SetUniform( const char* name, const glm::mat2& mat );
+		void SetUniform( const char* name, const glm::mat3& mat );
+		void SetUniform( const char* name, const glm::mat4& mat );
+	
+		void SetActiveSubroutine( GLuint program, ShaderObject shader, const char* uniform, const char* routine );
 	
 		void LogActiveAttributes( GLuint program );
 		void LogActiveUniforms( GLuint program );
-		
-		void CheckGlError( const char* caller );
-		GLenum GetGLShaderEnum( ShaderType type );
-	private:
-		void LoadDefault( std::string& vs, std::string& fs );
+		void LogActiveSubroutines( GLuint shaderProgram, GLenum shaderType );
+	
+	
+private:
+	
+		unsigned int GetSubroutineUniformLocation( const char* name, const std::map< std::string, unsigned int >& locations );
+		void SetSubroutineUniformLocations( GLuint program, ShaderObject& shader );
+	
+		GLenum GetGLShaderEnum( GLSLShaderType type, bool separate = false );
 		bool ProgramInfoLog( GLuint program, GLenum status );
 		bool ShaderInfoLog( GLuint shader, GLenum status );
 	

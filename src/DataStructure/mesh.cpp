@@ -68,6 +68,34 @@ void BufferMesh( const Mesh* m, ModelInstance* instance )
 	
 }
 
+GLuint BufferPoints( const std::vector< glm::vec3 >& points, const std::vector< glm::vec3 >& colours )
+{
+	GLuint vao;
+	GLuint vbo;
+	unsigned long bufferSize = sizeof(glm::vec3) * points.size() + sizeof(glm::vec3) * colours.size();
+	glGenVertexArrays( 1, &vao );
+	glBindVertexArray( vao );
+	
+	glGenBuffers( 1, &vbo );
+	glBindBuffer( GL_ARRAY_BUFFER, vbo );
+	glBufferData( GL_ARRAY_BUFFER, bufferSize, NULL, GL_STATIC_DRAW);
+	
+	// Buffer vertices
+	glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(glm::vec3) * points.size(), &points.front() );
+	glEnableVertexAttribArray( 0 );
+	glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 0, 0 );
+	
+	// Buffer colours
+	glBufferSubData( GL_ARRAY_BUFFER, sizeof(glm::vec3) * points.size(), sizeof(glm::vec3) * colours.size(), &colours.front() );
+	glEnableVertexAttribArray( 1 );
+	glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(glm::vec3) * points.size()) );
+
+	glBindVertexArray( 0 );
+	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+	
+	return vao;
+}
+
 void UnBuffer( ModelInstance* instance )
 {
 	glDeleteVertexArrays( 1, &instance->vao );

@@ -55,17 +55,17 @@ bool Importer::ImportObjFile( const std::string &pFile, bool importTextures )
 	
 	for ( n = 0; n < scene->mNumMeshes; ++n )
 	{
+		// Mesh
 		const aiMesh* m = scene->mMeshes[n];
 		Mesh* mesh = new Mesh();
-		Material* material = new Material();
-		
 		imp_->ExtractMesh(m, mesh);
-		unsigned int mtlId = m->mMaterialIndex;
-		mesh->materialId = mtlId;
-		
-		if ( scene->HasMaterials() )
+		mesh->materialId = 0;
+		// Material
+		// THIS CHECK IS A HACK AND SHOULD BE FIXED, ASSIMP ALWAYS HAS MATERIAL!
+		if ( scene->HasMaterials() && scene->mMaterials[0]->mNumProperties > 9 )
 		{
-			aiMaterial *mtl = scene->mMaterials[ mtlId ];
+			aiMaterial *mtl = scene->mMaterials[ m->mMaterialIndex ];
+			Material* material = new Material();
 			std::vector< std::string > textures;
 			imp_->ExtractMaterial( mtl, material, &textures );
 			
@@ -78,8 +78,9 @@ bool Importer::ImportObjFile( const std::string &pFile, bool importTextures )
 					ImportImage( (*iter).c_str() );
 				}
 			}
+			mesh->materialId = ResourceManager::materialId++;
+			rm.InsertMaterial( mesh->materialId, material->name.c_str(), material );
 		}
-		rm.InsertMaterial( mtlId, material->name.c_str(), material );
 		rm.InsertMesh( pFile.c_str(), mesh);
 	}
 	return true;

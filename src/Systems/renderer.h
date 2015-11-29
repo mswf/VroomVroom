@@ -32,6 +32,7 @@ namespace Renderer
     };
     
 	void Render( glm::uint32 time, Entity* camera, Entity* mesh );
+	void RenderLines( glm::uint32 time, unsigned int vao, unsigned int count, Shader* program, Entity* camera );
 }
 
 #endif /* renderer_h */

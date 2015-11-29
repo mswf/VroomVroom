@@ -42,12 +42,14 @@ void BindTexture( GLenum textureUnit, GLenum target, GLuint program )
 	glBindTexture( target, program );
 }
 
-void UnbindTexture()
+// TODO(Valentinas): I should check whether the glBindTexture to zero after drawing is necessary
+
+void UnbindTexture( GLenum target )
 {
-	glBindTexture(GL_ACTIVE_TEXTURE, 0);
+	glBindTexture( target, 0 );
 }
 
 void DeleteTexture( GLuint textureId )
 {
-	glDeleteTextures(1, &textureId);
+	glDeleteTextures( 1, &textureId );
 }

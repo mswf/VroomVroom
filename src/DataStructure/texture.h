@@ -6,14 +6,17 @@
 #include <vector>
 
 // TODO(Valentinas): Add possibility to allocate or deallocate multiple textures in one go
+// TODO(Valentinas): Buffer Cube/Environmnet & Skybox maps
 // TODO(Valentinas): Support odd texture dimensions
+
+GLuint BufferTexture3D( GLint levelOfDetail, GLint internalFormat, GLint width, GLint height, GLint depth, GLint pixelFormat, GLenum type, unsigned char* data, const std::vector< std::pair< GLenum, GLint > >* textureParameters, bool generateMipMap = false );
 
 GLuint BufferTexture2D( GLint levelOfDetail, GLint internalFormat, GLint width, GLint height, GLint pixelFormat, GLenum type, unsigned char* data, const std::vector< std::pair< GLenum, GLint > >* textureParameters, bool generateMipMap = false );
 
 GLuint BufferTexture1D( GLint levelOfDetail, GLint internalFormat, GLint width, GLint pixelFormat, GLenum type, GLvoid* data, const std::vector< std::pair< GLenum, GLint > >* textureParameters, bool generateMipMap = false );
 
 void BindTexture( GLenum textureUnit, GLenum target, GLuint program );
-void UnbindTexture();
+void UnbindTexture( GLenum target );
 
 void DeleteTexture( GLuint textureId );
 

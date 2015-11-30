@@ -20,7 +20,7 @@ void Render( glm::uint32 time, Entity* camera, Entity* object )
 	//CTransform* trans = Entity::GetComponent<CTransform>(object);
 	CCamera* cam =		Entity::GetComponent<CCamera>(camera);
 	const Material* mtl = Entity::GetComponent<CMeshRenderer>(object)->GetMaterial();
-	Shader* s = mtl->shader;
+	unsigned int program = mtl->shader->program;
 
 	// RENDERER MODE FOR RENDERING POINTS
 	//glEnable(GL_PROGRAM_POINT_SIZE);
@@ -56,23 +56,23 @@ void Render( glm::uint32 time, Entity* camera, Entity* object )
 	//glUniformSubroutinesuiv( GL_FRAGMENT_SHADER, 1, &index1 );
 	//glUniformSubroutinesuiv( GL_FRAGMENT_SHADER, 0, &index2 );
 	
-	//s->SetActiveSubroutine( s->program, GL_FRAGMENT_SHADER, "ShadeModelType", "phongModel");
-	//s->SetActiveSubroutine( s->program, GL_FRAGMENT_SHADER, "myMode", "modeRed");
+	//SetActiveSubroutine( program, *mtl->shader->shaders[1], "ShadeModelType", "phongModel");
+	//SetActiveSubroutine( program, *mtl->shader->shaders[1], "myMode", "modeRed");
 	//s->SetSubroutineUniform( s->program, GL_FRAGMENT_SHADER, 2, "colorModel");
 	
-	s->SetUniform( 	"model", 		object->worldTransform );
-	s->SetUniform( 	"view", 		cam->GetViewMatrix() );
-	s->SetUniform( 	"normalMatrix", normalMatrix );
-	s->SetUniform( 	"mvMatrix", 	mvMatrix );
-	s->SetUniform( 	"projection", 	cam->GetProjectionMatrix() );
-	s->SetUniform( 	"time", 		(float)time );
-	s->SetUniform( 	"lightPos", 	lightPosition);
+	SetUniform( program,	"model", 		object->worldTransform );
+	SetUniform( program,	"view", 		cam->GetViewMatrix() );
+	SetUniform( program,	"normalMatrix", normalMatrix );
+	SetUniform( program,	"mvMatrix", 	mvMatrix );
+	SetUniform( program,	"projection", 	cam->GetProjectionMatrix() );
+	SetUniform( program,	"time", 		(float)time );
+	SetUniform( program,	"lightPos", 	lightPosition);
 
 	BindTexture( GL_TEXTURE0, GL_TEXTURE_2D, mtl->diffuseTextureId);
-	s->SetUniform( "colorMap", 0 );
+	SetUniform( program, "colorMap", 0 );
 	
 	BindTexture( GL_TEXTURE1, GL_TEXTURE_2D, mtl->normalTextureId);
-	s->SetUniform( "normalMap", 1 );
+	SetUniform( program, "normalMap", 1 );
 
 	glDrawElements( GL_TRIANGLES, m->numIndices, GL_UNSIGNED_INT, (void*)0 );
 	
@@ -84,31 +84,52 @@ void Render( glm::uint32 time, Entity* camera, Entity* object )
 	glUseProgram(0);
 }
 
-	void RenderLines( glm::uint32 time, unsigned int vao, unsigned int count, Shader* s, Entity* camera )
-	{
-		CCamera* cam =		Entity::GetComponent<CCamera>(camera);
-		
-		glLineWidth(1.0f);
-		glEnable(GL_LINE_SMOOTH);
-		glPointSize(5.0f);
-		
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL );
-		
-		glBindVertexArray(vao);
-		
-		glUseProgram(s->program);
-		
-		s->SetUniform( 	"model", 		glm::mat4(1) );
-		s->SetUniform( 	"view", 		cam->GetViewMatrix() );
-		s->SetUniform( 	"projection", 	cam->GetProjectionMatrix() );
-		s->SetUniform( 	"time", 		(float)time );
-		
-		glDrawArrays( GL_LINES, 0, count);
-		glDrawArrays( GL_POINTS, 0, count);
-		
-		glUseProgram(0);
-		
-		glBindVertexArray( 0 );
-	}
+void RenderLines( glm::uint32 time, unsigned int vao, unsigned int count, ShaderProgram* program, Entity* camera )
+{
+	CCamera* cam = Entity::GetComponent<CCamera>(camera);
+	
+	glLineWidth(1.0f);
+	glEnable(GL_LINE_SMOOTH);
+	glPointSize(5.0f);
+	
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL );
+	
+	glBindVertexArray(vao);
+	
+	glUseProgram(program->program);
+	
+	SetUniform( program->program,	"model", 		glm::mat4(1) );
+	SetUniform( program->program,	"view", 		cam->GetViewMatrix() );
+	SetUniform( program->program,	"projection", 	cam->GetProjectionMatrix() );
+	SetUniform( program->program,	"time", 		(float)time );
+	
+	glDrawArrays( GL_LINES, 0, count);
+	glDrawArrays( GL_POINTS, 0, count);
+	
+	glUseProgram(0);
+	
+	glBindVertexArray( 0 );
+}
+
+void RenderCube( ModelInstance* cube, unsigned int cubeMap, ShaderProgram* program, Entity* camera )
+{
+	CCamera* cam = Entity::GetComponent<CCamera>(camera);
+	
+	glDepthMask (GL_FALSE);
+	
+	glUseProgram(program->program);
+	
+	SetUniform( program->program,	"view", 		cam->GetViewMatrix() );
+	SetUniform( program->program,	"projection", 	cam->GetProjectionMatrix() );
+	
+	glActiveTexture (GL_TEXTURE0);
+	glBindTexture (GL_TEXTURE_CUBE_MAP, cubeMap);
+	SetUniform( program->program, "cube_texture", 0 );
+	
+	glBindVertexArray (cube->vao);
+	glDrawArrays (GL_TRIANGLES, 0, cube->numIndices);
+	
+	glDepthMask (GL_TRUE);
+}
 	
 } // NAMESPACE END

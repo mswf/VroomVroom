@@ -36,6 +36,19 @@ GLuint BufferTexture1D( GLint levelOfDetail, GLint internalFormat, GLint width, 
 	return textureId;
 }
 
+void BufferTextureCubeMap( GLuint mapId, GLenum sideTarget, GLint levelOfDetail, GLint internalFormat, GLint width, GLint height, GLint pixelFormat, GLenum type, unsigned char* data, const std::vector< std::pair< GLenum, GLint > >* textureParameters )
+{
+	glBindTexture( GL_TEXTURE_CUBE_MAP, mapId );
+	
+	std::vector< std::pair< GLenum, GLint > >::const_iterator iter = textureParameters->begin();
+	std::vector< std::pair< GLenum, GLint > >::const_iterator end = textureParameters->end();
+	for ( ; iter != end; ++iter )
+	{
+		glTexParameteri( GL_TEXTURE_CUBE_MAP, (*iter).first, (*iter).second );
+	}
+	glTexImage2D( sideTarget, levelOfDetail, internalFormat, width, height, 0, pixelFormat, type, (GLvoid*)data );
+}
+
 void BindTexture( GLenum textureUnit, GLenum target, GLuint program )
 {
 	glActiveTexture( textureUnit );
@@ -43,7 +56,6 @@ void BindTexture( GLenum textureUnit, GLenum target, GLuint program )
 }
 
 // TODO(Valentinas): I should check whether the glBindTexture to zero after drawing is necessary
-
 void UnbindTexture( GLenum target )
 {
 	glBindTexture( target, 0 );

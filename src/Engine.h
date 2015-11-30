@@ -38,6 +38,8 @@ class Engine
 		UpdateListener* listener;
 		Input* inputManager;
 	
+		unsigned int skybox_map;
+	
 };
 
 #endif

@@ -29,6 +29,7 @@
 
 #include "mesh.h"
 #include "texture.h"
+#include "shader.h"
 
 #include "Utilities/helperFunctions.h"
 #include "Utilities/random.h"
@@ -213,12 +214,28 @@ void Engine::Update(float deltaTime)
 void Engine::ImportAssets()
 {
 	ResourceManager& rm = ResourceManager::getInstance();
-	std::vector< std::string > meshes, images, errors;
+	rm.Initialize();
+	std::vector< std::string > meshes, images, cube_map, errors;
+	std::vector< std::pair< std::string, GLSLShaderType > > shaders;
 	meshes.push_back( "/objects/Rabbit/Rabbit.obj" );
 	meshes.push_back( "/objects/icy_snowman.obj" );
 	images.push_back( "/objects/snowman.png" );
 	images.push_back( "/objects/object_group_test/checker_1.png" );
 	images.push_back( "/objects/object_group_test/checker_2.png" );
+	
+	// Cube map
+	cube_map.push_back( "/images/LancellottiChapel/negx.jpg" );
+	cube_map.push_back( "/images/LancellottiChapel/negy.jpg" );
+	cube_map.push_back( "/images/LancellottiChapel/negz.jpg" );
+	cube_map.push_back( "/images/LancellottiChapel/posx.jpg" );
+	cube_map.push_back( "/images/LancellottiChapel/posy.jpg" );
+	cube_map.push_back( "/images/LancellottiChapel/posz.jpg" );
+	
+	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/line.vert", GLSLShaderType::VERTEX) );
+	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/line.frag", GLSLShaderType::FRAGMENT) );
+	
+	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/skybox.vert", GLSLShaderType::VERTEX) );
+	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/skybox.frag", GLSLShaderType::FRAGMENT) );
 	
 	bool successfulImport = rm.ImportMesh( meshes, errors );
 	if (!successfulImport)
@@ -244,6 +261,43 @@ void Engine::ImportAssets()
 		errors.clear();
 		Terminal.Log("Import failed", true);
 	}
+	
+	successfulImport = rm.ImportImage( cube_map, errors, false );
+	if (!successfulImport)
+	{
+		std::vector<std::string>::const_iterator iter = errors.begin();
+		std::vector<std::string>::const_iterator end = errors.end();
+		for ( ; iter != end; ++iter)
+		{
+			Terminal.Warning( (*iter) );
+		}
+		errors.clear();
+		Terminal.Log("Import failed", true);
+	}
+
+	
+	successfulImport = rm.ImportShader( shaders, errors );
+	if (!successfulImport)
+	{
+		std::vector<std::string>::const_iterator iter = errors.begin();
+		std::vector<std::string>::const_iterator end = errors.end();
+		for ( ; iter != end; ++iter)
+		{
+			Terminal.Warning( (*iter) );
+		}
+		errors.clear();
+		Terminal.Log("Import failed", true);
+	}
+	int width, height;
+	width = height = rm.GetImageData("/images/LancellottiChapel/negx.jpg")->width;
+	std::vector< std::pair< unsigned char*, unsigned int > > textures;
+	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("/images/LancellottiChapel/negx.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_X ) );
+	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("/images/LancellottiChapel/negy.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y ) );
+	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("/images/LancellottiChapel/negz.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z ) );
+	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("/images/LancellottiChapel/posx.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_X ) );
+	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("/images/LancellottiChapel/posy.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Y ) );
+	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("/images/LancellottiChapel/posz.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Z ) );
+	skybox_map = rm.CreateCubeMap(&textures, width, height);
 }
 
 void Engine::UpdateLoop()
@@ -278,6 +332,15 @@ void Engine::UpdateLoop()
 	
 	// RESOURCE MANAGING ENDS!!!
 	
+	ModelInstance* skybox = EnvironmentCube();
+	
+	ShaderProgram* skyboxProgram = new ShaderProgram();
+	ResourceManager::getInstance().InsertShaderProgram( "skybox", skyboxProgram);
+	skyboxProgram->shaders.push_back( ResourceManager::getInstance().GetShaderObject("shaders/skybox.vert") );
+	skyboxProgram->shaders.push_back( ResourceManager::getInstance().GetShaderObject("shaders/skybox.frag") );
+	GLuint sky_shaders[2] = { skyboxProgram->shaders[0]->shader, skyboxProgram->shaders[1]->shader };
+	CreateProgram(skyboxProgram->program, sky_shaders, 2);
+
 	struct Line
 	{
 		glm::vec3 start;
@@ -289,12 +352,17 @@ void Engine::UpdateLoop()
 		}
 	};
 	
-	Shader* lineShader = new Shader( std::string("/shaders/line.vert"), std::string("/shaders/line.frag") );
+	ShaderProgram* lineProgram = new ShaderProgram();
+	ResourceManager::getInstance().InsertShaderProgram( "line", lineProgram);
+	lineProgram->shaders.push_back( ResourceManager::getInstance().GetShaderObject("shaders/line.vert") );
+	lineProgram->shaders.push_back( ResourceManager::getInstance().GetShaderObject("shaders/line.frag") );
+	GLuint shaders[2] = { lineProgram->shaders[0]->shader, lineProgram->shaders[1]->shader };
+	CreateProgram(lineProgram->program, shaders, 2);
 	
 	std::vector<Line> lines;
 	float lineLength = 1.0f;
 	int lineAmount = 10;
-	for (int i = 0; i < lineAmount; ++i)
+	for (int i = 0; i < lineAmount + 1; ++i)
 	{
 		float p = (i * 0.1f);
 		// Along x axis
@@ -429,7 +497,8 @@ void Engine::UpdateLoop()
 		glClearColor( 0.91f, 0.91f, 0.91f, 1.0f );
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 		
-		Renderer::RenderLines(SDL_GetTicks(), lineVao, (unsigned int)points.size(), lineShader, camera );
+		Renderer::RenderCube( skybox, skybox_map, skyboxProgram, camera);
+		Renderer::RenderLines(SDL_GetTicks(), lineVao, (unsigned int)points.size(), lineProgram, camera );
 		
 		Renderer::Render( SDL_GetTicks(), camera, box );
 		Renderer::Render( SDL_GetTicks(), camera, box2 );
@@ -452,7 +521,7 @@ void Engine::InitSDL()
 		printf("Error: %s\n", SDL_GetError());
 		assert(false);
 	}
-	printf("Initialized: SDL_TIMER, SDL_VIDEO, SDL_EVENTS");
+	printf("Initialized: SDL_TIMER, SDL_VIDEO, SDL_EVENTS\n");
 }
 
 void Engine::InitSDLNet()

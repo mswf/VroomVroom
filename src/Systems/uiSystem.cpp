@@ -748,9 +748,9 @@ uint8 sUiSystem::GetNextFreeId()
 
 void sUiSystem::FreeId(uint8 id)
 {
-	if(idMap[idIndex] == true)
+	if(idMap[id] == true)
 	{
-		idMap[idIndex] = false;
+		idMap[id] = false;
 	}
 	else
 	{

@@ -2,68 +2,6 @@
 #define mesh_generator_h
 
 #include "data_types.h"
-/*
- const Mesh* CreateTriangleMesh()
- {
-	Mesh triangleMesh;
-	
-	triangleMesh.vertices.push_back(glm::vec3( 0.0f, 0.0f, 0.0f ));
-	triangleMesh.vertices.push_back(glm::vec3( 0.5f, 0.0f, 0.0f ));
-	triangleMesh.vertices.push_back(glm::vec3( 0.25f, 0.5f, 0.0f ));
-	
-	triangleMesh.uvs.push_back(glm::vec2( 0.0f, 0.0f ));
-	triangleMesh.uvs.push_back(glm::vec2( 1.0f, 0.0f ));
-	triangleMesh.uvs.push_back(glm::vec2( 0.5f, 1.0f ));
-	triangleMesh.hasUVs = true;
-	
-	triangleMesh.normals.push_back(glm::vec3( 0.0f, 1.0f, 0.0f ));
-	triangleMesh.normals.push_back(glm::vec3( 0.0f, 1.0f, 0.0f ));
-	triangleMesh.normals.push_back(glm::vec3( 0.0f, 1.0f, 0.0f ));
-	triangleMesh.hasNormals = true;
-	
-	triangleMesh.indices.push_back(0);
-	triangleMesh.indices.push_back(1);
-	triangleMesh.indices.push_back(2);
-	triangleMesh.numIndices = 3;
-	
-	meshes.push_back( triangleMesh );
-	
-	return &meshes.back();
- }
- 
- const Mesh* CreateTetrahedronMesh()
- {
-	Mesh* tetrahedronMesh = new Mesh();
-	
-	// VERTICES
-	tetrahedronMesh->vertices.push_back( glm::vec3( 0.0f, 0.0f, 0.0f ) );
-	tetrahedronMesh->vertices.push_back( glm::vec3( 1.0f, 0.0f, 0.0f ) );
-	tetrahedronMesh->vertices.push_back( glm::vec3( 0.0f, 1.0f, 0.0f ) );
-	tetrahedronMesh->vertices.push_back( glm::vec3( 0.0f, 0.0f, 1.0f ) );
-	
-	// INDICES
-	const int indiceCount = 12;
-	const unsigned int indiceArray[indiceCount] =
-	{
- 1,3,2,
- 1,4,3,
- 1,2,4,
- 2,3,4
-	};
-	
-	int i;
-	for ( i = 0; i < indiceCount; ++i )
-	{
- tetrahedronMesh->indices.push_back( indiceArray[i] );
-	}
-	tetrahedronMesh->numIndices = indiceCount;
-	
- #warning NO CACHING MESH IN GENERATOR
-	//meshes.push_back( tetrahedronMesh );
-	
-	return &meshes.back();
- }
- */
 
 /*
      0		  3
@@ -116,7 +54,70 @@ void CreateCube( Mesh* mesh, const float offset = 0.0f )
 	mesh->numIndices = indiceCount;
 }
 
+ModelInstance* EnvironmentCube()
+{
+	ModelInstance* instance = new ModelInstance();
+	float points[] =
+	{
+		-10.0f,  10.0f, -10.0f,
+		-10.0f, -10.0f, -10.0f,
+		10.0f, -10.0f, -10.0f,
+		10.0f, -10.0f, -10.0f,
+		10.0f,  10.0f, -10.0f,
+		-10.0f,  10.0f, -10.0f,
 
+		-10.0f, -10.0f,  10.0f,
+		-10.0f, -10.0f, -10.0f,
+		-10.0f,  10.0f, -10.0f,
+		-10.0f,  10.0f, -10.0f,
+		-10.0f,  10.0f,  10.0f,
+		-10.0f, -10.0f,  10.0f,
 
+		10.0f, -10.0f, -10.0f,
+		10.0f, -10.0f,  10.0f,
+		10.0f,  10.0f,  10.0f,
+		10.0f,  10.0f,  10.0f,
+		10.0f,  10.0f, -10.0f,
+		10.0f, -10.0f, -10.0f,
+
+		-10.0f, -10.0f,  10.0f,
+		-10.0f,  10.0f,  10.0f,
+		10.0f,  10.0f,  10.0f,
+		10.0f,  10.0f,  10.0f,
+		10.0f, -10.0f,  10.0f,
+		-10.0f, -10.0f,  10.0f,
+
+		-10.0f,  10.0f, -10.0f,
+		10.0f,  10.0f, -10.0f,
+		10.0f,  10.0f,  10.0f,
+		10.0f,  10.0f,  10.0f,
+		-10.0f,  10.0f,  10.0f,
+		-10.0f,  10.0f, -10.0f,
+
+		-10.0f, -10.0f, -10.0f,
+		-10.0f, -10.0f,  10.0f,
+		10.0f, -10.0f, -10.0f,
+		10.0f, -10.0f, -10.0f,
+		-10.0f, -10.0f,  10.0f,
+		10.0f, -10.0f,  10.0f
+	};
+	
+	GLuint vbo;
+	glGenBuffers (1, &vbo);
+	glBindBuffer (GL_ARRAY_BUFFER, vbo);
+	glBufferData (GL_ARRAY_BUFFER, 3 * 36 * sizeof (float), &points, GL_STATIC_DRAW);
+	
+	GLuint vao;
+	glGenVertexArrays (1, &vao);
+	glBindVertexArray (vao);
+	glEnableVertexAttribArray (0);
+	glBindBuffer (GL_ARRAY_BUFFER, vbo);
+	glVertexAttribPointer (0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	
+	instance->vao = vao;
+	instance->vbo = vbo;
+	instance->numIndices = 36;
+	return instance;
+}
 
 #endif /* mesh_generator_h */

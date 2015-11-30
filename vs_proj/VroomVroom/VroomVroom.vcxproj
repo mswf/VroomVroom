@@ -190,7 +190,10 @@
     <ClInclude Include="..\..\src\Modules\mEntity.h" />
     <ClInclude Include="..\..\src\Modules\mInput.h" />
     <ClInclude Include="..\..\src\Modules\mLog.h" />
+    <ClInclude Include="..\..\src\Modules\mMaterial.h" />
+    <ClInclude Include="..\..\src\Modules\mModel.h" />
     <ClInclude Include="..\..\src\Modules\moduleMacros.h" />
+    <ClInclude Include="..\..\src\Modules\mShader.h" />
     <ClInclude Include="..\..\src\Modules\mUi.h" />
     <ClInclude Include="..\..\src\Networking\TCPClient.h" />
     <ClInclude Include="..\..\src\Networking\TCPData.h" />
@@ -245,6 +248,9 @@
     <ClCompile Include="..\..\src\Modules\mEntity.cpp" />
     <ClCompile Include="..\..\src\Modules\mInput.cpp" />
     <ClCompile Include="..\..\src\Modules\mLog.cpp" />
+    <ClCompile Include="..\..\src\Modules\mMaterial.cpp" />
+    <ClCompile Include="..\..\src\Modules\mModel.cpp" />
+    <ClCompile Include="..\..\src\Modules\mShader.cpp" />
     <ClCompile Include="..\..\src\Modules\mUi.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPClient.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPData.cpp" />

@@ -663,6 +663,15 @@
     <ClInclude Include="..\..\src\DataStructure\mesh_generator.h">
       <Filter>VroomVroom\DataStructure</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Modules\mMaterial.h">
+      <Filter>VroomVroom\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Modules\mModel.h">
+      <Filter>VroomVroom\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Modules\mShader.h">
+      <Filter>VroomVroom\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Networking\TCPData.cpp">
@@ -805,6 +814,15 @@
     </ClCompile>
     <ClCompile Include="..\..\src\DataStructure\mesh.cpp">
       <Filter>VroomVroom\DataStructure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Modules\mMaterial.cpp">
+      <Filter>VroomVroom\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Modules\mModel.cpp">
+      <Filter>VroomVroom\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Modules\mShader.cpp">
+      <Filter>VroomVroom\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

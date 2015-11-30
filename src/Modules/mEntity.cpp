@@ -14,7 +14,6 @@
 #include <lua.hpp>
 #include "../Utilities/standardIncludes.h"
 #include <new>
-#include "../Systems/luaSystem.h"
 #include "../Components/entity.h"
 
 #include "../Components/cLua.h"

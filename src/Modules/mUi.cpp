@@ -8,7 +8,6 @@
 
 #include "mUi.h"
 #include "../Systems/uiSystem.h"
-#include "../Systems/luaSystem.h"
 #include "../Utilities/typedef.h"
 #include "../console.h"
 

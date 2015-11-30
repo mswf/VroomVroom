@@ -48,6 +48,9 @@ void sLuaSystem::Init()
 	mInput::Bind(lState);
 	mEntity::Bind(lState);
 	mUi::Bind(lState);
+	mMaterial::Bind(lState);
+	mModel::Bind(lState);
+	mShader::Bind(lState);
 
 	string path;
 	Content::CreateFilePath("main.lua", &path);

@@ -18,6 +18,7 @@
 		23CBC8741BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */; };
 		23E1BD851C0C784C00F49BCF /* mMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E1BD831C0C784C00F49BCF /* mMaterial.cpp */; settings = {ASSET_TAGS = (); }; };
 		23E1BD881C0C7A7900F49BCF /* mModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E1BD861C0C7A7900F49BCF /* mModel.cpp */; settings = {ASSET_TAGS = (); }; };
+		23E1BD8B1C0C8DBF00F49BCF /* mShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E1BD891C0C8DBF00F49BCF /* mShader.cpp */; settings = {ASSET_TAGS = (); }; };
 		23E22F5F1BE9FEBA00987545 /* uiSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E22F5D1BE9FEBA00987545 /* uiSystem.cpp */; settings = {ASSET_TAGS = (); COMPILER_FLAGS = "-w"; }; };
 		23EE7EC31BC686020006581F /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23EE7EC11BC686020006581F /* Engine.cpp */; settings = {ASSET_TAGS = (); }; };
 		23EE7EE41BC6C2B90006581F /* console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23EE7EE21BC6C2B90006581F /* console.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -117,6 +118,8 @@
 		23E1BD841C0C784C00F49BCF /* mMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mMaterial.h; path = src/Modules/mMaterial.h; sourceTree = SOURCE_ROOT; };
 		23E1BD861C0C7A7900F49BCF /* mModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mModel.cpp; path = src/Modules/mModel.cpp; sourceTree = SOURCE_ROOT; };
 		23E1BD871C0C7A7900F49BCF /* mModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mModel.h; path = src/Modules/mModel.h; sourceTree = SOURCE_ROOT; };
+		23E1BD891C0C8DBF00F49BCF /* mShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mShader.cpp; path = src/Modules/mShader.cpp; sourceTree = SOURCE_ROOT; };
+		23E1BD8A1C0C8DBF00F49BCF /* mShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mShader.h; path = src/Modules/mShader.h; sourceTree = SOURCE_ROOT; };
 		23E22F5D1BE9FEBA00987545 /* uiSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uiSystem.cpp; path = src/Systems/uiSystem.cpp; sourceTree = SOURCE_ROOT; };
 		23E22F5E1BE9FEBA00987545 /* uiSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uiSystem.h; path = src/Systems/uiSystem.h; sourceTree = SOURCE_ROOT; };
 		23EE7EC11BC686020006581F /* Engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Engine.cpp; path = src/Engine.cpp; sourceTree = SOURCE_ROOT; };
@@ -281,6 +284,8 @@
 				23E1BD841C0C784C00F49BCF /* mMaterial.h */,
 				23E1BD861C0C7A7900F49BCF /* mModel.cpp */,
 				23E1BD871C0C7A7900F49BCF /* mModel.h */,
+				23E1BD891C0C8DBF00F49BCF /* mShader.cpp */,
+				23E1BD8A1C0C8DBF00F49BCF /* mShader.h */,
 			);
 			name = Modules;
 			sourceTree = "<group>";
@@ -581,6 +586,7 @@
 				E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */,
 				23C59A321BCD305B00A37E29 /* mLog.cpp in Sources */,
 				23C59A361BCD3ACA00A37E29 /* mInput.cpp in Sources */,
+				23E1BD8B1C0C8DBF00F49BCF /* mShader.cpp in Sources */,
 				E50529271BE8CD650017400B /* renderer.cpp in Sources */,
 				E59FDC901BBAC0EE008935C5 /* helperFunctions.cpp in Sources */,
 				E505296C1BE8EF020017400B /* entity.cpp in Sources */,

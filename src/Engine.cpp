@@ -216,6 +216,7 @@ void Engine::ImportAssets()
 	ResourceManager& rm = ResourceManager::getInstance();
 	std::vector< std::string > meshes, images, errors;
 	meshes.push_back( "/objects/Rabbit/Rabbit.obj" );
+	meshes.push_back( "/objects/monocar.obj" );
 	meshes.push_back( "/objects/icy_snowman.obj" );
 	images.push_back( "/objects/snowman.png" );
 	images.push_back( "/objects/object_group_test/checker_1.png" );

@@ -9,6 +9,8 @@
 #ifndef moduleMacros_h
 #define moduleMacros_h
 
+#include "../systems/luaSystem.h"
+
 #include <lua.hpp>
 
     #define lFuncDef(NAME)\

@@ -21,7 +21,14 @@ class mMaterial
 		mMaterial();
 		~mMaterial();
 	
-		lFuncDef(loadMaterial);
+	lFuncDef(__engineInit);
+	
+	lFuncDef(loadMaterial);
+	lFuncDef(setShader);
+	lFuncDef(setDiffuseTexture);
+	lFuncDef(setSpecularTexture);
+	lFuncDef(setNormalTexture);
+	
 };
 
 #endif /* mMaterial_hpp */

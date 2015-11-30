@@ -14,6 +14,9 @@
 #include "DataStructure/material.h"
 #include "DataStructure/mesh_generator.h"
 
+#include "DataStructure/mesh.h"
+#include "DataStructure/texture.h"
+
 #include "ImGUI/imgui.h"
 #include "ImGUI/imgui_impl_sdl.h"
 
@@ -27,8 +30,6 @@
 #include "Systems/luaSystem.h"
 #include "Systems/uiSystem.h"
 
-#include "mesh.h"
-#include "texture.h"
 
 #include "Utilities/helperFunctions.h"
 #include "Utilities/random.h"

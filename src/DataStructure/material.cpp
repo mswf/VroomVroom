@@ -1,5 +1,6 @@
 #include "material.h"
 #include "texture.h"
+#include "shader.h"
 #include "resource_manager.h"
 
 Material::Material() :
@@ -22,8 +23,7 @@ Material::Material() :
 	//transparent { 0.0f, 0.0f, 0.0f, 1.0f },
 	//reflective { 0.0f, 0.0f, 0.0f, 1.0f }
 {
-	//ResourceManager::getInstance().GetShader();
-	shader = new Shader();
+	shader = ResourceManager::getInstance().GetShaderProgram("Default");
 }
 
 void Material::SetDiffuseTexture( const char* name )
@@ -36,14 +36,16 @@ void Material::SetNormalTexture( const char* name )
 	normalTextureId = ResourceManager::getInstance().GetImageId( name );
 }
 
-void Material::SetShader( Shader* s )
+
+void Material::SetShader( ShaderProgram* s )
 {
 	shader = s;
 }
 
+
 void Material::UseMaterial() const
 {
-	shader->UseProgram();
+	UseProgram( shader->program );
 }
 
 void Material::SetUniforms()

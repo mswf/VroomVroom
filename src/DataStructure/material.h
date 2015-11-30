@@ -1,8 +1,9 @@
 #ifndef material_h
 #define material_h
 
-#include <vector>
-#include "../DataStructure/shader.h"
+#include <string>
+
+struct ShaderProgram;
 
 class Material
 {
@@ -11,12 +12,12 @@ class Material
 		Material();
 		~Material() {}
 	
-		Shader* shader;
+		ShaderProgram* shader;
 		unsigned int diffuseTextureId;
 		unsigned int specularTextureId;
 		unsigned int normalTextureId;
 	
-		void SetShader( Shader* shader );
+		void SetShader( ShaderProgram* shader );
 		void UseMaterial() const;
 		void SetDiffuseTexture( const char* image );
 		void SetSpecularTexture( const char* image );

@@ -27,6 +27,11 @@ void CMeshRenderer::SetModel( const char* name )
 	}
 }
 
+void CMeshRenderer::SetModel( ModelInstance* instance )
+{
+	model = instance;
+}
+
 const ModelInstance* CMeshRenderer::GetModelInstace() const
 {
 	return model;

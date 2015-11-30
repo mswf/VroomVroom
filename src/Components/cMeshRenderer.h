@@ -15,6 +15,7 @@ class CMeshRenderer : public Component
 		~CMeshRenderer();
 	
 		void SetModel( const char* name );
+		void SetModel( ModelInstance* instance );
 		void SetMaterial( const char* name );
 		void SetMaterial( Material* mtl );
 	

@@ -11,6 +11,11 @@
 #include "../modules/mUi.h"
 #include "../console.h"
 
+uiContainer::~uiContainer()
+{
+	UiSystem.RemoveChildren(this);
+}
+
 
 sUiSystem::sUiSystem() :
 	idIndex(0),

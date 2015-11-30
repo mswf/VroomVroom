@@ -36,6 +36,8 @@ struct uiElement
 		width(0)
 	{};
 	
+	virtual ~uiElement(){};
+	
 	int luaTableKey;
 	std::map<string, void*> propertyMap;
 	
@@ -58,6 +60,8 @@ struct uiContainer : uiElement
 		firstElement(NULL),
 		lastElement(NULL)
 	{};
+	~uiContainer();
+	
 	uiElement* firstElement;
 	uiElement* lastElement;
 };
@@ -185,17 +189,6 @@ struct uiButtonElement : uiElement
 	bool prevHovered;
 };
 
-struct uiTreeElement : uiContainer
-{
-	~uiTreeElement()
-	{
-		UiSystem.RemoveChildren(this);
-	}
-	string label;
-	
-	bool opened;
-};
-
 struct uiInputTextElement : uiElement
 {
 	string text;
@@ -220,6 +213,17 @@ struct uiSliderElement : uiElement
 	string format;
 };
 
+struct uiTreeElement : uiContainer
+{
+	~uiTreeElement()
+	{
+		UiSystem.RemoveChildren(this);
+	}
+	string label;
+	
+	bool opened;
+};
+
 struct uiRegionElement : uiContainer
 {
 	~uiRegionElement()
@@ -232,10 +236,6 @@ struct uiRegionElement : uiContainer
 
 struct uiHorizontalLayoutElement : uiContainer
 {
-	~uiHorizontalLayoutElement()
-	{
-		UiSystem.RemoveChildren(this);
-	}
 	double spacing;
 };
 

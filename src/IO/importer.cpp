@@ -86,7 +86,7 @@ bool Importer::ImportObjFile( const std::string &pFile, bool importTextures )
 	return true;
 }
 
-bool Importer::ImportImage( const char* filename )
+bool Importer::ImportImage( const char* filename, bool vertical_flip )
 {
 	ResourceManager& rm = ResourceManager::getInstance();
 	if (rm.ImageExists(filename))
@@ -98,7 +98,7 @@ bool Importer::ImportImage( const char* filename )
 	ImageData* image = new ImageData();
 	image->components = 4;
 	IMPORTER_MESSAGE imp_err = IMPORTER_MESSAGE::FILE_OK;
-	image->pixelData = imp_->ImportImage( file.c_str(), image->width, image->height, image->components, imp_err );
+	image->pixelData = imp_->ImportImage( file.c_str(), image->width, image->height, image->components, imp_err, vertical_flip );
 	if ( imp_err == IMPORTER_MESSAGE::IMAGE_FAILED_TO_LOAD )
 	{
 		std::string err_file( filename );

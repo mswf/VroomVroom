@@ -10,8 +10,9 @@
 #include "../console.h"
 #include "../Modules/mEntity.h"
 #include "../Systems/LuaSystem.h"
+#include <lua.h>
 
-const int CLua::FamilyId = (int)ComponentTypes::LUA;
+const int CLua::familyId = (int)ComponentTypes::LUA;
 
 CLua::CLua() :
 	tableKey(-1)
@@ -35,6 +36,23 @@ void CLua::SetTableKey(int key)
 	{
 		Terminal.Warning("Changing tableKey of Lua Component that already had it's tableKey set.\nThis is likely not intentional");
 	}
-	tableKey;
+	tableKey = key;
 }
 
+void CLua::Update(float delta)
+{
+	if (tableKey != -1)
+	{
+		lua_State* L = LuaSystem.GetState();
+		
+		lua_pushnumber(L, tableKey);
+		lua_gettable(L, LUA_REGISTRYINDEX);
+		lua_getfield(L, -1, "update");
+		if(lua_isfunction(L, -1))
+		{
+			lua_pushnumber(L, delta);
+			LuaSystem.Call(L, 1, 0);
+		}
+		lua_settop(L, 0);
+	}
+}

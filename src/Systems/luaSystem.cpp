@@ -16,6 +16,10 @@
 #include "../Utilities/command.h"
 #include "../Utilities/helperFunctions.h"
 
+#include <vector>
+#include "../Components/entity.h"
+#include "../Components/CLua.h"
+
 string sLuaSystem::atomPath("");
 
 sLuaSystem::sLuaSystem():
@@ -84,6 +88,18 @@ void sLuaSystem::Update(float dt)
     Call(lState, 1, 0);
 	
     lua_settop(lState, 0);
+	
+	
+	//TODO(robin): Lua Components should register themselves to the LuaSystem, rather than searching for them every update
+	std::vector<Entity *> entities;
+	Entity::GetEntities<CLua>(entities);
+	
+	std::vector<Entity *>::iterator it = entities.begin();
+	for (; it != entities.end(); it++)
+	{
+		CLua* comp = Entity::GetComponent<CLua>((*it));
+		comp->Update(dt);
+	}
 }
 
 void sLuaSystem::SendReloadCallback( const string& filePath )

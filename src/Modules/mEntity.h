@@ -22,6 +22,10 @@ class mEntity {
         ~mEntity();
     
         lFuncDef(__engineInit);
+		lFuncDef(addChild);
+		lFuncDef(addComponent);
+	
+	
         lFuncDef(gcDestroy);
 };
 

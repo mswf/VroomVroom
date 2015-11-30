@@ -22,9 +22,6 @@
     <Filter Include="VroomVroom\Components">
       <UniqueIdentifier>{2055afb4-2112-4c8a-9afe-594e43790e42}</UniqueIdentifier>
     </Filter>
-    <Filter Include="VroomVroom\Data structure">
-      <UniqueIdentifier>{f01ed218-a430-41a0-b325-b08d3f1d1bff}</UniqueIdentifier>
-    </Filter>
     <Filter Include="VroomVroom\ImGUI">
       <UniqueIdentifier>{687528f4-36ae-4dad-a0ca-f65e97e87afd}</UniqueIdentifier>
     </Filter>
@@ -57,6 +54,9 @@
     </Filter>
     <Filter Include="VroomVroom\Utilities\FileWatcher">
       <UniqueIdentifier>{bbe1dd6c-38bf-4bdb-8c28-d4f512825e59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VroomVroom\DataStructure">
+      <UniqueIdentifier>{f01ed218-a430-41a0-b325-b08d3f1d1bff}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -601,19 +601,19 @@
       <Filter>VroomVroom\Utilities\FileWatcher</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\DataStructure\data_types.h">
-      <Filter>VroomVroom\Data structure</Filter>
+      <Filter>VroomVroom\DataStructure</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\DataStructure\material.h">
-      <Filter>VroomVroom\Data structure</Filter>
+      <Filter>VroomVroom\DataStructure</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\DataStructure\resource_manager.h">
-      <Filter>VroomVroom\Data structure</Filter>
+      <Filter>VroomVroom\DataStructure</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\DataStructure\shader.h">
-      <Filter>VroomVroom\Data structure</Filter>
+      <Filter>VroomVroom\DataStructure</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\DataStructure\texture.h">
-      <Filter>VroomVroom\Data structure</Filter>
+      <Filter>VroomVroom\DataStructure</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Utilities\command.h">
       <Filter>VroomVroom\Utilities</Filter>
@@ -645,12 +645,6 @@
     <ClInclude Include="..\..\src\Components\cLua.h">
       <Filter>VroomVroom\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\DataStructure\mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\DataStructure\mesh_generator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\IO\importer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -659,6 +653,24 @@
     </ClInclude>
     <ClInclude Include="..\..\src\Systems\entitySystem.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Utilities\opengl_common.h">
+      <Filter>VroomVroom\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\DataStructure\mesh.h">
+      <Filter>VroomVroom\DataStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\DataStructure\mesh_generator.h">
+      <Filter>VroomVroom\DataStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Modules\mMaterial.h">
+      <Filter>VroomVroom\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Modules\mModel.h">
+      <Filter>VroomVroom\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Modules\mShader.h">
+      <Filter>VroomVroom\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -753,16 +765,16 @@
       <Filter>VroomVroom\Utilities\FileWatcher</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\DataStructure\material.cpp">
-      <Filter>VroomVroom\Data structure</Filter>
+      <Filter>VroomVroom\DataStructure</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\DataStructure\resource_manager.cpp">
-      <Filter>VroomVroom\Data structure</Filter>
+      <Filter>VroomVroom\DataStructure</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\DataStructure\shader.cpp">
-      <Filter>VroomVroom\Data structure</Filter>
+      <Filter>VroomVroom\DataStructure</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\DataStructure\texture.cpp">
-      <Filter>VroomVroom\Data structure</Filter>
+      <Filter>VroomVroom\DataStructure</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Utilities\command.cpp">
       <Filter>VroomVroom\Utilities</Filter>
@@ -788,12 +800,6 @@
     <ClCompile Include="..\..\src\Components\cLua.cpp">
       <Filter>VroomVroom\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\DataStructure\mesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\DataStructure\mesh_generator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\IO\importer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -802,6 +808,21 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Systems\entitySystem.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Utilities\opengl_common.cpp">
+      <Filter>VroomVroom\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\DataStructure\mesh.cpp">
+      <Filter>VroomVroom\DataStructure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Modules\mMaterial.cpp">
+      <Filter>VroomVroom\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Modules\mModel.cpp">
+      <Filter>VroomVroom\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Modules\mShader.cpp">
+      <Filter>VroomVroom\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -190,7 +190,10 @@
     <ClInclude Include="..\..\src\Modules\mEntity.h" />
     <ClInclude Include="..\..\src\Modules\mInput.h" />
     <ClInclude Include="..\..\src\Modules\mLog.h" />
+    <ClInclude Include="..\..\src\Modules\mMaterial.h" />
+    <ClInclude Include="..\..\src\Modules\mModel.h" />
     <ClInclude Include="..\..\src\Modules\moduleMacros.h" />
+    <ClInclude Include="..\..\src\Modules\mShader.h" />
     <ClInclude Include="..\..\src\Modules\mUi.h" />
     <ClInclude Include="..\..\src\Networking\TCPClient.h" />
     <ClInclude Include="..\..\src\Networking\TCPData.h" />
@@ -212,6 +215,7 @@
     <ClInclude Include="..\..\src\Utilities\FileWatcher\FileWatcherWin32.h" />
     <ClInclude Include="..\..\src\Utilities\FileWatcher\file_watcher_impl.h" />
     <ClInclude Include="..\..\src\Utilities\helperFunctions.h" />
+    <ClInclude Include="..\..\src\Utilities\opengl_common.h" />
     <ClInclude Include="..\..\src\Utilities\random.h" />
     <ClInclude Include="..\..\src\Utilities\standardIncludes.h" />
     <ClInclude Include="..\..\src\Utilities\typedef.h" />
@@ -226,7 +230,6 @@
     <ClCompile Include="..\..\src\content.cpp" />
     <ClCompile Include="..\..\src\DataStructure\material.cpp" />
     <ClCompile Include="..\..\src\DataStructure\mesh.cpp" />
-    <ClCompile Include="..\..\src\DataStructure\mesh_generator.cpp" />
     <ClCompile Include="..\..\src\DataStructure\resource_manager.cpp" />
     <ClCompile Include="..\..\src\DataStructure\shader.cpp" />
     <ClCompile Include="..\..\src\DataStructure\texture.cpp" />
@@ -245,6 +248,9 @@
     <ClCompile Include="..\..\src\Modules\mEntity.cpp" />
     <ClCompile Include="..\..\src\Modules\mInput.cpp" />
     <ClCompile Include="..\..\src\Modules\mLog.cpp" />
+    <ClCompile Include="..\..\src\Modules\mMaterial.cpp" />
+    <ClCompile Include="..\..\src\Modules\mModel.cpp" />
+    <ClCompile Include="..\..\src\Modules\mShader.cpp" />
     <ClCompile Include="..\..\src\Modules\mUi.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPClient.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPData.cpp" />
@@ -263,6 +269,7 @@
     <ClCompile Include="..\..\src\Utilities\FileWatcher\FileWatcherWin32.cpp" />
     <ClCompile Include="..\..\src\Utilities\FileWatcher\file_watcher_impl.cpp" />
     <ClCompile Include="..\..\src\Utilities\helperFunctions.cpp" />
+    <ClCompile Include="..\..\src\Utilities\opengl_common.cpp" />
     <ClCompile Include="..\..\src\Utilities\random.cpp" />
   </ItemGroup>
   <ItemGroup>

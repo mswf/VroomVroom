@@ -13,5 +13,8 @@
 #include "mLog.h"
 #include "mEntity.h"
 #include "mUi.h"
+#include "mMaterial.h"
+#include "mModel.h"
+#include "mShader.h"
 
 #endif /* mAll_h */

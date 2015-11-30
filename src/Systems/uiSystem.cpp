@@ -11,6 +11,11 @@
 #include "../modules/mUi.h"
 #include "../console.h"
 
+uiContainer::~uiContainer()
+{
+	UiSystem.RemoveChildren(this);
+}
+
 
 sUiSystem::sUiSystem() :
 	idIndex(0),
@@ -748,9 +753,9 @@ uint8 sUiSystem::GetNextFreeId()
 
 void sUiSystem::FreeId(uint8 id)
 {
-	if(idMap[idIndex] == true)
+	if(idMap[id] == true)
 	{
-		idMap[idIndex] = false;
+		idMap[id] = false;
 	}
 	else
 	{

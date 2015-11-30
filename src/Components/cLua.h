@@ -15,7 +15,7 @@
 class CLua : public Component
 {
 	public:
-		static const int FamilyId;
+		static const int familyId;
 	
 		CLua();
 		~CLua();

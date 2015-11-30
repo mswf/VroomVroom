@@ -14,6 +14,10 @@
 #include "DataStructure/material.h"
 #include "DataStructure/mesh_generator.h"
 
+#include "DataStructure/mesh.h"
+#include "DataStructure/texture.h"
+#include "DataStructure/shader.h"
+
 #include "ImGUI/imgui.h"
 #include "ImGUI/imgui_impl_sdl.h"
 
@@ -27,9 +31,6 @@
 #include "Systems/luaSystem.h"
 #include "Systems/uiSystem.h"
 
-#include "mesh.h"
-#include "texture.h"
-#include "shader.h"
 
 #include "Utilities/helperFunctions.h"
 #include "Utilities/random.h"
@@ -218,6 +219,7 @@ void Engine::ImportAssets()
 	std::vector< std::string > meshes, images, cube_map, errors;
 	std::vector< std::pair< std::string, GLSLShaderType > > shaders;
 	meshes.push_back( "/objects/Rabbit/Rabbit.obj" );
+	meshes.push_back( "/objects/monocar.obj" );
 	meshes.push_back( "/objects/icy_snowman.obj" );
 	images.push_back( "/objects/snowman.png" );
 	images.push_back( "/objects/object_group_test/checker_1.png" );

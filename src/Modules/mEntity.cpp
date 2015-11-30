@@ -14,9 +14,11 @@
 #include <lua.hpp>
 #include "../Utilities/standardIncludes.h"
 #include <new>
-#include "../Systems/luaSystem.h"
 #include "../Components/entity.h"
+
 #include "../Components/cLua.h"
+#include "../Components/cCamera.h"
+#include "../Components/cMeshRenderer.h"
 
 void mEntity::Bind(lua_State* L)
 {
@@ -24,9 +26,15 @@ void mEntity::Bind(lua_State* L)
 	lua_newtable(L);
     lStart(BaseEntity)
         lBind(__engineInit)
+		lBind(addChild)
+		lBind(addComponent)
     lEnd(BaseEntity)
 	luaL_openlib(L, 0, BaseEntity_funcs, 0);
-    
+	lua_setfield(L, -2, "baseEntity");
+	
+	
+	
+	//metatable
     luaL_newmetatable(L, "_mtEntity");
     lua_pushstring(L, "__index");
     lua_pushvalue(L, -2);
@@ -47,7 +55,6 @@ void mEntity::UnreferenceTable(int tableKey)
 	
 	lua_pushnumber(L, tableKey);
 	lua_gettable(L, LUA_REGISTRYINDEX);
-	lstBoolean("__exists__", false);
 	
 	luaL_unref(L, LUA_REGISTRYINDEX, tableKey);
 	lua_settop(L, 0);
@@ -73,14 +80,62 @@ lFuncImp(mEntity, __engineInit)
 {
     //create a userdata with the size of an entity, and create a new entity at that point in memory
     //set the metatable of this userdata to _metaEntityUser
-    new (lua_newuserdata(L, sizeof(CLua))) CLua();
+    CLua* comp = new (lua_newuserdata(L, sizeof(CLua))) CLua();
     luaL_getmetatable(L, "_mtEntity");
     lua_setmetatable(L, -2);
     
-    //now add the userdata to our table as with the key "core_"
+    //now add the userdata to our table
     lua_setfield(L, -2, "__coreComponent__");
+	
+	
+	comp->SetTableKey( luaL_ref(L, LUA_REGISTRYINDEX) );
+	
+	Entity* e = new Entity();
+	Entity::AddComponent(e, comp);
+
     
     return 0;
+}
+
+lFuncImp(mEntity, addChild)
+{
+	lua_settop(L, 2);
+	
+	lua_getfield(L, 1, "__coreComponent__");
+	CLua* parent = (CLua*)lua_touserdata(L, -1);
+	
+	lua_getfield(L, 2, "__coreComponent__");
+	CLua* child = (CLua*)lua_touserdata(L, -1);
+	
+	parent->entity->AddChild(child->entity);
+	
+	return 0;
+}
+
+lFuncImp(mEntity, addComponent)
+{
+	lua_settop(L, 2);
+	
+	lua_getfield(L, 1, "__coreComponent__");
+	CLua* core = (CLua*)lua_touserdata(L, -1);
+	
+	lua_getfield(L, 2, "__coreComponent__");
+	Component* comp = (Component*)lua_touserdata(L, -1);
+	
+	lua_getfield(L, 2, "__familyId__");
+	int familyId = lua_tonumber(L, -1);
+	
+	
+	if(familyId == (int)ComponentTypes::CAMERA)
+	{
+		Entity::AddComponent(core->entity, (CCamera*)comp);
+	}
+	if(familyId == (int)ComponentTypes::MESH_RENDERER)
+	{
+		Entity::AddComponent(core->entity, (CMeshRenderer*)comp);
+	}
+	
+	return 0;
 }
 
 //bound to __gc, thus called by lua when the userdata is destroyed

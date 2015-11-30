@@ -80,7 +80,7 @@ void sTerminal::Warning(const string msg)
 	string line = "[WARNING]" + msg;
 	std::cout << line << std::endl;
 	WriteToFile(line);
-	SendToExternal(line, "#ff0000", "#ffffff");
+	SendToExternal(line, "rgba(255,153,0,0.8)", "#ffffff");
 }
 
 void sTerminal::Error(string msg)

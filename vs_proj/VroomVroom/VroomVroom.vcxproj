@@ -191,6 +191,7 @@
     <ClInclude Include="..\..\src\Modules\mInput.h" />
     <ClInclude Include="..\..\src\Modules\mLog.h" />
     <ClInclude Include="..\..\src\Modules\mMaterial.h" />
+    <ClInclude Include="..\..\src\Modules\mMeshRenderer.h" />
     <ClInclude Include="..\..\src\Modules\mModel.h" />
     <ClInclude Include="..\..\src\Modules\moduleMacros.h" />
     <ClInclude Include="..\..\src\Modules\mShader.h" />
@@ -249,6 +250,7 @@
     <ClCompile Include="..\..\src\Modules\mInput.cpp" />
     <ClCompile Include="..\..\src\Modules\mLog.cpp" />
     <ClCompile Include="..\..\src\Modules\mMaterial.cpp" />
+    <ClCompile Include="..\..\src\Modules\mMeshRenderer.cpp" />
     <ClCompile Include="..\..\src\Modules\mModel.cpp" />
     <ClCompile Include="..\..\src\Modules\mShader.cpp" />
     <ClCompile Include="..\..\src\Modules\mUi.cpp" />

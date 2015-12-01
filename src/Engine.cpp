@@ -512,8 +512,8 @@ void Engine::UpdateLoop()
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 		renderer->SetTime( SDL_GetTicks() );
-		//renderer->RenderCube( skybox, skybox_map, skyboxProgram );
-		renderer->RenderLines( lineVao, (unsigned int)points.size(), lineProgram );
+		//renderer->RenderCube( skybox, skybox_map );
+		//renderer->RenderLines( lineVao, points.size() );
 		renderer->Render();
 		
 

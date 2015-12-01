@@ -20,6 +20,7 @@ class CMeshRenderer : public Component
 		void SetMaterial( Material* mtl );
 	
 		void GetUniformValues();
+		static std::vector< CMeshRenderer* >* GetMeshRendererList();
 		const ModelInstance* GetModelInstace() const;
 		const Material* GetMaterial() const;
 	
@@ -27,6 +28,7 @@ class CMeshRenderer : public Component
 	
 		Material* material;
 		ModelInstance* model;
+		static std::vector< CMeshRenderer* > list;
 };
 
 #endif /* cMeshRenderer_h */

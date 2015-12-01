@@ -66,11 +66,6 @@ class CTransform : public Component
 	
     private:
 		void SetRotationMatrix( glm::mat4 rot );
-	
-		//CTransform* root;
-		//CTransform* parent;
-		//std::vector<CTransform* > children;
-	
 		glm::mat4 transform;
 
 };

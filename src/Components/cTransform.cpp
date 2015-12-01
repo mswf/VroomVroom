@@ -17,22 +17,6 @@ const glm::mat4& CTransform::GetTransform() const
 	return transform;
 }
 
-/*
-CTransform* CTransform::GetParent()
-{
-	return parent;
-}
-
-void CTransform::SetParent( CTransform* newParent )
-{
-	parent = newParent;
-}
-
-std::vector< CTransform* > CTransform::GetChildren()
-{
-	return children;
-}
-*/
 glm::vec3 CTransform::GetPosition() const
 {
 	return glm::vec3( transform[3] );

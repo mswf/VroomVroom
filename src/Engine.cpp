@@ -78,6 +78,9 @@ void Engine::Init()
 	string watching ( Content::GetPath() );
 	fileWatcher->addWatch( watching, listener, true );
 
+	renderer->Initialize();
+}
+
 void Engine::SetSeed()
 {
 	time_t timer;

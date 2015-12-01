@@ -324,8 +324,6 @@ void Engine::UpdateLoop()
 
 	meshRenderer2->SetMaterial(mt);
 
-	renderer->SetMeshRendererList( CMeshRenderer::GetMeshRendererList() );
-
 	// RESOURCE MANAGING ENDS!!!
 
 	ModelInstance* skybox = EnvironmentCube();
@@ -339,13 +337,6 @@ void Engine::UpdateLoop()
 
 	struct Line
 	{
-		glm::vec3 start;
-		glm::vec3 end;
-		Line( glm::vec3 p0, glm::vec3 p1 ) :
-			start( p0 ),
-			end( p1 )
-		{
-		}
 	};
 
 	ShaderProgram* lineProgram = new ShaderProgram();
@@ -362,52 +353,25 @@ void Engine::UpdateLoop()
 	{
 		float p = (i * 0.1f);
 		// Along x axis
-		lines.push_back( Line( glm::vec3( 0.0, 0.0, p ), glm::vec3( lineLength, 0.0, p ) ) );
-		lines.push_back( Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( lineLength, p, 0.0 ) ) );
 		// Along y axis
-		lines.push_back( Line( glm::vec3( p, 0.0, 0.0 ), glm::vec3( p, lineLength, 0.0 ) ) );
-		lines.push_back( Line( glm::vec3( p, 0.0, 0.0 ), glm::vec3( p, 0.0, lineLength ) ) );
 		// Along z axis
-		lines.push_back( Line( glm::vec3( 0.0, 0.0, p ), glm::vec3( 0.0, lineLength, p ) ) );
-		lines.push_back( Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( 0.0, p, lineLength ) ) );
 	}
 	std::vector< glm::vec3 > points, colours;
 
-	/*
-	points.push_back( glm::vec3( 0.5, 0.0, 0.0 ) );
-	colours.push_back( glm::vec3( 1.0, 0.0, 0.0 ) );
-
-	points.push_back( glm::vec3( 0.0, 0.0, -0.5 ) );
-	colours.push_back( glm::vec3( 0.0, 1.0, 0.0 ) );
-
-	points.push_back( glm::vec3( 1.0, 0.0, -0.5 ) );
-	colours.push_back( glm::vec3( 0.0, 0.0, 1.0 ) );
-
-	points.push_back( glm::vec3( 0.25, 0.0, -1.0 ) );
-	colours.push_back( glm::vec3( 1.0, 1.0, 0.0 ) );
-
-	points.push_back( glm::vec3( 0.75, 0.0, -1.0 ) );
-	colours.push_back( glm::vec3( 1.0, 0.0, 1.0 ) );
-	*/
 	std::vector< Line >::const_iterator iter = lines.begin();
 	std::vector< Line >::const_iterator end = lines.end();
 	for ( ; iter != end; ++iter)
 	{
-		float valueR = Random::Next(100) * 0.01f;
-		float valueG = Random::Next(100) * 0.01f;
-		float valueB = Random::Next(100) * 0.01f;
-		glm::vec3 c( valueR, valueG, valueB );
 		points.push_back( (*iter).start );
-		colours.push_back( c );
+		colours.push_back( (*iter).color );
 		points.push_back( (*iter).end );
-		colours.push_back( c );
+		colours.push_back( (*iter).color );
 	}
 	
 	GLuint lineVao;
 	GLuint lineVbo;
 	BufferPoints( lineVao, lineVbo, points, colours );
 	
-	std::vector< Entity* > entityList;
 	root = new Entity("Root");
 
 	Entity* box = new Entity( "MyLittleBox" );
@@ -419,9 +383,6 @@ void Engine::UpdateLoop()
 	snowman_transform->SetPosition(glm::vec3(-1.0));
 	Entity::AddComponent(box2, meshRenderer2);
 
-	entityList.push_back(box);
-	entityList.push_back(box2);
-	
 	root->AddChild(box);
 	box->AddChild(box2);
 
@@ -454,19 +415,6 @@ void Engine::UpdateLoop()
 
 			Update(gameUpdateInterval);
 
-			/*
-			std::vector< glm::vec3 >::iterator it = points.begin();
-			std::vector< glm::vec3 >::const_iterator it_end = points.end();
-			for ( ; it != it_end; ++it )
-			{
-				float offsetX = (float) glm::cos( glm::pi<float>() * Random::Next(150) );
-				float offsetZ = (float) glm::sin( glm::pi<float>() * Random::Next(150) );
-				(*it).x = offsetX * gameUpdateInterval;
-				(*it).z = offsetZ * gameUpdateInterval;
-			}
-			BufferUpdate( lineVbo, 0, sizeof(glm::vec3)*points.size(), &points.front());
-			*/
-			
 			// Scene traversal
 			root->Update();
 
@@ -480,27 +428,6 @@ void Engine::UpdateLoop()
 				rabbit_transform->Yaw(1.0f);
 				snowman_transform->Roll(1.0f);
 
-
-				if ( inputManager->OnKeyDown(SDLK_d) )
-				{
-					//printf("Down\n");
-				}
-
-				if ( inputManager->OnKeyUp(SDLK_d) )
-				{
-					//printf("Up\n");
-				}
-
-				/*
-				if ( inputManager->OnMouseDown(SDL_BUTTON_LEFT) )
-				{
-					printf( "Pressed left mouse button at x:%i y:%i \n", inputManager->GetMousePosition().x, inputManager->GetMousePosition().y);
-				}
-				if ( inputManager->OnMouseUp(SDL_BUTTON_LEFT) )
-				{
-					printf( "Released left mouse button \n" );
-				}
-				*/
 				prevTicks = currentTicks;
 				prevTicks -= deltaTimeGame;
 			}

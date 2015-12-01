@@ -12,6 +12,8 @@
 #include "Components/entity.h"
 #include "glm/mat4x4.hpp"
 
+class Entity;
+
 class Engine
 {
 	public:
@@ -28,6 +30,8 @@ class Engine
 		void InitSDLNet();
 		void Init();
 
+		//TODO(all): PLS GET THIS THE FUCK OUT OF HERE:
+		static Entity* root;
 
 
 	private:

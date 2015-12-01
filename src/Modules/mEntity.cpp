@@ -20,6 +20,8 @@
 #include "../Components/cCamera.h"
 #include "../Components/cMeshRenderer.h"
 
+#include "../engine.h"
+
 void mEntity::Bind(lua_State* L)
 {
 	lua_getglobal(L, "Engine");
@@ -78,6 +80,7 @@ void mEntity::HandleCallback(int tableKey, const char* funcName)
 
 lFuncImp(mEntity, __engineInit)
 {
+	//TODO(robin): change to light userdata
     //create a userdata with the size of an entity, and create a new entity at that point in memory
     //set the metatable of this userdata to _metaEntityUser
     CLua* comp = new (lua_newuserdata(L, sizeof(CLua))) CLua();
@@ -87,11 +90,16 @@ lFuncImp(mEntity, __engineInit)
     //now add the userdata to our table
     lua_setfield(L, -2, "__coreComponent__");
 	
+	lua_pushnumber(L, (int)CLua::familyId);
+	lua_setfield(L, -2, "__familyId__");
+	
 	
 	comp->SetTableKey( luaL_ref(L, LUA_REGISTRYINDEX) );
 	
 	Entity* e = new Entity();
 	Entity::AddComponent(e, comp);
+	
+	Engine::root->AddChild(e);
 
     
     return 0;

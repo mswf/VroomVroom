@@ -51,6 +51,7 @@ void sLuaSystem::Init()
 	mMaterial::Bind(lState);
 	mModel::Bind(lState);
 	mShader::Bind(lState);
+	mMeshRenderer::Bind(lState);
 
 	string path;
 	Content::CreateFilePath("main.lua", &path);

@@ -16,5 +16,6 @@
 #include "mMaterial.h"
 #include "mModel.h"
 #include "mShader.h"
+#include "mMeshRenderer.h"
 
 #endif /* mAll_h */

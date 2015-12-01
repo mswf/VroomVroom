@@ -99,7 +99,9 @@ lFuncImp(mEntity, __engineInit)
 	Entity* e = new Entity();
 	Entity::AddComponent(e, comp);
 	
-	Engine::root->AddChild(e);
+	// TODO(Robin): Creating an entity adds itself to root by default if no parent is provided to entity constructer
+	// Should decide whether we want this to be so and I don't think this line is necessary anymore. I'll get out from your code now.
+	Entity::root->AddChild(e);
 
     
     return 0;

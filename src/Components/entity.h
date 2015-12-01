@@ -11,10 +11,10 @@ class Entity
 {
 	public:
 	
+		static Entity* root;
+	
 		Entity( std::string name = "Entity_Object", Entity* parent = NULL );
 		~Entity();
-	
-		std::map< int, Component* > entityComponents;
 	
 		void AddChild( Entity* c );
 		void Update();
@@ -49,15 +49,14 @@ class Entity
 			}
 		}
 	
-		glm::mat4 worldTransform;
-	protected:
-//		glm::mat4 worldTransform;
+		std::string name;
 		Entity* parent;
 		std::vector< Entity* > children;
-		std::string name;
+		std::map< int, Component* > entityComponents;
 	
 	private:
 		static std::multimap< int, Entity* > componentStorage;
+		static const char* root_name;
 };
 
 #endif /* entity_h */

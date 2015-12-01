@@ -40,8 +40,6 @@
 //defines runCommand
 #include "Utilities/command.h"
 
-Entity* Engine::root = NULL;
-
 Engine::Engine() :
 	inputManager(NULL),
 	listener(NULL),
@@ -372,19 +370,13 @@ void Engine::UpdateLoop()
 	GLuint lineVbo;
 	BufferPoints( lineVao, lineVbo, points, colours );
 	
-	root = new Entity("Root");
-
 	Entity* box = new Entity( "MyLittleBox" );
 	CTransform* rabbit_transform = Entity::GetComponent<CTransform>(box);
 	Entity::AddComponent(box, meshRenderer);
 
-	Entity* box2 = new Entity( "MyLittleBox2" );
 	CTransform* snowman_transform = Entity::GetComponent<CTransform>(box2);
 	snowman_transform->SetPosition(glm::vec3(-1.0));
 	Entity::AddComponent(box2, meshRenderer2);
-
-	root->AddChild(box);
-	box->AddChild(box2);
 
 	Entity* camera = new Entity( "Main Camera" );
 	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 90.0f, 1280.0f / 720.0f, 0.2f, 1000.0f );
@@ -416,7 +408,7 @@ void Engine::UpdateLoop()
 			Update(gameUpdateInterval);
 
 			// Scene traversal
-			root->Update();
+			Entity::root->Update();
 
 			if (deltaTimeGame < gameUpdateInterval)
 			{

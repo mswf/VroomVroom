@@ -30,7 +30,7 @@ class ImporterImp
 		void ExtractMesh( const aiMesh* mesh, Mesh* m );
 		void ExtractMaterial( const aiMaterial* mtl, Material* material, std::vector< std::string >* textureIdMap );
 		aiScene* ImportObjFile( const std::string& pFile, IMPORTER_MESSAGE& message );
-		unsigned char* ImportImage( const char* filename, unsigned int& width, unsigned int& height, unsigned int requiring_components, IMPORTER_MESSAGE& message );
+		unsigned char* ImportImage( const char* filename, unsigned int& width, unsigned int& height, unsigned int requiring_components, IMPORTER_MESSAGE& message, bool vertical_flip = true );
 		void SetSceneImportFlags( int flags )
 		{
 			importFlags = flags;

@@ -11,7 +11,7 @@ class Importer
 		~Importer();
 		void SetSceneImportFlags( int flags );
 		bool ImportObjFile( const std::string& pFile, bool importTextures = true );
-		bool ImportImage( const char* filename );
+		bool ImportImage( const char* filename, bool vertical_flip = true );
 	
 	protected:
 		ImporterImp* imp_;

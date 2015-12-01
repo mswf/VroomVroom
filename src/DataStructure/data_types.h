@@ -8,21 +8,22 @@
 
 struct ShaderObject
 {
-	unsigned int shader;
-	unsigned int shaderType;
-	// Create by the number of subroutine uniforms & clean up when finished
-	unsigned int* subroutines;
-	unsigned int numSubroutines;
-	bool updateProgram;
 	std::map< std::string, unsigned int > locations;
+	unsigned int shader = 0;
+	unsigned int shaderType = 0;
+	// Create by the number of subroutine uniforms & clean up when finished
+	//TODO(Valentinas): Use std::Array instead of pointer to memory block
+	unsigned int* subroutines;
+	unsigned int numSubroutines = 0;
+	bool updateProgram = true;
 };
 
 struct ShaderProgram
 {
-	unsigned int program;
+	unsigned int program = 0;
 	// Create by the number of shader objects & clean up when finished
-	ShaderObject* shaders;
-	bool separate;
+	std::vector< ShaderObject* > shaders;
+	bool separate = false;
 };
 
 struct Mesh
@@ -33,40 +34,23 @@ struct Mesh
 	std::vector< glm::vec3 > bitangents;
 	std::vector< glm::vec3 > tangents;
 	std::vector< unsigned int > indices;
-	unsigned int numIndices;
-	unsigned int materialId;
-	bool isBuffered;
-	bool hasBufferChanged;
-	bool hasPositions;
-	bool hasNormals;
-	bool hasTangentsAndBitangets;
-	bool hasUVs;
-	Mesh():
-		numIndices(0),
-		materialId(0),
-		isBuffered(false),
-		hasBufferChanged(false),
-		hasPositions(false),
-		hasNormals(false),
-		hasTangentsAndBitangets(false),
-		hasUVs(false)
- 	{}
+	unsigned int numIndices = 0;
+	unsigned int materialId = 0;
+	bool isBuffered = false;
+	bool hasBufferChanged = false;
+	bool hasPositions = false;
+	bool hasNormals = false;
+	bool hasTangentsAndBitangets = false;
+	bool hasUVs = false;
 };
 
 struct ModelInstance
 {
-	unsigned int vao;
-	unsigned int vbo;
-	unsigned int numIndices;
-	unsigned int indiceBuffer;
-	unsigned int materialId;
-	ModelInstance():
-		vao(0),
-		vbo(0),
-		numIndices(0),
-		indiceBuffer(0),
-		materialId(0)
-	{}
+	unsigned int vao = 0;
+	unsigned int vbo = 0;
+	unsigned int numIndices = 0;
+	unsigned int indiceBuffer = 0;
+	unsigned int materialId = 0;
 };
 
 

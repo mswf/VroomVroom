@@ -18,9 +18,9 @@ ImporterImp::ImporterImp():
 ImporterImp::~ImporterImp()
 {}
 
-unsigned char* ImporterImp::ImportImage( const char* filename, unsigned int& width, unsigned int& height, unsigned int requiring_components, IMPORTER_MESSAGE& err_msg )
+unsigned char* ImporterImp::ImportImage( const char* filename, unsigned int& width, unsigned int& height, unsigned int requiring_components, IMPORTER_MESSAGE& err_msg, bool vertical_flip )
 {
-	stbi_set_flip_vertically_on_load(true);
+	stbi_set_flip_vertically_on_load(vertical_flip);
 	int comp, w, h;
 	int rc = STBI_rgb_alpha;
 

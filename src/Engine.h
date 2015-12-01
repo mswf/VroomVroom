@@ -30,10 +30,6 @@ class Engine
 		void InitSDLNet();
 		void Init();
 
-		//TODO(all): PLS GET THIS THE FUCK OUT OF HERE:
-		static Entity* root;
-
-
 	private:
 	
 		void SetSeed();

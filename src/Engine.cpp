@@ -413,7 +413,9 @@ void Engine::UpdateLoop()
 		colours.push_back( c );
 	}
 	
- 	GLuint lineVao = BufferPoints( points, colours );
+	GLuint lineVao;
+	GLuint lineVbo;
+	BufferPoints( lineVao, lineVbo, points, colours );
 	
 	std::vector< Entity* > entityList;
 	Entity* root = new Entity("Root");
@@ -426,6 +428,9 @@ void Engine::UpdateLoop()
 	CTransform* snowman_transform = Entity::GetComponent<CTransform>(box2);
 	snowman_transform->SetPosition(glm::vec3(-1.0));
 	Entity::AddComponent(box2, meshRenderer2);
+	
+	entityList.push_back(box);
+	entityList.push_back(box2);
 	
 	root->AddChild(box);
 	box->AddChild(box2);
@@ -459,6 +464,19 @@ void Engine::UpdateLoop()
 
 			Update(gameUpdateInterval);
 			
+			/*
+			std::vector< glm::vec3 >::iterator it = points.begin();
+			std::vector< glm::vec3 >::const_iterator it_end = points.end();
+			for ( ; it != it_end; ++it )
+			{
+				float offsetX = (float) glm::cos( glm::pi<float>() * Random::Next(150) );
+				float offsetZ = (float) glm::sin( glm::pi<float>() * Random::Next(150) );
+				(*it).x = offsetX * gameUpdateInterval;
+				(*it).z = offsetZ * gameUpdateInterval;
+			}
+			BufferUpdate( lineVbo, 0, sizeof(glm::vec3)*points.size(), &points.front());
+			*/
+			
 			// Scene traversal
 			root->Update();
 			
@@ -475,12 +493,12 @@ void Engine::UpdateLoop()
 				
 				if ( inputManager->OnKeyDown(SDLK_d) )
 				{
-					
+					//printf("Down\n");
 				}
 				
 				if ( inputManager->OnKeyUp(SDLK_d) )
 				{
-					
+					//printf("Up\n");
 				}
 				
 				/*

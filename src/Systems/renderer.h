@@ -1,16 +1,15 @@
 #ifndef renderer_h
 #define renderer_h
 
+#include <vector>
 #include "ComponentSystem.h"
-#include <glew.h>
+#include "../Utilities/typedef.h"
 
-#include "../glm/vec2.hpp"
-#include "../glm/vec3.hpp"
-#include "../glm/mat4x4.hpp"
-#include "../glm/gtc/type_ptr.hpp"
-#include "../glm/gtc/matrix_transform.hpp"
-#include "../Components/entity.h"
-#include "../Components/cMeshRenderer.h"
+struct ModelInstance;
+struct ShaderProgram;
+class Entity;
+class CMeshRenderer;
+class CCamera;
 
 namespace Renderer
 {
@@ -26,14 +25,25 @@ namespace Renderer
             bool Initialize() override;
             void Update(void* data) override;
             void SendMessage(void* message) override;
-        
-        private:
-        
+
+			void Render();
+			void RenderCube( ModelInstance* cube, unsigned int cubeMap, ShaderProgram* program );
+			void RenderLines( unsigned int vao, unsigned int count, ShaderProgram* program );
+		
+			inline void SetMeshRendererList( std::vector< CMeshRenderer* >* list ) { renderables = list; }
+			inline void SetCamera( CCamera* c ) { camera = c; }
+			inline void SetTime( uint32 t ) { time = t; }
+		
+		private:
+		
+			uint32 time;
+			CCamera* camera;
+			std::vector< CMeshRenderer* >* renderables;
     };
     
-	void Render( glm::uint32 time, Entity* camera, Entity* mesh );
-	void RenderCube( ModelInstance* cube, unsigned int cubeMap, ShaderProgram* program, Entity* camera );
-	void RenderLines( glm::uint32 time, unsigned int vao, unsigned int count, ShaderProgram* program, Entity* camera );
+	
+	
+	
 }
 
 #endif /* renderer_h */

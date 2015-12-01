@@ -39,6 +39,7 @@ class Engine
 		void Update(float deltaTime);
 		void ImportAssets();
 		FW::FileWatcher* fileWatcher;
+		Renderer::RenderSystem* renderer;
 		UpdateListener* listener;
 		Input* inputManager;
 	

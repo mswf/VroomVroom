@@ -10,6 +10,7 @@
 
 #include "Components/cCamera.h"
 #include "Components/cTransform.h"
+#include "Components/cMeshRenderer.h"
 
 #include "DataStructure/material.h"
 #include "DataStructure/mesh_generator.h"
@@ -43,7 +44,7 @@ Entity* Engine::root = NULL;
 Engine::Engine() :
 	inputManager(NULL),
 	listener(NULL),
-	//shadersListener(NULL),
+	renderer(NULL),
 	fileWatcher(NULL)
 {
 }
@@ -52,6 +53,7 @@ Engine::~Engine()
 {
 	//TODO: Clean up all entities and their components
 	delete inputManager;
+	delete renderer;
 	delete listener;
 	delete fileWatcher;
 }
@@ -59,6 +61,7 @@ Engine::~Engine()
 void Engine::Init()
 {
 	inputManager = new Input();
+	renderer = new Renderer::RenderSystem();
 	listener = new UpdateListener();
 	fileWatcher = new FW::FileWatcher();
 
@@ -216,6 +219,18 @@ void Engine::Update(float deltaTime)
 
 void Engine::ImportAssets()
 {
+	auto printErr = []( std::vector<std::string>& errors )
+	{
+		std::vector<std::string>::const_iterator iter = errors.begin();
+		std::vector<std::string>::const_iterator end = errors.end();
+		for ( ; iter != end; ++iter)
+		{
+			Terminal.Warning( (*iter) );
+		}
+		errors.clear();
+		Terminal.Log("Import failed", true);
+	};
+	
 	ResourceManager& rm = ResourceManager::getInstance();
 	rm.Initialize();
 	std::vector< std::string > meshes, images, cube_map, errors;
@@ -244,56 +259,13 @@ void Engine::ImportAssets()
 	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/skybox.frag", GLSLShaderType::FRAGMENT) );
 	
 	bool successfulImport = rm.ImportMesh( meshes, errors );
-	if (!successfulImport)
-	{
-		std::vector<std::string>::const_iterator iter = errors.begin();
-		std::vector<std::string>::const_iterator end = errors.end();
-		for ( ; iter != end; ++iter)
-		{
-			Terminal.Warning( (*iter) );
-		}
-		errors.clear();
-		Terminal.Log("Import failed", true);
-	}
+	if (!successfulImport) printErr(errors);
 	successfulImport = rm.ImportImage( images, errors );
-	if (!successfulImport)
-	{
-		std::vector<std::string>::const_iterator iter = errors.begin();
-		std::vector<std::string>::const_iterator end = errors.end();
-		for ( ; iter != end; ++iter)
-		{
-			Terminal.Warning( (*iter) );
-		}
-		errors.clear();
-		Terminal.Log("Import failed", true);
-	}
-	
+	if (!successfulImport) printErr(errors);
 	successfulImport = rm.ImportImage( cube_map, errors, false );
-	if (!successfulImport)
-	{
-		std::vector<std::string>::const_iterator iter = errors.begin();
-		std::vector<std::string>::const_iterator end = errors.end();
-		for ( ; iter != end; ++iter)
-		{
-			Terminal.Warning( (*iter) );
-		}
-		errors.clear();
-		Terminal.Log("Import failed", true);
-	}
-
-	
+	if (!successfulImport) printErr(errors);
 	successfulImport = rm.ImportShader( shaders, errors );
-	if (!successfulImport)
-	{
-		std::vector<std::string>::const_iterator iter = errors.begin();
-		std::vector<std::string>::const_iterator end = errors.end();
-		for ( ; iter != end; ++iter)
-		{
-			Terminal.Warning( (*iter) );
-		}
-		errors.clear();
-		Terminal.Log("Import failed", true);
-	}
+	if (!successfulImport) printErr(errors);
 	/*
 	int width, height;
 	width = height = rm.GetImageData("/images/LancellottiChapel/negx.jpg")->width;
@@ -336,7 +308,8 @@ void Engine::UpdateLoop()
 	mt->SetDiffuseTexture("/objects/snowman.png");
 	
 	meshRenderer2->SetMaterial(mt);
-
+	
+	renderer->SetMeshRendererList( CMeshRenderer::GetMeshRendererList() );
 	
 	// RESOURCE MANAGING ENDS!!!
 	
@@ -420,6 +393,7 @@ void Engine::UpdateLoop()
 	BufferPoints( lineVao, lineVbo, points, colours );
 	
 	std::vector< Entity* > entityList;
+	
 	root = new Entity("Root");
 	
 	Entity* box = new Entity( "MyLittleBox" );
@@ -440,6 +414,7 @@ void Engine::UpdateLoop()
 	Entity* camera = new Entity( "Main Camera" );
 	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 90.0f, 1280.0f / 720.0f, 0.2f, 1000.0f );
 	Entity::AddComponent(camera, cam);
+	renderer->SetCamera( cam );
 
 /// TINAS PLAYGROUND ENDS!!!
 
@@ -523,11 +498,11 @@ void Engine::UpdateLoop()
 		glClearColor( 0.91f, 0.91f, 0.91f, 1.0f );
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 		
-		//Renderer::RenderCube( skybox, skybox_map, skyboxProgram, camera);
-		Renderer::RenderLines(SDL_GetTicks(), lineVao, (unsigned int)points.size(), lineProgram, camera );
+		renderer->SetTime( SDL_GetTicks() );
+		//renderer->RenderCube(skybox, skybox_map, skyboxProgram);
+		renderer->RenderLines( lineVao, (unsigned int)points.size(), lineProgram );
+		renderer->Render();
 		
-		Renderer::Render( SDL_GetTicks(), camera, box );
-		Renderer::Render( SDL_GetTicks(), camera, box2 );
 		UiSystem.Render();
 		
 		SDL_GL_SwapWindow(window);

@@ -11,7 +11,6 @@ Entity::Entity( std::string name, Entity* parent ) :
 	parent(parent),
 	name(name)
 {
-	AddComponent(this, new CTransform());
 	if( parent == NULL && name != root_name )
 	{
 		Entity::root->AddChild(this);
@@ -20,6 +19,8 @@ Entity::Entity( std::string name, Entity* parent ) :
 	{
 		parent->AddChild(this);
 	}
+	transform = new CTransform();
+	AddComponent(this, transform);
 }
 
 Entity::~Entity()
@@ -40,6 +41,8 @@ void Entity::AddChild( Entity* c )
 
 void Entity::Update()
 {
+	//localTransform = parentWorldTransform.inverse() * worldTransform;
+	// M_loc = M_parent_inv * M
 	glm::mat4 localTransform = GetTransform();
 	worldTransform = (parent != NULL ) ? (parent->worldTransform * localTransform) : localTransform;
 	
@@ -63,6 +66,6 @@ std::vector< Entity* >::const_iterator Entity::GetChildrenIteratorEnd() const
 
 const glm::mat4& Entity::GetTransform()
 {
-	return GetComponent<CTransform>(this)->GetTransform();
+	return transform->GetTransform();
 }
 

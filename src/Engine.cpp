@@ -344,7 +344,10 @@ void Engine::UpdateLoop()
 //	lineProgram->shaders.push_back( ResourceManager::getInstance().GetShaderObject("shaders/line.frag") );
 //	GLuint shaders[2] = { lineProgram->shaders[0]->shader, lineProgram->shaders[1]->shader };
 //	CreateProgram(lineProgram->program, shaders, 2);
+
+	auto random_colour = []() -> glm::vec3
 	{
+		return glm::vec3( Random::Next(100) * 0.01f, Random::Next(100) * 0.01f, Random::Next(100) * 0.01f );
 	};
 	
 	std::vector<Line> lines;
@@ -354,8 +357,14 @@ void Engine::UpdateLoop()
 	{
 		float p = (i * 0.1f);
 		// Along x axis
+		lines.push_back( Line( glm::vec3( 0.0, 0.0, p ), glm::vec3( lineLength, 0.0, p ), random_colour() ) );
+		lines.push_back( Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( lineLength, p, 0.0 ), random_colour() ) );
 		// Along y axis
+		lines.push_back( Line( glm::vec3( p, 0.0, 0.0 ), glm::vec3( p, lineLength, 0.0 ), random_colour() ) );
+		lines.push_back( Line( glm::vec3( p, 0.0, 0.0 ), glm::vec3( p, 0.0, lineLength ), random_colour() ) );
 		// Along z axis
+		lines.push_back( Line( glm::vec3( 0.0, 0.0, p ), glm::vec3( 0.0, lineLength, p ), random_colour() ) );
+		lines.push_back( Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( 0.0, p, lineLength ), random_colour() ) );
 	}
 	std::vector< glm::vec3 > points, colours;
 
@@ -374,11 +383,10 @@ void Engine::UpdateLoop()
 	BufferPoints( lineVao, lineVbo, points, colours );
 	
 	Entity* box = new Entity( "MyLittleBox" );
-	CTransform* rabbit_transform = Entity::GetComponent<CTransform>(box);
 	Entity::AddComponent(box, meshRenderer);
 
-	CTransform* snowman_transform = Entity::GetComponent<CTransform>(box2);
-	snowman_transform->SetPosition(glm::vec3(-1.0));
+	Entity* box2 = new Entity( "MyLittleBox2", box );
+	box2->transform->SetPosition(glm::vec3(-1.0));
 	Entity::AddComponent(box2, meshRenderer2);
 
 	Entity* camera = new Entity( "Main Camera" );
@@ -420,8 +428,8 @@ void Engine::UpdateLoop()
 					running = false;
 				}
 
-				rabbit_transform->Yaw(1.0f);
-				snowman_transform->Roll(1.0f);
+				box->transform->Yaw(1.0f);
+				box2->transform->Roll(1.0f);
 
 				prevTicks = currentTicks;
 				prevTicks -= deltaTimeGame;

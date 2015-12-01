@@ -37,6 +37,8 @@
 //defines runCommand
 #include "Utilities/command.h"
 
+Entity* Engine::root = NULL;
+
 Engine::Engine() :
 	inputManager(NULL),
 	listener(NULL),
@@ -344,7 +346,7 @@ void Engine::UpdateLoop()
  	GLuint lineVao = BufferPoints( points, colours );
 	
 	std::vector< Entity* > entityList;
-	Entity* root = new Entity("Root");
+	root = new Entity("Root");
 	
 	Entity* box = new Entity( "MyLittleBox" );
 	CTransform* rabbit_transform = Entity::GetComponent<CTransform>(box);

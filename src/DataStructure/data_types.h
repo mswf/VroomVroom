@@ -6,6 +6,18 @@
 #include "../glm/vec2.hpp"
 #include "../glm/vec3.hpp"
 
+struct Line
+{
+	glm::vec3 start;
+	glm::vec3 end;
+	glm::vec3 color;
+	Line( glm::vec3 p0, glm::vec3 p1, glm::vec3 c = glm::vec3(0) ) :
+	start( p0 ),
+	end( p1 ),
+	color( c )
+	{}
+};
+
 struct ShaderObject
 {
 	std::map< std::string, unsigned int > locations;

@@ -400,6 +400,20 @@ bool ResourceManager::ImportShader( const std::vector< std::pair< std::string, G
 	return final;
 }
 
+void ResourceManager::CreateShaderProgram( const char* name, const std::string* shaders_objects, int count )
+{
+	ShaderProgram* prog = new ShaderProgram();
+	ResourceManager::getInstance().InsertShaderProgram( name, prog);
+	int i;
+	GLuint shaders[count];
+	for ( i = 0; i < count; ++i )
+	{
+		prog->shaders.push_back( GetShaderObject( shaders_objects[i].c_str() ) );
+		shaders[i] = prog->shaders[0]->shader;
+	}
+	CreateProgram( prog->program, shaders, count);
+}
+
 void ResourceManager::InsertShaderObject( const char* name, ShaderObject* data )
 {
 	if ( !ShaderObjectExists( name ) )

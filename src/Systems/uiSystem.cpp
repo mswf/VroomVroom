@@ -447,6 +447,8 @@ void sUiSystem::Render()
 		HandleCallback(cachedButton, "onPress");
 		cachedButton = NULL;
 	}
+	
+	mUi::ToggleFocus(ImGui::IsAnyItemActive());
 }
 
 

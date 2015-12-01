@@ -21,6 +21,10 @@ void mUi::Bind(lua_State* L){
         lBind(createWindow)
     lEnd(UiWindow)
 	luaL_openlib(L, 0, ui_funcs, 0);
+	
+	lua_pushboolean(L, false);
+	lua_setfield(L, -2, "hasfocus");
+	
 	lua_setfield(L, -2, "ui");
 	
 
@@ -91,6 +95,17 @@ void mUi::HandleCallback(int tableKey, const char* funcName)
 		lua_pushvalue(L, 1);
 		LuaSystem.Call(L, 1, 0);
 	}
+	lua_settop(L, 0);
+}
+
+void mUi::ToggleFocus(bool focus)
+{
+	lua_State* L = LuaSystem.GetState();
+	lua_getglobal(L, "Engine");
+	lua_getfield(L, -1, "ui");
+	lua_pushboolean(L, focus);
+	lua_setfield(L, -2, "hasFocus");
+	
 	lua_settop(L, 0);
 }
 

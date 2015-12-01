@@ -36,6 +36,7 @@ class Engine
 
 	private:
 	
+		void SetSeed();
 		void Update(float deltaTime);
 		void ImportAssets();
 		FW::FileWatcher* fileWatcher;

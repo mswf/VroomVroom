@@ -27,8 +27,8 @@ namespace Renderer
             void SendMessage(void* message) override;
 
 			void Render();
-			void RenderCube( ModelInstance* cube, unsigned int cubeMap, ShaderProgram* program );
-			void RenderLines( unsigned int vao, unsigned int count, ShaderProgram* program );
+			void RenderCube( ModelInstance* cube, unsigned int cubeMap );
+			void RenderLines( unsigned int vao, unsigned long count );
 		
 			inline void SetMeshRendererList( std::vector< CMeshRenderer* >* list ) { renderables = list; }
 			inline void SetCamera( CCamera* c ) { camera = c; }
@@ -39,6 +39,8 @@ namespace Renderer
 			uint32 time;
 			CCamera* camera;
 			std::vector< CMeshRenderer* >* renderables;
+			ShaderProgram* lineProgram;
+			ShaderProgram* skyboxProgram;
     };
     
 	

@@ -31,6 +31,7 @@ namespace Renderer
 	
 	bool RenderSystem::Initialize()
 	{
+		SetMeshRendererList( CMeshRenderer::GetMeshRendererList() );
 		return false;
 	}
 	
@@ -128,7 +129,7 @@ namespace Renderer
 		}
 	}
 
-	void RenderSystem::RenderLines( unsigned int vao, unsigned int count, ShaderProgram* program )
+	void RenderSystem::RenderLines( unsigned int vao, unsigned long count )
 	{
 		glLineWidth(1.0f);
 		glEnable(GL_LINE_SMOOTH);
@@ -138,12 +139,12 @@ namespace Renderer
 		
 		glBindVertexArray(vao);
 		
-		glUseProgram(program->program);
+		glUseProgram(lineProgram->program);
 		
-		SetUniform( program->program,	"model", 		glm::mat4(1) );
-		SetUniform( program->program,	"view", 		camera->GetViewMatrix() );
-		SetUniform( program->program,	"projection", 	camera->GetProjectionMatrix() );
-		SetUniform( program->program,	"time", 		(float)time );
+		SetUniform( lineProgram->program,	"model", 		glm::mat4(1) );
+		SetUniform( lineProgram->program,	"view", 		camera->GetViewMatrix() );
+		SetUniform( lineProgram->program,	"projection", 	camera->GetProjectionMatrix() );
+		SetUniform( lineProgram->program,	"time", 		(float)time );
 		
 		glDrawArrays( GL_LINES, 0, count);
 		glDrawArrays( GL_POINTS, 0, count);
@@ -153,18 +154,18 @@ namespace Renderer
 		glBindVertexArray( 0 );
 	}
 
-	void RenderSystem::RenderCube( ModelInstance* cube, unsigned int cubeMap, ShaderProgram* program )
+	void RenderSystem::RenderCube( ModelInstance* cube, unsigned int cubeMap )
 	{
 		glDepthMask (GL_FALSE);
 		
-		glUseProgram(program->program);
+		glUseProgram(skyboxProgram->program);
 		
-		SetUniform( program->program,	"view", 		camera->GetViewMatrix() );
-		SetUniform( program->program,	"projection", 	camera->GetProjectionMatrix() );
+		SetUniform( skyboxProgram->program,	"view", 		camera->GetViewMatrix() );
+		SetUniform( skyboxProgram->program,	"projection", 	camera->GetProjectionMatrix() );
 		
 		glActiveTexture (GL_TEXTURE0);
 		glBindTexture (GL_TEXTURE_CUBE_MAP, cubeMap);
-		SetUniform( program->program, "cube_texture", 0 );
+		SetUniform( skyboxProgram->program, "cube_texture", 0 );
 		
 		glBindVertexArray (cube->vao);
 		glDrawArrays (GL_TRIANGLES, 0, cube->numIndices);

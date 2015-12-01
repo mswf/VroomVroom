@@ -105,7 +105,7 @@ void Engine::OpenConfig()
 		return;
 	}
 
-    LuaSystem.Call(L, 0, 0);
+	LuaSystem.Call(L, 0, 0);
 
 	lua_getglobal(L, "CONTENT_PATH");
 	if (lua_type(L, -1) != LUA_TSTRING)
@@ -116,21 +116,21 @@ void Engine::OpenConfig()
 	const char* contentPath = lua_tolstring(L, -1, &len_cp);
 
 	Content::SetPath(contentPath, len_cp);
-    
-    lua_getglobal(L, "ATOM_PATH");
-    if (lua_type(L, -1) == LUA_TSTRING)
-    {
-        LuaSystem.SetAtomPath(string(lua_tostring(L, -1)));
-    }
-    
-    lua_getglobal(L, "MECHANIC_CMD");
-    if (lua_type(L, -1) == LUA_TSTRING && Terminal.IsConnected() == false)
-    {
-        string cmd = lua_tostring(L, -1);
-        Terminal.Log(cmd);
-        RunCommand(cmd);
-        Terminal.ReattemptConnection(1000);
-    }
+
+	lua_getglobal(L, "ATOM_PATH");
+	if (lua_type(L, -1) == LUA_TSTRING)
+	{
+		LuaSystem.SetAtomPath(string(lua_tostring(L, -1)));
+	}
+
+	lua_getglobal(L, "MECHANIC_CMD");
+	if (lua_type(L, -1) == LUA_TSTRING && Terminal.IsConnected() == false)
+	{
+		string cmd = lua_tostring(L, -1);
+		Terminal.Log(cmd);
+		RunCommand(cmd);
+		Terminal.ReattemptConnection(1000);
+	}
 
 
 	lua_close(L);
@@ -173,7 +173,7 @@ void Engine::InitGlew()
 	}
 	//Calling to clear Invalid enum error, glew generates it on initialization
 	glGetError();
-	
+
 #ifdef DEBUG
 
 	std::string glVersion( "GL version " + std::string( (const char*)glGetString(GL_VERSION) ) );
@@ -183,18 +183,18 @@ void Engine::InitGlew()
 	Terminal.LogOpenGL( glVersion, true );
 	Terminal.LogOpenGL( glslVersion, true );
 	Terminal.LogOpenGL( "GLEW version " + majorGlew + "." + minorGlew, true  );
-	
+
 	//#define LOG_EXTENSIONS
-	#ifdef LOG_EXTENSIONS
+#ifdef LOG_EXTENSIONS
 	int NumberOfExtensions, i;
- 	glGetIntegerv(GL_NUM_EXTENSIONS, &NumberOfExtensions);
- 	for( i = 0; i < NumberOfExtensions; ++i )
+	glGetIntegerv(GL_NUM_EXTENSIONS, &NumberOfExtensions);
+	for ( i = 0; i < NumberOfExtensions; ++i )
 	{
 		std::string extensions( (const char*)glGetStringi(GL_EXTENSIONS, i) );
 		Terminal.LogOpenGL( extensions );
- 	}
-	
-	#endif
+	}
+
+#endif
 #endif
 }
 
@@ -213,7 +213,7 @@ void Engine::Update(float deltaTime)
 
 	//TODO this should be refactored out at some point
 	//It is neccesary now to poll network events from the socket
-    //but it is now also necessary to reattempt connections, so probably it should not be factored out anymore
+	//but it is now also necessary to reattempt connections, so probably it should not be factored out anymore
 	Terminal.Update(deltaTime);
 }
 
@@ -230,7 +230,6 @@ void Engine::ImportAssets()
 		errors.clear();
 		Terminal.Log("Import failed", true);
 	};
-	
 	ResourceManager& rm = ResourceManager::getInstance();
 	rm.Initialize();
 	std::vector< std::string > meshes, images, cube_map, errors;
@@ -241,7 +240,7 @@ void Engine::ImportAssets()
 	images.push_back( "/objects/snowman.png" );
 	images.push_back( "/objects/object_group_test/checker_1.png" );
 	images.push_back( "/objects/object_group_test/checker_2.png" );
-	
+
 	// Cube map
 	/*
 	cube_map.push_back( "/images/LancellottiChapel/negx.jpg" );
@@ -251,13 +250,13 @@ void Engine::ImportAssets()
 	cube_map.push_back( "/images/LancellottiChapel/posy.jpg" );
 	cube_map.push_back( "/images/LancellottiChapel/posz.jpg" );
 	*/
-	
+
 	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/line.vert", GLSLShaderType::VERTEX) );
 	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/line.frag", GLSLShaderType::FRAGMENT) );
-	
+
 	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/skybox.vert", GLSLShaderType::VERTEX) );
 	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/skybox.frag", GLSLShaderType::FRAGMENT) );
-	
+
 	bool successfulImport = rm.ImportMesh( meshes, errors );
 	if (!successfulImport) printErr(errors);
 	successfulImport = rm.ImportImage( images, errors );
@@ -286,15 +285,15 @@ void Engine::UpdateLoop()
 	SDL_Window* window;
 	SDL_GLContext glcontext;
 	SetupWindow(window, glcontext);
-	
+
 	ImGui_ImplSdl_Init(window);
-	
-/// TINAS PLAYGROUND!!!
-	
+
+	/// TINAS PLAYGROUND!!!
+
 	ImportAssets();
-	
+
 	//  RESOURCE MANAGING !!!
-	
+
 	CMeshRenderer* meshRenderer = new CMeshRenderer();
 	CMeshRenderer* meshRenderer2 = new CMeshRenderer();
 	Material* mt;
@@ -302,19 +301,19 @@ void Engine::UpdateLoop()
 	mt = ResourceManager::getInstance().GetMaterialByName("Rabbit");
 	mt->SetDiffuseTexture("/objects/object_group_test/checker_1.png");
 	mt->SetNormalTexture("/objects/Rabbit/Rabbit_D.tga");
-	
+
 	meshRenderer2->SetModel( "/objects/icy_snowman.obj" );
 	mt = ResourceManager::getInstance().GetMaterialByName("Default");
 	mt->SetDiffuseTexture("/objects/snowman.png");
-	
+
 	meshRenderer2->SetMaterial(mt);
-	
+
 	renderer->SetMeshRendererList( CMeshRenderer::GetMeshRendererList() );
-	
+
 	// RESOURCE MANAGING ENDS!!!
-	
+
 	ModelInstance* skybox = EnvironmentCube();
-	
+
 	ShaderProgram* skyboxProgram = new ShaderProgram();
 	ResourceManager::getInstance().InsertShaderProgram( "skybox", skyboxProgram);
 	skyboxProgram->shaders.push_back( ResourceManager::getInstance().GetShaderObject("shaders/skybox.vert") );
@@ -327,19 +326,19 @@ void Engine::UpdateLoop()
 		glm::vec3 start;
 		glm::vec3 end;
 		Line( glm::vec3 p0, glm::vec3 p1 ) :
-		start( p0 ),
-		end( p1 )
+			start( p0 ),
+			end( p1 )
 		{
 		}
 	};
-	
+
 	ShaderProgram* lineProgram = new ShaderProgram();
 	ResourceManager::getInstance().InsertShaderProgram( "line", lineProgram);
 	lineProgram->shaders.push_back( ResourceManager::getInstance().GetShaderObject("shaders/line.vert") );
 	lineProgram->shaders.push_back( ResourceManager::getInstance().GetShaderObject("shaders/line.frag") );
 	GLuint shaders[2] = { lineProgram->shaders[0]->shader, lineProgram->shaders[1]->shader };
 	CreateProgram(lineProgram->program, shaders, 2);
-	
+
 	std::vector<Line> lines;
 	float lineLength = 1.0f;
 	int lineAmount = 10;
@@ -357,20 +356,20 @@ void Engine::UpdateLoop()
 		lines.push_back( Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( 0.0, p, lineLength ) ) );
 	}
 	std::vector< glm::vec3 > points, colours;
-	
+
 	/*
 	points.push_back( glm::vec3( 0.5, 0.0, 0.0 ) );
 	colours.push_back( glm::vec3( 1.0, 0.0, 0.0 ) );
-	
+
 	points.push_back( glm::vec3( 0.0, 0.0, -0.5 ) );
 	colours.push_back( glm::vec3( 0.0, 1.0, 0.0 ) );
-	
+
 	points.push_back( glm::vec3( 1.0, 0.0, -0.5 ) );
 	colours.push_back( glm::vec3( 0.0, 0.0, 1.0 ) );
-	
+
 	points.push_back( glm::vec3( 0.25, 0.0, -1.0 ) );
 	colours.push_back( glm::vec3( 1.0, 1.0, 0.0 ) );
-	
+
 	points.push_back( glm::vec3( 0.75, 0.0, -1.0 ) );
 	colours.push_back( glm::vec3( 1.0, 0.0, 1.0 ) );
 	*/
@@ -393,30 +392,28 @@ void Engine::UpdateLoop()
 	BufferPoints( lineVao, lineVbo, points, colours );
 	
 	std::vector< Entity* > entityList;
-	
 	root = new Entity("Root");
-	
+
 	Entity* box = new Entity( "MyLittleBox" );
 	CTransform* rabbit_transform = Entity::GetComponent<CTransform>(box);
 	Entity::AddComponent(box, meshRenderer);
-	
+
 	Entity* box2 = new Entity( "MyLittleBox2" );
 	CTransform* snowman_transform = Entity::GetComponent<CTransform>(box2);
 	snowman_transform->SetPosition(glm::vec3(-1.0));
 	Entity::AddComponent(box2, meshRenderer2);
-	
+
 	entityList.push_back(box);
 	entityList.push_back(box2);
 	
 	root->AddChild(box);
 	box->AddChild(box2);
-	
+
 	Entity* camera = new Entity( "Main Camera" );
 	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 90.0f, 1280.0f / 720.0f, 0.2f, 1000.0f );
 	Entity::AddComponent(camera, cam);
 	renderer->SetCamera( cam );
-
-/// TINAS PLAYGROUND ENDS!!!
+	/// TINAS PLAYGROUND ENDS!!!
 
 	const float millisecondModifier = 1000.0f;
 	const float gameFPS = 60.0f;
@@ -426,21 +423,21 @@ void Engine::UpdateLoop()
 	static bool running = true;
 
 	LuaSystem.Main();
-	
+
 	while (running)
 	{
 		currentTicks = SDL_GetTicks();
 		float deltaTimeGame = currentTicks - prevTicks;
 
-		PollEvent();
-		fileWatcher->update();
-
+		// This part makes it get called 60 times per second
 		while (deltaTimeGame > gameUpdateInterval)
 		{
+			PollEvent();
+			fileWatcher->update();
 			deltaTimeGame -= gameUpdateInterval;
 
 			Update(gameUpdateInterval);
-			
+
 			/*
 			std::vector< glm::vec3 >::iterator it = points.begin();
 			std::vector< glm::vec3 >::const_iterator it_end = points.end();
@@ -456,7 +453,7 @@ void Engine::UpdateLoop()
 			
 			// Scene traversal
 			root->Update();
-			
+
 			if (deltaTimeGame < gameUpdateInterval)
 			{
 				if ( inputManager->OnKey(SDLK_ESCAPE) )
@@ -466,18 +463,18 @@ void Engine::UpdateLoop()
 
 				rabbit_transform->Yaw(1.0f);
 				snowman_transform->Roll(1.0f);
-		
-				
+
+
 				if ( inputManager->OnKeyDown(SDLK_d) )
 				{
 					//printf("Down\n");
 				}
-				
+
 				if ( inputManager->OnKeyUp(SDLK_d) )
 				{
 					//printf("Up\n");
 				}
-				
+
 				/*
 				if ( inputManager->OnMouseDown(SDL_BUTTON_LEFT) )
 				{
@@ -497,14 +494,15 @@ void Engine::UpdateLoop()
 
 		glClearColor( 0.91f, 0.91f, 0.91f, 1.0f );
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-		
+
 		renderer->SetTime( SDL_GetTicks() );
-		//renderer->RenderCube(skybox, skybox_map, skyboxProgram);
+		//renderer->RenderCube( skybox, skybox_map, skyboxProgram );
 		renderer->RenderLines( lineVao, (unsigned int)points.size(), lineProgram );
 		renderer->Render();
 		
+
 		UiSystem.Render();
-		
+
 		SDL_GL_SwapWindow(window);
 
 		//rendering

@@ -672,6 +672,9 @@
     <ClInclude Include="..\..\src\Modules\mShader.h">
       <Filter>VroomVroom\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Modules\mMeshRenderer.h">
+      <Filter>VroomVroom\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Networking\TCPData.cpp">
@@ -822,6 +825,9 @@
       <Filter>VroomVroom\Modules</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Modules\mShader.cpp">
+      <Filter>VroomVroom\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Modules\mMeshRenderer.cpp">
       <Filter>VroomVroom\Modules</Filter>
     </ClCompile>
   </ItemGroup>

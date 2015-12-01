@@ -19,6 +19,7 @@ class mUi {
 	
 		static void UnreferenceTable(int);
 		static void HandleCallback(int, const char*);
+		static void ToggleFocus(bool);
 	
     private:
         mUi();

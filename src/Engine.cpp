@@ -325,25 +325,28 @@ void Engine::UpdateLoop()
 	// RESOURCE MANAGING ENDS!!!
 
 	ModelInstance* skybox = EnvironmentCube();
+	ResourceManager::getInstance().InsertModelInstance("skybox", skybox);
+	
+	std::string sh_objs[2] = { "shaders/skybox.vert", "shaders/skybox.frag" };
+	ResourceManager::getInstance().CreateShaderProgram("skybox", sh_objs, 2);
+//	ShaderProgram* skyboxProgram = new ShaderProgram();
+//	ResourceManager::getInstance().InsertShaderProgram( "skybox", skyboxProgram);
+//	skyboxProgram->shaders.push_back( ResourceManager::getInstance().GetShaderObject("shaders/skybox.vert") );
+//	skyboxProgram->shaders.push_back( ResourceManager::getInstance().GetShaderObject("shaders/skybox.frag") );
+//	GLuint sky_shaders[2] = { skyboxProgram->shaders[0]->shader, skyboxProgram->shaders[1]->shader };
+//	CreateProgram(skyboxProgram->program, sky_shaders, 2);
 
-	ShaderProgram* skyboxProgram = new ShaderProgram();
-	ResourceManager::getInstance().InsertShaderProgram( "skybox", skyboxProgram);
-	skyboxProgram->shaders.push_back( ResourceManager::getInstance().GetShaderObject("shaders/skybox.vert") );
-	skyboxProgram->shaders.push_back( ResourceManager::getInstance().GetShaderObject("shaders/skybox.frag") );
-	GLuint sky_shaders[2] = { skyboxProgram->shaders[0]->shader, skyboxProgram->shaders[1]->shader };
-	CreateProgram(skyboxProgram->program, sky_shaders, 2);
-
-	struct Line
+	std::string sh_objs2[2] = { "shaders/line.vert", "shaders/line.frag" };
+	ResourceManager::getInstance().CreateShaderProgram("line", sh_objs2, 2);
+//	ShaderProgram* lineProgram = new ShaderProgram();
+//	ResourceManager::getInstance().InsertShaderProgram( "line", lineProgram);
+//	lineProgram->shaders.push_back( ResourceManager::getInstance().GetShaderObject("shaders/line.vert") );
+//	lineProgram->shaders.push_back( ResourceManager::getInstance().GetShaderObject("shaders/line.frag") );
+//	GLuint shaders[2] = { lineProgram->shaders[0]->shader, lineProgram->shaders[1]->shader };
+//	CreateProgram(lineProgram->program, shaders, 2);
 	{
 	};
-
-	ShaderProgram* lineProgram = new ShaderProgram();
-	ResourceManager::getInstance().InsertShaderProgram( "line", lineProgram);
-	lineProgram->shaders.push_back( ResourceManager::getInstance().GetShaderObject("shaders/line.vert") );
-	lineProgram->shaders.push_back( ResourceManager::getInstance().GetShaderObject("shaders/line.frag") );
-	GLuint shaders[2] = { lineProgram->shaders[0]->shader, lineProgram->shaders[1]->shader };
-	CreateProgram(lineProgram->program, shaders, 2);
-
+	
 	std::vector<Line> lines;
 	float lineLength = 1.0f;
 	int lineAmount = 10;

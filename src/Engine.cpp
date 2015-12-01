@@ -226,12 +226,14 @@ void Engine::ImportAssets()
 	images.push_back( "/objects/object_group_test/checker_2.png" );
 	
 	// Cube map
+	/*
 	cube_map.push_back( "/images/LancellottiChapel/negx.jpg" );
 	cube_map.push_back( "/images/LancellottiChapel/negy.jpg" );
 	cube_map.push_back( "/images/LancellottiChapel/negz.jpg" );
 	cube_map.push_back( "/images/LancellottiChapel/posx.jpg" );
 	cube_map.push_back( "/images/LancellottiChapel/posy.jpg" );
 	cube_map.push_back( "/images/LancellottiChapel/posz.jpg" );
+	*/
 	
 	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/line.vert", GLSLShaderType::VERTEX) );
 	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/line.frag", GLSLShaderType::FRAGMENT) );
@@ -290,6 +292,7 @@ void Engine::ImportAssets()
 		errors.clear();
 		Terminal.Log("Import failed", true);
 	}
+	/*
 	int width, height;
 	width = height = rm.GetImageData("/images/LancellottiChapel/negx.jpg")->width;
 	std::vector< std::pair< unsigned char*, unsigned int > > textures;
@@ -300,6 +303,7 @@ void Engine::ImportAssets()
 	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("/images/LancellottiChapel/posy.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Y ) );
 	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("/images/LancellottiChapel/posz.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Z ) );
 	skybox_map = rm.CreateCubeMap(&textures, width, height);
+	*/
 }
 
 void Engine::UpdateLoop()
@@ -499,7 +503,7 @@ void Engine::UpdateLoop()
 		glClearColor( 0.91f, 0.91f, 0.91f, 1.0f );
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 		
-		Renderer::RenderCube( skybox, skybox_map, skyboxProgram, camera);
+		//Renderer::RenderCube( skybox, skybox_map, skyboxProgram, camera);
 		Renderer::RenderLines(SDL_GetTicks(), lineVao, (unsigned int)points.size(), lineProgram, camera );
 		
 		Renderer::Render( SDL_GetTicks(), camera, box );

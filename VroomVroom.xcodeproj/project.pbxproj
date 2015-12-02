@@ -18,6 +18,7 @@
 		23C8BF471C0DA07A000EFD05 /* mMeshRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23C8BF451C0DA07A000EFD05 /* mMeshRenderer.cpp */; settings = {ASSET_TAGS = (); }; };
 		23CBC8741BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */; };
 		23D328D11C0F034700FAC4B9 /* mImport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23D328CF1C0F034600FAC4B9 /* mImport.cpp */; settings = {ASSET_TAGS = (); }; };
+		23D328D41C0F38FD00FAC4B9 /* mSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23D328D21C0F38FD00FAC4B9 /* mSystem.cpp */; settings = {ASSET_TAGS = (); }; };
 		23E1BD851C0C784C00F49BCF /* mMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E1BD831C0C784C00F49BCF /* mMaterial.cpp */; settings = {ASSET_TAGS = (); }; };
 		23E1BD881C0C7A7900F49BCF /* mModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E1BD861C0C7A7900F49BCF /* mModel.cpp */; settings = {ASSET_TAGS = (); }; };
 		23E1BD8B1C0C8DBF00F49BCF /* mShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E1BD891C0C8DBF00F49BCF /* mShader.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -120,6 +121,8 @@
 		23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libluajit-5.1.2.0.4.dylib"; path = "Framework/LJIT/lib/libluajit-5.1.2.0.4.dylib"; sourceTree = "<group>"; };
 		23D328CF1C0F034600FAC4B9 /* mImport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mImport.cpp; path = src/Modules/mImport.cpp; sourceTree = SOURCE_ROOT; };
 		23D328D01C0F034600FAC4B9 /* mImport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mImport.h; path = src/Modules/mImport.h; sourceTree = SOURCE_ROOT; };
+		23D328D21C0F38FD00FAC4B9 /* mSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mSystem.cpp; path = src/Modules/mSystem.cpp; sourceTree = SOURCE_ROOT; };
+		23D328D31C0F38FD00FAC4B9 /* mSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mSystem.h; path = src/Modules/mSystem.h; sourceTree = SOURCE_ROOT; };
 		23E1BD831C0C784C00F49BCF /* mMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mMaterial.cpp; path = src/Modules/mMaterial.cpp; sourceTree = SOURCE_ROOT; };
 		23E1BD841C0C784C00F49BCF /* mMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mMaterial.h; path = src/Modules/mMaterial.h; sourceTree = SOURCE_ROOT; };
 		23E1BD861C0C7A7900F49BCF /* mModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mModel.cpp; path = src/Modules/mModel.cpp; sourceTree = SOURCE_ROOT; };
@@ -296,6 +299,8 @@
 				23C8BF461C0DA07A000EFD05 /* mMeshRenderer.h */,
 				23D328CF1C0F034600FAC4B9 /* mImport.cpp */,
 				23D328D01C0F034600FAC4B9 /* mImport.h */,
+				23D328D21C0F38FD00FAC4B9 /* mSystem.cpp */,
+				23D328D31C0F38FD00FAC4B9 /* mSystem.h */,
 			);
 			name = Modules;
 			sourceTree = "<group>";
@@ -599,6 +604,7 @@
 				23C59A321BCD305B00A37E29 /* mLog.cpp in Sources */,
 				23C59A361BCD3ACA00A37E29 /* mInput.cpp in Sources */,
 				23E1BD8B1C0C8DBF00F49BCF /* mShader.cpp in Sources */,
+				23D328D41C0F38FD00FAC4B9 /* mSystem.cpp in Sources */,
 				E50529271BE8CD650017400B /* renderer.cpp in Sources */,
 				E59FDC901BBAC0EE008935C5 /* helperFunctions.cpp in Sources */,
 				E505296C1BE8EF020017400B /* entity.cpp in Sources */,

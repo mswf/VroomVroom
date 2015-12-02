@@ -24,6 +24,10 @@ class CTransform : public Component
 		//void SetParent( CTransform* newParent );
 	
 		const glm::mat4& GetTransform() const;
+		const glm::mat4& GetWorldTransform() const;
+	
+		void SetTransform( const glm::mat4& transform );
+		void SetWorldTransform( const glm::mat4& transform );
 	
 		void Rotate( glm::vec3 rotate );
 		void Translate( glm::vec3 translation );
@@ -32,16 +36,10 @@ class CTransform : public Component
 	
 		glm::vec3 GetPosition() const;
 		void SetPosition( glm::vec3 position );
-	
-		glm::vec3 GetLocalPosition() const;
-		void SetLocalPosition( glm::vec3 position );
 
 		// ROTATION FUNCTIONALITY
 		glm::vec3 GetRotation() const;
 		void SetRotation( glm::vec3 rotation );
-	
-		glm::vec3 GetLocalRotation() const;
-		void SetLocalRotation( glm::vec3 rotation );
 	
 		float GetPitch() const;
 		float GetYaw() const;
@@ -60,13 +58,11 @@ class CTransform : public Component
 		glm::vec3 GetScale() const;
 		void SetScale( glm::vec3 scale );
 	
-		glm::vec3 GetLocalScale() const;
-		void SetLocalScale( glm::vec3 scale );
-	
 	
     private:
 		void SetRotationMatrix( glm::mat4 rot );
 		glm::mat4 transform;
+		glm::mat4 worldTransform;
 
 };
 

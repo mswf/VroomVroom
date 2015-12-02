@@ -1,12 +1,14 @@
 #include "cTransform.h"
 #include "entity.h"
+#include "../glm/gtc/quaternion.hpp"
+#include "../glm/gtx/transform.hpp"
 
 const int CTransform::familyId = (int)ComponentTypes::TRANSFORM;
 
-CTransform::CTransform()
-:	transform( glm::mat4(1.0) )
-{
-}
+CTransform::CTransform():
+	transform( glm::mat4(1.0) ),
+	worldTransform( glm::mat4(1.0) )
+{}
 
 CTransform::~CTransform()
 {
@@ -23,36 +25,6 @@ const glm::mat4& CTransform::GetWorldTransform() const
 	return worldTransform;
 }
 
-glm::vec3 CTransform::GetPosition() const
-{
-	return glm::vec3( transform[3] );
-}
-
-glm::vec3 CTransform::GetScale() const
-{
-	return glm::vec3( transform[0][3], transform[1][3], transform[2][3] );
-}
-
-glm::vec3 CTransform::GetRotation() const
-{
-	return glm::eulerAngles( glm::quat_cast(transform) );
-}
-
-float CTransform::GetPitch() const
-{
-	return glm::pitch( glm::quat_cast(transform) );
-}
-
-float CTransform::GetYaw() const
-{
-	return glm::yaw( glm::quat_cast(transform) );
-}
-
-float CTransform::GetRoll() const
-{
-	return glm::roll( glm::quat_cast(transform) );
-}
-
 void CTransform::SetTransform( const glm::mat4 &trans )
 {
 	transform = trans;
@@ -63,102 +35,245 @@ void CTransform::SetWorldTransform( const glm::mat4 &trans )
 	worldTransform = trans;
 }
 
+void CTransform::Translate( const glm::vec3& translation )
+{
+	glm::translate(transform, translation);
+	Update();
+}
 
-void CTransform::SetPosition( glm::vec3 position )
+void CTransform::Rotate( const glm::vec3& rotation )
+{
+	glm::quat rotate(rotation);
+	transform = glm::rotate(transform, glm::radians( glm::eulerAngles(rotate).x ), glm::vec3( 1.0f, 0.0f, 0.0f ) );
+	transform = glm::rotate(transform, glm::radians( glm::eulerAngles(rotate).y ), glm::vec3( 0.0f, 1.0f, 0.0f ) );
+	transform = glm::rotate(transform, glm::radians( glm::eulerAngles(rotate).z ), glm::vec3( 0.0f, 0.0f, 1.0f ) );
+	Update();
+	//glm::rotate(const tquat<T, P> &q, const T &angle, const tvec3<T, P> &v);
+	//glm::rotate(const tmat4x4<T, P> &m, T angle, const tvec3<T, P> &v);
+	//glm::rotate(T angle, const tvec3<T, P> &v);
+}
+
+void CTransform::Scale( const glm::vec3& scale )
+{
+	glm::scale(transform, scale);
+	Update();
+}
+
+//Private
+void CTransform::Update()
+{
+	if ( entity != NULL ) entity->Update();
+}
+
+// POSITION
+glm::vec3 CTransform::GetPosition() const
+{
+	return glm::vec3( transform[3] );
+}
+
+void CTransform::SetPosition( const glm::vec3& position )
 {
 	transform[3][0] = position.x;
 	transform[3][1] = position.y;
 	transform[3][2] = position.z;
-	if ( entity != NULL ) entity->Update();
+	Update();
 }
 
-void CTransform::SetScale( glm::vec3 scale )
+const float CTransform::GetPositionX() const
 {
-	transform[0][3] = scale.x;
-	transform[1][3] = scale.y;
-	transform[2][3] = scale.z;
-	if ( entity != NULL ) entity->Update();
+	return transform[3][0];
+}
+
+const float CTransform::GetPositionY() const
+{
+	return transform[3][1];
+}
+
+const float CTransform::GetPositionZ() const
+{
+	return transform[3][2];
+}
+
+void CTransform::SetPositionX( const float& x )
+{
+	transform[3][0] = x;
+	Update();
+}
+
+void CTransform::SetPositionY( const float& y )
+{
+	transform[3][1] = y;
+	Update();
+}
+
+void CTransform::SetPositionZ( const float& z )
+{
+	transform[3][2] = z;
+	Update();
+}
+
+void CTransform::TranslateX( const float& x )
+{
+	//glm::mat4 t = glm::translate( glm::mat4(1), glm::vec3( x, 0.0f, 0.0f ) );
+	//SetPosition( t * glm::vec4( x, 0.0, 0.0, 1.0 ) );
+	Update();
+}
+
+void CTransform::TranslateY( const float& y )
+{
+	glm::translate(transform, glm::vec3( 0.0f, y, 0.0f ) );
+	Update();
+}
+
+void CTransform::TranslateZ( const float& z )
+{
+	glm::translate(transform, glm::vec3( 0.0f, 0.0f, z ) );
+	Update();
 }
 
 
-void CTransform::SetRotation( glm::vec3 rotation )
+// ROTATION
+glm::vec3 CTransform::GetRotation() const
+{
+	return glm::eulerAngles( glm::quat_cast(transform) );
+}
+
+void CTransform::SetRotation( const glm::vec3& rotation )
 {
 	glm::mat4 rot(1.0f);
 	rot = glm::rotate(rot, glm::radians( rotation.x ), glm::vec3( 1.0f, 0.0f, 0.0f ) );
 	rot = glm::rotate(rot, glm::radians( rotation.y ), glm::vec3( 0.0f, 1.0f, 0.0f ) );
 	rot = glm::rotate(rot, glm::radians( rotation.z ), glm::vec3( 0.0f, 0.0f, 1.0f ) );
 	SetRotationMatrix(rot);
-	if ( entity != NULL ) entity->Update();
+	Update();
 }
 
-void CTransform::SetRotationMatrix(glm::mat4 rot)
+const float CTransform::GetPitch() const
+{
+	return glm::pitch( glm::quat_cast(transform) );
+}
+
+const float CTransform::GetYaw() const
+{
+	return glm::yaw( glm::quat_cast(transform) );
+}
+
+const float CTransform::GetRoll() const
+{
+	return glm::roll( glm::quat_cast(transform) );
+}
+
+void CTransform::SetPitch( const float& angle )
+{
+	glm::mat4 rot(1.0f);
+	rot = glm::rotate(rot, glm::radians( angle ), glm::vec3( 1.0f, 0.0f, 0.0f ) );
+	SetRotationMatrix(rot);
+	Update();
+}
+
+void CTransform::SetYaw( const float& angle )
+{
+	glm::mat4 rot(1.0f);
+	rot = glm::rotate(rot, glm::radians( angle ), glm::vec3( 0.0f, 1.0f, 0.0f ) );
+	SetRotationMatrix(rot);
+	Update();
+}
+
+void CTransform::SetRoll( const float& angle )
+{
+	glm::mat4 rot(1.0f);
+	rot = glm::rotate(rot, glm::radians( angle ), glm::vec3( 0.0f, 0.0f, 1.0f ) );
+	SetRotationMatrix(rot);
+	Update();
+}
+
+void CTransform::Pitch( const float& angle )
+{
+	transform = glm::rotate(transform, glm::radians( angle ), glm::vec3( 1.0f, 0.0f, 0.0f ) );
+	Update();
+}
+
+void CTransform::Yaw( const float& angle )
+{
+	transform = glm::rotate(transform, glm::radians( angle ), glm::vec3( 0.0f, 1.0f, 0.0f ) );
+	Update();
+}
+
+void CTransform::Roll( const float& angle )
+{
+	transform = glm::rotate(transform, glm::radians( angle ), glm::vec3( 0.0f, 0.0f, 1.0f ) );
+	Update();
+}
+
+//Private
+void CTransform::SetRotationMatrix( const glm::mat4& rot)
 {
 	transform[0][0] = rot[0][0];	transform[0][1] = rot[0][1];	transform[0][2] = rot[0][2];
 	transform[1][0] = rot[1][0];	transform[1][1] = rot[1][1];	transform[1][2] = rot[1][2];
 	transform[2][0] = rot[2][0];	transform[2][1] = rot[2][1];	transform[2][2] = rot[2][2];
 }
 
-void CTransform::SetPitch( float angle )
+// SCALE
+glm::vec3 CTransform::GetScale() const
 {
-	glm::mat4 rot(1.0f);
-	rot = glm::rotate(rot, glm::radians( angle ), glm::vec3( 1.0f, 0.0f, 0.0f ) );
-	SetRotationMatrix(rot);
-	if ( entity != NULL ) entity->Update();
+	return glm::vec3( transform[0][3], transform[1][3], transform[2][3] );
 }
 
-void CTransform::SetYaw( float angle )
+void CTransform::SetScale( const glm::vec3& scale )
 {
-	glm::mat4 rot(1.0f);
-	rot = glm::rotate(rot, glm::radians( angle ), glm::vec3( 0.0f, 1.0f, 0.0f ) );
-	SetRotationMatrix(rot);
-	if ( entity != NULL ) entity->Update();
+	transform[0][0] = scale.x;
+	transform[1][1] = scale.y;
+	transform[2][2] = scale.z;
+	Update();
 }
 
-void CTransform::SetRoll( float angle )
+const float CTransform::GetScaleX() const
 {
-	glm::mat4 rot(1.0f);
-	rot = glm::rotate(rot, glm::radians( angle ), glm::vec3( 0.0f, 0.0f, 1.0f ) );
-	SetRotationMatrix(rot);
-	if ( entity != NULL ) entity->Update();
+	return transform[0][0];
 }
 
-void CTransform::Pitch( float angle )
+const float CTransform::GetScaleY() const
 {
-	transform = glm::rotate(transform, glm::radians( angle ), glm::vec3( 1.0f, 0.0f, 0.0f ) );
-	if ( entity != NULL ) entity->Update();
-}
-void CTransform::Yaw( float angle )
-{
-	transform = glm::rotate(transform, glm::radians( angle ), glm::vec3( 0.0f, 1.0f, 0.0f ) );
-	if ( entity != NULL ) entity->Update();
-}
-void CTransform::Roll( float angle )
-{
-	transform = glm::rotate(transform, glm::radians( angle ), glm::vec3( 0.0f, 0.0f, 1.0f ) );
-	if ( entity != NULL ) entity->Update();
+	return transform[1][1];
 }
 
-
-void CTransform::Rotate( glm::vec3 rotation )
+const float CTransform::GetScaleZ() const
 {
-	glm::quat rotate(rotation);
-	transform = glm::rotate(transform, glm::radians( glm::eulerAngles(rotate).x ), glm::vec3( 1.0f, 0.0f, 0.0f ) );
-	transform = glm::rotate(transform, glm::radians( glm::eulerAngles(rotate).y ), glm::vec3( 0.0f, 1.0f, 0.0f ) );
-	transform = glm::rotate(transform, glm::radians( glm::eulerAngles(rotate).z ), glm::vec3( 0.0f, 0.0f, 1.0f ) );
-	if ( entity != NULL ) entity->Update();
-	//glm::rotate(const tquat<T, P> &q, const T &angle, const tvec3<T, P> &v);
-	//glm::rotate(const tmat4x4<T, P> &m, T angle, const tvec3<T, P> &v);
-	//glm::rotate(T angle, const tvec3<T, P> &v);
+	return transform[2][2];
 }
 
-void CTransform::Scale( glm::vec3 scale )
+void CTransform::SetScaleX( const float& x )
 {
-	glm::scale(transform, scale);
-	if ( entity != NULL ) entity->Update();
+	transform[0][0] = x;
+	Update();
 }
 
-void CTransform::Translate( glm::vec3 translation )
+void CTransform::SetScaleY( const float& y )
 {
-	glm::translate(transform, translation);
-	if ( entity != NULL ) entity->Update();
+	transform[1][1] = y;
+	Update();
+}
+
+void CTransform::SetScaleZ( const float& z )
+{
+	transform[2][2] = z;
+	Update();
+}
+
+void CTransform::ScaleX( const float& x )
+{
+	glm::scale(transform, glm::vec3( x, 0.0f, 0.0f ) );
+	Update();
+}
+
+void CTransform::ScaleY( const float& y )
+{
+	glm::scale(transform, glm::vec3( 0.0f, y, 0.0f ) );
+	Update();
+}
+
+void CTransform::ScaleZ( const float& z )
+{
+	glm::scale(transform, glm::vec3( 0.0f, 0.0f, z ) );
+	Update();
 }

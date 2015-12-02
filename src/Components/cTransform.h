@@ -2,12 +2,8 @@
 #define cTransform_h
 
 #include "component.h"
-#include <vector>
 #include "../glm/mat4x4.hpp"
 #include "../glm/vec3.hpp"
-#include "../glm/gtc/quaternion.hpp"
-#include "../glm/gtx/transform.hpp"
-
 
 class CTransform : public Component
 {
@@ -17,50 +13,69 @@ class CTransform : public Component
         CTransform();
         ~CTransform();
 	
-		//glm::mat4 transform;
-	
-		//std::vector<CTransform* > GetChildren();
-		//CTransform* GetParent();
-		//void SetParent( CTransform* newParent );
-	
 		const glm::mat4& GetTransform() const;
 		const glm::mat4& GetWorldTransform() const;
 	
 		void SetTransform( const glm::mat4& transform );
 		void SetWorldTransform( const glm::mat4& transform );
 	
-		void Rotate( glm::vec3 rotate );
-		void Translate( glm::vec3 translation );
-		void Scale( glm::vec3 scale );
-		// POSITION FUNCTIONALITY
+		void Translate( const glm::vec3& translation );
+		void Rotate( const glm::vec3& rotate );
+		void Scale( const glm::vec3& scale );
 	
+		// POSITION
 		glm::vec3 GetPosition() const;
-		void SetPosition( glm::vec3 position );
+		void SetPosition( const glm::vec3& position );
 
-		// ROTATION FUNCTIONALITY
+		const float GetPositionX() const;
+		const float GetPositionY() const;
+		const float GetPositionZ() const;
+	
+		void SetPositionX( const float& x );
+		void SetPositionY( const float& y );
+		void SetPositionZ( const float& z );
+	
+		void TranslateX( const float& x );
+		void TranslateY( const float& y );
+		void TranslateZ( const float& z );
+	
+		// ROTATION
 		glm::vec3 GetRotation() const;
-		void SetRotation( glm::vec3 rotation );
+		void SetRotation( const glm::vec3& rotation );
 	
-		float GetPitch() const;
-		float GetYaw() const;
-		float GetRoll() const;
+		const float GetPitch() const;
+		const float GetYaw() const;
+		const float GetRoll() const;
 	
-		void SetPitch( float angle );
-		void SetYaw( float angle );
-		void SetRoll( float angle );
+		void SetPitch( const float& angle );
+		void SetYaw( const float& angle );
+		void SetRoll( const float& angle );
 	
-		void Pitch( float angle ); // Pitch is the X axis
-		void Yaw( float angle ); // Yaw is the Y axis
-		void Roll( float angle ); // Roll is the Z axis
+		void Pitch( const float& angle ); // Pitch is the X axis
+		void Yaw( const float& angle ); // Yaw is the Y axis
+		void Roll( const float& angle ); // Roll is the Z axis
 	
-		// SCALE FUNCTIONALITY
-	
+		// SCALE
 		glm::vec3 GetScale() const;
-		void SetScale( glm::vec3 scale );
+		void SetScale( const glm::vec3& scale );
+	
+		const float GetScaleX() const;
+		const float GetScaleY() const;
+		const float GetScaleZ() const;
+	
+		void SetScaleX( const float& x );
+		void SetScaleY( const float& y );
+		void SetScaleZ( const float& z );
+	
+		void ScaleX( const float& x );
+		void ScaleY( const float& y );
+		void ScaleZ( const float& z );
 	
 	
     private:
-		void SetRotationMatrix( glm::mat4 rot );
+	
+		void Update();
+		void SetRotationMatrix( const glm::mat4& rot );
 		glm::mat4 transform;
 		glm::mat4 worldTransform;
 

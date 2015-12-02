@@ -30,6 +30,7 @@ namespace Renderer
 			void RenderCube( ModelInstance* cube, unsigned int cubeMap );
 			void RenderLines( unsigned int vao, unsigned long count );
 		
+			inline void SetWindowSize( const int& w, const int& h ) { w_width = w; w_height = h; }
 			inline void SetMeshRendererList( std::vector< CMeshRenderer* >* list ) { renderables = list; }
 			inline void SetCamera( CCamera* c ) { camera = c; }
 			inline void SetTime( uint32 t ) { time = t; }
@@ -37,6 +38,8 @@ namespace Renderer
 		private:
 		
 			uint32 time;
+			int w_width;
+			int w_height;
 			CCamera* camera;
 			std::vector< CMeshRenderer* >* renderables;
 			ShaderProgram* lineProgram;

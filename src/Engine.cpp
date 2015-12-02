@@ -76,7 +76,6 @@ void Engine::Init()
 	string watching ( Content::GetPath() );
 	fileWatcher->addWatch( watching, listener, true );
 
-	renderer->Initialize();
 }
 
 void Engine::SetSeed()
@@ -306,6 +305,9 @@ void Engine::UpdateLoop()
 
 	ImGui_ImplSdl_Init(window);
 
+	renderer->SetWindowSize(1280, 720);
+	renderer->Initialize();
+	
 	/// TINAS PLAYGROUND!!!
 
 	ImportAssets();

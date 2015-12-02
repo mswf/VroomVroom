@@ -1,4 +1,25 @@
 #include "Texture.h"
+#include "../Utilities/opengl_common.h"
+
+GLuint BufferTexture3D( GLint levelOfDetail, GLint internalFormat, GLint width, GLint height, GLint depth, GLint pixelFormat, GLenum type, unsigned char* data, const std::vector< std::pair< GLenum, GLint > >* textureParameters, bool generateMipMap )
+{
+	unsigned int textureId;
+	glGenTextures( 1, &textureId );
+	glBindTexture( GL_TEXTURE_3D, textureId );
+	
+	//glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
+	std::vector< std::pair< GLenum, GLint > >::const_iterator iter = textureParameters->begin();
+	std::vector< std::pair< GLenum, GLint > >::const_iterator end = textureParameters->end();
+	for ( ; iter != end; ++iter )
+	{
+		glTexParameteri( GL_TEXTURE_3D, (*iter).first, (*iter).second );
+	}
+	glTexImage3D( GL_TEXTURE_3D, levelOfDetail, internalFormat, width, height, depth, 0, pixelFormat, type, (GLvoid*)data );
+	if ( generateMipMap ) glGenerateMipmap( GL_TEXTURE_3D );
+	
+	return textureId;
+}
+
 
 GLuint BufferTexture2D( GLint levelOfDetail, GLint internalFormat, GLint width, GLint height, GLint pixelFormat, GLenum type, unsigned char* data, const std::vector< std::pair< GLenum, GLint > >* textureParameters, bool generateMipMap )
 {

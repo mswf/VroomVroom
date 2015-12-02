@@ -17,6 +17,7 @@
 		23C59A361BCD3ACA00A37E29 /* mInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23C59A341BCD3ACA00A37E29 /* mInput.cpp */; settings = {ASSET_TAGS = (); }; };
 		23C8BF471C0DA07A000EFD05 /* mMeshRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23C8BF451C0DA07A000EFD05 /* mMeshRenderer.cpp */; settings = {ASSET_TAGS = (); }; };
 		23CBC8741BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */; };
+		23D328D11C0F034700FAC4B9 /* mImport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23D328CF1C0F034600FAC4B9 /* mImport.cpp */; settings = {ASSET_TAGS = (); }; };
 		23E1BD851C0C784C00F49BCF /* mMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E1BD831C0C784C00F49BCF /* mMaterial.cpp */; settings = {ASSET_TAGS = (); }; };
 		23E1BD881C0C7A7900F49BCF /* mModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E1BD861C0C7A7900F49BCF /* mModel.cpp */; settings = {ASSET_TAGS = (); }; };
 		23E1BD8B1C0C8DBF00F49BCF /* mShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E1BD891C0C8DBF00F49BCF /* mShader.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -117,6 +118,8 @@
 		23C8BF451C0DA07A000EFD05 /* mMeshRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mMeshRenderer.cpp; path = src/Modules/mMeshRenderer.cpp; sourceTree = SOURCE_ROOT; };
 		23C8BF461C0DA07A000EFD05 /* mMeshRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mMeshRenderer.h; path = src/Modules/mMeshRenderer.h; sourceTree = SOURCE_ROOT; };
 		23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libluajit-5.1.2.0.4.dylib"; path = "Framework/LJIT/lib/libluajit-5.1.2.0.4.dylib"; sourceTree = "<group>"; };
+		23D328CF1C0F034600FAC4B9 /* mImport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mImport.cpp; path = src/Modules/mImport.cpp; sourceTree = SOURCE_ROOT; };
+		23D328D01C0F034600FAC4B9 /* mImport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mImport.h; path = src/Modules/mImport.h; sourceTree = SOURCE_ROOT; };
 		23E1BD831C0C784C00F49BCF /* mMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mMaterial.cpp; path = src/Modules/mMaterial.cpp; sourceTree = SOURCE_ROOT; };
 		23E1BD841C0C784C00F49BCF /* mMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mMaterial.h; path = src/Modules/mMaterial.h; sourceTree = SOURCE_ROOT; };
 		23E1BD861C0C7A7900F49BCF /* mModel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mModel.cpp; path = src/Modules/mModel.cpp; sourceTree = SOURCE_ROOT; };
@@ -291,6 +294,8 @@
 				23E1BD8A1C0C8DBF00F49BCF /* mShader.h */,
 				23C8BF451C0DA07A000EFD05 /* mMeshRenderer.cpp */,
 				23C8BF461C0DA07A000EFD05 /* mMeshRenderer.h */,
+				23D328CF1C0F034600FAC4B9 /* mImport.cpp */,
+				23D328D01C0F034600FAC4B9 /* mImport.h */,
 			);
 			name = Modules;
 			sourceTree = "<group>";
@@ -560,6 +565,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23D328D11C0F034700FAC4B9 /* mImport.cpp in Sources */,
 				E56F55861BEB4C3F0027DDF6 /* resource_manager.cpp in Sources */,
 				E50529431BE8CDBA0017400B /* shader.cpp in Sources */,
 				E54726101BC6A78F00316B26 /* base64.cpp in Sources */,

@@ -50,8 +50,9 @@ void CLua::Update(float delta)
 		lua_getfield(L, -1, "update");
 		if(lua_isfunction(L, -1))
 		{
+			lua_pushvalue(L, -2);
 			lua_pushnumber(L, delta);
-			LuaSystem.Call(L, 1, 0);
+			LuaSystem.Call(L, 2, 0);
 		}
 		lua_settop(L, 0);
 	}

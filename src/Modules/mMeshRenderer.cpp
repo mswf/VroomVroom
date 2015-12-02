@@ -38,13 +38,23 @@ lFuncImp(mMeshRenderer, __engineInit)
 	
 	
 	//DEBUG CODE
-	mesh->SetModel(ResourceManager::getInstance().GetModel("/objects/Rabbit/Rabbit.obj"));
+	//mesh->SetModel(ResourceManager::getInstance().GetModel("/objects/Rabbit/Rabbit.obj"));
 	
 	return 0;
 }
 
 lFuncImp(mMeshRenderer, setModel)
 {
+	
+	lua_settop(L, 2);
+	lua_getfield(L, 1, "__coreComponent__");
+	CMeshRenderer* mesh = (CMeshRenderer*)lua_touserdata(L, -1);
+	
+	lua_getfield(L, 2, "__coreModel__");
+	ModelInstance* model = (ModelInstance*)lua_touserdata(L, -1);
+	
+	
+	mesh->SetModel(model);
 	return 0;
 }
 

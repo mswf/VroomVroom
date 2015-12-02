@@ -405,13 +405,15 @@ void ResourceManager::CreateShaderProgram( const char* name, const char* shaders
 	ShaderProgram* prog = new ShaderProgram();
 	ResourceManager::getInstance().InsertShaderProgram( name, prog);
 	int i;
-	GLuint shaders[count];
+	GLuint* shaders = new GLuint[count];
 	for ( i = 0; i < count; ++i )
 	{
 		prog->shaders.push_back( GetShaderObject( shaders_objects[i] ) );
 		shaders[i] = prog->shaders[i]->shader;
 	}
 	CreateProgram( prog->program, shaders, count);
+
+	delete shaders;
 }
 
 void ResourceManager::InsertShaderObject( const char* name, ShaderObject* data )

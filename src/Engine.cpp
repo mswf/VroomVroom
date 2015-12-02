@@ -312,19 +312,19 @@ void Engine::UpdateLoop()
 
 	//  RESOURCE MANAGING !!!
 
-	CMeshRenderer* meshRenderer = new CMeshRenderer();
-	CMeshRenderer* meshRenderer2 = new CMeshRenderer();
+	//CMeshRenderer* meshRenderer = new CMeshRenderer();
+	//CMeshRenderer* meshRenderer2 = new CMeshRenderer();
 	Material* mt;
-	meshRenderer->SetModel( "objects/Rabbit/Rabbit.obj" );
+	//meshRenderer->SetModel( "objects/Rabbit/Rabbit.obj" );
 	mt = ResourceManager::getInstance().GetMaterialByName("Rabbit");
 	mt->SetDiffuseTexture("objects/object_group_test/checker_1.png");
 	mt->SetNormalTexture("objects/Rabbit/Rabbit_N.tga");
 
-	meshRenderer2->SetModel( "objects/icy_snowman.obj" );
+	//meshRenderer2->SetModel( "objects/icy_snowman.obj" );
 	mt = ResourceManager::getInstance().GetMaterialByName("Default");
 	mt->SetDiffuseTexture("objects/snowman.png");
 
-	meshRenderer2->SetMaterial(mt);
+	//meshRenderer2->SetMaterial(mt);
 
 	// RESOURCE MANAGING ENDS!!!
 
@@ -373,12 +373,12 @@ void Engine::UpdateLoop()
 	GLuint lineVbo;
 	BufferPoints( lineVao, lineVbo, points, colours );
 	
-	Entity* box = new Entity( "MyLittleBox" );
-	Entity::AddComponent(box, meshRenderer);
+	//Entity* box = new Entity( "MyLittleBox" );
+	//Entity::AddComponent(box, meshRenderer);
 
-	Entity* box2 = new Entity( "MyLittleBox2", box );
-	box2->transform->SetPosition(glm::vec3(-1.0));
-	Entity::AddComponent(box2, meshRenderer2);
+	//Entity* box2 = new Entity( "MyLittleBox2", box );
+	//box2->transform->SetPosition(glm::vec3(-1.0));
+	//Entity::AddComponent(box2, meshRenderer2);
 
 	Entity* camera = new Entity( "Main Camera" );
 	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 90.0f, 1280.0f / 720.0f, 0.2f, 1000.0f );
@@ -416,8 +416,8 @@ void Engine::UpdateLoop()
 					running = false;
 				}
 
-				box->transform->Yaw(1.0f);
-				box2->transform->Roll(1.0f);
+				//box->transform->Yaw(1.0f);
+				//box2->transform->Roll(1.0f);
 
 				prevTicks = currentTicks;
 				prevTicks -= deltaTimeGame;

@@ -25,11 +25,12 @@ Entity::Entity( std::string name, Entity* parent ) :
 
 Entity::~Entity()
 {
-	std::vector< Entity* >::iterator iter = children.begin();
-	std::vector< Entity* >::iterator end = children.end();
+	// TODO(Valentinas): Test if the children are cleaned properly
+	std::vector< Entity* >::const_iterator iter = children.begin();
+	std::vector< Entity* >::const_iterator end = children.end();
 	for ( ; iter != end; ++iter)
 	{
-		delete *iter;
+		delete (*iter);
 	}
 }
 

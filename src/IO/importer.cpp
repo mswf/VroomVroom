@@ -32,7 +32,7 @@ bool Importer::ImportObjFile( const std::string &pFile, bool importTextures )
 	Terminal.Log("Importing obj: " + pFile);
 	
 	IMPORTER_MESSAGE imp_err;
-	std::string path( Content::GetPath() + pFile );
+	std::string path( Content::GetPath() + "/" + pFile );
 	aiScene* scene = imp_->ImportObjFile( path, imp_err );
 	
 	if ( imp_err == IMPORTER_MESSAGE::FILE_NOT_FOUND )
@@ -94,7 +94,7 @@ bool Importer::ImportImage( const char* filename, bool vertical_flip )
 		Terminal.Warning( "Image already imported. Aborting redundant loading" );
 		return false;
 	}
-	std::string file( Content::GetPath() + filename );
+	std::string file( Content::GetPath() + "/" + filename );
 	ImageData* image = new ImageData();
 	image->components = 4;
 	IMPORTER_MESSAGE imp_err = IMPORTER_MESSAGE::FILE_OK;

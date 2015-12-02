@@ -91,6 +91,11 @@ void Engine::SetSeed()
 	Random::SetRandomSeed(seconds);
 }
 
+uint32 Engine::GetTicks()
+{
+	return SDL_GetTicks();
+}
+
 void Engine::PollEvent()
 {
 	SDL_Event event;
@@ -248,12 +253,11 @@ void Engine::ImportAssets()
 	rm.Initialize();
 	std::vector< std::string > meshes, images, cube_map, errors;
 	std::vector< std::pair< std::string, GLSLShaderType > > shaders;
-	meshes.push_back( "/objects/Rabbit/Rabbit.obj" );
-	meshes.push_back( "/objects/monocar.obj" );
-	meshes.push_back( "/objects/icy_snowman.obj" );
-	images.push_back( "/objects/snowman.png" );
-	images.push_back( "/objects/object_group_test/checker_1.png" );
-	images.push_back( "/objects/object_group_test/checker_2.png" );
+	meshes.push_back( "objects/Rabbit/Rabbit.obj" );
+	meshes.push_back( "objects/icy_snowman.obj" );
+	images.push_back( "objects/snowman.png" );
+	images.push_back( "objects/object_group_test/checker_1.png" );
+	images.push_back( "objects/object_group_test/checker_2.png" );
 
 	// Cube map
 	/*
@@ -311,14 +315,14 @@ void Engine::UpdateLoop()
 	CMeshRenderer* meshRenderer = new CMeshRenderer();
 	CMeshRenderer* meshRenderer2 = new CMeshRenderer();
 	Material* mt;
-	meshRenderer->SetModel( "/objects/Rabbit/Rabbit.obj" );
+	meshRenderer->SetModel( "objects/Rabbit/Rabbit.obj" );
 	mt = ResourceManager::getInstance().GetMaterialByName("Rabbit");
-	mt->SetDiffuseTexture("/objects/object_group_test/checker_1.png");
-	mt->SetNormalTexture("/objects/Rabbit/Rabbit_D.tga");
+	mt->SetDiffuseTexture("objects/object_group_test/checker_1.png");
+	mt->SetNormalTexture("objects/Rabbit/Rabbit_N.tga");
 
-	meshRenderer2->SetModel( "/objects/icy_snowman.obj" );
+	meshRenderer2->SetModel( "objects/icy_snowman.obj" );
 	mt = ResourceManager::getInstance().GetMaterialByName("Default");
-	mt->SetDiffuseTexture("/objects/snowman.png");
+	mt->SetDiffuseTexture("objects/snowman.png");
 
 	meshRenderer2->SetMaterial(mt);
 
@@ -393,7 +397,7 @@ void Engine::UpdateLoop()
 
 	while (running)
 	{
-		currentTicks = SDL_GetTicks();
+		currentTicks = GetTicks();
 		float deltaTimeGame = currentTicks - prevTicks;
 
 		// This part makes it get called 60 times per second
@@ -428,7 +432,7 @@ void Engine::UpdateLoop()
 		glClearColor( 0.91f, 0.91f, 0.91f, 1.0f );
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-		renderer->SetTime( SDL_GetTicks() );
+		renderer->SetTime( GetTicks() );
 		//renderer->RenderCube( skybox, skybox_map );
 		//renderer->RenderLines( lineVao, points.size() );
 		renderer->Render();

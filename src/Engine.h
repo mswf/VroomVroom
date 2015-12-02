@@ -7,6 +7,7 @@
 #include "Input.hpp"
 #include "Utilities/FileWatcher/file_watcher_impl.h"
 #include "DataStructure/resource_manager.h"
+#include "Utilities/typedef.h"
 #include <map>
 #include <vector>
 #include "Components/entity.h"
@@ -30,6 +31,8 @@ class Engine
 		void InitSDLNet();
 		void Init();
 
+		static uint32 GetTicks();
+	
 	private:
 	
 		void SetSeed();

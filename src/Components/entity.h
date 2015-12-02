@@ -53,7 +53,6 @@ class Entity
 		Entity* parent;
 		std::vector< Entity* > children;
 		std::map< int, Component* > entityComponents;
-		glm::mat4 worldTransform;
 		CTransform* transform;
 	
 	private:

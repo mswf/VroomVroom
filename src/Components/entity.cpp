@@ -41,10 +41,11 @@ void Entity::AddChild( Entity* c )
 
 void Entity::Update()
 {
-	//localTransform = parentWorldTransform.inverse() * worldTransform;
+	// localTransform = parentWorldTransform.inverse() * worldTransform;
 	// M_loc = M_parent_inv * M
 	glm::mat4 localTransform = GetTransform();
-	worldTransform = (parent != NULL ) ? (parent->worldTransform * localTransform) : localTransform;
+	glm::mat4 worldTransform = (parent != NULL ) ? (parent->transform->GetWorldTransform() * localTransform) : localTransform;
+	transform->SetWorldTransform(worldTransform);
 	
 	std::vector< Entity* >::const_iterator iter = children.begin();
 	std::vector< Entity* >::const_iterator end = children.end();

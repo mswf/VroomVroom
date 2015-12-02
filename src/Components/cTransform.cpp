@@ -37,7 +37,8 @@ void CTransform::SetWorldTransform( const glm::mat4 &trans )
 
 void CTransform::Translate( const glm::vec3& translation )
 {
-	glm::translate(transform, translation);
+	glm::vec4 p = glm::translate( transform, translation ) * glm::vec4( GetPosition(), 1.0f );
+	SetPosition( glm::vec3( p.x, p.y, p.z ) );
 	Update();
 }
 
@@ -114,23 +115,24 @@ void CTransform::SetPositionZ( const float& z )
 
 void CTransform::TranslateX( const float& x )
 {
-	//glm::mat4 t = glm::translate( glm::mat4(1), glm::vec3( x, 0.0f, 0.0f ) );
-	//SetPosition( t * glm::vec4( x, 0.0, 0.0, 1.0 ) );
+	glm::vec4 p = glm::translate( transform, glm::vec3( x, 0.0f, 0.0f ) ) * glm::vec4( GetPosition(), 1.0f );
+	SetPosition( glm::vec3( p.x, GetPositionY(), GetPositionZ() ) );
 	Update();
 }
 
 void CTransform::TranslateY( const float& y )
 {
-	glm::translate(transform, glm::vec3( 0.0f, y, 0.0f ) );
+	glm::vec4 p = glm::translate( transform, glm::vec3( 0.0f, y, 0.0f ) ) * glm::vec4( GetPosition(), 1.0f );
+	SetPosition( glm::vec3( GetPositionX(), p.y, GetPositionZ() ) );
 	Update();
 }
 
 void CTransform::TranslateZ( const float& z )
 {
-	glm::translate(transform, glm::vec3( 0.0f, 0.0f, z ) );
+	glm::vec4 p = glm::translate( transform, glm::vec3( 0.0f, 0.0f, z ) ) * glm::vec4( GetPosition(), 1.0f );
+	SetPosition( glm::vec3( GetPositionX(), GetPositionY(), p.z ) );
 	Update();
 }
-
 
 // ROTATION
 glm::vec3 CTransform::GetRotation() const

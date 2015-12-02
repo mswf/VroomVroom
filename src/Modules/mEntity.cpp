@@ -19,6 +19,7 @@
 #include "../Components/cLua.h"
 #include "../Components/cCamera.h"
 #include "../Components/cMeshRenderer.h"
+#include "../Components/cTransform.h"
 
 #include "../engine.h"
 
@@ -30,6 +31,55 @@ void mEntity::Bind(lua_State* L)
         lBind(__engineInit)
 		lBind(addChild)
 		lBind(addComponent)
+	
+		//GETTERS
+		lBind(getX)
+		lBind(getY)
+		lBind(getZ)
+		
+		lBind(getScaleX)
+		lBind(getScaleY)
+		lBind(getScaleZ)
+		
+		lBind(getPitch)
+		lBind(getYaw)
+		lBind(getRoll)
+		
+		lBind(getPosition)
+		lBind(getScale)
+		lBind(getRotation)
+	
+	
+		//SETTERS
+		lBind(setX)
+		lBind(setY)
+		lBind(setZ)
+		
+		lBind(setScaleX)
+		lBind(setScaleY)
+		lBind(setScaleZ)
+		
+		lBind(setPitch)
+		lBind(setYaw)
+		lBind(setRoll)
+		
+		lBind(setPosition)
+		lBind(setScale)
+		lBind(setRotation)
+		/*
+		
+		//INCREMENT
+		lBind(addX)
+		lBind(addY)
+		lBind(addZ)
+		
+		lBind(addScaleX)
+		lBind(addScaleY)
+		lBind(addScaleZ)
+		
+		lBind(pitch)
+		lBind(yaw)
+		lBind(roll)*/
     lEnd(BaseEntity)
 	luaL_openlib(L, 0, BaseEntity_funcs, 0);
 	lua_setfield(L, -2, "baseEntity");
@@ -160,4 +210,215 @@ lFuncImp(mEntity, gcDestroy)
 	delete component;
 	
     return 0;
+}
+
+#define lTransformGet(FUNC, CALL)\
+	lFuncImp(mEntity, FUNC )\
+	{\
+		lua_settop(L,1);\
+		\
+		lua_getfield(L, 1, "__coreComponent__");\
+		if(lua_isnil(L, -1))\
+		{\
+			Terminal.Warning("no core component found on this entity. What did you do?!!?!!?");\
+			return 1;\
+		}\
+		\
+		CLua* component = reinterpret_cast<CLua*>(lua_touserdata(L, -1));\
+		CTransform* transform = component->entity->transform;\
+		\
+		float val = transform->CALL();\
+		\
+		lua_pushnumber(L, val);\
+		\
+		return 1;\
+	}
+
+
+//GETTERS
+lTransformGet(getX, GetPositionX);
+lTransformGet(getY, GetPositionY);
+lTransformGet(getZ, GetPositionZ);
+
+lTransformGet(getScaleX, GetScaleX);
+lTransformGet(getScaleY, GetScaleY);
+lTransformGet(getScaleZ, GetScaleZ);
+
+lTransformGet(getPitch, GetPitch);
+lTransformGet(getYaw, GetYaw);
+lTransformGet(getRoll, GetRoll);
+
+lFuncImp(mEntity, getPosition)
+{
+	lua_settop(L,1);
+	
+	lua_getfield(L, 1, "__coreComponent__");
+	if(lua_isnil(L, -1))
+	{
+		Terminal.Warning("no core component found on this entity. What did you do?!!?!!?");
+		return 1;
+	}
+	
+	CLua* component = reinterpret_cast<CLua*>(lua_touserdata(L, -1));
+	CTransform* transform = component->entity->transform;
+	
+	glm::vec3 val = transform->GetPosition();
+	
+	lua_pushnumber(L, val.x);
+	lua_pushnumber(L, val.y);
+	lua_pushnumber(L, val.z);
+	
+	return 3;
+}
+
+lFuncImp(mEntity, getScale)
+{
+	lua_settop(L,1);
+	
+	lua_getfield(L, 1, "__coreComponent__");
+	if(lua_isnil(L, -1))
+	{
+		Terminal.Warning("no core component found on this entity. What did you do?!!?!!?");
+		return 1;
+	}
+	
+	CLua* component = reinterpret_cast<CLua*>(lua_touserdata(L, -1));
+	CTransform* transform = component->entity->transform;
+	
+	glm::vec3 val = transform->GetScale();
+	
+	lua_pushnumber(L, val.x);
+	lua_pushnumber(L, val.y);
+	lua_pushnumber(L, val.z);
+	
+	return 3;
+}
+
+lFuncImp(mEntity, getRotation)
+{
+	lua_settop(L,1);
+	
+	lua_getfield(L, 1, "__coreComponent__");
+	if(lua_isnil(L, -1))
+	{
+		Terminal.Warning("no core component found on this entity. What did you do?!!?!!?");
+		return 1;
+	}
+	
+	CLua* component = reinterpret_cast<CLua*>(lua_touserdata(L, -1));
+	CTransform* transform = component->entity->transform;
+	
+	glm::vec3 val = transform->GetRotation();
+	
+	lua_pushnumber(L, val.x);
+	lua_pushnumber(L, val.y);
+	lua_pushnumber(L, val.z);
+	
+	return 3;
+}
+
+
+#define lTransformSet(FUNC, CALL)\
+	lFuncImp(mEntity, FUNC )\
+	{\
+		lua_settop(L,2);\
+		\
+		lua_getfield(L, 1, "__coreComponent__");\
+		if(lua_isnil(L, -1))\
+		{\
+			Terminal.Warning("no core component found on this entity. What did you do?!!?!!?");\
+			return 0;\
+		}\
+		\
+		CLua* component = reinterpret_cast<CLua*>(lua_touserdata(L, -1));\
+		CTransform* transform = component->entity->transform;\
+		\
+		transform->CALL(lua_tonumber(L, 2));\
+		\
+		return 0;\
+	}
+
+//SETTERS
+lTransformSet(setX, SetPositionX);
+lTransformSet(setY, SetPositionY);
+lTransformSet(setZ, SetPositionZ);
+
+lTransformSet(setScaleX, SetScaleX);
+lTransformSet(setScaleY, SetScaleY);
+lTransformSet(setScaleZ, SetScaleZ);
+
+lTransformSet(setPitch, SetPitch);
+lTransformSet(setYaw, SetYaw);
+lTransformSet(setRoll, SetRoll);
+
+lFuncImp(mEntity, setPosition)
+{
+	lua_settop(L,4);
+	
+	lua_getfield(L, 1, "__coreComponent__");
+	if(lua_isnil(L, -1))
+	{
+		Terminal.Warning("no core component found on this entity. What did you do?!!?!!?");
+		return 1;
+	}
+	
+	CLua* component = reinterpret_cast<CLua*>(lua_touserdata(L, -1));
+	CTransform* transform = component->entity->transform;
+	
+	glm::vec3 val;
+	val.x = lua_tonumber(L,2);
+	val.y = lua_tonumber(L,3);
+	val.z = lua_tonumber(L,4);
+	
+	transform->SetPosition(val);
+	
+	return 0;
+}
+
+lFuncImp(mEntity, setScale)
+{
+	lua_settop(L,4);
+	
+	lua_getfield(L, 1, "__coreComponent__");
+	if(lua_isnil(L, -1))
+	{
+		Terminal.Warning("no core component found on this entity. What did you do?!!?!!?");
+		return 1;
+	}
+	
+	CLua* component = reinterpret_cast<CLua*>(lua_touserdata(L, -1));
+	CTransform* transform = component->entity->transform;
+	
+	glm::vec3 val;
+	val.x = lua_tonumber(L,2);
+	val.y = lua_tonumber(L,3);
+	val.z = lua_tonumber(L,4);
+	
+	transform->SetScale(val);
+	
+	return 0;
+}
+
+lFuncImp(mEntity, setRotation)
+{
+	lua_settop(L,4);
+	
+	lua_getfield(L, 1, "__coreComponent__");
+	if(lua_isnil(L, -1))
+	{
+		Terminal.Warning("no core component found on this entity. What did you do?!!?!!?");
+		return 1;
+	}
+	
+	CLua* component = reinterpret_cast<CLua*>(lua_touserdata(L, -1));
+	CTransform* transform = component->entity->transform;
+	
+	glm::vec3 val;
+	val.x = lua_tonumber(L,2);
+	val.y = lua_tonumber(L,3);
+	val.z = lua_tonumber(L,4);
+	
+	transform->SetRotation(val);
+	
+	return 0;
 }

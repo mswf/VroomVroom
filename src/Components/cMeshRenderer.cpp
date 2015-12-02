@@ -32,6 +32,10 @@ void CMeshRenderer::SetModel( const char* name )
 void CMeshRenderer::SetModel( ModelInstance* instance )
 {
 	model = instance;
+	if (model != NULL)
+	{
+		SetMaterial( ResourceManager::getInstance().GetMaterialById( model->materialId ) );
+	}
 }
 
 const ModelInstance* CMeshRenderer::GetModelInstace() const

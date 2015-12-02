@@ -89,7 +89,7 @@ namespace Renderer
 			
 			mtl->UseMaterial();
 
-			glm::mat3 mvMatrix = glm::mat3( camera->GetViewMatrix() * (*it)->entity->worldTransform );
+			glm::mat3 mvMatrix = glm::mat3( camera->GetViewMatrix() * (*it)->entity->transform->GetWorldTransform() );
 			glm::mat3 normalMatrix = glm::transpose(glm::inverse(mvMatrix));
 			glm::vec3 lightPosition( 0.0, 5.0, 1.0 );
 
@@ -104,7 +104,7 @@ namespace Renderer
 			//SetActiveSubroutine( program, *mtl->shader->shaders[1], "myMode", "modeRed");
 			//s->SetSubroutineUniform( s->program, GL_FRAGMENT_SHADER, 2, "colorModel");
 			
-			SetUniform( program,	"model", 		(*it)->entity->worldTransform );
+			SetUniform( program,	"model", 		(*it)->entity->transform->GetWorldTransform() );
 			SetUniform( program,	"view", 		camera->GetViewMatrix() );
 			SetUniform( program,	"normalMatrix", normalMatrix );
 			SetUniform( program,	"mvMatrix", 	mvMatrix );
@@ -146,8 +146,8 @@ namespace Renderer
 		SetUniform( lineProgram->program,	"projection", 	camera->GetProjectionMatrix() );
 		SetUniform( lineProgram->program,	"time", 		(float)time );
 		
-		glDrawArrays( GL_LINES, 0, count);
-		glDrawArrays( GL_POINTS, 0, count);
+		glDrawArrays( GL_LINES, 0, (int)count);
+		glDrawArrays( GL_POINTS, 0, (int)count);
 		
 		glUseProgram(0);
 		

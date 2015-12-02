@@ -409,9 +409,6 @@ void Engine::UpdateLoop()
 
 			Update(gameUpdateInterval);
 
-			// Scene traversal
-			Entity::root->Update();
-
 			if (deltaTimeGame < gameUpdateInterval)
 			{
 				if ( inputManager->OnKey(SDLK_ESCAPE) )

@@ -17,10 +17,9 @@ class Entity
 		~Entity();
 	
 		void AddChild( Entity* c );
+		void RemoveChild( Entity* c );
 		void Update();
 		const glm::mat4& GetTransform();
-		std::vector< Entity* >::const_iterator GetChildrenIteratorStart() const;
-		std::vector< Entity* >::const_iterator GetChildrenIteratorEnd() const;
 	
 		// TODO(Valentinas): Add remove function for components
 	

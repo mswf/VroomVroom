@@ -25,8 +25,8 @@ Entity::Entity( std::string name, Entity* parent ) :
 
 Entity::~Entity()
 {
-	std::vector< Entity* >::const_iterator iter = GetChildrenIteratorStart();
-	std::vector< Entity* >::const_iterator end = GetChildrenIteratorEnd();
+	std::vector< Entity* >::iterator iter = children.begin();
+	std::vector< Entity* >::iterator end = children.end();
 	for ( ; iter != end; ++iter)
 	{
 		delete *iter;
@@ -35,8 +35,25 @@ Entity::~Entity()
 
 void Entity::AddChild( Entity* c )
 {
+	if ( c->parent != NULL )
+	{
+		c->parent->RemoveChild( c );
+	}
 	children.push_back(c);
 	c->parent = this;
+}
+
+void Entity::RemoveChild( Entity *c )
+{
+	std::vector< Entity* >::iterator iter = children.begin();
+	std::vector< Entity* >::iterator end = children.end();
+	for ( ; iter != end; ++iter)
+	{
+		if ( c == (*iter) )
+		{
+			children.erase(iter);
+		}
+	}
 }
 
 void Entity::Update()
@@ -53,16 +70,6 @@ void Entity::Update()
  	{
 		(*iter)->Update();
 	}
-}
-
-std::vector< Entity* >::const_iterator Entity::GetChildrenIteratorStart() const
-{
-	return children.begin();
-}
-
-std::vector< Entity* >::const_iterator Entity::GetChildrenIteratorEnd() const
-{
-	return children.end();
 }
 
 const glm::mat4& Entity::GetTransform()

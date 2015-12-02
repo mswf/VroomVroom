@@ -56,7 +56,7 @@ void CTransform::Rotate( const glm::vec3& rotation )
 
 void CTransform::Scale( const glm::vec3& scale )
 {
-	glm::scale(transform, scale);
+	transform = glm::scale(transform, scale);
 	Update();
 }
 
@@ -218,7 +218,7 @@ void CTransform::SetRotationMatrix( const glm::mat4& rot)
 // SCALE
 glm::vec3 CTransform::GetScale() const
 {
-	return glm::vec3( transform[0][3], transform[1][3], transform[2][3] );
+	return glm::vec3( transform[0][0], transform[1][1], transform[2][2] );
 }
 
 void CTransform::SetScale( const glm::vec3& scale )

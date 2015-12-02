@@ -45,13 +45,15 @@ void Entity::AddChild( Entity* c )
 
 void Entity::RemoveChild( Entity *c )
 {
-	std::vector< Entity* >::iterator iter = children.begin();
-	std::vector< Entity* >::iterator end = children.end();
+	std::vector< Entity* >::const_iterator iter = children.begin();
+	std::vector< Entity* >::const_iterator end = children.end();
 	for ( ; iter != end; ++iter)
 	{
 		if ( c == (*iter) )
 		{
+			
 			children.erase(iter);
+			break;
 		}
 	}
 }

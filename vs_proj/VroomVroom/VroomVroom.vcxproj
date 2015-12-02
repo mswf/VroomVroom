@@ -188,6 +188,7 @@
     <ClInclude Include="..\..\src\IO\stb_image.h" />
     <ClInclude Include="..\..\src\Modules\mAll.h" />
     <ClInclude Include="..\..\src\Modules\mEntity.h" />
+    <ClInclude Include="..\..\src\Modules\mImport.h" />
     <ClInclude Include="..\..\src\Modules\mInput.h" />
     <ClInclude Include="..\..\src\Modules\mLog.h" />
     <ClInclude Include="..\..\src\Modules\mMaterial.h" />
@@ -195,6 +196,7 @@
     <ClInclude Include="..\..\src\Modules\mModel.h" />
     <ClInclude Include="..\..\src\Modules\moduleMacros.h" />
     <ClInclude Include="..\..\src\Modules\mShader.h" />
+    <ClInclude Include="..\..\src\Modules\mSystem.h" />
     <ClInclude Include="..\..\src\Modules\mUi.h" />
     <ClInclude Include="..\..\src\Networking\TCPClient.h" />
     <ClInclude Include="..\..\src\Networking\TCPData.h" />
@@ -247,12 +249,14 @@
     <ClCompile Include="..\..\src\IO\RtMidi.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\Modules\mEntity.cpp" />
+    <ClCompile Include="..\..\src\Modules\mImport.cpp" />
     <ClCompile Include="..\..\src\Modules\mInput.cpp" />
     <ClCompile Include="..\..\src\Modules\mLog.cpp" />
     <ClCompile Include="..\..\src\Modules\mMaterial.cpp" />
     <ClCompile Include="..\..\src\Modules\mMeshRenderer.cpp" />
     <ClCompile Include="..\..\src\Modules\mModel.cpp" />
     <ClCompile Include="..\..\src\Modules\mShader.cpp" />
+    <ClCompile Include="..\..\src\Modules\mSystem.cpp" />
     <ClCompile Include="..\..\src\Modules\mUi.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPClient.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPData.cpp" />

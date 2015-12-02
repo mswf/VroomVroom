@@ -66,7 +66,7 @@ void mEntity::Bind(lua_State* L)
 		lBind(setPosition)
 		lBind(setScale)
 		lBind(setRotation)
-		/*
+	
 		
 		//INCREMENT
 		lBind(addX)
@@ -79,7 +79,7 @@ void mEntity::Bind(lua_State* L)
 		
 		lBind(pitch)
 		lBind(yaw)
-		lBind(roll)*/
+		lBind(roll)
     lEnd(BaseEntity)
 	luaL_openlib(L, 0, BaseEntity_funcs, 0);
 	lua_setfield(L, -2, "baseEntity");
@@ -422,3 +422,15 @@ lFuncImp(mEntity, setRotation)
 	
 	return 0;
 }
+
+lTransformSet(addX, TranslateX);
+lTransformSet(addY, TranslateY);
+lTransformSet(addZ, TranslateZ);
+
+lTransformSet(addScaleX, ScaleX);
+lTransformSet(addScaleY, ScaleY);
+lTransformSet(addScaleZ, ScaleZ);
+
+lTransformSet(pitch, Pitch);
+lTransformSet(yaw, Yaw);
+lTransformSet(roll, Roll);

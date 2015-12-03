@@ -32,7 +32,7 @@ namespace Renderer
 	bool RenderSystem::Initialize()
 	{
 		SetMeshRendererList( CMeshRenderer::GetMeshRendererList() );
-		return false;
+		return true;
 	}
 	
 	void RenderSystem::Update( void* data )

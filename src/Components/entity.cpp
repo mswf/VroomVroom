@@ -67,6 +67,13 @@ void Entity::Update()
 	glm::mat4 worldTransform = (parent != NULL ) ? (parent->transform->GetWorldTransform() * localTransform) : localTransform;
 	transform->SetWorldTransform(worldTransform);
 	
+	std::map< int, Component* >::const_iterator iter_comp = entityComponents.begin();
+	std::map< int, Component* >::const_iterator end_comp = entityComponents.end();
+	for( ; iter_comp != end_comp; ++iter_comp )
+	{
+		(*iter_comp).second->Call();
+	}
+	
 	std::vector< Entity* >::const_iterator iter = children.begin();
 	std::vector< Entity* >::const_iterator end = children.end();
 	for( ; iter != end; ++iter )

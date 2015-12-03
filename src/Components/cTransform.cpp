@@ -15,6 +15,11 @@ CTransform::~CTransform()
 	
 }
 
+void CTransform::Call()
+{
+	
+}
+
 const glm::mat4& CTransform::GetTransform() const
 {
 	return transform;

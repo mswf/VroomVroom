@@ -39,6 +39,10 @@ void CLua::SetTableKey(int key)
 	tableKey = key;
 }
 
+void CLua::Call()
+{
+}
+
 void CLua::Update(float delta)
 {
 	if (tableKey != -1)

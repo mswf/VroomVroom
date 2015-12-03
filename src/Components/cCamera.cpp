@@ -1,12 +1,5 @@
-//
-//  camera.cpp
-//  VroomVroom
-//
-//  Created by Valentinas Rimeika on 02/11/15.
-//  Copyright © 2015 Valentinas Rimeika. All rights reserved.
-//
-
 #include "cCamera.h"
+#include "entity.h"
 
 const int CCamera::familyId = (int)ComponentTypes::CAMERA;
 
@@ -47,6 +40,10 @@ void CCamera::SetProjectionType( Projection type )
 		}
 	}
 
+}
+
+void CCamera::Call()
+{
 }
 
 void CCamera::SetUpVector( glm::vec3 up )

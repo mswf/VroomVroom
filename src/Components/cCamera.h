@@ -1,11 +1,3 @@
-//
-//  camera.hpp
-//  VroomVroom
-//
-//  Created by Valentinas Rimeika on 02/11/15.
-//  Copyright © 2015 Valentinas Rimeika. All rights reserved.
-//
-
 #ifndef cCamera_h
 #define cCamera_h
 
@@ -28,6 +20,7 @@ class CCamera : public Component
 	
 		CCamera( Projection proj, float fov, float aspectRatio, float near, float far );
 		~CCamera();
+		void Call();
 		void SetProjectionType( Projection type );
 		void SetUpVector( glm::vec3 up );
 		void SetEyeVector( glm::vec3 eye );

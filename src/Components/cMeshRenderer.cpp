@@ -20,6 +20,10 @@ CMeshRenderer::~CMeshRenderer()
 {
 }
 
+void CMeshRenderer::Call()
+{
+}
+
 void CMeshRenderer::SetModel( const char* name )
 {
 	model = ResourceManager::getInstance().GetModel(name);

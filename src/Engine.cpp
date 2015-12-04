@@ -384,6 +384,8 @@ void Engine::UpdateLoop()
 
 	Entity* camera = new Entity( "Main Camera" );
 	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 90.0f, 1280.0f / 720.0f, 0.2f, 1000.0f );
+	camera->transform->SetPosition( glm::vec3( 1,1,-1 ) );
+	//CCamera* cam = new CCamera( Projection::ORTHOGRAPHIC, 90.0f, 1280.0f / 720.0f, -5.0f, 50000.0f );
 	Entity::AddComponent(camera, cam);
 	renderer->SetCamera( cam );
 	/// TINAS PLAYGROUND ENDS!!!
@@ -418,6 +420,29 @@ void Engine::UpdateLoop()
 					running = false;
 				}
 
+				if ( inputManager->OnKey(SDLK_RIGHT) )
+				{
+					camera->transform->Translate( glm::vec3( 0.1, 0.0, 0.0 ) );
+				}
+				if ( inputManager->OnKey(SDLK_LEFT) )
+				{
+					camera->transform->Translate( glm::vec3( -0.1, 0.0, 0.0 ) );
+				}
+				
+				if ( inputManager->OnKey(SDLK_UP) )
+				{
+					camera->transform->Translate( glm::vec3( 0.0, 0.0, 0.1 ) );
+				}
+				if ( inputManager->OnKey(SDLK_DOWN) )
+				{
+					camera->transform->Translate( glm::vec3( 0.0, 0.0, -0.1 ) );
+				}
+				
+				if ( inputManager->OnKey(SDLK_r) )
+				{
+					camera->transform->Pitch(1.0f);
+				}
+				
 				//box->transform->Yaw(1.0f);
 				//box2->transform->Roll(1.0f);
 

@@ -22,7 +22,7 @@ class CTransform : public Component
 		void SetWorldTransform( const glm::mat4& transform );
 	
 		void Translate( const glm::vec3& translation );
-		void Rotate( const glm::vec3& rotate );
+		void Rotate( const glm::vec3& rotate, const float& angle );
 		void Scale( const glm::vec3& scale );
 	
 		// POSITION

@@ -50,6 +50,19 @@ namespace Renderer
 		
 	}
 	
+	/*
+	void RenderSystem::ScreenGrab()
+	{
+		int size = 4 * w_width * w_height;
+		GLubyte * pixels = new GLubyte[size];
+		glReadBuffer( GL_BACK );
+		glReadPixels(0, 0, w_width, w_height, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+		
+		//SaveImageTo( pixels, window->GetViewportSize().x, window->GetViewportSize().y, 24, 0xFF0000, 0x00FF00, 0x0000FF, FREE_IMAGE_FORMAT::FIF_PNG, "//");
+		delete [] pixels;
+	}
+	*/
+
 	void RenderSystem::Render()
 	{
 		std::vector< CMeshRenderer* >::const_iterator it = renderables->begin();

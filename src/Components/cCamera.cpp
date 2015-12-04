@@ -16,16 +16,17 @@ CCamera::CCamera( Projection proj, float fov, float aspectRatio, float near, flo
 	upVector( glm::vec3(0.0f, 1.0f, 0.0f) )
 {
 	SetProjectionType( proj );
-	UpdateView();
+	//UpdateView( glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3( 0.0f, 1.0f, 0.0f ) );
 }
 
 void CCamera::SetProjectionType( Projection type )
 {
 	switch (type)
 	{
-		case Projection::ORTHOGONAL:
+		case Projection::ORTHOGRAPHIC:
 		{
-			//projection = glm::ortho(T left, T right, T bottom, T top, near, far);
+			projectionMatrix = glm::ortho( -aspectRatio, aspectRatio, -aspectRatio, aspectRatio, zNear, zFar );
+			centerVector = glm::vec3(-1);
 			break;
 		}
 		case Projection::PERSPECTIVE:
@@ -44,27 +45,33 @@ void CCamera::SetProjectionType( Projection type )
 
 void CCamera::Call()
 {
+	glm::vec3 eye = entity->transform->GetPosition();
+	// Needs a debug camera for testing purposes
+	//glm::vec3 direction = eye + entity->transform->GetRotation(); //centerVector;
+	glm::vec3 direction = entity->transform->GetRotation();
+	UpdateView( eye, direction, upVector );
 }
 
 void CCamera::SetUpVector( glm::vec3 up )
 {
 	upVector = up;
-	UpdateView();
+	Call();
 }
 
 void CCamera::SetEyeVector( glm::vec3 eye )
 {
 	eyeVector = eye;
-	UpdateView();
+	Call();
 }
 
+// Center vector should be the rotation vector
 void CCamera::SetTargetVector( glm::vec3 center )
 {
 	centerVector = center;
-	UpdateView();
+	Call();
 }
 
-void CCamera::UpdateView()
+void CCamera::UpdateView( const glm::vec3& eye, const glm::vec3& center, const glm::vec3& up )
 {
 	// To simulate a circular aperture, we move around the camera in a circle in the plane perpendicular to the direction we are looking at. We can easily get two vectors describing the plane using cross products.
 	//	glm::vec3 right = glm::normalize(glm::cross(object - eye, up));
@@ -72,7 +79,7 @@ void CCamera::UpdateView()
 	// int n = 10; // number of light rays
 	// glm::vec3 bokeh = right * cosf(i * 2 * M_PI / n) + p_up * sinf(i * 2 * M_PI / n);
 	// float aperture = 0.05;
-	viewMatrix = glm::lookAt( eyeVector, centerVector, upVector ); // Eye + Apeture + Bokeh
+	viewMatrix = glm::lookAt( eye, center, up ); // Eye + Apeture + Bokeh
 }
 
 const glm::mat4& CCamera::GetViewMatrix() const

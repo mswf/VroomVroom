@@ -8,7 +8,7 @@
 
 enum class Projection
 {
-	ORTHOGONAL,
+	ORTHOGRAPHIC,
 	PERSPECTIVE
 };
 
@@ -30,7 +30,7 @@ class CCamera : public Component
 	
 	private:
 	
-		void UpdateView();
+		void UpdateView( const glm::vec3& eye, const glm::vec3& center, const glm::vec3& up );
 	
 		Projection type;
 		glm::mat4 projectionMatrix;

@@ -384,9 +384,9 @@ void Engine::UpdateLoop()
 
 	Entity* camera = new Entity( "Main Camera" );
 	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 90.0f, 1280.0f / 720.0f, 0.2f, 1000.0f );
-	camera->transform->SetPosition( glm::vec3( 1,1,-1 ) );
 	//CCamera* cam = new CCamera( Projection::ORTHOGRAPHIC, 90.0f, 1280.0f / 720.0f, -5.0f, 50000.0f );
 	Entity::AddComponent(camera, cam);
+	camera->transform->SetPosition( glm::vec3( 1,1,-1 ) );
 	renderer->SetCamera( cam );
 	/// TINAS PLAYGROUND ENDS!!!
 

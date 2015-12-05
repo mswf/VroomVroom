@@ -60,7 +60,7 @@ Engine::~Engine()
 void Engine::Init()
 {
 	SetSeed();
-	
+
 	inputManager = new Input();
 	renderer = new Renderer::RenderSystem();
 	listener = new UpdateListener();
@@ -83,10 +83,14 @@ void Engine::SetSeed()
 	time_t timer;
 	struct tm y2k = {0};
 	double seconds;
-	y2k.tm_hour = 0;   y2k.tm_min = 0; y2k.tm_sec = 0;
-	y2k.tm_year = 100; y2k.tm_mon = 0; y2k.tm_mday = 1;
+	y2k.tm_hour = 0;
+	y2k.tm_min = 0;
+	y2k.tm_sec = 0;
+	y2k.tm_year = 100;
+	y2k.tm_mon = 0;
+	y2k.tm_mday = 1;
 	time(&timer);  /* get current time; same as: timer = time(NULL)  */
-	seconds = difftime(timer,mktime(&y2k));
+	seconds = difftime(timer, mktime(&y2k));
 	Random::SetRandomSeed(seconds);
 }
 
@@ -275,13 +279,25 @@ void Engine::ImportAssets()
 	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/skybox_frag.glsl", GLSLShaderType::FRAGMENT) );
 
 	bool successfulImport = rm.ImportMesh( meshes, errors );
-	if (!successfulImport) printErr(errors);
+	if (!successfulImport)
+	{
+		printErr(errors);
+	}
 	successfulImport = rm.ImportImage( images, errors );
-	if (!successfulImport) printErr(errors);
+	if (!successfulImport)
+	{
+		printErr(errors);
+	}
 	successfulImport = rm.ImportImage( cube_map, errors, false );
-	if (!successfulImport) printErr(errors);
+	if (!successfulImport)
+	{
+		printErr(errors);
+	}
 	successfulImport = rm.ImportShader( shaders, errors );
-	if (!successfulImport) printErr(errors);
+	if (!successfulImport)
+	{
+		printErr(errors);
+	}
 	/*
 	int width, height;
 	width = height = rm.GetImageData("/images/LancellottiChapel/negx.jpg")->width;
@@ -307,7 +323,7 @@ void Engine::UpdateLoop()
 
 	renderer->SetWindowSize(1280, 720);
 	renderer->Initialize();
-	
+
 	/// TINAS PLAYGROUND!!!
 
 	ImportAssets();
@@ -342,7 +358,7 @@ void Engine::UpdateLoop()
 	{
 		return glm::vec3( Random::Next(100) * 0.01f, Random::Next(100) * 0.01f, Random::Next(100) * 0.01f );
 	};
-	
+
 	std::vector<Line> lines;
 	float lineLength = 1.0f;
 	int lineAmount = 10;
@@ -370,11 +386,11 @@ void Engine::UpdateLoop()
 		points.push_back( (*iter).end );
 		colours.push_back( (*iter).color );
 	}
-	
+
 	GLuint lineVao;
 	GLuint lineVbo;
 	BufferPoints( lineVao, lineVbo, points, colours );
-	
+
 	//Entity* box = new Entity( "MyLittleBox" );
 	//Entity::AddComponent(box, meshRenderer);
 
@@ -386,7 +402,7 @@ void Engine::UpdateLoop()
 	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 90.0f, 1280.0f / 720.0f, 0.2f, 1000.0f );
 	//CCamera* cam = new CCamera( Projection::ORTHOGRAPHIC, 90.0f, 1280.0f / 720.0f, -5.0f, 50000.0f );
 	Entity::AddComponent(camera, cam);
-	camera->transform->SetPosition( glm::vec3( 1,1,-1 ) );
+	camera->transform->SetPosition( glm::vec3( 1, 1, -1 ) );
 	renderer->SetCamera( cam );
 	/// TINAS PLAYGROUND ENDS!!!
 
@@ -411,7 +427,7 @@ void Engine::UpdateLoop()
 			fileWatcher->update();
 			deltaTimeGame -= gameUpdateInterval;
 
-			Update(gameUpdateInterval);
+			Update(gameUpdateInterval / 1000);
 
 			if (deltaTimeGame < gameUpdateInterval)
 			{
@@ -428,7 +444,7 @@ void Engine::UpdateLoop()
 				{
 					camera->transform->Translate( glm::vec3( -0.1, 0.0, 0.0 ) );
 				}
-				
+
 				if ( inputManager->OnKey(SDLK_UP) )
 				{
 					camera->transform->Translate( glm::vec3( 0.0, 0.0, 0.1 ) );
@@ -437,12 +453,12 @@ void Engine::UpdateLoop()
 				{
 					camera->transform->Translate( glm::vec3( 0.0, 0.0, -0.1 ) );
 				}
-				
+
 				if ( inputManager->OnKey(SDLK_r) )
 				{
 					camera->transform->Pitch(1.0f);
 				}
-				
+
 				//box->transform->Yaw(1.0f);
 				//box2->transform->Roll(1.0f);
 
@@ -460,7 +476,7 @@ void Engine::UpdateLoop()
 		//renderer->RenderCube( skybox, skybox_map );
 		//renderer->RenderLines( lineVao, points.size() );
 		renderer->Render();
-		
+
 
 		UiSystem.Render();
 

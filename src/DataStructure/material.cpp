@@ -36,12 +36,25 @@ void Material::SetNormalTexture( const char* name )
 	normalTextureId = ResourceManager::getInstance().GetImageId( name );
 }
 
+void Material::SetSpecularTexture( const char* name )
+{
+	specularTextureId = ResourceManager::getInstance().GetImageId( name );
+}
+
+void Material::SetCubeMapTexture( const char* name )
+{
+	cubemapTextureId = ResourceManager::getInstance().GetImageId( name );
+}
+
+void Material::SetHeightMapTexture( const char* name )
+{
+	heightTextureId = ResourceManager::getInstance().GetImageId( name );
+}
 
 void Material::SetShader( ShaderProgram* s )
 {
 	shader = s;
 }
-
 
 void Material::UseMaterial() const
 {

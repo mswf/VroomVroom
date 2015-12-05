@@ -16,16 +16,22 @@ class Material
 		unsigned int diffuseTextureId;
 		unsigned int specularTextureId;
 		unsigned int normalTextureId;
+		unsigned int cubemapTextureId;
+		unsigned int heightTextureId;
 	
 		void SetShader( ShaderProgram* shader );
 		void UseMaterial() const;
-		void SetDiffuseTexture( const char* image );
-		void SetSpecularTexture( const char* image );
-		void SetNormalTexture( const char* image );
-	
 		void SetUniforms();
+		void SetDiffuseTexture( const char* name );
+		void SetSpecularTexture( const char* name );
+		void SetNormalTexture( const char* name );
+		void SetCubeMapTexture( const char* name );
+		void SetHeightMapTexture( const char* name );
+		inline void IsDrawingWireframe( bool enabled ) { wireframe_enabled = enabled; }
+		inline void IsTwoSided( bool enabled ) { two_sided = enabled; }
 	
 		std::string name;
+		// TODO(Valentinas): Use int or bool?
 		int wireframe_enabled;
 		int two_sided;
 		unsigned int textureCount;

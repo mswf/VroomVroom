@@ -135,6 +135,7 @@ void CreateShader( GLuint& shader, GLenum shaderType, const char* source )
 	{
 		shader = 0;
 	}
+	CheckGlError( "glCompileShader" );
 }
 
 bool ShaderInfoLog( GLuint program, GLenum status )

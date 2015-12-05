@@ -1,9 +1,19 @@
-//
-//  cLineRenderer.cpp
-//  VroomVroom
-//
-//  Created by Valentinas Rimeika on 05/12/15.
-//  Copyright © 2015 Valentinas Rimeika. All rights reserved.
-//
+#include "cLineRenderer.h"
 
-#include "cLineRenderer.hpp"
+const int CLineRenderer::familyId = (int)ComponentTypes::LINE_RENDERER;
+//std::vector< CLineRenderer* > CLineRenderer::list;
+
+CLineRenderer::CLineRenderer()
+{
+	//list.push_back( this );
+}
+
+CLineRenderer::~CLineRenderer()
+{
+	
+}
+
+void CLineRenderer::Call()
+{
+	
+}

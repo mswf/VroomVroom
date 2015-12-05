@@ -8,6 +8,7 @@ enum class ComponentTypes
     CAMERA,
 	MESH,
 	MESH_RENDERER,
+	LINE_RENDERER,
     LIGHT,
 	LUA
 };

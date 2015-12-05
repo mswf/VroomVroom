@@ -24,8 +24,8 @@ ResourceManager::~ResourceManager()
 
 void ResourceManager::Initialize()
 {
-	bool vertexDefault = ImportShader( "shaders/default.vert", GLSLShaderType::VERTEX );
-	bool fragmetDefault = ImportShader( "shaders/default.frag", GLSLShaderType::FRAGMENT );
+	bool vertexDefault = ImportShader( "shaders/default_vert.glsl", GLSLShaderType::VERTEX );
+	bool fragmetDefault = ImportShader( "shaders/default_frag.glsl", GLSLShaderType::FRAGMENT );
 	if ( !(vertexDefault && fragmetDefault) )
 	{
 		Terminal.Warning("One of the default shaders were missing.");
@@ -35,8 +35,8 @@ void ResourceManager::Initialize()
 	{
 		ShaderProgram* defaultProgram = new ShaderProgram();
 		InsertShaderProgram( "Default", defaultProgram );
-		defaultProgram->shaders.push_back( GetShaderObject("shaders/default.vert") );
-		defaultProgram->shaders.push_back( GetShaderObject("shaders/default.frag") );
+		defaultProgram->shaders.push_back( GetShaderObject("shaders/default_vert.glsl") );
+		defaultProgram->shaders.push_back( GetShaderObject("shaders/default_frag.glsl") );
 		GLuint shaders[2] = { defaultProgram->shaders[0]->shader, defaultProgram->shaders[1]->shader };
 		CreateProgram( defaultProgram->program, shaders, 2);
 		if ( HasSubroutines( defaultProgram->program, GetGLShaderEnum(GLSLShaderType::VERTEX) ) )
@@ -60,12 +60,12 @@ void ResourceManager::LoadBuiltinShader()
 {
 	ShaderObject* vertex = new ShaderObject();
 	vertex->shaderType = GetGLShaderEnum( GLSLShaderType::VERTEX );
-	InsertShaderObject( "shaders/default.vert", vertex );
+	InsertShaderObject( "shaders/default_vert.glsl", vertex );
 	CreateShader( vertex->shader, vertex->shaderType, builtin_vertex );
 	
 	ShaderObject* fragment = new ShaderObject();
 	fragment->shaderType = GetGLShaderEnum( GLSLShaderType::FRAGMENT );
-	InsertShaderObject( "shaders/default.frag", fragment );
+	InsertShaderObject( "shaders/default_frag.glsl", fragment );
 	CreateShader( fragment->shader, fragment->shaderType, builtin_fragment );
 	
 	ShaderProgram* defaultProgram = new ShaderProgram();

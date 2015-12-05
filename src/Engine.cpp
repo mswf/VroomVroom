@@ -268,11 +268,11 @@ void Engine::ImportAssets()
 	cube_map.push_back( "/images/LancellottiChapel/posz.jpg" );
 	*/
 
-	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/line.vert", GLSLShaderType::VERTEX) );
-	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/line.frag", GLSLShaderType::FRAGMENT) );
+	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/line_vert.glsl", GLSLShaderType::VERTEX) );
+	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/line_frag.glsl", GLSLShaderType::FRAGMENT) );
 
-	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/skybox.vert", GLSLShaderType::VERTEX) );
-	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/skybox.frag", GLSLShaderType::FRAGMENT) );
+	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/skybox_vert.glsl", GLSLShaderType::VERTEX) );
+	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/skybox_frag.glsl", GLSLShaderType::FRAGMENT) );
 
 	bool successfulImport = rm.ImportMesh( meshes, errors );
 	if (!successfulImport) printErr(errors);
@@ -333,8 +333,8 @@ void Engine::UpdateLoop()
 	ModelInstance* skybox = EnvironmentCube();
 	ResourceManager::getInstance().InsertModelInstance("skybox", skybox);
 	
-	const char* sh_objs[] = { "shaders/skybox.vert", "shaders/skybox.frag", NULL };
-	const char* sh_objs2[] = { "shaders/line.vert", "shaders/line.frag", NULL };
+	const char* sh_objs[] = { "shaders/skybox_vert.glsl", "shaders/skybox_frag.glsl", NULL };
+	const char* sh_objs2[] = { "shaders/line_vert.glsl", "shaders/line_frag.glsl", NULL };
 	ResourceManager::getInstance().CreateShaderProgram("skybox", sh_objs, 2);
 	ResourceManager::getInstance().CreateShaderProgram("line", sh_objs2, 2);
 

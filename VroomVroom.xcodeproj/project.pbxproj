@@ -41,6 +41,7 @@
 		E50529691BE8CE0A0017400B /* cTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E50529641BE8CE0A0017400B /* cTransform.cpp */; settings = {ASSET_TAGS = (); }; };
 		E505296C1BE8EF020017400B /* entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E505296A1BE8EF020017400B /* entity.cpp */; settings = {ASSET_TAGS = (); }; };
 		E514AF591BD16E5800E7E2C5 /* TCPData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E514AF571BD16E5800E7E2C5 /* TCPData.cpp */; settings = {ASSET_TAGS = (); }; };
+		E53200BB1C133A2F00907818 /* cLineRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E53200B91C133A2F00907818 /* cLineRenderer.cpp */; settings = {ASSET_TAGS = (); }; };
 		E537687A1BA6D3CE00D0BC14 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E53768791BA6D3CE00D0BC14 /* OpenGL.framework */; };
 		E53CB22C1BECA88C004B0F58 /* FileWatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E53CB2231BECA88C004B0F58 /* FileWatcher.cpp */; settings = {ASSET_TAGS = (); }; };
 		E53CB22D1BECA88C004B0F58 /* FileWatcherLinux.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E53CB2261BECA88C004B0F58 /* FileWatcherLinux.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -175,6 +176,8 @@
 		E505296B1BE8EF020017400B /* entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = entity.h; path = src/Components/entity.h; sourceTree = SOURCE_ROOT; };
 		E514AF571BD16E5800E7E2C5 /* TCPData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TCPData.cpp; path = src/Networking/TCPData.cpp; sourceTree = SOURCE_ROOT; };
 		E514AF581BD16E5800E7E2C5 /* TCPData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCPData.h; path = src/Networking/TCPData.h; sourceTree = SOURCE_ROOT; };
+		E53200B91C133A2F00907818 /* cLineRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cLineRenderer.cpp; path = src/Components/cLineRenderer.cpp; sourceTree = SOURCE_ROOT; };
+		E53200BA1C133A2F00907818 /* cLineRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cLineRenderer.h; path = src/Components/cLineRenderer.h; sourceTree = SOURCE_ROOT; };
 		E537686F1BA6D3B600D0BC14 /* VroomVroom */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VroomVroom; sourceTree = BUILT_PRODUCTS_DIR; };
 		E53768791BA6D3CE00D0BC14 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		E53CB2231BECA88C004B0F58 /* FileWatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileWatcher.cpp; path = FileWatcher/FileWatcher.cpp; sourceTree = "<group>"; };
@@ -312,6 +315,8 @@
 				E505296B1BE8EF020017400B /* entity.h */,
 				E505295D1BE8CE0A0017400B /* cCamera.cpp */,
 				E505295E1BE8CE0A0017400B /* cCamera.h */,
+				E53200B91C133A2F00907818 /* cLineRenderer.cpp */,
+				E53200BA1C133A2F00907818 /* cLineRenderer.h */,
 				E55F88DE1BEBA48C00433973 /* cMeshRenderer.cpp */,
 				E55F88DF1BEBA48C00433973 /* cMeshRenderer.h */,
 				E50529631BE8CE0A0017400B /* component.h */,
@@ -572,6 +577,7 @@
 			files = (
 				23D328D11C0F034700FAC4B9 /* mImport.cpp in Sources */,
 				E56F55861BEB4C3F0027DDF6 /* resource_manager.cpp in Sources */,
+				E53200BB1C133A2F00907818 /* cLineRenderer.cpp in Sources */,
 				E50529431BE8CDBA0017400B /* shader.cpp in Sources */,
 				E54726101BC6A78F00316B26 /* base64.cpp in Sources */,
 				23C8BF471C0DA07A000EFD05 /* mMeshRenderer.cpp in Sources */,

@@ -65,9 +65,15 @@ struct ModelInstance
 	unsigned int materialId = 0;
 };
 
-
-
-
-
+struct ImageData
+{
+	int imageId = -1;
+	unsigned char* pixelData;
+	unsigned int width = 0;
+	unsigned int height = 0;
+	unsigned int components = 0;
+	bool isBuffered = false;
+	bool hasBufferChanged = false;
+};
 
 #endif /* data_types_h */

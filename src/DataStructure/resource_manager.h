@@ -3,28 +3,18 @@
 
 #include <string>
 #include <map>
-#include "data_types.h"
+#include <vector>
 #include "../Patterns/singleton.h"
 #include "../IO/importer.h"
 
-struct ImageData
-{
-	int imageId;
-	unsigned char* pixelData;
-	unsigned int width;
- 	unsigned int height;
-	unsigned int components;
-	bool isBuffered;
-	bool hasBufferChanged;
-	ImageData() :
-		imageId(-1),
-		//pixelData(NULL),
-		width(0), height(0), components(0),
-		isBuffered(false), hasBufferChanged(false)
-	{}
-};
-
 class Material;
+
+struct Mesh;
+struct ModelInstance;
+struct ImageData;
+struct ShaderObject;
+struct ShaderProgram;
+
 enum class GLSLShaderType;
 
 class ResourceManager : public Singleton<ResourceManager>
@@ -49,7 +39,7 @@ class ResourceManager : public Singleton<ResourceManager>
 		ImageData* GetImageData( const char* name ) const;
 		unsigned int GetImageId( const char* name );
 		bool ImportImage( const char* name, bool vertical_flip = true );
-		bool ImportImage( const std::vector<std::string>& list, std::vector< std::string >& err_f, bool vertical_flip = true );
+		bool ImportImage( const std::vector< std::string >& list, std::vector< std::string >& err_f, bool vertical_flip = true );
 		bool BufferImage1D( const char* name );
 		bool BufferImage2D( const char* name );
 		bool BufferImage3D( const char* name );

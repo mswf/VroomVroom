@@ -1,17 +1,16 @@
 #include "resource_manager.h"
-#include "../Utilities/helperFunctions.h"
-#include "../content.h"
-#include "../console.h"
+#include "data_types.h"
 #include "texture.h"
 #include "mesh.h"
 #include "material.h"
 #include "shader.h"
+#include "../content.h"
+#include "../console.h"
+#include "../Utilities/helperFunctions.h"
 
 unsigned int ResourceManager::materialId = 0;
 
-ResourceManager::ResourceManager()
-{}
-
+ResourceManager::ResourceManager() {}
 //TODO(Valentinas): Reload meshes
 ResourceManager::~ResourceManager()
 {
@@ -28,7 +27,7 @@ void ResourceManager::Initialize()
 	bool fragmetDefault = ImportShader( "shaders/default_frag.glsl", GLSLShaderType::FRAGMENT );
 	if ( !(vertexDefault && fragmetDefault) )
 	{
-		Terminal.Warning("One of the default shaders were missing.");
+		Terminal.Warning("Default shaders were missing. Loading builtin shaders.");
 		LoadBuiltinShader();
 	}
 	else

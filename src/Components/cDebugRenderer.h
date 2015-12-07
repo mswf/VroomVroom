@@ -52,6 +52,10 @@ class CDebugRenderer : public Component
 		void AddTriangle( Triangle triangle );
 		void PushToGPU();
 		void Clear();
+		void SetDrawPoints( bool enabled );
+		void SetPointSize( float size );
+		const float& GetPointSize() const;
+		inline bool IsDrawingPoints() { return isDrawingPoints; }
 		inline bool IsBuffered() { return isBuffered; }
 		static std::vector< CDebugRenderer* >* GetDebugRendererList();
 	
@@ -62,7 +66,9 @@ class CDebugRenderer : public Component
 	private:
 	
 		unsigned int vbo;
+		float pointSize;
 		bool isBuffered;
+		bool isDrawingPoints;
 		std::vector< Line > lines;
 		std::vector< Triangle >	triangles;
 		static std::vector< CDebugRenderer* > list;

@@ -8,7 +8,8 @@ CDebugRenderer::CDebugRenderer() :
 	isBuffered(false),
 	mode(DrawMode::NONE),
 	vao(0),
-	vbo(0)
+	vbo(0),
+	pointSize(0.0f)
 {
 	list.push_back( this );
 }
@@ -93,6 +94,21 @@ void CDebugRenderer::Clear()
 	if ( lines.size() != 0 ) lines.clear();
 	BufferClear(vao, vbo);
 	mode = DrawMode::NONE;
+}
+
+const float& CDebugRenderer::GetPointSize() const
+{
+	return pointSize;
+}
+
+void CDebugRenderer::SetDrawPoints( bool enabled )
+{
+	isDrawingPoints = enabled;
+}
+
+void CDebugRenderer::SetPointSize( float size )
+{
+	pointSize = size;
 }
 
 std::vector< CDebugRenderer* >* CDebugRenderer::GetDebugRendererList()

@@ -2,23 +2,25 @@
 #define material_h
 
 #include <string>
+#include <glm/detail/type_vec4.hpp>
 
 struct ShaderProgram;
 
 class Material
 {
 	public:
-	
+
 		Material();
 		~Material() {}
-	
+		void InitArray(float* array, glm::vec4 values);
+
 		ShaderProgram* shader;
 		unsigned int diffuseTextureId;
 		unsigned int specularTextureId;
 		unsigned int normalTextureId;
 		unsigned int cubemapTextureId;
 		unsigned int heightTextureId;
-	
+
 		void SetShader( ShaderProgram* shader );
 		void UseMaterial() const;
 		void SetUniforms();
@@ -27,9 +29,15 @@ class Material
 		void SetNormalTexture( const char* name );
 		void SetCubeMapTexture( const char* name );
 		void SetHeightMapTexture( const char* name );
-		inline void IsDrawingWireframe( bool enabled ) { wireframe_enabled = enabled; }
-		inline void IsTwoSided( bool enabled ) { two_sided = enabled; }
-	
+		inline void IsDrawingWireframe( bool enabled )
+		{
+			wireframe_enabled = enabled;
+		}
+		inline void IsTwoSided( bool enabled )
+		{
+			two_sided = enabled;
+		}
+
 		std::string name;
 		// TODO(Valentinas): Use int or bool?
 		int wireframe_enabled;
@@ -45,10 +53,10 @@ class Material
 		float emissive[4];
 		float transparent[4];
 		float reflective[4];
-	
+
 	private:
-		
-	
+
+
 };
 
 

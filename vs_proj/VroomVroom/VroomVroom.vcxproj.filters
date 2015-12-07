@@ -681,6 +681,9 @@
     <ClInclude Include="..\..\src\Modules\mImport.h">
       <Filter>VroomVroom\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Components\cDebugRenderer.h">
+      <Filter>VroomVroom\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Networking\TCPData.cpp">
@@ -841,6 +844,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Modules\mImport.cpp">
       <Filter>VroomVroom\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Components\cDebugRenderer.cpp">
+      <Filter>VroomVroom\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

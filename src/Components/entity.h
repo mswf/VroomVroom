@@ -28,6 +28,7 @@ class Entity
 		{
 			Entity::componentStorage.insert( std::pair< int, Entity* >( T::familyId, e ) );
 			e->entityComponents.insert( std::pair< int, Component* >( T::familyId, comp ) );
+			comp->IncrementAddedToEntity();
 			comp->entity = e;
 		}
 	

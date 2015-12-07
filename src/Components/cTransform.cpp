@@ -256,7 +256,7 @@ void CTransform::SetPitchNormalized( const float& angle )
 {
 	float value = (2 * angle - 1) * glm::pi<float>();
 	glm::mat4 newRotation(1);
-	rotation = glm::quat( glm::rotate(newRotation, glm::radians( value ), VectorRight() ) );
+	rotation = glm::quat( glm::rotate(newRotation, value, VectorRight() ) );
 	Update();
 }
 
@@ -264,7 +264,7 @@ void CTransform::SetYawNormalized( const float& angle )
 {
 	float value = (2 * angle - 1) * glm::pi<float>();
 	glm::mat4 newRotation(1);
-	rotation = glm::quat( glm::rotate(newRotation, glm::radians( value ), VectorUp() ) );
+	rotation = glm::quat( glm::rotate(newRotation, value, VectorUp() ) );
 	Update();
 }
 
@@ -272,26 +272,29 @@ void CTransform::SetRollNormalized( const float& angle )
 {
 	float value = (2 * angle - 1) * glm::pi<float>();
 	glm::mat4 newRotation(1);
-	rotation = glm::quat( glm::rotate(newRotation, glm::radians( value ), VectorForward() ) );
+	rotation = glm::quat( glm::rotate(newRotation, value, VectorForward() ) );
 	Update();
 }
 
 void CTransform::SetPitch( const float& angle )
 {
-	rotation = glm::rotate(rotation, glm::radians( angle ), VectorRight() );
+	glm::mat4 newRotation(1);
+	rotation = glm::quat( glm::rotate(newRotation, angle , VectorRight() ) );
 	Update();
 }
 
 
 void CTransform::SetYaw( const float& angle )
 {
-	rotation = glm::rotate(rotation, glm::radians( angle ), VectorUp() );
+	glm::mat4 newRotation(1);
+	rotation = glm::quat( glm::rotate(newRotation, angle, VectorUp() ) );
 	Update();
 }
 
 void CTransform::SetRoll( const float& angle )
 {
-	rotation = glm::rotate( rotation, glm::radians( angle ), VectorForward() );
+	glm::mat4 newRotation(1);
+	rotation = glm::quat( glm::rotate(newRotation, angle, VectorForward() ) );
 	Update();
 }
 

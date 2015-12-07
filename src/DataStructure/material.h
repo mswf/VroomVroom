@@ -32,6 +32,7 @@ class Material
 	
 		inline void IsDrawingWireframe( bool enabled )
 		{
+			// wireframe ? GL_LINE : GL_FILL;
 			wireframe_enabled = enabled;
 		}
 		inline void IsTwoSided( bool enabled )
@@ -64,8 +65,8 @@ class Material
 	
 		std::string name;
 		// TODO(Valentinas): Use int or bool?
-		int wireframe_enabled;
-		int two_sided;
+		bool wireframe_enabled;
+		bool two_sided;
 		unsigned int textureCount;
 		float shininess;
 		float shininess_strenght;

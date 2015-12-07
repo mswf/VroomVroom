@@ -15,59 +15,85 @@ GLuint BufferTexture3D( GLint levelOfDetail, GLint internalFormat, GLint width, 
 		glTexParameteri( GL_TEXTURE_3D, (*iter).first, (*iter).second );
 	}
 	glTexImage3D( GL_TEXTURE_3D, levelOfDetail, internalFormat, width, height, depth, 0, pixelFormat, type, (GLvoid*)data );
-	if ( generateMipMap ) glGenerateMipmap( GL_TEXTURE_3D );
+	if ( generateMipMap )
+	{
+		glGenerateMipmap( GL_TEXTURE_3D );
+		CheckGlError("glGenerateMipMap 3D");
+	}
 	
 	return textureId;
 }
 
 
-GLuint BufferTexture2D( GLint levelOfDetail, GLint internalFormat, GLint width, GLint height, GLint pixelFormat, GLenum type, unsigned char* data, const std::vector< std::pair< GLenum, GLint > >* textureParameters, bool generateMipMap )
+GLuint BufferTexture2D( GLint internalFormat, GLint width, GLint height, GLint pixelFormat, GLenum dataType, unsigned char* data, bool filterNearest, bool generateMipMap, bool MipMapFilterNearest )
 {
 	unsigned int textureId;
 	glGenTextures( 1, &textureId );
 	glBindTexture( GL_TEXTURE_2D, textureId );
 	
-	std::vector< std::pair< GLenum, GLint > >::const_iterator iter = textureParameters->begin();
-	std::vector< std::pair< GLenum, GLint > >::const_iterator end = textureParameters->end();
-	for ( ; iter != end; ++iter )
+	// TODO(Valentinas): Set the number of generated mip map levels
+	FilterType magFilter = (filterNearest) ? FilterType::NEAREST : FilterType::LINEAR;
+	FilterType minFilter;
+	if ( generateMipMap )
 	{
-		glTexParameteri( GL_TEXTURE_2D, (*iter).first, (*iter).second );
+		minFilter = (filterNearest) ?
+		( (MipMapFilterNearest) ? FilterType::NEAREST_MIPMAP_NEAREST : FilterType::NEAREST_MIPMAP_LINEAR ) :
+		( (MipMapFilterNearest) ? FilterType::LINEAR_MIPMAP_NEAREST : FilterType::LINEAR_MIPMAP_LINEAR );
 	}
-	glTexImage2D( GL_TEXTURE_2D, levelOfDetail, internalFormat, width, height, 0, pixelFormat, type, (GLvoid*)data );
-	if ( generateMipMap ) glGenerateMipmap( GL_TEXTURE_2D );
+	else
+	{
+		minFilter = (filterNearest) ? FilterType::NEAREST : FilterType::LINEAR;
+	}
+		
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GetFilterParameter( minFilter ) );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GetFilterParameter( magFilter ) );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GetWrapParameter( WrapType::REPEAT ) );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GetWrapParameter( WrapType::REPEAT ) );
+
+	// target, level of detail, internal format(RGBA), width, height, border(must be 0), pixel format(RGBA), type, data pointer
+	glTexImage2D( GL_TEXTURE_2D, 0, internalFormat, width, height, 0, pixelFormat, dataType, (GLvoid*)data );
+	CheckGlError("glTexImage2D 2D");
+	if ( generateMipMap )
+	{
+		glGenerateMipmap( GL_TEXTURE_2D );
+		CheckGlError("glGenerateMipMap 2D");
+	}
 	
 	return textureId;
 }
 
-GLuint BufferTexture1D( GLint levelOfDetail, GLint internalFormat, GLint width, GLint pixelFormat, GLenum type, GLvoid* data, const std::vector< std::pair< GLenum, GLint > >* textureParameters, bool generateMipMap )
+GLuint BufferTexture1D( GLint internalFormat, GLint width, GLint pixelFormat, GLenum type, GLvoid* data, bool filterNearest, bool generateMipMap )
 {
 	unsigned int textureId;
 	glGenTextures( 1, &textureId );
 	glBindTexture( GL_TEXTURE_1D, textureId );
 	
-	std::vector< std::pair< GLenum, GLint > >::const_iterator iter = textureParameters->begin();
-	std::vector< std::pair< GLenum, GLint > >::const_iterator end = textureParameters->end();
-	for ( ; iter != end; ++iter )
+	FilterType filter = filterNearest ? FilterType::NEAREST : FilterType::LINEAR;
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GetFilterParameter( filter ) );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GetFilterParameter( filter ) );
+	
+	glTexImage1D( GL_TEXTURE_1D, 0, internalFormat, width, 0, pixelFormat, type, data );
+	CheckGlError("glTexImage2D 1D");
+	if ( generateMipMap )
 	{
-		glTexParameteri( GL_TEXTURE_1D, (*iter).first, (*iter).second );
+		glGenerateMipmap( GL_TEXTURE_1D );
+		CheckGlError("glGenerateMipMap 1D");
 	}
-	glTexImage1D( GL_TEXTURE_1D, levelOfDetail, internalFormat, width, 0, pixelFormat, type, data );
-	if ( generateMipMap ) glGenerateMipmap( GL_TEXTURE_1D );
 	
 	return textureId;
 }
 
-void BufferTextureCubeMap( GLuint mapId, GLenum sideTarget, GLint levelOfDetail, GLint internalFormat, GLint width, GLint height, GLint pixelFormat, GLenum type, unsigned char* data, const std::vector< std::pair< GLenum, GLint > >* textureParameters )
+void BufferTextureCubeMap( GLuint mapId, GLenum sideTarget, GLint internalFormat, GLint width, GLint height, GLint pixelFormat, GLenum type, unsigned char* data )
 {
 	glBindTexture( GL_TEXTURE_CUBE_MAP, mapId );
 	
-	std::vector< std::pair< GLenum, GLint > >::const_iterator iter = textureParameters->begin();
-	std::vector< std::pair< GLenum, GLint > >::const_iterator end = textureParameters->end();
-	for ( ; iter != end; ++iter )
-	{
-		glTexParameteri( GL_TEXTURE_CUBE_MAP, (*iter).first, (*iter).second );
-	}
-	glTexImage2D( sideTarget, levelOfDetail, internalFormat, width, height, 0, pixelFormat, type, (GLvoid*)data );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GetFilterParameter( FilterType::LINEAR ) );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GetFilterParameter( FilterType::LINEAR ) );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GetWrapParameter( WrapType::CLAMP_EDGE ) );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GetWrapParameter( WrapType::CLAMP_EDGE ) );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GetWrapParameter( WrapType::CLAMP_EDGE ) );
+	glTexImage2D( sideTarget, 0, internalFormat, width, height, 0, pixelFormat, type, (GLvoid*)data );
+	CheckGlError("glTexImage2D CUBE_MAP");
 }
 
 void BindTexture( GLenum textureUnit, GLenum target, GLuint program )
@@ -76,13 +102,94 @@ void BindTexture( GLenum textureUnit, GLenum target, GLuint program )
 	glBindTexture( target, program );
 }
 
-// TODO(Valentinas): I should check whether the glBindTexture to zero after drawing is necessary
 void UnbindTexture( GLenum target )
 {
-	glBindTexture( target, 0 );
+	glBindTexture( target, NULL );
 }
 
 void DeleteTexture( GLuint textureId )
 {
 	glDeleteTextures( 1, &textureId );
+}
+
+GLenum GetFilterParameter( FilterType type )
+{
+	GLenum glType = 0;
+	switch (type)
+	{
+		case FilterType::NEAREST:
+		{
+			glType = GL_NEAREST;
+			break;
+		}
+		case FilterType::LINEAR:
+		{
+			glType = GL_LINEAR;
+			break;
+		}
+		case FilterType::NEAREST_MIPMAP_NEAREST:
+		{
+			glType = GL_NEAREST_MIPMAP_NEAREST;
+			break;
+		}
+		case FilterType::LINEAR_MIPMAP_NEAREST:
+		{
+			glType = GL_LINEAR_MIPMAP_NEAREST;
+			break;
+		}
+		case FilterType::NEAREST_MIPMAP_LINEAR:
+		{
+			glType = GL_NEAREST_MIPMAP_LINEAR;
+			break;
+		}
+		case FilterType::LINEAR_MIPMAP_LINEAR:
+		{
+			glType = GL_LINEAR_MIPMAP_LINEAR;
+			break;
+		}
+		default:
+		{
+			break;
+		}
+	}
+	return glType;
+}
+
+GLenum GetWrapParameter( WrapType type )
+{
+	GLenum glType = 0;
+	switch (type)
+	{
+		case WrapType::CLAMP_EDGE:
+		{
+			glType = GL_CLAMP_TO_EDGE;
+			break;
+		}
+		case WrapType::MIRROR_CLAMP_EDGE:
+		{
+			glType = GL_MIRROR_CLAMP_TO_EDGE;
+			break;
+		}
+		case WrapType::CLAMP_BORDER:
+		{
+			glType = GL_CLAMP_TO_BORDER;
+			break;
+		}
+		case WrapType::REPEAT:
+		{
+			glType = GL_REPEAT;
+			break;
+		}
+		case WrapType::MIRRORED_REPEAT:
+		{
+			glType = GL_MIRRORED_REPEAT;
+			break;
+		}
+		default:
+		{
+			break;
+		}
+	}
+	return glType;
+
 }

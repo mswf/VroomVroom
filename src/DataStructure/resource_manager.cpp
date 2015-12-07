@@ -238,12 +238,7 @@ bool ResourceManager::BufferImage1D( const char* name )
 	
 	if ( !img->isBuffered || iter_imageId == imageIds.end() )
 	{
-		std::vector< std::pair<GLenum, GLint> >* textureParameters = new std::vector< std::pair<GLenum, GLint> >();
-		std::pair< GLenum, GLint > param( GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-		std::pair< GLenum, GLint > param2( GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-		textureParameters->push_back( param );
-		textureParameters->push_back( param2 );
-		img->imageId = BufferTexture1D( 0, GL_RGBA, img->width, GL_RGBA, GL_UNSIGNED_BYTE, img->pixelData, textureParameters );
+		img->imageId = BufferTexture1D( GL_RGBA, img->width, GL_RGBA, GL_UNSIGNED_BYTE, img->pixelData, false );
 		img->isBuffered = true;
 		imageIds.insert( std::pair< std::string, unsigned int >( std::string(name), img->imageId ) );
 	}
@@ -258,12 +253,7 @@ bool ResourceManager::BufferImage2D( const char* name )
 	
 	if ( !img->isBuffered || iter_imageId == imageIds.end() )
 	{
-		std::vector< std::pair<GLenum, GLint> >* textureParameters = new std::vector< std::pair<GLenum, GLint> >();
-		std::pair< GLenum, GLint > param( GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
-		std::pair< GLenum, GLint > param2(GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		textureParameters->push_back( param );
-		textureParameters->push_back( param2 );
-		img->imageId = BufferTexture2D( 0, GL_RGBA, img->width, img->height, GL_RGBA, GL_UNSIGNED_BYTE, img->pixelData, textureParameters, true);
+		img->imageId = BufferTexture2D( GL_RGBA, img->width, img->height, GL_RGBA, GL_UNSIGNED_BYTE, img->pixelData, false, true, false);
 		img->isBuffered = true;
 		imageIds.insert( std::pair< std::string, unsigned int >( std::string(name), img->imageId ) );
 	}
@@ -279,21 +269,13 @@ bool ResourceManager::BufferImage3D( const char* name )
 unsigned int ResourceManager::CreateCubeMap( const std::vector< std::pair< unsigned char*, unsigned int > >* textures, int width, int height )
 {
 	unsigned int cubeMapId;
-	//glActiveTexture (GL_TEXTURE0);
 	glGenTextures( 1, &cubeMapId );
-	
-	std::vector< std::pair<GLenum, GLint> >* textureParameters = new std::vector< std::pair<GLenum, GLint> >();
-	textureParameters->push_back( std::pair< GLenum, GLint >( GL_TEXTURE_MIN_FILTER, GL_LINEAR ) );
-	textureParameters->push_back( std::pair< GLenum, GLint >( GL_TEXTURE_MAG_FILTER, GL_LINEAR ) );
-	textureParameters->push_back( std::pair< GLenum, GLint >( GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE ) );
-	textureParameters->push_back( std::pair< GLenum, GLint >( GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE ) );
-	textureParameters->push_back( std::pair< GLenum, GLint >( GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE ) );
 	
 	std::vector< std::pair< unsigned char*, GLenum > >::const_iterator iter = textures->begin();
 	std::vector< std::pair< unsigned char*, GLenum > >::const_iterator end = textures->end();
 	for ( ; iter != end; ++iter )
 	{
-		BufferTextureCubeMap(cubeMapId, (*iter).second, 0, GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, (*iter).first, textureParameters);
+		BufferTextureCubeMap(cubeMapId, (*iter).second, GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, (*iter).first);
 	}
 	return cubeMapId;
 }

@@ -2,9 +2,9 @@
 #define Texture_h
 
 #include "glew.h"
-#include <map>
 #include <vector>
 
+// TODO(Valentinas): Add parameter for changing Texture Wrapping mode
 // TODO(Valentinas): Add possibility to allocate or deallocate multiple textures in one go
 // TODO(Valentinas): Support odd texture dimensions
 /*
@@ -16,13 +16,35 @@
  
  */
 
+enum class FilterType
+{
+	NEAREST,
+	LINEAR,
+	NEAREST_MIPMAP_NEAREST,
+	LINEAR_MIPMAP_NEAREST,
+	NEAREST_MIPMAP_LINEAR,
+	LINEAR_MIPMAP_LINEAR
+};
+
+enum class WrapType
+{
+	CLAMP_EDGE,
+	MIRROR_CLAMP_EDGE,
+	CLAMP_BORDER,
+	REPEAT,
+	MIRRORED_REPEAT
+};
+
 GLuint BufferTexture3D( GLint levelOfDetail, GLint internalFormat, GLint width, GLint height, GLint depth, GLint pixelFormat, GLenum type, unsigned char* data, const std::vector< std::pair< GLenum, GLint > >* textureParameters, bool generateMipMap = false );
 
-GLuint BufferTexture2D( GLint levelOfDetail, GLint internalFormat, GLint width, GLint height, GLint pixelFormat, GLenum type, unsigned char* data, const std::vector< std::pair< GLenum, GLint > >* textureParameters, bool generateMipMap = false );
+GLuint BufferTexture2D( GLint internalFormat, GLint width, GLint height, GLint pixelFormat, GLenum dataType, unsigned char* data, bool filterNearest, bool generateMipMap = false, bool MipMapFilterNearest = false );
 
-GLuint BufferTexture1D( GLint levelOfDetail, GLint internalFormat, GLint width, GLint pixelFormat, GLenum type, GLvoid* data, const std::vector< std::pair< GLenum, GLint > >* textureParameters, bool generateMipMap = false );
+GLuint BufferTexture1D( GLint internalFormat, GLint width, GLint pixelFormat, GLenum type, GLvoid* data, bool filterNearest, bool generateMipMap = false );
 
-void BufferTextureCubeMap( GLuint mapId, GLenum sideTarget, GLint levelOfDetail, GLint internalFormat, GLint width, GLint height, GLint pixelFormat, GLenum type, unsigned char* data, const std::vector< std::pair< GLenum, GLint > >* textureParameters );
+void BufferTextureCubeMap( GLuint mapId, GLenum sideTarget, GLint internalFormat, GLint width, GLint height, GLint pixelFormat, GLenum type, unsigned char* data );
+
+GLenum GetFilterParameter( FilterType type );
+GLenum GetWrapParameter( WrapType type );
 
 void BindTexture( GLenum textureUnit, GLenum target, GLuint program );
 void UnbindTexture( GLenum target );

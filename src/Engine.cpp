@@ -328,7 +328,7 @@ void Engine::UpdateLoop()
 	const char* sh_objs[] = { "shaders/skybox_vert.glsl", "shaders/skybox_frag.glsl", NULL };
 	const char* sh_objs2[] = { "shaders/line_vert.glsl", "shaders/line_frag.glsl", NULL };
 	ResourceManager::getInstance().CreateShaderProgram("__Skybox_program", sh_objs, 2);
-	ResourceManager::getInstance().CreateShaderProgram("__Line_program", sh_objs2, 2);
+	ResourceManager::getInstance().CreateShaderProgram("__Debug_program", sh_objs2, 2);
 	EnvironmentCube();
 	
 	renderer->SetWindowSize(1280, 720);
@@ -351,6 +351,8 @@ void Engine::UpdateLoop()
 	CDebugRenderer* debugRenderer = new CDebugRenderer();
 	Entity::AddComponent(debugObject, debugRenderer);
 	debugObject->transform->SetPosition(glm::vec3(-1,-1,-1));
+	debugRenderer->SetDrawPoints(true);
+	debugRenderer->SetPointSize(10.0f);
 	
 	float lineLength = 1.0f;
 	int lineAmount = 10;
@@ -424,9 +426,10 @@ void Engine::UpdateLoop()
 					camera->transform->Translate( glm::vec3( 0.0, 0.0, -0.1 ) );
 				}
 
-				if ( inputManager->OnKey(SDLK_r) )
+				if ( inputManager->OnKeyDown(SDLK_r) )
 				{
-					camera->transform->Pitch(1.0f);
+					ResourceManager::getInstance().ReImportImage("objects/snowman.png");
+					ResourceManager::getInstance().ReImportShader("shaders/line_vert.glsl", GLSLShaderType::VERTEX );
 				}
 
 				//box->transform->Yaw(1.0f);

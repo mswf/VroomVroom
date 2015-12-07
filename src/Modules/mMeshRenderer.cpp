@@ -37,7 +37,6 @@ lFuncImp(mMeshRenderer, __engineInit)
 
 lFuncImp(mMeshRenderer, setModel)
 {
-	
 	lua_settop(L, 2);
 	lua_getfield(L, 1, "__coreComponent__");
 	CMeshRenderer* mesh = (CMeshRenderer*)lua_touserdata(L, -1);
@@ -51,5 +50,14 @@ lFuncImp(mMeshRenderer, setModel)
 
 lFuncImp(mMeshRenderer, setMaterial)
 {
+	lua_settop(L, 2);
+	lua_getfield(L, 1, "__coreComponent__");
+	CMeshRenderer* mesh = (CMeshRenderer*)lua_touserdata(L, -1);
+	
+	lua_getfield(L, 2, "__coreMaterial__");
+	Material* mat = (Material*)lua_touserdata(L, -1);
+	
+	mesh->SetMaterial(mat);
 	return 0;
+
 }

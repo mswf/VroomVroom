@@ -142,8 +142,8 @@ ModelInstance* ResourceManager::GetModel( const char* name )
 	{
 		if ( iter_mesh != meshes.end() && !(*iter_mesh).second->isBuffered)
 		{
-			std::string warning_msg( temp_name + " has not been buffered yet." );
-			Terminal.Log( warning_msg );
+			//std::string warning_msg( temp_name + " has not been buffered yet." );
+			//Terminal.Log( warning_msg );
 			
 			//Buffer ModelInstance & add to resource list
 			ModelInstance* newInstance = new ModelInstance();
@@ -179,6 +179,11 @@ void ResourceManager::InsertModelInstance( const char* name, ModelInstance* inst
 
 bool ResourceManager::ImportImage( const char* name, bool vertical_flip )
 {
+	if ( ImageExists(name) )
+	{
+		Terminal.Warning( "Image already imported. Aborting redundant loading" );
+		return false;
+	}
 	return imp.ImportImage( name, vertical_flip );
 }
 
@@ -243,6 +248,7 @@ bool ResourceManager::BufferImage1D( const char* name )
 	{
 		img->imageId = BufferTexture1D( GL_RGBA, img->width, GL_RGBA, GL_UNSIGNED_BYTE, img->pixelData, false );
 		img->isBuffered = true;
+		img->mipmapping = false;
 		imageIds.insert( std::pair< std::string, unsigned int >( std::string(name), img->imageId ) );
 	}
 	return true;
@@ -258,6 +264,7 @@ bool ResourceManager::BufferImage2D( const char* name )
 	{
 		img->imageId = BufferTexture2D( GL_RGBA, img->width, img->height, GL_RGBA, GL_UNSIGNED_BYTE, img->pixelData, false, true, false);
 		img->isBuffered = true;
+		img->mipmapping = true;
 		imageIds.insert( std::pair< std::string, unsigned int >( std::string(name), img->imageId ) );
 	}
 	return true;
@@ -387,13 +394,16 @@ bool ResourceManager::ImportShader( const std::vector< std::pair< std::string, G
 void ResourceManager::CreateShaderProgram( const char* name, const char* shaders_objects[], int count )
 {
 	ShaderProgram* prog = new ShaderProgram();
+	prog->name = name;
 	ResourceManager::getInstance().InsertShaderProgram( name, prog);
 	int i;
 	GLuint* shaders = new GLuint[count];
 	for ( i = 0; i < count; ++i )
 	{
-		prog->shaders.push_back( GetShaderObject( shaders_objects[i] ) );
+		ShaderObject* obj = GetShaderObject( shaders_objects[i]);
+		prog->shaders.push_back(  obj );
 		shaders[i] = prog->shaders[i]->shader;
+		obj->program = prog;
 	}
 	CreateProgram( prog->program, shaders, count);
 

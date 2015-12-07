@@ -18,13 +18,14 @@ class CCamera : public Component
 	
 		static const int familyId;
 	
-		CCamera( Projection proj, float fov, float aspectRatio, float near, float far );
+		CCamera( Projection proj, float aspectRatio, float near = 0.1f, float far = 1000.0f, float fov = 90.0f );
 		~CCamera();
 		void Call();
 		void SetProjectionType( Projection type );
-		void SetUpVector( glm::vec3 up );
-		void SetEyeVector( glm::vec3 eye );
-		void SetTargetVector( glm::vec3 center );
+		void SetAspectRatio( float ratio );
+		void SetFOV( float value );
+		void SetNearPlaneDistance( float zNear );
+		void SetFarPlaneDistance( float zFar );
 		const glm::mat4& GetViewMatrix() const;
 		const glm::mat4& GetProjectionMatrix() const;
 	
@@ -35,11 +36,9 @@ class CCamera : public Component
 		Projection type;
 		glm::mat4 projectionMatrix;
 		glm::mat4 viewMatrix;
-		glm::vec3 eyeVector;
-		glm::vec3 centerVector;
 		glm::vec3 upVector;
-		float fieldOfView;
 		float aspectRatio;
+		float fieldOfView;
 		float zNear;
 		float zFar;
 	

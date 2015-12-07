@@ -3,20 +3,16 @@
 
 const int CCamera::familyId = (int)ComponentTypes::CAMERA;
 
-CCamera::CCamera( Projection proj, float fov, float aspectRatio, float near, float far )
+CCamera::CCamera( Projection proj, float aspectRatio, float near, float far, float fov )
 :	type( proj ),
 	fieldOfView( fov ),
 	aspectRatio( aspectRatio ),
 	zNear( near ),
 	zFar( far ),
 	projectionMatrix( glm::mat4(1) ),
-	viewMatrix( glm::mat4(1) ),
-	eyeVector( glm::vec3(1) ),
-	centerVector( glm::vec3(0) ),
-	upVector( glm::vec3(0.0f, 1.0f, 0.0f) )
+	viewMatrix( glm::mat4(1) )
 {
 	SetProjectionType( proj );
-	//UpdateView( glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3( 0.0f, 1.0f, 0.0f ) );
 }
 
 void CCamera::SetProjectionType( Projection type )
@@ -26,7 +22,6 @@ void CCamera::SetProjectionType( Projection type )
 		case Projection::ORTHOGRAPHIC:
 		{
 			projectionMatrix = glm::ortho( -aspectRatio, aspectRatio, -aspectRatio, aspectRatio, zNear, zFar );
-			centerVector = glm::vec3(-1);
 			break;
 		}
 		case Projection::PERSPECTIVE:
@@ -45,41 +40,44 @@ void CCamera::SetProjectionType( Projection type )
 
 void CCamera::Call()
 {
-	glm::vec3 eye = entity->transform->GetPosition();
+	/*
+		// To simulate a circular aperture, we move around the camera in a circle in the plane perpendicular to the direction we are looking at. We can easily get two vectors describing the plane using cross products.
+		glm::vec3 right = glm::normalize(glm::cross(object - eye, up));
+		glm::vec3 p_up = glm::normalize(glm::cross(object - eye, right));
+		int n = 10; // number of light rays
+		glm::vec3 bokeh = right * cosf(i * 2 * M_PI / n) + p_up * sinf(i * 2 * M_PI / n);
+		float aperture = 0.05;
+	*/
+	
 	// Needs a debug camera for testing purposes
-	//glm::vec3 direction = eye + entity->transform->GetRotation(); //centerVector;
-	glm::vec3 direction = entity->transform->GetRotation();
-	UpdateView( eye, direction, upVector );
+	glm::vec3 eye = entity->transform->GetPosition();
+	glm::vec3 target = entity->transform->GetRotation() + eye;
+	glm::vec3 direction = glm::normalize(target);
+	
+	// Eye + Apeture + Bokeh
+	entity->transform->SetWorldTransform( glm::inverse( glm::lookAt( eye , direction, glm::vec3(0.0, 1.0, 0.0) ) ) );
+	viewMatrix = entity->GetTransform();
+	//return glm::inverse( entity->GetTransform() );
 }
 
-void CCamera::SetUpVector( glm::vec3 up )
+void CCamera::SetAspectRatio( float ratio )
 {
-	upVector = up;
-	Call();
+	aspectRatio = ratio;
 }
 
-void CCamera::SetEyeVector( glm::vec3 eye )
+void CCamera::SetFOV( float value )
 {
-	eyeVector = eye;
-	Call();
+	fieldOfView = value;
 }
 
-// Center vector should be the rotation vector
-void CCamera::SetTargetVector( glm::vec3 center )
+void CCamera::SetNearPlaneDistance( float value )
 {
-	centerVector = center;
-	Call();
+	zNear = value;
 }
 
-void CCamera::UpdateView( const glm::vec3& eye, const glm::vec3& center, const glm::vec3& up )
+void CCamera::SetFarPlaneDistance( float value )
 {
-	// To simulate a circular aperture, we move around the camera in a circle in the plane perpendicular to the direction we are looking at. We can easily get two vectors describing the plane using cross products.
-	//	glm::vec3 right = glm::normalize(glm::cross(object - eye, up));
-	//	glm::vec3 p_up = glm::normalize(glm::cross(object - eye, right));
-	// int n = 10; // number of light rays
-	// glm::vec3 bokeh = right * cosf(i * 2 * M_PI / n) + p_up * sinf(i * 2 * M_PI / n);
-	// float aperture = 0.05;
-	viewMatrix = glm::lookAt( eye, center, up ); // Eye + Apeture + Bokeh
+	zFar = value;
 }
 
 const glm::mat4& CCamera::GetViewMatrix() const

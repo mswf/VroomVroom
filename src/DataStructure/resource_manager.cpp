@@ -138,10 +138,26 @@ ModelInstance* ResourceManager::GetModel( const char* name )
 	std::map< std::string, Mesh* >::const_iterator iter_mesh = meshes.find(name);
 	
 	std::string temp_name(name);
-	if ( iter_model == models.end() || !(*iter_mesh).second->isBuffered )
+	if ( iter_model == models.end() )
 	{
-		//std::string warning_msg( temp_name + " has not been buffered yet." );
-		//Terminal.Log( warning_msg );
+		if ( iter_mesh != meshes.end() && !(*iter_mesh).second->isBuffered)
+		{
+			std::string warning_msg( temp_name + " has not been buffered yet." );
+			Terminal.Log( warning_msg );
+			
+			//Buffer ModelInstance & add to resource list
+			ModelInstance* newInstance = new ModelInstance();
+			unsigned int mtl = (*iter_mesh).second->materialId;
+			newInstance->materialId = mtl;
+			BufferMesh( (*iter_mesh).second, newInstance );
+			
+			// Set the mesh's buffer to true
+			(*iter_mesh).second->isBuffered = true;
+			
+			InsertModelInstance( name, newInstance );
+			
+			return GetModel( name );
+		}
 		
 		// Checking if the mesh is imported
 		if ( iter_mesh == meshes.end() )
@@ -150,19 +166,6 @@ ModelInstance* ResourceManager::GetModel( const char* name )
 			Terminal.Warning( err_msg );
 			return NULL;
 		}
-		
-		//Buffer ModelInstance & add to resource list
-		ModelInstance* newInstance = new ModelInstance();
-		unsigned int mtl = (*iter_mesh).second->materialId;
-		newInstance->materialId = mtl;
-		BufferMesh( (*iter_mesh).second, newInstance );
-		
-		// Set the mesh's buffer to true
-		(*iter_mesh).second->isBuffered = true;
-		
-		InsertModelInstance( name, newInstance );
-		
-		return GetModel( name );
 	}
 	return (*iter_model).second;
 }

@@ -20,7 +20,7 @@ CTransform::~CTransform()
 	 std::vector< CTransform* >::const_iterator end = children.end();
 	 for ( ; iter != end; ++iter)
 	 {
-		delete (*iter)->entity;
+		delete ( (*iter)->entity );
 	 }
 }
 
@@ -99,6 +99,11 @@ void CTransform::RemoveChild( CTransform *c )
 const CTransform* CTransform::GetParent() const
 {
 	return parent;
+}
+
+const std::vector< CTransform* >& CTransform::GetChildren() const
+{
+	return children;
 }
 
 // POSITION

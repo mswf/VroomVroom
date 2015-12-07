@@ -28,6 +28,7 @@ class CTransform : public Component
 		void RemoveChild( CTransform* c );
 	
 		const CTransform* GetParent() const;
+		const std::vector< CTransform* >& GetChildren() const;
 	
 		inline const glm::vec3 VectorRight() { return glm::vec3(1.0f, 0.0f, 0.0f); }
 		inline const glm::vec3 VectorUp() { return glm::vec3(0.0f, 1.0f, 0.0f); }

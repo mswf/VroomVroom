@@ -20,6 +20,7 @@
 #include "../Components/cCamera.h"
 #include "../Components/cMeshRenderer.h"
 #include "../Components/cTransform.h"
+#include "../Components/cDebugRenderer.h"
 
 #include "../engine.h"
 
@@ -189,10 +190,20 @@ lFuncImp(mEntity, addComponent)
 	if(familyId == (int)ComponentTypes::CAMERA)
 	{
 		Entity::AddComponent(core->entity, (CCamera*)comp);
+		lua_pushvalue(L, 2);
+		lua_setfield(L, 1, "camera");
 	}
 	if(familyId == (int)ComponentTypes::MESH_RENDERER)
 	{
 		Entity::AddComponent(core->entity, (CMeshRenderer*)comp);
+		lua_pushvalue(L, 2);
+		lua_setfield(L, 1, "meshRenderer");
+	}
+	if(familyId == (int)ComponentTypes::DEBUG_RENDERER)
+	{
+		Entity::AddComponent(core->entity, (CDebugRenderer*)comp);
+		lua_pushvalue(L, 2);
+		lua_setfield(L, 1, "debugRenderer");
 	}
 	
 	return 0;

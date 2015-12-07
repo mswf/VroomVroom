@@ -10,6 +10,7 @@
 		233B2A5C1BE8E11F0032447A /* mUi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 233B2A5A1BE8E11F0032447A /* mUi.cpp */; settings = {ASSET_TAGS = (); }; };
 		234C8B281BB96A3B00E61132 /* libassimpd.3.1.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */; };
 		234C8B291BB96A4600E61132 /* libassimpd.3.1.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */; };
+		2383825F1C158EB600538D86 /* mDebugRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2383825D1C158EB600538D86 /* mDebugRenderer.cpp */; settings = {ASSET_TAGS = (); }; };
 		23A4AF551BB2DE3100948D72 /* content.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23A4AF531BB2DE3100948D72 /* content.cpp */; settings = {ASSET_TAGS = (); }; };
 		23B31B581C05E3B6004E31C9 /* cLua.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23B31B561C05E3B6004E31C9 /* cLua.cpp */; settings = {ASSET_TAGS = (); }; };
 		23C2AAFD1BCBD8C00043F141 /* file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23C2AAFB1BCBD8C00043F141 /* file.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -106,6 +107,8 @@
 		233B2A5A1BE8E11F0032447A /* mUi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mUi.cpp; path = src/Modules/mUi.cpp; sourceTree = SOURCE_ROOT; };
 		233B2A5B1BE8E11F0032447A /* mUi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mUi.h; path = src/Modules/mUi.h; sourceTree = SOURCE_ROOT; };
 		234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimpd.3.1.1.dylib; path = Framework/assimp/Debug/libassimpd.3.1.1.dylib; sourceTree = "<group>"; };
+		2383825D1C158EB600538D86 /* mDebugRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mDebugRenderer.cpp; path = src/Modules/mDebugRenderer.cpp; sourceTree = SOURCE_ROOT; };
+		2383825E1C158EB600538D86 /* mDebugRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mDebugRenderer.h; path = src/Modules/mDebugRenderer.h; sourceTree = SOURCE_ROOT; };
 		23A4AF531BB2DE3100948D72 /* content.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = content.cpp; path = src/content.cpp; sourceTree = SOURCE_ROOT; };
 		23A4AF541BB2DE3100948D72 /* content.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = content.h; path = src/content.h; sourceTree = SOURCE_ROOT; };
 		23B31B561C05E3B6004E31C9 /* cLua.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cLua.cpp; path = src/Components/cLua.cpp; sourceTree = SOURCE_ROOT; };
@@ -296,14 +299,16 @@
 				23E1BD841C0C784C00F49BCF /* mMaterial.h */,
 				23E1BD861C0C7A7900F49BCF /* mModel.cpp */,
 				23E1BD871C0C7A7900F49BCF /* mModel.h */,
-				23E1BD891C0C8DBF00F49BCF /* mShader.cpp */,
 				23E1BD8A1C0C8DBF00F49BCF /* mShader.h */,
 				23C8BF451C0DA07A000EFD05 /* mMeshRenderer.cpp */,
 				23C8BF461C0DA07A000EFD05 /* mMeshRenderer.h */,
 				23D328CF1C0F034600FAC4B9 /* mImport.cpp */,
 				23D328D01C0F034600FAC4B9 /* mImport.h */,
+				23E1BD891C0C8DBF00F49BCF /* mShader.cpp */,
 				23D328D21C0F38FD00FAC4B9 /* mSystem.cpp */,
 				23D328D31C0F38FD00FAC4B9 /* mSystem.h */,
+				2383825D1C158EB600538D86 /* mDebugRenderer.cpp */,
+				2383825E1C158EB600538D86 /* mDebugRenderer.h */,
 			);
 			name = Modules;
 			sourceTree = "<group>";
@@ -594,6 +599,7 @@
 				E547260B1BC6A74E00316B26 /* TCPServer.cpp in Sources */,
 				E55F88E31BEBB22A00433973 /* material.cpp in Sources */,
 				23C2AAFD1BCBD8C00043F141 /* file.cpp in Sources */,
+				2383825F1C158EB600538D86 /* mDebugRenderer.cpp in Sources */,
 				E50529261BE8CD650017400B /* luaSystem.cpp in Sources */,
 				E50529521BE8CDC90017400B /* imgui_impl_sdl.cpp in Sources */,
 				E514AF591BD16E5800E7E2C5 /* TCPData.cpp in Sources */,

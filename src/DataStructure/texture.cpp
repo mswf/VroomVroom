@@ -24,7 +24,6 @@ GLuint BufferTexture3D( GLint levelOfDetail, GLint internalFormat, GLint width, 
 	return textureId;
 }
 
-
 GLuint BufferTexture2D( GLint internalFormat, GLint width, GLint height, GLint pixelFormat, GLenum dataType, unsigned char* data, bool filterNearest, bool generateMipMap, bool MipMapFilterNearest )
 {
 	unsigned int textureId;
@@ -44,11 +43,10 @@ GLuint BufferTexture2D( GLint internalFormat, GLint width, GLint height, GLint p
 	{
 		minFilter = (filterNearest) ? FilterType::NEAREST : FilterType::LINEAR;
 	}
-		
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GetFilterParameter( minFilter ) );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GetFilterParameter( magFilter ) );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GetWrapParameter( WrapType::REPEAT ) );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GetWrapParameter( WrapType::REPEAT ) );
+	
+	SetTextureFilter( textureId, GL_TEXTURE_2D, minFilter, magFilter );
+	SetTextureWrapping( textureId, GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, WrapType::REPEAT );
+	SetTextureWrapping( textureId, GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, WrapType::REPEAT );
 
 	// target, level of detail, internal format(RGBA), width, height, border(must be 0), pixel format(RGBA), type, data pointer
 	glTexImage2D( GL_TEXTURE_2D, 0, internalFormat, width, height, 0, pixelFormat, dataType, (GLvoid*)data );
@@ -62,17 +60,16 @@ GLuint BufferTexture2D( GLint internalFormat, GLint width, GLint height, GLint p
 	return textureId;
 }
 
-GLuint BufferTexture1D( GLint internalFormat, GLint width, GLint pixelFormat, GLenum type, GLvoid* data, bool filterNearest, bool generateMipMap )
+GLuint BufferTexture1D( GLint internalFormat, GLint width, GLint pixelFormat, GLenum dataType, GLvoid* data, bool filterNearest, bool generateMipMap )
 {
 	unsigned int textureId;
 	glGenTextures( 1, &textureId );
 	glBindTexture( GL_TEXTURE_1D, textureId );
 	
 	FilterType filter = filterNearest ? FilterType::NEAREST : FilterType::LINEAR;
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GetFilterParameter( filter ) );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GetFilterParameter( filter ) );
+	SetTextureFilter( textureId, GL_TEXTURE_1D, filter, filter );
 	
-	glTexImage1D( GL_TEXTURE_1D, 0, internalFormat, width, 0, pixelFormat, type, data );
+	glTexImage1D( GL_TEXTURE_1D, 0, internalFormat, width, 0, pixelFormat, dataType, data );
 	CheckGlError("glTexImage2D 1D");
 	if ( generateMipMap )
 	{
@@ -86,7 +83,6 @@ GLuint BufferTexture1D( GLint internalFormat, GLint width, GLint pixelFormat, GL
 void BufferTextureCubeMap( GLuint mapId, GLenum sideTarget, GLint internalFormat, GLint width, GLint height, GLint pixelFormat, GLenum type, unsigned char* data )
 {
 	glBindTexture( GL_TEXTURE_CUBE_MAP, mapId );
-	
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GetFilterParameter( FilterType::LINEAR ) );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GetFilterParameter( FilterType::LINEAR ) );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GetWrapParameter( WrapType::CLAMP_EDGE ) );
@@ -94,6 +90,35 @@ void BufferTextureCubeMap( GLuint mapId, GLenum sideTarget, GLint internalFormat
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GetWrapParameter( WrapType::CLAMP_EDGE ) );
 	glTexImage2D( sideTarget, 0, internalFormat, width, height, 0, pixelFormat, type, (GLvoid*)data );
 	CheckGlError("glTexImage2D CUBE_MAP");
+}
+
+void UpdateBufferImage1D( GLuint texture, GLint offX, GLint offY, GLint w, GLint h, GLenum pixelFormat, GLenum dataType, unsigned char* data )
+{
+	glBindTexture( GL_TEXTURE_1D, texture );
+	glTexSubImage1D( GL_TEXTURE_1D, 0, offX, w, pixelFormat, dataType, data );
+}
+
+void UpdateBufferImage2D( GLuint texture, GLint offX, GLint offY, GLint w, GLint h, GLenum pixelFormat, GLenum dataType, unsigned char* data, bool mipmap )
+{
+	glBindTexture( GL_TEXTURE_2D, texture );
+	glTexSubImage2D( GL_TEXTURE_2D, 0, offX, offY, w, h, pixelFormat, dataType, data );
+	if ( mipmap )
+	{
+		glGenerateMipmap( GL_TEXTURE_2D );
+	}
+}
+
+void SetTextureFilter( GLuint texture, GLenum target, FilterType minFilter, FilterType magFilter )
+{
+	glBindTexture( target, texture );
+	glTexParameteri( target, GL_TEXTURE_MIN_FILTER, GetFilterParameter( minFilter ) );
+	glTexParameteri( target, GL_TEXTURE_MAG_FILTER, GetFilterParameter( magFilter ) );
+}
+
+void SetTextureWrapping( GLuint texture, GLenum target, GLenum wrap, WrapType type )
+{
+	glBindTexture( target, texture );
+	glTexParameteri( target, wrap, GetWrapParameter( type ) );
 }
 
 void BindTexture( GLenum textureUnit, GLenum target, GLuint program )

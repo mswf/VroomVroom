@@ -43,6 +43,14 @@ GLuint BufferTexture1D( GLint internalFormat, GLint width, GLint pixelFormat, GL
 
 void BufferTextureCubeMap( GLuint mapId, GLenum sideTarget, GLint internalFormat, GLint width, GLint height, GLint pixelFormat, GLenum type, unsigned char* data );
 
+void UpdateBufferImage1D( GLuint texture, GLint offX, GLint offY, GLint w, GLint h, GLenum pixelFormat, GLenum dataType, unsigned char* data );
+
+void UpdateBufferImage2D( GLuint texture, GLint offX, GLint offY, GLint w, GLint h, GLenum pixelFormat, GLenum dataType, unsigned char* data, bool mipmap = false );
+
+void SetTextureWrapping( GLuint texture, GLenum target, GLenum wrap, WrapType type );
+
+void SetTextureFilter( GLuint texture, GLenum target, FilterType minFilter, FilterType magFilter );
+
 GLenum GetFilterParameter( FilterType type );
 GLenum GetWrapParameter( WrapType type );
 

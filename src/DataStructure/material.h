@@ -2,7 +2,7 @@
 #define material_h
 
 #include <string>
-#include <glm/detail/type_vec4.hpp>
+#include "../glm/detail/type_vec4.hpp"
 
 struct ShaderProgram;
 

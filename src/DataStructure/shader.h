@@ -24,6 +24,7 @@ void UseProgramStages( GLuint pPipeline, GLSLShaderType shaderType, GLuint progr
 void CreateShader( GLuint& shader, GLenum shaderType, const char* source );
 
 void CreateProgram( GLuint& program, const unsigned int* shaders, unsigned int count, bool separate = false );
+void RemakeProgram( GLuint& program, const unsigned int* shaders, unsigned int count, bool separate = false );
 
 void DeleteProgram( GLuint program );
 void DeleteShaderObject( GLuint shader );
@@ -33,6 +34,8 @@ void LinkProgram( GLuint program );
 bool ValidateProgram( GLuint program );
 bool IsShader( GLuint shader );
 bool IsProgram( GLuint program );
+bool IsAttached( GLuint program, GLuint shader );
+GLint GetAttachedShaderCount( GLuint program );
 
 void SetUniform( GLuint program, const char* name, int val );
 void SetUniform( GLuint program, const char* name, unsigned int val );

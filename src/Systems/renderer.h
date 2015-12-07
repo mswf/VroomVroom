@@ -9,6 +9,7 @@ struct ModelInstance;
 struct ShaderProgram;
 class Entity;
 class CMeshRenderer;
+class CDebugRenderer;
 class CCamera;
 
 namespace Renderer
@@ -20,29 +21,42 @@ namespace Renderer
             RenderSystem();
             ~RenderSystem();
 		
-			void RenderPass();
-		
             bool Initialize() override;
-            void Update(void* data) override;
-            void SendMessage(void* message) override;
 
 			void Render();
 			void RenderCube( ModelInstance* cube, unsigned int cubeMap );
 			void RenderLines( unsigned int vao, unsigned long count );
 		
-			inline void SetWindowSize( const int& w, const int& h ) { w_width = w; w_height = h; }
-			inline void SetMeshRendererList( std::vector< CMeshRenderer* >* list ) { renderables = list; }
-			inline void SetCamera( CCamera* c ) { camera = c; }
-			inline void SetTime( uint32 t ) { time = t; }
+			void SetEnvironmentMap( unsigned int map );
+			void SetWindowSize( const int& w, const int& h );
+			void SetMeshRendererList( std::vector< CMeshRenderer* >* list );
+			void SetLineRendererList( std::vector< CDebugRenderer* >* list );
+			void SetCamera( CCamera* c );
+			void SetTime( uint32 t );
+			void SetPointDrawing( bool enabled );
 		
 		private:
+		
+			void RenderEnvironment();
+			void RenderScene();
+			void RenderDebugLines();
 		
 			uint32 time;
 			int w_width;
 			int w_height;
 			CCamera* camera;
+		
+			// Scene
 			std::vector< CMeshRenderer* >* renderables;
+		
+			// Line
+			std::vector< CDebugRenderer* >* lines;
 			ShaderProgram* lineProgram;
+			bool drawPoints;
+		
+			// Environment
+			ModelInstance* skybox;
+			unsigned int cubeMap;
 			ShaderProgram* skyboxProgram;
     };
     

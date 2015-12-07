@@ -75,7 +75,23 @@ bool Importer::ImportObjFile( const std::string &pFile, bool importTextures )
 				std::vector< std::string >::const_iterator end = textures.end();
 				for ( ; iter != end; ++iter )
 				{
-					ImportImage( (*iter).c_str() );
+					std::string name = (*iter);
+					if ( ImportImage( name.c_str() ) )
+					{
+						// Set diffuse by to material default
+						if ( name.find("_D") != std::string::npos )
+						{
+							//Terminal.Log("Found diffuse texture, setting to material.");
+							material->SetDiffuseTexture( name.c_str() );
+						}
+						
+						// Set normal by to material default
+						if ( name.find("_N") != std::string::npos )
+						{
+							//Terminal.Log("Found normal texture, setting to material.");
+							material->SetNormalTexture( name.c_str() );
+						}
+					}
 				}
 			}
 			mesh->materialId = ResourceManager::materialId++;

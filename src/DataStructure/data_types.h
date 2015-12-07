@@ -6,18 +6,6 @@
 #include "../glm/vec2.hpp"
 #include "../glm/vec3.hpp"
 
-struct Line
-{
-	glm::vec3 start;
-	glm::vec3 end;
-	glm::vec3 color;
-	Line( glm::vec3 p0, glm::vec3 p1, glm::vec3 c = glm::vec3(0) ) :
-	start( p0 ),
-	end( p1 ),
-	color( c )
-	{}
-};
-
 struct ShaderObject
 {
 	std::map< std::string, unsigned int > locations;
@@ -65,9 +53,15 @@ struct ModelInstance
 	unsigned int materialId = 0;
 };
 
-
-
-
-
+struct ImageData
+{
+	int imageId = -1;
+	unsigned char* pixelData;
+	unsigned int width = 0;
+	unsigned int height = 0;
+	unsigned int components = 0;
+	bool isBuffered = false;
+	bool hasBufferChanged = false;
+};
 
 #endif /* data_types_h */

@@ -4,11 +4,10 @@
 #include <glew.h>
 #include <string>
 #include <map>
+#include "data_types.h"
 #include "../glm/vec2.hpp"
 #include "../glm/vec3.hpp"
 #include "../glm/mat4x4.hpp"
-#include "../glm/gtc/type_ptr.hpp"
-#include "data_types.h"
 
 enum class GLSLShaderType
 {
@@ -66,30 +65,34 @@ GLenum GetGLShaderEnum( GLSLShaderType type, bool separate = false );
 bool ProgramInfoLog( GLuint program, GLenum status );
 bool ShaderInfoLog( GLuint shader, GLenum status );
 
-static const char* builtin_vertex =
-"#version 410\n"
-"layout(location = 0) in vec3 position;\n"
-"layout(location = 2) in vec2 texcoord;\n"
-"uniform mat4 model;\n"
-"uniform mat4 view;\n"
-"uniform mat4 projection;\n"
-"out vec2 uv;\n"
-"void main()\n"
-"{\n"
-"	uv = texcoord;\n"
-"	gl_Position = projection * view * model * vec4( position, 1.0 );\n"
-"}\n";
+#ifndef GLSL_SHADER_FILE
+#define GLSL_SHADER_FILE(version, A) "#version " #version "\n" #A
+#endif
 
-static const char* builtin_fragment =
-"#version 410\n"
-"uniform sampler2D colorMap;\n"
-"uniform float time;\n"
-"in vec2 uv;\n"
-"out vec4 Out_Color;\n"
-"void main()\n"
-"{\n"
-"	Out_Color = texture( colorMap, uv ); \n"
-"}\n";
+static const char* builtin_vertex = GLSL_SHADER_FILE( 410,
+	layout(location = 0) in vec3 position;
+	layout(location = 2) in vec2 texcoord;
+	uniform mat4 model;
+	uniform mat4 view;
+	uniform mat4 projection;
+	out vec2 uv;
+	void main()
+	{
+		uv = texcoord;
+		gl_Position = projection * view * model * vec4( position, 1.0 );
+	}
+);
+
+static const char* builtin_fragment = GLSL_SHADER_FILE( 410,
+	uniform sampler2D colorMap;
+	uniform float time;
+	in vec2 uv;
+	out vec4 FragColor;
+	void main()
+	{
+		FragColor = texture( colorMap, uv );
+	}
+);
 
 
 #endif /* shader_h */

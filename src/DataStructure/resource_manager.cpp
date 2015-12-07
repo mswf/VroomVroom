@@ -1,17 +1,16 @@
 #include "resource_manager.h"
-#include "../Utilities/helperFunctions.h"
-#include "../content.h"
-#include "../console.h"
+#include "data_types.h"
 #include "texture.h"
 #include "mesh.h"
 #include "material.h"
 #include "shader.h"
+#include "../content.h"
+#include "../console.h"
+#include "../Utilities/helperFunctions.h"
 
 unsigned int ResourceManager::materialId = 0;
 
-ResourceManager::ResourceManager()
-{}
-
+ResourceManager::ResourceManager() {}
 //TODO(Valentinas): Reload meshes
 ResourceManager::~ResourceManager()
 {
@@ -28,7 +27,7 @@ void ResourceManager::Initialize()
 	bool fragmetDefault = ImportShader( "shaders/default_frag.glsl", GLSLShaderType::FRAGMENT );
 	if ( !(vertexDefault && fragmetDefault) )
 	{
-		Terminal.Warning("One of the default shaders were missing.");
+		Terminal.Warning("Default shaders were missing. Loading builtin shaders.");
 		LoadBuiltinShader();
 	}
 	else
@@ -139,10 +138,26 @@ ModelInstance* ResourceManager::GetModel( const char* name )
 	std::map< std::string, Mesh* >::const_iterator iter_mesh = meshes.find(name);
 	
 	std::string temp_name(name);
-	if ( iter_model == models.end() || !(*iter_mesh).second->isBuffered )
+	if ( iter_model == models.end() )
 	{
-		//std::string warning_msg( temp_name + " has not been buffered yet." );
-		//Terminal.Log( warning_msg );
+		if ( iter_mesh != meshes.end() && !(*iter_mesh).second->isBuffered)
+		{
+			std::string warning_msg( temp_name + " has not been buffered yet." );
+			Terminal.Log( warning_msg );
+			
+			//Buffer ModelInstance & add to resource list
+			ModelInstance* newInstance = new ModelInstance();
+			unsigned int mtl = (*iter_mesh).second->materialId;
+			newInstance->materialId = mtl;
+			BufferMesh( (*iter_mesh).second, newInstance );
+			
+			// Set the mesh's buffer to true
+			(*iter_mesh).second->isBuffered = true;
+			
+			InsertModelInstance( name, newInstance );
+			
+			return GetModel( name );
+		}
 		
 		// Checking if the mesh is imported
 		if ( iter_mesh == meshes.end() )
@@ -151,19 +166,6 @@ ModelInstance* ResourceManager::GetModel( const char* name )
 			Terminal.Warning( err_msg );
 			return NULL;
 		}
-		
-		//Buffer ModelInstance & add to resource list
-		ModelInstance* newInstance = new ModelInstance();
-		unsigned int mtl = (*iter_mesh).second->materialId;
-		newInstance->materialId = mtl;
-		BufferMesh( (*iter_mesh).second, newInstance );
-		
-		// Set the mesh's buffer to true
-		(*iter_mesh).second->isBuffered = true;
-		
-		InsertModelInstance( name, newInstance );
-		
-		return GetModel( name );
 	}
 	return (*iter_model).second;
 }
@@ -239,12 +241,7 @@ bool ResourceManager::BufferImage1D( const char* name )
 	
 	if ( !img->isBuffered || iter_imageId == imageIds.end() )
 	{
-		std::vector< std::pair<GLenum, GLint> >* textureParameters = new std::vector< std::pair<GLenum, GLint> >();
-		std::pair< GLenum, GLint > param( GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-		std::pair< GLenum, GLint > param2( GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-		textureParameters->push_back( param );
-		textureParameters->push_back( param2 );
-		img->imageId = BufferTexture1D( 0, GL_RGBA, img->width, GL_RGBA, GL_UNSIGNED_BYTE, img->pixelData, textureParameters );
+		img->imageId = BufferTexture1D( GL_RGBA, img->width, GL_RGBA, GL_UNSIGNED_BYTE, img->pixelData, false );
 		img->isBuffered = true;
 		imageIds.insert( std::pair< std::string, unsigned int >( std::string(name), img->imageId ) );
 	}
@@ -259,12 +256,7 @@ bool ResourceManager::BufferImage2D( const char* name )
 	
 	if ( !img->isBuffered || iter_imageId == imageIds.end() )
 	{
-		std::vector< std::pair<GLenum, GLint> >* textureParameters = new std::vector< std::pair<GLenum, GLint> >();
-		std::pair< GLenum, GLint > param( GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
-		std::pair< GLenum, GLint > param2(GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		textureParameters->push_back( param );
-		textureParameters->push_back( param2 );
-		img->imageId = BufferTexture2D( 0, GL_RGBA, img->width, img->height, GL_RGBA, GL_UNSIGNED_BYTE, img->pixelData, textureParameters, true);
+		img->imageId = BufferTexture2D( GL_RGBA, img->width, img->height, GL_RGBA, GL_UNSIGNED_BYTE, img->pixelData, false, true, false);
 		img->isBuffered = true;
 		imageIds.insert( std::pair< std::string, unsigned int >( std::string(name), img->imageId ) );
 	}
@@ -280,21 +272,13 @@ bool ResourceManager::BufferImage3D( const char* name )
 unsigned int ResourceManager::CreateCubeMap( const std::vector< std::pair< unsigned char*, unsigned int > >* textures, int width, int height )
 {
 	unsigned int cubeMapId;
-	//glActiveTexture (GL_TEXTURE0);
 	glGenTextures( 1, &cubeMapId );
-	
-	std::vector< std::pair<GLenum, GLint> >* textureParameters = new std::vector< std::pair<GLenum, GLint> >();
-	textureParameters->push_back( std::pair< GLenum, GLint >( GL_TEXTURE_MIN_FILTER, GL_LINEAR ) );
-	textureParameters->push_back( std::pair< GLenum, GLint >( GL_TEXTURE_MAG_FILTER, GL_LINEAR ) );
-	textureParameters->push_back( std::pair< GLenum, GLint >( GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE ) );
-	textureParameters->push_back( std::pair< GLenum, GLint >( GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE ) );
-	textureParameters->push_back( std::pair< GLenum, GLint >( GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE ) );
 	
 	std::vector< std::pair< unsigned char*, GLenum > >::const_iterator iter = textures->begin();
 	std::vector< std::pair< unsigned char*, GLenum > >::const_iterator end = textures->end();
 	for ( ; iter != end; ++iter )
 	{
-		BufferTextureCubeMap(cubeMapId, (*iter).second, 0, GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, (*iter).first, textureParameters);
+		BufferTextureCubeMap(cubeMapId, (*iter).second, GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, (*iter).first);
 	}
 	return cubeMapId;
 }

@@ -6,9 +6,11 @@
 #include "../Components/cTransform.h"
 #include "../Components/cCamera.h"
 #include "../Components/cMeshRenderer.h"
+#include "../Components/cDebugRenderer.h"
 
 #include "../DataStructure/shader.h"
 #include "../DataStructure/texture.h"
+#include "../DataStructure/resource_manager.h"
 
 #include "../glm/vec2.hpp"
 #include "../glm/vec3.hpp"
@@ -19,9 +21,17 @@
 namespace Renderer
 {
 
-	RenderSystem::RenderSystem()
+	RenderSystem::RenderSystem() :
+		time(1),
+		w_width(0),
+		w_height(0),
+		camera(NULL),
+		lineProgram(NULL),
+		drawPoints(false),
+		skybox(NULL),
+		cubeMap(0),
+		skyboxProgram(NULL)
 	{
-		
 	}
 	
 	RenderSystem::~RenderSystem()
@@ -32,22 +42,12 @@ namespace Renderer
 	bool RenderSystem::Initialize()
 	{
 		SetMeshRendererList( CMeshRenderer::GetMeshRendererList() );
+		SetLineRendererList( CDebugRenderer::GetDebugRendererList() );
+		ResourceManager& rm = ResourceManager::getInstance();
+		skybox = rm.GetModel("__Skybox_model");
+		skyboxProgram = rm.GetShaderProgram("__Skybox_program");
+		lineProgram = rm.GetShaderProgram("__Line_program");
 		return true;
-	}
-	
-	void RenderSystem::Update( void* data )
-	{
-		
-	}
-	
-	void RenderSystem::SendMessage( void* message )
-	{
-		
-	}
-	
-	void RenderSystem::RenderPass()
-	{
-		
 	}
 	
 	/*
@@ -65,11 +65,38 @@ namespace Renderer
 
 	void RenderSystem::Render()
 	{
+		//RenderEnvironment();
+		RenderDebugLines();
+		RenderScene();
+	}
+
+	void RenderSystem::RenderScene()
+	{
+		// RENDERER MODE FOR RENDERING POINTS
+		//glEnable(GL_PROGRAM_POINT_SIZE);
+		
+		// RENDERER MODE FOR BLEND_FUNC
+		//glEnable(GL_BLEND);
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		
+		// RENDERER MODE FOR CULL FACES
+		//glEnable(GL_CULL_FACE);
+		//glEnable(GL_BACK);
+		
+		// RENDERER MODE FOR WIREFRAME
+		//glPolygonMode(GL_FRONT_AND_BACK, mtl->wireframe_enabled ? GL_LINE : GL_FILL );
+		//GLint polygonMode[2];
+		//glGetIntegerv( GL_POLYGON_MODE, polygonMode );
+		
+		// RENDERER MODE FOR DEPTH TESTING
+		glEnable(GL_DEPTH_TEST);
+
+		
 		std::vector< CMeshRenderer* >::const_iterator it = renderables->begin();
 		std::vector< CMeshRenderer* >::const_iterator end = renderables->end();
 		for ( ; it != end; ++it )
 		{
-		
+			
 			const ModelInstance* m = (*it)->GetModelInstace();
 			if (m == NULL)
 			{
@@ -78,34 +105,15 @@ namespace Renderer
 			
 			const Material* mtl = (*it)->GetMaterial();
 			unsigned int program = mtl->shader->program;
-
-			// RENDERER MODE FOR RENDERING POINTS
-			//glEnable(GL_PROGRAM_POINT_SIZE);
-			
-			// RENDERER MODE FOR BLEND_FUNC
-			//glEnable(GL_BLEND);
-			//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			
-			// RENDERER MODE FOR CULL FACES
-			//glEnable(GL_CULL_FACE);
-			//glEnable(GL_BACK);
-			
-			// RENDERER MODE FOR WIREFRAME
-			//glPolygonMode(GL_FRONT_AND_BACK, mtl->wireframe_enabled ? GL_LINE : GL_FILL );
-			//GLint polygonMode[2];
-			//glGetIntegerv( GL_POLYGON_MODE, polygonMode );
-			
-			// RENDERER MODE FOR DEPTH TESTING
-			glEnable(GL_DEPTH_TEST);
 			
 			glBindVertexArray( m->vao );
 			
 			mtl->UseMaterial();
-
+			
 			glm::mat3 mvMatrix = glm::mat3( camera->GetViewMatrix() * (*it)->entity->transform->GetWorldTransform() );
 			glm::mat3 normalMatrix = glm::transpose(glm::inverse(mvMatrix));
 			glm::vec3 lightPosition( 0.0, 5.0, 1.0 );
-
+			
 			//GLuint index1 = glGetSubroutineIndex( s->program, GL_FRAGMENT_SHADER, "diffuseOnly" );
 			
 			//GLuint index2 = glGetSubroutineIndex( s->program, GL_FRAGMENT_SHADER, "phongModel" );
@@ -124,50 +132,69 @@ namespace Renderer
 			SetUniform( program,	"projection", 	camera->GetProjectionMatrix() );
 			SetUniform( program,	"time", 		(float)time );
 			SetUniform( program,	"lightPos", 	lightPosition);
-
+			
 			BindTexture( GL_TEXTURE0, GL_TEXTURE_2D, mtl->diffuseTextureId);
 			SetUniform( program, "colorMap", 0 );
 			
 			BindTexture( GL_TEXTURE1, GL_TEXTURE_2D, mtl->normalTextureId);
 			SetUniform( program, "normalMap", 1 );
-
+			
 			glDrawElements( GL_TRIANGLES, m->numIndices, GL_UNSIGNED_INT, (void*)0 );
 			
-			glBindVertexArray( 0 );
-
-			//TODO(Valentinas): Disable Vertex Attributes after drawing?
-
-			UnbindTexture( GL_TEXTURE_2D );
-			glUseProgram(0);
 		}
+		
+		glBindVertexArray( 0 );
+		
+		//TODO(Valentinas): Disable Vertex Attributes after drawing?
+		
+		UnbindTexture( GL_TEXTURE_2D );
+		glUseProgram(0);
 	}
-
-	void RenderSystem::RenderLines( unsigned int vao, unsigned long count )
+	
+	void RenderSystem::RenderDebugLines()
 	{
 		glLineWidth(1.0f);
 		glEnable(GL_LINE_SMOOTH);
 		glPointSize(5.0f);
-		
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL );
-		
-		glBindVertexArray(vao);
-		
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL );
 		glUseProgram(lineProgram->program);
+		GLenum primitive;
+		if ( lines->at(0)->mode == DrawMode::TRIANGLES )
+		{
+			primitive = GL_TRIANGLES;
+		}
+		else
+		{
+			primitive = GL_LINES;
+		}
 		
-		SetUniform( lineProgram->program,	"model", 		glm::mat4(1) );
-		SetUniform( lineProgram->program,	"view", 		camera->GetViewMatrix() );
-		SetUniform( lineProgram->program,	"projection", 	camera->GetProjectionMatrix() );
-		SetUniform( lineProgram->program,	"time", 		(float)time );
+		std::vector< CDebugRenderer* >::const_iterator it = lines->begin();
+		std::vector< CDebugRenderer* >::const_iterator end = lines->end();
+		for ( ; it != end; ++it )
+		{
+			if ( !(*it)->IsBuffered() )
+			{
+				(*it)->PushToGPU();
+				continue;
+			}
+			glBindVertexArray( (*it)->vao);
 		
-		glDrawArrays( GL_LINES, 0, (int)count);
-		glDrawArrays( GL_POINTS, 0, (int)count);
+			SetUniform( lineProgram->program,	"model", 		(*it)->entity->transform->GetWorldTransform() );
+			SetUniform( lineProgram->program,	"view", 		camera->GetViewMatrix() );
+			SetUniform( lineProgram->program,	"projection", 	camera->GetProjectionMatrix() );
+			SetUniform( lineProgram->program,	"time", 		(float)time );
 		
+			glDrawArrays( primitive, 0, (*it)->count);
+			if (drawPoints)
+			{
+				glDrawArrays( GL_POINTS, 0, (*it)->count);
+			}
+		}
 		glUseProgram(0);
-		
 		glBindVertexArray( 0 );
 	}
 
-	void RenderSystem::RenderCube( ModelInstance* cube, unsigned int cubeMap )
+	void RenderSystem::RenderEnvironment()
 	{
 		glDepthMask (GL_FALSE);
 		
@@ -180,10 +207,41 @@ namespace Renderer
 		glBindTexture (GL_TEXTURE_CUBE_MAP, cubeMap);
 		SetUniform( skyboxProgram->program, "cube_texture", 0 );
 		
-		glBindVertexArray (cube->vao);
-		glDrawArrays (GL_TRIANGLES, 0, cube->numIndices);
+		glBindVertexArray (skybox->vao);
+		glDrawArrays (GL_TRIANGLES, 0, skybox->numIndices);
 		
 		glDepthMask (GL_TRUE);
+	}
+	
+	void RenderSystem::SetWindowSize( const int& w, const int& h )
+	{
+		w_width = w;
+		w_height = h;
+	}
+	
+	void RenderSystem::SetMeshRendererList( std::vector< CMeshRenderer* >* list )
+	{
+		renderables = list;
+	}
+	
+	void RenderSystem::SetLineRendererList( std::vector< CDebugRenderer* >* list )
+	{
+		lines = list;
+	}
+	
+	void RenderSystem::SetCamera( CCamera* c )
+	{
+		camera = c;
+	}
+	
+	void RenderSystem::SetTime( uint32 t )
+	{
+		time = t;
+	}
+	
+	void RenderSystem::SetPointDrawing( bool enabled )
+	{
+		drawPoints = enabled;
 	}
 	
 } // NAMESPACE END

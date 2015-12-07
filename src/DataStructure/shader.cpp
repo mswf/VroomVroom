@@ -1,8 +1,9 @@
 #include "shader.h"
 #include "../Utilities/opengl_common.h"
 #include "../Utilities/helperFunctions.h"
-#include "content.h"
-#include "console.h"
+#include "../glm/gtc/type_ptr.hpp"
+#include "../content.h"
+#include "../console.h"
 
 //TODO(VALENTINAS): Keep track of loaded shader programs, detach & link when reloading,
 // GL_INVALID_FRAMEBUFFER_OPERATION Given when doing anything that would attempt to read from or write/render to a framebuffer that is not complete.
@@ -134,6 +135,7 @@ void CreateShader( GLuint& shader, GLenum shaderType, const char* source )
 	{
 		shader = 0;
 	}
+	CheckGlError( "glCompileShader" );
 }
 
 bool ShaderInfoLog( GLuint program, GLenum status )

@@ -8,10 +8,12 @@ std::multimap< int, Entity* > Entity::componentStorage;
 Entity* Entity::root = new Entity( root_name );
 
 Entity::Entity( std::string name, Entity* parent ) :
-	parent(parent),
 	name(name)
 {
-	if( parent == NULL && name != root_name )
+	transform = new CTransform();
+	AddComponent(this, transform);
+	
+	if( transform->GetParent() == NULL && name != root_name )
 	{
 		Entity::root->AddChild(this);
 	}
@@ -19,66 +21,31 @@ Entity::Entity( std::string name, Entity* parent ) :
 	{
 		parent->AddChild(this);
 	}
-	transform = new CTransform();
-	AddComponent(this, transform);
 }
 
 Entity::~Entity()
 {
 	// TODO(Valentinas): Test if the children are cleaned properly
-	std::vector< Entity* >::const_iterator iter = children.begin();
-	std::vector< Entity* >::const_iterator end = children.end();
-	for ( ; iter != end; ++iter)
-	{
-		delete (*iter);
-	}
+	delete transform;
 }
 
 void Entity::AddChild( Entity* c )
 {
-	if ( c->parent != NULL )
-	{
-		c->parent->RemoveChild( c );
-	}
-	children.push_back(c);
-	c->parent = this;
+	transform->AddChild( c->transform );
 }
 
 void Entity::RemoveChild( Entity *c )
 {
-	std::vector< Entity* >::const_iterator iter = children.begin();
-	std::vector< Entity* >::const_iterator end = children.end();
-	for ( ; iter != end; ++iter)
-	{
-		if ( c == (*iter) )
-		{
-			
-			children.erase(iter);
-			break;
-		}
-	}
+	transform->RemoveChild( c->transform );
 }
 
 void Entity::Update()
 {
-	// localTransform = parentWorldTransform.inverse() * worldTransform;
-	// M_loc = M_parent_inv * M
-	glm::mat4 localTransform = GetTransform();
-	glm::mat4 worldTransform = (parent != NULL ) ? (parent->transform->GetWorldTransform() * localTransform) : localTransform;
-	transform->SetWorldTransform(worldTransform);
-	
 	std::map< int, Component* >::const_iterator iter_comp = entityComponents.begin();
 	std::map< int, Component* >::const_iterator end_comp = entityComponents.end();
 	for( ; iter_comp != end_comp; ++iter_comp )
 	{
 		(*iter_comp).second->Call();
-	}
-	
-	std::vector< Entity* >::const_iterator iter = children.begin();
-	std::vector< Entity* >::const_iterator end = children.end();
-	for( ; iter != end; ++iter )
- 	{
-		(*iter)->Update();
 	}
 }
 

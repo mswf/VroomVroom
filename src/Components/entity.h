@@ -50,8 +50,6 @@ class Entity
 		}
 	
 		std::string name;
-		Entity* parent;
-		std::vector< Entity* > children;
 		std::map< int, Component* > entityComponents;
 		CTransform* transform;
 	

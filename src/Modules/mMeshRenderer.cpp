@@ -9,9 +9,6 @@
 #include "mMeshRenderer.h"
 #include "../components/cMeshRenderer.h"
 
-//DEBUG INCLUDE
-#include "../DataStructure/resource_manager.h"
-
 void mMeshRenderer::Bind(lua_State* L)
 {
 	lua_getglobal(L, "Engine");
@@ -34,11 +31,6 @@ lFuncImp(mMeshRenderer, __engineInit)
 	
 	lua_pushnumber(L, CMeshRenderer::familyId);
 	lua_setfield(L, -2, "__familyId__");
-	
-	
-	
-	//DEBUG CODE
-	//mesh->SetModel(ResourceManager::getInstance().GetModel("/objects/Rabbit/Rabbit.obj"));
 	
 	return 0;
 }

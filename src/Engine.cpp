@@ -12,6 +12,7 @@
 #include "Components/cCamera.h"
 #include "Components/cTransform.h"
 #include "Components/cMeshRenderer.h"
+#include "Components/cDebugRenderer.h"
 
 #include "DataStructure/material.h"
 #include "DataStructure/mesh_generator.h"
@@ -321,82 +322,51 @@ void Engine::UpdateLoop()
 
 	ImGui_ImplSdl_Init(window);
 
+	ImportAssets();
+	
+	
+	const char* sh_objs[] = { "shaders/skybox_vert.glsl", "shaders/skybox_frag.glsl", NULL };
+	const char* sh_objs2[] = { "shaders/line_vert.glsl", "shaders/line_frag.glsl", NULL };
+	ResourceManager::getInstance().CreateShaderProgram("__Skybox_program", sh_objs, 2);
+	ResourceManager::getInstance().CreateShaderProgram("__Line_program", sh_objs2, 2);
+	EnvironmentCube();
+	
 	renderer->SetWindowSize(1280, 720);
 	renderer->Initialize();
 
 	/// TINAS PLAYGROUND!!!
 
-	ImportAssets();
-
-	//  RESOURCE MANAGING !!!
-
-	//CMeshRenderer* meshRenderer = new CMeshRenderer();
-	//CMeshRenderer* meshRenderer2 = new CMeshRenderer();
 	Material* mt;
-	//meshRenderer->SetModel( "objects/Rabbit/Rabbit.obj" );
-	mt = ResourceManager::getInstance().GetMaterialByName("Rabbit");
-	mt->SetDiffuseTexture("objects/object_group_test/checker_1.png");
-	mt->SetNormalTexture("objects/Rabbit/Rabbit_N.tga");
 
-	//meshRenderer2->SetModel( "objects/icy_snowman.obj" );
 	mt = ResourceManager::getInstance().GetMaterialByName("Default");
 	mt->SetDiffuseTexture("objects/snowman.png");
 
-	//meshRenderer2->SetMaterial(mt);
-
-	// RESOURCE MANAGING ENDS!!!
-
-	ModelInstance* skybox = EnvironmentCube();
-	ResourceManager::getInstance().InsertModelInstance("skybox", skybox);
-	
-	const char* sh_objs[] = { "shaders/skybox_vert.glsl", "shaders/skybox_frag.glsl", NULL };
-	const char* sh_objs2[] = { "shaders/line_vert.glsl", "shaders/line_frag.glsl", NULL };
-	ResourceManager::getInstance().CreateShaderProgram("skybox", sh_objs, 2);
-	ResourceManager::getInstance().CreateShaderProgram("line", sh_objs2, 2);
 
 	auto random_colour = []() -> glm::vec3
 	{
 		return glm::vec3( Random::Next(100) * 0.01f, Random::Next(100) * 0.01f, Random::Next(100) * 0.01f );
 	};
 
-	std::vector<Line> lines;
+	Entity* debugObject = new Entity( "Debugger" );
+	CDebugRenderer* debugRenderer = new CDebugRenderer();
+	Entity::AddComponent(debugObject, debugRenderer);
+	debugObject->transform->SetPosition(glm::vec3(-1,-1,-1));
+	
 	float lineLength = 1.0f;
 	int lineAmount = 10;
 	for (int i = 0; i < lineAmount + 1; ++i)
 	{
 		float p = (i * 0.1f);
 		// Along x axis
-		lines.push_back( Line( glm::vec3( 0.0, 0.0, p ), glm::vec3( lineLength, 0.0, p ), random_colour() ) );
-		lines.push_back( Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( lineLength, p, 0.0 ), random_colour() ) );
+		debugRenderer->AddLine(  Line( glm::vec3( 0.0, 0.0, p ), glm::vec3( lineLength, 0.0, p ), random_colour() ) );
+		debugRenderer->AddLine(  Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( lineLength, p, 0.0 ), random_colour() ) );
 		// Along y axis
-		lines.push_back( Line( glm::vec3( p, 0.0, 0.0 ), glm::vec3( p, lineLength, 0.0 ), random_colour() ) );
-		lines.push_back( Line( glm::vec3( p, 0.0, 0.0 ), glm::vec3( p, 0.0, lineLength ), random_colour() ) );
+		debugRenderer->AddLine(  Line( glm::vec3( p, 0.0, 0.0 ), glm::vec3( p, lineLength, 0.0 ), random_colour() ) );
+		debugRenderer->AddLine(  Line( glm::vec3( p, 0.0, 0.0 ), glm::vec3( p, 0.0, lineLength ), random_colour() ) );
 		// Along z axis
-		lines.push_back( Line( glm::vec3( 0.0, 0.0, p ), glm::vec3( 0.0, lineLength, p ), random_colour() ) );
-		lines.push_back( Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( 0.0, p, lineLength ), random_colour() ) );
+		debugRenderer->AddLine(  Line( glm::vec3( 0.0, 0.0, p ), glm::vec3( 0.0, lineLength, p ), random_colour() ) );
+		debugRenderer->AddLine(  Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( 0.0, p, lineLength ), random_colour() ) );
 	}
-	std::vector< glm::vec3 > points, colours;
-
-	std::vector< Line >::const_iterator iter = lines.begin();
-	std::vector< Line >::const_iterator end = lines.end();
-	for ( ; iter != end; ++iter)
-	{
-		points.push_back( (*iter).start );
-		colours.push_back( (*iter).color );
-		points.push_back( (*iter).end );
-		colours.push_back( (*iter).color );
-	}
-
-	GLuint lineVao;
-	GLuint lineVbo;
-	BufferPoints( lineVao, lineVbo, points, colours );
-
-	//Entity* box = new Entity( "MyLittleBox" );
-	//Entity::AddComponent(box, meshRenderer);
-
-	//Entity* box2 = new Entity( "MyLittleBox2", box );
-	//box2->transform->SetPosition(glm::vec3(-1.0));
-	//Entity::AddComponent(box2, meshRenderer2);
 
 	Entity* camera = new Entity( "Main Camera" );
 	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 90.0f, 1280.0f / 720.0f, 0.2f, 1000.0f );
@@ -473,8 +443,6 @@ void Engine::UpdateLoop()
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 		renderer->SetTime( GetTicks() );
-		//renderer->RenderCube( skybox, skybox_map );
-		//renderer->RenderLines( lineVao, points.size() );
 		renderer->Render();
 
 

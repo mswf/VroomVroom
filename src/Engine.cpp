@@ -346,7 +346,7 @@ void Engine::UpdateLoop()
 	{
 		return glm::vec3( Random::Next(100) * 0.01f, Random::Next(100) * 0.01f, Random::Next(100) * 0.01f );
 	};
-
+/*
 	Entity* debugObject = new Entity( "Debugger" );
 	CDebugRenderer* debugRenderer = new CDebugRenderer();
 	Entity::AddComponent(debugObject, debugRenderer);
@@ -367,7 +367,7 @@ void Engine::UpdateLoop()
 		debugRenderer->AddLine(  Line( glm::vec3( 0.0, 0.0, p ), glm::vec3( 0.0, lineLength, p ), random_colour() ) );
 		debugRenderer->AddLine(  Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( 0.0, p, lineLength ), random_colour() ) );
 	}
-
+*/
 	Entity* camera = new Entity( "Main Camera" );
 	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 90.0f, 1280.0f / 720.0f, 0.2f, 1000.0f );
 	//CCamera* cam = new CCamera( Projection::ORTHOGRAPHIC, 90.0f, 1280.0f / 720.0f, -5.0f, 50000.0f );

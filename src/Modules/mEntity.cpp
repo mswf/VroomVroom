@@ -20,6 +20,7 @@
 #include "../Components/cCamera.h"
 #include "../Components/cMeshRenderer.h"
 #include "../Components/cTransform.h"
+#include "../Components/cDebugRenderer.h"
 
 #include "../engine.h"
 
@@ -193,6 +194,10 @@ lFuncImp(mEntity, addComponent)
 	if(familyId == (int)ComponentTypes::MESH_RENDERER)
 	{
 		Entity::AddComponent(core->entity, (CMeshRenderer*)comp);
+	}
+	if(familyId == (int)ComponentTypes::DEBUG_RENDERER)
+	{
+		Entity::AddComponent(core->entity, (CDebugRenderer*)comp);
 	}
 	
 	return 0;

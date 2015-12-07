@@ -45,7 +45,6 @@ lFuncImp(mMeshRenderer, setModel)
 	lua_getfield(L, 2, "__coreModel__");
 	ModelInstance* model = (ModelInstance*)lua_touserdata(L, -1);
 	
-	
 	mesh->SetModel(model);
 	return 0;
 }

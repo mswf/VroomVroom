@@ -57,6 +57,15 @@
         NAME = FALLBACK;\
     }
 
+
+#define lgFloat(NAME, IDX, FALLBACK)\
+	float NAME ;\
+	if ( lua_isnumber(L, IDX ) ){\
+		NAME = lua_tonumber(L, IDX );\
+	} else {\
+		NAME = FALLBACK;\
+	}
+
 #define lgFunc(NAME, IDX, FALLBACK)\
 	int NAME ;\
 	if ( lua_isfunction(L, IDX ) ){\

@@ -17,6 +17,7 @@
 #include "mModel.h"
 #include "mShader.h"
 #include "mMeshRenderer.h"
+#include "mDebugRenderer.h"
 #include "mImport.h"
 #include "mSystem.h"
 

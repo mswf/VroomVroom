@@ -2,6 +2,8 @@
 #define cTransform_h
 
 #include "component.h"
+#include <vector>
+#include "../glm/gtc/quaternion.hpp"
 #include "../glm/mat4x4.hpp"
 #include "../glm/vec3.hpp"
 
@@ -17,31 +19,44 @@ class CTransform : public Component
 	
 		const glm::mat4& GetTransform() const;
 		const glm::mat4& GetWorldTransform() const;
-	
-		void SetTransform( const glm::mat4& transform );
+
 		void SetWorldTransform( const glm::mat4& transform );
 	
-		void Translate( const glm::vec3& translation );
-		void Rotate( const glm::vec3& rotate, const float& angle );
-		void Scale( const glm::vec3& scale );
+		void LookAt( const glm::vec3& target, const glm::vec3& up = glm::vec3(0.0f, 1.0f, 0.0f) );
+	
+		void AddChild( CTransform* c );
+		void RemoveChild( CTransform* c );
+	
+		const CTransform* GetParent() const;
+	
+		inline const glm::vec3 VectorRight() { return glm::vec3(1.0f, 0.0f, 0.0f); }
+		inline const glm::vec3 VectorUp() { return glm::vec3(0.0f, 1.0f, 0.0f); }
+		inline const glm::vec3 VectorForward() { return glm::vec3(0.0f, 0.0f, 1.0f); }
 	
 		// POSITION
-		glm::vec3 GetPosition() const;
-		void SetPosition( const glm::vec3& position );
-
-		const float GetPositionX() const;
-		const float GetPositionY() const;
-		const float GetPositionZ() const;
 	
-		void SetPositionX( const float& x );
-		void SetPositionY( const float& y );
-		void SetPositionZ( const float& z );
+		void Translate( const glm::vec3& translation );
+		void Translate( const float& x, const float& y, const float& z );
 	
 		void TranslateX( const float& x );
 		void TranslateY( const float& y );
 		void TranslateZ( const float& z );
 	
+		glm::vec3 GetPosition() const;
+	
+		const float GetPositionX() const;
+		const float GetPositionY() const;
+		const float GetPositionZ() const;
+	
+		void SetPosition( const glm::vec3& position );
+		void SetPosition( const float& x, const float& y, const float& z );
+
+		void SetPositionX( const float& x );
+		void SetPositionY( const float& y );
+		void SetPositionZ( const float& z );
+	
 		// ROTATION
+		void Rotate( const float& angle, const glm::vec3& rotate );
 		glm::vec3 GetRotation() const;
 		void SetRotation( const glm::vec3& rotation );
 	
@@ -58,6 +73,7 @@ class CTransform : public Component
 		void Roll( const float& angle ); // Roll is the Z axis
 	
 		// SCALE
+		void Scale( const glm::vec3& scale );
 		glm::vec3 GetScale() const;
 		void SetScale( const glm::vec3& scale );
 	
@@ -77,9 +93,16 @@ class CTransform : public Component
     private:
 	
 		void Update();
-		void SetRotationMatrix( const glm::mat4& rot );
+	
 		glm::mat4 transform;
 		glm::mat4 worldTransform;
+	
+		glm::quat rotation;
+		glm::vec3 position;
+		glm::vec3 scale;
+	
+		CTransform* parent;
+		std::vector< CTransform* > children;
 
 };
 

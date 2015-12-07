@@ -255,21 +255,24 @@ const float CTransform::GetRoll() const
 void CTransform::SetPitchNormalized( const float& angle )
 {
 	float value = (2 * angle - 1) * glm::pi<float>();
-	rotation = glm::rotate(rotation, glm::radians( value ), VectorRight() );
+	glm::mat4 newRotation(1);
+	rotation = glm::quat( glm::rotate(newRotation, glm::radians( value ), VectorRight() ) );
 	Update();
 }
 
 void CTransform::SetYawNormalized( const float& angle )
 {
 	float value = (2 * angle - 1) * glm::pi<float>();
-	rotation = glm::rotate(rotation, glm::radians( value ), VectorRight() );
+	glm::mat4 newRotation(1);
+	rotation = glm::quat( glm::rotate(newRotation, glm::radians( value ), VectorUp() ) );
 	Update();
 }
 
 void CTransform::SetRollNormalized( const float& angle )
 {
 	float value = (2 * angle - 1) * glm::pi<float>();
-	rotation = glm::rotate(rotation, glm::radians( value ), VectorRight() );
+	glm::mat4 newRotation(1);
+	rotation = glm::quat( glm::rotate(newRotation, glm::radians( value ), VectorForward() ) );
 	Update();
 }
 

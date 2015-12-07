@@ -54,3 +54,22 @@ const glm::mat4& Entity::GetTransform()
 	return transform->GetTransform();
 }
 
+const Entity* Entity::GetParent()
+{
+	return transform->GetParent()->entity;
+}
+
+const std::vector<Entity*> Entity::GetChildren()
+{
+	std::vector<Entity* > children;
+	std::vector<CTransform* >::const_iterator it = transform->GetChildren().begin();
+	std::vector<CTransform* >::const_iterator end = transform->GetChildren().end();
+	for( ; it != end ; ++it )
+	{
+		children.push_back( (*it)->entity );
+	}
+	return children;
+}
+
+
+

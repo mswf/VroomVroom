@@ -20,6 +20,8 @@ class Entity
 		void RemoveChild( Entity* c );
 		void Update();
 		const glm::mat4& GetTransform();
+		const Entity* GetParent();
+		const std::vector<Entity*> GetChildren();
 	
 		// TODO(Valentinas): Add remove function for components
 	
@@ -28,6 +30,9 @@ class Entity
 		{
 			Entity::componentStorage.insert( std::pair< int, Entity* >( T::familyId, e ) );
 			e->entityComponents.insert( std::pair< int, Component* >( T::familyId, comp ) );
+			// Debug purposes when things go down,
+			// currently one component is allowed
+			// to be assigned to multiple entities.
 			comp->IncrementAddedToEntity();
 			comp->entity = e;
 		}
@@ -54,6 +59,7 @@ class Entity
 		CTransform* transform;
 	
 	private:
+	
 		static std::multimap< int, Entity* > componentStorage;
 		static const char* root_name;
 };

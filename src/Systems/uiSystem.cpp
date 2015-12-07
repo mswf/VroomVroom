@@ -678,7 +678,12 @@ bool sUiSystem::HandleSlider(uiElement* e)
 	{
 		float valueBuffer = (float)sl->value;
 		ImGui::SliderFloat(sl->label.c_str(), &valueBuffer, sl->minValue, sl->maxValue, sl->format.c_str());
-		sl->value = (double)valueBuffer;
+		if (sl->value != (double)valueBuffer)
+		{
+			sl->value = (double)valueBuffer;
+
+			HandleCallback(sl, "onChange");
+		}
 	}
 
 	return true;

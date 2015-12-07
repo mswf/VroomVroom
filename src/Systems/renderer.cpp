@@ -159,6 +159,7 @@ namespace Renderer
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL );
 		glUseProgram(lineProgram->program);
 		GLenum primitive;
+		if ( lines->size() == 0 ) return;
 		if ( lines->at(0)->mode == DrawMode::TRIANGLES )
 		{
 			primitive = GL_TRIANGLES;

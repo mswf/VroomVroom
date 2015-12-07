@@ -7,5 +7,6 @@ void BufferMesh( const Mesh* m, ModelInstance* instance );
 void BufferUpdate( unsigned buffer, unsigned offset, unsigned length, void* data );
 void UnBuffer( ModelInstance* instance );
 void BufferPoints( unsigned int& vao, unsigned int& vbo, const std::vector< glm::vec3 >& points, const std::vector< glm::vec3 >& colours );
+void BufferClear( unsigned int vao, unsigned int vbo );
 
 #endif /* mesh_h */

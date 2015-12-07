@@ -99,6 +99,12 @@ void BufferUpdate( GLuint vbo, GLuint offset, GLuint length, void* data )
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
 }
 
+void BufferClear( GLuint vao, GLuint vbo )
+{
+	glDeleteVertexArrays( 1, &vao );
+	glDeleteBuffers( GL_ARRAY_BUFFER, &vbo );
+}
+
 void UnBuffer( ModelInstance* instance )
 {
 	glDeleteVertexArrays( 1, &instance->vao );

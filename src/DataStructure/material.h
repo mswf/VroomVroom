@@ -50,6 +50,18 @@ class Material
 		void SetTransparentColor( glm::vec4 colour );
 		void SetReflectiveColor( glm::vec4 colour );
 	
+		const float& GetShininess() const;
+		const float& GetShininessStrength() const;
+		const float& GetOpacity() const;
+		const float& GetBumpScaling() const;
+		const glm::vec4 GetAmbientColor() const;
+		const glm::vec4 GetDiffuseColor() const;
+		const glm::vec4 GetSpecularColor() const;
+		const glm::vec4 GetEmissiveColor() const;
+		const glm::vec4 GetTransparentColor() const;
+		const glm::vec4 GetReflectiveColor() const;
+	
+	
 		std::string name;
 		// TODO(Valentinas): Use int or bool?
 		int wireframe_enabled;

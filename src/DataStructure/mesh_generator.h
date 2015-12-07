@@ -2,6 +2,7 @@
 #define mesh_generator_h
 
 #include "data_types.h"
+#include "resource_manager.h"
 
 /*
      0		  3
@@ -54,7 +55,7 @@ void CreateCube( Mesh* mesh, const float offset = 0.0f )
 	mesh->numIndices = indiceCount;
 }
 
-ModelInstance* EnvironmentCube()
+void EnvironmentCube()
 {
 	ModelInstance* instance = new ModelInstance();
 	float points[] =
@@ -117,7 +118,7 @@ ModelInstance* EnvironmentCube()
 	instance->vao = vao;
 	instance->vbo = vbo;
 	instance->numIndices = 36;
-	return instance;
+	ResourceManager::getInstance().InsertModelInstance( "__Skybox_model", instance );
 }
 
 #endif /* mesh_generator_h */

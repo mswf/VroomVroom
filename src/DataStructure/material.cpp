@@ -128,3 +128,53 @@ void Material::SetReflectiveColor( glm::vec4 colour )
 {
 	SetArray(reflective, colour);
 }
+
+const float& Material::GetShininess() const
+{
+	return shininess;
+}
+
+const float& Material::GetShininessStrength() const
+{
+	return shininess_strenght;
+}
+
+const float& Material::GetOpacity() const
+{
+	return opacity;
+}
+
+const float& Material::GetBumpScaling() const
+{
+	return bump_scaling;
+}
+
+const glm::vec4 Material::GetAmbientColor() const
+{
+	return glm::vec4( ambient[0], ambient[1], ambient[2], ambient[3] );
+}
+
+const glm::vec4 Material::GetDiffuseColor() const
+{
+	return glm::vec4( diffuse[0], diffuse[1], diffuse[2], diffuse[3] );
+}
+
+const glm::vec4 Material::GetSpecularColor() const
+{
+	return glm::vec4( specular[0], specular[1], specular[2], specular[3] );
+}
+
+const glm::vec4 Material::GetEmissiveColor() const
+{
+	return glm::vec4( emissive[0], emissive[1], emissive[2], emissive[3] );
+}
+
+const glm::vec4 Material::GetTransparentColor() const
+{
+	return glm::vec4( transparent[0], transparent[1], transparent[2], transparent[3] );
+}
+
+const glm::vec4 Material::GetReflectiveColor() const
+{
+	return glm::vec4( reflective[0], reflective[1], reflective[2], reflective[3] );
+}

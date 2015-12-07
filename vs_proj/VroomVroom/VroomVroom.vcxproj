@@ -188,6 +188,7 @@
     <ClInclude Include="..\..\src\IO\RtMidi.h" />
     <ClInclude Include="..\..\src\IO\stb_image.h" />
     <ClInclude Include="..\..\src\Modules\mAll.h" />
+    <ClInclude Include="..\..\src\Modules\mDebugRenderer.h" />
     <ClInclude Include="..\..\src\Modules\mEntity.h" />
     <ClInclude Include="..\..\src\Modules\mImport.h" />
     <ClInclude Include="..\..\src\Modules\mInput.h" />
@@ -250,6 +251,7 @@
     <ClCompile Include="..\..\src\IO\importer_imp.cpp" />
     <ClCompile Include="..\..\src\IO\RtMidi.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
+    <ClCompile Include="..\..\src\Modules\mDebugRenderer.cpp" />
     <ClCompile Include="..\..\src\Modules\mEntity.cpp" />
     <ClCompile Include="..\..\src\Modules\mImport.cpp" />
     <ClCompile Include="..\..\src\Modules\mInput.cpp" />

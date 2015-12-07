@@ -28,6 +28,7 @@ class Entity
 		{
 			Entity::componentStorage.insert( std::pair< int, Entity* >( T::familyId, e ) );
 			e->entityComponents.insert( std::pair< int, Component* >( T::familyId, comp ) );
+			comp->IncrementAddedToEntity();
 			comp->entity = e;
 		}
 	
@@ -49,8 +50,6 @@ class Entity
 		}
 	
 		std::string name;
-		Entity* parent;
-		std::vector< Entity* > children;
 		std::map< int, Component* > entityComponents;
 		CTransform* transform;
 	

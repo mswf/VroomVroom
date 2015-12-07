@@ -40,9 +40,11 @@ class ResourceManager : public Singleton<ResourceManager>
 		unsigned int GetImageId( const char* name );
 		bool ImportImage( const char* name, bool vertical_flip = true );
 		bool ImportImage( const std::vector< std::string >& list, std::vector< std::string >& err_f, bool vertical_flip = true );
+		bool ReImportImage( const char* name, bool vertical_flip = true );
 		bool BufferImage1D( const char* name );
 		bool BufferImage2D( const char* name );
 		bool BufferImage3D( const char* name );
+		bool UpdateImage2DBuffer( const char* name );
 		void InsertImage( const char* name, ImageData* data );
 		bool ImageExists( const char* name ) const;
 	
@@ -60,8 +62,9 @@ class ResourceManager : public Singleton<ResourceManager>
 		ShaderObject* GetShaderObject( const char* name ) const;
 		bool ImportShader( const char* name, GLSLShaderType type );
 		bool ImportShader( const std::vector< std::pair< std::string, GLSLShaderType > >& list, std::vector< std::string >& err_f );
-	
+		bool ReImportShader( const char* name, GLSLShaderType type );
 		void CreateShaderProgram( const char* name, const char* shaders_objects[], int count );
+		void UpdateShaderProgram( const char* name, GLSLShaderType type, const char* source );
 	
 		void InsertShaderObject( const char* name, ShaderObject* data );
 		void InsertShaderProgram( const char* name, ShaderProgram* data );

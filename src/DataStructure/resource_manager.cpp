@@ -187,6 +187,21 @@ bool ResourceManager::ImportImage( const char* name, bool vertical_flip )
 	return imp.ImportImage( name, vertical_flip );
 }
 
+bool ResourceManager::ReImportImage( const char* name, bool vertical_flip )
+{
+	if ( ImageExists(name) )
+	{
+		ImageData* data = imp.ReImportImage( name, vertical_flip );
+		ImageData* old = GetImageData(name);
+		// ???? !!!!! ????
+		old->pixelData = data->pixelData;
+		UpdateImage2DBuffer(name);
+		return true;
+	}
+	Terminal.Warning( "Image not imported at all. Using incorrect function?" );
+	return false;
+}
+
 bool ResourceManager::ImportImage( const std::vector< std::string >& files, std::vector< std::string >& err_f, bool vertical_flip )
 {
 	bool final = true;
@@ -273,6 +288,23 @@ bool ResourceManager::BufferImage2D( const char* name )
 bool ResourceManager::BufferImage3D( const char* name )
 {
 	Terminal.Log( "Attempting to use BufferImage3D. No implementation present." );
+	return false;
+}
+
+bool ResourceManager::UpdateImage2DBuffer( const char* name )
+{
+	ImageData* img = GetImageData( name );
+	if (img == NULL)
+	{
+		Terminal.Warning("Requested texture not found.");
+		return false;
+	}
+	std::map< std::string, unsigned int >::const_iterator iter_imageId = imageIds.find(name);
+	if ( img->isBuffered || iter_imageId != imageIds.end() )
+	{
+		UpdateBufferImage2D( img->imageId, 0, 0, img->width, img->width, GL_RGBA, GL_UNSIGNED_BYTE, img->pixelData, img->mipmapping );
+		return true;
+	}
 	return false;
 }
 
@@ -373,6 +405,27 @@ bool ResourceManager::ImportShader( const char* name, GLSLShaderType type )
 	return false;
 }
 
+bool ResourceManager::ReImportShader( const char* name, GLSLShaderType type )
+{
+	// Check if exists in resources
+	if ( !ShaderObjectExists( name ) )
+	{
+		return false;
+	}
+	// Check if file exists in directory
+	std::string path(Content::GetPath() + "/" + name);
+	if ( HelperFunctions::FileExists( path.c_str() ) )
+	{
+		// Get source
+		Terminal.Log( std::string("Reimporting shader: ") + name, true );
+		std::string source = HelperFunctions::ReadFile( path );
+		UpdateShaderProgram( name, type, source.c_str() );
+		return true;
+	}
+	return false;
+}
+
+
 bool ResourceManager::ImportShader( const std::vector< std::pair< std::string, GLSLShaderType > >& list,
 								    std::vector< std::string >& err_f )
 {
@@ -408,6 +461,34 @@ void ResourceManager::CreateShaderProgram( const char* name, const char* shaders
 	CreateProgram( prog->program, shaders, count);
 
 	delete shaders;
+}
+
+void ResourceManager::UpdateShaderProgram( const char* name, GLSLShaderType type, const char* source )
+{
+	ShaderObject* _old = GetShaderObject( name );
+	ShaderProgram* p = GetShaderProgram( _old->program->name.c_str() );
+	
+	ShaderObject _new;
+	_new.shaderType = GetGLShaderEnum(type);
+	CreateShader( _new.shader, _new.shaderType, source );
+	
+	int i;
+	int count = (int)p->shaders.size();
+	GLuint* shaders = new GLuint[count];
+	for ( i = 0; i < count; ++i )
+	{
+		if ( IsAttached(p->program, p->shaders[i]->shader) )
+		{
+			DetachShader( p->program, p->shaders[i]->shader );
+		}
+	}
+	DeleteShaderObject( _old->shader );
+	_old->shader = _new.shader;
+	for ( i = 0; i < count; ++i )
+	{
+		shaders[i] = p->shaders[i]->shader;
+	}
+	RemakeProgram(p->program, shaders, count);
 }
 
 void ResourceManager::InsertShaderObject( const char* name, ShaderObject* data )

@@ -12,7 +12,8 @@ class Material
 
 		Material();
 		~Material() {}
-		void InitArray(float* array, glm::vec4 values);
+
+		static void InitArray(float* array, glm::vec4 values);
 
 		ShaderProgram* shader;
 		unsigned int diffuseTextureId;

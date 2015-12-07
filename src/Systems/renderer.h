@@ -51,7 +51,7 @@ namespace Renderer
 		
 			// Line
 			std::vector< CDebugRenderer* >* lines;
-			ShaderProgram* lineProgram;
+			ShaderProgram* debugProgram;
 			bool drawPoints;
 		
 			// Environment

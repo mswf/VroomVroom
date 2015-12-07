@@ -26,7 +26,7 @@ namespace Renderer
 		w_width(0),
 		w_height(0),
 		camera(NULL),
-		lineProgram(NULL),
+		debugProgram(NULL),
 		drawPoints(false),
 		skybox(NULL),
 		cubeMap(0),
@@ -46,7 +46,7 @@ namespace Renderer
 		ResourceManager& rm = ResourceManager::getInstance();
 		skybox = rm.GetModel("__Skybox_model");
 		skyboxProgram = rm.GetShaderProgram("__Skybox_program");
-		lineProgram = rm.GetShaderProgram("__Line_program");
+		debugProgram = rm.GetShaderProgram("__Debug_program");
 		return true;
 	}
 	
@@ -72,9 +72,6 @@ namespace Renderer
 
 	void RenderSystem::RenderScene()
 	{
-		// RENDERER MODE FOR RENDERING POINTS
-		//glEnable(GL_PROGRAM_POINT_SIZE);
-		
 		// RENDERER MODE FOR BLEND_FUNC
 		//glEnable(GL_BLEND);
 		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -109,6 +106,7 @@ namespace Renderer
 			glBindVertexArray( m->vao );
 			
 			mtl->UseMaterial();
+			glPolygonMode(GL_FRONT_AND_BACK, mtl->wireframe_enabled ? GL_LINE : GL_FILL );
 			
 			glm::mat3 mvMatrix = glm::mat3( camera->GetViewMatrix() * (*it)->entity->transform->GetWorldTransform() );
 			glm::mat3 normalMatrix = glm::transpose(glm::inverse(mvMatrix));
@@ -153,13 +151,11 @@ namespace Renderer
 	
 	void RenderSystem::RenderDebugLines()
 	{
-		glLineWidth(1.0f);
-		glEnable(GL_LINE_SMOOTH);
-		glPointSize(5.0f);
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL );
-		glUseProgram(lineProgram->program);
-		GLenum primitive;
+		// Is there anything to render?
 		if ( lines->size() == 0 ) return;
+		
+		// Assign render primitive
+		GLenum primitive;
 		if ( lines->at(0)->mode == DrawMode::TRIANGLES )
 		{
 			primitive = GL_TRIANGLES;
@@ -167,7 +163,11 @@ namespace Renderer
 		else
 		{
 			primitive = GL_LINES;
+			// Line anti aliasing
+			glEnable(GL_LINE_SMOOTH);
 		}
+		
+		glUseProgram(debugProgram->program);
 		
 		std::vector< CDebugRenderer* >::const_iterator it = lines->begin();
 		std::vector< CDebugRenderer* >::const_iterator end = lines->end();
@@ -178,20 +178,27 @@ namespace Renderer
 				(*it)->PushToGPU();
 				continue;
 			}
+			if ( (*it)->IsDrawingPoints() )
+			{
+				glEnable(GL_PROGRAM_POINT_SIZE);
+			}
+			
 			glBindVertexArray( (*it)->vao);
 		
-			SetUniform( lineProgram->program,	"model", 		(*it)->entity->transform->GetWorldTransform() );
-			SetUniform( lineProgram->program,	"view", 		camera->GetViewMatrix() );
-			SetUniform( lineProgram->program,	"projection", 	camera->GetProjectionMatrix() );
-			SetUniform( lineProgram->program,	"time", 		(float)time );
+			SetUniform( debugProgram->program,	"model", 		(*it)->entity->transform->GetWorldTransform() );
+			SetUniform( debugProgram->program,	"view", 		camera->GetViewMatrix() );
+			SetUniform( debugProgram->program,	"projection", 	camera->GetProjectionMatrix() );
+			SetUniform( debugProgram->program,	"time", 		(float)time );
 		
 			glDrawArrays( primitive, 0, (*it)->count);
-			if (drawPoints)
+			if ( (*it)->IsDrawingPoints() )
 			{
+				SetUniform( debugProgram->program, "pointSize", (*it)->GetPointSize() );
 				glDrawArrays( GL_POINTS, 0, (*it)->count);
 			}
 		}
 		glUseProgram(0);
+		glDisable(GL_LINE_SMOOTH);
 		glBindVertexArray( 0 );
 	}
 

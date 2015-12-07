@@ -21,17 +21,17 @@ Material::Material() :
 	opacity(0.0f),
 	bump_scaling(0.0f)
 {
-	InitArray(diffuse,		glm::vec4(0.3f, 0.3f, 0.3f, 1.0f));
-	InitArray(ambient,		glm::vec4(0.2f, 0.2f, 0.2f, 1.0f));
-	InitArray(specular,		glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-	InitArray(emissive,		glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-	InitArray(transparent,	glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-	InitArray(reflective,	glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+	SetArray(diffuse,		glm::vec4(0.3f, 0.3f, 0.3f, 1.0f));
+	SetArray(ambient,		glm::vec4(0.2f, 0.2f, 0.2f, 1.0f));
+	SetArray(specular,		glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+	SetArray(emissive,		glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+	SetArray(transparent,	glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
+	SetArray(reflective,	glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
 	shader = ResourceManager::getInstance().GetShaderProgram("Default");
 }
 
-void Material::InitArray(float* array, glm::vec4 values)
+void Material::SetArray(float* array, glm::vec4 values)
 {
 	array[0] = values.r;
 	array[1] = values.g;
@@ -77,4 +77,54 @@ void Material::UseMaterial() const
 void Material::SetUniforms()
 {
 
+}
+
+void Material::SetShininess( float sh )
+{
+	shininess = sh;
+}
+
+void Material::SetShininessStrength( float str )
+{
+	shininess_strenght = str;
+}
+
+void Material::SetOpacity( float op )
+{
+	opacity = op;
+}
+
+void Material::SetBumpScaling( float bump )
+{
+	bump_scaling = bump;
+}
+
+void Material::SetAmbientColor( glm::vec4 colour )
+{
+	SetArray(ambient, colour);
+}
+
+void Material::SetDiffuseColor( glm::vec4 colour )
+{
+	SetArray(diffuse, colour);
+}
+
+void Material::SetSpecularColor( glm::vec4 colour )
+{
+	SetArray(specular, colour);
+}
+
+void Material::SetEmissiveColor( glm::vec4 colour )
+{
+	SetArray(emissive, colour);
+}
+
+void Material::SetTransparentColor( glm::vec4 colour )
+{
+	SetArray(transparent, colour);
+}
+
+void Material::SetReflectiveColor( glm::vec4 colour )
+{
+	SetArray(reflective, colour);
 }

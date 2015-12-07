@@ -12,7 +12,7 @@ class Material
 
 		Material();
 		~Material() {}
-		void InitArray(float* array, glm::vec4 values);
+		void SetArray(float* array, glm::vec4 values);
 
 		ShaderProgram* shader;
 		unsigned int diffuseTextureId;
@@ -29,6 +29,7 @@ class Material
 		void SetNormalTexture( const char* name );
 		void SetCubeMapTexture( const char* name );
 		void SetHeightMapTexture( const char* name );
+	
 		inline void IsDrawingWireframe( bool enabled )
 		{
 			wireframe_enabled = enabled;
@@ -38,6 +39,17 @@ class Material
 			two_sided = enabled;
 		}
 
+		void SetShininess( float sh );
+		void SetShininessStrength( float str );
+		void SetOpacity( float op );
+		void SetBumpScaling( float bump );
+		void SetAmbientColor( glm::vec4 colour );
+		void SetDiffuseColor( glm::vec4 colour );
+		void SetSpecularColor( glm::vec4 colour );
+		void SetEmissiveColor( glm::vec4 colour );
+		void SetTransparentColor( glm::vec4 colour );
+		void SetReflectiveColor( glm::vec4 colour );
+	
 		std::string name;
 		// TODO(Valentinas): Use int or bool?
 		int wireframe_enabled;
@@ -47,8 +59,8 @@ class Material
 		float shininess_strenght;
 		float opacity;
 		float bump_scaling;
-		float diffuse[4];
 		float ambient[4];
+		float diffuse[4];
 		float specular[4];
 		float emissive[4];
 		float transparent[4];

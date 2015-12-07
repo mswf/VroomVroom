@@ -105,11 +105,6 @@ bool Importer::ImportObjFile( const std::string &pFile, bool importTextures )
 bool Importer::ImportImage( const char* filename, bool vertical_flip )
 {
 	ResourceManager& rm = ResourceManager::getInstance();
-	if (rm.ImageExists(filename))
-	{
-		Terminal.Warning( "Image already imported. Aborting redundant loading" );
-		return false;
-	}
 	std::string file( Content::GetPath() + "/" + filename );
 	ImageData* image = new ImageData();
 	image->components = 4;
@@ -124,3 +119,20 @@ bool Importer::ImportImage( const char* filename, bool vertical_flip )
 	rm.InsertImage( filename, image );
 	return true;
 }
+
+ImageData* Importer::ReImportImage( const char* filename, bool vertical_flip )
+{
+	std::string file( Content::GetPath() + "/" + filename );
+	ImageData* image = new ImageData();
+	image->components = 4;
+	IMPORTER_MESSAGE imp_err = IMPORTER_MESSAGE::FILE_OK;
+	image->pixelData = imp_->ImportImage( file.c_str(), image->width, image->height, image->components, imp_err, vertical_flip );
+	if ( imp_err == IMPORTER_MESSAGE::IMAGE_FAILED_TO_LOAD )
+	{
+		std::string err_file( filename );
+		Terminal.Warning( "Failed to load image <" + err_file + ">, error: " + imp_->import_image_failure_reason );
+		return NULL;
+	}
+	return image;
+}
+

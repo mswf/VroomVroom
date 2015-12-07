@@ -3,8 +3,11 @@
 
 #include <vector>
 #include <map>
+#include <string>
 #include "../glm/vec2.hpp"
 #include "../glm/vec3.hpp"
+
+struct ShaderProgram;
 
 struct ShaderObject
 {
@@ -16,11 +19,13 @@ struct ShaderObject
 	unsigned int* subroutines;
 	unsigned int numSubroutines = 0;
 	bool updateProgram = true;
+	ShaderProgram* program;
 };
 
 struct ShaderProgram
 {
 	unsigned int program = 0;
+	std::string name = "No name";
 	// Create by the number of shader objects & clean up when finished
 	std::vector< ShaderObject* > shaders;
 	bool separate = false;
@@ -61,7 +66,7 @@ struct ImageData
 	unsigned int height = 0;
 	unsigned int components = 0;
 	bool isBuffered = false;
-	bool hasBufferChanged = false;
+	bool mipmapping = false;
 };
 
 #endif /* data_types_h */

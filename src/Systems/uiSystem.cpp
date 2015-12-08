@@ -232,7 +232,9 @@ uiHorizontalLayoutElement* sUiSystem::AddHorizontalLayout(uiContainer* w)
 	uiHorizontalLayoutElement* hl = new uiHorizontalLayoutElement;
 	hl->handle = HandleHorizontalLayout;
 	
-	InitBoundProperty(hl, "spacing", &(hl->spacing), 0.0);
+	InitBoundProperty(hl, "offset", &(hl->offset), 0.0);
+	InitBoundProperty(hl, "spacing", &(hl->spacing), -1.0);
+
 
 	AddElement(w, hl);
 	
@@ -407,11 +409,9 @@ void sUiSystem::Render()
 			ImVec2 newPos = ImGui::GetWindowPos();
 			if(newPos.x != currentWindow->x || newPos.y != currentWindow->y)
 			{
-				
-				HandleCallback(currentWindow, "onMove");
 				currentWindow->x = newPos.x;
 				currentWindow->y = newPos.y;
-
+				HandleCallback(currentWindow, "onMove");
 			}
 			
 		}
@@ -421,9 +421,9 @@ void sUiSystem::Render()
 			ImVec2 newSize = ImGui::GetWindowSize();
 			if(newSize.x != currentWindow->width || newSize.y != currentWindow->height)
 			{
-				HandleCallback(currentWindow, "onResize");
 				currentWindow->width = newSize.x;
 				currentWindow->height = newSize.y;
+				HandleCallback(currentWindow, "onResize");
 			}
 		}
 
@@ -729,7 +729,7 @@ bool sUiSystem::HandleHorizontalLayout(uiElement* e)
 		
 		currentElement = currentElement->nextElement;
 		if(currentElement != NULL){
-			ImGui::SameLine(0, hl->spacing);
+			ImGui::SameLine(hl->offset, hl->spacing);
 		}
 	}
 

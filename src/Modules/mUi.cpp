@@ -502,6 +502,7 @@ lFuncImp(mUi, addHorizontalLayout)
 	
 	lua_getfield(L, -1, "__coreProperties__");
 	lstNumber("spacing", region->spacing); //this is a property for all uiElements now
+	lstNumber("offset", region->offset); //this is a property for all uiElements now
 	lua_pop(L, 1);
 	
 	luaL_getmetatable(L, "__mtUiContainer");

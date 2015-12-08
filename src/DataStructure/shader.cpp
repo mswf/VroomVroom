@@ -237,7 +237,7 @@ bool IsAttached( GLuint program, GLuint shader )
 {
 	GLint maxCount = 1024;
 	GLint actualCount = GetAttachedShaderCount( program );
-	GLuint shaders[maxCount];
+	GLuint* shaders = new GLuint[maxCount];
 	glGetAttachedShaders( program, maxCount, &actualCount, shaders );
 	for (int i = 0; i < actualCount; ++i)
 	{
@@ -248,6 +248,8 @@ bool IsAttached( GLuint program, GLuint shader )
 		}
 	}
 	CheckGlError("IsAttached");
+
+	delete shaders;
 	return false;
 }
 

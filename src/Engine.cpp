@@ -323,7 +323,7 @@ void Engine::UpdateLoop()
 	ImGui_ImplSdl_Init(window);
 
 	ImportAssets();
-	
+	//InitFMOD();
 	
 	const char* sh_objs[] = { "shaders/skybox_vert.glsl", "shaders/skybox_frag.glsl", NULL };
 	const char* sh_objs2[] = { "shaders/line_vert.glsl", "shaders/line_frag.glsl", NULL };
@@ -399,6 +399,8 @@ void Engine::UpdateLoop()
 			fileWatcher->update();
 			deltaTimeGame -= gameUpdateInterval;
 
+			//systemStudio->update();
+			
 			Update(gameUpdateInterval / 1000);
 
 			if (deltaTimeGame < gameUpdateInterval)
@@ -479,4 +481,88 @@ void Engine::InitSDLNet()
 		printf("Error: %s\n", SDLNet_GetError());
 		assert(false);
 	}
+}
+
+void Engine::InitFMOD()
+{
+	unsigned int version;
+	void* extradriverdata = 0;
+	FMOD::Sound      *sound1;
+	FMOD::ChannelGroup * group = 0;
+	FMOD::Channel    *channel = 0;
+	FMOD::DSP		 *dspecho;
+	FMOD_RESULT result = FMOD::Studio::System::create(&systemStudio);
+	systemStudio->getLowLevelSystem(&systemLowLevel);
+	result = systemLowLevel->getVersion(&version);
+	if (version < FMOD_VERSION)
+	{
+		Terminal.Error( "Error version is not the FMOD version" );
+	}
+ 
+	result = systemStudio->initialize( 32, FMOD_STUDIO_INIT_NORMAL, FMOD_INIT_NORMAL, extradriverdata );
+	if (result == FMOD_ERR_INITIALIZATION)
+	{
+		Terminal.Error( "Error initializing FMOD Studio" );
+	}
+
+	std::string smasterBank(Content::GetPath() + "/sounds/media/" + "Master Bank.bank");
+	std::string smasterBankString(Content::GetPath() + "/sounds/media/" + "Master Bank.strings.bank");
+	std::string svehicleBank(Content::GetPath() + "/sounds/media/" + "Vehicles.bank");
+	
+	
+	FMOD::Studio::Bank* masterBank = NULL;
+	result = systemStudio->loadBankFile( smasterBank.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &masterBank);
+	
+	FMOD::Studio::Bank* stringsBank = NULL;
+	result = systemStudio->loadBankFile( smasterBankString.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &stringsBank);
+	
+	FMOD::Studio::Bank* vehiclesBank = NULL;
+	result = systemStudio->loadBankFile( svehicleBank.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &vehiclesBank);
+	
+	FMOD::Studio::EventDescription* eventDescription = NULL;
+	result = systemStudio->getEvent("event:/Vehicles/Basic Engine", &eventDescription);
+	
+	FMOD::Studio::EventInstance* eventInstance = NULL;
+	result = eventDescription->createInstance(&eventInstance);
+	
+	FMOD::Studio::ParameterInstance* rpm = NULL;
+	result = eventInstance->getParameter("RPM", &rpm);
+	
+	result = rpm->setValue(650);
+	
+	result = eventInstance->start();
+	
+	// Position the listener at the origin
+	FMOD_3D_ATTRIBUTES attributes = { { 0 } };
+	attributes.forward.z = 1.0f;
+	attributes.up.y = 1.0f;
+	systemStudio->setListenerAttributes(0, &attributes);
+	
+	// Position the event 2 units in front of the listener
+	attributes.position.z = 2.0f;
+	eventInstance->set3DAttributes(&attributes);
+
+	result = systemLowLevel->createDSPByType( FMOD_DSP_TYPE_ECHO, &dspecho );
+	if (result != FMOD_OK)
+	{
+		std::cout <<  "Error: FMOD did not create digital signal processor type echo" << std::endl;
+	}
+	result = dspecho->setParameterFloat(FMOD_DSP_ECHO_DELAY, 150.0f);
+	result = dspecho->setParameterFloat(FMOD_DSP_ECHO_WETLEVEL, 150.0f);
+	result = systemLowLevel->getMasterChannelGroup(&group);
+	group->addDSP(FMOD_CHANNELCONTROL_DSP_HEAD, dspecho);
+	if (result != FMOD_OK)
+	{
+		std::cout <<  "Error: FMOD did not add effect to channel" << std::endl;
+	}
+	
+ 
+	result = systemLowLevel->createSound( (Content::GetPath() + "/sounds/piano2.wav").c_str(), FMOD_DEFAULT, 0, &sound1);
+	if (result == FMOD_ERR_FILE_NOTFOUND)
+	{
+		std::cout <<  "Error: FMOD did not find the file" << std::endl;
+	}
+	result = sound1->setMode(FMOD_LOOP_OFF);
+	result = systemLowLevel->playSound(sound1, 0, false, &channel);
+	
 }

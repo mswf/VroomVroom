@@ -20,5 +20,6 @@
 #include "mDebugRenderer.h"
 #include "mImport.h"
 #include "mSystem.h"
+#include "mCamera.h"
 
 #endif /* mAll_h */

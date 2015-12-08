@@ -87,7 +87,8 @@ namespace Renderer
 		
 		// RENDERER MODE FOR DEPTH TESTING
 		glEnable(GL_DEPTH_TEST);
-
+		
+		camera->Call();
 		
 		std::vector< CMeshRenderer* >::const_iterator it = renderables->begin();
 		std::vector< CMeshRenderer* >::const_iterator end = renderables->end();
@@ -252,4 +253,18 @@ namespace Renderer
 		drawPoints = enabled;
 	}
 	
+	const int& RenderSystem::GetWindowWidth()
+	{
+		return w_width;
+	}
+	
+	const int& RenderSystem::GetWindowHeight()
+	{
+		return w_height;
+	}
+	
+	CCamera* RenderSystem::GetCamera()
+	{
+		return camera;
+	}
 } // NAMESPACE END

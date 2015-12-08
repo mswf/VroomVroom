@@ -35,6 +35,9 @@ namespace Renderer
 			void SetTime( uint32 t );
 			void SetPointDrawing( bool enabled );
 		
+			const int& GetWindowWidth( );
+			const int& GetWindowHeight( );
+			CCamera* GetCamera( );
 		private:
 		
 			void RenderEnvironment();
@@ -47,10 +50,10 @@ namespace Renderer
 			CCamera* camera;
 		
 			// Scene
-			std::vector< CMeshRenderer* >* renderables;
+			std::vector< CMeshRenderer*>* renderables;
 		
 			// Line
-			std::vector< CDebugRenderer* >* lines;
+			std::vector< CDebugRenderer*>* lines;
 			ShaderProgram* debugProgram;
 			bool drawPoints;
 		

@@ -21,6 +21,7 @@ class CLua : public Component
 		~CLua();
 	
 		void SetTableKey(int);
+		const int& GetTableKey();
 		void Call();
 		void Update(float);
 	private:

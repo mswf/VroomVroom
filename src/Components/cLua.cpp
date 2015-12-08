@@ -39,6 +39,11 @@ void CLua::SetTableKey(int key)
 	tableKey = key;
 }
 
+const int& CLua::GetTableKey()
+{
+	return tableKey;
+}
+
 void CLua::Call()
 {
 }

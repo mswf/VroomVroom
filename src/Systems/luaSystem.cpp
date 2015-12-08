@@ -54,6 +54,7 @@ void sLuaSystem::Init()
 	mMeshRenderer::Bind(lState);
 	mSystem::Bind(lState);
 	mDebugRenderer::Bind(lState);
+	mCamera::Bind(lState);
 
 	string path;
 	Content::CreateFilePath("main.lua", &path);

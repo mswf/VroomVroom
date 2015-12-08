@@ -15,8 +15,8 @@
 void mMaterial::Bind(lua_State* L)
 {
 	lua_getglobal(L, "Engine");
-	lua_pushcfunction(L, lw_loadMaterial__);
-	lua_setfield(L, -2, "loadMaterial");
+	lua_pushcfunction(L, lw_getMaterial__);
+	lua_setfield(L, -2, "getMaterial");
 	
 	
 	lua_newtable(L);
@@ -26,19 +26,51 @@ void mMaterial::Bind(lua_State* L)
 		lBind(setDiffuseTexture)
 		lBind(setSpecularTexture)
 		lBind(setNormalTexture)
+		lBind(setCubeMapTexture)
+		lBind(setHeightMapTexture)
+	
+		lBind(setDrawingWireframe)
+		lBind(setTwoSided)
+		
+		lBind(setShininess)
+		lBind(setShininessStrength)
+		lBind(setOpacity)
+		lBind(setBumpScaling)
+		
+		lBind(setAmbientColor)
+		lBind(setDiffuseColor)
+		lBind(setSpecularColor)
+		lBind(setEmissiveColor)
+		lBind(setTransparentColor)
+		lBind(setReflectiveColor)
+		
+		lBind(getDrawingWireframe)
+		lBind(getTwoSided)
+		
+		lBind(getShininess)
+		lBind(getShininessStrength)
+		lBind(getOpacity)
+		lBind(getBumpScaling)
+		
+		lBind(getAmbientColor)
+		lBind(getDiffuseColor)
+		lBind(getSpecularColor)
+		lBind(getEmissiveColor)
+		lBind(getTransparentColor)
+		lBind(getReflectiveColor)
 	lEnd(BaseMaterial)
 	luaL_openlib(L, 0, BaseMaterial_funcs, 0);
 	lua_setfield(L, -2, "baseMaterial");
 
 }
 
-lFuncImp(mMaterial, loadMaterial)
+lFuncImp(mMaterial, getMaterial)
 {
 	lua_settop(L, 1);
 	
 	if(!lua_isstring(L, 1))
 	{
-		Terminal.Warning("Invalid parameter for Engine.loadModel");
+		Terminal.Warning("Invalid parameter for Engine.getMaterial");
 		return 0;
 	}
 	const char* name = lua_tostring(L, 1);
@@ -81,37 +113,42 @@ lFuncImp(mMaterial, setShader)
 	return 0;
 }
 
-lFuncImp(mMaterial, setDiffuseTexture)
-{
-	lua_settop(L, 2);
-	lua_getfield(L, 1, "__coreMaterial__");
-	LuaSystem.Dump(L);
-	Material* mat = (Material*)lua_touserdata(L, -1);
 
-	mat->SetDiffuseTexture(lua_tostring(L,2));
-	
-	return 0;
-}
 
-lFuncImp(mMaterial, setSpecularTexture)
-{
-	lua_settop(L, 2);
-	lua_getfield(L, 1, "__coreMaterial__");
-	Material* mat = (Material*)lua_touserdata(L, -1);
-	
-	mat->SetSpecularTexture(lua_tostring(L,2));
+lBindSetMatTex(setDiffuseTexture, SetDiffuseTexture);
+lBindSetMatTex(setSpecularTexture, SetSpecularTexture);
+lBindSetMatTex(setNormalTexture, SetNormalTexture);
+lBindSetMatTex(setCubeMapTexture, SetCubeMapTexture);
+lBindSetMatTex(setHeightMapTexture, SetHeightMapTexture);
 
-	return 0;
-}
+lBindSetMatBool(setDrawingWireframe, SetDrawingWireframe);
+lBindSetMatBool(setTwoSided, SetTwoSided);
 
-lFuncImp(mMaterial, setNormalTexture)
-{
-	lua_settop(L, 2);
-	lua_getfield(L, 1, "__coreMaterial__");
-	Material* mat = (Material*)lua_touserdata(L, -1);
-	
-	mat->SetNormalTexture(lua_tostring(L,2));
+lBindSetMatFloat(setShininess, SetShininess);
+lBindSetMatFloat(setShininessStrength, SetShininessStrength);
+lBindSetMatFloat(setOpacity, SetOpacity);
+lBindSetMatFloat(setBumpScaling, SetBumpScaling);
 
-	return 0;
-}
+lBindSetMatCol(setAmbientColor, SetAmbientColor);
+lBindSetMatCol(setDiffuseColor, SetDiffuseColor);
+lBindSetMatCol(setSpecularColor, SetSpecularColor);
+lBindSetMatCol(setEmissiveColor, SetEmissiveColor);
+lBindSetMatCol(setTransparentColor, SetTransparentColor);
+lBindSetMatCol(setReflectiveColor, SetReflectiveColor);
+
+
+lBindGetMatBool(getDrawingWireframe, GetDrawingWireframe);
+lBindGetMatBool(getTwoSided, GetTwoSided);
+
+lBindGetMatFloat(getShininess, GetShininess);
+lBindGetMatFloat(getShininessStrength, GetShininessStrength);
+lBindGetMatFloat(getOpacity, GetOpacity);
+lBindGetMatFloat(getBumpScaling, GetBumpScaling);
+
+lBindGetMatCol(getAmbientColor, GetAmbientColor);
+lBindGetMatCol(getDiffuseColor, GetDiffuseColor);
+lBindGetMatCol(getSpecularColor, GetSpecularColor);
+lBindGetMatCol(getEmissiveColor, GetEmissiveColor);
+lBindGetMatCol(getTransparentColor, GetTransparentColor);
+lBindGetMatCol(getReflectiveColor, GetReflectiveColor);
 

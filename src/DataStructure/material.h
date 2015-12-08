@@ -20,25 +20,27 @@ class Material
 		unsigned int normalTextureId;
 		unsigned int cubemapTextureId;
 		unsigned int heightTextureId;
-
-		void SetShader( ShaderProgram* shader );
+	
 		void UseMaterial() const;
 		void SetUniforms();
+	
+		inline void SetDrawingWireframe( bool enabled )
+		{
+			// wireframe ? GL_LINE : GL_FILL;
+			wireframe_enabled = enabled;
+		}
+		inline void SetTwoSided( bool enabled )
+		{
+			two_sided = enabled;
+		}
+	
+		void SetShader( ShaderProgram* shader );
+		
 		void SetDiffuseTexture( const char* name );
 		void SetSpecularTexture( const char* name );
 		void SetNormalTexture( const char* name );
 		void SetCubeMapTexture( const char* name );
 		void SetHeightMapTexture( const char* name );
-	
-		inline void IsDrawingWireframe( bool enabled )
-		{
-			// wireframe ? GL_LINE : GL_FILL;
-			wireframe_enabled = enabled;
-		}
-		inline void IsTwoSided( bool enabled )
-		{
-			two_sided = enabled;
-		}
 
 		void SetShininess( float sh );
 		void SetShininessStrength( float str );
@@ -61,6 +63,16 @@ class Material
 		const glm::vec4 GetEmissiveColor() const;
 		const glm::vec4 GetTransparentColor() const;
 		const glm::vec4 GetReflectiveColor() const;
+	
+		inline bool GetDrawingWireframe( )
+		{
+			// wireframe ? GL_LINE : GL_FILL;
+			return wireframe_enabled;
+		}
+		inline bool GetTwoSided( )
+		{
+			return two_sided;
+		}
 	
 	
 		std::string name;

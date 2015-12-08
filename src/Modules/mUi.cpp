@@ -23,7 +23,7 @@ void mUi::Bind(lua_State* L){
 	luaL_openlib(L, 0, ui_funcs, 0);
 	
 	lua_pushboolean(L, false);
-	lua_setfield(L, -2, "hasfocus");
+	lua_setfield(L, -2, "hasFocus");
 	
 	lua_setfield(L, -2, "ui");
 	
@@ -53,6 +53,7 @@ void mUi::Bind(lua_State* L){
 		lBind(addRegion)
 		lBind(addHorizontalLayout)
 		lBind(remove)
+		lBind(removeChildren)
 		{0, 0}
 	};
 	luaL_openlib(L, 0, __mtUiElement_methods, 0);
@@ -502,6 +503,7 @@ lFuncImp(mUi, addHorizontalLayout)
 	
 	lua_getfield(L, -1, "__coreProperties__");
 	lstNumber("spacing", region->spacing); //this is a property for all uiElements now
+	lstNumber("offset", region->offset); //this is a property for all uiElements now
 	lua_pop(L, 1);
 	
 	luaL_getmetatable(L, "__mtUiContainer");
@@ -510,7 +512,6 @@ lFuncImp(mUi, addHorizontalLayout)
 	return 1;
 }
 
-//TODO set coreElement to nil (userdata quirks maybe)?
 lFuncImp(mUi, destroy)
 {
 	lua_getfield(L, 1, "__coreElement__");
@@ -521,10 +522,12 @@ lFuncImp(mUi, destroy)
 		UiSystem.RemoveElement(element->parent, element);
 	}
 	
+	lua_pushnil(L);
+	lua_setfield(L, 1, "__coreElement__");
+	
 	return 0;
 }
 
-//TODO set coreElement to nil (userdata quirks maybe)?
 lFuncImp(mUi, remove)
 {
 	lua_getfield(L, 1, "__coreElement__");
@@ -539,6 +542,22 @@ lFuncImp(mUi, remove)
 	{
 		UiSystem.RemoveElement(container, element);
 	}
+	
+	lua_pushnil(L);
+	lua_setfield(L, 2, "__coreElement__");
 
+
+	return 0;
+}
+
+//TODO set coreElement to nil (userdata quirks maybe)?
+lFuncImp(mUi, removeChildren)
+{
+	lua_getfield(L, 1, "__coreElement__");
+	uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
+	lua_pop(L, 1);
+	
+	UiSystem.RemoveChildren(container);
+	
 	return 0;
 }

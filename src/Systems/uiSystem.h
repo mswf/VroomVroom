@@ -236,6 +236,7 @@ struct uiRegionElement : uiContainer
 
 struct uiHorizontalLayoutElement : uiContainer
 {
+	double offset;
 	double spacing;
 };
 

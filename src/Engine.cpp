@@ -25,6 +25,7 @@
 #include "ImGUI/imgui_impl_sdl.h"
 
 #include "Modules/mInput.h"
+#include "Modules/mCamera.h"
 
 #include <SDL2/SDL.h>
 #include "SDL2/SDL_opengl.h"
@@ -70,6 +71,7 @@ void Engine::Init()
 	//TODO: I don't really want to bind this here, but I also don't want to pass inputManager all over the place
 	//Does it have to be a singular instance contained in Engine?
 	mInput::SetInput(inputManager);
+	mCamera::SetRenderer(renderer);
 
 	OpenConfig();
 	LuaSystem.Init();
@@ -406,7 +408,7 @@ void Engine::UpdateLoop()
 	mt = ResourceManager::getInstance().GetMaterialByName("Default");
 	mt->SetDiffuseTexture("objects/snowman.png");
 
-
+/*
 	auto random_colour = []() -> glm::vec3
 	{
 		return glm::vec3( Random::Next(100) * 0.01f, Random::Next(100) * 0.01f, Random::Next(100) * 0.01f );
@@ -435,12 +437,14 @@ void Engine::UpdateLoop()
 		debugRenderer->AddLine(  Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( 0.0, p, lineLength ), random_colour() ) );
 	}
 */
+	/*
 	Entity* camera = new Entity( "Main Camera" );
-	//CCamera* cam = new CCamera( Projection::ORTHOGRAPHIC, 1280.0f / 720.0f, -5.0f, 50000.0f );
-	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 1280.0f / 720.0f );
+	CCamera* cam = new CCamera( Projection::ORTHOGRAPHIC, 1280.0f / 720.0f, -5.0f, 50000.0f );
+//	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 1280.0f / 720.0f );
 	Entity::AddComponent(camera, cam);
-	camera->transform->SetPosition( glm::vec3( 1, 1, -1 ) );
+	camera->transform->SetPosition( glm::vec3( 4, 4, -4 ) );
 	renderer->SetCamera( cam );
+	 */
 	/// TINAS PLAYGROUND ENDS!!!
 
 	const float millisecondModifier = 1000.0f;
@@ -474,7 +478,7 @@ void Engine::UpdateLoop()
 				{
 					running = false;
 				}
-
+/*
 				if ( inputManager->OnKey(SDLK_RIGHT) )
 				{
 					camera->transform->Translate( glm::vec3( 0.1, 0.0, 0.0 ) );
@@ -498,7 +502,7 @@ void Engine::UpdateLoop()
 					ResourceManager::getInstance().ReImportImage("objects/snowman.png");
 					ResourceManager::getInstance().ReImportShader("shaders/line_vert.glsl", GLSLShaderType::VERTEX );
 				}
-
+*/
 				//box->transform->Yaw(1.0f);
 				//box2->transform->Roll(1.0f);
 

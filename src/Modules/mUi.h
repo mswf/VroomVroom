@@ -44,6 +44,7 @@ class mUi {
 	
 		lFuncDef(destroy);
         lFuncDef(remove);
+		lFuncDef(removeChildren);
 };
 
 #endif /* mUiWindow_h */

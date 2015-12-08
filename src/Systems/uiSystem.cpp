@@ -296,6 +296,8 @@ void sUiSystem::RemoveChildren(uiContainer* ee)
 		RemoveElement(ee, currentChild);
 		currentChild = temp;
 	}
+	ee->firstElement = NULL;
+	ee->lastElement = NULL;
 }
 
 void sUiSystem::RemoveElement(uiContainer* ww, uiElement* ee)

@@ -23,7 +23,7 @@ void mUi::Bind(lua_State* L){
 	luaL_openlib(L, 0, ui_funcs, 0);
 	
 	lua_pushboolean(L, false);
-	lua_setfield(L, -2, "hasfocus");
+	lua_setfield(L, -2, "hasFocus");
 	
 	lua_setfield(L, -2, "ui");
 	

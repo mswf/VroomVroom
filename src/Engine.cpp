@@ -100,13 +100,78 @@ uint32 Engine::GetTicks()
 	return SDL_GetTicks();
 }
 
+void Engine::WindowEvent( SDL_WindowEvent window )
+{
+	switch ( window.event )
+	{
+		case SDL_WINDOWEVENT_FOCUS_GAINED:
+		{
+			//std::cout << "Window focus gained, keyboard " << std::endl;
+			//LuaSystem
+			break;
+		}
+		case SDL_WINDOWEVENT_FOCUS_LOST:
+		{
+			//std::cout << "Window focus lost, keyboard " << std::endl;
+			//LuaSystem.
+			break;
+		}
+		case SDL_WINDOWEVENT_ENTER:
+		{
+			//std::cout << "Window entered, mouse " << std::endl;
+			//LuaSystem.
+			break;
+		}
+		case SDL_WINDOWEVENT_LEAVE:
+		{
+			//std::cout << "Window left, mouse " << std::endl;
+			//LuaSystem.
+			break;
+		}
+		case SDL_WINDOWEVENT_CLOSE:
+		{
+			//std::cout << "Window close, exit button " << std::endl;
+			//LuaSystem.
+			break;
+		}
+		case SDL_WINDOWEVENT_HIDDEN:
+		{
+			//std::cout << "Window hidden? " << std::endl;
+			//LuaSystem.
+			break;
+		}
+		case SDL_WINDOWEVENT_MAXIMIZED:
+		{
+			//std::cout << "Window MAXIMIZED! " << std::endl;
+			//LuaSystem.
+			break;
+		}
+		case SDL_WINDOWEVENT_MINIMIZED:
+		{
+			//std::cout << "Window minimized.. " << std::endl;
+			//LuaSystem.
+			break;
+		}
+		case SDL_WINDOWEVENT_RESIZED:
+		case SDL_WINDOWEVENT_SIZE_CHANGED:
+		{
+			//std::cout << "Window size changed to -> " << window.data1 << "x" << window.data2 << std::endl;
+			//LuaSystem.
+			break;
+		}
+		default:
+			break;
+	}
+}
+
 void Engine::PollEvent()
 {
 	SDL_Event event;
-	while (SDL_PollEvent(&event))
+	while ( SDL_PollEvent( &event ) )
 	{
-		ImGui_ImplSdl_ProcessEvent(&event);
-		if (event.type == SDL_QUIT)
+		ImGui_ImplSdl_ProcessEvent( &event );
+		WindowEvent( event.window );
+		if ( event.type == SDL_QUIT )
 		{
 			exit(EXIT_SUCCESS);
 			//TODO: don't exit instantly, rather disrupt the game loop and exit through a controlled flow

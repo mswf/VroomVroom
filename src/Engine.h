@@ -41,6 +41,8 @@ class Engine
 		void SetSeed();
 		void Update(float deltaTime);
 		void ImportAssets();
+		void WindowEvent( SDL_WindowEvent window );
+	
 		FMOD::Studio::System* systemStudio;
 		FMOD::System* systemLowLevel;
 		FW::FileWatcher* fileWatcher;

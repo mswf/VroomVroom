@@ -81,37 +81,42 @@ lFuncImp(mMaterial, setShader)
 	return 0;
 }
 
-lFuncImp(mMaterial, setDiffuseTexture)
-{
-	lua_settop(L, 2);
-	lua_getfield(L, 1, "__coreMaterial__");
-	LuaSystem.Dump(L);
-	Material* mat = (Material*)lua_touserdata(L, -1);
 
-	mat->SetDiffuseTexture(lua_tostring(L,2));
-	
-	return 0;
-}
 
-lFuncImp(mMaterial, setSpecularTexture)
-{
-	lua_settop(L, 2);
-	lua_getfield(L, 1, "__coreMaterial__");
-	Material* mat = (Material*)lua_touserdata(L, -1);
-	
-	mat->SetSpecularTexture(lua_tostring(L,2));
+lBindSetMatTex(setDiffuseTexture, SetDiffuseTexture);
+lBindSetMatTex(setSpecularTexture, SetSpecularTexture);
+lBindSetMatTex(setNormalTexture, SetNormalTexture);
+lBindSetMatTex(setCubeMapTexture, SetCubeMapTexture);
+lBindSetMatTex(setHeightMapTexture, SetHeightMapTexture);
 
-	return 0;
-}
+lBindSetMatBool(setDrawingWireframe, SetDrawingWireframe);
+lBindSetMatBool(setTwoSided, SetTwoSided);
 
-lFuncImp(mMaterial, setNormalTexture)
-{
-	lua_settop(L, 2);
-	lua_getfield(L, 1, "__coreMaterial__");
-	Material* mat = (Material*)lua_touserdata(L, -1);
-	
-	mat->SetNormalTexture(lua_tostring(L,2));
+lBindSetMatFloat(setShininess, SetShininess);
+lBindSetMatFloat(setShininessStrength, SetShininessStrength);
+lBindSetMatFloat(setOpacity, SetOpacity);
+lBindSetMatFloat(setBumpScaling, SetBumpScaling);
 
-	return 0;
-}
+lBindSetMatCol(setAmbientColor, SetAmbientColor);
+lBindSetMatCol(setDiffuseColor, SetDiffuseColor);
+lBindSetMatCol(setSpecularColor, SetSpecularColor);
+lBindSetMatCol(setEmissiveColor, SetEmissiveColor);
+lBindSetMatCol(setTransparentColor, SetTransparentColor);
+lBindSetMatCol(setReflectiveColor, SetReflectiveColor);
+
+
+lBindGetMatBool(getDrawingWireframe, GetDrawingWireframe);
+lBindGetMatBool(getTwoSided, GetTwoSided);
+
+lBindGetMatFloat(getShininess, GetShininess);
+lBindGetMatFloat(getShininessStrength, GetShininessStrength);
+lBindGetMatFloat(getOpacity, GetOpacity);
+lBindGetMatFloat(getBumpScaling, GetBumpScaling);
+
+lBindGetMatCol(getAmbientColor, GetAmbientColor);
+lBindGetMatCol(getDiffuseColor, GetDiffuseColor);
+lBindGetMatCol(getSpecularColor, GetSpecularColor);
+lBindGetMatCol(getEmissiveColor, GetEmissiveColor);
+lBindGetMatCol(getTransparentColor, GetTransparentColor);
+lBindGetMatCol(getReflectiveColor, GetReflectiveColor);
 

@@ -255,9 +255,9 @@ lTransformGet(getScaleX, GetScaleX);
 lTransformGet(getScaleY, GetScaleY);
 lTransformGet(getScaleZ, GetScaleZ);
 
-lTransformGet(getPitch, GetPitchNormalized);
-lTransformGet(getYaw, GetYawNormalized);
-lTransformGet(getRoll, GetRollNormalized);
+lTransformGet(getPitch, GetPitchEuler);
+lTransformGet(getYaw, GetYawEuler);
+lTransformGet(getRoll, GetRollEuler);
 
 lFuncImp(mEntity, getPosition)
 {
@@ -358,9 +358,9 @@ lTransformSet(setScaleX, SetScaleX);
 lTransformSet(setScaleY, SetScaleY);
 lTransformSet(setScaleZ, SetScaleZ);
 
-lTransformSet(setPitch, SetPitchNormalized);
-lTransformSet(setYaw, SetYawNormalized);
-lTransformSet(setRoll, SetRollNormalized);
+lTransformSet(setPitch, SetPitchEuler);
+lTransformSet(setYaw, SetYawEuler);
+lTransformSet(setRoll, SetRollEuler);
 
 lFuncImp(mEntity, setPosition)
 {

@@ -47,7 +47,11 @@ void CTransform::SetWorldTransform( const glm::mat4 &trans )
 // TODO(Valentinas): TEST LOOK AT
 void CTransform::LookAt( const glm::vec3 &target, const glm::vec3& up )
 {
-	transform = glm::inverse( glm::lookAt( position, glm::normalize(target + position), glm::vec3( 0.0f, 1.0f, 0.0f ) ) );
+	// position should be WorldTransform position
+	// target should be WorldTransform position
+	SetWorldTransform ( glm::inverse( glm::lookAt( position, target, VectorUp() ) ) );
+	// Decompose to local rotation
+	
 }
 
 //Private
@@ -60,8 +64,8 @@ void CTransform::Update()
 	
 	// localTransform = parentWorldTransform.inverse() * worldTransform;
 	// M_loc = M_parent_inv * M
-	glm::mat4 worldTransform = (parent != NULL ) ? (parent->GetWorldTransform() * transform) : transform;
-	SetWorldTransform(worldTransform);
+	glm::mat4 world = (parent != NULL ) ? (parent->GetWorldTransform() * transform) : transform;
+	SetWorldTransform(world);
 	
 	std::vector< CTransform* >::const_iterator iter = children.begin();
 	std::vector< CTransform* >::const_iterator end = children.end();
@@ -224,22 +228,23 @@ void CTransform::Roll( const float& angle )
 	Rotate( angle, VectorForward() );
 }
 
-const float CTransform::GetPitchNormalized() const
+const float CTransform::GetPitchEuler() const
 {
-	float value = glm::pitch( rotation );
-	return (value / glm::pi<float>() + 1) / 2;
+	float value = glm::eulerAngles(rotation).x / glm::pi<float>() * 2;
+	//glm::pitch( rotation ); (value * 360.0f / glm::pi<float>() + 1) / 2;
+	return glm::mod( value, 1.0f );
 }
 
-const float CTransform::GetYawNormalized() const
+const float CTransform::GetYawEuler() const
 {
-	float value = glm::yaw( rotation );
-	return (value / glm::pi<float>() + 1) / 2;
+	float value = glm::eulerAngles(rotation).y; //glm::yaw( rotation );
+	return  (value * 360.0f / 2*glm::pi<float>() + 1) / 2;
 }
 
-const float CTransform::GetRollNormalized() const
+const float CTransform::GetRollEuler() const
 {
-	float value = glm::roll( rotation );
-	return (value / glm::pi<float>() + 1) / 2;
+	float value = glm::eulerAngles(rotation).z; // glm::roll( rotation );
+	return  (value * 360.0f /  2*glm::pi<float>() + 1) / 2;
 }
 
 const float CTransform::GetPitch() const
@@ -257,27 +262,30 @@ const float CTransform::GetRoll() const
 	return glm::roll( rotation );
 }
 
-void CTransform::SetPitchNormalized( const float& angle )
+void CTransform::SetPitchEuler( const float& angle )
 {
-	float value = (2 * angle - 1) * glm::pi<float>();
-	glm::mat4 newRotation(1);
-	rotation = glm::quat( glm::rotate(newRotation, value, VectorRight() ) );
+	//float value = (2 * angle - 1) * 2*glm::pi<float>() / 360.0f;
+	//glm::mat4 newRotation(1);
+	//rotation = glm::quat_cast( glm::rotate( newRotation, angle, VectorRight() ) );
+	rotation = glm::angleAxis(angle * glm::pi<float>() * 2, VectorRight());
 	Update();
 }
 
-void CTransform::SetYawNormalized( const float& angle )
+void CTransform::SetYawEuler( const float& angle )
 {
-	float value = (2 * angle - 1) * glm::pi<float>();
-	glm::mat4 newRotation(1);
-	rotation = glm::quat( glm::rotate(newRotation, value, VectorUp() ) );
+	//float value = (2 * angle - 1) * 2*glm::pi<float>() / 360.0f;
+	//glm::mat4 newRotation(1);
+	//rotation = glm::quat( glm::rotate(newRotation, value, VectorUp() ) );
+	rotation = glm::quat( glm::eulerAngleY(angle) );
 	Update();
 }
 
-void CTransform::SetRollNormalized( const float& angle )
+void CTransform::SetRollEuler( const float& angle )
 {
-	float value = (2 * angle - 1) * glm::pi<float>();
-	glm::mat4 newRotation(1);
-	rotation = glm::quat( glm::rotate(newRotation, value, VectorForward() ) );
+	//float value = (2 * angle - 1) * 2*glm::pi<float>() / 360.0f;
+	//glm::mat4 newRotation(1);
+	//rotation = glm::quat( glm::rotate(newRotation, value, VectorForward() ) );
+	rotation = glm::quat( glm::eulerAngleZ(angle) );
 	Update();
 }
 

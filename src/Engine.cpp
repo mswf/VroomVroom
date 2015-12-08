@@ -341,7 +341,7 @@ void Engine::UpdateLoop()
 	mt = ResourceManager::getInstance().GetMaterialByName("Default");
 	mt->SetDiffuseTexture("objects/snowman.png");
 
-
+/*
 	auto random_colour = []() -> glm::vec3
 	{
 		return glm::vec3( Random::Next(100) * 0.01f, Random::Next(100) * 0.01f, Random::Next(100) * 0.01f );

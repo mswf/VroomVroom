@@ -21,11 +21,12 @@ class mMaterial
 		mMaterial();
 		~mMaterial();
 	
-		lFuncDef(loadMaterial);
+		lFuncDef(getMaterial);
 	
 		lFuncDef(__engineInit);
 
 		lFuncDef(setShader);
+	
 		lFuncDef(setDiffuseTexture);
 		lFuncDef(setSpecularTexture);
 		lFuncDef(setNormalTexture);

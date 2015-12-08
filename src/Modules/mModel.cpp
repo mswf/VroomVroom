@@ -13,11 +13,11 @@
 void mModel::Bind(lua_State* L)
 {
 	lua_getglobal(L, "Engine");
-	lua_pushcfunction(L, lw_loadModel__);
-	lua_setfield(L, -2, "loadModel");
+	lua_pushcfunction(L, lw_getModel__);
+	lua_setfield(L, -2, "getModel");
 }
 
-lFuncImp(mModel, loadModel)
+lFuncImp(mModel, getModel)
 {
 	lua_settop(L, 1);
 	

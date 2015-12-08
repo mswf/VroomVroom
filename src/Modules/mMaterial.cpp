@@ -15,8 +15,8 @@
 void mMaterial::Bind(lua_State* L)
 {
 	lua_getglobal(L, "Engine");
-	lua_pushcfunction(L, lw_loadMaterial__);
-	lua_setfield(L, -2, "loadMaterial");
+	lua_pushcfunction(L, lw_getMaterial__);
+	lua_setfield(L, -2, "getMaterial");
 	
 	
 	lua_newtable(L);
@@ -32,13 +32,13 @@ void mMaterial::Bind(lua_State* L)
 
 }
 
-lFuncImp(mMaterial, loadMaterial)
+lFuncImp(mMaterial, getMaterial)
 {
 	lua_settop(L, 1);
 	
 	if(!lua_isstring(L, 1))
 	{
-		Terminal.Warning("Invalid parameter for Engine.loadModel");
+		Terminal.Warning("Invalid parameter for Engine.getMaterial");
 		return 0;
 	}
 	const char* name = lua_tostring(L, 1);

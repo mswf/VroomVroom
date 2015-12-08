@@ -20,7 +20,7 @@ class mModel
 		mModel();
 		~mModel();
 	
-		lFuncDef(loadModel);
+		lFuncDef(getModel);
 };
 
 #endif /* mModel_hpp */

@@ -26,6 +26,38 @@ void mMaterial::Bind(lua_State* L)
 		lBind(setDiffuseTexture)
 		lBind(setSpecularTexture)
 		lBind(setNormalTexture)
+		lBind(setCubeMapTexture)
+		lBind(setHeightMapTexture)
+	
+		lBind(setDrawingWireframe)
+		lBind(setTwoSided)
+		
+		lBind(setShininess)
+		lBind(setShininessStrength)
+		lBind(setOpacity)
+		lBind(setBumpScaling)
+		
+		lBind(setAmbientColor)
+		lBind(setDiffuseColor)
+		lBind(setSpecularColor)
+		lBind(setEmissiveColor)
+		lBind(setTransparentColor)
+		lBind(setReflectiveColor)
+		
+		lBind(getDrawingWireframe)
+		lBind(getTwoSided)
+		
+		lBind(getShininess)
+		lBind(getShininessStrength)
+		lBind(getOpacity)
+		lBind(getBumpScaling)
+		
+		lBind(getAmbientColor)
+		lBind(getDiffuseColor)
+		lBind(getSpecularColor)
+		lBind(getEmissiveColor)
+		lBind(getTransparentColor)
+		lBind(getReflectiveColor)
 	lEnd(BaseMaterial)
 	luaL_openlib(L, 0, BaseMaterial_funcs, 0);
 	lua_setfield(L, -2, "baseMaterial");

@@ -6,13 +6,14 @@ std::vector< CDebugRenderer* > CDebugRenderer::list;
 
 CDebugRenderer::CDebugRenderer() :
 	isBuffered(false),
-	mode(DrawMode::NONE),
+	mode( DrawMode::NONE ),
 	vao(0),
 	vbo(0),
+	numberOfPoints( 4096 ),
 	pointSize(0.0f)
 {
 	list.push_back( this );
-}
+	}
 
 CDebugRenderer::~CDebugRenderer()
 {
@@ -24,103 +25,73 @@ void CDebugRenderer::Call()
 
 }
 
-void CDebugRenderer::AddLine( Line line )
+void CDebugRenderer::Initialize()
 {
-	if ( mode == DrawMode::NONE && triangles.size() == 0 )
+	int primitive = mode == DrawMode::LINES ? 2 : 3;
+	unsigned long bSize = sizeof(glm::vec3) * int( numberOfPoints / primitive ) * 2;
+	CreateDynamicBuffer(vao, vbo, bSize);
+}
+
+void CDebugRenderer::AddPrimivite( Line line )
+{
+	if ( mode == DrawMode::NONE)
 	{
 		mode = DrawMode::LINES;
+		Initialize();
 	}
-	if ( mode == DrawMode::LINES )
-	{
-		lines.push_back(line);
-	}
+	points.push_back(line.start);
+	colours.push_back(line.colour);
+	points.push_back(line.end);
+	colours.push_back(line.colour);
 }
 
-void CDebugRenderer::AddTriangle( Triangle triangle )
+void CDebugRenderer::AddPrimivite( Triangle triangle )
 {
-	if ( mode == DrawMode::NONE && lines.size() == 0 )
+	if ( mode == DrawMode::NONE)
 	{
 		mode = DrawMode::TRIANGLES;
+		Initialize();
 	}
-	if ( mode == DrawMode::TRIANGLES )
-	{
-		triangles.push_back(triangle);
-	}
+	points.push_back(triangle.v1);
+	colours.push_back(triangle.colour);
+	points.push_back(triangle.v2);
+	colours.push_back(triangle.colour);
+	points.push_back(triangle.v3);
+	colours.push_back(triangle.colour);
 }
 
-bool CDebugRenderer::ContainsPrimitives()
+const bool CDebugRenderer::ContainsPrimitives() const
 {
-	bool hasLines = lines.size() != 0;
-	bool hasTriangles = triangles.size() != 0;
-	return ( hasLines || hasTriangles );
+	return ( points.size() > 0 );
 }
 
-void CDebugRenderer::PushToGPU()
+void CDebugRenderer::UpdateBuffer()
 {
-	
-	std::vector< glm::vec3 > points, colours;
-	
-	if ( mode == DrawMode::NONE )
+	if (!isBuffered)
 	{
-		if (lines.size() > 0)
-		{
-			mode = DrawMode::LINES;
-		}
-		if (triangles.size() > 0)
-		{
-			mode = DrawMode::TRIANGLES;
-		}
-		return;
+		BufferPoints( vao, vbo, points, colours );
+		isBuffered = true;
 	}
-	if (mode == DrawMode::LINES)
-	{
-		if (lines.size() == 0) return;
-		std::vector< Line >::const_iterator iter_line = lines.begin();
-		std::vector< Line >::const_iterator end_line = lines.end();
-		for ( ; iter_line != end_line; ++iter_line)
-		{
-			points.push_back( (*iter_line).start );
-			colours.push_back( (*iter_line).colour );
-			points.push_back( (*iter_line).end );
-			colours.push_back( (*iter_line).colour );
-		}
-	}
-	if (mode == DrawMode::TRIANGLES)
-	{
-		if (triangles.size() == 0) return;
-		std::vector< Triangle >::const_iterator iter_triangle = triangles.begin();
-		std::vector< Triangle >::const_iterator end_triangle = triangles.end();
-		for ( ; iter_triangle != end_triangle; ++iter_triangle)
-		{
-			points.push_back( (*iter_triangle).v1 );
-			colours.push_back( (*iter_triangle).colour );
-			points.push_back( (*iter_triangle).v2 );
-			colours.push_back( (*iter_triangle).colour );
-			points.push_back( (*iter_triangle).v3 );
-			colours.push_back( (*iter_triangle).colour );
-		}
-	}
-	
-	BufferPoints( vao, vbo, points, colours );
-	count = (int)points.size();
-	isBuffered = true;
+	unsigned int offset = sizeof(glm::vec3) * (unsigned int)points.size();
+	BufferUpdate( vbo, 0, (unsigned int)points.size(), &points.front() );
+	BufferUpdate( vbo, offset, (unsigned int)colours.size(), &colours.front() );
 }
 
 void CDebugRenderer::Clear()
 {
-	if ( triangles.size() != 0 ) triangles.clear();
-	if ( lines.size() != 0 ) lines.clear();
-	mode = DrawMode::NONE;
-	if (vao == 0 || vbo == 0) return;
-	BufferClear(vao, vbo);
-	vao = 0;
-	vbo = 0;
+	if ( points.size() != 0 ) points.clear();
+	if ( colours.size() != 0 ) colours.clear();
 	isBuffered = false;
 }
 
 const float& CDebugRenderer::GetPointSize() const
 {
 	return pointSize;
+}
+
+const int CDebugRenderer::GetDrawCount() const
+{
+	return (int)points.size();
 }
 
 void CDebugRenderer::SetDrawPoints( bool enabled )

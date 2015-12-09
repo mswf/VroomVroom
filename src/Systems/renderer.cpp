@@ -187,15 +187,11 @@ namespace Renderer
 			else
 			{
 				primitive = GL_LINES;
-				// Line anti aliasing
 				glEnable(GL_LINE_SMOOTH);
 			}
 			
-			if ( !(*it)->IsBuffered() )
-			{
-				(*it)->PushToGPU();
-				continue;
-			}
+			(*it)->UpdateBuffer();
+			
 			if ( (*it)->IsDrawingPoints() )
 			{
 				glEnable(GL_PROGRAM_POINT_SIZE);
@@ -208,7 +204,7 @@ namespace Renderer
 			SetUniform( debugProgram->program,	"projection", 	camera->GetProjectionMatrix() );
 			SetUniform( debugProgram->program,	"time", 		(float)time );
 		
-			glDrawArrays( primitive, 0, (*it)->count);
+			glDrawArrays( primitive, 0, (*it)->GetDrawCount() );
 			if ( (*it)->IsDrawingPoints() )
 			{
 				SetUniform( debugProgram->program, "pointSize", (*it)->GetPointSize() );

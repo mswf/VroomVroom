@@ -68,15 +68,28 @@ void BufferMesh( const Mesh* m, ModelInstance* instance )
 	
 }
 
-void BufferPoints( unsigned int& vao, unsigned int& vbo, const std::vector< glm::vec3 >& points, const std::vector< glm::vec3 >& colours )
+void CreateDynamicBuffer( unsigned int& vao, unsigned int& vbo, unsigned long bufferSize )
 {
-	unsigned long bufferSize = sizeof(glm::vec3) * points.size() + sizeof(glm::vec3) * colours.size();
 	glGenVertexArrays( 1, &vao );
 	glBindVertexArray( vao );
 	
 	glGenBuffers( 1, &vbo );
 	glBindBuffer( GL_ARRAY_BUFFER, vbo );
 	glBufferData( GL_ARRAY_BUFFER, bufferSize, NULL, GL_DYNAMIC_DRAW);
+	
+	glBindVertexArray( 0 );
+	glBindBuffer( GL_ARRAY_BUFFER, 0 );
+}
+
+void BufferPoints( unsigned int& vao, unsigned int& vbo, const std::vector< glm::vec3 >& points, const std::vector< glm::vec3 >& colours )
+{
+	//unsigned long bufferSize = sizeof(glm::vec3) * points.size() + sizeof(glm::vec3) * colours.size();
+	//glGenVertexArrays( 1, &vao );
+	glBindVertexArray( vao );
+	
+	//glGenBuffers( 1, &vbo );
+	glBindBuffer( GL_ARRAY_BUFFER, vbo );
+	//glBufferData( GL_ARRAY_BUFFER, bufferSize, NULL, GL_DYNAMIC_DRAW);
 	
 	// Buffer vertices
 	glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(glm::vec3) * points.size(), &points.front() );
@@ -99,9 +112,8 @@ void BufferUpdate( GLuint vbo, GLuint offset, GLuint length, void* data )
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
 }
 
-void BufferClear( GLuint vao, GLuint vbo )
+void BufferClear( GLuint vbo )
 {
-	glDeleteVertexArrays( 1, &vao );
 	glDeleteBuffers( GL_ARRAY_BUFFER, &vbo );
 }
 

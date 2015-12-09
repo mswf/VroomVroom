@@ -48,14 +48,16 @@ class CDebugRenderer : public Component
 		~CDebugRenderer();
 	
 		void Call();
-		void AddLine( Line line );
-		void AddTriangle( Triangle triangle );
-		void PushToGPU();
-		bool ContainsPrimitives();
+		void Initialize();
+		void AddPrimivite( Line line );
+		void AddPrimivite( Triangle triangle );
+		void UpdateBuffer();
+		const bool ContainsPrimitives() const;
 		void Clear();
 		void SetDrawPoints( bool enabled );
 		void SetPointSize( float size );
 		const float& GetPointSize() const;
+		const int GetDrawCount() const;
 		inline bool IsDrawingPoints() { return isDrawingPoints; }
 		inline bool IsBuffered() { return isBuffered; }
 		static std::vector< CDebugRenderer* >* GetDebugRendererList();
@@ -67,11 +69,12 @@ class CDebugRenderer : public Component
 	private:
 	
 		unsigned int vbo;
+		unsigned int numberOfPoints;
 		float pointSize;
 		bool isBuffered;
 		bool isDrawingPoints;
-		std::vector< Line > lines;
-		std::vector< Triangle >	triangles;
+		std::vector< glm::vec3 > points;
+		std::vector< glm::vec3 > colours;
 		static std::vector< CDebugRenderer* > list;
 };
 

@@ -155,25 +155,25 @@ namespace Renderer
 		// Is there anything to render?
 		if ( lines->size() == 0 ) return;
 		
-		// Assign render primitive
-		GLenum primitive;
-		if ( lines->at(0)->mode == DrawMode::TRIANGLES )
-		{
-			primitive = GL_TRIANGLES;
-		}
-		else
-		{
-			primitive = GL_LINES;
-			// Line anti aliasing
-			glEnable(GL_LINE_SMOOTH);
-		}
-		
 		glUseProgram(debugProgram->program);
 		
 		std::vector< CDebugRenderer* >::const_iterator it = lines->begin();
 		std::vector< CDebugRenderer* >::const_iterator end = lines->end();
 		for ( ; it != end; ++it )
 		{
+			// Assign render primitive
+			GLenum primitive;
+			if ( (*it)->mode == DrawMode::TRIANGLES )
+			{
+				primitive = GL_TRIANGLES;
+			}
+			else
+			{
+				primitive = GL_LINES;
+				// Line anti aliasing
+				glEnable(GL_LINE_SMOOTH);
+			}
+			
 			if ( !(*it)->IsBuffered() )
 			{
 				(*it)->PushToGPU();

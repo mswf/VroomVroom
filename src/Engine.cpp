@@ -52,7 +52,7 @@ Engine::Engine() :
 
 Engine::~Engine()
 {
-	//TODO: Clean up all entities and their components
+	delete Entity::root;
 	delete inputManager;
 	delete renderer;
 	delete listener;
@@ -252,7 +252,6 @@ void Engine::SetupWindow(SDL_Window*& window, SDL_GLContext& glcontext)
 	InitGlew();
 }
 
-// TODO: Move to renderer
 void Engine::InitGlew()
 {
 	glewExperimental = true;
@@ -275,7 +274,7 @@ void Engine::InitGlew()
 	Terminal.LogOpenGL( glslVersion, true );
 	Terminal.LogOpenGL( "GLEW version " + majorGlew + "." + minorGlew, true  );
 
-	//#define LOG_EXTENSIONS
+//#define LOG_EXTENSIONS
 #ifdef LOG_EXTENSIONS
 	int NumberOfExtensions, i;
 	glGetIntegerv(GL_NUM_EXTENSIONS, &NumberOfExtensions);
@@ -323,13 +322,8 @@ void Engine::ImportAssets()
 	};
 	ResourceManager& rm = ResourceManager::getInstance();
 	rm.Initialize();
-	std::vector< std::string > meshes, images, cube_map, errors;
+	std::vector< std::string > cube_map, errors;
 	std::vector< std::pair< std::string, GLSLShaderType > > shaders;
-	//meshes.push_back( "objects/Rabbit/Rabbit.obj" );
-	//meshes.push_back( "objects/icy_snowman.obj" );
-	//images.push_back( "objects/snowman.png" );
-	//images.push_back( "objects/object_group_test/checker_1.png" );
-	//images.push_back( "objects/object_group_test/checker_2.png" );
 
 	// Cube map
 	/*
@@ -347,17 +341,7 @@ void Engine::ImportAssets()
 	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/skybox_vert.glsl", GLSLShaderType::VERTEX) );
 	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/skybox_frag.glsl", GLSLShaderType::FRAGMENT) );
 
-	bool successfulImport = rm.ImportMesh( meshes, errors );
-	if (!successfulImport)
-	{
-		printErr(errors);
-	}
-	successfulImport = rm.ImportImage( images, errors );
-	if (!successfulImport)
-	{
-		printErr(errors);
-	}
-	successfulImport = rm.ImportImage( cube_map, errors, false );
+	bool successfulImport = rm.ImportImage( cube_map, errors, false );
 	if (!successfulImport)
 	{
 		printErr(errors);
@@ -401,6 +385,7 @@ void Engine::UpdateLoop()
 	
 	renderer->SetWindowSize(1280, 720);
 	renderer->Initialize();
+	//renderer->skyboxMap = skybox_map;
 
 	/// TINAS PLAYGROUND!!!
 
@@ -470,7 +455,7 @@ void Engine::UpdateLoop()
 
 			//systemStudio->update();
 			
-			Update(gameUpdateInterval / 1000);
+			Update( gameUpdateInterval / 1000 );
 
 			if (deltaTimeGame < gameUpdateInterval)
 			{
@@ -478,34 +463,6 @@ void Engine::UpdateLoop()
 				{
 					running = false;
 				}
-/*
-				if ( inputManager->OnKey(SDLK_RIGHT) )
-				{
-					camera->transform->Translate( glm::vec3( 0.1, 0.0, 0.0 ) );
-				}
-				if ( inputManager->OnKey(SDLK_LEFT) )
-				{
-					camera->transform->Translate( glm::vec3( -0.1, 0.0, 0.0 ) );
-				}
-
-				if ( inputManager->OnKey(SDLK_UP) )
-				{
-					camera->transform->Translate( glm::vec3( 0.0, 0.0, 0.1 ) );
-				}
-				if ( inputManager->OnKey(SDLK_DOWN) )
-				{
-					camera->transform->Translate( glm::vec3( 0.0, 0.0, -0.1 ) );
-				}
-
-				if ( inputManager->OnKeyDown(SDLK_r) )
-				{
-					ResourceManager::getInstance().ReImportImage("objects/snowman.png");
-					ResourceManager::getInstance().ReImportShader("shaders/line_vert.glsl", GLSLShaderType::VERTEX );
-				}
-*/
-				//box->transform->Yaw(1.0f);
-				//box2->transform->Roll(1.0f);
-
 				prevTicks = currentTicks;
 				prevTicks -= deltaTimeGame;
 			}
@@ -513,13 +470,8 @@ void Engine::UpdateLoop()
 
 		ImGui_ImplSdl_NewFrame(window);
 
-		
-		glClearColor( 0.91f, 0.91f, 0.91f, 1.0f );
-		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
 		renderer->SetTime( GetTicks() );
 		renderer->Render();
-
 
 		UiSystem.Render();
 

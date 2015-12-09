@@ -5,58 +5,29 @@
 #include "../content.h"
 #include "../console.h"
 
-//TODO(VALENTINAS): Keep track of loaded shader programs, detach & link when reloading,
-// GL_INVALID_FRAMEBUFFER_OPERATION Given when doing anything that would attempt to read from or write/render to a framebuffer that is not complete.
-/*
-// UniformBlock
-// 		Active uniform block
-//		Get uniform block location
-//
-// 		create material uniform buffer
-//			glGenBuffers(1,&(aMesh.uniformBlockIndex));
-//			glBindBuffer(GL_UNIFORM_BUFFER,aMesh.uniformBlockIndex);
-//			glBufferData(GL_UNIFORM_BUFFER, sizeof(aMat), (void *)(&aMat), GL_STATIC_DRAW);
-//
-//	OTHER:
-//
-// 	glBindAttribLocation
-//	glBindFragDataLocation(program, 0, "outColor");
-*/
-// CHANGE
-/*
-Shader::Shader() :
-	program(0)
-{
-	std::string vs, fs;
-	std::string defaultVertex = Content::GetPath() + std::string("/shaders/default.vert");
-	std::string defaultFragment = Content::GetPath() + std::string("/shaders/default.frag");
-	bool vExists = HelperFunctions::FileExists( defaultVertex.c_str() );
-	bool fExists = HelperFunctions::FileExists( defaultFragment.c_str() );
-	
-	if ( vExists && fExists )
-	{
-		vs = HelperFunctions::ReadFile( defaultVertex.c_str() );
-		fs = HelperFunctions::ReadFile( defaultFragment.c_str() );
-	}
-	else
-	{
-		vs = builtin_vertex;
-		fs = builtin_fragment;
-	}
 
-	ShaderObject vertex_shader_object, fragment_shader_object;
-	vertex_shader_object.shader = CreateShader( GLSLShaderType::VERTEX, vs.c_str() );
-	vertex_shader_object.shaderType = GL_VERTEX_SHADER;
-	fragment_shader_object.shader = CreateShader( GLSLShaderType::FRAGMENT, fs.c_str() );
-	fragment_shader_object.shaderType = GL_FRAGMENT_SHADER;
-	
-	program = CreateProgram(vertex_shader_object.shader, fragment_shader_object.shader);
+/*
+
+ UniformBlock
+ Get uniform block location
+ 
+ create material uniform buffer
+	glGenBuffers( 1, &(aMesh.uniformBlockIndex) );
+	glBindBuffer( GL_UNIFORM_BUFFER,aMesh.uniformBlockIndex );
+	glBufferData( GL_UNIFORM_BUFFER, sizeof(aMat), (void *)(&aMat), GL_STATIC_DRAW );
+
+	OTHER:
+ 	
+ 	// GL_INVALID_FRAMEBUFFER_OPERATION Given when doing anything that would attempt to read from or write/render to a framebuffer that is not complete.
+ 
+ 	glBindAttribLocation
+	glBindFragDataLocation(program, 0, "outColor");
+
 	
 	//LogActiveSubroutines(program, GL_FRAGMENT_SHADER);
 	
 	SetSubroutineUniformLocations( program, fragment_shader_object );
 	SetActiveSubroutine( program, fragment_shader_object, "shadeModel", "phongModel");
-	
 	
 	GLuint programV = CreateSeparateProgram(vertex_shader_object);
 	GLuint programF = CreateSeparateProgram(fragment_shader_object);
@@ -67,10 +38,6 @@ Shader::Shader() :
 	
 	UseProgramStages( ppo, GLSLShaderType::VERTEX, programV );
 	UseProgramStages( ppo, GLSLShaderType::FRAGMENT, programF );
-	
-	
-	DeleteShaderObject( vertex_shader_object.shader );
-	DeleteShaderObject( fragment_shader_object.shader );
 }
 */
 
@@ -192,7 +159,6 @@ void RemakeProgram( GLuint& program, const unsigned int* shaders, unsigned int c
 	CheckGlError( "RemakeProgram" );
 }
 
-
 bool ProgramInfoLog( GLuint program, GLenum status )
 {
 	GLint log;
@@ -304,6 +270,82 @@ void LogActiveUniforms( GLuint program )
 		glGetActiveUniform(program, i, sizeof(property_name), &length, &size, &type, property_name);
 		Terminal.LogOpenGL( std::string( "Uniform " + std::to_string(i) + ": " + property_name ) );
 	}
+}
+
+void LogActiveUniformBlocks( GLuint program )
+{
+	
+	GLuint blockIndex = glGetUniformBlockIndex( program, "Material" );
+	CheckGlError("glGetUniformBlockIndex");
+	
+	//GL_ACTIVE_UNIFORM_BLOCKS
+	GLint uniforms = 0;
+	glGetProgramiv( program, GL_ACTIVE_UNIFORM_BLOCKS, &uniforms );
+	CheckGlError("Active Uniforms");
+	
+	for ( int i = 0; i < uniforms; ++i )
+	{
+		//GL_UNIFORM_BLOCK_NAME_LENGTH
+		GLsizei activeUniformLength = 0;
+		GLchar uniformName[256];
+		glGetActiveUniformBlockiv( program, i, GL_UNIFORM_BLOCK_NAME_LENGTH, &activeUniformLength);
+		CheckGlError("activeUniformBinding");
+		
+		glGetActiveUniformBlockName( program, i, 256, &activeUniformLength, uniformName );
+		CheckGlError("glGetActiveUniformBlockName");
+		
+		//GL_UNIFORM_BLOCK_DATA_SIZE
+		GLint blockSize = 0;
+		glGetActiveUniformBlockiv( program, blockIndex, GL_UNIFORM_BLOCK_DATA_SIZE, &blockSize);
+		CheckGlError("Block Data size");
+		
+		//GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS
+		GLint activeUniforms = 0;
+		glGetActiveUniformBlockiv( program, blockIndex, GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS, &activeUniforms);
+		CheckGlError("activeUniforms");
+		
+		//GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES
+		GLint activeUniformIndices = 0;
+		glGetActiveUniformBlockiv( program, blockIndex, GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS, &activeUniformIndices);
+		CheckGlError("activeUniformIndices");
+		
+		//GL_UNIFORM_BLOCK_BINDING
+		GLint activeUniformBinding = 0;
+		glGetActiveUniformBlockiv( program, blockIndex, GL_UNIFORM_BLOCK_BINDING, &activeUniformBinding);
+		CheckGlError("activeUniformBinding");
+		
+		GLint uniformblockReferenced = 0;
+		glGetActiveUniformBlockiv( program, blockIndex, GL_UNIFORM_BLOCK_REFERENCED_BY_VERTEX_SHADER, &uniformblockReferenced);
+		CheckGlError("uniformblockReferenced");
+		// GL_UNIFORM_BLOCK_REFERENCED_BY_VERTEX_SHADER
+ 		// GL_UNIFORM_BLOCK_REFERENCED_BY_TESS_CONTROL_SHADER
+ 		// GL_UNIFORM_BLOCK_REFERENCED_BY_TESS_EVALUATION_SHADER
+ 		// GL_UNIFORM_BLOCK_REFERENCED_BY_GEOMETRY_SHADER
+		// GL_UNIFORM_BLOCK_REFERENCED_BY_FRAGMENT_SHADER
+		
+		Terminal.LogOpenGL( std::string( "Uniform block " + std::to_string(i) + ": " + uniformName + " of size " +  std::to_string(blockSize) ) );
+	}
+	
+	GLint bindingPoint = 0;
+	glUniformBlockBinding( program, blockIndex, bindingPoint );
+	CheckGlError("bindingPoint");
+	
+	GLuint materialBuffer;
+	glGenBuffers(1, &materialBuffer);
+	glBindBuffer(GL_UNIFORM_BUFFER, materialBuffer);
+ 
+	float myFloats[24] =
+	{
+		0.5, 0.5, 0.5, 1.0,
+		0.0, 0.6, 0.3, 1.0,
+		0.0, 0.0, 0.0, 1.0,
+		0.0, 0.0, 0.0, 1.0,
+		0.0, 0.0, 0.0, 1.0,
+		0.0, 0.0, 0.0, 1.0
+	};
+	
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(myFloats), myFloats, GL_DYNAMIC_DRAW);
+	glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, materialBuffer);
 }
 
 void LogActiveSubroutines( GLuint program, GLenum shaderType )

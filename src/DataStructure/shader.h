@@ -59,9 +59,10 @@ void SetActiveSubroutine( GLuint program, ShaderObject shader, const char* unifo
 
 void LogActiveAttributes( GLuint program );
 void LogActiveUniforms( GLuint program );
+void LogActiveUniformBlocks( GLuint program );
 void LogActiveSubroutines( GLuint program, GLenum shaderType );
 
-unsigned int GetSubroutineUniformLocation( const char* name, const std::map< std::string, unsigned int >& locations );
+GLuint GetSubroutineUniformLocation( const char* name, const std::map< std::string, GLuint >& locations );
 void SetSubroutineUniformLocations( GLuint program, ShaderObject& shader );
 
 GLenum GetGLShaderEnum( GLSLShaderType type, bool separate = false );

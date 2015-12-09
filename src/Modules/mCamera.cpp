@@ -83,11 +83,11 @@ lFuncImp(mCamera, setProjectionType)
 	lua_getfield(L, 1, "__coreComponent__");
 	CCamera* cam = (CCamera*)lua_touserdata(L, -1);
 	
-	if (type == "perspective")
+	if (type == "PERSPECTIVE")
 	{
 		cam->SetProjectionType(Projection::PERSPECTIVE);
 	}
-	else if (type == "orthographic")
+	else if (type == "ORTHOGRAPHIC")
 	{
 		cam->SetProjectionType(Projection::ORTHOGRAPHIC);
 	}
@@ -107,12 +107,12 @@ lFuncImp(mCamera, setAspectRatio)
 	lua_getfield(L, 1, "__coreComponent__");
 	CCamera* cam = (CCamera*)lua_touserdata(L, -1);
 	
-	if(aspect > 0 && aspect <= 1){
+	if(aspect > 0){
 		cam->SetAspectRatio(aspect);
 	}
 	else
 	{
-		Terminal.Warning(string("invalid aspect ration: ")+lua_tostring(L, 2));
+		Terminal.Warning(string("invalid aspect ratio: ")+lua_tostring(L, 2));
 	}
 	
 	return 0;

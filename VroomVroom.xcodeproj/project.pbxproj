@@ -71,6 +71,7 @@
 		E5ED45BC1C05F93C0009BD5A /* importer_imp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5ED45B81C05F93C0009BD5A /* importer_imp.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5ED45BD1C05F93C0009BD5A /* importer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5ED45BA1C05F93C0009BD5A /* importer.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5ED45C31C05F95B0009BD5A /* mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5ED45C01C05F95B0009BD5A /* mesh.cpp */; settings = {ASSET_TAGS = (); }; };
+		E5EF4BBA1C1842C1001D487C /* cLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5EF4BB81C1842C1001D487C /* cLight.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5EF59021BB95EDD00F85754 /* libGLEW.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = E54D30901BB29675006FBC68 /* libGLEW.dylib */; };
 		E5F4A36A1BCE59A1000C8876 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5F4A3691BCE59A1000C8876 /* CoreAudio.framework */; };
 		E5F4A36C1BCE59B4000C8876 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5F4A36B1BCE59B4000C8876 /* CoreFoundation.framework */; };
@@ -237,6 +238,8 @@
 		E5ED45BF1C05F95B0009BD5A /* mesh_generator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mesh_generator.h; path = src/DataStructure/mesh_generator.h; sourceTree = SOURCE_ROOT; };
 		E5ED45C01C05F95B0009BD5A /* mesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mesh.cpp; path = src/DataStructure/mesh.cpp; sourceTree = SOURCE_ROOT; };
 		E5ED45C11C05F95B0009BD5A /* mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mesh.h; path = src/DataStructure/mesh.h; sourceTree = SOURCE_ROOT; };
+		E5EF4BB81C1842C1001D487C /* cLight.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cLight.cpp; path = src/Components/cLight.cpp; sourceTree = SOURCE_ROOT; };
+		E5EF4BB91C1842C1001D487C /* cLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cLight.h; path = src/Components/cLight.h; sourceTree = SOURCE_ROOT; };
 		E5F4A3691BCE59A1000C8876 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		E5F4A36B1BCE59B4000C8876 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		E5FDC8341BF4A3E400312151 /* libfmod.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmod.dylib; path = Framework/FMOD/Mac/lowlevel/lib/libfmod.dylib; sourceTree = "<group>"; };
@@ -332,6 +335,8 @@
 				E50529631BE8CE0A0017400B /* component.h */,
 				E50529641BE8CE0A0017400B /* cTransform.cpp */,
 				E50529651BE8CE0A0017400B /* cTransform.h */,
+				E5EF4BB81C1842C1001D487C /* cLight.cpp */,
+				E5EF4BB91C1842C1001D487C /* cLight.h */,
 				23B31B561C05E3B6004E31C9 /* cLua.cpp */,
 				23B31B571C05E3B6004E31C9 /* cLua.h */,
 			);
@@ -607,6 +612,7 @@
 				2383825F1C158EB600538D86 /* mDebugRenderer.cpp in Sources */,
 				E50529261BE8CD650017400B /* luaSystem.cpp in Sources */,
 				E50529521BE8CDC90017400B /* imgui_impl_sdl.cpp in Sources */,
+				E5EF4BBA1C1842C1001D487C /* cLight.cpp in Sources */,
 				E514AF591BD16E5800E7E2C5 /* TCPData.cpp in Sources */,
 				E50529691BE8CE0A0017400B /* cTransform.cpp in Sources */,
 				E5D9F8E51BE247C7005AFAB1 /* mEntity.cpp in Sources */,

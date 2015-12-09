@@ -10,7 +10,8 @@ CDebugRenderer::CDebugRenderer() :
 	vao(0),
 	vbo(0),
 	numberOfPoints( 4096 ),
-	pointSize(0.0f)
+	pointSize(5.0f),
+	isDrawingPoints(false)
 {
 	list.push_back( this );
 	}

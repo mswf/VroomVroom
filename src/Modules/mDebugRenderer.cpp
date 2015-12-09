@@ -20,6 +20,8 @@ void mDebugRenderer::Bind(lua_State* L)
 		lBind(__engineInit)
 		lBind(addLine)
 		lBind(addTriangle)
+		lBind(setDrawPoints)
+		lBind(setPointSize)
 		lBind(clear)
 	lEnd(BaseEntity)
 	luaL_openlib(L, 0, BaseDebugRenderer_funcs, 0);
@@ -110,6 +112,34 @@ lFuncImp(mDebugRenderer, clear)
 	CDebugRenderer* debug = (CDebugRenderer*)lua_touserdata(L, -1);
 	
 	debug->Clear();
+
+	return 0;
+}
+
+lFuncImp(mDebugRenderer, setDrawPoints)
+{
+
+	lua_settop(L, 2);
+	lua_getfield(L, 1, "__coreComponent__");
+	CDebugRenderer* debug = (CDebugRenderer*)lua_touserdata(L, -1);
+
+	lgBool(drawPoints, 2, true);
+
+	debug->SetDrawPoints(drawPoints);
+
+	return 0;
+}
+
+lFuncImp(mDebugRenderer, setPointSize)
+{
+
+	lua_settop(L, 2);
+	lua_getfield(L, 1, "__coreComponent__");
+	CDebugRenderer* debug = (CDebugRenderer*)lua_touserdata(L, -1);
+
+	lgFloat(pointSize, 2, 20.0f);
+
+	debug->SetPointSize(pointSize);
 
 	return 0;
 }

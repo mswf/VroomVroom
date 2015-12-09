@@ -74,6 +74,7 @@ void CDebugRenderer::PushToGPU()
 	}
 	if (mode == DrawMode::LINES)
 	{
+		if (lines.size() > 0) return;
 		std::vector< Line >::const_iterator iter_line = lines.begin();
 		std::vector< Line >::const_iterator end_line = lines.end();
 		for ( ; iter_line != end_line; ++iter_line)
@@ -86,6 +87,7 @@ void CDebugRenderer::PushToGPU()
 	}
 	if (mode == DrawMode::TRIANGLES)
 	{
+		if (triangles.size() > 0) return;
 		std::vector< Triangle >::const_iterator iter_triangle = triangles.begin();
 		std::vector< Triangle >::const_iterator end_triangle = triangles.end();
 		for ( ; iter_triangle != end_triangle; ++iter_triangle)
@@ -108,8 +110,9 @@ void CDebugRenderer::Clear()
 {
 	if ( triangles.size() != 0 ) triangles.clear();
 	if ( lines.size() != 0 ) lines.clear();
-	BufferClear(vao, vbo);
 	mode = DrawMode::NONE;
+	if (vao == 0 || vbo == 0) return;
+	BufferClear(vao, vbo);
 }
 
 const float& CDebugRenderer::GetPointSize() const

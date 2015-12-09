@@ -48,13 +48,28 @@ void CDebugRenderer::AddTriangle( Triangle triangle )
 	}
 }
 
+bool CDebugRenderer::ContainsPrimitives()
+{
+	return (lines.size() != 0 || triangles.size() != 0 );
+}
+
 void CDebugRenderer::PushToGPU()
 {
+	
 	std::vector< glm::vec3 > points, colours;
 	
 	if ( mode == DrawMode::NONE )
 	{
 		printf("No primitives present!");
+		if (lines.size() > 0)
+		{
+			mode = DrawMode::LINES;
+		}
+		if (triangles.size() > 0)
+		{
+			mode = DrawMode::TRIANGLES;
+		}
+
 	}
 	if (mode == DrawMode::LINES)
 	{

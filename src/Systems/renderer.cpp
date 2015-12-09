@@ -180,7 +180,7 @@ namespace Renderer
 			
 			// Assign render primitive
 			GLenum primitive;
-			if ( (*it)->mode == DrawMode::TRIANGLES )
+			if ( (*it)->GetDrawMode() == DrawMode::TRIANGLES )
 			{
 				primitive = GL_TRIANGLES;
 			}

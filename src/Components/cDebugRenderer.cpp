@@ -4,6 +4,8 @@
 const int CDebugRenderer::familyId = (int)ComponentTypes::DEBUG_RENDERER;
 std::vector< CDebugRenderer* > CDebugRenderer::list;
 
+// TODO(Valentinas): ADD WARNING FOR NUMBER OF POINTS!!!
+
 CDebugRenderer::CDebugRenderer() :
 	isBuffered(false),
 	mode( DrawMode::NONE ),

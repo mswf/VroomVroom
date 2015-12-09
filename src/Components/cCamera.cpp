@@ -40,22 +40,11 @@ void CCamera::SetProjectionType( Projection type )
 
 void CCamera::Call()
 {
-	/*
-		// To simulate a circular aperture, we move around the camera in a circle in the plane perpendicular to the direction we are looking at. We can easily get two vectors describing the plane using cross products.
-		glm::vec3 right = glm::normalize(glm::cross(object - eye, up));
-		glm::vec3 p_up = glm::normalize(glm::cross(object - eye, right));
-		int n = 10; // number of light rays
-		glm::vec3 bokeh = right * cosf(i * 2 * M_PI / n) + p_up * sinf(i * 2 * M_PI / n);
-		float aperture = 0.05;
-	*/
-	
 	// Needs a debug camera for testing purposes
 	glm::vec3 eye = entity->transform->GetPosition();
-	glm::vec3 target = entity->transform->GetRotation() + eye;
-	glm::vec3 direction = glm::normalize(target);
+	glm::vec3 target = entity->transform->GetRotation();
 	
-	// Eye + Apeture + Bokeh
-	entity->transform->SetWorldTransform( glm::inverse( glm::lookAt( eye , direction, glm::vec3(0.0, 1.0, 0.0) ) ) );
+	entity->transform->SetWorldTransform( glm::inverse( glm::lookAt( eye , target, CTransform::VectorUp() ) ) );
 	viewMatrix = entity->GetTransform();
 	//return glm::inverse( entity->GetTransform() );
 }
@@ -82,6 +71,31 @@ void CCamera::SetFarPlaneDistance( float value )
 {
 	zFar = value;
 	SetProjectionType(type);
+}
+
+const float& CCamera::GetAspectRatio() const
+{
+	return aspectRatio;
+}
+
+const float& CCamera::GetFOV() const
+{
+	return fieldOfView;
+}
+
+const float& CCamera::GetNearPlaneDistance() const
+{
+	return zNear;
+}
+
+const float& CCamera::GetFarPlaneDistance() const
+{
+	return zFar;
+}
+
+const Projection& CCamera::GetProjectionType() const
+{
+	return type;
 }
 
 const glm::mat4& CCamera::GetViewMatrix() const

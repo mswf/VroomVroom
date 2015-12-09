@@ -26,6 +26,11 @@ class CCamera : public Component
 		void SetFOV( float value );
 		void SetNearPlaneDistance( float zNear );
 		void SetFarPlaneDistance( float zFar );
+		const Projection& GetProjectionType() const;
+		const float& GetAspectRatio() const;
+		const float& GetFOV() const;
+		const float& GetNearPlaneDistance() const;
+		const float& GetFarPlaneDistance() const;
 		const glm::mat4& GetViewMatrix() const;
 		const glm::mat4& GetProjectionMatrix() const;
 	
@@ -43,5 +48,16 @@ class CCamera : public Component
 		float zFar;
 	
 };
+
+/*
+ // To simulate a circular aperture, we move around the camera in a circle in the plane perpendicular to the direction we are looking at. We can easily get two vectors describing the plane using cross products.
+ 	glm::vec3 right = glm::normalize(glm::cross(object - eye, up));
+ 	glm::vec3 p_up = glm::normalize(glm::cross(object - eye, right));
+ 	int n = 10; // number of light rays
+ 	glm::vec3 bokeh = right * cosf(i * 2 * M_PI / n) + p_up * sinf(i * 2 * M_PI / n);
+ 	float aperture = 0.05;
+ 
+ 	// Eye + Apeture + Bokeh
+*/
 
 #endif /* cCamera_h */

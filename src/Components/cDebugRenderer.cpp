@@ -113,6 +113,9 @@ void CDebugRenderer::Clear()
 	mode = DrawMode::NONE;
 	if (vao == 0 || vbo == 0) return;
 	BufferClear(vao, vbo);
+	vao = 0;
+	vbo = 0;
+	isBuffered = false;
 }
 
 const float& CDebugRenderer::GetPointSize() const

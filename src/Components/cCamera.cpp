@@ -63,21 +63,25 @@ void CCamera::Call()
 void CCamera::SetAspectRatio( float ratio )
 {
 	aspectRatio = ratio;
+	SetProjectionType(type);
 }
 
 void CCamera::SetFOV( float value )
 {
 	fieldOfView = value;
+	SetProjectionType(type);
 }
 
 void CCamera::SetNearPlaneDistance( float value )
 {
 	zNear = value;
+	SetProjectionType(type);
 }
 
 void CCamera::SetFarPlaneDistance( float value )
 {
 	zFar = value;
+	SetProjectionType(type);
 }
 
 const glm::mat4& CCamera::GetViewMatrix() const

@@ -51,6 +51,7 @@ class CDebugRenderer : public Component
 		void AddLine( Line line );
 		void AddTriangle( Triangle triangle );
 		void PushToGPU();
+		bool ContainsPrimitives();
 		void Clear();
 		void SetDrawPoints( bool enabled );
 		void SetPointSize( float size );

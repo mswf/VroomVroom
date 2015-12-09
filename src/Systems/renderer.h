@@ -30,7 +30,7 @@ namespace Renderer
 			void SetEnvironmentMap( unsigned int map );
 			void SetWindowSize( const int& w, const int& h );
 			void SetMeshRendererList( std::vector< CMeshRenderer* >* list );
-			void SetLineRendererList( std::vector< CDebugRenderer* >* list );
+			void SetDebugRendererList( std::vector< CDebugRenderer* >* list );
 			void SetCamera( CCamera* c );
 			void SetTime( uint32 t );
 			void SetPointDrawing( bool enabled );
@@ -53,7 +53,7 @@ namespace Renderer
 			std::vector< CMeshRenderer*>* renderables;
 		
 			// Line
-			std::vector< CDebugRenderer*>* lines;
+			std::vector< CDebugRenderer*>* debugPrimitives;
 			ShaderProgram* debugProgram;
 			bool drawPoints;
 		

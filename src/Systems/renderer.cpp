@@ -42,7 +42,7 @@ namespace Renderer
 	bool RenderSystem::Initialize()
 	{
 		SetMeshRendererList( CMeshRenderer::GetMeshRendererList() );
-		SetLineRendererList( CDebugRenderer::GetDebugRendererList() );
+		SetDebugRendererList( CDebugRenderer::GetDebugRendererList() );
 		ResourceManager& rm = ResourceManager::getInstance();
 		skybox = rm.GetModel("__Skybox_model");
 		skyboxProgram = rm.GetShaderProgram("__Skybox_program");
@@ -65,6 +65,7 @@ namespace Renderer
 
 	void RenderSystem::Render()
 	{
+		if (camera == NULL) return;
 		//RenderEnvironment();
 		RenderDebugLines();
 		RenderScene();
@@ -153,14 +154,19 @@ namespace Renderer
 	void RenderSystem::RenderDebugLines()
 	{
 		// Is there anything to render?
-		if ( lines->size() == 0 ) return;
+		if ( debugPrimitives->size() == 0 ) return;
 		
 		glUseProgram(debugProgram->program);
 		
-		std::vector< CDebugRenderer* >::const_iterator it = lines->begin();
-		std::vector< CDebugRenderer* >::const_iterator end = lines->end();
+		std::vector< CDebugRenderer* >::const_iterator it = debugPrimitives->begin();
+		std::vector< CDebugRenderer* >::const_iterator end = debugPrimitives->end();
 		for ( ; it != end; ++it )
 		{
+			if ( (*it)->ContainsPrimitives() )
+			{
+				continue;
+			}
+			
 			// Assign render primitive
 			GLenum primitive;
 			if ( (*it)->mode == DrawMode::TRIANGLES )
@@ -233,9 +239,9 @@ namespace Renderer
 		renderables = list;
 	}
 	
-	void RenderSystem::SetLineRendererList( std::vector< CDebugRenderer* >* list )
+	void RenderSystem::SetDebugRendererList( std::vector< CDebugRenderer* >* list )
 	{
-		lines = list;
+		debugPrimitives = list;
 	}
 	
 	void RenderSystem::SetCamera( CCamera* c )

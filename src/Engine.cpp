@@ -413,7 +413,6 @@ void Engine::UpdateLoop()
 	{
 		return glm::vec3( Random::Next(100) * 0.01f, Random::Next(100) * 0.01f, Random::Next(100) * 0.01f );
 	};
-/*
 	Entity* debugObject = new Entity( "Debugger" );
 	CDebugRenderer* debugRenderer = new CDebugRenderer();
 	Entity::AddComponent(debugObject, debugRenderer);
@@ -626,7 +625,9 @@ void Engine::InitFMOD()
 	}
 	
  
-	result = systemLowLevel->createSound( (Content::GetPath() + "/sounds/piano2.wav").c_str(), FMOD_DEFAULT, 0, &sound1);
+	//result = systemLowLevel->createSound( (Content::GetPath() + "/sounds/piano2.wav").c_str(), FMOD_DEFAULT, 0, &sound1);
+	result = systemLowLevel->createStream( (Content::GetPath() + "/sounds/piano2.wav").c_str(), FMOD_DEFAULT, 0, &sound1);
+	
 	if (result == FMOD_ERR_FILE_NOTFOUND)
 	{
 		std::cout <<  "Error: FMOD did not find the file" << std::endl;

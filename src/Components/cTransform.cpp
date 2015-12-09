@@ -207,6 +207,7 @@ glm::vec3 CTransform::GetRotation() const
 
 void CTransform::SetRotation( const glm::vec3& rotation )
 {
+	
 	this->rotation = glm::rotate(this->rotation, glm::radians( rotation.x ), VectorRight() );
 	this->rotation = glm::rotate(this->rotation, glm::radians( rotation.y ), VectorUp() );
 	this->rotation = glm::rotate(this->rotation, glm::radians( rotation.z ), VectorForward() );
@@ -230,21 +231,20 @@ void CTransform::Roll( const float& angle )
 
 const float CTransform::GetPitchEuler() const
 {
-	float value = glm::eulerAngles(rotation).x / glm::pi<float>() * 2;
-	//glm::pitch( rotation ); (value * 360.0f / glm::pi<float>() + 1) / 2;
+	float value = eulerRotation.x / glm::pi<float>() * 2;
 	return glm::mod( value, 1.0f );
 }
 
 const float CTransform::GetYawEuler() const
 {
-	float value = glm::eulerAngles(rotation).y; //glm::yaw( rotation );
-	return  (value * 360.0f / 2*glm::pi<float>() + 1) / 2;
+	float value = eulerRotation.y / glm::pi<float>() * 2;
+	return  glm::mod( value, 1.0f );
 }
 
 const float CTransform::GetRollEuler() const
 {
-	float value = glm::eulerAngles(rotation).z; // glm::roll( rotation );
-	return  (value * 360.0f /  2*glm::pi<float>() + 1) / 2;
+	float value = eulerRotation.z / glm::pi<float>() * 2;
+	return glm::mod( value, 1.0f );
 }
 
 const float CTransform::GetPitch() const
@@ -264,28 +264,39 @@ const float CTransform::GetRoll() const
 
 void CTransform::SetPitchEuler( const float& angle )
 {
-	//float value = (2 * angle - 1) * 2*glm::pi<float>() / 360.0f;
-	//glm::mat4 newRotation(1);
-	//rotation = glm::quat_cast( glm::rotate( newRotation, angle, VectorRight() ) );
-	rotation = glm::angleAxis(angle * glm::pi<float>() * 2, VectorRight());
+	eulerRotation.x = angle * glm::pi<float>() * 2;
+	rotation = glm::angleAxis( eulerRotation.x, VectorRight() );
+	//float pitch = glm::eulerAngles( glm::angleAxis( angle * glm::pi<float>() * 2, VectorRight() ) ).x;
+	//glm::vec3 euler = glm::eulerAngles(rotation);
+	//rotation = glm::quat_cast( glm::eulerAngleYXZ(euler.y, pitch, euler.z) );
+	
 	Update();
 }
 
 void CTransform::SetYawEuler( const float& angle )
 {
-	//float value = (2 * angle - 1) * 2*glm::pi<float>() / 360.0f;
-	//glm::mat4 newRotation(1);
-	//rotation = glm::quat( glm::rotate(newRotation, value, VectorUp() ) );
-	rotation = glm::quat( glm::eulerAngleY(angle) );
+	eulerRotation.y = angle * glm::pi<float>() * 2;
+	rotation = glm::angleAxis( eulerRotation.y, VectorUp() );
+	
+	//rotation = glm::angleAxis( angle * glm::pi<float>() * 2, VectorUp() );
 	Update();
 }
 
 void CTransform::SetRollEuler( const float& angle )
 {
+	eulerRotation.z = angle * glm::pi<float>() * 2;
+	rotation = glm::angleAxis( eulerRotation.z, VectorForward() );
+	
+	//float roll = glm::eulerAngles( glm::angleAxis( angle * glm::pi<float>() * 2, VectorForward() ) ).z;
+	//glm::vec3 euler = glm::eulerAngles(rotation);
+	//rotation = glm::quat_cast( glm::eulerAngleYXZ(euler.y, euler.x, roll) );
+
+	
 	//float value = (2 * angle - 1) * 2*glm::pi<float>() / 360.0f;
 	//glm::mat4 newRotation(1);
 	//rotation = glm::quat( glm::rotate(newRotation, value, VectorForward() ) );
-	rotation = glm::quat( glm::eulerAngleZ(angle) );
+	//rotation = glm::quat( glm::eulerAngleZ(angle) );
+	//rotation = glm::angleAxis( angle * glm::pi<float>() * 2, VectorForward() );
 	Update();
 }
 

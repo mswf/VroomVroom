@@ -324,11 +324,11 @@ void Engine::ImportAssets()
 	rm.Initialize();
 	std::vector< std::string > meshes, images, cube_map, errors;
 	std::vector< std::pair< std::string, GLSLShaderType > > shaders;
-	meshes.push_back( "objects/Rabbit/Rabbit.obj" );
-	meshes.push_back( "objects/icy_snowman.obj" );
-	images.push_back( "objects/snowman.png" );
-	images.push_back( "objects/object_group_test/checker_1.png" );
-	images.push_back( "objects/object_group_test/checker_2.png" );
+	//meshes.push_back( "objects/Rabbit/Rabbit.obj" );
+	//meshes.push_back( "objects/icy_snowman.obj" );
+	//images.push_back( "objects/snowman.png" );
+	//images.push_back( "objects/object_group_test/checker_1.png" );
+	//images.push_back( "objects/object_group_test/checker_2.png" );
 
 	// Cube map
 	/*
@@ -405,8 +405,8 @@ void Engine::UpdateLoop()
 
 	Material* mt;
 
-	mt = ResourceManager::getInstance().GetMaterialByName("Default");
-	mt->SetDiffuseTexture("objects/snowman.png");
+	//mt = ResourceManager::getInstance().GetMaterialByName("Default");
+	//mt->SetDiffuseTexture("objects/snowman.png");
 
 /*
 	auto random_colour = []() -> glm::vec3

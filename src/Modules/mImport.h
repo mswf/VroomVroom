@@ -16,7 +16,14 @@ class mImport {
 	public:
 		static void Bind(lua_State*);
 	private:
-		lFuncDef();
+		lFuncDef(importModel);
+		//lFuncDef(importMesh);
+		//lFuncDef(importMaterial);
+		lFuncDef(importTexture);
+		//lFuncDef(importShader);
+	
+		lFuncDef(reloadTexture);
+		lFuncDef(reloadShader);
 };
 
 #endif /* mImport_hpp */

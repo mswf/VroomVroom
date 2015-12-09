@@ -29,16 +29,15 @@ namespace Renderer
 		framebufferScaleY(1.0f),
 		camera(NULL),
 		debugProgram(NULL),
-		drawPoints(false),
 		skybox(NULL),
-		cubeMap(0),
+		skyboxMap(0),
 		skyboxProgram(NULL)
 	{
 	}
 	
 	RenderSystem::~RenderSystem()
 	{
-		
+		delete backgroundColour;
 	}
 	
 	bool RenderSystem::Initialize()
@@ -49,6 +48,8 @@ namespace Renderer
 		skybox = rm.GetModel("__Skybox_model");
 		skyboxProgram = rm.GetShaderProgram("__Skybox_program");
 		debugProgram = rm.GetShaderProgram("__Debug_program");
+		backgroundColour = new float[4];
+		SetBackgroundColor(0.91f, 0.91f, 0.91f, 1.0f);
 		return true;
 	}
 	
@@ -75,9 +76,12 @@ namespace Renderer
 	
 	void RenderSystem::Render()
 	{
+		glClearColor( backgroundColour[0], backgroundColour[1], backgroundColour[2], backgroundColour[3] );
+		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+		
 		if (camera == NULL) return;
 		SetViewportRect();
-		//RenderEnvironment();
+		RenderEnvironment();
 		RenderDebugLines();
 		RenderScene();
 	}
@@ -88,16 +92,7 @@ namespace Renderer
 		//glEnable(GL_BLEND);
 		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
-		// RENDERER MODE FOR CULL FACES
-		//glEnable(GL_CULL_FACE);
-		//glEnable(GL_BACK);
-		
-		// RENDERER MODE FOR WIREFRAME
-		//glPolygonMode(GL_FRONT_AND_BACK, mtl->wireframe_enabled ? GL_LINE : GL_FILL );
-		//GLint polygonMode[2];
-		//glGetIntegerv( GL_POLYGON_MODE, polygonMode );
-		
-		// RENDERER MODE FOR DEPTH TESTING
+		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
 		
 		camera->Call();
@@ -119,7 +114,7 @@ namespace Renderer
 			glBindVertexArray( m->vao );
 			
 			mtl->UseMaterial();
-			glPolygonMode(GL_FRONT_AND_BACK, mtl->wireframe_enabled ? GL_LINE : GL_FILL );
+			mtl->SetUniforms();
 			
 			glm::mat3 mvMatrix = glm::mat3( camera->GetViewMatrix() * (*it)->entity->transform->GetWorldTransform() );
 			glm::mat3 normalMatrix = glm::transpose(glm::inverse(mvMatrix));
@@ -150,9 +145,23 @@ namespace Renderer
 			BindTexture( GL_TEXTURE1, GL_TEXTURE_2D, mtl->normalTextureId);
 			SetUniform( program, "normalMap", 1 );
 			
+			if ( mtl->wireframe_enabled )
+			{
+				glCullFace( GL_FRONT );
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE );
+				glDrawElements( GL_TRIANGLES, m->numIndices, GL_UNSIGNED_INT, (void*)0 );
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL );
+			}
+		
+			if ( !mtl->two_sided )
+			{
+				glCullFace( GL_BACK );
+			}
 			glDrawElements( GL_TRIANGLES, m->numIndices, GL_UNSIGNED_INT, (void*)0 );
 			
 		}
+		
+		glDisable(GL_CULL_FACE);
 		
 		glBindVertexArray( 0 );
 		
@@ -203,7 +212,6 @@ namespace Renderer
 			if ( (*it)->IsDrawingPoints() )
 			{
 				glEnable(GL_PROGRAM_POINT_SIZE);
-
 				SetUniform( debugProgram->program, "pointSize", (*it)->GetPointSize() );
 				glDrawArrays(GL_POINTS, 0, (*it)->GetDrawCount());
 			}
@@ -215,6 +223,7 @@ namespace Renderer
 
 	void RenderSystem::RenderEnvironment()
 	{
+		if (skyboxMap == 0) return;
 		glDepthMask (GL_FALSE);
 		
 		glUseProgram(skyboxProgram->program);
@@ -223,7 +232,7 @@ namespace Renderer
 		SetUniform( skyboxProgram->program,	"projection", 	camera->GetProjectionMatrix() );
 		
 		glActiveTexture (GL_TEXTURE0);
-		glBindTexture (GL_TEXTURE_CUBE_MAP, cubeMap);
+		glBindTexture (GL_TEXTURE_CUBE_MAP, skyboxMap);
 		SetUniform( skyboxProgram->program, "cube_texture", 0 );
 		
 		glBindVertexArray (skybox->vao);
@@ -248,44 +257,13 @@ namespace Renderer
 		framebufferScaleX = scaleX;
 		framebufferScaleY = scaleY;
 	}
-
-	void RenderSystem::SetMeshRendererList( std::vector< CMeshRenderer* >* list )
+	
+	void RenderSystem::SetBackgroundColor( float r, float g, float b, float a )
 	{
-		renderables = list;
+		backgroundColour[0] = r;
+		backgroundColour[1] = g;
+		backgroundColour[2] = b;
+		backgroundColour[3] = a;
 	}
 	
-	void RenderSystem::SetDebugRendererList( std::vector< CDebugRenderer* >* list )
-	{
-		debugPrimitives = list;
-	}
-	
-	void RenderSystem::SetCamera( CCamera* c )
-	{
-		camera = c;
-	}
-	
-	void RenderSystem::SetTime( uint32 t )
-	{
-		time = t;
-	}
-	
-	void RenderSystem::SetPointDrawing( bool enabled )
-	{
-		drawPoints = enabled;
-	}
-	
-	const int& RenderSystem::GetWindowWidth()
-	{
-		return w_width;
-	}
-	
-	const int& RenderSystem::GetWindowHeight()
-	{
-		return w_height;
-	}
-	
-	CCamera* RenderSystem::GetCamera()
-	{
-		return camera;
-	}
 } // NAMESPACE END

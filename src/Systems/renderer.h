@@ -30,15 +30,17 @@ namespace Renderer
 			void SetEnvironmentMap( unsigned int map );
 			void SetWindowSize( const int& w, const int& h );
 			void SetFramebufferScale( const float& scaleX, const float& scaleY );
-			void SetMeshRendererList( std::vector< CMeshRenderer* >* list );
-			void SetDebugRendererList( std::vector< CDebugRenderer* >* list );
-			void SetCamera( CCamera* c );
-			void SetTime( uint32 t );
-			void SetPointDrawing( bool enabled );
+			void SetBackgroundColor( float r, float g, float b, float a );
+			inline void SetMeshRendererList( std::vector< CMeshRenderer* >* list ) { renderables = list; }
+			inline void SetDebugRendererList( std::vector< CDebugRenderer* >* list ) { debugPrimitives = list; }
+			inline void SetCamera( CCamera* c ) { camera = c; }
+			inline void SetTime( const uint32& t ) { time = t; }
 		
-			const int& GetWindowWidth( );
-			const int& GetWindowHeight( );
-			CCamera* GetCamera( );
+			inline const int& GetWindowWidth() const { return w_width; }
+			inline const int& GetWindowHeight() const { return w_height; }
+			inline CCamera* GetCamera() const { return camera; }
+			unsigned int skyboxMap;
+		
 		private:
 		
 			void SetViewportRect();
@@ -51,6 +53,7 @@ namespace Renderer
 			int w_height;
 			float framebufferScaleX;
 			float framebufferScaleY;
+			float* backgroundColour;
 			CCamera* camera;
 		
 			// Scene
@@ -59,17 +62,22 @@ namespace Renderer
 			// Line
 			std::vector< CDebugRenderer*>* debugPrimitives;
 			ShaderProgram* debugProgram;
-			bool drawPoints;
 		
 			// Environment
 			ModelInstance* skybox;
-			unsigned int cubeMap;
+		
 			ShaderProgram* skyboxProgram;
     };
     
 	
 	/*
 	 glViewport( 0, 0, (int)ImGui::GetIO().DisplaySize.x * ImGui::GetIO().DisplayFramebufferScale.x, (int)ImGui::GetIO().DisplaySize.y * ImGui::GetIO().DisplayFramebufferScale.y );
+	 
+	 // RENDERER MODE FOR WIREFRAME
+		//glPolygonMode(GL_FRONT_AND_BACK, mtl->wireframe_enabled ? GL_LINE : GL_FILL );
+		//GLint polygonMode[2];
+		//glGetIntegerv( GL_POLYGON_MODE, polygonMode );
+
 	 */
 	
 }

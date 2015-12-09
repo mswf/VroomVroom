@@ -26,7 +26,7 @@ void CDebugRenderer::Call()
 
 void CDebugRenderer::AddLine( Line line )
 {
-	if ( mode == DrawMode::NONE )
+	if ( mode == DrawMode::NONE && triangles.size() == 0 )
 	{
 		mode = DrawMode::LINES;
 	}
@@ -38,7 +38,7 @@ void CDebugRenderer::AddLine( Line line )
 
 void CDebugRenderer::AddTriangle( Triangle triangle )
 {
-	if ( mode == DrawMode::NONE )
+	if ( mode == DrawMode::NONE && lines.size() == 0 )
 	{
 		mode = DrawMode::TRIANGLES;
 	}
@@ -50,7 +50,9 @@ void CDebugRenderer::AddTriangle( Triangle triangle )
 
 bool CDebugRenderer::ContainsPrimitives()
 {
-	return (lines.size() != 0 || triangles.size() != 0 );
+	bool hasLines = lines.size() != 0;
+	bool hasTriangles = triangles.size() != 0;
+	return ( hasLines || hasTriangles );
 }
 
 void CDebugRenderer::PushToGPU()
@@ -60,7 +62,6 @@ void CDebugRenderer::PushToGPU()
 	
 	if ( mode == DrawMode::NONE )
 	{
-		printf("No primitives present!");
 		if (lines.size() > 0)
 		{
 			mode = DrawMode::LINES;
@@ -69,7 +70,7 @@ void CDebugRenderer::PushToGPU()
 		{
 			mode = DrawMode::TRIANGLES;
 		}
-
+		return;
 	}
 	if (mode == DrawMode::LINES)
 	{

@@ -162,7 +162,7 @@ namespace Renderer
 		std::vector< CDebugRenderer* >::const_iterator end = debugPrimitives->end();
 		for ( ; it != end; ++it )
 		{
-			if ( (*it)->ContainsPrimitives() )
+			if ( !(*it)->ContainsPrimitives() )
 			{
 				continue;
 			}

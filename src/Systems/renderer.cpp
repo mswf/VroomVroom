@@ -191,12 +191,7 @@ namespace Renderer
 			}
 			
 			(*it)->UpdateBuffer();
-			
-			if ( (*it)->IsDrawingPoints() )
-			{
-				glEnable(GL_PROGRAM_POINT_SIZE);
-			}
-			
+						
 			glBindVertexArray( (*it)->vao);
 		
 			SetUniform( debugProgram->program,	"model", 		(*it)->entity->transform->GetWorldTransform() );
@@ -207,8 +202,10 @@ namespace Renderer
 			glDrawArrays( primitive, 0, (*it)->GetDrawCount() );
 			if ( (*it)->IsDrawingPoints() )
 			{
+				glEnable(GL_PROGRAM_POINT_SIZE);
+
 				SetUniform( debugProgram->program, "pointSize", (*it)->GetPointSize() );
-				glDrawArrays( GL_POINTS, 0, (*it)->count);
+				glDrawArrays(GL_POINTS, 0, (*it)->GetDrawCount());
 			}
 		}
 		glUseProgram(0);

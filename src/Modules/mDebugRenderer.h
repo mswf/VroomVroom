@@ -22,6 +22,9 @@ private:
 	lFuncDef(addLine);
 	lFuncDef(addTriangle);
 	lFuncDef(clear);
+	lFuncDef(setDrawPoints);
+	lFuncDef(setPointSize);
+
 };
 
 #endif /* mDebugRenderer_h */

@@ -27,7 +27,7 @@ void CDebugRenderer::Call()
 
 void CDebugRenderer::Initialize()
 {
-	int primitive = mode == DrawMode::LINES ? 2 : 3;
+	int primitive = (mode == DrawMode::LINES) ? 2 : 3;
 	unsigned long bSize = sizeof(glm::vec3) * int( numberOfPoints / primitive ) * 2;
 	CreateDynamicBuffer(vao, vbo, bSize);
 }
@@ -92,6 +92,11 @@ const float& CDebugRenderer::GetPointSize() const
 const int CDebugRenderer::GetDrawCount() const
 {
 	return (int)points.size();
+}
+
+const DrawMode& CDebugRenderer::GetDrawMode() const
+{
+	return mode;
 }
 
 void CDebugRenderer::SetDrawPoints( bool enabled )

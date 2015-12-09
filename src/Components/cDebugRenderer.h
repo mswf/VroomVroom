@@ -58,19 +58,20 @@ class CDebugRenderer : public Component
 		void SetPointSize( float size );
 		const float& GetPointSize() const;
 		const int GetDrawCount() const;
+		const DrawMode& GetDrawMode() const;
 		inline bool IsDrawingPoints() { return isDrawingPoints; }
 		inline bool IsBuffered() { return isBuffered; }
 		static std::vector< CDebugRenderer* >* GetDebugRendererList();
 	
 		unsigned int vao;
-		int count;
-		DrawMode mode;
+	
 	
 	private:
 	
 		unsigned int vbo;
 		unsigned int numberOfPoints;
 		float pointSize;
+		DrawMode mode;
 		bool isBuffered;
 		bool isDrawingPoints;
 		std::vector< glm::vec3 > points;

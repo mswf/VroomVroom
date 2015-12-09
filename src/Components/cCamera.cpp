@@ -16,6 +16,11 @@ CCamera::CCamera( Projection proj, float aspectRatio, float near, float far, flo
 	SetProjectionType( proj );
 }
 
+CCamera::~CCamera()
+{
+	
+}
+
 void CCamera::SetProjectionType( Projection type )
 {
 	switch (type)

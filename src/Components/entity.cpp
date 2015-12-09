@@ -11,7 +11,6 @@ Entity::Entity( std::string name, Entity* parent ) :
 	name(name)
 {
 	transform = new CTransform();
-	AddComponent(this, transform);
 	
 	if( transform->GetParent() == NULL && name != root_name )
 	{
@@ -26,6 +25,13 @@ Entity::Entity( std::string name, Entity* parent ) :
 Entity::~Entity()
 {
 	// TODO(Valentinas): Test if the children are cleaned properly
+	std::map< int, Component* >::const_iterator it = entityComponents.begin();
+	std::map< int, Component* >::const_iterator end = entityComponents.end();
+	for( ; it != end; ++it )
+	{
+		delete (*it).second;
+		entityComponents.erase(it);
+	}
 	delete transform;
 }
 

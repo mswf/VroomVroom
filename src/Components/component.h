@@ -17,9 +17,12 @@ class Entity;
 class Component
 {
 	public:
+	
+		virtual ~Component() {};
 		Entity* entity;
 		virtual void Call() = 0;
 		inline void IncrementAddedToEntity() { ++numberOfTimesAdded; }
+	
 	private:
 		short numberOfTimesAdded = 0;
 };

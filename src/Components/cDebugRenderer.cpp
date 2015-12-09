@@ -16,7 +16,7 @@ CDebugRenderer::CDebugRenderer() :
 	isDrawingPoints(false)
 {
 	list.push_back( this );
-	}
+}
 
 CDebugRenderer::~CDebugRenderer()
 {

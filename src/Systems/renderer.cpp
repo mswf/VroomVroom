@@ -92,7 +92,6 @@ namespace Renderer
 		//glEnable(GL_BLEND);
 		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
-		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
 		
 		camera->Call();
@@ -115,6 +114,10 @@ namespace Renderer
 			
 			mtl->UseMaterial();
 			mtl->SetUniforms();
+			if ( mtl->two_sided )
+			{
+				glEnable(GL_CULL_FACE);
+			}
 			
 			glm::mat3 mvMatrix = glm::mat3( camera->GetViewMatrix() * (*it)->entity->transform->GetWorldTransform() );
 			glm::mat3 normalMatrix = glm::transpose(glm::inverse(mvMatrix));
@@ -153,10 +156,7 @@ namespace Renderer
 				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL );
 			}
 		
-			if ( !mtl->two_sided )
-			{
-				glCullFace( GL_BACK );
-			}
+			glCullFace( GL_BACK );
 			glDrawElements( GL_TRIANGLES, m->numIndices, GL_UNSIGNED_INT, (void*)0 );
 			
 		}

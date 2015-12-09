@@ -159,6 +159,7 @@ void Engine::WindowEvent( SDL_WindowEvent window )
 		{
 			//std::cout << "Window size changed to -> " << window.data1 << "x" << window.data2 << std::endl;
 			//LuaSystem.
+			renderer->SetWindowSize(window.data1, window.data2);
 			break;
 		}
 		default:
@@ -403,7 +404,7 @@ void Engine::UpdateLoop()
 
 	/// TINAS PLAYGROUND!!!
 
-	Material* mt;
+	//Material* mt;
 
 	//mt = ResourceManager::getInstance().GetMaterialByName("Default");
 	//mt->SetDiffuseTexture("objects/snowman.png");
@@ -512,7 +513,7 @@ void Engine::UpdateLoop()
 
 		ImGui_ImplSdl_NewFrame(window);
 
-		glViewport( 0, 0, (int)ImGui::GetIO().DisplaySize.x * ImGui::GetIO().DisplayFramebufferScale.x, (int)ImGui::GetIO().DisplaySize.y * ImGui::GetIO().DisplayFramebufferScale.y );
+		
 		glClearColor( 0.91f, 0.91f, 0.91f, 1.0f );
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 

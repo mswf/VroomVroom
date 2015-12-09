@@ -26,11 +26,13 @@ class CCamera : public Component
 		void SetFOV( float value );
 		void SetNearPlaneDistance( float zNear );
 		void SetFarPlaneDistance( float zFar );
+		void SetViewportRectangle( const glm::vec4& rect );
 		const Projection& GetProjectionType() const;
 		const float& GetAspectRatio() const;
 		const float& GetFOV() const;
 		const float& GetNearPlaneDistance() const;
 		const float& GetFarPlaneDistance() const;
+		const glm::vec4& GetViewportRectangle() const;
 		const glm::mat4& GetViewMatrix() const;
 		const glm::mat4& GetProjectionMatrix() const;
 	
@@ -42,6 +44,7 @@ class CCamera : public Component
 		glm::mat4 projectionMatrix;
 		glm::mat4 viewMatrix;
 		glm::vec3 upVector;
+		glm::vec4 viewportRectangle;
 		float aspectRatio;
 		float fieldOfView;
 		float zNear;

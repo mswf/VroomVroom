@@ -29,6 +29,7 @@ namespace Renderer
 		
 			void SetEnvironmentMap( unsigned int map );
 			void SetWindowSize( const int& w, const int& h );
+			void SetFramebufferScale( const float& scaleX, const float& scaleY );
 			void SetMeshRendererList( std::vector< CMeshRenderer* >* list );
 			void SetDebugRendererList( std::vector< CDebugRenderer* >* list );
 			void SetCamera( CCamera* c );
@@ -40,6 +41,7 @@ namespace Renderer
 			CCamera* GetCamera( );
 		private:
 		
+			void SetViewportRect();
 			void RenderEnvironment();
 			void RenderScene();
 			void RenderDebugLines();
@@ -47,6 +49,8 @@ namespace Renderer
 			uint32 time;
 			int w_width;
 			int w_height;
+			float framebufferScaleX;
+			float framebufferScaleY;
 			CCamera* camera;
 		
 			// Scene
@@ -64,7 +68,9 @@ namespace Renderer
     };
     
 	
-	
+	/*
+	 glViewport( 0, 0, (int)ImGui::GetIO().DisplaySize.x * ImGui::GetIO().DisplayFramebufferScale.x, (int)ImGui::GetIO().DisplaySize.y * ImGui::GetIO().DisplayFramebufferScale.y );
+	 */
 	
 }
 

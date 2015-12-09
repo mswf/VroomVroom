@@ -25,6 +25,8 @@ namespace Renderer
 		time(1),
 		w_width(0),
 		w_height(0),
+		framebufferScaleX(1.0f),
+		framebufferScaleY(1.0f),
 		camera(NULL),
 		debugProgram(NULL),
 		drawPoints(false),
@@ -63,9 +65,18 @@ namespace Renderer
 	}
 	*/
 
+	void RenderSystem::SetViewportRect()
+	{
+		glm::vec4 rect = camera->GetViewportRectangle();
+		float w = w_width * framebufferScaleX;
+		float h = w_height * framebufferScaleY;
+		glViewport( w * rect.x, h * rect.y, w * rect.z, h * rect.w );
+	}
+	
 	void RenderSystem::Render()
 	{
 		if (camera == NULL) return;
+		SetViewportRect();
 		//RenderEnvironment();
 		RenderDebugLines();
 		RenderScene();
@@ -232,8 +243,19 @@ namespace Renderer
 	{
 		w_width = w;
 		w_height = h;
+		GLint dims[4] = {0};
+		glGetIntegerv(GL_VIEWPORT, dims);
+		GLint fbWidth = dims[2];
+		GLint fbHeight = dims[3];
+		SetFramebufferScale( (float)fbWidth/w_width, (float)fbHeight/w_height );
 	}
 	
+	void RenderSystem::SetFramebufferScale( const float& scaleX, const float& scaleY )
+	{
+		framebufferScaleX = scaleX;
+		framebufferScaleY = scaleY;
+	}
+
 	void RenderSystem::SetMeshRendererList( std::vector< CMeshRenderer* >* list )
 	{
 		renderables = list;

@@ -9,6 +9,7 @@ CCamera::CCamera( Projection proj, float aspectRatio, float near, float far, flo
 	aspectRatio( aspectRatio ),
 	zNear( near ),
 	zFar( far ),
+	viewportRectangle( glm::vec4( 0, 0, 1, 1 ) ),
 	projectionMatrix( glm::mat4(1) ),
 	viewMatrix( glm::mat4(1) )
 {
@@ -73,6 +74,11 @@ void CCamera::SetFarPlaneDistance( float value )
 	SetProjectionType(type);
 }
 
+void CCamera::SetViewportRectangle( const glm::vec4& rect )
+{
+	viewportRectangle = rect;
+}
+
 const float& CCamera::GetAspectRatio() const
 {
 	return aspectRatio;
@@ -96,6 +102,11 @@ const float& CCamera::GetFarPlaneDistance() const
 const Projection& CCamera::GetProjectionType() const
 {
 	return type;
+}
+
+const glm::vec4& CCamera::GetViewportRectangle() const
+{
+	return viewportRectangle;
 }
 
 const glm::mat4& CCamera::GetViewMatrix() const

@@ -3,8 +3,6 @@
 #include "shader.h"
 #include "resource_manager.h"
 
-
-
 Material::Material() :
 	shader(NULL),
 	diffuseTextureId(0),
@@ -14,7 +12,7 @@ Material::Material() :
 	heightTextureId(0),
 	name("No name"),
 	wireframe_enabled(false),
-	two_sided(false),
+	two_sided(true),
 	textureCount(0),
 	shininess(0.0f),
 	shininess_strenght(0.0f),
@@ -64,39 +62,15 @@ void Material::SetHeightMapTexture( const char* name )
 	heightTextureId = ResourceManager::getInstance().GetImageId( name );
 }
 
-void Material::SetShader( ShaderProgram* s )
-{
-	shader = s;
-}
-
 void Material::UseMaterial() const
 {
 	UseProgram( shader->program );
 }
 
-void Material::SetUniforms()
+// TODO(Valentinas): Needs more work on this stage
+void Material::SetUniforms() const
 {
-
-}
-
-void Material::SetShininess( float sh )
-{
-	shininess = sh;
-}
-
-void Material::SetShininessStrength( float str )
-{
-	shininess_strenght = str;
-}
-
-void Material::SetOpacity( float op )
-{
-	opacity = op;
-}
-
-void Material::SetBumpScaling( float bump )
-{
-	bump_scaling = bump;
+	//LogActiveUniformBlocks( shader->program );
 }
 
 void Material::SetAmbientColor( glm::vec4 colour )
@@ -127,26 +101,6 @@ void Material::SetTransparentColor( glm::vec4 colour )
 void Material::SetReflectiveColor( glm::vec4 colour )
 {
 	SetArray(reflective, colour);
-}
-
-const float& Material::GetShininess() const
-{
-	return shininess;
-}
-
-const float& Material::GetShininessStrength() const
-{
-	return shininess_strenght;
-}
-
-const float& Material::GetOpacity() const
-{
-	return opacity;
-}
-
-const float& Material::GetBumpScaling() const
-{
-	return bump_scaling;
 }
 
 const glm::vec4 Material::GetAmbientColor() const

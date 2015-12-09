@@ -22,19 +22,15 @@ class Material
 		unsigned int heightTextureId;
 	
 		void UseMaterial() const;
-		void SetUniforms();
+		void SetUniforms() const;
+		Material* Clone() const { return new Material(*this); }
 	
-		inline void SetDrawingWireframe( bool enabled )
-		{
-			// wireframe ? GL_LINE : GL_FILL;
-			wireframe_enabled = enabled;
-		}
-		inline void SetTwoSided( bool enabled )
-		{
-			two_sided = enabled;
-		}
+		inline void SetDrawingWireframe( bool enabled ) { wireframe_enabled = enabled; }
+		inline void SetTwoSided( bool enabled ) { two_sided = enabled; }
+		inline bool GetDrawingWireframe() { return wireframe_enabled; }
+		inline bool GetTwoSided() { return two_sided; }
 	
-		void SetShader( ShaderProgram* shader );
+		inline void SetShader( ShaderProgram* shader ) { this->shader = shader; }
 		
 		void SetDiffuseTexture( const char* name );
 		void SetSpecularTexture( const char* name );
@@ -42,10 +38,10 @@ class Material
 		void SetCubeMapTexture( const char* name );
 		void SetHeightMapTexture( const char* name );
 
-		void SetShininess( float sh );
-		void SetShininessStrength( float str );
-		void SetOpacity( float op );
-		void SetBumpScaling( float bump );
+		inline void SetShininess( float sh ) { shininess = sh; }
+		inline void SetShininessStrength( float str ) { shininess_strenght = str; }
+		inline void SetOpacity( float op ) { opacity = op; }
+		inline void SetBumpScaling( float bump ) { bump_scaling = bump; }
 		void SetAmbientColor( glm::vec4 colour );
 		void SetDiffuseColor( glm::vec4 colour );
 		void SetSpecularColor( glm::vec4 colour );
@@ -53,10 +49,10 @@ class Material
 		void SetTransparentColor( glm::vec4 colour );
 		void SetReflectiveColor( glm::vec4 colour );
 	
-		const float& GetShininess() const;
-		const float& GetShininessStrength() const;
-		const float& GetOpacity() const;
-		const float& GetBumpScaling() const;
+		inline const float& GetShininess() const { return shininess; }
+		inline const float& GetShininessStrength() const { return shininess_strenght; }
+		inline const float& GetOpacity() const { return opacity; }
+		inline const float& GetBumpScaling() const { return bump_scaling; }
 		const glm::vec4 GetAmbientColor() const;
 		const glm::vec4 GetDiffuseColor() const;
 		const glm::vec4 GetSpecularColor() const;
@@ -64,19 +60,7 @@ class Material
 		const glm::vec4 GetTransparentColor() const;
 		const glm::vec4 GetReflectiveColor() const;
 	
-		inline bool GetDrawingWireframe( )
-		{
-			// wireframe ? GL_LINE : GL_FILL;
-			return wireframe_enabled;
-		}
-		inline bool GetTwoSided( )
-		{
-			return two_sided;
-		}
-	
-	
 		std::string name;
-		// TODO(Valentinas): Use int or bool?
 		bool wireframe_enabled;
 		bool two_sided;
 		unsigned int textureCount;

@@ -9,7 +9,6 @@
 #include "console.h"
 #include <iostream>
 #include "IO/file.h"
-#include <time.h>
 #include "Systems/luaSystem.h"
 
 #include "Networking/TCPClient.h"
@@ -31,7 +30,7 @@ sTerminal::sTerminal():
 	CreateLogFile();
 	Log("Terminal initialized", true);
 
-	string line = "Stardate: " + GetTimeString();
+	string line = "Stardate: " + HelperFunctions::GetTimeString();
 
 	Log(line, true);
 
@@ -71,7 +70,7 @@ void sTerminal::LogRender(const string msg, bool showExternally)
 	WriteToFile(line);
 	if (showExternally)
 	{
-		SendToExternal(line, "#0099CC", "#FFFFFF");
+		SendToExternal(line, "#00CC99", "#FFFFFF");
 	}
 }
 
@@ -202,12 +201,12 @@ void sTerminal::WriteToFile(const string msg)
 		return;
 	}
 
-	logFile->WriteString(GetTimeString() + msg + "\r\n");
+	logFile->WriteString( HelperFunctions::GetTimeString() + msg + "\r\n");
 }
 
 void sTerminal::SendToExternal(const string msg, const string background, const string color)
 {
-	string timedMessage = GetTimeString() + msg;
+	string timedMessage = HelperFunctions::GetTimeString() + msg;
 	string consoleString = "MSG[|]";
 	consoleString += timedMessage + "[|]";
 	consoleString += "BG[|]" + background + "[|]";
@@ -251,43 +250,4 @@ void sTerminal::CreateLogFile()
 	}
 	logFile = new File();
 	logFile->Create("log.txt");
-}
-
-//TODO(robin) move this plssss
-struct tm GetTimeStruct()
-{
-	time_t timer;
-	time(&timer);
-	struct tm time_info;
-
-#if __APPLE__
-	time_info = *localtime(&timer);
-#else
-	localtime_s(&time_info, &timer);
-#endif
-
-	return time_info;
-}
-
-string GetTimeString()
-{
-	string line = "<";
-
-	struct tm time_info = GetTimeStruct();
-	if (time_info.tm_hour < 10)
-	{
-		line += "0";
-	}
-	line += std::to_string(time_info.tm_hour) + ":";
-	if (time_info.tm_min < 10)
-	{
-		line += "0";
-	}
-	line += std::to_string(time_info.tm_min) + ":";
-	if (time_info.tm_sec < 10)
-	{
-		line += "0";
-	}
-	line += std::to_string(time_info.tm_sec) + ">";
-	return line;
 }

@@ -1,5 +1,6 @@
 #include "helperFunctions.h"
 #include "standardIncludes.h"
+#include <time.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -105,8 +106,42 @@ void HelperFunctions::PrintImageData( unsigned char* image, int width, int heigh
 			std::cout << image[index];
 		}
 		std::cout <<  std::endl;
+struct tm HelperFunctions::GetTime()
+{
+	time_t timer;
+	time(&timer);
+	struct tm time_info;
+		
+#if __APPLE__
+	time_info = *localtime(&timer);
+#else
+	localtime_s(&time_info, &timer);
+#endif
+		
+	return time_info;
+}
+
+string HelperFunctions::GetTimeString()
+{
+	string line = "<";
+	
+	struct tm time_info = HelperFunctions::GetTime();
+	if (time_info.tm_hour < 10)
+	{
+		line += "0";
 	}
-	//std::cout << num << std::endl;
+	line += std::to_string(time_info.tm_hour) + ":";
+	if (time_info.tm_min < 10)
+	{
+		line += "0";
+	}
+	line += std::to_string(time_info.tm_min) + ":";
+	if (time_info.tm_sec < 10)
+	{
+		line += "0";
+	}
+	line += std::to_string(time_info.tm_sec) + ">";
+	return line;
 }
 
 std::string HelperFunctions::VoidPtrToString(void* data, const int size)

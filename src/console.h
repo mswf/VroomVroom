@@ -46,8 +46,4 @@ class sTerminal : public Singleton<sTerminal>
         int reconnectDelay;
 };
 
-//TODO move this out of console
-struct tm GetTimeStruct();
-string GetTimeString();
-
 #endif /* console_h */

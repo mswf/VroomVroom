@@ -22,6 +22,9 @@ class Component
 		Entity* entity;
 		virtual void Call() = 0;
 		inline void IncrementAddedToEntity() { ++numberOfTimesAdded; }
+		// Debug purposes when things go down,
+		// currently one component is allowed
+		// to be assigned to multiple entities.
 	
 	private:
 		short numberOfTimesAdded = 0;

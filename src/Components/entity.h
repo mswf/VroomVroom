@@ -23,18 +23,33 @@ class Entity
 		const Entity* GetParent();
 		const std::vector<Entity*> GetChildren();
 	
-		// TODO(Valentinas): Add remove function for components
-	
 		template<typename T>
 		static void AddComponent( Entity* e, T* comp )
 		{
 			Entity::componentStorage.insert( std::pair< int, Entity* >( T::familyId, e ) );
 			e->entityComponents.insert( std::pair< int, Component* >( T::familyId, comp ) );
-			// Debug purposes when things go down,
-			// currently one component is allowed
-			// to be assigned to multiple entities.
 			comp->IncrementAddedToEntity();
 			comp->entity = e;
+		}
+	
+		template<typename T>
+		static void RemoveComponent( Entity* e, T* comp )
+		{
+			unsigned int id = T::familyId;
+			std::map< int, Component* >::const_iterator it = e->entityComponents.find( id );
+			if ( it != e->entityComponents.end() )
+			{
+				std::multimap<int, Entity*>::iterator ig;
+				for ( ig = componentStorage.equal_range(id).first; ig != componentStorage.equal_range(id).second; ++ig )
+				{
+					if ( (*ig).second->name == e->name )
+					{
+						componentStorage.erase(ig);
+						//std::cout << (*ig).first << ' ' << (*ig).second->name << std::endl;
+					}
+				}
+				e->entityComponents.erase(it);
+			}
 		}
 	
 		template<typename T>

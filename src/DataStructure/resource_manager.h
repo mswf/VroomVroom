@@ -66,6 +66,7 @@ class ResourceManager : public Singleton<ResourceManager>
 		bool ImportShader( const char* name, GLSLShaderType type );
 		bool ImportShader( const std::vector< std::pair< std::string, GLSLShaderType > >& list, std::vector< std::string >& err_f );
 		bool ReImportShader( const char* name, GLSLShaderType type );
+		void CreateShaderObject( const char* name, const char* source, GLSLShaderType type );
 		void CreateShaderProgram( const char* name, const char* shaders_objects[], int count );
 		void UpdateShaderProgram( const char* name, GLSLShaderType type, const char* source );
 	

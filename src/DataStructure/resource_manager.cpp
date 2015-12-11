@@ -32,20 +32,8 @@ void ResourceManager::Initialize()
 	}
 	else
 	{
-		ShaderProgram* defaultProgram = new ShaderProgram();
-		InsertShaderProgram( "Default", defaultProgram );
-		defaultProgram->shaders.push_back( GetShaderObject("shaders/default_vert.glsl") );
-		defaultProgram->shaders.push_back( GetShaderObject("shaders/default_frag.glsl") );
-		GLuint shaders[2] = { defaultProgram->shaders[0]->shader, defaultProgram->shaders[1]->shader };
-		CreateProgram( defaultProgram->program, shaders, 2);
-		if ( HasSubroutines( defaultProgram->program, GetGLShaderEnum(GLSLShaderType::VERTEX) ) )
-		{
-			SetSubroutineUniformLocations( defaultProgram->program, *defaultProgram->shaders[0] );
-		}
-		if ( HasSubroutines( defaultProgram->program, GetGLShaderEnum(GLSLShaderType::FRAGMENT) ) )
-		{
-			SetSubroutineUniformLocations( defaultProgram->program, *defaultProgram->shaders[1] );
-		}
+		const char* shaders[2] = { "shaders/default_vert.glsl", "shaders/default_frag.glsl" };
+		CreateShaderProgram( "Default", shaders, 2);
 	}
 	
 	Material* defaultMat = new Material();
@@ -57,23 +45,10 @@ void ResourceManager::Initialize()
 
 void ResourceManager::LoadBuiltinShader()
 {
-	ShaderObject* vertex = new ShaderObject();
-	vertex->shaderType = GetGLShaderEnum( GLSLShaderType::VERTEX );
-	InsertShaderObject( "shaders/default_vert.glsl", vertex );
-	CreateShader( vertex->shader, vertex->shaderType, builtin_vertex );
-	
-	ShaderObject* fragment = new ShaderObject();
-	fragment->shaderType = GetGLShaderEnum( GLSLShaderType::FRAGMENT );
-	InsertShaderObject( "shaders/default_frag.glsl", fragment );
-	CreateShader( fragment->shader, fragment->shaderType, builtin_fragment );
-	
-	ShaderProgram* defaultProgram = new ShaderProgram();
-	InsertShaderProgram( "Default", defaultProgram );
-	defaultProgram->shaders.push_back(vertex);
-	defaultProgram->shaders.push_back(fragment);
-	GLuint shaders[2] = { vertex->shader, fragment->shader };
-	CreateProgram( defaultProgram->program, shaders, 2);
-	
+	CreateShaderObject( "shaders/default_vert.glsl", builtin_vertex, GLSLShaderType::VERTEX );
+	CreateShaderObject( "shaders/default_frag.glsl", builtin_fragment, GLSLShaderType::FRAGMENT );
+	const char* shaders[2] = { "shaders/default_vert.glsl", "shaders/default_frag.glsl" };
+	CreateShaderProgram( "Default", shaders, 2);
 }
 
 // Meshes
@@ -494,6 +469,14 @@ bool ResourceManager::ImportShader( const std::vector< std::pair< std::string, G
 	return final;
 }
 
+void ResourceManager::CreateShaderObject( const char* name, const char* source, GLSLShaderType type )
+{
+	ShaderObject* shader_obj = new ShaderObject();
+	shader_obj->shaderType = GetGLShaderEnum(type);
+	InsertShaderObject( name, shader_obj );
+	CreateShader(shader_obj->shader, shader_obj->shaderType, source );
+}
+
 void ResourceManager::CreateShaderProgram( const char* name, const char* shaders_objects[], int count )
 {
 	ShaderProgram* prog = new ShaderProgram();
@@ -509,7 +492,13 @@ void ResourceManager::CreateShaderProgram( const char* name, const char* shaders
 		obj->program = prog;
 	}
 	CreateProgram( prog->program, shaders, count);
-
+	for ( i = 0; i < count; ++i )
+	{
+		if ( HasSubroutines( prog->program, prog->shaders[i]->shaderType ) )
+		{
+			SetSubroutineUniformLocations( prog->program, *prog->shaders[i] );
+		}
+	}
 	delete shaders;
 }
 

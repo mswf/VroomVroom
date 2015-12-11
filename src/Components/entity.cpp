@@ -7,11 +7,12 @@ const char* Entity::root_name = "root_:)_XgPFL>u{9+?9,GllN6IF;+L:<CkXvEn9Y$6dX[}
 std::multimap< int, Entity* > Entity::componentStorage;
 Entity* Entity::root = new Entity( root_name );
 
+// TODO: FIX THIS: Possible crash if you pass yourself as the parent in the constructor
 Entity::Entity( std::string name, Entity* parent ) :
 	name(name)
 {
 	transform = new CTransform();
-	
+	transform->entity = this;
 	if( transform->GetParent() == NULL && name != root_name )
 	{
 		Entity::root->AddChild(this);

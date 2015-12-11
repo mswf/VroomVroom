@@ -543,11 +543,11 @@ unsigned int GetSubroutineUniformLocation( const char* name, const std::map< std
 	//Terminal.LogOpenGL("Subroutine uniform not found.");
 }
 
-void SetActiveSubroutine( GLuint program, ShaderObject shader, const char* uniform, const char* routine )
+void SetActiveSubroutine( GLuint program, GLuint shaderType, Subroutines sub, const char* uniform, const char* routine )
 {
-	GLuint index = GetSubroutineUniformLocation( uniform, shader.locations );
-	shader.subroutines[index] = glGetSubroutineIndex( program, shader.shaderType, routine );
-	glUniformSubroutinesuiv( shader.shaderType, shader.numSubroutines, shader.subroutines );
+	GLuint index = GetSubroutineUniformLocation( uniform, sub.locations );
+	sub.subroutines[index] = glGetSubroutineIndex( program, shaderType, routine );
+	glUniformSubroutinesuiv( shaderType, sub.numSubroutines, sub.subroutines );
 	
 	// GL_INVALID_OPERATION is generated if no program object is current.
 	// GL_INVALID_VALUE is generated if count is not equal to the value of GL_ACTIVE_SUBROUTINE_UNIFORM_LOCATIONS for the shader stage shadertype of the current program.

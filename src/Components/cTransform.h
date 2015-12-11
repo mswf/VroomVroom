@@ -30,9 +30,9 @@ class CTransform : public Component
 		const CTransform* GetParent() const;
 		const std::vector< CTransform* >& GetChildren() const;
 	
-		static const glm::vec3 VectorRight() { return glm::vec3(1.0f, 0.0f, 0.0f); }
-		static const glm::vec3 VectorUp() { return glm::vec3(0.0f, 1.0f, 0.0f); }
-		static const glm::vec3 VectorForward() { return glm::vec3(0.0f, 0.0f, 1.0f); }
+		const glm::vec3 VectorRight();
+		const glm::vec3 VectorUp();
+		const glm::vec3 VectorForward();
 	
 		// POSITION
 	
@@ -58,7 +58,7 @@ class CTransform : public Component
 	
 		// ROTATION
 		void Rotate( const float& angle, const glm::vec3& rotate );
-		glm::vec3 GetRotation() const;
+		const glm::vec3 GetRotation() const;
 		void SetRotation( const glm::vec3& rotation );
 	
 		const float GetPitch() const;
@@ -103,7 +103,7 @@ class CTransform : public Component
 	
 		void Update();
 	
-		glm::mat4 transform;
+		glm::mat4 localTransform;
 		glm::mat4 worldTransform;
 	
 		glm::quat rotation;

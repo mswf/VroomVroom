@@ -2,14 +2,15 @@
 #include "entity.h"
 #include "../glm/gtx/euler_angles.hpp"
 #include "../glm/gtx/transform.hpp"
+#include "../glm/gtx/quaternion.hpp"
 
 const int CTransform::familyId = (int)ComponentTypes::TRANSFORM;
 
 CTransform::CTransform():
 	position( glm::vec3(0) ),
 	scale( glm::vec3(1) ),
-	rotation( glm::quat( glm::vec3(0) ) ),
-	transform( glm::mat4(1.0) ),
+	rotation( glm::quat() ),
+	localTransform( glm::mat4(1.0) ),
 	worldTransform( glm::mat4(1.0) ),
 	parent(NULL)
 {}
@@ -31,7 +32,7 @@ void CTransform::Call()
 
 const glm::mat4& CTransform::GetTransform() const
 {
-	return transform;
+	return localTransform;
 }
 
 const glm::mat4& CTransform::GetWorldTransform() const
@@ -39,12 +40,11 @@ const glm::mat4& CTransform::GetWorldTransform() const
 	return worldTransform;
 }
 
-void CTransform::SetWorldTransform( const glm::mat4 &trans )
+void CTransform::SetWorldTransform( const glm::mat4 &transform )
 {
-	worldTransform = trans;
+	worldTransform = transform;
 }
 
-// TODO(Valentinas): TEST LOOK AT
 void CTransform::LookAt( const glm::vec3 &target, const glm::vec3& up )
 {
 	// position should be WorldTransform position
@@ -60,11 +60,11 @@ void CTransform::Update()
 	glm::mat4 mTranslation = glm::translate( position );
 	glm::mat4 mRotation = glm::mat4_cast( rotation );
 	glm::mat4 mScale = glm::scale( scale );
-	transform = (mTranslation * mRotation * mScale);
+	localTransform = (mTranslation * mRotation * mScale);
 	
 	// localTransform = parentWorldTransform.inverse() * worldTransform;
 	// M_loc = M_parent_inv * M
-	glm::mat4 world = (parent != NULL ) ? (parent->GetWorldTransform() * transform) : transform;
+	glm::mat4 world = (parent != NULL ) ? (parent->GetWorldTransform() * localTransform) : localTransform;
 	SetWorldTransform(world);
 	
 	std::vector< CTransform* >::const_iterator iter = children.begin();
@@ -108,6 +108,21 @@ const CTransform* CTransform::GetParent() const
 const std::vector< CTransform* >& CTransform::GetChildren() const
 {
 	return children;
+}
+
+const glm::vec3 CTransform::VectorRight()
+{
+	return glm::vec3(1.0f, 0.0f, 0.0f);
+}
+
+const glm::vec3 CTransform::VectorUp()
+{
+	return glm::vec3(0.0f, 1.0f, 0.0f);
+}
+
+const glm::vec3 CTransform::VectorForward()
+{
+	return glm::vec3(0.0f, 0.0f, 1.0f);
 }
 
 // POSITION
@@ -154,9 +169,7 @@ void CTransform::SetPosition( const glm::vec3& position )
 
 void CTransform::SetPosition( const float& x, const float& y, const float& z )
 {
-	this->position.x = x;
-	this->position.y = y;
-	this->position.z = z;
+	SetPosition( glm::vec3(x,y,z) );
 	Update();
 }
 
@@ -200,17 +213,17 @@ void CTransform::Rotate( const float& angle, const glm::vec3& rotation )
 	Update();
 }
 
-glm::vec3 CTransform::GetRotation() const
+const glm::vec3 CTransform::GetRotation() const
 {
 	return glm::eulerAngles( rotation );
 }
 
 void CTransform::SetRotation( const glm::vec3& rotation )
 {
-	
-	this->rotation = glm::rotate(this->rotation, glm::radians( rotation.x ), VectorRight() );
-	this->rotation = glm::rotate(this->rotation, glm::radians( rotation.y ), VectorUp() );
-	this->rotation = glm::rotate(this->rotation, glm::radians( rotation.z ), VectorForward() );
+	this->rotation = glm::quat(eulerRotation); //glm::angleAxis(rotation.x, rotation);
+	//this->rotation = glm::rotate(this->rotation, glm::radians( rotation.x ), rotation );
+	//this->rotation = glm::rotate(this->rotation, glm::radians( rotation.y ), VectorUp() );
+	//this->rotation = glm::rotate(this->rotation, glm::radians( rotation.z ), VectorForward() );
 	Update();
 }
 

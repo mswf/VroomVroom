@@ -165,8 +165,6 @@ namespace Renderer
 		
 		glBindVertexArray( 0 );
 		
-		//TODO(Valentinas): Disable Vertex Attributes after drawing?
-		
 		UnbindTexture( GL_TEXTURE_2D );
 		glUseProgram(0);
 	}

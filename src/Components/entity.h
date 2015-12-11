@@ -23,6 +23,8 @@ class Entity
 		const Entity* GetParent();
 		const std::vector<Entity*> GetChildren();
 	
+		// TODO(Valentinas): Adding the same component to the same entity will add it to the global list twice,
+	 	//					 removing will remove both of them, so can be fixed later
 		template<typename T>
 		static void AddComponent( Entity* e, T* comp )
 		{

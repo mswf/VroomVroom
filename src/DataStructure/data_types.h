@@ -1,6 +1,7 @@
 #ifndef data_types_h
 #define data_types_h
 
+#include "../Utilities/typedef.h"
 #include <vector>
 #include <map>
 #include <string>
@@ -9,23 +10,28 @@
 
 struct ShaderProgram;
 
-struct ShaderObject
+struct Subroutines
 {
 	std::map< std::string, unsigned int > locations;
-	unsigned int shader = 0;
-	unsigned int shaderType = 0;
+	uint32* subroutines;
+	uint32 numSubroutines = 0;
+};
+
+struct ShaderObject
+{
+	uint32 shader = 0;
+	uint32 shaderType = 0;
 	// Create by the number of subroutine uniforms & clean up when finished
 	//TODO(Valentinas): Use std::Array instead of pointer to memory block
-	unsigned int* subroutines;
-	unsigned int numSubroutines = 0;
+	Subroutines subroutine;
 	bool updateProgram = true;
 	ShaderProgram* program;
 };
 
 struct ShaderProgram
 {
-	unsigned int program = 0;
-	std::string name = "No name";
+	uint32 program = 0;
+	string name = "No name";
 	// Create by the number of shader objects & clean up when finished
 	std::vector< ShaderObject* > shaders;
 	bool separate = false;
@@ -38,9 +44,9 @@ struct Mesh
 	std::vector< glm::vec3 > normals;
 	std::vector< glm::vec3 > bitangents;
 	std::vector< glm::vec3 > tangents;
-	std::vector< unsigned int > indices;
-	unsigned int numIndices = 0;
-	unsigned int materialId = 0;
+	std::vector< uint32 > indices;
+	uint32 numIndices = 0;
+	uint32 materialId = 0;
 	float scaleFactor = 1;
 	bool isBuffered = false;
 	bool hasBufferChanged = false;
@@ -52,20 +58,20 @@ struct Mesh
 
 struct ModelInstance
 {
-	unsigned int vao = 0;
-	unsigned int vbo = 0;
-	unsigned int numIndices = 0;
-	unsigned int indiceBuffer = 0;
-	unsigned int materialId = 0;
+	uint32 vao = 0;
+	uint32 vbo = 0;
+	uint32 numIndices = 0;
+	uint32 indiceBuffer = 0;
+	uint32 materialId = 0;
 };
 
 struct ImageData
 {
-	int imageId = -1;
-	unsigned char* pixelData;
-	unsigned int width = 0;
-	unsigned int height = 0;
-	unsigned int components = 0;
+	int32 imageId = -1;
+	uint8* pixelData;
+	uint32 width = 0;
+	uint32 height = 0;
+	uint32 components = 0;
 	bool isBuffered = false;
 	bool mipmapping = false;
 };

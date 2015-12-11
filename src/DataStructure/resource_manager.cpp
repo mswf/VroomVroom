@@ -421,10 +421,7 @@ bool ResourceManager::ImportShader( const char* name, GLSLShaderType type )
 		std::string source = HelperFunctions::ReadFile( path );
 		
 		// Create shader object
-		ShaderObject* shader_obj = new ShaderObject();
-		shader_obj->shaderType = GetGLShaderEnum(type);
-		InsertShaderObject( name, shader_obj );
-		CreateShader(shader_obj->shader, shader_obj->shaderType, source.c_str());
+		CreateShaderObject(name, source.c_str(), type);
 		return true;
 	}
 	return false;

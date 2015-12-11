@@ -9,22 +9,22 @@
 
 #include "../DataStructure/material.h"
 
-ImporterImp::ImporterImp():
-	importFlags(aiProcessPreset_TargetRealtime_Quality),
-	import_scene_failure_reason("No errors logged."),
-	import_image_failure_reason("No errors logged.")
+ImporterImp::ImporterImp() :
+	importFlags( aiProcessPreset_TargetRealtime_Quality ),
+	import_scene_failure_reason( "No errors logged." ),
+	import_image_failure_reason( "No errors logged." )
 {}
 
 ImporterImp::~ImporterImp()
 {}
 
-unsigned char* ImporterImp::ImportImage( const char* filename, unsigned int& width, unsigned int& height, unsigned int requiring_components, IMPORTER_MESSAGE& err_msg, bool vertical_flip )
+uint8* ImporterImp::ImportImage( const char* filename, uint32& width, uint32& height, uint32 requiring_components, IMPORTER_MESSAGE& err_msg, bool vertical_flip )
 {
 	stbi_set_flip_vertically_on_load(vertical_flip);
-	int comp, w, h;
-	int rc = STBI_rgb_alpha;
+	int32 comp, w, h;
+	int32 rc = STBI_rgb_alpha;
 
-	unsigned char* image = stbi_load( filename, &w, &h, &comp, rc);
+	uint8* image = stbi_load( filename, &w, &h, &comp, rc);
 
 	width = w;
 	height = h;
@@ -45,7 +45,7 @@ unsigned char* ImporterImp::ImportImage( const char* filename, unsigned int& wid
 	return image;
 }
 
-void ImporterImp::FreeImage( unsigned char* img )
+void ImporterImp::FreeImage( uint8* img )
 {
 	if (img != NULL)
 	{
@@ -54,7 +54,7 @@ void ImporterImp::FreeImage( unsigned char* img )
 	}
 }
 
-aiScene* ImporterImp::ImportObjFile( const std::string& pFile, IMPORTER_MESSAGE& msg )
+aiScene* ImporterImp::ImportObjFile( const string& pFile, IMPORTER_MESSAGE& msg )
 {
 	Assimp::Importer importer;
 	std::ifstream fin( pFile.c_str() );
@@ -92,15 +92,15 @@ void ImporterImp::FreeScene( aiScene* sc )
 	}
 }
 
-//TODO(Valentinas): Use C-Arrays instead of GLM library vectors for portability
 void ImporterImp::ExtractMesh( const aiMesh* mesh, Mesh* m )
 {
 	// buffer for indices
 	//m = new Mesh();
+	uint32 i;
 	m->numIndices = mesh->mNumFaces * 3;
-	for (unsigned int t = 0; t < mesh->mNumFaces; ++t)
+	for ( i = 0; i < mesh->mNumFaces; ++i )
 	{
-		const aiFace* face = &mesh->mFaces[t];
+		const aiFace* face = &mesh->mFaces[i];
 		m->indices.push_back( face->mIndices[0] );
 		m->indices.push_back( face->mIndices[1] );
 		m->indices.push_back( face->mIndices[2] );
@@ -110,7 +110,7 @@ void ImporterImp::ExtractMesh( const aiMesh* mesh, Mesh* m )
 	if ( mesh->HasPositions() )
 	{
 		m->hasPositions = true;
-		for ( int i = 0; i < mesh->mNumVertices; ++i )
+		for ( i = 0; i < mesh->mNumVertices; ++i )
 		{
 			aiVector3D v = mesh->mVertices[i];
 			glm::vec3 vertex( v.x, v.y, v.z );
@@ -122,7 +122,7 @@ void ImporterImp::ExtractMesh( const aiMesh* mesh, Mesh* m )
 	if ( mesh->HasNormals() )
 	{
 		m->hasNormals = true;
-		for ( int i = 0; i < mesh->mNumVertices; ++i )
+		for ( i = 0; i < mesh->mNumVertices; ++i )
 		{
 			aiVector3D n = mesh->mNormals[i];
 			glm::vec3 normal( n.x, n.y, n.z );
@@ -134,7 +134,7 @@ void ImporterImp::ExtractMesh( const aiMesh* mesh, Mesh* m )
 	if ( mesh->HasTangentsAndBitangents() )
 	{
 		m->hasTangentsAndBitangets = true;
-		for (int i = 0; i < mesh->mNumVertices; ++i)
+		for ( i = 0; i < mesh->mNumVertices; ++i )
 		{
 			aiVector3D bi = mesh->mBitangents[i];
 			glm::vec3 bitangent( bi.x, bi.y, bi.z );
@@ -150,7 +150,7 @@ void ImporterImp::ExtractMesh( const aiMesh* mesh, Mesh* m )
 	if ( mesh->HasTextureCoords(0) )
 	{
 		m->hasUVs = true;
-		for ( unsigned int i = 0; i < mesh->mNumVertices; ++i )
+		for ( i = 0; i < mesh->mNumVertices; ++i )
 		{
 			float x = mesh->mTextureCoords[0][i].x;
 			float y = mesh->mTextureCoords[0][i].y;
@@ -161,12 +161,12 @@ void ImporterImp::ExtractMesh( const aiMesh* mesh, Mesh* m )
 
 }
 
-void ImporterImp::ExtractMaterial( const aiMaterial* mtl, Material* material, std::vector< std::string >* textureIdMap )
+void ImporterImp::ExtractMaterial( const aiMaterial* mtl, Material* material, std::vector< string >* textureIdMap )
 {
 	//printf( "Number of properties: %i, expected 13. \n", material->mNumProperties );
-	unsigned int max = 1;
-	int wireframe = 0;
-	int two_sided = 0;
+	uint32 max = 1;
+	int32 wireframe = 0;
+	int32 two_sided = 0;
 	aiString name( "No name" );
 	aiColor4D diffuse, ambient, specular, emissive, transparent, reflective;
 	float opacity = 0.0;
@@ -210,7 +210,7 @@ void ImporterImp::ExtractMaterial( const aiMaterial* mtl, Material* material, st
 	}
 
 	aiGetMaterialIntegerArray( mtl, AI_MATKEY_ENABLE_WIREFRAME, &wireframe, &max );
-	material->wireframe_enabled = wireframe; //fill_mode = wireframe ? GL_LINE : GL_FILL;
+	material->wireframe_enabled = wireframe;
 
 	if ( AI_SUCCESS == aiGetMaterialIntegerArray( mtl, AI_MATKEY_TWOSIDED, &two_sided, &max) )
 	{
@@ -272,13 +272,13 @@ void ImporterImp::ExtractMaterial( const aiMaterial* mtl, Material* material, st
 	}
 	memcpy(material->reflective, color, sizeof(color));
 
-	auto FindTextures = []( const aiMaterial * mtl, aiTextureType t, unsigned int& textureCount, std::vector< std::string >* textureIdMap )
+	auto FindTextures = []( const aiMaterial * mtl, aiTextureType type, uint32& textureCount, std::vector< string >* textureIdMap )
 	{
-		int i;
+		uint32 i;
 		aiString path;
-		for ( i = 0; i < mtl->GetTextureCount(t); ++i )
+		for ( i = 0; i < mtl->GetTextureCount(type); ++i )
 		{
-			if ( AI_SUCCESS == mtl->GetTexture( t, i, &path ) )
+			if ( AI_SUCCESS == mtl->GetTexture( type, i, &path ) )
 			{
 				textureIdMap->push_back( std::string( &path.data[0] ) );
 				++textureCount;
@@ -286,7 +286,7 @@ void ImporterImp::ExtractMaterial( const aiMaterial* mtl, Material* material, st
 		}
 	};
 
-	FindTextures(mtl, aiTextureType_DIFFUSE, material->textureCount, textureIdMap);
-	FindTextures(mtl, aiTextureType_SPECULAR, material->textureCount, textureIdMap);
-	FindTextures(mtl, aiTextureType_HEIGHT, material->textureCount, textureIdMap);
+	FindTextures( mtl, aiTextureType_DIFFUSE, material->textureCount, textureIdMap );
+	FindTextures( mtl, aiTextureType_SPECULAR, material->textureCount, textureIdMap );
+	FindTextures( mtl, aiTextureType_HEIGHT, material->textureCount, textureIdMap );
 }

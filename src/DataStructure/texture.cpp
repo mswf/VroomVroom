@@ -30,7 +30,6 @@ GLuint BufferTexture2D( GLint internalFormat, GLint width, GLint height, GLint p
 	glGenTextures( 1, &textureId );
 	glBindTexture( GL_TEXTURE_2D, textureId );
 	
-	// TODO(Valentinas): Set the number of generated mip map levels
 	FilterType magFilter = (filterNearest) ? FilterType::NEAREST : FilterType::LINEAR;
 	FilterType minFilter;
 	if ( generateMipMap )

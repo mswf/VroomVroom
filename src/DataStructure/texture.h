@@ -7,6 +7,7 @@
 // TODO(Valentinas): Add parameter for changing Texture Wrapping mode
 // TODO(Valentinas): Add possibility to allocate or deallocate multiple textures in one go
 // TODO(Valentinas): Support odd texture dimensions
+// TODO(Valentinas): Set the number of generated mip map levels
 /*
 	// we also want to be able to deal with odd texture dimensions
 	glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );

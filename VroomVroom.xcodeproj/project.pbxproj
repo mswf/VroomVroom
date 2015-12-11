@@ -181,6 +181,7 @@
 		E50529651BE8CE0A0017400B /* cTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cTransform.h; path = src/Components/cTransform.h; sourceTree = SOURCE_ROOT; };
 		E505296A1BE8EF020017400B /* entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = entity.cpp; path = src/Components/entity.cpp; sourceTree = SOURCE_ROOT; };
 		E505296B1BE8EF020017400B /* entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = entity.h; path = src/Components/entity.h; sourceTree = SOURCE_ROOT; };
+		E509E3CE1C1B3E04007A0E6D /* stb_image_write.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = stb_image_write.h; path = src/IO/stb_image_write.h; sourceTree = SOURCE_ROOT; };
 		E514AF571BD16E5800E7E2C5 /* TCPData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TCPData.cpp; path = src/Networking/TCPData.cpp; sourceTree = SOURCE_ROOT; };
 		E514AF581BD16E5800E7E2C5 /* TCPData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCPData.h; path = src/Networking/TCPData.h; sourceTree = SOURCE_ROOT; };
 		E53200B91C133A2F00907818 /* cDebugRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cDebugRenderer.cpp; path = src/Components/cDebugRenderer.cpp; sourceTree = SOURCE_ROOT; };
@@ -280,6 +281,7 @@
 				E5ED45BA1C05F93C0009BD5A /* importer.cpp */,
 				E5ED45BB1C05F93C0009BD5A /* importer.h */,
 				E5B4685A1BF23FA400429772 /* stb_image.h */,
+				E509E3CE1C1B3E04007A0E6D /* stb_image_write.h */,
 				E50529541BE8CDD50017400B /* RtMidi.cpp */,
 				E50529551BE8CDD50017400B /* RtMidi.h */,
 				23C2AAFB1BCBD8C00043F141 /* file.cpp */,

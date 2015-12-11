@@ -25,11 +25,14 @@ class ResourceManager : public Singleton<ResourceManager>
 		~ResourceManager();
 	
 		// Meshes
+		Mesh* GetMesh( const char* name ) const;
 		bool ImportMesh( const char* name );
 		bool ImportMesh( const std::vector<std::string>& list, std::vector< std::string >& errors );
 		void UpdateMeshBuffer();
 		void InsertMesh( const char* name, Mesh* data );
+		void SetMeshScale( const char* name, float scale );
 		bool MeshExists( const char* name ) const;
+		void MergeToExistingMesh( const char* name, Mesh* data );
 
 		// Model Instances
 		ModelInstance* GetModel( const char* name );

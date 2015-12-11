@@ -78,6 +78,16 @@ void ResourceManager::LoadBuiltinShader()
 
 // Meshes
 
+Mesh* ResourceManager::GetMesh( const char* name ) const
+{
+	if ( !MeshExists( name ) )
+	{
+		Terminal.Warning( std::string("Mesh: " + std::string(name) + " not imported.") );
+		return NULL;
+	}
+	return meshes.at(name);
+}
+
 bool ResourceManager::ImportMesh( const char* name )
 {
 	return imp.ImportObjFile( name );
@@ -109,6 +119,46 @@ void ResourceManager::UpdateMeshBuffer()
 		if ( (*iter).second->hasBufferChanged )
 		{
 			printf( "Changed %s", (*iter).first.c_str() );
+		}
+	}
+}
+
+// DON'T USE THIS FUNCTION< NOT WORKING PROPERLY
+void ResourceManager::MergeToExistingMesh( const char* name, Mesh* data )
+{
+	Mesh* m = GetMesh(name);
+	if ( m->hasPositions && data->hasPositions )
+	{
+		m->vertices.insert(  std::end( m->vertices ), std::begin( data->vertices ), std::end( data->vertices ) );
+		m->indices.insert(  std::end( m->indices ), std::begin( data->indices ), std::end( data->indices ) );
+		m->numIndices += data->numIndices;
+	}
+	if ( m->hasNormals && data->hasNormals )
+	{
+		m->normals.insert(  std::end( m->normals ), std::begin( data->normals ), std::end( data->normals ) );
+	}
+	if ( m->hasUVs && data->hasUVs )
+	{
+		m->uvs.insert(  std::end( m->uvs ), std::begin( data->uvs ), std::end( data->uvs ) );
+	}
+	if ( m->hasTangentsAndBitangets && data->hasTangentsAndBitangets )
+	{
+		m->tangents.insert(  std::end( m->tangents ), std::begin( data->tangents ), std::end( data->tangents ) );
+		m->bitangents.insert(  std::end( m->bitangents ), std::begin( data->bitangents ), std::end( data->bitangents ) );
+	}
+}
+
+void ResourceManager::SetMeshScale( const char* name, float scale )
+{
+	Mesh* m = GetMesh(name);
+	if ( m->hasPositions )
+	{
+		m->scaleFactor = scale;
+		auto it = m->vertices.begin();
+		auto end = m->vertices.end();
+		for ( ; it != end; ++it)
+		{
+			(*it) *= scale;
 		}
 	}
 }

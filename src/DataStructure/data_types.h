@@ -41,6 +41,7 @@ struct Mesh
 	std::vector< unsigned int > indices;
 	unsigned int numIndices = 0;
 	unsigned int materialId = 0;
+	float scaleFactor = 1;
 	bool isBuffered = false;
 	bool hasBufferChanged = false;
 	bool hasPositions = false;

@@ -1,5 +1,8 @@
+ #define STB_IMAGE_WRITE_IMPLEMENTATION
+
 #include "helperFunctions.h"
 #include "standardIncludes.h"
+#include "../IO/stb_image_write.h"
 #include <time.h>
 #include <iostream>
 #include <fstream>
@@ -93,19 +96,37 @@ bool HelperFunctions::FileExists( const char *file )
 	}
 }
 
-void HelperFunctions::PrintImageData( unsigned char* image, int width, int height )
+void HelperFunctions::WritePixels( const char* filename, ImageFileFormat format, uint8* pixels, int width, int height, int components )
 {
-	//static int num = 0;
-	for (int i = 0; i < height; ++i)
+	if ( FILE *f = fopen( filename, "w" ) )
 	{
-		for (int j = 0; j < width; ++j)
+		switch (format)
 		{
-			int index = ( i * width ) + j;
-			//std::cout << j << ":" << i << ", ";
-			//++num;
-			std::cout << image[index];
+			case ImageFileFormat::PNG:
+			{
+				stbi_write_png(filename, width, height, components, pixels, 0);
+				break;
+			}
+			case ImageFileFormat::BMP:
+			{
+				stbi_write_bmp( filename, width, height, components, pixels );
+				break;
+			}
+			case ImageFileFormat::TGA:
+			{
+				stbi_write_tga(filename, width, height, components, pixels);
+				break;
+			}
+			default:
+			{
+				break;
+			}
 		}
-		std::cout <<  std::endl;
+		fclose(f);
+	}
+	delete [] pixels;
+}
+
 struct tm HelperFunctions::GetTime()
 {
 	time_t timer;

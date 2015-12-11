@@ -3,6 +3,15 @@
 
 #include "../Utilities/typedef.h"
 
+enum class ImageFileFormat
+{
+	PNG,
+	BMP,
+	TGA
+};
+
+struct tm;
+
 class HelperFunctions
 {
 	public:
@@ -10,7 +19,7 @@ class HelperFunctions
 		static void ReplaceStringInPlace(std::string& subject, const std::string& search, const std::string& replace);
 		static std::string ReadFile(std::string file);
 		static std::string ReadFile(const char* file);
-		static void PrintImageData( unsigned char* image, int width, int height );
+		static void WritePixels( const char* filename, ImageFileFormat format, uint8* pixels, int width, int height, int components );
 		static std::string VoidPtrToString(void* data, const int size);
 		static bool FileExists(const char* file);
 		static tm GetTime();

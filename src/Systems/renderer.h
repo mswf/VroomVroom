@@ -14,6 +14,15 @@ class CCamera;
 
 namespace Renderer
 {
+	enum class ClearFlag
+	{
+		NONE,
+		SKYBOX,
+		COLOR_DEPTH,
+		COLOR,
+		DEPTH
+	};
+	
 	class RenderSystem : public ComponentSystem
     {
         public:
@@ -31,6 +40,7 @@ namespace Renderer
 			void SetWindowSize( const int& w, const int& h );
 			void SetFramebufferScale( const float& scaleX, const float& scaleY );
 			void SetBackgroundColor( float r, float g, float b, float a );
+			void ScreenGrab();
 			inline void SetMeshRendererList( std::vector< CMeshRenderer* >* list ) { renderables = list; }
 			inline void SetDebugRendererList( std::vector< CDebugRenderer* >* list ) { debugPrimitives = list; }
 			inline void SetCamera( CCamera* c ) { camera = c; }
@@ -43,6 +53,7 @@ namespace Renderer
 		
 		private:
 		
+			void ClearFlag();
 			void SetViewportRect();
 			void RenderEnvironment();
 			void RenderScene();

@@ -18,6 +18,8 @@
 #include "../glm/gtc/type_ptr.hpp"
 #include "../glm/gtc/matrix_transform.hpp"
 
+#include "../Utilities/helperFunctions.h"
+
 namespace Renderer
 {
 
@@ -53,18 +55,47 @@ namespace Renderer
 		return true;
 	}
 	
-	/*
 	void RenderSystem::ScreenGrab()
 	{
-		int size = 4 * w_width * w_height;
-		GLubyte * pixels = new GLubyte[size];
-		glReadBuffer( GL_BACK );
-		glReadPixels(0, 0, w_width, w_height, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+		int components = 4;
+		int w = w_width * framebufferScaleX;
+		int h = w_height * framebufferScaleY;
 		
-		//SaveImageTo( pixels, window->GetViewportSize().x, window->GetViewportSize().y, 24, 0xFF0000, 0x00FF00, 0x0000FF, FREE_IMAGE_FORMAT::FIF_PNG, "//");
-		delete [] pixels;
+	 	uint32 size = components * w * h;
+		uint8* pixels = new uint8[size];
+		glReadBuffer( GL_BACK );
+		glReadPixels(0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+		
+		int row, col, z;
+		uint8 temp_pixels;
+		
+		// TODO(Valentinas): use a bigger temp buffer and memcpy multiple pixels at once
+		for (row = 0; row < (h>>1); row++)
+		{
+			for (col = 0; col < w; col++)
+			{
+				for (z = 0; z < components; z++)
+				{
+					temp_pixels = pixels[ (row * w + col) * components + z ];
+					pixels[(row * w + col) * components + z] = pixels[((h - row - 1) * w + col) * components + z];
+					pixels[((h - row - 1) * w + col) * components + z] = temp_pixels;
+				}
+			}
+		}
+		string filename( "Screenshot_" + HelperFunctions::GetTimeString() + ".png" );
+		HelperFunctions::WritePixels( filename.c_str(), ImageFileFormat::PNG, pixels, w, h, components );
+		Terminal.LogRender("Screenshot taken: " + filename, true);
 	}
-	*/
+	
+	
+	void RenderSystem::Render()
+	{
+		if (camera == NULL) return;
+		SetViewportRect();
+		ClearFlag();
+		RenderDebugLines();
+		RenderScene();
+	}
 
 	void RenderSystem::SetViewportRect()
 	{
@@ -74,18 +105,13 @@ namespace Renderer
 		glViewport( w * rect.x, h * rect.y, w * rect.z, h * rect.w );
 	}
 	
-	void RenderSystem::Render()
+	void RenderSystem::ClearFlag()
 	{
 		glClearColor( backgroundColour[0], backgroundColour[1], backgroundColour[2], backgroundColour[3] );
 		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-		
-		if (camera == NULL) return;
-		SetViewportRect();
 		RenderEnvironment();
-		RenderDebugLines();
-		RenderScene();
 	}
-
+	
 	void RenderSystem::RenderScene()
 	{
 		// RENDERER MODE FOR BLEND_FUNC

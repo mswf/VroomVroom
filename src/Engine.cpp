@@ -1,7 +1,6 @@
 #define GLM_FORCE_RADIANS
 
 #include <cstring>
-#include <ctime>
 #include <iostream>
 
 #include "content.h"
@@ -46,7 +45,11 @@ Engine::Engine() :
 	inputManager(NULL),
 	listener(NULL),
 	renderer(NULL),
-	fileWatcher(NULL)
+	fileWatcher(NULL),
+	systemStudio(NULL),
+	systemLowLevel(NULL),
+	skybox_map(0),
+	takeScreen(false)
 {
 }
 
@@ -57,6 +60,8 @@ Engine::~Engine()
 	delete renderer;
 	delete listener;
 	delete fileWatcher;
+	delete systemStudio;
+	delete systemLowLevel;
 }
 
 void Engine::Init()
@@ -83,18 +88,7 @@ void Engine::Init()
 
 void Engine::SetSeed()
 {
-	time_t timer;
-	struct tm y2k = {0};
-	double seconds;
-	y2k.tm_hour = 0;
-	y2k.tm_min = 0;
-	y2k.tm_sec = 0;
-	y2k.tm_year = 100;
-	y2k.tm_mon = 0;
-	y2k.tm_mday = 1;
-	time(&timer);  /* get current time; same as: timer = time(NULL)  */
-	seconds = difftime(timer, mktime(&y2k));
-	Random::SetRandomSeed(seconds);
+	Random::SetRandomSeed( HelperFunctions::GetTime().tm_sec );
 }
 
 uint32 Engine::GetTicks()
@@ -326,43 +320,42 @@ void Engine::ImportAssets()
 	std::vector< std::pair< std::string, GLSLShaderType > > shaders;
 
 	// Cube map
+	
+	cube_map.push_back( "images/LancellottiChapel/negx.jpg" );
+	cube_map.push_back( "images/LancellottiChapel/negy.jpg" );
+	cube_map.push_back( "images/LancellottiChapel/negz.jpg" );
+	cube_map.push_back( "images/LancellottiChapel/posx.jpg" );
+	cube_map.push_back( "images/LancellottiChapel/posy.jpg" );
+	cube_map.push_back( "images/LancellottiChapel/posz.jpg" );
+	
+	rm.ImportShader( "shaders/line_vert.glsl", GLSLShaderType::VERTEX );
+	rm.ImportShader( "shaders/line_frag.glsl", GLSLShaderType::FRAGMENT );
+	const char* sh_objs2[] = { "shaders/line_vert.glsl", "shaders/line_frag.glsl", NULL };
+	ResourceManager::getInstance().CreateShaderProgram("__Debug_program", sh_objs2, 2);
+	
+	rm.ImportShader( "shaders/skybox_vert.glsl", GLSLShaderType::VERTEX );
+	rm.ImportShader( "shaders/skybox_frag.glsl", GLSLShaderType::FRAGMENT );
+	const char* sh_objs[] = { "shaders/skybox_vert.glsl", "shaders/skybox_frag.glsl", NULL };
+	ResourceManager::getInstance().CreateShaderProgram("__Skybox_program", sh_objs, 2);
 	/*
-	cube_map.push_back( "/images/LancellottiChapel/negx.jpg" );
-	cube_map.push_back( "/images/LancellottiChapel/negy.jpg" );
-	cube_map.push_back( "/images/LancellottiChapel/negz.jpg" );
-	cube_map.push_back( "/images/LancellottiChapel/posx.jpg" );
-	cube_map.push_back( "/images/LancellottiChapel/posy.jpg" );
-	cube_map.push_back( "/images/LancellottiChapel/posz.jpg" );
-	*/
-
-	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/line_vert.glsl", GLSLShaderType::VERTEX) );
-	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/line_frag.glsl", GLSLShaderType::FRAGMENT) );
-
-	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/skybox_vert.glsl", GLSLShaderType::VERTEX) );
-	shaders.push_back( std::pair<std::string, GLSLShaderType >( "shaders/skybox_frag.glsl", GLSLShaderType::FRAGMENT) );
-
 	bool successfulImport = rm.ImportImage( cube_map, errors, false );
 	if (!successfulImport)
 	{
 		printErr(errors);
 	}
-	successfulImport = rm.ImportShader( shaders, errors );
-	if (!successfulImport)
-	{
-		printErr(errors);
-	}
-	/*
+	
 	int width, height;
-	width = height = rm.GetImageData("/images/LancellottiChapel/negx.jpg")->width;
+	width = height = rm.GetImageData("images/LancellottiChapel/negx.jpg")->width;
 	std::vector< std::pair< unsigned char*, unsigned int > > textures;
-	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("/images/LancellottiChapel/negx.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_X ) );
-	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("/images/LancellottiChapel/negy.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y ) );
-	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("/images/LancellottiChapel/negz.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z ) );
-	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("/images/LancellottiChapel/posx.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_X ) );
-	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("/images/LancellottiChapel/posy.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Y ) );
-	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("/images/LancellottiChapel/posz.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Z ) );
+	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/negx.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_X ) );
+	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/negy.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y ) );
+	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/negz.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z ) );
+	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/posx.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_X ) );
+	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/posy.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Y ) );
+	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/posz.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Z ) );
 	skybox_map = rm.CreateCubeMap(&textures, width, height);
-	*/
+	 */
+	
 }
 
 void Engine::UpdateLoop()
@@ -377,28 +370,50 @@ void Engine::UpdateLoop()
 	ImportAssets();
 	//InitFMOD();
 	
-	const char* sh_objs[] = { "shaders/skybox_vert.glsl", "shaders/skybox_frag.glsl", NULL };
-	const char* sh_objs2[] = { "shaders/line_vert.glsl", "shaders/line_frag.glsl", NULL };
-	ResourceManager::getInstance().CreateShaderProgram("__Skybox_program", sh_objs, 2);
-	ResourceManager::getInstance().CreateShaderProgram("__Debug_program", sh_objs2, 2);
 	EnvironmentCube();
 	
 	renderer->SetWindowSize(1280, 720);
 	renderer->Initialize();
-	//renderer->skyboxMap = skybox_map;
+	renderer->skyboxMap = skybox_map;
 
 	/// TINAS PLAYGROUND!!!
-
-	//Material* mt;
-
-	//mt = ResourceManager::getInstance().GetMaterialByName("Default");
-	//mt->SetDiffuseTexture("objects/snowman.png");
-
-/*
-	auto random_colour = []() -> glm::vec3
+	
+	auto random_vec3 = []( int min, int max ) -> glm::vec3
 	{
-		return glm::vec3( Random::Next(100) * 0.01f, Random::Next(100) * 0.01f, Random::Next(100) * 0.01f );
+		float modif = 0.5f;
+		return glm::vec3( Random::Next(min, max) * modif, Random::Next(min,max) * modif, Random::Next(min,max) * modif );
 	};
+	
+	ResourceManager::getInstance().ImportMesh("objects/Teapot/teapot.obj");
+	ResourceManager::getInstance().SetMeshScale("objects/Teapot/teapot.obj", 0.01f);
+	Entity* a = new Entity( "testA" );
+	Entity* ac = new Entity( "testAChild", a );
+	Entity* ac2 = new Entity( "testA2Child", ac );
+	
+	//Entity* b =  new Entity( "testB" );
+	//Entity* bc =  new Entity( "testBChild", b );
+	Entity* list[3] = { a, ac, ac2 };
+	
+	for (int i =0; i < 3; ++i )
+	{
+		CMeshRenderer* rend = new CMeshRenderer();
+		Entity::AddComponent( list[i], rend);
+		rend->SetModel( "objects/Teapot/teapot.obj" );
+		list[i]->transform->SetPosition( random_vec3( -2, 2 ) );
+	}
+	
+	Entity::GetComponentInChildren<CMeshRenderer>(a);
+	
+	/*
+		CDebugRenderer* drend = new CDebugRenderer();
+		Entity::AddComponent( ac, drend);
+		Entity::AddComponent( ac, drend);
+		Entity::RemoveComponent( ac, drend);
+	*/
+	
+	
+/*
+	
 	Entity* debugObject = new Entity( "Debugger" );
 	CDebugRenderer* debugRenderer = new CDebugRenderer();
 	Entity::AddComponent(debugObject, debugRenderer);
@@ -424,8 +439,7 @@ void Engine::UpdateLoop()
 */
 	/*
 	Entity* camera = new Entity( "Main Camera" );
-	CCamera* cam = new CCamera( Projection::ORTHOGRAPHIC, 1280.0f / 720.0f, -5.0f, 50000.0f );
-//	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 1280.0f / 720.0f );
+	//	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 1280.0f / 720.0f );
 	Entity::AddComponent(camera, cam);
 	camera->transform->SetPosition( glm::vec3( 4, 4, -4 ) );
 	renderer->SetCamera( cam );
@@ -438,7 +452,6 @@ void Engine::UpdateLoop()
 	uint32 currentTicks = SDL_GetTicks();
 	uint32 prevTicks = currentTicks;
 	static bool running = true;
-
 	LuaSystem.Main();
 
 	while (running)
@@ -463,6 +476,10 @@ void Engine::UpdateLoop()
 				{
 					running = false;
 				}
+				if ( inputManager->OnKeyDown(SDLK_F1) )
+				{
+					takeScreen = true;
+				}
 				prevTicks = currentTicks;
 				prevTicks -= deltaTimeGame;
 			}
@@ -475,6 +492,7 @@ void Engine::UpdateLoop()
 
 		UiSystem.Render();
 
+		TakeScreenShot();
 		SDL_GL_SwapWindow(window);
 
 		//rendering
@@ -549,7 +567,7 @@ void Engine::InitFMOD()
 	FMOD::Studio::ParameterInstance* rpm = NULL;
 	result = eventInstance->getParameter("RPM", &rpm);
 	
-	result = rpm->setValue(650);
+	result = rpm->setValue(1150);
 	
 	result = eventInstance->start();
 	
@@ -590,5 +608,14 @@ void Engine::InitFMOD()
 	if (play)
 	{
 		result = systemLowLevel->playSound(sound1, 0, false, &channel);
+	}
+}
+
+void Engine::TakeScreenShot()
+{
+	if ( takeScreen )
+	{
+		takeScreen = false;
+		renderer->ScreenGrab();
 	}
 }

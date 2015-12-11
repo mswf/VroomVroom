@@ -42,6 +42,7 @@ class Engine
 		void Update(float deltaTime);
 		void ImportAssets();
 		void WindowEvent( SDL_WindowEvent window );
+		void TakeScreenShot();
 	
 		FMOD::Studio::System* systemStudio;
 		FMOD::System* systemLowLevel;
@@ -51,6 +52,7 @@ class Engine
 		Input* inputManager;
 	
 		unsigned int skybox_map;
+		bool takeScreen;
 	
 };
 

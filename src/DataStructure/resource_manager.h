@@ -60,6 +60,7 @@ class ResourceManager : public Singleton<ResourceManager>
 		Material* GetMaterialById( uint32 materialId ) const;
 		void InsertMaterial( uint32 id, const char* name, Material* data );
 		bool MaterialExists( const char* name ) const;
+		bool MaterialExists( const uint32 id ) const;
 	
 		// Shaders
 		ShaderProgram* GetShaderProgram( const char* name ) const;

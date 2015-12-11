@@ -364,7 +364,11 @@ bool ResourceManager::ImageExists( const char* name ) const
 
 Material* ResourceManager::GetMaterialById( uint32 materialId ) const
 {
-// TODO(Valentinas): Add a check if it exists
+	if ( !MaterialExists(materialId) )
+	{
+		Terminal.Warning( "Material id <" + std::to_string(materialId) + "> not found." );
+		return NULL;
+	}
 	return materials.at( materialId );
 }
 
@@ -403,6 +407,19 @@ bool ResourceManager::MaterialExists( const char* name ) const
 	// Material does not exists
 	return false;
 }
+
+bool ResourceManager::MaterialExists( const uint32 id ) const
+{
+	std::map< uint32, Material* >::const_iterator iter_mtl = materials.find(id);
+	if ( iter_mtl != materials.end() )
+	{
+		// Material exists
+		return true;
+	}
+	// Material does not exists
+	return false;
+}
+
 
 // Shaders
 

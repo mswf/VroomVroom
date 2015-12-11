@@ -512,25 +512,25 @@ bool HasSubroutines( const GLuint& program, GLenum shaderType )
 	return false;
 }
 
-void SetSubroutineUniformLocations( GLuint program, ShaderObject& shader )
+void SetSubroutineUniformLocations( GLuint program, GLuint shader, Subroutines& routines )
 {
 	//TODO(Valentinas): Make a proper initialization for shader.subroutines
 	int numActiveSubroutineUniforms;
-	glGetProgramStageiv( program, shader.shaderType, GL_ACTIVE_SUBROUTINE_UNIFORM_LOCATIONS, &numActiveSubroutineUniforms );
+	glGetProgramStageiv( program, shader, GL_ACTIVE_SUBROUTINE_UNIFORM_LOCATIONS, &numActiveSubroutineUniforms );
 	if (numActiveSubroutineUniforms > 0)
 	{
-		shader.numSubroutines = numActiveSubroutineUniforms;
+		routines.numSubroutines = numActiveSubroutineUniforms;
 		//TODO(Valentinas): USE NEW INSTEAD OF MALLOC?
-		shader.subroutines = (GLuint*)malloc( sizeof(GLuint) * numActiveSubroutineUniforms );
+		routines.subroutines = (GLuint*)malloc( sizeof(GLuint) * numActiveSubroutineUniforms );
 		for ( int i = 0; i < numActiveSubroutineUniforms; ++i )
 		{
 			int length;
 			char name[256];
 			// Get subroutine uniform name
-			glGetActiveSubroutineUniformName(program, shader.shaderType, i, 256, &length, name );
+			glGetActiveSubroutineUniformName(program, shader, i, 256, &length, name );
 			//printf( "%s uniform.\n", name );
-			shader.locations.insert( std::pair<std::string, unsigned int>( name, i ) );
-			shader.subroutines[i] = 0;
+			routines.locations.insert( std::pair<std::string, unsigned int>( name, i ) );
+			routines.subroutines[i] = 0;
 		}
 	}
 }

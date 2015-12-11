@@ -54,16 +54,16 @@ void SetUniform( GLuint program, const char* name, const glm::mat2& mat );
 void SetUniform( GLuint program, const char* name, const glm::mat3& mat );
 void SetUniform( GLuint program, const char* name, const glm::mat4& mat );
 
-bool HasSubroutines( const GLuint& program, GLenum shaderType );
-void SetActiveSubroutine( GLuint program, ShaderObject shader, const char* uniform, const char* routine );
 
 void LogActiveAttributes( GLuint program );
 void LogActiveUniforms( GLuint program );
 void LogActiveUniformBlocks( GLuint program );
 void LogActiveSubroutines( GLuint program, GLenum shaderType );
 
+bool HasSubroutines( const GLuint& program, GLenum shaderType );
+void SetActiveSubroutine( GLuint program, GLuint shaderType, Subroutines* sub, const char* uniform, const char* routine );
 GLuint GetSubroutineUniformLocation( const char* name, const std::map< std::string, GLuint >& locations );
-void SetSubroutineUniformLocations( GLuint program, ShaderObject& shader );
+void SetSubroutineUniformLocations( GLuint program, GLuint shader, Subroutines& routines );
 
 GLenum GetGLShaderEnum( GLSLShaderType type, bool separate = false );
 bool ProgramInfoLog( GLuint program, GLenum status );

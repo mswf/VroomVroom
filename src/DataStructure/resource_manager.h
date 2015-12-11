@@ -1,6 +1,7 @@
 #ifndef resource_manager_h
 #define resource_manager_h
 
+#include "../Utilities/typedef.h"
 #include <string>
 #include <map>
 #include <vector>
@@ -27,7 +28,7 @@ class ResourceManager : public Singleton<ResourceManager>
 		// Meshes
 		Mesh* GetMesh( const char* name ) const;
 		bool ImportMesh( const char* name );
-		bool ImportMesh( const std::vector<std::string>& list, std::vector< std::string >& errors );
+		bool ImportMesh( const std::vector< string >& list, std::vector< string >& errors );
 		void UpdateMeshBuffer();
 		void InsertMesh( const char* name, Mesh* data );
 		void SetMeshScale( const char* name, float scale );
@@ -40,9 +41,9 @@ class ResourceManager : public Singleton<ResourceManager>
 	
 		// Images
 		ImageData* GetImageData( const char* name ) const;
-		unsigned int GetImageId( const char* name );
+		uint32 GetImageId( const char* name );
 		bool ImportImage( const char* name, bool vertical_flip = true );
-		bool ImportImage( const std::vector< std::string >& list, std::vector< std::string >& err_f, bool vertical_flip = true );
+		bool ImportImage( const std::vector< string >& list, std::vector< string >& err_f, bool vertical_flip = true );
 		bool ReImportImage( const char* name, bool vertical_flip = true );
 		bool BufferImage1D( const char* name );
 		bool BufferImage2D( const char* name );
@@ -51,20 +52,20 @@ class ResourceManager : public Singleton<ResourceManager>
 		void InsertImage( const char* name, ImageData* data );
 		bool ImageExists( const char* name ) const;
 	
-		unsigned int CreateCubeMap( const std::vector< std::pair< unsigned char*, unsigned int > >* textures, int width, int height );
+		uint32 CreateCubeMap( const std::vector< std::pair< uint8*, uint32 > >* textures, int32 width, int32 height );
 	
 		// Materials
-		static unsigned int materialId;
+		static uint32 materialId;
 		Material* GetMaterialByName( const char* name ) const;
-		Material* GetMaterialById( unsigned int materialId ) const;
-		void InsertMaterial( unsigned int id, const char* name, Material* data );
+		Material* GetMaterialById( uint32 materialId ) const;
+		void InsertMaterial( uint32 id, const char* name, Material* data );
 		bool MaterialExists( const char* name ) const;
 	
 		// Shaders
 		ShaderProgram* GetShaderProgram( const char* name ) const;
 		ShaderObject* GetShaderObject( const char* name ) const;
 		bool ImportShader( const char* name, GLSLShaderType type );
-		bool ImportShader( const std::vector< std::pair< std::string, GLSLShaderType > >& list, std::vector< std::string >& err_f );
+		bool ImportShader( const std::vector< std::pair< string, GLSLShaderType > >& list, std::vector< string >& err_f );
 		bool ReImportShader( const char* name, GLSLShaderType type );
 		void CreateShaderObject( const char* name, const char* source, GLSLShaderType type );
 		void CreateShaderProgram( const char* name, const char* shaders_objects[], int count );
@@ -77,33 +78,33 @@ class ResourceManager : public Singleton<ResourceManager>
 	
 		// Audio
 		bool ImportAudioFile( const char* name );
-		bool ImportAudioFile( const std::vector<std::string>& list );
+		bool ImportAudioFile( const std::vector< string >& list );
 	
 		void Initialize();
 		void LoadBuiltinShader();
 	
 	private:
 	
-		unsigned int GetMaterialId( const char* name ) const;
+		uint32 GetMaterialId( const char* name ) const;
 	
 	
 		Importer imp;
 	
 		// Mesh information
-		std::map< std::string, ModelInstance* > models;
-		std::map< std::string, Mesh* > meshes;
+		std::map< string, ModelInstance* > models;
+		std::map< string, Mesh* > meshes;
 	
 		// Image information
-		std::map< std::string, ImageData* > images;
-		std::map< std::string, unsigned int > imageIds;
+		std::map< string, ImageData* > images;
+		std::map< string, uint32 > imageIds;
 	
 		// Material information
-		std::map< unsigned int, Material* > materials;
-		std::map< std::string, unsigned int > materialIds;
+		std::map< uint32, Material* > materials;
+		std::map< string, uint32 > materialIds;
 	
 		// Shader information
-		std::map< std::string, ShaderProgram* > shaderPrograms;
-		std::map< std::string, ShaderObject* > shaderObjects;
+		std::map< string, ShaderProgram* > shaderPrograms;
+		std::map< string, ShaderObject* > shaderObjects;
 };
 
 #endif /* resource_manager_h */

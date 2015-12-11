@@ -104,7 +104,7 @@ namespace Renderer
 			const ModelInstance* m = (*it)->GetModelInstace();
 			if (m == NULL)
 			{
-				return;
+				continue;
 			}
 			
 			const Material* mtl = (*it)->GetMaterial();

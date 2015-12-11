@@ -50,7 +50,7 @@ bool Importer::ImportObjFile( const std::string &pFile, bool importTextures )
 	unsigned int n;
 	if (scene->mNumMeshes > 1)
 	{
-		Terminal.Warning("Object file contains multiple meshes!");
+		Terminal.Warning("Object file " + pFile + " contains multiple meshes!");
 	}
 	
 	for ( n = 0; n < scene->mNumMeshes; ++n )
@@ -97,7 +97,16 @@ bool Importer::ImportObjFile( const std::string &pFile, bool importTextures )
 			mesh->materialId = ResourceManager::materialId++;
 			rm.InsertMaterial( mesh->materialId, material->name.c_str(), material );
 		}
-		rm.InsertMesh( pFile.c_str(), mesh);
+		if ( !rm.MeshExists( pFile.c_str() ) )
+		{
+			rm.InsertMesh( pFile.c_str(), mesh);
+		}
+		else
+		{
+			Terminal.Warning("Trying to insert mesh with an already taken name, skipping import!");
+			//rm.MergeToExistingMesh( pFile.c_str(), mesh );
+			delete mesh;
+		}
 	}
 	return true;
 }

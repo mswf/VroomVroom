@@ -586,6 +586,9 @@ void Engine::InitFMOD()
 		std::cout <<  "Error: FMOD did not find the file" << std::endl;
 	}
 	result = sound1->setMode(FMOD_LOOP_OFF);
-	result = systemLowLevel->playSound(sound1, 0, false, &channel);
-	
+	bool play = false;
+	if (play)
+	{
+		result = systemLowLevel->playSound(sound1, 0, false, &channel);
+	}
 }

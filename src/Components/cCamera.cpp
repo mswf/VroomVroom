@@ -50,7 +50,7 @@ void CCamera::Call()
 	glm::vec3 eye = entity->transform->GetPosition();
 	glm::vec3 target = entity->transform->GetRotation();
 	
-	entity->transform->SetWorldTransform( glm::inverse( glm::lookAt( eye , target, CTransform::VectorUp() ) ) );
+	entity->transform->SetWorldTransform( glm::inverse( glm::lookAt( eye , target, entity->transform->VectorUp() ) ) );
 	viewMatrix = entity->GetTransform();
 	//return glm::inverse( entity->GetTransform() );
 }

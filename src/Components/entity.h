@@ -19,9 +19,9 @@ class Entity
 		void AddChild( Entity* c );
 		void RemoveChild( Entity* c );
 		void Update();
-		const glm::mat4& GetTransform();
-		const Entity* GetParent();
-		const std::vector<Entity*> GetChildren();
+		const glm::mat4& GetTransform() const;
+		const Entity* GetParent() const;
+		const std::vector<Entity*> GetChildren() const;
 	
 		// TODO(Valentinas): Adding the same component to the same entity will add it to the global list twice,
 	 	//					 removing will remove both of them, so can be fixed later
@@ -59,7 +59,22 @@ class Entity
 		{
 			return (T*)e->entityComponents[T::familyId];
 		}
-
+	
+		template<typename T>
+		static std::vector< T* > GetComponentInChildren( Entity* e )
+		{
+			std::vector< T* > list;
+			std::vector< CTransform* >::const_iterator it = e->transform->GetChildren().begin();
+			std::vector< CTransform* >::const_iterator end = e->transform->GetChildren().end();
+			for( ; it != end ; ++it )
+			{
+				Entity* e = (*it)->entity;
+				list.push_back( Entity::GetComponent<T>( e ) );
+				std::vector< T* > childList = Entity::GetComponentInChildren<T>( e );
+				list.insert( std::end(list), std::begin(childList), std::end(childList) );
+			}
+			return list;
+		}
 	
 		template<typename T>
 		static void GetEntities( std::vector< Entity* > &result )

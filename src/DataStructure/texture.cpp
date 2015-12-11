@@ -82,11 +82,11 @@ GLuint BufferTexture1D( GLint internalFormat, GLint width, GLint pixelFormat, GL
 void BufferTextureCubeMap( GLuint mapId, GLenum sideTarget, GLint internalFormat, GLint width, GLint height, GLint pixelFormat, GLenum type, unsigned char* data )
 {
 	glBindTexture( GL_TEXTURE_CUBE_MAP, mapId );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GetFilterParameter( FilterType::LINEAR ) );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GetFilterParameter( FilterType::LINEAR ) );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GetWrapParameter( WrapType::CLAMP_EDGE ) );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GetWrapParameter( WrapType::CLAMP_EDGE ) );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GetWrapParameter( WrapType::CLAMP_EDGE ) );
+	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GetFilterParameter( FilterType::LINEAR ) );
+	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GetFilterParameter( FilterType::LINEAR ) );
+	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GetWrapParameter( WrapType::CLAMP_EDGE ) );
+	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GetWrapParameter( WrapType::CLAMP_EDGE ) );
+	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GetWrapParameter( WrapType::CLAMP_EDGE ) );
 	glTexImage2D( sideTarget, 0, internalFormat, width, height, 0, pixelFormat, type, (GLvoid*)data );
 	CheckGlError("glTexImage2D CUBE_MAP");
 }

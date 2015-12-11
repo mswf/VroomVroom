@@ -15,7 +15,7 @@ class CTransform : public Component
         CTransform();
         ~CTransform();
 	
-		void Call();
+		void Call() {}
 	
 		const glm::mat4& GetTransform() const;
 		const glm::mat4& GetWorldTransform() const;

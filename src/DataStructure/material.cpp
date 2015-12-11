@@ -71,6 +71,7 @@ void Material::UseMaterial() const
 void Material::SetUniforms() const
 {
 	//LogActiveUniformBlocks( shader->program );
+	//SetActiveSubroutine( shader->program, shader->shaders[0]->shaderType, &shader->shaders[0]->subroutine, "shadeModel", "phongModel");
 }
 
 void Material::SetAmbientColor( glm::vec4 colour )

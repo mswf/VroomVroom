@@ -13,6 +13,7 @@ Entity::Entity( std::string name, Entity* parent ) :
 {
 	transform = new CTransform();
 	transform->entity = this;
+	
 	if( transform->GetParent() == NULL && name != root_name )
 	{
 		Entity::root->AddChild(this);
@@ -56,17 +57,17 @@ void Entity::Update()
 	}
 }
 
-const glm::mat4& Entity::GetTransform()
+const glm::mat4& Entity::GetTransform() const
 {
 	return transform->GetTransform();
 }
 
-const Entity* Entity::GetParent()
+const Entity* Entity::GetParent() const
 {
 	return transform->GetParent()->entity;
 }
 
-const std::vector<Entity*> Entity::GetChildren()
+const std::vector<Entity*> Entity::GetChildren() const
 {
 	std::vector<Entity* > children;
 	std::vector<CTransform* >::const_iterator it = transform->GetChildren().begin();

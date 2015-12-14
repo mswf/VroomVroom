@@ -12,9 +12,8 @@ uint32 ResourceManager::materialId = 0;
 const char * DEFAULT_VERTEX = "shaders/default_vert.glsl";
 const char * DEFAULT_FRAGMENT = "shaders/default_frag.glsl";
 
-
-ResourceManager::ResourceManager() {}
-//TODO(Valentinas): Reload meshes
+ResourceManager::ResourceManager()
+{}
 ResourceManager::~ResourceManager()
 {
 	images.clear();
@@ -136,7 +135,7 @@ void ResourceManager::SetMeshScale( const char* name, float scale )
 
 void ResourceManager::InsertMesh( const char* name, Mesh* data )
 {
-	meshes.insert( std::pair< string, Mesh* >( string(name), data ) );
+	meshes.insert( std::make_pair( string(name), data ) );
 }
 
 bool ResourceManager::MeshExists( const char* name ) const
@@ -190,7 +189,7 @@ ModelInstance* ResourceManager::GetModel( const char* name )
 
 void ResourceManager::InsertModelInstance( const char* name, ModelInstance* instance )
 {
-	models.insert( std::pair< string, ModelInstance* >( string(name), instance ) );
+	models.insert( std::make_pair( string(name), instance ) );
 }
 
 // Images
@@ -236,7 +235,7 @@ bool ResourceManager::ImportImage( const std::vector< string >& files, std::vect
 
 void ResourceManager::InsertImage( const char* name, ImageData* data )
 {
-	images.insert( std::pair< string, ImageData* >( string(name), data ) );
+	images.insert( std::make_pair( string(name), data ) );
 }
 
 uint32 ResourceManager::GetImageId( const char *name )
@@ -282,7 +281,7 @@ bool ResourceManager::BufferImage1D( const char* name )
 		img->imageId = BufferTexture1D( GL_RGBA, img->width, GL_RGBA, GL_UNSIGNED_BYTE, img->pixelData, false );
 		img->isBuffered = true;
 		img->mipmapping = false;
-		imageIds.insert( std::pair< string, uint32 >( string(name), img->imageId ) );
+		imageIds.insert( std::make_pair( string(name), img->imageId ) );
 	}
 	return true;
 }
@@ -301,7 +300,7 @@ bool ResourceManager::BufferImage2D( const char* name )
 		img->imageId = BufferTexture2D( GL_RGBA, img->width, img->height, GL_RGBA, GL_UNSIGNED_BYTE,
 										img->pixelData, img->magFilter, img->minFilter, img->wrap, img->mipmapping);
 		img->isBuffered = true;
-		imageIds.insert( std::pair< string, uint32 >( string(name), img->imageId ) );
+		imageIds.insert( std::make_pair( string(name), img->imageId ) );
 		delete img->pixelData;
 	}
 	return true;
@@ -388,8 +387,8 @@ void ResourceManager::InsertMaterial( uint32 id, const char* name, Material* dat
 {
 	if ( !MaterialExists(name) )
 	{
-		materialIds.insert( std::pair< string, uint32 >( string(name), id ) );
-		materials.insert( std::pair< uint32, Material* >( id, data ) );
+		materialIds.insert( std::make_pair( string(name), id ) );
+		materials.insert( std::make_pair( id, data ) );
 	}
 }
 
@@ -541,7 +540,7 @@ void ResourceManager::InsertShaderObject( const char* name, ShaderObject* data )
 {
 	if ( !ShaderObjectExists( name ) )
 	{
-		shaderObjects.insert( std::pair< string, ShaderObject* >( string(name), data ) );
+		shaderObjects.insert( std::make_pair( string(name), data ) );
 		return;
 	}
 	Terminal.Warning( "Shader " + string(name) + " already exists." );
@@ -551,7 +550,7 @@ void ResourceManager::InsertShaderProgram( const char* name, ShaderProgram* data
 {
 	if ( !ShaderProgramExists( name ) )
 	{
-		shaderPrograms.insert( std::pair< string, ShaderProgram* >( string(name), data ) );
+		shaderPrograms.insert( std::make_pair( string(name), data ) );
 		return;
 	}
 	Terminal.Warning( "Program " + string(name) + " already exists." );

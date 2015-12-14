@@ -126,9 +126,11 @@ void ResourceManager::SetMeshScale( const char* name, float scale )
 	if ( m->hasPositions )
 	{
 		m->scaleFactor = scale;
-		for( auto it : m->vertices )
+		std::vector< glm::vec3 >::iterator it = m->vertices.begin();
+		std::vector< glm::vec3 >::iterator end = m->vertices.end();
+		for ( ; it != end; ++it)
 		{
-			it *= scale;
+			(*it) *= scale;
 		}
 	}
 }

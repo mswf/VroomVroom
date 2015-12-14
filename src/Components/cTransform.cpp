@@ -90,6 +90,7 @@ void CTransform::RemoveChild( CTransform *c )
 		{
 			
 			children.erase(iter);
+			c->parent = NULL;
 			break;
 		}
 	}

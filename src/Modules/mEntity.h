@@ -25,6 +25,9 @@ class mEntity {
 		lFuncDef(addChild);
 		lFuncDef(addComponent);
 	
+		lFuncDef(getChildren);
+		lFuncDef(removeChild);
+	
 		//GETTERS
 		lFuncDef(getX);
 		lFuncDef(getY);

@@ -187,6 +187,7 @@
     <ClInclude Include="..\..\src\IO\importer_imp.h" />
     <ClInclude Include="..\..\src\IO\RtMidi.h" />
     <ClInclude Include="..\..\src\IO\stb_image.h" />
+    <ClInclude Include="..\..\src\IO\stb_image_write.h" />
     <ClInclude Include="..\..\src\Modules\mAll.h" />
     <ClInclude Include="..\..\src\Modules\mCamera.h" />
     <ClInclude Include="..\..\src\Modules\mDebugRenderer.h" />

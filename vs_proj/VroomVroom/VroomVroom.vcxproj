@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Components\cCamera.h" />
+    <ClInclude Include="..\..\src\Components\cCollider.h" />
     <ClInclude Include="..\..\src\Components\cDebugRenderer.h" />
     <ClInclude Include="..\..\src\Components\cLua.h" />
     <ClInclude Include="..\..\src\Components\cMeshRenderer.h" />
@@ -229,6 +230,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Components\cCamera.cpp" />
+    <ClCompile Include="..\..\src\Components\cCollider.cpp" />
     <ClCompile Include="..\..\src\Components\cDebugRenderer.cpp" />
     <ClCompile Include="..\..\src\Components\cLua.cpp" />
     <ClCompile Include="..\..\src\Components\cMeshRenderer.cpp" />

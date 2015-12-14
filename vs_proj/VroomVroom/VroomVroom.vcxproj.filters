@@ -693,6 +693,9 @@
     <ClInclude Include="..\..\src\IO\stb_image_write.h">
       <Filter>VroomVroom\IO</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Components\cCollider.h">
+      <Filter>VroomVroom\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Networking\TCPData.cpp">
@@ -862,6 +865,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\IO\importer.cpp">
       <Filter>VroomVroom\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Components\cCollider.cpp">
+      <Filter>VroomVroom\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

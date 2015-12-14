@@ -497,7 +497,7 @@ void ResourceManager::CreateShaderProgram( const char* name, const char* shaders
 {
 	ShaderProgram* prog = new ShaderProgram();
 	prog->name = name;
-	ResourceManager::getInstance().InsertShaderProgram( name, prog);
+	Resources.InsertShaderProgram( name, prog);
 	int32 i;
 	uint32* shaders = new uint32[count];
 	for ( i = 0; i < count; ++i )

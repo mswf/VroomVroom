@@ -8,6 +8,8 @@
 #include "../Patterns/singleton.h"
 #include "../IO/importer.h"
 
+#define Resources ResourceManager::getInstance()
+
 class Material;
 
 struct Mesh;

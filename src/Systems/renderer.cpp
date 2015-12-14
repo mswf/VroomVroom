@@ -46,7 +46,7 @@ namespace Renderer
 	{
 		SetMeshRendererList( CMeshRenderer::GetMeshRendererList() );
 		SetDebugRendererList( CDebugRenderer::GetDebugRendererList() );
-		ResourceManager& rm = ResourceManager::getInstance();
+		ResourceManager& rm = Resources;
 		skybox = rm.GetModel("__Skybox_model");
 		skyboxProgram = rm.GetShaderProgram("__Skybox_program");
 		debugProgram = rm.GetShaderProgram("__Debug_program");

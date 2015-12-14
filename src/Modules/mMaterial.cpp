@@ -78,7 +78,7 @@ lFuncImp(mMaterial, getMaterial)
 	
 	lua_newtable(L);
 	
-	Material* mat = ResourceManager::getInstance().GetMaterialByName(name);
+	Material* mat = Resources.GetMaterialByName(name);
 	
 	lua_pushlightuserdata(L, mat);
 	lua_setfield(L, -2, "__coreMaterial__");

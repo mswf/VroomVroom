@@ -26,7 +26,7 @@ Material::Material() :
 	SetArray(transparent,	glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 	SetArray(reflective,	glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 
-	shader = ResourceManager::getInstance().GetShaderProgram("Default");
+	shader = Resources.GetShaderProgram("Default");
 }
 
 void Material::SetArray(float* array, glm::vec4 values)
@@ -39,27 +39,27 @@ void Material::SetArray(float* array, glm::vec4 values)
 
 void Material::SetDiffuseTexture( const char* name )
 {
-	diffuseTextureId = ResourceManager::getInstance().GetImageId( name );
+	diffuseTextureId = Resources.GetImageId( name );
 }
 
 void Material::SetNormalTexture( const char* name )
 {
-	normalTextureId = ResourceManager::getInstance().GetImageId( name );
+	normalTextureId = Resources.GetImageId( name );
 }
 
 void Material::SetSpecularTexture( const char* name )
 {
-	specularTextureId = ResourceManager::getInstance().GetImageId( name );
+	specularTextureId = Resources.GetImageId( name );
 }
 
 void Material::SetCubeMapTexture( const char* name )
 {
-	cubemapTextureId = ResourceManager::getInstance().GetImageId( name );
+	cubemapTextureId = Resources.GetImageId( name );
 }
 
 void Material::SetHeightMapTexture( const char* name )
 {
-	heightTextureId = ResourceManager::getInstance().GetImageId( name );
+	heightTextureId = Resources.GetImageId( name );
 }
 
 void Material::UseMaterial() const

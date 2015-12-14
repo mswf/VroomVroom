@@ -38,7 +38,7 @@ lFuncImp(mImport, importModel)
 	lua_settop(L, 1);
 	lgString(path, 1, "undefined");
 	
-	ResourceManager::getInstance().ImportMesh(path.c_str());
+	Resources.ImportMesh(path.c_str());
 	
 	return 0;
 }
@@ -50,7 +50,7 @@ lFuncImp(mImport, importTexture)
 	lgString(path, 1, "undefined");
 	lgBool(flipped, 2, false);
 	
-	ResourceManager::getInstance().ImportImage(path.c_str(), flipped);
+	Resources.ImportImage(path.c_str(), flipped);
 	
 	return 0;
 }
@@ -61,7 +61,7 @@ lFuncImp(mImport, reloadTexture)
 	lgString(path, 1, "undefined");
 	lgBool(flipped, 1, false);
 	
-	ResourceManager::getInstance().ReImportImage(path.c_str(), flipped);
+	Resources.ReImportImage(path.c_str(), flipped);
 	
 	return 0;
 }
@@ -94,7 +94,7 @@ lFuncImp(mImport, reloadShader)
 		shaderType = GLSLShaderType::TESS_EVALUATION;
 	}
 	
-	ResourceManager::getInstance().ReImportShader(path.c_str(), shaderType);
+	Resources.ReImportShader(path.c_str(), shaderType);
 	
 	return 0;
 }

@@ -31,7 +31,7 @@ lFuncImp(mModel, getModel)
 	
 	lua_newtable(L);
 	
-	ModelInstance* model = ResourceManager::getInstance().GetModel(name);
+	ModelInstance* model = Resources.GetModel(name);
 	
 	lua_pushlightuserdata(L, model);
 	lua_setfield(L, -2, "__coreModel__");

@@ -314,7 +314,7 @@ void Engine::ImportAssets()
 		errors.clear();
 		Terminal.Log("Import failed", true);
 	};
-	ResourceManager& rm = ResourceManager::getInstance();
+	ResourceManager& rm = Resources;
 	rm.Initialize();
 	std::vector< std::string > cube_map, errors;
 	std::vector< std::pair< std::string, GLSLShaderType > > shaders;
@@ -331,31 +331,33 @@ void Engine::ImportAssets()
 	rm.ImportShader( "shaders/line_vert.glsl", GLSLShaderType::VERTEX );
 	rm.ImportShader( "shaders/line_frag.glsl", GLSLShaderType::FRAGMENT );
 	const char* sh_objs2[] = { "shaders/line_vert.glsl", "shaders/line_frag.glsl", NULL };
-	ResourceManager::getInstance().CreateShaderProgram("__Debug_program", sh_objs2, 2);
+	Resources.CreateShaderProgram("__Debug_program", sh_objs2, 2);
 	
 	rm.ImportShader( "shaders/skybox_vert.glsl", GLSLShaderType::VERTEX );
 	rm.ImportShader( "shaders/skybox_frag.glsl", GLSLShaderType::FRAGMENT );
 	const char* sh_objs[] = { "shaders/skybox_vert.glsl", "shaders/skybox_frag.glsl", NULL };
-	ResourceManager::getInstance().CreateShaderProgram("__Skybox_program", sh_objs, 2);
-	/*
+	Resources.CreateShaderProgram("__Skybox_program", sh_objs, 2);
+	
 	bool successfulImport = rm.ImportImage( cube_map, errors, false );
 	if (!successfulImport)
 	{
 		printErr(errors);
 	}
 	
-	int width, height;
-	width = height = rm.GetImageData("images/LancellottiChapel/negx.jpg")->width;
-	std::vector< std::pair< unsigned char*, unsigned int > > textures;
-	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/negx.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_X ) );
-	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/negy.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y ) );
-	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/negz.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z ) );
-	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/posx.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_X ) );
-	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/posy.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Y ) );
-	textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/posz.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Z ) );
-	skybox_map = rm.CreateCubeMap(&textures, width, height);
-	 */
-	
+	if (true)
+	//if (false)
+	{
+		int width, height;
+		width = height = rm.GetImageData("images/LancellottiChapel/negx.jpg")->width;
+		std::vector< std::pair< unsigned char*, unsigned int > > textures;
+		textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/negx.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_X ) );
+		textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/negy.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y ) );
+		textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/negz.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z ) );
+		textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/posx.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_X ) );
+		textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/posy.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Y ) );
+		textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/posz.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Z ) );
+		skybox_map = rm.CreateCubeMap(&textures, width, height);
+	}
 }
 
 void Engine::UpdateLoop()
@@ -384,8 +386,9 @@ void Engine::UpdateLoop()
 		return glm::vec3( Random::Next(min, max) * modif, Random::Next(min,max) * modif, Random::Next(min,max) * modif );
 	};
 	
-	ResourceManager::getInstance().ImportMesh("objects/Teapot/teapot.obj");
-	ResourceManager::getInstance().SetMeshScale("objects/Teapot/teapot.obj", 0.01f);
+	/*
+	Resources.ImportMesh("objects/Teapot/teapot.obj");
+	Resources.SetMeshScale("objects/Teapot/teapot.obj", 0.01f);
 	Entity* a = new Entity( "testA" );
 	Entity* ac = new Entity( "testAChild", a );
 	Entity* ac2 = new Entity( "testA2Child", ac );
@@ -403,7 +406,7 @@ void Engine::UpdateLoop()
 	}
 	
 	Entity::GetComponentInChildren<CMeshRenderer>(a);
-	
+	*/
 	/*
 		CDebugRenderer* drend = new CDebugRenderer();
 		Entity::AddComponent( ac, drend);

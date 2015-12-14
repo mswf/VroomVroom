@@ -74,14 +74,11 @@ bool ResourceManager::ImportMesh( const char* name )
 bool ResourceManager::ImportMesh( const std::vector< string >& files, std::vector< string >& err_f )
 {
 	bool final = true;
-	std::vector< string >::const_iterator iter = files.begin();
-	std::vector< string >::const_iterator end = files.end();
-	for ( ; iter != end; ++iter )
+	for (auto it : files )
 	{
-		if ( !imp.ImportObjFile( (*iter) ) )
+		if ( !imp.ImportObjFile( it ) )
 		{
-			string error( *iter );
-			err_f.push_back( error );
+			err_f.push_back( it );
 			final = false;
 		}
 	}
@@ -90,13 +87,11 @@ bool ResourceManager::ImportMesh( const std::vector< string >& files, std::vecto
 
 void ResourceManager::UpdateMeshBuffer()
 {
-	std::map< string, Mesh* >::const_iterator iter = meshes.begin();
-	std::map< string, Mesh* >::const_iterator end = meshes.end();
-	for ( ; iter != end; ++iter )
+	for ( auto it : meshes )
 	{
-		if ( (*iter).second->hasBufferChanged )
+		if ( it.second->hasBufferChanged )
 		{
-			printf( "Changed %s", (*iter).first.c_str() );
+			printf( "Changed %s", it.first.c_str() );
 		}
 	}
 }
@@ -132,11 +127,9 @@ void ResourceManager::SetMeshScale( const char* name, float scale )
 	if ( m->hasPositions )
 	{
 		m->scaleFactor = scale;
-		auto it = m->vertices.begin();
-		auto end = m->vertices.end();
-		for ( ; it != end; ++it)
+		for( auto it : m->vertices )
 		{
-			(*it) *= scale;
+			it *= scale;
 		}
 	}
 }
@@ -230,14 +223,11 @@ bool ResourceManager::ReImportImage( const char* name, bool vertical_flip )
 bool ResourceManager::ImportImage( const std::vector< string >& files, std::vector< string >& err_f, bool vertical_flip )
 {
 	bool final = true;
-	std::vector< string >::const_iterator iter = files.begin();
-	std::vector< string >::const_iterator end = files.end();
-	for ( ; iter != end; ++iter )
+	for (auto item : files)
 	{
-		if ( !ImportImage( (*iter).c_str(), vertical_flip ) )
+		if ( !ImportImage( item.c_str(), vertical_flip ) )
 		{
-			string error( *iter );
-			err_f.push_back( error );
+			err_f.push_back( item );
 			final = false;
 		}
 	}
@@ -345,12 +335,11 @@ unsigned int ResourceManager::CreateCubeMap( const std::vector< std::pair< uint8
 	uint32 cubeMapId;
 	glGenTextures( 1, &cubeMapId );
 
-	std::vector< std::pair< uint8*, GLenum > >::const_iterator iter = textures->begin();
-	std::vector< std::pair< uint8*, GLenum > >::const_iterator end = textures->end();
-	for ( ; iter != end; ++iter )
-	{
-		BufferTextureCubeMap(cubeMapId, (*iter).second, GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, (*iter).first);
-		delete (*iter).first;
+	for (auto it : *textures )
+ 	{
+		BufferTextureCubeMap(cubeMapId, it.second, GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, it.first);
+		delete it.first;
+
 	}
 	return cubeMapId;
 }
@@ -473,18 +462,14 @@ bool ResourceManager::ReImportShader( const char* name, GLSLShaderType type )
 }
 
 
-bool ResourceManager::ImportShader( const std::vector< std::pair< string, GLSLShaderType > >& list,
-									std::vector< string >& err_f )
+bool ResourceManager::ImportShader( const std::vector< std::pair< string, GLSLShaderType > >& list, std::vector< string >& err_f )
 {
 	bool final = true;
-	std::vector< std::pair< string, GLSLShaderType > >::const_iterator iter = list.begin();
-	std::vector< std::pair< string, GLSLShaderType > >::const_iterator iter_end = list.end();
-	for ( ; iter != iter_end; ++iter )
+	for ( auto it : list )
 	{
-		if ( !ImportShader( (*iter).first.c_str(), (*iter).second ) )
+		if ( !ImportShader( it.first.c_str(), it.second ) )
 		{
-			string error( (*iter).first );
-			err_f.push_back( error );
+			err_f.push_back( it.first );
 			final = false;
 		}
 	}

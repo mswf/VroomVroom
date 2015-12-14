@@ -349,13 +349,13 @@ void Engine::ImportAssets()
 	{
 		int width, height;
 		width = height = rm.GetImageData("images/LancellottiChapel/negx.jpg")->width;
-		std::vector< std::pair< unsigned char*, unsigned int > > textures;
-		textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/negx.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_X ) );
-		textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/negy.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y ) );
-		textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/negz.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z ) );
-		textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/posx.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_X ) );
-		textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/posy.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Y ) );
-		textures.push_back( std::pair<unsigned char*, unsigned int>( rm.GetImageData("images/LancellottiChapel/posz.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Z ) );
+		std::vector< std::pair< uint8*, uint32 > > textures;
+		textures.push_back( std::make_pair( rm.GetImageData("images/LancellottiChapel/negx.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_X ) );
+		textures.push_back( std::make_pair( rm.GetImageData("images/LancellottiChapel/negy.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y ) );
+		textures.push_back( std::make_pair( rm.GetImageData("images/LancellottiChapel/negz.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z ) );
+		textures.push_back( std::make_pair( rm.GetImageData("images/LancellottiChapel/posx.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_X ) );
+		textures.push_back( std::make_pair( rm.GetImageData("images/LancellottiChapel/posy.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Y ) );
+		textures.push_back( std::make_pair( rm.GetImageData("images/LancellottiChapel/posz.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Z ) );
 		skybox_map = rm.CreateCubeMap(&textures, width, height);
 	}
 }
@@ -380,12 +380,14 @@ void Engine::UpdateLoop()
 
 	/// TINAS PLAYGROUND!!!
 
+	/*
 	auto random_vec3 = []( int min, int max ) -> glm::vec3
 	{
 		float modif = 0.5f;
 		return glm::vec3( Random::Next(min, max) * modif, Random::Next(min, max) * modif, Random::Next(min, max) * modif );
 	};
-
+	*/
+	
 	/*
 	Resources.ImportMesh("objects/Teapot/teapot.obj");
 	Resources.SetMeshScale("objects/Teapot/teapot.obj", 0.01f);

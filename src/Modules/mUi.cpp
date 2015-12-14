@@ -19,6 +19,7 @@ void mUi::Bind(lua_State* L){
 	
     lStart(ui)
         lBind(createWindow)
+		lBind(setTooltip)
     lEnd(UiWindow)
 	luaL_openlib(L, 0, ui_funcs, 0);
 	
@@ -173,6 +174,15 @@ lFuncImp(mUi, createWindow){
     lua_setmetatable(L, -2);
 	
     return 1;
+}
+
+lFuncImp(mUi, setTooltip){
+	lua_settop(L, 1);
+	lgString(tt, 1, "");
+	
+	UiSystem.SetTooltip(tt);
+	
+	return 0;
 }
 
 lFuncImp(mUi, close)

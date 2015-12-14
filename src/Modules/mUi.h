@@ -28,6 +28,8 @@ class mUi {
 		static void BasicElementBind(lua_State*, uiElement*, int);
 	
         lFuncDef(createWindow);
+		lFuncDef(setTooltip);
+	
 		lFuncDef(close);
 	
         lFuncDef(mtIndex);

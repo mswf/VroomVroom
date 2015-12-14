@@ -56,4 +56,10 @@ class Engine
 	
 };
 
+//	rendering
+//	float normalizedInterpolationValue = deltaTimeGame / gameUpdateInterval
+//	//Do something with locking
+//	render.draw(normalizedInterpolationValue)
+
+
 #endif

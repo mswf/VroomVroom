@@ -500,10 +500,6 @@ void Engine::UpdateLoop()
 		TakeScreenShot();
 		SDL_GL_SwapWindow(window);
 
-		//rendering
-		//float normalizedInterpolationValue = deltaTimeGame / gameUpdateInterval
-		//	//Do something with locking
-		//	render.draw(normalizedInterpolationValue)
 	}
 	CloseWindow(window, glcontext);
 }

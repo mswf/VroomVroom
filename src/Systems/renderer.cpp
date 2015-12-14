@@ -128,7 +128,7 @@ namespace Renderer
 		{
 			
 			const ModelInstance* m = (*it)->GetModelInstace();
-			if (m == NULL)
+			if (m == NULL || (*it)->entity == NULL)
 			{
 				continue;
 			}

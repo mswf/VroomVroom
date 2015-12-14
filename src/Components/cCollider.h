@@ -25,10 +25,13 @@ class CCollider : public Component
 		bool SphereToSphere(const CCollider* other) const;
 		void SetRadius(float radius);
 		float GetRadius() const;
+		void SetCollisionBox(float width, float height, float length);
+		bool BoxToBox(const CCollider* other);
 	private:
 		static std::vector< CCollider* > list;
 		CollisionType collisionType;
 		float radius;
+		float width, height, length;
 };
 
 

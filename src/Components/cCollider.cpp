@@ -50,3 +50,30 @@ float CCollider::GetRadius() const
 {
 	return radius;
 }
+
+void CCollider::SetCollisionBox(float width, float height, float length)
+{
+	this->width = width;
+	this->height = height;
+	this->length = length;
+}
+
+bool CCollider::BoxToBox(const CCollider* other) const
+{
+	glm::vec3 position1 = entity->transform->GetPosition();
+	glm::vec3 position2 = other->entity->transform->GetPosition();
+
+	// multiply .5f because position is center, if should be corner, go fix by removing multiplication
+	if (glm::abs(position1.x - position2.x) < (width + other->width) * .5f)
+	{
+		if (glm::abs(position1.y - position2.y) < (height + other->height) * .5f)
+		{
+			if (glm::abs(position1.z - position2.z) < (length + other->length) * .5f)
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
+}

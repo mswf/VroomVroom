@@ -13,7 +13,7 @@ CMeshRenderer::CMeshRenderer() :
 	model(NULL)
 {
 	list.push_back( this );
-	material = Resources.GetMaterialByName( "Default" );
+	material = Assets.GetMaterialByName( "Default" );
 }
 
 CMeshRenderer::~CMeshRenderer()
@@ -26,10 +26,10 @@ void CMeshRenderer::Call()
 
 void CMeshRenderer::SetModel( const char* name )
 {
-	model = Resources.GetModel(name);
+	model = Assets.GetModel(name);
 	if (model != NULL)
 	{
-		SetMaterial( Resources.GetMaterialById( model->materialId ) );
+		SetMaterial( Assets.GetMaterialById( model->materialId ) );
 	}
 }
 
@@ -38,7 +38,7 @@ void CMeshRenderer::SetModel( ModelInstance* instance )
 	model = instance;
 	if (model != NULL)
 	{
-		SetMaterial( Resources.GetMaterialById( model->materialId ) );
+		SetMaterial( Assets.GetMaterialById( model->materialId ) );
 	}
 }
 
@@ -49,7 +49,7 @@ const ModelInstance* CMeshRenderer::GetModelInstace() const
 
 void CMeshRenderer::SetMaterial( const char* name )
 {
-	material = Resources.GetMaterialByName( name );
+	material = Assets.GetMaterialByName( name );
 }
 
 void CMeshRenderer::SetMaterial( Material* mtl )

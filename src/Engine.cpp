@@ -268,7 +268,7 @@ void Engine::InitGlew()
 	Terminal.LogOpenGL( glslVersion, true );
 	Terminal.LogOpenGL( "GLEW version " + majorGlew + "." + minorGlew, true  );
 
-//#define LOG_EXTENSIONS
+	//#define LOG_EXTENSIONS
 #ifdef LOG_EXTENSIONS
 	int NumberOfExtensions, i;
 	glGetIntegerv(GL_NUM_EXTENSIONS, &NumberOfExtensions);
@@ -314,38 +314,38 @@ void Engine::ImportAssets()
 		errors.clear();
 		Terminal.Log("Import failed", true);
 	};
-	ResourceManager& rm = Resources;
+	ResourceManager& rm = Assets;
 	rm.Initialize();
 	std::vector< std::string > cube_map, errors;
 	std::vector< std::pair< std::string, GLSLShaderType > > shaders;
 
 	// Cube map
-	
+
 	cube_map.push_back( "images/LancellottiChapel/negx.jpg" );
 	cube_map.push_back( "images/LancellottiChapel/negy.jpg" );
 	cube_map.push_back( "images/LancellottiChapel/negz.jpg" );
 	cube_map.push_back( "images/LancellottiChapel/posx.jpg" );
 	cube_map.push_back( "images/LancellottiChapel/posy.jpg" );
 	cube_map.push_back( "images/LancellottiChapel/posz.jpg" );
-	
+
 	rm.ImportShader( "shaders/line_vert.glsl", GLSLShaderType::VERTEX );
 	rm.ImportShader( "shaders/line_frag.glsl", GLSLShaderType::FRAGMENT );
 	const char* sh_objs2[] = { "shaders/line_vert.glsl", "shaders/line_frag.glsl", NULL };
-	Resources.CreateShaderProgram("__Debug_program", sh_objs2, 2);
-	
+	Assets.CreateShaderProgram("__Debug_program", sh_objs2, 2);
+
 	rm.ImportShader( "shaders/skybox_vert.glsl", GLSLShaderType::VERTEX );
 	rm.ImportShader( "shaders/skybox_frag.glsl", GLSLShaderType::FRAGMENT );
 	const char* sh_objs[] = { "shaders/skybox_vert.glsl", "shaders/skybox_frag.glsl", NULL };
-	Resources.CreateShaderProgram("__Skybox_program", sh_objs, 2);
-	
+	Assets.CreateShaderProgram("__Skybox_program", sh_objs, 2);
+
 	bool successfulImport = rm.ImportImage( cube_map, errors, false );
 	if (!successfulImport)
 	{
 		printErr(errors);
 	}
-	
+
 	if (true)
-	//if (false)
+		//if (false)
 	{
 		int width, height;
 		width = height = rm.GetImageData("images/LancellottiChapel/negx.jpg")->width;
@@ -371,32 +371,32 @@ void Engine::UpdateLoop()
 
 	ImportAssets();
 	//InitFMOD();
-	
+
 	EnvironmentCube();
-	
+
 	renderer->SetWindowSize(1280, 720);
 	renderer->Initialize();
 	renderer->skyboxMap = skybox_map;
 
 	/// TINAS PLAYGROUND!!!
-	
+
 	auto random_vec3 = []( int min, int max ) -> glm::vec3
 	{
 		float modif = 0.5f;
-		return glm::vec3( Random::Next(min, max) * modif, Random::Next(min,max) * modif, Random::Next(min,max) * modif );
+		return glm::vec3( Random::Next(min, max) * modif, Random::Next(min, max) * modif, Random::Next(min, max) * modif );
 	};
-	
+
 	/*
 	Resources.ImportMesh("objects/Teapot/teapot.obj");
 	Resources.SetMeshScale("objects/Teapot/teapot.obj", 0.01f);
 	Entity* a = new Entity( "testA" );
 	Entity* ac = new Entity( "testAChild", a );
 	Entity* ac2 = new Entity( "testA2Child", ac );
-	
+
 	//Entity* b =  new Entity( "testB" );
 	//Entity* bc =  new Entity( "testBChild", b );
 	Entity* list[3] = { a, ac, ac2 };
-	
+
 	for (int i =0; i < 3; ++i )
 	{
 		CMeshRenderer* rend = new CMeshRenderer();
@@ -404,7 +404,7 @@ void Engine::UpdateLoop()
 		rend->SetModel( "objects/Teapot/teapot.obj" );
 		list[i]->transform->SetPosition( random_vec3( -2, 2 ) );
 	}
-	
+
 	Entity::GetComponentInChildren<CMeshRenderer>(a);
 	*/
 	/*
@@ -413,33 +413,33 @@ void Engine::UpdateLoop()
 		Entity::AddComponent( ac, drend);
 		Entity::RemoveComponent( ac, drend);
 	*/
-	
-	
-/*
-	
-	Entity* debugObject = new Entity( "Debugger" );
-	CDebugRenderer* debugRenderer = new CDebugRenderer();
-	Entity::AddComponent(debugObject, debugRenderer);
-	debugObject->transform->SetPosition(glm::vec3(-1,-1,-1));
-	debugRenderer->SetDrawPoints(true);
-	debugRenderer->SetPointSize(10.0f);
-	
-	float lineLength = 1.0f;
-	int lineAmount = 10;
-	for (int i = 0; i < lineAmount + 1; ++i)
-	{
-		float p = (i * 0.1f);
-		// Along x axis
-		debugRenderer->AddLine(  Line( glm::vec3( 0.0, 0.0, p ), glm::vec3( lineLength, 0.0, p ), random_colour() ) );
-		debugRenderer->AddLine(  Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( lineLength, p, 0.0 ), random_colour() ) );
-		// Along y axis
-		debugRenderer->AddLine(  Line( glm::vec3( p, 0.0, 0.0 ), glm::vec3( p, lineLength, 0.0 ), random_colour() ) );
-		debugRenderer->AddLine(  Line( glm::vec3( p, 0.0, 0.0 ), glm::vec3( p, 0.0, lineLength ), random_colour() ) );
-		// Along z axis
-		debugRenderer->AddLine(  Line( glm::vec3( 0.0, 0.0, p ), glm::vec3( 0.0, lineLength, p ), random_colour() ) );
-		debugRenderer->AddLine(  Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( 0.0, p, lineLength ), random_colour() ) );
-	}
-*/
+
+
+	/*
+
+		Entity* debugObject = new Entity( "Debugger" );
+		CDebugRenderer* debugRenderer = new CDebugRenderer();
+		Entity::AddComponent(debugObject, debugRenderer);
+		debugObject->transform->SetPosition(glm::vec3(-1,-1,-1));
+		debugRenderer->SetDrawPoints(true);
+		debugRenderer->SetPointSize(10.0f);
+
+		float lineLength = 1.0f;
+		int lineAmount = 10;
+		for (int i = 0; i < lineAmount + 1; ++i)
+		{
+			float p = (i * 0.1f);
+			// Along x axis
+			debugRenderer->AddLine(  Line( glm::vec3( 0.0, 0.0, p ), glm::vec3( lineLength, 0.0, p ), random_colour() ) );
+			debugRenderer->AddLine(  Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( lineLength, p, 0.0 ), random_colour() ) );
+			// Along y axis
+			debugRenderer->AddLine(  Line( glm::vec3( p, 0.0, 0.0 ), glm::vec3( p, lineLength, 0.0 ), random_colour() ) );
+			debugRenderer->AddLine(  Line( glm::vec3( p, 0.0, 0.0 ), glm::vec3( p, 0.0, lineLength ), random_colour() ) );
+			// Along z axis
+			debugRenderer->AddLine(  Line( glm::vec3( 0.0, 0.0, p ), glm::vec3( 0.0, lineLength, p ), random_colour() ) );
+			debugRenderer->AddLine(  Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( 0.0, p, lineLength ), random_colour() ) );
+		}
+	*/
 	/*
 	Entity* camera = new Entity( "Main Camera" );
 	//	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 1280.0f / 720.0f );
@@ -470,7 +470,7 @@ void Engine::UpdateLoop()
 			deltaTimeGame -= gameUpdateInterval;
 
 			//systemStudio->update();
-			
+
 			Update( gameUpdateInterval / 1000 );
 
 			if (deltaTimeGame < gameUpdateInterval)
@@ -540,7 +540,7 @@ void Engine::InitFMOD()
 	{
 		Terminal.Error( "Error version is not the FMOD version" );
 	}
- 
+
 	result = systemStudio->initialize( 32, FMOD_STUDIO_INIT_NORMAL, FMOD_INIT_NORMAL, extradriverdata );
 	if (result == FMOD_ERR_INITIALIZATION)
 	{
@@ -550,36 +550,36 @@ void Engine::InitFMOD()
 	std::string smasterBank(Content::GetPath() + "/sounds/media/" + "Master Bank.bank");
 	std::string smasterBankString(Content::GetPath() + "/sounds/media/" + "Master Bank.strings.bank");
 	std::string svehicleBank(Content::GetPath() + "/sounds/media/" + "Vehicles.bank");
-	
-	
+
+
 	FMOD::Studio::Bank* masterBank = NULL;
 	result = systemStudio->loadBankFile( smasterBank.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &masterBank);
-	
+
 	FMOD::Studio::Bank* stringsBank = NULL;
 	result = systemStudio->loadBankFile( smasterBankString.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &stringsBank);
-	
+
 	FMOD::Studio::Bank* vehiclesBank = NULL;
 	result = systemStudio->loadBankFile( svehicleBank.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &vehiclesBank);
-	
+
 	FMOD::Studio::EventDescription* eventDescription = NULL;
 	result = systemStudio->getEvent("event:/Vehicles/Basic Engine", &eventDescription);
-	
+
 	FMOD::Studio::EventInstance* eventInstance = NULL;
 	result = eventDescription->createInstance(&eventInstance);
-	
+
 	FMOD::Studio::ParameterInstance* rpm = NULL;
 	result = eventInstance->getParameter("RPM", &rpm);
-	
+
 	result = rpm->setValue(1150);
-	
+
 	result = eventInstance->start();
-	
+
 	// Position the listener at the origin
 	FMOD_3D_ATTRIBUTES attributes = { { 0 } };
 	attributes.forward.z = 1.0f;
 	attributes.up.y = 1.0f;
 	systemStudio->setListenerAttributes(0, &attributes);
-	
+
 	// Position the event 2 units in front of the listener
 	attributes.position.z = 2.0f;
 	eventInstance->set3DAttributes(&attributes);
@@ -597,11 +597,11 @@ void Engine::InitFMOD()
 	{
 		std::cout <<  "Error: FMOD did not add effect to channel" << std::endl;
 	}
-	
- 
+
+
 	//result = systemLowLevel->createSound( (Content::GetPath() + "/sounds/piano2.wav").c_str(), FMOD_DEFAULT, 0, &sound1);
 	result = systemLowLevel->createStream( (Content::GetPath() + "/sounds/piano2.wav").c_str(), FMOD_DEFAULT, 0, &sound1);
-	
+
 	if (result == FMOD_ERR_FILE_NOTFOUND)
 	{
 		std::cout <<  "Error: FMOD did not find the file" << std::endl;

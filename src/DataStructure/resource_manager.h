@@ -8,7 +8,7 @@
 #include "../Patterns/singleton.h"
 #include "../IO/importer.h"
 
-#define Resources ResourceManager::getInstance()
+#define Assets ResourceManager::getInstance()
 
 class Material;
 
@@ -23,10 +23,10 @@ enum class GLSLShaderType;
 class ResourceManager : public Singleton<ResourceManager>
 {
 	public:
-	
+
 		ResourceManager();
 		~ResourceManager();
-	
+
 		// Meshes
 		Mesh* GetMesh( const char* name ) const;
 		bool ImportMesh( const char* name );
@@ -40,7 +40,7 @@ class ResourceManager : public Singleton<ResourceManager>
 		// Model Instances
 		ModelInstance* GetModel( const char* name );
 		void InsertModelInstance( const char* name, ModelInstance* instance );
-	
+
 		// Images
 		ImageData* GetImageData( const char* name ) const;
 		uint32 GetImageId( const char* name );
@@ -53,9 +53,9 @@ class ResourceManager : public Singleton<ResourceManager>
 		bool UpdateImage2DBuffer( const char* name );
 		void InsertImage( const char* name, ImageData* data );
 		bool ImageExists( const char* name ) const;
-	
+
 		uint32 CreateCubeMap( const std::vector< std::pair< uint8*, uint32 > >* textures, int32 width, int32 height );
-	
+
 		// Materials
 		static uint32 materialId;
 		Material* GetMaterialByName( const char* name ) const;
@@ -63,7 +63,7 @@ class ResourceManager : public Singleton<ResourceManager>
 		void InsertMaterial( uint32 id, const char* name, Material* data );
 		bool MaterialExists( const char* name ) const;
 		bool MaterialExists( const uint32 id ) const;
-	
+
 		// Shaders
 		ShaderProgram* GetShaderProgram( const char* name ) const;
 		ShaderObject* GetShaderObject( const char* name ) const;
@@ -73,38 +73,38 @@ class ResourceManager : public Singleton<ResourceManager>
 		void CreateShaderObject( const char* name, const char* source, GLSLShaderType type );
 		void CreateShaderProgram( const char* name, const char* shaders_objects[], int count );
 		void UpdateShaderProgram( const char* name, GLSLShaderType type, const char* source );
-	
+
 		void InsertShaderObject( const char* name, ShaderObject* data );
 		void InsertShaderProgram( const char* name, ShaderProgram* data );
 		bool ShaderObjectExists( const char* name ) const;
 		bool ShaderProgramExists( const char* name ) const;
-	
+
 		// Audio
 		bool ImportAudioFile( const char* name );
 		bool ImportAudioFile( const std::vector< string >& list );
-	
+
 		void Initialize();
 		void LoadBuiltinShader();
-	
+
 	private:
-	
+
 		uint32 GetMaterialId( const char* name ) const;
-	
-	
+
+
 		Importer imp;
-	
+
 		// Mesh information
 		std::map< string, ModelInstance* > models;
 		std::map< string, Mesh* > meshes;
-	
+
 		// Image information
 		std::map< string, ImageData* > images;
 		std::map< string, uint32 > imageIds;
-	
+
 		// Material information
 		std::map< uint32, Material* > materials;
 		std::map< string, uint32 > materialIds;
-	
+
 		// Shader information
 		std::map< string, ShaderProgram* > shaderPrograms;
 		std::map< string, ShaderObject* > shaderObjects;

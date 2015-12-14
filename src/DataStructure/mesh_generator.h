@@ -118,7 +118,7 @@ void EnvironmentCube()
 	instance->vao = vao;
 	instance->vbo = vbo;
 	instance->numIndices = 36;
-	Resources.InsertModelInstance( "__Skybox_model", instance );
+	Assets.InsertModelInstance( "__Skybox_model", instance );
 }
 
 #endif /* mesh_generator_h */

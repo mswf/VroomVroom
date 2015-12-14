@@ -263,7 +263,7 @@ void ImporterImp::ExtractMaterial( const aiMaterial* mtl, Material* material, st
 	}
 	memcpy(material->reflective, color, sizeof(color));
 
-	auto FindTextures = []( const aiMaterial * mtl, aiTextureType type, uint32& textureCount, std::vector< string >* textureIdMap )
+	auto FindTextures = []( const aiMaterial * mtl, aiTextureType type, uint32 & textureCount, std::vector< string >* textureIdMap )
 	{
 		uint32 i;
 		aiString path;

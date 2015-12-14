@@ -21,7 +21,7 @@ void Importer::SetSceneImportFlags( int flags )
 
 bool Importer::ImportObjFile( const std::string &pFile, bool importTextures )
 {
-	ResourceManager& rm = Resources;
+	ResourceManager& rm = Assets;
 	
 	if ( rm.MeshExists( pFile.c_str() ) )
 	{
@@ -114,7 +114,7 @@ bool Importer::ImportObjFile( const std::string &pFile, bool importTextures )
 
 bool Importer::ImportImage( const char* filename, bool vertical_flip, FilterType minFilter, FilterType magFilter, WrapType wrapping )
 {
-	ResourceManager& rm = Resources;
+	ResourceManager& rm = Assets;
 	std::string file( Content::GetPath() + "/" + filename );
 	ImageData* image = new ImageData();
 	image->magFilter = magFilter;

@@ -8,6 +8,25 @@
 #include "../glm/vec2.hpp"
 #include "../glm/vec3.hpp"
 
+enum class FilterType
+{
+	NEAREST,
+	LINEAR,
+	NEAREST_MIPMAP_NEAREST,
+	LINEAR_MIPMAP_NEAREST,
+	NEAREST_MIPMAP_LINEAR,
+	LINEAR_MIPMAP_LINEAR
+};
+
+enum class WrapType
+{
+	CLAMP_EDGE,
+	MIRROR_CLAMP_EDGE,
+	CLAMP_BORDER,
+	REPEAT,
+	MIRRORED_REPEAT
+};
+
 struct ShaderProgram;
 
 struct Subroutines
@@ -72,6 +91,9 @@ struct ImageData
 	uint32 width = 0;
 	uint32 height = 0;
 	uint32 components = 0;
+	FilterType minFilter;
+	FilterType magFilter;
+	WrapType wrap;
 	bool isBuffered = false;
 	bool mipmapping = false;
 };

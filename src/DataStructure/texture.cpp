@@ -1,4 +1,5 @@
 #include "Texture.h"
+#include "data_types.h"
 #include "../Utilities/opengl_common.h"
 
 GLuint BufferTexture3D( GLint levelOfDetail, GLint internalFormat, GLint width, GLint height, GLint depth, GLint pixelFormat, GLenum type, unsigned char* data, const std::vector< std::pair< GLenum, GLint > >* textureParameters, bool generateMipMap )
@@ -24,28 +25,15 @@ GLuint BufferTexture3D( GLint levelOfDetail, GLint internalFormat, GLint width, 
 	return textureId;
 }
 
-GLuint BufferTexture2D( GLint internalFormat, GLint width, GLint height, GLint pixelFormat, GLenum dataType, unsigned char* data, bool filterNearest, bool generateMipMap, bool MipMapFilterNearest )
+GLuint BufferTexture2D( GLint internalFormat, GLint width, GLint height, GLint pixelFormat, GLenum dataType, unsigned char* data, FilterType magFilter, FilterType minFilter, WrapType wrap, bool generateMipMap )
 {
 	unsigned int textureId;
 	glGenTextures( 1, &textureId );
 	glBindTexture( GL_TEXTURE_2D, textureId );
 	
-	FilterType magFilter = (filterNearest) ? FilterType::NEAREST : FilterType::LINEAR;
-	FilterType minFilter;
-	if ( generateMipMap )
-	{
-		minFilter = (filterNearest) ?
-		( (MipMapFilterNearest) ? FilterType::NEAREST_MIPMAP_NEAREST : FilterType::NEAREST_MIPMAP_LINEAR ) :
-		( (MipMapFilterNearest) ? FilterType::LINEAR_MIPMAP_NEAREST : FilterType::LINEAR_MIPMAP_LINEAR );
-	}
-	else
-	{
-		minFilter = (filterNearest) ? FilterType::NEAREST : FilterType::LINEAR;
-	}
-	
 	SetTextureFilter( textureId, GL_TEXTURE_2D, minFilter, magFilter );
-	SetTextureWrapping( textureId, GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, WrapType::REPEAT );
-	SetTextureWrapping( textureId, GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, WrapType::REPEAT );
+	SetTextureWrapping( textureId, GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrap );
+	SetTextureWrapping( textureId, GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap );
 
 	// target, level of detail, internal format(RGBA), width, height, border(must be 0), pixel format(RGBA), type, data pointer
 	glTexImage2D( GL_TEXTURE_2D, 0, internalFormat, width, height, 0, pixelFormat, dataType, (GLvoid*)data );

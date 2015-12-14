@@ -302,10 +302,11 @@ bool ResourceManager::BufferImage2D( const char* name )
 	
 	if ( !img->isBuffered || iter_imageId == imageIds.end() )
 	{
-		img->imageId = BufferTexture2D( GL_RGBA, img->width, img->height, GL_RGBA, GL_UNSIGNED_BYTE, img->pixelData, false, true, false);
+		img->imageId = BufferTexture2D( GL_RGBA, img->width, img->height, GL_RGBA, GL_UNSIGNED_BYTE,
+									    img->pixelData, img->magFilter, img->minFilter, img->wrap, img->mipmapping);
 		img->isBuffered = true;
-		img->mipmapping = true;
 		imageIds.insert( std::pair< string, uint32 >( string(name), img->imageId ) );
+		delete img->pixelData;
 	}
 	return true;
 }
@@ -343,6 +344,7 @@ unsigned int ResourceManager::CreateCubeMap( const std::vector< std::pair< uint8
 	for ( ; iter != end; ++iter )
 	{
 		BufferTextureCubeMap(cubeMapId, (*iter).second, GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, (*iter).first);
+		delete (*iter).first;
 	}
 	return cubeMapId;
 }

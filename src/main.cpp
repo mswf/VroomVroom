@@ -4,8 +4,6 @@
 #include "Tests/TestCode.h"
 #endif
 
-#include <iostream>
-
 int main(int argc, char** a)
 {
 	Engine engine;

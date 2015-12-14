@@ -24,7 +24,6 @@ class ImporterImp
 		~ImporterImp();
 
 		void FreeScene( aiScene* sc );
-		void FreeImage( uint8* img );
 		void ExtractMesh( const aiMesh* mesh, Mesh* m );
 		void ExtractMaterial( const aiMaterial* mtl, Material* material, std::vector< string >* textureIdMap );
 		aiScene* ImportObjFile( const string& pFile, IMPORTER_MESSAGE& message );

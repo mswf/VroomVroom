@@ -108,14 +108,19 @@ bool Importer::ImportObjFile( const std::string &pFile, bool importTextures )
 			delete mesh;
 		}
 	}
+	imp_->FreeScene(scene);
 	return true;
 }
 
-bool Importer::ImportImage( const char* filename, bool vertical_flip )
+bool Importer::ImportImage( const char* filename, bool vertical_flip, FilterType minFilter, FilterType magFilter, WrapType wrapping )
 {
 	ResourceManager& rm = ResourceManager::getInstance();
 	std::string file( Content::GetPath() + "/" + filename );
 	ImageData* image = new ImageData();
+	image->magFilter = magFilter;
+	image->minFilter = minFilter;
+	image->wrap = wrapping;
+	image->mipmapping = false;
 	image->components = 4;
 	IMPORTER_MESSAGE imp_err = IMPORTER_MESSAGE::FILE_OK;
 	image->pixelData = imp_->ImportImage( file.c_str(), image->width, image->height, image->components, imp_err, vertical_flip );

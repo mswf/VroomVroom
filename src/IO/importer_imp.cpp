@@ -36,22 +36,13 @@ uint8* ImporterImp::ImportImage( const char* filename, uint32& width, uint32& he
 		return NULL;
 	}
 
-	//size_t size = w * h * requiring_components;
-	//unsigned char* data = new unsigned char[size];
-	//memcpy(data, image, size);
-	//FreeImage(image);
+	size_t size = w * h * requiring_components;
+	uint8* data = new uint8[size];
+	memcpy(data, image, size);
+	stbi_image_free(image);
 
 	err_msg = IMPORTER_MESSAGE::IMAGE_LOAD_OK;
-	return image;
-}
-
-void ImporterImp::FreeImage( uint8* img )
-{
-	if (img != NULL)
-	{
-		stbi_image_free(img);
-		img = NULL;
-	}
+	return data;
 }
 
 aiScene* ImporterImp::ImportObjFile( const string& pFile, IMPORTER_MESSAGE& msg )

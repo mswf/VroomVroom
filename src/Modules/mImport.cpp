@@ -13,22 +13,22 @@
 void mImport::Bind(lua_State* L)
 {
 	lua_getglobal(L, "Engine");
-	
+
 	lua_pushcfunction(L, lw_importModel__);
 	lua_setfield(L, -2, "importModel");
-	
+
 	//lua_pushcfunction(L, lw_importMesh__);
 	//lua_setfield(L, -2, "importMesh");
-	
+
 	//lua_pushcfunction(L, lw_importMaterial__);
 	//lua_setfield(L, -2, "importMaterial");
-	
+
 	lua_pushcfunction(L, lw_importTexture__);
 	lua_setfield(L, -2, "importTexture");
-	
+
 	lua_pushcfunction(L, lw_reloadTexture__);
 	lua_setfield(L, -2, "reloadTexture");
-	
+
 	lua_pushcfunction(L, lw_reloadShader__);
 	lua_setfield(L, -2, "reloadShader");
 }
@@ -37,9 +37,9 @@ lFuncImp(mImport, importModel)
 {
 	lua_settop(L, 1);
 	lgString(path, 1, "undefined");
-	
-	Resources.ImportMesh(path.c_str());
-	
+
+	Assets.ImportMesh(path.c_str());
+
 	return 0;
 }
 
@@ -49,9 +49,9 @@ lFuncImp(mImport, importTexture)
 	lua_settop(L, 2);
 	lgString(path, 1, "undefined");
 	lgBool(flipped, 2, false);
-	
-	Resources.ImportImage(path.c_str(), flipped);
-	
+
+	Assets.ImportImage(path.c_str(), flipped);
+
 	return 0;
 }
 
@@ -60,9 +60,9 @@ lFuncImp(mImport, reloadTexture)
 	lua_settop(L, 2);
 	lgString(path, 1, "undefined");
 	lgBool(flipped, 1, false);
-	
-	Resources.ReImportImage(path.c_str(), flipped);
-	
+
+	Assets.ReImportImage(path.c_str(), flipped);
+
 	return 0;
 }
 
@@ -71,7 +71,7 @@ lFuncImp(mImport, reloadShader)
 	lua_settop(L, 2);
 	lgString(path, 1, "undefined");
 	lgString(type, 1, "none");
-	
+
 	GLSLShaderType shaderType = GLSLShaderType::NONE;
 	if (type == "VERTEX")
 	{
@@ -93,8 +93,8 @@ lFuncImp(mImport, reloadShader)
 	{
 		shaderType = GLSLShaderType::TESS_EVALUATION;
 	}
-	
-	Resources.ReImportShader(path.c_str(), shaderType);
-	
+
+	Assets.ReImportShader(path.c_str(), shaderType);
+
 	return 0;
 }

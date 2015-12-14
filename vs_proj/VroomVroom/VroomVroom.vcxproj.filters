@@ -690,6 +690,9 @@
     <ClInclude Include="..\..\src\Modules\mCamera.h">
       <Filter>VroomVroom\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\IO\stb_image_write.h">
+      <Filter>VroomVroom\IO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Networking\TCPData.cpp">
@@ -818,12 +821,6 @@
     <ClCompile Include="..\..\src\Components\cLua.cpp">
       <Filter>VroomVroom\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\IO\importer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\IO\importer_imp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Systems\entitySystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -859,6 +856,12 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Modules\mCamera.cpp">
       <Filter>VroomVroom\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\IO\importer_imp.cpp">
+      <Filter>VroomVroom\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\IO\importer.cpp">
+      <Filter>VroomVroom\IO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

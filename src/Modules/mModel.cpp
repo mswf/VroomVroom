@@ -1,4 +1,4 @@
-//
+﻿//
 //  mModel.cpp
 //  VroomVroom
 //
@@ -31,7 +31,7 @@ lFuncImp(mModel, getModel)
 	
 	lua_newtable(L);
 	
-	ModelInstance* model = Resources.GetModel(name);
+	ModelInstance* model = Assets.GetModel(name);
 	
 	lua_pushlightuserdata(L, model);
 	lua_setfield(L, -2, "__coreModel__");

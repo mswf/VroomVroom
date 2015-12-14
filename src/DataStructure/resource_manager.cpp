@@ -38,7 +38,7 @@ void ResourceManager::Initialize()
 		const char* shaders[2] = { DEFAULT_VERTEX, DEFAULT_FRAGMENT };
 		CreateShaderProgram( "Default", shaders, 2);
 	}
-	
+
 	Material* defaultMat = new Material();
 	defaultMat->SetShader( GetShaderProgram("Default") );
 	defaultMat->name = "Default";
@@ -164,27 +164,27 @@ ModelInstance* ResourceManager::GetModel( const char* name )
 {
 	std::map< string, ModelInstance* >::const_iterator iter_model = models.find(name);
 	std::map< string, Mesh* >::const_iterator iter_mesh = meshes.find(name);
-	
+
 	if ( iter_model == models.end() )
 	{
 		if ( iter_mesh != meshes.end() && !(*iter_mesh).second->isBuffered)
 		{
 			//Terminal.Log( string(name) + " has not been buffered yet." );
-			
+
 			//Buffer ModelInstance & add to resource list
 			ModelInstance* newInstance = new ModelInstance();
 			unsigned int mtl = (*iter_mesh).second->materialId;
 			newInstance->materialId = mtl;
 			BufferMesh( (*iter_mesh).second, newInstance );
-			
+
 			// Set the mesh's buffer to true
 			(*iter_mesh).second->isBuffered = true;
-			
+
 			InsertModelInstance( name, newInstance );
-			
+
 			return GetModel( name );
 		}
-		
+
 		// Checking if the mesh is imported
 		if ( iter_mesh == meshes.end() )
 		{
@@ -281,9 +281,12 @@ ImageData* ResourceManager::GetImageData( const char* name ) const
 bool ResourceManager::BufferImage1D( const char* name )
 {
 	ImageData* img = GetImageData( name );
-	if (img == NULL) return false;
+	if (img == NULL)
+	{
+		return false;
+	}
 	std::map< string, unsigned int >::const_iterator iter_imageId = imageIds.find(name);
-	
+
 	if ( !img->isBuffered || iter_imageId == imageIds.end() )
 	{
 		img->imageId = BufferTexture1D( GL_RGBA, img->width, GL_RGBA, GL_UNSIGNED_BYTE, img->pixelData, false );
@@ -297,13 +300,16 @@ bool ResourceManager::BufferImage1D( const char* name )
 bool ResourceManager::BufferImage2D( const char* name )
 {
 	ImageData* img = GetImageData( name );
-	if (img == NULL) return false;
+	if (img == NULL)
+	{
+		return false;
+	}
 	std::map< string, uint32 >::const_iterator iter_imageId = imageIds.find(name);
-	
+
 	if ( !img->isBuffered || iter_imageId == imageIds.end() )
 	{
 		img->imageId = BufferTexture2D( GL_RGBA, img->width, img->height, GL_RGBA, GL_UNSIGNED_BYTE,
-									    img->pixelData, img->magFilter, img->minFilter, img->wrap, img->mipmapping);
+										img->pixelData, img->magFilter, img->minFilter, img->wrap, img->mipmapping);
 		img->isBuffered = true;
 		imageIds.insert( std::pair< string, uint32 >( string(name), img->imageId ) );
 		delete img->pixelData;
@@ -338,7 +344,7 @@ unsigned int ResourceManager::CreateCubeMap( const std::vector< std::pair< uint8
 {
 	uint32 cubeMapId;
 	glGenTextures( 1, &cubeMapId );
-	
+
 	std::vector< std::pair< uint8*, GLenum > >::const_iterator iter = textures->begin();
 	std::vector< std::pair< uint8*, GLenum > >::const_iterator end = textures->end();
 	for ( ; iter != end; ++iter )
@@ -438,7 +444,7 @@ bool ResourceManager::ImportShader( const char* name, GLSLShaderType type )
 	{
 		// Get source
 		string source = HelperFunctions::ReadFile( path );
-		
+
 		// Create shader object
 		CreateShaderObject(name, source.c_str(), type);
 		return true;
@@ -468,7 +474,7 @@ bool ResourceManager::ReImportShader( const char* name, GLSLShaderType type )
 
 
 bool ResourceManager::ImportShader( const std::vector< std::pair< string, GLSLShaderType > >& list,
-								    std::vector< string >& err_f )
+									std::vector< string >& err_f )
 {
 	bool final = true;
 	std::vector< std::pair< string, GLSLShaderType > >::const_iterator iter = list.begin();
@@ -497,7 +503,7 @@ void ResourceManager::CreateShaderProgram( const char* name, const char* shaders
 {
 	ShaderProgram* prog = new ShaderProgram();
 	prog->name = name;
-	Resources.InsertShaderProgram( name, prog);
+	Assets.InsertShaderProgram( name, prog);
 	int32 i;
 	uint32* shaders = new uint32[count];
 	for ( i = 0; i < count; ++i )
@@ -522,11 +528,11 @@ void ResourceManager::UpdateShaderProgram( const char* name, GLSLShaderType type
 {
 	ShaderObject* _old = GetShaderObject( name );
 	ShaderProgram* p = GetShaderProgram( _old->program->name.c_str() );
-	
+
 	ShaderObject _new;
 	_new.shaderType = GetGLShaderEnum(type);
 	CreateShader( _new.shader, _new.shaderType, source );
-	
+
 	uint32 i;
 	uint32 count = (uint32)p->shaders.size();
 	uint32* shaders = new uint32[count];

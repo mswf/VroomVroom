@@ -29,9 +29,22 @@ enum class WrapType
 
 struct ShaderProgram;
 
+struct Uniform
+{
+	std::string name;
+	uint32 location;
+	uint32 type;
+	void* data;
+};
+
+struct UniformBlocks
+{
+	
+};
+
 struct Subroutines
 {
-	std::map< std::string, unsigned int > locations;
+	std::map< string, uint32 > locations;
 	uint32* subroutines;
 	uint32 numSubroutines = 0;
 };
@@ -40,10 +53,8 @@ struct ShaderObject
 {
 	uint32 shader = 0;
 	uint32 shaderType = 0;
-	// Create by the number of subroutine uniforms & clean up when finished
-	//TODO(Valentinas): Use std::Array instead of pointer to memory block
+	std::vector< Uniform > uniforms;
 	Subroutines subroutine;
-	bool updateProgram = true;
 	ShaderProgram* program;
 };
 

@@ -4,7 +4,9 @@
 #include <string>
 #include "../glm/detail/type_vec4.hpp"
 
+
 struct ShaderProgram;
+struct Uniform;
 
 class Material
 {
@@ -77,7 +79,7 @@ class Material
 
 	private:
 
-
+		void SetShaderUniform( Uniform u ) const;
 };
 
 

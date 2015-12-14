@@ -36,6 +36,7 @@ bool IsShader( GLuint shader );
 bool IsProgram( GLuint program );
 bool IsAttached( GLuint program, GLuint shader );
 GLint GetAttachedShaderCount( GLuint program );
+GLint GetAttributeLocation( GLuint program, const char* name );
 
 void SetUniform( GLuint program, const char* name, int val );
 void SetUniform( GLuint program, const char* name, unsigned int val );
@@ -68,6 +69,8 @@ void SetSubroutineUniformLocations( GLuint program, GLuint shader, Subroutines& 
 GLenum GetGLShaderEnum( GLSLShaderType type, bool separate = false );
 bool ProgramInfoLog( GLuint program, GLenum status );
 bool ShaderInfoLog( GLuint shader, GLenum status );
+
+std::string GetGLSLUniformType( GLenum type );
 
 #ifndef GLSL_SHADER_FILE
 #define GLSL_SHADER_FILE(version, A) "#version " #version "\n" #A

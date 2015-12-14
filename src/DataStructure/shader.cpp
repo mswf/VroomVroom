@@ -219,6 +219,11 @@ bool IsAttached( GLuint program, GLuint shader )
 	return false;
 }
 
+GLint GetAttributeLocation( GLuint program, const char* name )
+{
+	return glGetAttribLocation( program, name );
+}
+
 GLint GetAttachedShaderCount( GLuint program )
 {
 	GLint num_shaders;
@@ -268,22 +273,54 @@ void LogActiveUniforms( GLuint program )
 	for ( i = 0; i < num_properties; ++i )
 	{
 		glGetActiveUniform(program, i, sizeof(property_name), &length, &size, &type, property_name);
-		Terminal.LogOpenGL( std::string( "Uniform " + std::to_string(i) + ": " + property_name ) );
+		Terminal.LogOpenGL( std::string( "Uniform " + std::to_string(i) + ": " + GetGLSLUniformType(type) + " " + property_name ) );
 	}
+}
+
+std::string GetGLSLUniformType( GLenum type )
+{
+	switch (type)
+	{
+		case GL_FLOAT: 				{ return "float"; }
+		case GL_FLOAT_VEC2: 		{ return "vec2"; }
+		case GL_FLOAT_VEC3: 		{ return "vec3"; }
+		case GL_FLOAT_VEC4: 		{ return "vec4"; }
+		case GL_DOUBLE: 			{ return "double"; }
+		case GL_INT: 				{ return "int"; }
+		case GL_INT_VEC2: 			{ return "ivec2"; }
+		case GL_INT_VEC3: 			{ return "ivec3"; }
+		case GL_INT_VEC4: 			{ return "ivec4"; }
+		case GL_UNSIGNED_INT: 		{ return "unsigned int"; }
+		case GL_UNSIGNED_INT_VEC2: 	{ return "uvec2"; }
+		case GL_UNSIGNED_INT_VEC3: 	{ return "uvec3"; }
+		case GL_UNSIGNED_INT_VEC4: 	{ return "uvec4"; }
+		case GL_FLOAT_MAT2: 		{ return "mat2"; }
+		case GL_FLOAT_MAT3: 		{ return "mat3"; }
+		case GL_FLOAT_MAT4: 		{ return "mat4"; }
+		case GL_SAMPLER_1D: 		{ return "sampler1D"; }
+		case GL_SAMPLER_2D: 		{ return "sampler2D"; }
+		case GL_SAMPLER_3D: 		{ return "sampler3D"; }
+		case GL_SAMPLER_CUBE: 		{ return "samplerCube"; }
+		case GL_SAMPLER_1D_SHADOW: 	{ return "sampler1DShadow"; }
+		case GL_SAMPLER_2D_SHADOW: 	{ return "sampler2DShadow"; }
+		default: 					{ return "Not supported"; }
+	}
+	return "Not supported";
 }
 
 void LogActiveUniformBlocks( GLuint program )
 {
 	
-	GLuint blockIndex = glGetUniformBlockIndex( program, "Material" );
+	GLint blockIndex = glGetUniformBlockIndex( program, "Material" );
 	CheckGlError("glGetUniformBlockIndex");
 	
 	//GL_ACTIVE_UNIFORM_BLOCKS
-	GLint uniforms = 0;
+	GLint uniforms;
 	glGetProgramiv( program, GL_ACTIVE_UNIFORM_BLOCKS, &uniforms );
 	CheckGlError("Active Uniforms");
 	
-	for ( int i = 0; i < uniforms; ++i )
+	int i;
+	for ( i = 0; i < uniforms; ++i )
 	{
 		//GL_UNIFORM_BLOCK_NAME_LENGTH
 		GLsizei activeUniformLength = 0;
@@ -326,6 +363,7 @@ void LogActiveUniformBlocks( GLuint program )
 		Terminal.LogOpenGL( std::string( "Uniform block " + std::to_string(i) + ": " + uniformName + " of size " +  std::to_string(blockSize) ) );
 	}
 	
+	/*
 	GLint bindingPoint = 0;
 	glUniformBlockBinding( program, blockIndex, bindingPoint );
 	CheckGlError("bindingPoint");
@@ -346,6 +384,7 @@ void LogActiveUniformBlocks( GLuint program )
 	
 	glBufferData(GL_UNIFORM_BUFFER, sizeof(myFloats), myFloats, GL_DYNAMIC_DRAW);
 	glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, materialBuffer);
+	 */
 }
 
 void LogActiveSubroutines( GLuint program, GLenum shaderType )
@@ -424,6 +463,11 @@ GLenum GetGLShaderEnum( GLSLShaderType type, bool separate )
 }
 
 // UNIFORM SETTING
+
+GLuint GetUniformLocation( GLuint program, const char* name )
+{
+	return glGetUniformLocation( program, name );
+}
 
 // SINGLE VALUE ( float, int, uint, double )
 void SetUniform( GLuint program, const char* name, float val )

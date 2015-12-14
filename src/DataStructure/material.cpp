@@ -71,6 +71,21 @@ void Material::UseMaterial() const
 void Material::SetUniforms() const
 {
 	//LogActiveUniformBlocks( shader->program );
+	//LogActiveUniforms( shader->program );
+	/*
+	std::vector<ShaderObject*>::const_iterator it = shader->shaders.begin();
+	std::vector<ShaderObject*>::const_iterator end = shader->shaders.end();
+	for ( ; it != end; ++it )
+	{
+		std::vector< Uniform >::const_iterator u = (*it)->uniforms.begin();
+		std::vector< Uniform >::const_iterator ue = (*it)->uniforms.end();
+		for ( ; u != ue; ++u )
+		{
+			printf( "Setting uniform %s \n", (*u).name.c_str() );
+			SetShaderUniform( (*u) );
+		}
+	}
+	*/
 	//SetActiveSubroutine( shader->program, shader->shaders[0]->shaderType, &shader->shaders[0]->subroutine, "shadeModel", "phongModel");
 }
 
@@ -132,4 +147,128 @@ const glm::vec4 Material::GetTransparentColor() const
 const glm::vec4 Material::GetReflectiveColor() const
 {
 	return glm::vec4( reflective[0], reflective[1], reflective[2], reflective[3] );
+}
+
+void Material::SetShaderUniform( Uniform u ) const
+{
+	const char* name = u.name.c_str();
+	unsigned int p = shader->program;
+	switch (u.type)
+	{
+		case GL_FLOAT:
+		{
+			float value = *( (float*)u.data );
+			SetUniform( p, name, value );
+		}
+		case GL_FLOAT_VEC2:
+		{
+//			float x = ( (float*)u.data )[0];
+//			float y = ( (float*)u.data )[1];
+//			glm::vec2( x, y );
+			glm::vec2 value = *( (glm::vec2*)u.data );
+			SetUniform( p, name, value );
+		}
+		case GL_FLOAT_VEC3:
+		{
+//			float x = ( (float*)u.data )[0];
+//			float y = ( (float*)u.data )[1];
+//			float z = ( (float*)u.data )[2];
+//			glm::vec3( x, y, z );
+			glm::vec3 value = *( (glm::vec3*)u.data );
+			SetUniform( p, name, value );
+		}
+		case GL_FLOAT_VEC4:
+		{
+//			float x = ( (float*)u.data )[0];
+//			float y = ( (float*)u.data )[1];
+//			float z = ( (float*)u.data )[2];
+//			float w = ( (float*)u.data )[3];
+//			glm::vec4( x, y, z, w );
+			glm::vec4 value = *( (glm::vec4*)u.data );
+			SetUniform( p, name, value );
+		}
+		case GL_DOUBLE:
+		{
+			double value = *( (double*)u.data );
+			SetUniform( p, name, value );
+		}
+		case GL_INT:
+		{
+			int value = *( (int*)u.data );
+			SetUniform( p, name, value );
+		}
+		case GL_INT_VEC2:
+		{
+//			int x = ( (int*)u.data )[0];
+//			int y = ( (int*)u.data )[1];
+//			glm::ivec2( x, y );
+			glm::ivec2 value = *( (glm::ivec2*)u.data );
+			SetUniform( p, name, value );
+		}
+		case GL_INT_VEC3:
+		{
+//			int x = ( (int*)u.data )[0];
+//			int y = ( (int*)u.data )[1];
+//			int z = ( (int*)u.data )[2];
+//			glm::ivec3( x, y, z );
+			glm::ivec3 value = *( (glm::ivec3*)u.data );
+			SetUniform( p, name, value );
+		}
+		case GL_INT_VEC4:
+		{
+//			int x = ( (int*)u.data )[0];
+//			int y = ( (int*)u.data )[1];
+//			int z = ( (int*)u.data )[2];
+//			int w = ( (int*)u.data )[3];
+//			glm::ivec4( x, y, z, w );
+			glm::ivec4 value = *( (glm::ivec4*)u.data );
+			SetUniform( p, name, value );
+		}
+		case GL_UNSIGNED_INT:
+		{
+			unsigned int value = *( (unsigned int*)u.data );
+			SetUniform( p, name, value );
+		}
+		case GL_UNSIGNED_INT_VEC2:
+		{
+//			unsigned int x = ( (unsigned int*)u.data )[0];
+//			unsigned int y = ( (unsigned int*)u.data )[1];
+//			glm::uvec2( x, y );
+			glm::uvec2 value = *( (glm::uvec2*)u.data );
+			SetUniform( p, name, value );
+		}
+		case GL_UNSIGNED_INT_VEC3:
+		{
+//			unsigned int x = ( (unsigned int*)u.data )[0];
+//			unsigned int y = ( (unsigned int*)u.data )[1];
+//			unsigned int z = ( (unsigned int*)u.data )[2];
+//			glm::uvec3( x, y, z );
+			glm::uvec3 value = *( (glm::uvec3*)u.data );
+			SetUniform( p, name, value );
+		}
+		case GL_UNSIGNED_INT_VEC4:
+		{
+//			unsigned int x = ( (unsigned int*)u.data )[0];
+//			unsigned int y = ( (unsigned int*)u.data )[1];
+//			unsigned int z = ( (unsigned int*)u.data )[2];
+//			unsigned int w = ( (unsigned int*)u.data )[3];
+//			glm::uvec4( x, y, z, w );
+			glm::uvec4 value = *( (glm::uvec4*)u.data );
+			SetUniform( p, name, value );
+		}
+		//case GL_FLOAT_MAT2:			{ return "mat2";}
+		//case GL_FLOAT_MAT3:			{ return "mat3";}
+		case GL_FLOAT_MAT4:
+		{
+			glm::mat4 matrix = *( (glm::mat4*)u.data );
+			SetUniform( p, name, matrix );
+		}
+		//case GL_SAMPLER_1D: 		{ return "sampler1D"; }
+		//case GL_SAMPLER_2D: 		{ return "sampler2D"; }
+		//case GL_SAMPLER_3D: 		{ return "sampler3D"; }
+		//case GL_SAMPLER_CUBE: 		{ return "samplerCube"; }
+		//case GL_SAMPLER_1D_SHADOW: 	{ return "sampler1DShadow"; }
+		//case GL_SAMPLER_2D_SHADOW: 	{ return "sampler2DShadow"; }
+		//default: 					{ return "Not supported"; }
+	}
 }

@@ -6,6 +6,7 @@ enum class ComponentTypes
     UNKNOWN = 0,
     TRANSFORM = 1,
     CAMERA,
+	COLLIDER,
 	MESH,
 	MESH_RENDERER,
 	DEBUG_RENDERER,

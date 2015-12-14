@@ -149,17 +149,6 @@ namespace Renderer
 			glm::mat3 normalMatrix = glm::transpose(glm::inverse(mvMatrix));
 			glm::vec3 lightPosition( 0.0, 5.0, 1.0 );
 			
-			//GLuint index1 = glGetSubroutineIndex( s->program, GL_FRAGMENT_SHADER, "diffuseOnly" );
-			
-			//GLuint index2 = glGetSubroutineIndex( s->program, GL_FRAGMENT_SHADER, "phongModel" );
-			// shader, number of uniforms, array of subroutine function indexes
-			//glUniformSubroutinesuiv( GL_FRAGMENT_SHADER, 1, &index1 );
-			//glUniformSubroutinesuiv( GL_FRAGMENT_SHADER, 0, &index2 );
-			
-			//SetActiveSubroutine( program, *mtl->shader->shaders[1], "ShadeModelType", "phongModel");
-			//SetActiveSubroutine( program, *mtl->shader->shaders[1], "myMode", "modeRed");
-			//s->SetSubroutineUniform( s->program, GL_FRAGMENT_SHADER, 2, "colorModel");
-			
 			SetUniform( program,	"model", 		(*it)->entity->transform->GetWorldTransform() );
 			SetUniform( program,	"view", 		camera->GetViewMatrix() );
 			SetUniform( program,	"normalMatrix", normalMatrix );
@@ -168,11 +157,16 @@ namespace Renderer
 			SetUniform( program,	"time", 		(float)time );
 			SetUniform( program,	"lightPos", 	lightPosition);
 			
-			BindTexture( GL_TEXTURE0, GL_TEXTURE_2D, mtl->diffuseTextureId);
+			int offset = 0;
+			
+			BindTexture( GL_TEXTURE0 + offset++, GL_TEXTURE_2D, mtl->diffuseTextureId);
 			SetUniform( program, "colorMap", 0 );
 			
-			BindTexture( GL_TEXTURE1, GL_TEXTURE_2D, mtl->normalTextureId);
+			BindTexture( GL_TEXTURE0 + offset++, GL_TEXTURE_2D, mtl->normalTextureId);
 			SetUniform( program, "normalMap", 1 );
+			
+			BindTexture( GL_TEXTURE0 + offset++, GL_TEXTURE_CUBE_MAP, skyboxMap );
+			SetUniform( program, "cubeMap", 2);
 			
 			if ( mtl->wireframe_enabled )
 			{
@@ -252,6 +246,8 @@ namespace Renderer
 		
 		glUseProgram(skyboxProgram->program);
 		
+		// TODO(Valentinas): Fix rotation for environment mapping
+		SetUniform( skyboxProgram->program, "model", 		glm::inverse( camera->entity->GetTransform() ) );
 		SetUniform( skyboxProgram->program,	"view", 		camera->GetViewMatrix() );
 		SetUniform( skyboxProgram->program,	"projection", 	camera->GetProjectionMatrix() );
 		

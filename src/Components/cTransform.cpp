@@ -9,7 +9,7 @@ const int CTransform::familyId = (int)ComponentTypes::TRANSFORM;
 CTransform::CTransform():
 	position( glm::vec3(0) ),
 	scale( glm::vec3(1) ),
-	rotation( glm::quat() ),
+	rotation( glm::quat( glm::vec3(0) ) ),
 	localTransform( glm::mat4(1.0) ),
 	worldTransform( glm::mat4(1.0) ),
 	parent(NULL)
@@ -40,15 +40,6 @@ void CTransform::SetWorldTransform( const glm::mat4 &transform )
 	worldTransform = transform;
 }
 
-void CTransform::LookAt( const glm::vec3 &target, const glm::vec3& up )
-{
-	// position should be WorldTransform position
-	// target should be WorldTransform position
-	SetWorldTransform ( glm::inverse( glm::lookAt( position, target, VectorUp() ) ) );
-	// Decompose to local rotation
-	
-}
-
 //Private
 void CTransform::Update()
 {
@@ -59,7 +50,7 @@ void CTransform::Update()
 	
 	// localTransform = parentWorldTransform.inverse() * worldTransform;
 	// M_loc = M_parent_inv * M
-	glm::mat4 world = (parent != NULL ) ? (parent->GetWorldTransform() * localTransform) : localTransform;
+	glm::mat4 world = (parent != NULL ) ? ( parent->GetWorldTransform() * localTransform ) : localTransform;
 	SetWorldTransform(world);
 	
 	std::vector< CTransform* >::const_iterator iter = children.begin();
@@ -201,117 +192,6 @@ void CTransform::SetPositionZ( const float& z )
 	Update();
 }
 
-// ROTATION
-void CTransform::Rotate( const float& angle, const glm::vec3& rotation )
-{
-	this->rotation = glm::rotate( this->rotation, glm::radians( angle ), rotation );
-	Update();
-}
-
-const glm::vec3 CTransform::GetRotation() const
-{
-	return glm::eulerAngles( rotation );
-}
-
-void CTransform::SetRotation( const glm::vec3& rotation )
-{
-	this->rotation = glm::quat(eulerRotation); //glm::angleAxis(rotation.x, rotation);
-	//this->rotation = glm::rotate(this->rotation, glm::radians( rotation.x ), rotation );
-	//this->rotation = glm::rotate(this->rotation, glm::radians( rotation.y ), VectorUp() );
-	//this->rotation = glm::rotate(this->rotation, glm::radians( rotation.z ), VectorForward() );
-	Update();
-}
-
-void CTransform::Pitch( const float& angle )
-{
-	Rotate( angle, VectorRight() );
-}
-
-void CTransform::Yaw( const float& angle )
-{
-	Rotate( angle, VectorUp() );
-}
-
-void CTransform::Roll( const float& angle )
-{
-	Rotate( angle, VectorForward() );
-}
-
-const float CTransform::GetPitch() const
-{
-	return glm::pitch( rotation );
-}
-
-const float CTransform::GetYaw() const
-{
-	return glm::yaw( rotation );
-}
-
-const float CTransform::GetRoll() const
-{
-	return glm::roll( rotation );
-}
-
-void CTransform::SetPitch( const float& angle )
-{
-	glm::mat4 newRotation(1);
-	rotation = glm::quat( glm::rotate( newRotation, angle , VectorRight() ) );
-	Update();
-}
-
-void CTransform::SetYaw( const float& angle )
-{
-	glm::mat4 newRotation(1);
-	rotation = glm::quat( glm::rotate( newRotation, angle, VectorUp() ) );
-	Update();
-}
-
-void CTransform::SetRoll( const float& angle )
-{
-	glm::mat4 newRotation(1);
-	rotation = glm::quat( glm::rotate( newRotation, angle, VectorForward() ) );
-	Update();
-}
-
-
-const float CTransform::GetPitchEuler() const
-{
-	return glm::eulerAngles(rotation).x / glm::pi<float>() * 2;
-}
-
-const float CTransform::GetYawEuler() const
-{
-	return glm::eulerAngles(rotation).y / glm::pi<float>() * 2;
-}
-
-const float CTransform::GetRollEuler() const
-{
-	return glm::eulerAngles(rotation).z / glm::pi<float>() * 2;
-}
-
-
-void CTransform::SetPitchEuler( const float& angle )
-{
-	rotation = glm::rotate( rotation, angle , VectorRight() );
-	//SetRotation( VectorRight() * ( angle / glm::pi<float>() * 2 ) );
-	Update();
-}
-
-void CTransform::SetYawEuler( const float& angle )
-{
-	rotation = glm::rotate( rotation, angle , VectorUp() );
-	//SetRotation( VectorUp() * (angle / glm::pi<float>() * 2 ) );
-	Update();
-}
-
-void CTransform::SetRollEuler( const float& angle )
-{
-	rotation = glm::rotate( rotation, angle , VectorForward() );
-	//SetRotation( VectorForward() * (angle / glm::pi<float>() * 2 ) );
-	Update();
-}
-
-
 // SCALE
 
 void CTransform::Scale( const glm::vec3& scale )
@@ -376,5 +256,79 @@ void CTransform::SetScaleY( const float& y )
 void CTransform::SetScaleZ( const float& z )
 {
 	scale.z = z;
+	Update();
+}
+
+// ROTATION
+void CTransform::Rotate( const float& angle, const glm::vec3& rotation )
+{
+	this->rotation = glm::rotate( this->rotation, glm::radians( angle ), rotation );
+	eulerRotation = glm::eulerAngles(this->rotation);
+	Update();
+}
+
+const glm::vec3 CTransform::GetRotation() const
+{
+	return eulerRotation;
+}
+
+void CTransform::SetRotation( const glm::vec3& rotation )
+{
+	glm::quat newRot;
+	newRot = glm::rotate(newRot, glm::radians( eulerRotation.z ), glm::vec3(0,0,1) );
+	newRot = glm::rotate(newRot, glm::radians( eulerRotation.y ), glm::vec3(0,1,0) );
+	newRot = glm::rotate(newRot, glm::radians( eulerRotation.x ), glm::vec3(1,0,0) );
+	this->rotation = newRot;
+	Update();
+}
+
+void CTransform::Pitch( const float& angle )
+{
+	Rotate( angle, glm::vec3(1,0,0) );
+}
+
+void CTransform::Yaw( const float& angle )
+{
+	Rotate( angle, glm::vec3(0,1,0) );
+}
+
+void CTransform::Roll( const float& angle )
+{
+	Rotate( angle, glm::vec3(0,0,1) );
+}
+
+const float CTransform::GetPitch() const
+{
+	return eulerRotation.x / 360;
+}
+
+const float CTransform::GetYaw() const
+{
+	return eulerRotation.y / 360;
+}
+
+const float CTransform::GetRoll() const
+{
+	return eulerRotation.z / 360;
+}
+
+void CTransform::SetPitch( const float& angle )
+{
+	eulerRotation.x = angle * 360;
+	SetRotation( eulerRotation );
+	Update();
+}
+
+void CTransform::SetYaw( const float& angle )
+{
+	eulerRotation.y = angle * 360;
+	SetRotation( eulerRotation );
+	Update();
+}
+
+void CTransform::SetRoll( const float& angle )
+{
+	eulerRotation.z = angle * 360;
+	SetRotation( eulerRotation );
 	Update();
 }

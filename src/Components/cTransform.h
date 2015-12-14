@@ -65,17 +65,9 @@ class CTransform : public Component
 		const float GetYaw() const;
 		const float GetRoll() const;
 	
-		const float GetPitchEuler() const;
-		const float GetYawEuler() const;
-		const float GetRollEuler() const;
-	
 		void SetPitch( const float& angle );
 		void SetYaw( const float& angle );
 		void SetRoll( const float& angle );
-	
-		void SetPitchEuler( const float& angle );
-		void SetYawEuler( const float& angle );
-		void SetRollEuler( const float& angle );
 	
 		void Pitch( const float& angle ); // Pitch is the X axis
 		void Yaw( const float& angle ); // Yaw is the Y axis

@@ -33,6 +33,10 @@ void mEntity::Bind(lua_State* L)
 		lBind(addChild)
 		lBind(addComponent)
 	
+		lBind(getChildren)
+		lBind(removeChild)
+
+	
 		//GETTERS
 		lBind(getX)
 		lBind(getY)
@@ -144,6 +148,9 @@ lFuncImp(mEntity, __engineInit)
 	lua_pushnumber(L, (int)CLua::familyId);
 	lua_setfield(L, -2, "__familyId__");
 	
+	lua_pushnil(L);
+	lua_setfield(L, -2, "parent");
+	
 	
 	comp->SetTableKey( luaL_ref(L, LUA_REGISTRYINDEX) );
 	
@@ -164,6 +171,9 @@ lFuncImp(mEntity, addChild)
 	CLua* child = (CLua*)lua_touserdata(L, -1);
 	
 	parent->entity->AddChild(child->entity);
+	
+	lua_pushvalue(L, 1);
+	lua_setfield(L, 2, "parent");
 	
 	return 0;
 }
@@ -200,6 +210,51 @@ lFuncImp(mEntity, addComponent)
 		lua_pushvalue(L, 2);
 		lua_setfield(L, 1, "debugRenderer");
 	}
+	
+	return 0;
+}
+
+lFuncImp(mEntity, getChildren) {
+	lua_settop(L, 1);
+	
+	lua_getfield(L, 1, "__coreComponent__");
+	CLua* luaComp = (CLua*)lua_touserdata(L, -1);
+	
+	std::vector<Entity*> children = luaComp->entity->GetChildren();
+	
+	lua_newtable(L);
+	
+	std::vector<Entity*>::const_iterator iter_comp = children.begin();
+	std::vector<Entity*>::const_iterator end_comp = children.end();
+	int ii = 1;
+	for( ; iter_comp != end_comp; ++iter_comp )
+	{
+		LuaSystem.Dump(L);
+		CLua* lua = Entity::GetComponent<CLua>(*iter_comp);
+		lua_pushnumber(L, ii);
+		lua_pushnumber(L, lua->GetTableKey());
+		LuaSystem.Dump(L);
+		lua_gettable(L, LUA_REGISTRYINDEX);
+		LuaSystem.Dump(L);
+		lua_settable(L, -3);
+		LuaSystem.Dump(L);
+		ii++;
+	}
+	
+	
+	return 1;
+}
+
+lFuncImp(mEntity, removeChild) {
+	lua_settop(L, 2);
+	
+	lua_getfield(L, 1, "__coreComponent__");
+	CLua* parent = (CLua*)lua_touserdata(L, -1);
+	
+	lua_getfield(L, 2, "__coreComponent__");
+	CLua* child = (CLua*)lua_touserdata(L, -1);
+	
+	parent->entity->RemoveChild(child->entity);
 	
 	return 0;
 }

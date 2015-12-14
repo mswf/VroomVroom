@@ -44,6 +44,7 @@ class CTransform : public Component
 		void TranslateZ( const float& z );
 	
 		glm::vec3 GetPosition() const;
+		glm::vec3 GetLocalPosition();
 	
 		const float GetPositionX() const;
 		const float GetPositionY() const;
@@ -58,7 +59,9 @@ class CTransform : public Component
 	
 		// ROTATION
 		void Rotate( const float& angle, const glm::vec3& rotate );
-		const glm::vec3 GetRotation() const;
+		const glm::vec3 GetEulerAngles() const;
+		const glm::quat GetRotation() const;
+	
 		void SetRotation( const glm::vec3& rotation );
 	
 		const float GetPitch() const;

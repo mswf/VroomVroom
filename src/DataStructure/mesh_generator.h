@@ -58,55 +58,56 @@ void CreateCube( Mesh* mesh, const float offset = 0.0f )
 void EnvironmentCube()
 {
 	ModelInstance* instance = new ModelInstance();
-	float points[] =
+	float scale = 20.0f;
+	glm::vec3 points[] =
 	{
-		-10.0f,  10.0f, -10.0f,
-		-10.0f, -10.0f, -10.0f,
-		10.0f, -10.0f, -10.0f,
-		10.0f, -10.0f, -10.0f,
-		10.0f,  10.0f, -10.0f,
-		-10.0f,  10.0f, -10.0f,
+		glm::vec3(-1.0f,  1.0f, -1.0f ) * scale,
+		glm::vec3(-1.0f, -1.0f, -1.0f ) * scale,
+		glm::vec3( 1.0f, -1.0f, -1.0f ) * scale,
+		glm::vec3( 1.0f, -1.0f, -1.0f ) * scale,
+		glm::vec3( 1.0f,  1.0f, -1.0f ) * scale,
+		glm::vec3(-1.0f,  1.0f, -1.0f ) * scale,
 
-		-10.0f, -10.0f,  10.0f,
-		-10.0f, -10.0f, -10.0f,
-		-10.0f,  10.0f, -10.0f,
-		-10.0f,  10.0f, -10.0f,
-		-10.0f,  10.0f,  10.0f,
-		-10.0f, -10.0f,  10.0f,
+		glm::vec3(-1.0f, -1.0f,  1.0f ) * scale,
+		glm::vec3(-1.0f, -1.0f, -1.0f ) * scale,
+		glm::vec3(-1.0f,  1.0f, -1.0f ) * scale,
+		glm::vec3(-1.0f,  1.0f, -1.0f ) * scale,
+		glm::vec3(-1.0f,  1.0f,  1.0f ) * scale,
+		glm::vec3(-1.0f, -1.0f,  1.0f ) * scale,
 
-		10.0f, -10.0f, -10.0f,
-		10.0f, -10.0f,  10.0f,
-		10.0f,  10.0f,  10.0f,
-		10.0f,  10.0f,  10.0f,
-		10.0f,  10.0f, -10.0f,
-		10.0f, -10.0f, -10.0f,
+		glm::vec3( 1.0f, -1.0f, -1.0f ) * scale,
+		glm::vec3( 1.0f, -1.0f,  1.0f ) * scale,
+		glm::vec3( 1.0f,  1.0f,  1.0f ) * scale,
+		glm::vec3( 1.0f,  1.0f,  1.0f ) * scale,
+		glm::vec3( 1.0f,  1.0f, -1.0f ) * scale,
+		glm::vec3( 1.0f, -1.0f, -1.0f ) * scale,
 
-		-10.0f, -10.0f,  10.0f,
-		-10.0f,  10.0f,  10.0f,
-		10.0f,  10.0f,  10.0f,
-		10.0f,  10.0f,  10.0f,
-		10.0f, -10.0f,  10.0f,
-		-10.0f, -10.0f,  10.0f,
+		glm::vec3(-1.0f, -1.0f,  1.0f ) * scale,
+		glm::vec3(-1.0f,  1.0f,  1.0f ) * scale,
+		glm::vec3( 1.0f,  1.0f,  1.0f ) * scale,
+		glm::vec3( 1.0f,  1.0f,  1.0f ) * scale,
+		glm::vec3( 1.0f, -1.0f,  1.0f ) * scale,
+		glm::vec3(-1.0f, -1.0f,  1.0f ) * scale,
 
-		-10.0f,  10.0f, -10.0f,
-		10.0f,  10.0f, -10.0f,
-		10.0f,  10.0f,  10.0f,
-		10.0f,  10.0f,  10.0f,
-		-10.0f,  10.0f,  10.0f,
-		-10.0f,  10.0f, -10.0f,
+		glm::vec3(-1.0f,  1.0f, -1.0f ) * scale,
+		glm::vec3( 1.0f,  1.0f, -1.0f ) * scale,
+		glm::vec3( 1.0f,  1.0f,  1.0f ) * scale,
+		glm::vec3( 1.0f,  1.0f,  1.0f ) * scale,
+		glm::vec3(-1.0f,  1.0f,  1.0f ) * scale,
+		glm::vec3(-1.0f,  1.0f, -1.0f ) * scale,
 
-		-10.0f, -10.0f, -10.0f,
-		-10.0f, -10.0f,  10.0f,
-		10.0f, -10.0f, -10.0f,
-		10.0f, -10.0f, -10.0f,
-		-10.0f, -10.0f,  10.0f,
-		10.0f, -10.0f,  10.0f
+		glm::vec3(-1.0f, -1.0f, -1.0f ) * scale,
+		glm::vec3(-1.0f, -1.0f,  1.0f ) * scale,
+		glm::vec3( 1.0f, -1.0f, -1.0f ) * scale,
+		glm::vec3( 1.0f, -1.0f, -1.0f ) * scale,
+		glm::vec3(-1.0f, -1.0f,  1.0f ) * scale,
+		glm::vec3( 1.0f, -1.0f,  1.0f ) * scale
 	};
 	
 	GLuint vbo;
 	glGenBuffers (1, &vbo);
 	glBindBuffer (GL_ARRAY_BUFFER, vbo);
-	glBufferData (GL_ARRAY_BUFFER, 3 * 36 * sizeof (float), &points, GL_STATIC_DRAW);
+	glBufferData (GL_ARRAY_BUFFER, 36 * sizeof (glm::vec3), &points, GL_STATIC_DRAW);
 	
 	GLuint vao;
 	glGenVertexArrays (1, &vao);

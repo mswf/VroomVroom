@@ -48,7 +48,7 @@ void CCamera::Call()
 {
 	// Needs a debug camera for testing purposes
 	glm::vec3 eye = entity->transform->GetPosition();
-	glm::vec3 target = entity->transform->GetRotation();
+	glm::vec3 target = entity->transform->GetEulerAngles();
 	
 	entity->transform->SetWorldTransform( glm::inverse( glm::lookAt( eye , target, glm::vec3(0.0, 1.0, 0.0) ) ) );
 	viewMatrix = entity->GetTransform();

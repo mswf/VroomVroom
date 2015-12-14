@@ -55,7 +55,6 @@ Engine::Engine() :
 
 Engine::~Engine()
 {
-	delete Entity::root;
 	delete inputManager;
 	delete renderer;
 	delete listener;

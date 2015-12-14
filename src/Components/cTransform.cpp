@@ -40,6 +40,11 @@ void CTransform::SetWorldTransform( const glm::mat4 &transform )
 	worldTransform = transform;
 }
 
+void CTransform::LookAt( const glm::vec3 &target, const glm::vec3& up )
+{
+	SetWorldTransform( glm::lookAt(position, glm::normalize(target - position), up) );
+}
+
 //Private
 void CTransform::Update()
 {
@@ -144,7 +149,14 @@ void CTransform::TranslateZ( const float& z )
 
 glm::vec3 CTransform::GetPosition() const
 {
-	return position;
+	//return position;
+	return glm::vec3( worldTransform[3][0], worldTransform[3][1], worldTransform[3][2] );
+}
+
+glm::vec3 CTransform::GetLocalPosition()
+{
+	glm::mat4 lT = glm::inverse( GetParent()->GetWorldTransform() ) * GetWorldTransform();
+	return glm::vec3( lT[3][0], lT[3][1], lT[3][2] );
 }
 
 void CTransform::SetPosition( const glm::vec3& position )
@@ -267,7 +279,12 @@ void CTransform::Rotate( const float& angle, const glm::vec3& rotation )
 	Update();
 }
 
-const glm::vec3 CTransform::GetRotation() const
+const glm::quat CTransform::GetRotation() const
+{
+	return rotation;
+}
+
+const glm::vec3 CTransform::GetEulerAngles() const
 {
 	return eulerRotation;
 }

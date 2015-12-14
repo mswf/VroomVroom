@@ -247,7 +247,8 @@ namespace Renderer
 		glUseProgram(skyboxProgram->program);
 		
 		// TODO(Valentinas): Fix rotation for environment mapping
-		SetUniform( skyboxProgram->program, "model", 		glm::inverse( camera->entity->GetTransform() ) );
+		glm::mat4 m = glm::inverse( camera->GetViewMatrix() ) * glm::mat4_cast(camera->entity->transform->GetRotation());
+		SetUniform( skyboxProgram->program, "model", m );
 		SetUniform( skyboxProgram->program,	"view", 		camera->GetViewMatrix() );
 		SetUniform( skyboxProgram->program,	"projection", 	camera->GetProjectionMatrix() );
 		

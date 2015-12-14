@@ -369,7 +369,7 @@ lFuncImp(mEntity, getRotation)
 	CLua* component = reinterpret_cast<CLua*>(lua_touserdata(L, -1));
 	CTransform* transform = component->entity->transform;
 	
-	glm::vec3 val = transform->GetRotation();
+	glm::vec3 val = transform->GetEulerAngles();
 	
 	lua_pushnumber(L, val.x);
 	lua_pushnumber(L, val.y);

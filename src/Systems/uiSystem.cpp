@@ -338,6 +338,16 @@ void sUiSystem::RemoveElement(uiContainer* ww, uiElement* ee)
 
 }
 
+void sUiSystem::SetTooltip(const char* tooltip)
+{
+	manualTooltip = string(tooltip);
+}
+
+void sUiSystem::SetTooltip(const string& tooltip)
+{
+	manualTooltip = tooltip;
+}
+
 void sUiSystem::Render()
 {
 	uiWindow* currentWindow = firstWindow;
@@ -441,6 +451,9 @@ void sUiSystem::Render()
 
 
 		currentWindow = (uiWindow*)currentWindow->nextElement;
+	}
+	if(manualTooltip.length() > 0){
+		ImGui::SetTooltip(manualTooltip.c_str());
 	}
 	ImGui::Render();
 

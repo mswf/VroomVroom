@@ -116,7 +116,10 @@ class sUiSystem : public Singleton<sUiSystem>
 		void RemoveWindow(uiWindow*);
         void RemoveChildren(uiContainer*);
         void RemoveElement(uiContainer*, uiElement*);
-    
+	
+		void SetTooltip(const char*);
+		void SetTooltip(const string&);
+	
         void Render();
 	
 		template<typename T>
@@ -169,6 +172,8 @@ class sUiSystem : public Singleton<sUiSystem>
     
         uint8 idIndex;
 		std::bitset<WINDOW_ID_BUFFER_SIZE> idMap;
+	
+		string manualTooltip = "";
 	
         uiWindow* firstWindow;
         uiWindow* lastWindow;

@@ -9,6 +9,7 @@
 #include "Input.hpp"
 
 #include "Components/cCamera.h"
+#include "Components/cCollider.h"
 #include "Components/cTransform.h"
 #include "Components/cMeshRenderer.h"
 #include "Components/cDebugRenderer.h"
@@ -40,15 +41,14 @@
 #include "Utilities/standardIncludes.h"
 //defines runCommand
 #include "Utilities/command.h"
-#include "Components/cCollider.h"
 
 Engine::Engine() :
+	inputManager(NULL),
+	listener(NULL),
+	renderer(NULL),
+	fileWatcher(NULL),
 	systemStudio(NULL),
 	systemLowLevel(NULL),
-	fileWatcher(NULL),
-	renderer(NULL),
-	listener(NULL),
-	inputManager(NULL),
 	skybox_map(0),
 	takeScreen(false)
 {
@@ -393,9 +393,8 @@ void Engine::WeikieTestCode()
 
 	//bool asd = col1->SphereToSphere(col2);
 	bool asd = col1->SphereToBox(col2);
-	printf("&i\n");
+	printf( "%i \n ",asd);
 }
-
 void Engine::UpdateLoop()
 {
 
@@ -419,22 +418,23 @@ void Engine::UpdateLoop()
 
 	/// TINAS PLAYGROUND!!!
 
-
-	/*
+	
 	auto random_vec3 = []( int min, int max ) -> glm::vec3
 	{
 		float modif = 0.5f;
 		return glm::vec3( Random::Next(min, max) * modif, Random::Next(min, max) * modif, Random::Next(min, max) * modif );
 	};
-	*/
-
-	/*
-	Resources.ImportMesh("objects/Teapot/teapot.obj");
-	Resources.SetMeshScale("objects/Teapot/teapot.obj", 0.01f);
+	
+	Assets.ImportMesh("objects/Teapot/teapot.obj");
+	Assets.SetMeshScale("objects/Teapot/teapot.obj", 0.01f);
 	Entity* a = new Entity( "testA" );
-	Entity* ac = new Entity( "testAChild", a );
-	Entity* ac2 = new Entity( "testA2Child", ac );
+	Entity* ac = new Entity( "testAChild" );
+	a->AddChild(ac);
+	Entity* ac2 = new Entity( "testA2Child" );
+	ac->AddChild(ac2);
 
+	Entity::Destroy( a );
+	
 	//Entity* b =  new Entity( "testB" );
 	//Entity* bc =  new Entity( "testBChild", b );
 	Entity* list[3] = { a, ac, ac2 };
@@ -530,6 +530,21 @@ void Engine::UpdateLoop()
 			}
 		}
 
+		std::vector<Entity*> list = Entity::root->GetChildren();
+		std::vector<Entity*>::iterator it = list.begin();
+		std::vector<Entity*>::iterator end = list.end();
+		for ( ; it != end; ++it )
+		{
+			bool d =(*it)->IsSetToDestroy();
+			if ( d )
+			{
+				printf(" %s is set to be destroyed. \n", (*it)->name.c_str() );
+				delete (*it);
+				(*it) = NULL;
+			}
+		}
+		
+		
 		ImGui_ImplSdl_NewFrame(window);
 
 		renderer->SetTime( GetTicks() );

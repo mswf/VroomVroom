@@ -91,7 +91,8 @@ bool CCollider::SphereToBox(const CCollider* other) const
 	boxMax = boxCenter + glm::vec3(box->width * 0.5f, box->height * 0.5f, box->length * 0.5f);
 
 	float minDistance = 0;
-	for (int i = 0; i < 3; i++)
+	int i;
+	for ( i = 0; i < 3; ++i )
 	{
 		if (sphereCenter[i] < boxMin[i])
 		{

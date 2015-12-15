@@ -7,9 +7,9 @@ const char* Entity::root_name = "root_:)_XgPFL>u{9+?9,GllN6IF;+L:<CkXvEn9Y$6dX[}
 std::multimap< int, Entity* > Entity::componentStorage;
 Entity* Entity::root = new Entity( root_name );
 
-// TODO: FIX THIS: Possible crash if you pass yourself as the parent in the constructor
-Entity::Entity( std::string name, Entity* parent ) :
-	name(name)
+Entity::Entity( std::string name ) :
+	name(name),
+	destroy(false)
 {
 	transform = new CTransform();
 	transform->entity = this;
@@ -18,14 +18,11 @@ Entity::Entity( std::string name, Entity* parent ) :
 	{
 		Entity::root->AddChild(this);
 	}
-	if( parent != NULL )
-	{
-		parent->AddChild(this);
-	}
 }
 
 Entity::~Entity()
 {
+	transform->GetParent()->entity->RemoveChild(this);
 	// TODO(Valentinas): Test if the children are cleaned properly
 	std::map< int, Component* >::const_iterator it = entityComponents.begin();
 	std::map< int, Component* >::const_iterator end = entityComponents.end();
@@ -35,6 +32,7 @@ Entity::~Entity()
 		entityComponents.erase(it);
 	}
 	delete transform;
+	transform = NULL;
 }
 
 void Entity::AddChild( Entity* c )

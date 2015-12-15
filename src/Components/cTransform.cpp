@@ -21,7 +21,7 @@ CTransform::~CTransform()
 	 std::vector< CTransform* >::const_iterator end = children.end();
 	 for ( ; iter != end; ++iter)
 	 {
-		delete ( (*iter)->entity );
+		//delete ( (*iter)->entity );
 	 }
 }
 

@@ -13,7 +13,7 @@ class Entity
 	
 		static Entity* root;
 	
-		Entity( std::string name = "Entity_Object", Entity* parent = NULL );
+		Entity( std::string name = "Entity_Object" );
 		~Entity();
 	
 		void AddChild( Entity* c );
@@ -22,7 +22,6 @@ class Entity
 		const glm::mat4& GetTransform() const;
 		const Entity* GetParent() const;
 		const std::vector<Entity*> GetChildren() const;
-	
 		// TODO(Valentinas): Adding the same component to the same entity will add it to the global list twice,
 	 	//					 removing will remove both of them, so can be fixed later
 		template<typename T>
@@ -86,6 +85,19 @@ class Entity
 			}
 		}
 	
+		static void Destroy( Entity* e )
+		{
+			e->destroy = true;
+			std::vector<CTransform* >::const_iterator it_c = e->transform->GetChildren().begin();
+			std::vector<CTransform* >::const_iterator end_c = e->transform->GetChildren().end();
+			for( ; it_c != end_c ; ++it_c )
+			{
+				(*it_c)->entity->destroy = true;
+			}
+		}
+	
+		const bool IsSetToDestroy() const { return destroy; }
+	
 		std::string name;
 		std::map< int, Component* > entityComponents;
 		CTransform* transform;
@@ -94,6 +106,7 @@ class Entity
 	
 		static std::multimap< int, Entity* > componentStorage;
 		static const char* root_name;
+		bool destroy;
 };
 
 #endif /* entity_h */

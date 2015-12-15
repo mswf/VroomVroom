@@ -33,8 +33,9 @@ bool CCollider::SphereToSphere(const CCollider* other) const
 	//should be global position
 	glm::vec3 position1 = entity->transform->GetPosition();
 	glm::vec3 position2 = other->entity->transform->GetPosition();
-	float dist = glm::distance(position1, position2);
-	if (dist > radius + other->radius)
+	float distSqrd = glm::dot(position1, position1) + glm::dot(position2, position2);
+	float radiusTotal = radius + other->radius;
+	if (distSqrd > radiusTotal * radiusTotal)
 	{
 		return false;
 	}

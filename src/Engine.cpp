@@ -393,7 +393,7 @@ void Engine::WeikieTestCode()
 
 	//bool asd = col1->SphereToSphere(col2);
 	bool asd = col1->SphereToBox(col2);
-	printf( "%i \n ",asd);
+	printf( "%i \n ", asd);
 }
 void Engine::UpdateLoop()
 {
@@ -418,13 +418,13 @@ void Engine::UpdateLoop()
 
 	/// TINAS PLAYGROUND!!!
 
-	
+
 	auto random_vec3 = []( int min, int max ) -> glm::vec3
 	{
 		float modif = 0.5f;
 		return glm::vec3( Random::Next(min, max) * modif, Random::Next(min, max) * modif, Random::Next(min, max) * modif );
 	};
-	
+
 	Assets.ImportMesh("objects/Teapot/teapot.obj");
 	Assets.SetMeshScale("objects/Teapot/teapot.obj", 0.01f);
 	Entity* a = new Entity( "testA" );
@@ -434,12 +434,12 @@ void Engine::UpdateLoop()
 	ac->AddChild(ac2);
 
 	Entity::Destroy( a );
-	
+
 	//Entity* b =  new Entity( "testB" );
 	//Entity* bc =  new Entity( "testBChild", b );
 	Entity* list[3] = { a, ac, ac2 };
 
-	for (int i =0; i < 3; ++i )
+	for (int i = 0; i < 3; ++i )
 	{
 		CMeshRenderer* rend = new CMeshRenderer();
 		Entity::AddComponent( list[i], rend);
@@ -448,7 +448,7 @@ void Engine::UpdateLoop()
 	}
 
 	Entity::GetComponentInChildren<CMeshRenderer>(a);
-	*/
+
 	/*
 		CDebugRenderer* drend = new CDebugRenderer();
 		Entity::AddComponent( ac, drend);
@@ -543,8 +543,8 @@ void Engine::UpdateLoop()
 				(*it) = NULL;
 			}
 		}
-		
-		
+
+
 		ImGui_ImplSdl_NewFrame(window);
 
 		renderer->SetTime( GetTicks() );

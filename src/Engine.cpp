@@ -40,14 +40,15 @@
 #include "Utilities/standardIncludes.h"
 //defines runCommand
 #include "Utilities/command.h"
+#include "Components/cCollider.h"
 
 Engine::Engine() :
-	inputManager(NULL),
-	listener(NULL),
-	renderer(NULL),
-	fileWatcher(NULL),
 	systemStudio(NULL),
 	systemLowLevel(NULL),
+	fileWatcher(NULL),
+	renderer(NULL),
+	listener(NULL),
+	inputManager(NULL),
 	skybox_map(0),
 	takeScreen(false)
 {
@@ -359,6 +360,42 @@ void Engine::ImportAssets()
 	}
 }
 
+void Engine::WeikieTestCode()
+{
+	return;
+
+	Entity* a =  new Entity( "testB" );
+	Entity* b =  new Entity( "testB" );
+
+	float c = 0;
+	float d = 0.5f;
+
+	a->transform->SetPosition(c, c, c);
+	b->transform->SetPosition(d, d, d);
+
+	CCollider* col1 = new CCollider();
+	CCollider* col2 = new CCollider();
+
+	float radius = 1;
+	float boxSize = 2;
+
+	col1->SetCollisionType(CollisionType::BOX);
+	col2->SetCollisionType(CollisionType::SPHERE);
+
+	col1->SetRadius(radius);
+	col2->SetRadius(radius);
+
+	col1->SetCollisionBox(boxSize, boxSize, boxSize);
+	col2->SetCollisionBox(boxSize, boxSize, boxSize);
+
+	Entity::AddComponent(a, col1);
+	Entity::AddComponent(b, col2);
+
+	//bool asd = col1->SphereToSphere(col2);
+	bool asd = col1->SphereToBox(col2);
+	printf("&i\n");
+}
+
 void Engine::UpdateLoop()
 {
 
@@ -377,7 +414,11 @@ void Engine::UpdateLoop()
 	renderer->Initialize();
 	renderer->skyboxMap = skybox_map;
 
+
+	WeikieTestCode();
+
 	/// TINAS PLAYGROUND!!!
+
 
 	/*
 	auto random_vec3 = []( int min, int max ) -> glm::vec3
@@ -386,7 +427,7 @@ void Engine::UpdateLoop()
 		return glm::vec3( Random::Next(min, max) * modif, Random::Next(min, max) * modif, Random::Next(min, max) * modif );
 	};
 	*/
-	
+
 	/*
 	Resources.ImportMesh("objects/Teapot/teapot.obj");
 	Resources.SetMeshScale("objects/Teapot/teapot.obj", 0.01f);

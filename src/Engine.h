@@ -35,25 +35,26 @@ class Engine
 		void Init();
 
 		static uint32 GetTicks();
-	
+
 	private:
-	
+
 		void SetSeed();
 		void Update(float deltaTime);
 		void ImportAssets();
+		void WeikieTestCode();
 		void WindowEvent( SDL_WindowEvent window );
 		void TakeScreenShot();
-	
+
 		FMOD::Studio::System* systemStudio;
 		FMOD::System* systemLowLevel;
 		FW::FileWatcher* fileWatcher;
 		Renderer::RenderSystem* renderer;
 		UpdateListener* listener;
 		Input* inputManager;
-	
+
 		unsigned int skybox_map;
 		bool takeScreen;
-	
+
 };
 
 //	rendering

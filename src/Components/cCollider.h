@@ -26,7 +26,9 @@ class CCollider : public Component
 		void SetRadius(float radius);
 		float GetRadius() const;
 		void SetCollisionBox(float width, float height, float length);
+		bool SphereToBox(const CCollider* other) const;
 		bool BoxToBox(const CCollider* other) const;
+		void SetCollisionType(CollisionType type);
 	private:
 		static std::vector< CCollider* > list;
 		CollisionType collisionType;

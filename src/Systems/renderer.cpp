@@ -93,8 +93,8 @@ namespace Renderer
 		if (camera == NULL) return;
 		SetViewportRect();
 		ClearFlag();
-		RenderDebugLines();
 		RenderScene();
+		RenderDebugLines();
 	}
 
 	void RenderSystem::SetViewportRect()
@@ -197,6 +197,8 @@ namespace Renderer
 		
 		glUseProgram(debugProgram->program);
 		
+		glDisable(GL_DEPTH_TEST);
+		
 		std::vector< CDebugRenderer* >::const_iterator it = debugPrimitives->begin();
 		std::vector< CDebugRenderer* >::const_iterator end = debugPrimitives->end();
 		for ( ; it != end; ++it )
@@ -235,6 +237,7 @@ namespace Renderer
 				glDrawArrays(GL_POINTS, 0, (*it)->GetDrawCount());
 			}
 		}
+		glEnable(GL_DEPTH_TEST);
 		glUseProgram(0);
 		glDisable(GL_LINE_SMOOTH);
 		glBindVertexArray( 0 );

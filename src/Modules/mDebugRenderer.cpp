@@ -62,7 +62,7 @@ lFuncImp(mDebugRenderer, addLine)
 	
 	glm::vec3 start(x1, y1, z1);
 	glm::vec3 end(x2, y2, z2);
-	glm::vec3 color(r, g, b);	//TODO, udpate this to rgba vec4
+	glm::vec4 color(r, g, b, a);	//TODO, udpate this to rgba vec4
 	Line line(start, end, color);
 	
 	debug->AddPrimivite(line);
@@ -96,7 +96,7 @@ lFuncImp(mDebugRenderer, addTriangle)
 	glm::vec3 pA(x1, y1, z1);
 	glm::vec3 pB(x2, y2, z2);
 	glm::vec3 pC(x3, y3, z3);
-	glm::vec3 color(r, g, b);	//TODO, udpate this to rgba vec4
+	glm::vec4 color(r, g, b, a);	//TODO, udpate this to rgba vec4
 	
 	Triangle tri(pA, pB, pC, color);
 	

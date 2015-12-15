@@ -4,6 +4,7 @@
 #include "component.h"
 #include <vector>
 #include "../glm/vec3.hpp"
+#include "../glm/vec4.hpp"
 
 enum class DrawMode
 {
@@ -16,8 +17,8 @@ struct Line
 {
 	glm::vec3 start;
 	glm::vec3 end;
-	glm::vec3 colour;
-	Line( glm::vec3 p0, glm::vec3 p1, glm::vec3 c = glm::vec3(0) ) :
+	glm::vec4 colour;
+	Line( glm::vec3 p0, glm::vec3 p1, glm::vec4 c = glm::vec4( 0.0f,0.0f,0.0f,1.0f ) ) :
 		start( p0 ),
 		end( p1 ),
 		colour( c )
@@ -29,8 +30,8 @@ struct Triangle
 	glm::vec3 v1;
 	glm::vec3 v2;
 	glm::vec3 v3;
-	glm::vec3 colour;
-	Triangle( glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, glm::vec3 c = glm::vec3(0) ) :
+	glm::vec4 colour;
+	Triangle( glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, glm::vec4 c = glm::vec4( 0.0f,0.0f,0.0f,1.0f ) ) :
 		v1( p0 ),
 		v2( p1 ),
 		v3( p2 ),
@@ -75,7 +76,7 @@ class CDebugRenderer : public Component
 		bool isBuffered;
 		bool isDrawingPoints;
 		std::vector< glm::vec3 > points;
-		std::vector< glm::vec3 > colours;
+		std::vector< glm::vec4 > colours;
 		static std::vector< CDebugRenderer* > list;
 };
 

@@ -81,7 +81,7 @@ void CreateDynamicBuffer( unsigned int& vao, unsigned int& vbo, unsigned long bu
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
 }
 
-void BufferPoints( unsigned int& vao, unsigned int& vbo, const std::vector< glm::vec3 >& points, const std::vector< glm::vec3 >& colours )
+void BufferPoints( unsigned int& vao, unsigned int& vbo, const std::vector< glm::vec3 >& points, const std::vector< glm::vec4 >& colours )
 {
 	//unsigned long bufferSize = sizeof(glm::vec3) * points.size() + sizeof(glm::vec3) * colours.size();
 	//glGenVertexArrays( 1, &vao );
@@ -97,7 +97,7 @@ void BufferPoints( unsigned int& vao, unsigned int& vbo, const std::vector< glm:
 	glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 0, 0 );
 	
 	// Buffer colours
-	glBufferSubData( GL_ARRAY_BUFFER, sizeof(glm::vec3) * points.size(), sizeof(glm::vec3) * colours.size(), &colours.front() );
+	glBufferSubData( GL_ARRAY_BUFFER, sizeof(glm::vec3) * points.size(), sizeof(glm::vec4) * colours.size(), &colours.front() );
 	glEnableVertexAttribArray( 1 );
 	glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(glm::vec3) * points.size()) );
 

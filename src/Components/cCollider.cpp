@@ -28,6 +28,7 @@ bool CCollider::SphereToSphere(const CCollider* other) const
 	if (collisionType != CollisionType::SPHERE || other->collisionType != CollisionType::SPHERE)
 	{
 		SDL_assert(false);
+		return false;
 	}
 
 	//should be global position

@@ -43,12 +43,12 @@
 #include "Components/cCollider.h"
 
 Engine::Engine() :
-	inputManager(NULL),
-	listener(NULL),
-	renderer(NULL),
-	fileWatcher(NULL),
 	systemStudio(NULL),
 	systemLowLevel(NULL),
+	fileWatcher(NULL),
+	renderer(NULL),
+	listener(NULL),
+	inputManager(NULL),
 	skybox_map(0),
 	takeScreen(false)
 {

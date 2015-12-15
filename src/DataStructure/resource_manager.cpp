@@ -280,7 +280,7 @@ bool ResourceManager::BufferImage1D( const char* name )
 
 	if ( !img->isBuffered || iter_imageId == imageIds.end() )
 	{
-		img->imageId = BufferTexture1D( GL_RGBA, img->width, GL_RGBA, GL_UNSIGNED_BYTE, img->pixelData, false );
+		img->imageId = BufferTexture1D( GL_RGB, img->width, GL_RGB, GL_UNSIGNED_BYTE, img->pixelData, false );
 		img->isBuffered = true;
 		img->mipmapping = false;
 		imageIds.insert( std::make_pair( string(name), img->imageId ) );
@@ -299,7 +299,7 @@ bool ResourceManager::BufferImage2D( const char* name )
 
 	if ( !img->isBuffered || iter_imageId == imageIds.end() )
 	{
-		img->imageId = BufferTexture2D( GL_RGBA, img->width, img->height, GL_RGBA, GL_UNSIGNED_BYTE,
+		img->imageId = BufferTexture2D( GL_RGB, img->width, img->height, GL_RGB, GL_UNSIGNED_BYTE,
 										img->pixelData, img->magFilter, img->minFilter, img->wrap, img->mipmapping);
 		img->isBuffered = true;
 		imageIds.insert( std::make_pair( string(name), img->imageId ) );
@@ -325,7 +325,7 @@ bool ResourceManager::UpdateImage2DBuffer( const char* name )
 	std::map< string, uint32 >::const_iterator iter_imageId = imageIds.find(name);
 	if ( img->isBuffered || iter_imageId != imageIds.end() )
 	{
-		UpdateBufferImage2D( img->imageId, 0, 0, img->width, img->width, GL_RGBA, GL_UNSIGNED_BYTE, img->pixelData, img->mipmapping );
+		UpdateBufferImage2D( img->imageId, 0, 0, img->width, img->width, GL_RGB, GL_UNSIGNED_BYTE, img->pixelData, img->mipmapping );
 		return true;
 	}
 	return false;
@@ -338,7 +338,7 @@ unsigned int ResourceManager::CreateCubeMap( const std::vector< std::pair< uint8
 
 	for (auto it : *textures )
  	{
-		BufferTextureCubeMap(cubeMapId, it.second, GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, it.first);
+		BufferTextureCubeMap(cubeMapId, it.second, GL_RGB, width, height, GL_RGB, GL_UNSIGNED_BYTE, it.first);
 		delete it.first;
 
 	}

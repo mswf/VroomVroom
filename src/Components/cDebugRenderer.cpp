@@ -20,7 +20,15 @@ CDebugRenderer::CDebugRenderer() :
 
 CDebugRenderer::~CDebugRenderer()
 {
-	
+	std::vector<CDebugRenderer*>::iterator it = list.begin();
+	std::vector<CDebugRenderer*>::iterator end = list.end();
+	for ( ; it != end; ++it )
+	{
+		if( (*it) == this)
+		{
+			list.erase(it);
+		}
+	}
 }
 
 void CDebugRenderer::Call()

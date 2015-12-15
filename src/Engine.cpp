@@ -535,10 +535,10 @@ void Engine::UpdateLoop()
 		std::vector<Entity*>::iterator end = list.end();
 		for ( ; it != end; ++it )
 		{
-			bool d =(*it)->IsSetToDestroy();
-			if ( d )
+			if ( (*it)->IsSetToDestroy() )
 			{
-				printf(" %s is set to be destroyed. \n", (*it)->name.c_str() );
+				Terminal.Log( (*it)->name + " is destroyed." );
+				(*it)->ClearComponents();
 				delete (*it);
 				(*it) = NULL;
 			}

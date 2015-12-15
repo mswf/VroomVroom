@@ -19,6 +19,16 @@ CMeshRenderer::CMeshRenderer() :
 
 CMeshRenderer::~CMeshRenderer()
 {
+	std::vector<CMeshRenderer*>::iterator it = list.begin();
+	std::vector<CMeshRenderer*>::iterator end = list.end();
+	for ( ; it != end; ++it )
+	{
+		if( (*it) == this)
+		{
+			list.erase(it);
+		}
+	}
+	
 }
 
 void CMeshRenderer::Call()

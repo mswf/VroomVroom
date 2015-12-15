@@ -18,6 +18,7 @@ class Entity
 	
 		void AddChild( Entity* c );
 		void RemoveChild( Entity* c );
+		void ClearComponents();
 		void Update();
 		const glm::mat4& GetTransform() const;
 		const Entity* GetParent() const;

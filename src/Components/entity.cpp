@@ -23,16 +23,23 @@ Entity::Entity( std::string name ) :
 Entity::~Entity()
 {
 	transform->GetParent()->entity->RemoveChild(this);
-	// TODO(Valentinas): Test if the children are cleaned properly
-	std::map< int, Component* >::const_iterator it = entityComponents.begin();
-	std::map< int, Component* >::const_iterator end = entityComponents.end();
-	for( ; it != end; ++it )
-	{
-		delete (*it).second;
-		entityComponents.erase(it);
-	}
 	delete transform;
 	transform = NULL;
+}
+
+void Entity::ClearComponents()
+{
+	unsigned long size = entityComponents.size();
+	if ( size > 0)
+	{
+		std::map< int, Component* >::const_iterator it = entityComponents.begin();
+		std::map< int, Component* >::const_iterator end = entityComponents.end();
+		for( ; it != end; ++it )
+		{
+			delete (*it).second;
+		}
+		entityComponents.clear();
+	}
 }
 
 void Entity::AddChild( Entity* c )

@@ -60,6 +60,51 @@ void CCollider::SetCollisionBox(float width, float height, float length)
 	this->length = length;
 }
 
+bool CCollider::SphereToBox(const CCollider* other) const
+{
+
+	const CCollider* sphere;
+	const CCollider* box;
+
+	if (this->collisionType == CollisionType::BOX && other->collisionType == CollisionType::SPHERE)
+	{
+		box = this;
+		sphere = other;
+	}
+	else if (this->collisionType == CollisionType::SPHERE && other->collisionType == CollisionType::BOX)
+	{
+		box = other;
+		sphere = this;
+	}
+	else
+	{
+		SDL_assert(false);
+		return false;
+	}
+
+	glm::vec3 boxMin, boxMax, sphereCenter;
+	glm::vec3 boxCenter = box->entity->transform->GetPosition();
+	sphereCenter = sphere->entity->transform->GetPosition();
+	float radiusSquared = sphere->radius * sphere->radius;
+
+	boxMin = boxCenter - glm::vec3(box->width * 0.5f, box->height * 0.5f, box->length * 0.5f);
+	boxMax = boxCenter + glm::vec3(box->width * 0.5f, box->height * 0.5f, box->length * 0.5f);
+
+	float minDistance = 0;
+	for (int i = 0; i < 3; i++)
+	{
+		if (sphereCenter[i] < boxMin[i])
+		{
+			minDistance += (sphereCenter[i] - boxMin[i]) * (sphereCenter[i] - boxMin[i]);
+		}
+		else if (sphereCenter[i] > boxMax[i])
+		{
+			minDistance += (sphereCenter[i] - boxMax[i]) * (sphereCenter[i] - boxMax[i]);
+		}
+	}
+	return minDistance <= radiusSquared;
+}
+
 bool CCollider::BoxToBox(const CCollider* other) const
 {
 	//        _________
@@ -87,4 +132,9 @@ bool CCollider::BoxToBox(const CCollider* other) const
 	}
 
 	return false;
+}
+
+void CCollider::SetCollisionType(CollisionType type)
+{
+	collisionType = type;
 }

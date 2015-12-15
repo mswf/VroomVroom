@@ -7,7 +7,10 @@ std::vector< CCollider* > CCollider::list;
 
 CCollider::CCollider() :
 	collisionType(CollisionType::NONE),
-	radius(0)
+	radius(0),
+	width(0),
+	height(0),
+	length(0)
 {
 	list.push_back( this );
 }
@@ -58,6 +61,11 @@ void CCollider::SetCollisionBox(float width, float height, float length)
 	this->width = width;
 	this->height = height;
 	this->length = length;
+}
+
+glm::vec3 CCollider::GetCollisionBox() const
+{
+	return glm::vec3(width, height, length);
 }
 
 bool CCollider::SphereToBox(const CCollider* other) const
@@ -115,6 +123,12 @@ bool CCollider::BoxToBox(const CCollider* other) const
 	//    |  /      |  /
 	//    | /       | /
 	//    |/________|/
+
+	if (this->collisionType != CollisionType::BOX || other->collisionType != CollisionType::BOX)
+	{
+		SDL_assert(false);
+		return false;
+	}
 
 
 	glm::vec3 position1 = entity->transform->GetPosition();

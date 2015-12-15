@@ -27,6 +27,7 @@ CDebugRenderer::~CDebugRenderer()
 		if( (*it) == this)
 		{
 			list.erase(it);
+			break;
 		}
 	}
 }

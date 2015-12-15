@@ -22,6 +22,7 @@ Entity::Entity( std::string name ) :
 
 Entity::~Entity()
 {
+	DestroyChildren();
 	transform->GetParent()->entity->RemoveChild(this);
 	delete transform;
 	transform = NULL;
@@ -32,13 +33,25 @@ void Entity::ClearComponents()
 	unsigned long size = entityComponents.size();
 	if ( size > 0)
 	{
-		std::map< int, Component* >::const_iterator it = entityComponents.begin();
-		std::map< int, Component* >::const_iterator end = entityComponents.end();
+		std::map< int, Component* >::iterator it = entityComponents.begin();
+		std::map< int, Component* >::iterator end = entityComponents.end();
 		for( ; it != end; ++it )
 		{
 			delete (*it).second;
+			(*it).second = NULL;
 		}
 		entityComponents.clear();
+	}
+}
+
+void Entity::DestroyChildren()
+{
+	std::vector<CTransform* >::const_iterator it = transform->GetChildren().begin();
+	std::vector<CTransform* >::const_iterator end = transform->GetChildren().end();
+	for( ; it != end ; ++it )
+	{
+		(*it)->entity->ClearComponents();
+		delete (*it)->entity;
 	}
 }
 

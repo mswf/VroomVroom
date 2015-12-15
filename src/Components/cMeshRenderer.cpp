@@ -26,6 +26,7 @@ CMeshRenderer::~CMeshRenderer()
 		if( (*it) == this)
 		{
 			list.erase(it);
+			break;
 		}
 	}
 	

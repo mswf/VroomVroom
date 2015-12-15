@@ -17,12 +17,14 @@ CTransform::CTransform():
 
 CTransform::~CTransform()
 {
+	/*
 	 std::vector< CTransform* >::const_iterator iter = children.begin();
 	 std::vector< CTransform* >::const_iterator end = children.end();
 	 for ( ; iter != end; ++iter)
 	 {
-		//delete ( (*iter)->entity );
+		delete ( (*iter)->entity );
 	 }
+	*/
 }
 
 const glm::mat4& CTransform::GetTransform() const

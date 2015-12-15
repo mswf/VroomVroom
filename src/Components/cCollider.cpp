@@ -60,6 +60,15 @@ void CCollider::SetCollisionBox(float width, float height, float length)
 
 bool CCollider::BoxToBox(const CCollider* other) const
 {
+	//        _________
+	//       /|       /|
+	//      / |      / |
+	//     /__|_____/_ |
+	//    |  /      |  /
+	//    | /       | /
+	//    |/________|/
+
+
 	glm::vec3 position1 = entity->transform->GetPosition();
 	glm::vec3 position2 = other->entity->transform->GetPosition();
 

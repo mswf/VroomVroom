@@ -156,6 +156,7 @@ namespace Renderer
 			SetUniform( program,	"projection", 	camera->GetProjectionMatrix() );
 			SetUniform( program,	"time", 		(float)time );
 			SetUniform( program,	"lightPos", 	lightPosition);
+			SetUniform( program, 	"diffuseColor", mtl->GetDiffuseColor() );
 			
 			int offset = 0;
 			

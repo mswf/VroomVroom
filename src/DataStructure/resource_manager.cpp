@@ -12,6 +12,8 @@ uint32 ResourceManager::materialId = 0;
 const char * DEFAULT_VERTEX = "shaders/default_vert.glsl";
 const char * DEFAULT_FRAGMENT = "shaders/default_frag.glsl";
 
+// TODO(Valentinas): SetBounds & find center when importing mesh
+
 ResourceManager::ResourceManager()
 {}
 ResourceManager::~ResourceManager()

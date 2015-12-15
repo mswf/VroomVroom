@@ -118,6 +118,7 @@ class mMaterial
 		col.r = lua_tonumber(L, 2);\
 		col.g = lua_tonumber(L, 3);\
 		col.b = lua_tonumber(L, 4);\
+		col.a = lua_tonumber(L, 5);\
 	\
 		mat->FUNC(col);\
 	\

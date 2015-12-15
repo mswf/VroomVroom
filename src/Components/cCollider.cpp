@@ -123,6 +123,12 @@ bool CCollider::BoxToBox(const CCollider* other) const
 	//    | /       | /
 	//    |/________|/
 
+	if (this->collisionType != CollisionType::BOX || other->collisionType != CollisionType::BOX)
+	{
+		SDL_assert(false);
+		return false;
+	}
+
 
 	glm::vec3 position1 = entity->transform->GetPosition();
 	glm::vec3 position2 = other->entity->transform->GetPosition();

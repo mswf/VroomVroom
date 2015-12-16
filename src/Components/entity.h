@@ -91,6 +91,7 @@ class Entity
 		static void Destroy( Entity* e )
 		{
 			e->destroy = true;
+			shouldClean = true;
 			std::vector<CTransform* >::const_iterator it_c = e->transform->GetChildren().begin();
 			std::vector<CTransform* >::const_iterator end_c = e->transform->GetChildren().end();
 			for( ; it_c != end_c ; ++it_c )
@@ -109,6 +110,7 @@ class Entity
 	
 		static std::multimap< int, Entity* > componentStorage;
 		static const char* root_name;
+		static unsigned int counter;
 		bool destroy;
 };
 

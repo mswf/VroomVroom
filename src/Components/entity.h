@@ -12,8 +12,9 @@ class Entity
 	public:
 	
 		static Entity* root;
+		static bool shouldClean;
 	
-		Entity( std::string name = "Entity_Object" );
+		Entity( std::string name = "Entity_Object_" + std::to_string(counter) );
 		~Entity();
 	
 		void AddChild( Entity* c );

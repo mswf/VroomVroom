@@ -6,11 +6,14 @@ const char* Entity::root_name = "root_:)_XgPFL>u{9+?9,GllN6IF;+L:<CkXvEn9Y$6dX[}
 
 std::multimap< int, Entity* > Entity::componentStorage;
 Entity* Entity::root = new Entity( root_name );
+unsigned int Entity::counter = 0;
+bool Entity::shouldClean = false;
 
 Entity::Entity( std::string name ) :
 	name(name),
 	destroy(false)
 {
+	++counter;
 	transform = new CTransform();
 	transform->entity = this;
 	

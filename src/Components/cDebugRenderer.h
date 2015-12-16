@@ -71,6 +71,7 @@ class CDebugRenderer : public Component
 	
 		unsigned int vbo;
 		unsigned int numberOfPoints;
+		unsigned int bufferSizeAmount;
 		float pointSize;
 		DrawMode mode;
 		bool isBuffered;

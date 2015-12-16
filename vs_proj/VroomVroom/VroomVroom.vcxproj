@@ -18,6 +18,7 @@
     <ClInclude Include="..\..\src\Components\cCamera.h" />
     <ClInclude Include="..\..\src\Components\cCollider.h" />
     <ClInclude Include="..\..\src\Components\cDebugRenderer.h" />
+    <ClInclude Include="..\..\src\Components\cLight.h" />
     <ClInclude Include="..\..\src\Components\cLua.h" />
     <ClInclude Include="..\..\src\Components\cMeshRenderer.h" />
     <ClInclude Include="..\..\src\Components\component.h" />
@@ -190,6 +191,7 @@
     <ClInclude Include="..\..\src\IO\stb_image.h" />
     <ClInclude Include="..\..\src\IO\stb_image_write.h" />
     <ClInclude Include="..\..\src\Modules\mAll.h" />
+    <ClInclude Include="..\..\src\Modules\mAudio.h" />
     <ClInclude Include="..\..\src\Modules\mCamera.h" />
     <ClInclude Include="..\..\src\Modules\mDebugRenderer.h" />
     <ClInclude Include="..\..\src\Modules\mEntity.h" />
@@ -203,6 +205,7 @@
     <ClInclude Include="..\..\src\Modules\mShader.h" />
     <ClInclude Include="..\..\src\Modules\mSystem.h" />
     <ClInclude Include="..\..\src\Modules\mUi.h" />
+    <ClInclude Include="..\..\src\Modules\mWindow.h" />
     <ClInclude Include="..\..\src\Networking\TCPClient.h" />
     <ClInclude Include="..\..\src\Networking\TCPData.h" />
     <ClInclude Include="..\..\src\Networking\TCPServer.h" />
@@ -227,11 +230,13 @@
     <ClInclude Include="..\..\src\Utilities\random.h" />
     <ClInclude Include="..\..\src\Utilities\standardIncludes.h" />
     <ClInclude Include="..\..\src\Utilities\typedef.h" />
+    <ClInclude Include="mWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Components\cCamera.cpp" />
     <ClCompile Include="..\..\src\Components\cCollider.cpp" />
     <ClCompile Include="..\..\src\Components\cDebugRenderer.cpp" />
+    <ClCompile Include="..\..\src\Components\cLight.cpp" />
     <ClCompile Include="..\..\src\Components\cLua.cpp" />
     <ClCompile Include="..\..\src\Components\cMeshRenderer.cpp" />
     <ClCompile Include="..\..\src\Components\cTransform.cpp" />
@@ -255,6 +260,7 @@
     <ClCompile Include="..\..\src\IO\importer_imp.cpp" />
     <ClCompile Include="..\..\src\IO\RtMidi.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
+    <ClCompile Include="..\..\src\Modules\mAudio.cpp" />
     <ClCompile Include="..\..\src\Modules\mCamera.cpp" />
     <ClCompile Include="..\..\src\Modules\mDebugRenderer.cpp" />
     <ClCompile Include="..\..\src\Modules\mEntity.cpp" />
@@ -267,6 +273,7 @@
     <ClCompile Include="..\..\src\Modules\mShader.cpp" />
     <ClCompile Include="..\..\src\Modules\mSystem.cpp" />
     <ClCompile Include="..\..\src\Modules\mUi.cpp" />
+    <ClCompile Include="..\..\src\Modules\mWindow.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPClient.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPData.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPServer.cpp" />

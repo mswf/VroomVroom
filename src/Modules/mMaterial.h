@@ -26,6 +26,7 @@ class mMaterial
 		lFuncDef(__engineInit);
 
 		lFuncDef(setShader);
+		lFuncDef(makeQuadShader);
 	
 		lFuncDef(setDiffuseTexture);
 		lFuncDef(setSpecularTexture);

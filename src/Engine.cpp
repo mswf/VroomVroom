@@ -42,13 +42,16 @@
 //defines runCommand
 #include "Utilities/command.h"
 
+FMOD::System* Engine::systemLowLevel = NULL;
+SDL_Window* Engine::window = NULL;
+
 Engine::Engine() :
 	inputManager(NULL),
 	listener(NULL),
 	renderer(NULL),
 	fileWatcher(NULL),
 	systemStudio(NULL),
-	systemLowLevel(NULL),
+
 	skybox_map(0),
 	takeScreen(false)
 {
@@ -337,6 +340,10 @@ void Engine::ImportAssets()
 	rm.ImportShader( "shaders/skybox_frag.glsl", GLSLShaderType::FRAGMENT );
 	const char* sh_objs[] = { "shaders/skybox_vert.glsl", "shaders/skybox_frag.glsl", NULL };
 	Assets.CreateShaderProgram("__Skybox_program", sh_objs, 2);
+	rm.ImportShader( "shaders/quad_vert.glsl", GLSLShaderType::VERTEX );
+	rm.ImportShader( "shaders/quad_frag.glsl", GLSLShaderType::FRAGMENT );
+	const char* sh_objs3[] = { "shaders/quad_vert.glsl", "shaders/quad_frag.glsl", NULL };
+	Assets.CreateShaderProgram("quad", sh_objs3, 2);
 
 	bool successfulImport = rm.ImportImage( cube_map, errors, false );
 	if (!successfulImport)
@@ -398,16 +405,17 @@ void Engine::WeikieTestCode()
 void Engine::UpdateLoop()
 {
 
-	SDL_Window* window;
+	
 	SDL_GLContext glcontext;
 	SetupWindow(window, glcontext);
 
 	ImGui_ImplSdl_Init(window);
 
 	ImportAssets();
-	//InitFMOD();
+	InitFMOD();
 
 	EnvironmentCube();
+	Quad();
 
 	renderer->SetWindowSize(1280, 720);
 	renderer->Initialize();
@@ -511,7 +519,7 @@ void Engine::UpdateLoop()
 			fileWatcher->update();
 			deltaTimeGame -= gameUpdateInterval;
 
-			//systemStudio->update();
+			systemStudio->update();
 
 			Update( gameUpdateInterval / 1000 );
 
@@ -612,7 +620,7 @@ void Engine::InitFMOD()
 
 	result = rpm->setValue(1150);
 
-	result = eventInstance->start();
+	//result = eventInstance->start();
 
 	// Position the listener at the origin
 	FMOD_3D_ATTRIBUTES attributes = { { 0 } };
@@ -623,7 +631,7 @@ void Engine::InitFMOD()
 	// Position the event 2 units in front of the listener
 	attributes.position.z = 2.0f;
 	eventInstance->set3DAttributes(&attributes);
-
+	
 	result = systemLowLevel->createDSPByType( FMOD_DSP_TYPE_ECHO, &dspecho );
 	if (result != FMOD_OK)
 	{
@@ -632,7 +640,7 @@ void Engine::InitFMOD()
 	result = dspecho->setParameterFloat(FMOD_DSP_ECHO_DELAY, 150.0f);
 	result = dspecho->setParameterFloat(FMOD_DSP_ECHO_WETLEVEL, 150.0f);
 	result = systemLowLevel->getMasterChannelGroup(&group);
-	group->addDSP(FMOD_CHANNELCONTROL_DSP_HEAD, dspecho);
+	//group->addDSP(FMOD_CHANNELCONTROL_DSP_HEAD, dspecho);
 	if (result != FMOD_OK)
 	{
 		std::cout <<  "Error: FMOD did not add effect to channel" << std::endl;
@@ -683,4 +691,17 @@ void Engine::TakeScreenShot()
 		takeScreen = false;
 		renderer->ScreenGrab();
 	}
+}
+
+glm::vec2 Engine::GetWindowSize()
+{
+	int w, h;
+	SDL_GetWindowSize(window, &w, &h);
+
+	return glm::vec2(w, h);
+}
+
+void Engine::SetWindowSize(glm::vec2 dimensions)
+{
+	SDL_SetWindowSize(window, dimensions.x, dimensions.y);
 }

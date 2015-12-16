@@ -10,6 +10,7 @@ struct ShaderProgram;
 class Entity;
 class CMeshRenderer;
 class CDebugRenderer;
+class CLight;
 class CCamera;
 
 namespace Renderer
@@ -43,6 +44,7 @@ namespace Renderer
 			void ScreenGrab();
 			inline void SetMeshRendererList( std::vector< CMeshRenderer* >* list ) { renderables = list; }
 			inline void SetDebugRendererList( std::vector< CDebugRenderer* >* list ) { debugPrimitives = list; }
+			inline void SetLightList( std::vector< CLight* >* list ) { lights = list; }
 			inline void SetCamera( CCamera* c ) { camera = c; }
 			inline void SetTime( const uint32& t ) { time = t; }
 		
@@ -69,6 +71,9 @@ namespace Renderer
 		
 			// Scene
 			std::vector< CMeshRenderer*>* renderables;
+		
+			// Light
+			std::vector< CLight* >* lights;
 		
 			// Line
 			std::vector< CDebugRenderer*>* debugPrimitives;

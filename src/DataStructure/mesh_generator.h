@@ -134,12 +134,14 @@ void Quad()
 		
 	};
 	
+	float width = 16.0/9.0;
+
 	glm::vec3 vertices[4] =
 	{
-		glm::vec3( -1.0, -1.0, 0.0 ),
-		glm::vec3(  1.0, -1.0, 0.0 ),
-		glm::vec3(  1.0,  1.0, 0.0 ),
-		glm::vec3( -1.0,  1.0, 0.0 )
+		glm::vec3(-width, -1.0, 0.0),
+		glm::vec3(width, -1.0, 0.0),
+		glm::vec3(width, 1.0, 0.0),
+		glm::vec3(-width, 1.0, 0.0)
 	};
 	
 	unsigned int indices[6] = { 0,1,2, 2,3,0 };
@@ -172,7 +174,7 @@ void Quad()
 	instance->vbo = vbo;
 	instance->indiceBuffer = ebo;
 	instance->numIndices = 6;
-	Assets.InsertModelInstance( "__Quad_model", instance );
+	Assets.InsertModelInstance( "quad", instance );
 }
 
 

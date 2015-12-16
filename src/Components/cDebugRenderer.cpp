@@ -1,10 +1,9 @@
 #include "cDebugRenderer.h"
 #include "../DataStructure/mesh.h"
+#include "../console.h"
 
 const int CDebugRenderer::familyId = (int)ComponentTypes::DEBUG_RENDERER;
 std::vector< CDebugRenderer* > CDebugRenderer::list;
-
-// TODO(Valentinas): ADD WARNING FOR NUMBER OF POINTS!!!
 
 CDebugRenderer::CDebugRenderer() :
 	isBuffered(false),
@@ -40,7 +39,9 @@ void CDebugRenderer::Call()
 void CDebugRenderer::Initialize()
 {
 	int primitive = (mode == DrawMode::LINES) ? 2 : 3;
-	unsigned long bSize = sizeof(glm::vec3) * int( numberOfPoints / primitive ) * 2;
+	int count = int( numberOfPoints / primitive );
+	bufferSizeAmount = count;
+	unsigned long bSize = sizeof(glm::vec3) * count + sizeof(glm::vec4) * count;
 	CreateDynamicBuffer(vao, vbo, bSize);
 }
 
@@ -50,6 +51,10 @@ void CDebugRenderer::AddPrimivite( Line line )
 	{
 		mode = DrawMode::LINES;
 		Initialize();
+	}
+	if ( bufferSizeAmount < points.size() )
+	{
+		Terminal.Warning( "DebugRenderer is trying to have more data than the buffer is initialized!" );
 	}
 	points.push_back(line.start);
 	colours.push_back(line.colour);

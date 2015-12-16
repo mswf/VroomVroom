@@ -23,6 +23,7 @@ void mMaterial::Bind(lua_State* L)
 	lStart(BaseMaterial)
 		lBind(__engineInit)
 		lBind(setShader)
+		lBind(makeQuadShader)
 		lBind(setDiffuseTexture)
 		lBind(setSpecularTexture)
 		lBind(setNormalTexture)
@@ -113,6 +114,17 @@ lFuncImp(mMaterial, setShader)
 	return 0;
 }
 
+lFuncImp(mMaterial, makeQuadShader)
+{
+	lua_settop(L, 1);
+	lua_getfield(L, 1, "__coreMaterial__");
+	Material* mat = (Material*)lua_touserdata(L, -1);
+	
+	ShaderProgram* s = ResourceManager::getInstance().GetShaderProgram("quad");
+	
+	mat->SetShader(s);
+	return 0;
+}
 
 
 lBindSetMatTex(setDiffuseTexture, SetDiffuseTexture);

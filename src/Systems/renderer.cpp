@@ -7,6 +7,7 @@
 #include "../Components/cCamera.h"
 #include "../Components/cMeshRenderer.h"
 #include "../Components/cDebugRenderer.h"
+#include "../Components/cLight.h"
 
 #include "../DataStructure/shader.h"
 #include "../DataStructure/texture.h"
@@ -46,6 +47,7 @@ namespace Renderer
 	{
 		SetMeshRendererList( CMeshRenderer::GetMeshRendererList() );
 		SetDebugRendererList( CDebugRenderer::GetDebugRendererList() );
+		SetLightList( CLight::GetLightList() );
 		ResourceManager& rm = Assets;
 		skybox = rm.GetModel("__Skybox_model");
 		skyboxProgram = rm.GetShaderProgram("__Skybox_program");
@@ -122,6 +124,18 @@ namespace Renderer
 		
 		camera->Call();
 		
+		glm::vec3 lightPosition(0);
+		glm::vec3 lightDirection(0.5,0.5,1.0);
+		float lightIntensity = 1.0;
+		glm::vec4 lightColour(1);
+		
+		if (lights->size() > 0)
+		{
+			lightDirection = lights->at(0)->GetDirection();
+			lightIntensity = lights->at(0)->GetIntensity();
+			lightColour = lights->at(0)->GetColour();
+		}
+		
 		std::vector< CMeshRenderer* >::const_iterator it = renderables->begin();
 		std::vector< CMeshRenderer* >::const_iterator end = renderables->end();
 		for ( ; it != end; ++it )
@@ -147,7 +161,7 @@ namespace Renderer
 			
 			glm::mat3 mvMatrix = glm::mat3( camera->GetViewMatrix() * (*it)->entity->transform->GetWorldTransform() );
 			glm::mat3 normalMatrix = glm::transpose(glm::inverse(mvMatrix));
-			glm::vec3 lightPosition( 0.0, 5.0, 1.0 );
+			
 			
 			SetUniform( program,	"model", 		(*it)->entity->transform->GetWorldTransform() );
 			SetUniform( program,	"view", 		camera->GetViewMatrix() );
@@ -157,6 +171,11 @@ namespace Renderer
 			SetUniform( program,	"time", 		(float)time );
 			SetUniform( program,	"lightPos", 	lightPosition);
 			SetUniform( program, 	"diffuseColor", mtl->GetDiffuseColor() );
+			
+			SetUniform( program, "lightIntensity", lightIntensity);
+			SetUniform( program, "lightColour", 	lightColour);
+			SetUniform( program, "lightDirection", lightDirection);
+			
 			
 			int offset = 0;
 			

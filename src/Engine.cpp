@@ -42,13 +42,15 @@
 //defines runCommand
 #include "Utilities/command.h"
 
+FMOD::System* Engine::systemLowLevel = NULL;
+
 Engine::Engine() :
 	inputManager(NULL),
 	listener(NULL),
 	renderer(NULL),
 	fileWatcher(NULL),
 	systemStudio(NULL),
-	systemLowLevel(NULL),
+
 	skybox_map(0),
 	takeScreen(false)
 {
@@ -405,7 +407,7 @@ void Engine::UpdateLoop()
 	ImGui_ImplSdl_Init(window);
 
 	ImportAssets();
-	//InitFMOD();
+	InitFMOD();
 
 	EnvironmentCube();
 
@@ -511,7 +513,7 @@ void Engine::UpdateLoop()
 			fileWatcher->update();
 			deltaTimeGame -= gameUpdateInterval;
 
-			//systemStudio->update();
+			systemStudio->update();
 
 			Update( gameUpdateInterval / 1000 );
 
@@ -612,7 +614,7 @@ void Engine::InitFMOD()
 
 	result = rpm->setValue(1150);
 
-	result = eventInstance->start();
+	//result = eventInstance->start();
 
 	// Position the listener at the origin
 	FMOD_3D_ATTRIBUTES attributes = { { 0 } };
@@ -623,7 +625,7 @@ void Engine::InitFMOD()
 	// Position the event 2 units in front of the listener
 	attributes.position.z = 2.0f;
 	eventInstance->set3DAttributes(&attributes);
-
+	
 	result = systemLowLevel->createDSPByType( FMOD_DSP_TYPE_ECHO, &dspecho );
 	if (result != FMOD_OK)
 	{
@@ -632,7 +634,7 @@ void Engine::InitFMOD()
 	result = dspecho->setParameterFloat(FMOD_DSP_ECHO_DELAY, 150.0f);
 	result = dspecho->setParameterFloat(FMOD_DSP_ECHO_WETLEVEL, 150.0f);
 	result = systemLowLevel->getMasterChannelGroup(&group);
-	group->addDSP(FMOD_CHANNELCONTROL_DSP_HEAD, dspecho);
+	//group->addDSP(FMOD_CHANNELCONTROL_DSP_HEAD, dspecho);
 	if (result != FMOD_OK)
 	{
 		std::cout <<  "Error: FMOD did not add effect to channel" << std::endl;

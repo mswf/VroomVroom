@@ -55,6 +55,7 @@ void Entity::DestroyChildren()
 	{
 		(*it)->entity->ClearComponents();
 		delete (*it)->entity;
+		break;
 	}
 }
 

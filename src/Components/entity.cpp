@@ -49,8 +49,8 @@ void Entity::ClearComponents()
 
 void Entity::DestroyChildren()
 {
-	std::vector<CTransform* >::const_iterator it = transform->GetChildren().begin();
-	std::vector<CTransform* >::const_iterator end = transform->GetChildren().end();
+	std::vector<CTransform* >::iterator it = transform->GetChildren().begin();
+	std::vector<CTransform* >::iterator end = transform->GetChildren().end();
 	for( ; it != end ; ++it )
 	{
 		(*it)->entity->ClearComponents();

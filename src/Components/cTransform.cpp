@@ -98,7 +98,7 @@ const CTransform* CTransform::GetParent() const
 	return parent;
 }
 
-const std::vector< CTransform* >& CTransform::GetChildren() const
+std::vector< CTransform* >& CTransform::GetChildren()
 {
 	return children;
 }

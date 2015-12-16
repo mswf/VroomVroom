@@ -243,7 +243,7 @@ void Engine::SetupWindow(SDL_Window*& window, SDL_GLContext& glcontext)
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 	SDL_DisplayMode current;
 	SDL_GetCurrentDisplayMode(0, &current);
-	window = SDL_CreateWindow("VroomVroom", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_SHOWN ); //SDL_WINDOW_ALLOW_HIGHDPI
+	window = SDL_CreateWindow("VroomVroom", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN_DESKTOP); //SDL_WINDOW_ALLOW_HIGHDPI
 	glcontext = SDL_GL_CreateContext(window);
 	InitGlew();
 }
@@ -416,7 +416,7 @@ void Engine::UpdateLoop()
 	EnvironmentCube();
 	Quad();
 
-	renderer->SetWindowSize(1280, 720);
+	renderer->SetWindowSize(1920, 1080);
 	renderer->Initialize();
 	renderer->skyboxMap = skybox_map;
 

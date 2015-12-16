@@ -76,8 +76,8 @@ namespace Renderer
 		
 			// Environment
 			ModelInstance* skybox;
-		
 			ShaderProgram* skyboxProgram;
+		
     };
     
 	

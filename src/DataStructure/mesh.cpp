@@ -33,31 +33,32 @@ void BufferMesh( const Mesh* m, ModelInstance* instance )
 	glEnableVertexAttribArray( 0 );
 	glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 0, 0 );
 	
-	if (m->hasNormals)
-	{
-		// Buffer normals
-		glBufferSubData( GL_ARRAY_BUFFER, v, m->normals.size() * sizeof(glm::vec3), &m->normals.front() );
-		glEnableVertexAttribArray( 1 );
-		glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, 0, (void*)v );
-	}
-	
 	if (m->hasUVs)
 	{
 		// Buffer uvs
-		glBufferSubData( GL_ARRAY_BUFFER, v+n, m->uvs.size() * sizeof(glm::vec2), &m->uvs.front() );
-		glEnableVertexAttribArray( 2 );
-		glVertexAttribPointer( 2, 2, GL_FLOAT, GL_FALSE, 0, (void*)(v+n) );
+		glBufferSubData( GL_ARRAY_BUFFER, v, m->uvs.size() * sizeof(glm::vec2), &m->uvs.front() );
+		glEnableVertexAttribArray( 1 );
+		glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(v) );
 	}
+	
+	if (m->hasNormals)
+	{
+		// Buffer normals
+		glBufferSubData( GL_ARRAY_BUFFER, v+u, m->normals.size() * sizeof(glm::vec3), &m->normals.front() );
+		glEnableVertexAttribArray( 2 );
+		glVertexAttribPointer( 2, 3, GL_FLOAT, GL_FALSE, 0, (void*)(v+u) );
+	}
+
 	
 	if (m->hasTangentsAndBitangets)
 	{
 		// Buffer tangents
-		glBufferSubData( GL_ARRAY_BUFFER, v+n+u, m->tangents.size() * sizeof(glm::vec3), &m->tangents.front() );
+		glBufferSubData( GL_ARRAY_BUFFER, v+u+n, m->tangents.size() * sizeof(glm::vec3), &m->tangents.front() );
 		glEnableVertexAttribArray( 3 );
 		glVertexAttribPointer( 3, 3, GL_FLOAT, GL_FALSE, 0, (void*)(v+n+u) );
 		
 		// Buffer bitangents
-		glBufferSubData( GL_ARRAY_BUFFER, v+n+u+t, m->bitangents.size() * sizeof(glm::vec3), &m->bitangents.front() );
+		glBufferSubData( GL_ARRAY_BUFFER, v+u+n+t, m->bitangents.size() * sizeof(glm::vec3), &m->bitangents.front() );
 		glEnableVertexAttribArray( 4 );
 		glVertexAttribPointer( 4, 3, GL_FLOAT, GL_FALSE, 0, (void*)(v+n+u+t) );
 	}
@@ -83,13 +84,10 @@ void CreateDynamicBuffer( unsigned int& vao, unsigned int& vbo, unsigned long bu
 
 void BufferPoints( unsigned int& vao, unsigned int& vbo, const std::vector< glm::vec3 >& points, const std::vector< glm::vec4 >& colours )
 {
-	//unsigned long bufferSize = sizeof(glm::vec3) * points.size() + sizeof(glm::vec3) * colours.size();
-	//glGenVertexArrays( 1, &vao );
 	glBindVertexArray( vao );
 	
 	//glGenBuffers( 1, &vbo );
 	glBindBuffer( GL_ARRAY_BUFFER, vbo );
-	//glBufferData( GL_ARRAY_BUFFER, bufferSize, NULL, GL_DYNAMIC_DRAW);
 	
 	// Buffer vertices
 	glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(glm::vec3) * points.size(), &points.front() );

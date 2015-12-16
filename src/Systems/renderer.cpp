@@ -57,14 +57,14 @@ namespace Renderer
 	
 	void RenderSystem::ScreenGrab()
 	{
-		int components = 4;
+		int components = 3;
 		int w = w_width * framebufferScaleX;
 		int h = w_height * framebufferScaleY;
 		
 	 	uint32 size = components * w * h;
 		uint8* pixels = new uint8[size];
 		glReadBuffer( GL_BACK );
-		glReadPixels(0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+		glReadPixels(0, 0, w, h, GL_RGB, GL_UNSIGNED_BYTE, pixels);
 		
 		int row, col, z;
 		uint8 temp_pixels;

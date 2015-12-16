@@ -44,6 +44,7 @@ class Engine
 		void WeikieTestCode();
 		void WindowEvent( SDL_WindowEvent window );
 		void TakeScreenShot();
+		void CleanUpEntities();
 
 		FMOD::Studio::System* systemStudio;
 		FMOD::System* systemLowLevel;

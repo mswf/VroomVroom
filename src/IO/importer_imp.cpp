@@ -37,6 +37,7 @@ uint8* ImporterImp::ImportImage( const char* filename, uint32& width, uint32& he
 	}
 
 	size_t size = w * h * requiring_components;
+	// TODO(Valentinas): Memory leak, Fix me!
 	uint8* data = new uint8[size];
 	memcpy(data, image, size);
 	stbi_image_free(image);
@@ -221,21 +222,21 @@ void ImporterImp::ExtractMaterial( const aiMaterial* mtl, Material* material, st
 	aiGetMaterialFloatArray( mtl, AI_MATKEY_SHININESS_STRENGTH, &shininess_strenght, &max);
 	material->shininess_strenght = shininess_strenght;
 
-	SetFloat4(color, 0.8f, 0.8f, 0.8f, 1.0f);
+	SetFloat4(color, 1.0f, 1.0f, 1.0f, 1.0f);
 	if ( AI_SUCCESS == aiGetMaterialColor( mtl, AI_MATKEY_COLOR_DIFFUSE, &diffuse ) )
 	{
 		aiColorToFloat4(&diffuse, color);
 	}
 	memcpy(material->diffuse, color, sizeof(color));
 
-	SetFloat4(color, 0.2f, 0.2f, 0.2f, 1.0f);
+	SetFloat4(color, 0.5f, 0.5f, 0.5f, 1.0f);
 	if ( AI_SUCCESS == aiGetMaterialColor( mtl, AI_MATKEY_COLOR_AMBIENT, &ambient ) )
 	{
 		aiColorToFloat4(&ambient, color);
 	}
 	memcpy(material->ambient, color, sizeof(color));
 
-	SetFloat4(color, 0.0f, 0.0f, 0.0f, 1.0f);
+	SetFloat4(color, 0.5f, 0.5f, 0.5f, 1.0f);
 	if ( AI_SUCCESS == aiGetMaterialColor( mtl, AI_MATKEY_COLOR_SPECULAR, &specular ) )
 	{
 		aiColorToFloat4(&specular, color);

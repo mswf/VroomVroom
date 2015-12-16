@@ -530,21 +530,8 @@ void Engine::UpdateLoop()
 			}
 		}
 
-		std::vector<Entity*> list = Entity::root->GetChildren();
-		std::vector<Entity*>::iterator it = list.begin();
-		std::vector<Entity*>::iterator end = list.end();
-		for ( ; it != end; ++it )
-		{
-			if ( (*it)->IsSetToDestroy() )
-			{
-				Terminal.Log( (*it)->name + " is destroyed." );
-				(*it)->ClearComponents();
-				delete (*it);
-				(*it) = NULL;
-			}
-		}
-
-
+		CleanUpEntities();
+		
 		ImGui_ImplSdl_NewFrame(window);
 
 		renderer->SetTime( GetTicks() );
@@ -664,6 +651,28 @@ void Engine::InitFMOD()
 	if (play)
 	{
 		result = systemLowLevel->playSound(sound1, 0, false, &channel);
+	}
+}
+
+void Engine::CleanUpEntities()
+{
+	if ( Entity::shouldClean )
+	{
+		// Causes memory leaks
+		std::vector<Entity*> list = Entity::root->GetChildren();
+		std::vector<Entity*>::iterator it = list.begin();
+		std::vector<Entity*>::iterator end = list.end();
+		for ( ; it != end; ++it )
+		{
+			if ( (*it)->IsSetToDestroy() )
+			{
+				Terminal.Log( (*it)->name + " is destroyed." );
+				(*it)->ClearComponents();
+				delete (*it);
+				(*it) = NULL;
+			}
+		}
+		Entity::shouldClean = false;
 	}
 }
 

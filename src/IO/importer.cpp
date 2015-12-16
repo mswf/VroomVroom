@@ -61,10 +61,11 @@ bool Importer::ImportObjFile( const std::string &pFile, bool importTextures )
 		imp_->ExtractMesh(m, mesh);
 		mesh->materialId = 0;
 		// Material
-		// THIS CHECK IS A HACK AND SHOULD BE FIXED, ASSIMP ALWAYS HAS MATERIAL!
+		// TODO(Valentinas): THIS CHECK IS A HACK AND SHOULD BE FIXED, ASSIMP ALWAYS HAS MATERIAL!
 		if ( scene->HasMaterials() && scene->mMaterials[0]->mNumProperties > 9 )
 		{
 			aiMaterial *mtl = scene->mMaterials[ m->mMaterialIndex ];
+			// TODO(Valentinas): THIS IS A MEMORY LEAK! FIX IT!
 			Material* material = new Material();
 			std::vector< std::string > textures;
 			imp_->ExtractMaterial( mtl, material, &textures );
@@ -116,6 +117,7 @@ bool Importer::ImportImage( const char* filename, bool vertical_flip, FilterType
 {
 	ResourceManager& rm = Assets;
 	std::string file( Content::GetPath() + "/" + filename );
+	// TODO(Valentinas): Memory leak here, fix me!!
 	ImageData* image = new ImageData();
 	image->magFilter = magFilter;
 	image->minFilter = minFilter;

@@ -20,7 +20,7 @@ Material::Material() :
 	bump_scaling(0.0f)
 {
 	SetArray(diffuse,		glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-	SetArray(ambient,		glm::vec4(0.2f, 0.2f, 0.2f, 1.0f));
+	SetArray(ambient,		glm::vec4(0.5f, 0.5f, 0.5f, 1.0f));
 	SetArray(specular,		glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 	SetArray(emissive,		glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
 	SetArray(transparent,	glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));

@@ -702,6 +702,12 @@
     <ClInclude Include="..\..\src\Components\cLight.h">
       <Filter>VroomVroom\Components</Filter>
     </ClInclude>
+    <ClInclude Include="mWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Modules\mWindow.h">
+      <Filter>VroomVroom\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Networking\TCPData.cpp">
@@ -880,6 +886,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Components\cLight.cpp">
       <Filter>VroomVroom\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Modules\mWindow.cpp">
+      <Filter>VroomVroom\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -205,6 +205,7 @@
     <ClInclude Include="..\..\src\Modules\mShader.h" />
     <ClInclude Include="..\..\src\Modules\mSystem.h" />
     <ClInclude Include="..\..\src\Modules\mUi.h" />
+    <ClInclude Include="..\..\src\Modules\mWindow.h" />
     <ClInclude Include="..\..\src\Networking\TCPClient.h" />
     <ClInclude Include="..\..\src\Networking\TCPData.h" />
     <ClInclude Include="..\..\src\Networking\TCPServer.h" />
@@ -229,6 +230,7 @@
     <ClInclude Include="..\..\src\Utilities\random.h" />
     <ClInclude Include="..\..\src\Utilities\standardIncludes.h" />
     <ClInclude Include="..\..\src\Utilities\typedef.h" />
+    <ClInclude Include="mWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Components\cCamera.cpp" />
@@ -271,6 +273,7 @@
     <ClCompile Include="..\..\src\Modules\mShader.cpp" />
     <ClCompile Include="..\..\src\Modules\mSystem.cpp" />
     <ClCompile Include="..\..\src\Modules\mUi.cpp" />
+    <ClCompile Include="..\..\src\Modules\mWindow.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPClient.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPData.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPServer.cpp" />

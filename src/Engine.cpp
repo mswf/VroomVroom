@@ -43,6 +43,7 @@
 #include "Utilities/command.h"
 
 FMOD::System* Engine::systemLowLevel = NULL;
+SDL_Window* Engine::window = NULL;
 
 Engine::Engine() :
 	inputManager(NULL),
@@ -404,7 +405,7 @@ void Engine::WeikieTestCode()
 void Engine::UpdateLoop()
 {
 
-	SDL_Window* window;
+	
 	SDL_GLContext glcontext;
 	SetupWindow(window, glcontext);
 
@@ -690,4 +691,17 @@ void Engine::TakeScreenShot()
 		takeScreen = false;
 		renderer->ScreenGrab();
 	}
+}
+
+glm::vec2 Engine::GetWindowSize()
+{
+	int w, h;
+	SDL_GetWindowSize(window, &w, &h);
+
+	return glm::vec2(w, h);
+}
+
+void Engine::SetWindowSize(glm::vec2 dimensions)
+{
+	SDL_SetWindowSize(window, dimensions.x, dimensions.y);
 }

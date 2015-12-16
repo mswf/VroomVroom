@@ -33,10 +33,15 @@ class Engine
 		void InitSDL();
 		void InitSDLNet();
 		void Init();
-	
+		
+		static glm::vec2 GetWindowSize();
+		static void SetWindowSize(glm::vec2 dimensions);
+
 		static FMOD::System* systemLowLevel;
 
 		static uint32 GetTicks();
+		
+		static SDL_Window* window;
 
 	private:
 

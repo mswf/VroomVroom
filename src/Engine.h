@@ -33,6 +33,8 @@ class Engine
 		void InitSDL();
 		void InitSDLNet();
 		void Init();
+	
+		static FMOD::System* systemLowLevel;
 
 		static uint32 GetTicks();
 
@@ -47,7 +49,7 @@ class Engine
 		void CleanUpEntities();
 
 		FMOD::Studio::System* systemStudio;
-		FMOD::System* systemLowLevel;
+	
 		FW::FileWatcher* fileWatcher;
 		Renderer::RenderSystem* renderer;
 		UpdateListener* listener;

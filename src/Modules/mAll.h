@@ -21,5 +21,6 @@
 #include "mImport.h"
 #include "mSystem.h"
 #include "mCamera.h"
+#include "mAudio.h"
 
 #endif /* mAll_h */

@@ -97,7 +97,7 @@ void BufferPoints( unsigned int& vao, unsigned int& vbo, const std::vector< glm:
 	// Buffer colours
 	glBufferSubData( GL_ARRAY_BUFFER, sizeof(glm::vec3) * points.size(), sizeof(glm::vec4) * colours.size(), &colours.front() );
 	glEnableVertexAttribArray( 1 );
-	glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(glm::vec3) * points.size()) );
+	glVertexAttribPointer( 1, 4, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(glm::vec3) * points.size()) );
 
 	glBindVertexArray( 0 );
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );

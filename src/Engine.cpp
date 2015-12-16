@@ -339,6 +339,10 @@ void Engine::ImportAssets()
 	rm.ImportShader( "shaders/skybox_frag.glsl", GLSLShaderType::FRAGMENT );
 	const char* sh_objs[] = { "shaders/skybox_vert.glsl", "shaders/skybox_frag.glsl", NULL };
 	Assets.CreateShaderProgram("__Skybox_program", sh_objs, 2);
+	rm.ImportShader( "shaders/quad_vert.glsl", GLSLShaderType::VERTEX );
+	rm.ImportShader( "shaders/quad_frag.glsl", GLSLShaderType::FRAGMENT );
+	const char* sh_objs3[] = { "shaders/quad_vert.glsl", "shaders/quad_frag.glsl", NULL };
+	Assets.CreateShaderProgram("quad", sh_objs3, 2);
 
 	bool successfulImport = rm.ImportImage( cube_map, errors, false );
 	if (!successfulImport)
@@ -410,6 +414,7 @@ void Engine::UpdateLoop()
 	InitFMOD();
 
 	EnvironmentCube();
+	Quad();
 
 	renderer->SetWindowSize(1280, 720);
 	renderer->Initialize();

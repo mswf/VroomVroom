@@ -111,6 +111,17 @@ void mUi::ToggleFocus(bool focus)
 	lua_settop(L, 0);
 }
 
+void mUi::SetMouseHoveringOverAnyWindow(bool isHovering)
+{
+	lua_State* L = LuaSystem.GetState();
+	lua_getglobal(L, "Engine");
+	lua_getfield(L, -1, "ui");
+	lua_pushboolean(L, isHovering);
+	lua_setfield(L, -2, "isMouseHoveringOverAnyWindow");
+
+	lua_settop(L, 0);
+}
+
 void mUi::BasicElementBind(lua_State* L, uiElement* e, int parentIndex)
 {
 	lua_pushvalue(L, -1);

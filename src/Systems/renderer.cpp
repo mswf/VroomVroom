@@ -23,15 +23,19 @@
 
 
 Renderer::Renderer() :
+	skyboxMap(0),
 	time(1),
 	w_width(0),
 	w_height(0),
 	framebufferScaleX(1.0f),
-	framebufferScaleY(1.0f),
-	camera(NULL),
+	framebufferScaleY(1.0f), 
+	backgroundColour(NULL),
+	camera(NULL), 
+	renderables(NULL),
+	lights(NULL),
+	debugPrimitives(NULL),
 	debugProgram(NULL),
 	skybox(NULL),
-	skyboxMap(0),
 	skyboxProgram(NULL)
 {
 }
@@ -58,32 +62,32 @@ bool Renderer::Initialize()
 void Renderer::ScreenGrab()
 {
 	int components = 3;
-	int w = w_width * framebufferScaleX;
-	int h = w_height * framebufferScaleY;
+	int width = w_width * framebufferScaleX;
+	int height = w_height * framebufferScaleY;
 		
-	uint32 size = components * w * h;
+	uint32 size = components * width * height;
 	uint8* pixels = new uint8[size];
 	glReadBuffer( GL_BACK );
-	glReadPixels(0, 0, w, h, GL_RGB, GL_UNSIGNED_BYTE, pixels);
+	glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixels);
 		
 	int row, col, z;
 	uint8 temp_pixels;
 		
 	// TODO(Valentinas): use a bigger temp buffer and memcpy multiple pixels at once
-	for (row = 0; row < (h>>1); row++)
+	for (row = 0; row < (height/2); row++)
 	{
-		for (col = 0; col < w; col++)
+		for (col = 0; col < width; col++)
 		{
 			for (z = 0; z < components; z++)
 			{
-				temp_pixels = pixels[ (row * w + col) * components + z ];
-				pixels[(row * w + col) * components + z] = pixels[((h - row - 1) * w + col) * components + z];
-				pixels[((h - row - 1) * w + col) * components + z] = temp_pixels;
+				temp_pixels = pixels[ (row * width + col) * components + z ];
+				pixels[(row * width + col) * components + z] = pixels[((height - row - 1) * width + col) * components + z];
+				pixels[((height - row - 1) * width + col) * components + z] = temp_pixels;
 			}
 		}
 	}
 	string filename( "Screenshot_" + HelperFunctions::GetTimeString() + ".png" );
-	HelperFunctions::WritePixels( filename.c_str(), ImageFileFormat::PNG, pixels, w, h, components );
+	HelperFunctions::WritePixels( filename.c_str(), ImageFileFormat::PNG, pixels, width, height, components );
 	Terminal.LogRender("Screenshot taken: " + filename, true);
 }
 	
@@ -138,20 +142,20 @@ void Renderer::RenderScene()
 	for ( ; it != end; ++it )
 	{
 			
-		const ModelInstance* m = (*it)->GetModelInstace();
-		if (m == NULL || (*it)->entity == NULL)
+		const ModelInstance* model = (*it)->GetModelInstace();
+		if (model == NULL || (*it)->entity == NULL)
 		{
 			continue;
 		}
 			
-		const Material* mtl = (*it)->GetMaterial();
-		unsigned int program = mtl->shader->program;
+		const Material* material = (*it)->GetMaterial();
+		unsigned int program = material->shader->program;
 			
-		glBindVertexArray( m->vao );
+		glBindVertexArray( model->vao );
 			
-		mtl->UseMaterial();
-		mtl->SetUniforms();
-		if ( mtl->two_sided )
+		material->UseMaterial();
+		material->SetUniforms();
+		if ( material->two_sided )
 		{
 			glEnable(GL_CULL_FACE);
 		}
@@ -167,37 +171,36 @@ void Renderer::RenderScene()
 		SetUniform( program,	"projection", 	camera->GetProjectionMatrix() );
 		SetUniform( program,	"time", 		(float)time );
 		SetUniform( program,	"lightPos", 	lightPosition);
-		SetUniform( program, 	"diffuseColor", mtl->GetDiffuseColor() );
+		SetUniform( program, 	"diffuseColor", material->GetDiffuseColor() );
 			
 		SetUniform( program, "lightIntensity", lightIntensity);
-		SetUniform( program, "lightColour", 	lightColour);
+		SetUniform( program, "lightColour",		lightColour);
 		SetUniform( program, "lightDirection", lightDirection);
 			
 			
 		int offset = 0;
 			
-		BindTexture( GL_TEXTURE0 + offset++, GL_TEXTURE_2D, mtl->diffuseTextureId);
-		SetUniform( program, "colorMap", 0 );
+		BindTexture( GL_TEXTURE0 + offset, GL_TEXTURE_2D, material->diffuseTextureId);
+		SetUniform(program, "colorMap", offset++);
 			
-		BindTexture( GL_TEXTURE0 + offset++, GL_TEXTURE_2D, mtl->normalTextureId);
-		SetUniform( program, "normalMap", 1 );
+		BindTexture( GL_TEXTURE0 + offset, GL_TEXTURE_2D, material->normalTextureId);
+		SetUniform(program, "normalMap", offset++);
 			
-		BindTexture( GL_TEXTURE0 + offset++, GL_TEXTURE_CUBE_MAP, skyboxMap );
-		SetUniform( program, "cubeMap", 2);
+		BindTexture( GL_TEXTURE0 + offset, GL_TEXTURE_CUBE_MAP, skyboxMap );
+		SetUniform(program, "cubeMap", offset++);
 			
-		if ( mtl->wireframe_enabled )
+		if ( material->wireframe_enabled )
 		{
 			glCullFace( GL_FRONT );
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE );
-			glDrawElements( GL_TRIANGLES, m->numIndices, GL_UNSIGNED_INT, (void*)0 );
+			glDrawElements( GL_TRIANGLES, model->numIndices, GL_UNSIGNED_INT, 0 );
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL );
 		}
 		
 		glCullFace( GL_BACK );
-		glDrawElements( GL_TRIANGLES, m->numIndices, GL_UNSIGNED_INT, (void*)0 );
-			
+		glDrawElements( GL_TRIANGLES, model->numIndices, GL_UNSIGNED_INT, 0 );
 	}
-		
+	
 	glDisable(GL_CULL_FACE);
 		
 	glBindVertexArray( 0 );
@@ -265,10 +268,9 @@ void Renderer::RenderEnvironment()
 	glDepthMask (GL_FALSE);
 		
 	glUseProgram(skyboxProgram->program);
-		
-	// TODO(Valentinas): Fix rotation for environment mapping
-	glm::mat4 m = glm::inverse( camera->GetViewMatrix() ) * glm::mat4_cast(camera->entity->transform->GetRotation());
-	SetUniform( skyboxProgram->program, "model", m );
+	
+	glm::mat4 modelMatrix = glm::inverse( camera->GetViewMatrix() ) * glm::mat4_cast(camera->entity->transform->GetRotation());
+	SetUniform( skyboxProgram->program, "model", modelMatrix );
 	SetUniform( skyboxProgram->program,	"view", 		camera->GetViewMatrix() );
 	SetUniform( skyboxProgram->program,	"projection", 	camera->GetProjectionMatrix() );
 		

@@ -20,7 +20,8 @@ class mUi {
 		static void UnreferenceTable(int);
 		static void HandleCallback(int, const char*);
 		static void ToggleFocus(bool);
-	
+		static void SetMouseHoveringOverAnyWindow(bool);
+
     private:
         mUi();
         ~mUi();

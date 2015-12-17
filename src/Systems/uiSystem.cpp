@@ -464,6 +464,7 @@ void sUiSystem::Render()
 	}
 	
 	mUi::ToggleFocus(ImGui::IsAnyItemActive());
+	mUi::SetMouseHoveringOverAnyWindow(ImGui::IsMouseHoveringAnyWindow());
 }
 
 

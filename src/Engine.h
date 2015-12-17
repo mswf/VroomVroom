@@ -46,7 +46,7 @@ class Engine
 	private:
 
 		void SetSeed();
-		void Update(float deltaTime);
+		void FilewatcherUpdate() const;
 		void ImportAssets();
 		void WeikieTestCode();
 		void WindowEvent( SDL_WindowEvent window );
@@ -62,7 +62,8 @@ class Engine
 
 		unsigned int skybox_map;
 		bool takeScreen;
-
+		SDL_GLContext glcontext;
+		bool running;
 };
 
 //	rendering

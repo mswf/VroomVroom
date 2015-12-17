@@ -63,8 +63,8 @@ Engine::~Engine()
 	delete renderer;
 	delete listener;
 	delete fileWatcher;
-	delete systemStudio;
-	delete systemLowLevel;
+	//delete systemStudio;
+	//delete systemLowLevel;
 }
 
 void Engine::Init()
@@ -87,6 +87,19 @@ void Engine::Init()
 	string watching ( Content::GetPath() );
 	fileWatcher->addWatch( watching, listener, true );
 
+	SetupWindow(window, glcontext);
+
+	ImGui_ImplSdl_Init(window);
+
+	ImportAssets();
+	InitFMOD();
+
+	EnvironmentCube();
+	Quad();
+
+	renderer->SetWindowSize(1280, 720);
+	renderer->Initialize();
+	renderer->skyboxMap = skybox_map;
 }
 
 void Engine::SetSeed()
@@ -173,7 +186,8 @@ void Engine::PollEvent()
 		WindowEvent( event.window );
 		if ( event.type == SDL_QUIT )
 		{
-			exit(EXIT_SUCCESS);
+			//exit(EXIT_SUCCESS);
+			running = false;
 			//TODO: don't exit instantly, rather disrupt the game loop and exit through a controlled flow
 		}
 		inputManager->Update(&event);
@@ -285,10 +299,8 @@ void Engine::InitGlew()
 #endif
 }
 
-void Engine::Update(float deltaTime)
+void Engine::FilewatcherUpdate() const
 {
-	LuaSystem.Update(deltaTime);
-
 	const std::vector< std::string >* list = listener->GetEvents();
 	for (std::vector<std::string>::const_iterator i = list->begin(); i != list->end(); ++i)
 	{
@@ -297,11 +309,6 @@ void Engine::Update(float deltaTime)
 		LuaSystem.SendReloadCallback( msg );
 	}
 	listener->ClearEvents();
-
-	//TODO this should be refactored out at some point
-	//It is neccesary now to poll network events from the socket
-	//but it is now also necessary to reattempt connections, so probably it should not be factored out anymore
-	Terminal.Update(deltaTime);
 }
 
 void Engine::ImportAssets()
@@ -369,8 +376,6 @@ void Engine::ImportAssets()
 
 void Engine::WeikieTestCode()
 {
-	return;
-
 	Entity* a =  new Entity( "testB" );
 	Entity* b =  new Entity( "testB" );
 
@@ -402,31 +407,16 @@ void Engine::WeikieTestCode()
 	bool asd = col1->SphereToBox(col2);
 	printf( "%i \n ", asd);
 }
+
 void Engine::UpdateLoop()
 {
-
-	
-	SDL_GLContext glcontext;
-	SetupWindow(window, glcontext);
-
-	ImGui_ImplSdl_Init(window);
-
-	ImportAssets();
-	InitFMOD();
-
-	EnvironmentCube();
-	Quad();
-
-	renderer->SetWindowSize(1280, 720);
-	renderer->Initialize();
-	renderer->skyboxMap = skybox_map;
-
-
+#ifdef WEIKIE
 	WeikieTestCode();
+#endif
 
 	/// TINAS PLAYGROUND!!!
 
-
+	/*
 	auto random_vec3 = []( int min, int max ) -> glm::vec3
 	{
 		float modif = 0.5f;
@@ -501,10 +491,10 @@ void Engine::UpdateLoop()
 
 	const float millisecondModifier = 1000.0f;
 	const float gameFPS = 60.0f;
-	const float gameUpdateInterval = 1 / gameFPS * millisecondModifier;
+	const float updateInterval = 1 / gameFPS * millisecondModifier;
 	uint32 currentTicks = SDL_GetTicks();
 	uint32 prevTicks = currentTicks;
-	static bool running = true;
+	running = true;
 	LuaSystem.Main();
 
 	while (running)
@@ -513,17 +503,20 @@ void Engine::UpdateLoop()
 		float deltaTimeGame = currentTicks - prevTicks;
 
 		// This part makes it get called 60 times per second
-		while (deltaTimeGame > gameUpdateInterval)
+		while (deltaTimeGame > updateInterval)
 		{
 			PollEvent();
 			fileWatcher->update();
-			deltaTimeGame -= gameUpdateInterval;
+			deltaTimeGame -= updateInterval;
 
 			systemStudio->update();
 
-			Update( gameUpdateInterval / 1000 );
+			LuaSystem.Update(updateInterval / 1000);
+			FilewatcherUpdate();
+			Terminal.Update(updateInterval / 1000);
 
-			if (deltaTimeGame < gameUpdateInterval)
+
+			if (deltaTimeGame < updateInterval)
 			{
 				if ( inputManager->OnKey(SDLK_ESCAPE) )
 				{
@@ -539,7 +532,7 @@ void Engine::UpdateLoop()
 		}
 
 		CleanUpEntities();
-		
+
 		ImGui_ImplSdl_NewFrame(window);
 
 		renderer->SetTime( GetTicks() );
@@ -631,7 +624,7 @@ void Engine::InitFMOD()
 	// Position the event 2 units in front of the listener
 	attributes.position.z = 2.0f;
 	eventInstance->set3DAttributes(&attributes);
-	
+
 	result = systemLowLevel->createDSPByType( FMOD_DSP_TYPE_ECHO, &dspecho );
 	if (result != FMOD_OK)
 	{

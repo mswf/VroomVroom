@@ -305,7 +305,7 @@ bool ResourceManager::BufferImage2D( const char* name )
 										img->pixelData, img->magFilter, img->minFilter, img->wrap, img->mipmapping);
 		img->isBuffered = true;
 		imageIds.insert( std::make_pair( string(name), img->imageId ) );
-		delete img->pixelData;
+		delete[] img->pixelData;
 	}
 	return true;
 }
@@ -339,9 +339,9 @@ unsigned int ResourceManager::CreateCubeMap( const std::vector< std::pair< uint8
 	glGenTextures( 1, &cubeMapId );
 
 	for (auto it : *textures )
- 	{
+	{
 		BufferTextureCubeMap(cubeMapId, it.second, GL_RGB, width, height, GL_RGB, GL_UNSIGNED_BYTE, it.first);
-		delete it.first;
+		delete[] it.first;
 
 	}
 	return cubeMapId;
@@ -509,7 +509,7 @@ void ResourceManager::CreateShaderProgram( const char* name, const char* shaders
 			SetSubroutineUniformLocations( prog->program, prog->shaders[i]->shaderType, prog->shaders[i]->subroutine );
 		}
 	}
-	delete shaders;
+	delete[] shaders;
 }
 
 void ResourceManager::UpdateShaderProgram( const char* name, GLSLShaderType type, const char* source )

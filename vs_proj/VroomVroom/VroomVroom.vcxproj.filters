@@ -648,9 +648,6 @@
     <ClInclude Include="..\..\src\IO\importer_imp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Systems\entitySystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\Utilities\opengl_common.h">
       <Filter>VroomVroom\Utilities</Filter>
     </ClInclude>
@@ -832,9 +829,6 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Components\cLua.cpp">
       <Filter>VroomVroom\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Systems\entitySystem.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Utilities\opengl_common.cpp">
       <Filter>VroomVroom\Utilities</Filter>

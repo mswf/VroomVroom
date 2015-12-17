@@ -212,7 +212,6 @@
     <ClInclude Include="..\..\src\Networking\UDPMessage.h" />
     <ClInclude Include="..\..\src\Patterns\singleton.h" />
     <ClInclude Include="..\..\src\Systems\componentSystem.h" />
-    <ClInclude Include="..\..\src\Systems\entitySystem.h" />
     <ClInclude Include="..\..\src\Systems\luaSystem.h" />
     <ClInclude Include="..\..\src\Systems\renderer.h" />
     <ClInclude Include="..\..\src\Systems\uiSystem.h" />
@@ -278,7 +277,6 @@
     <ClCompile Include="..\..\src\Networking\TCPData.cpp" />
     <ClCompile Include="..\..\src\Networking\TCPServer.cpp" />
     <ClCompile Include="..\..\src\Networking\UDPMessage.cpp" />
-    <ClCompile Include="..\..\src\Systems\entitySystem.cpp" />
     <ClCompile Include="..\..\src\Systems\luaSystem.cpp" />
     <ClCompile Include="..\..\src\Systems\renderer.cpp" />
     <ClCompile Include="..\..\src\Systems\uiSystem.cpp" />

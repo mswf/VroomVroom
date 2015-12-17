@@ -45,7 +45,7 @@ class ResourceManager : public Singleton<ResourceManager>
 		ImageData* GetImageData( const char* name ) const;
 		uint32 GetImageId( const char* name );
 		bool ImportImage( const char* name, bool vertical_flip = true );
-		bool ImportImage( const std::vector< string >& list, std::vector< string >& err_f, bool vertical_flip = true );
+		bool ImportImage( const std::vector< string >& list, std::vector< string >& failedFile, bool vertical_flip = true );
 		bool ReImportImage( const char* name, bool vertical_flip = true );
 		bool BufferImage1D( const char* name );
 		bool BufferImage2D( const char* name );
@@ -91,7 +91,7 @@ class ResourceManager : public Singleton<ResourceManager>
 		uint32 GetMaterialId( const char* name ) const;
 
 
-		Importer imp;
+		Importer importer;
 
 		// Mesh information
 		std::map< string, ModelInstance* > models;

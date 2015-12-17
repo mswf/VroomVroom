@@ -28,8 +28,8 @@ ResourceManager::~ResourceManager()
 void ResourceManager::Initialize()
 {
 	bool vertexDefault = ImportShader( DEFAULT_VERTEX, GLSLShaderType::VERTEX );
-	bool fragmetDefault = ImportShader( DEFAULT_FRAGMENT, GLSLShaderType::FRAGMENT );
-	if ( !(vertexDefault && fragmetDefault) )
+	bool fragmentDefault = ImportShader( DEFAULT_FRAGMENT, GLSLShaderType::FRAGMENT );
+	if ( !(vertexDefault && fragmentDefault) )
 	{
 		Terminal.Warning( "Default shaders were missing. Loading builtin shaders." );
 		LoadBuiltinShader();
@@ -69,17 +69,18 @@ Mesh* ResourceManager::GetMesh( const char* name ) const
 
 bool ResourceManager::ImportMesh( const char* name )
 {
-	return imp.ImportObjFile( name );
+	return importer.ImportObjFile( name );
 }
 
 bool ResourceManager::ImportMesh( const std::vector< string >& files, std::vector< string >& err_f )
 {
 	bool final = true;
-	for (auto it : files )
+	std::vector<std::basic_string<char>>::const_iterator end = files.end();
+	for (std::vector<string>::const_iterator it = files.begin(); it != end; ++it)
 	{
-		if ( !imp.ImportObjFile( it ) )
+		if ( !importer.ImportObjFile( *it ) )
 		{
-			err_f.push_back( it );
+			err_f.push_back( *it );
 			final = false;
 		}
 	}
@@ -92,7 +93,7 @@ void ResourceManager::UpdateMeshBuffer()
 	{
 		if ( it.second->hasBufferChanged )
 		{
-			printf( "Changed %s", it.first.c_str() );
+			printf( "Changed %s\n", it.first.c_str() );
 		}
 	}
 }
@@ -100,36 +101,36 @@ void ResourceManager::UpdateMeshBuffer()
 // DON'T USE THIS FUNCTION< NOT WORKING PROPERLY
 void ResourceManager::MergeToExistingMesh( const char* name, Mesh* data )
 {
-	Mesh* m = GetMesh(name);
-	if ( m->hasPositions && data->hasPositions )
+	Mesh* mesh = GetMesh(name);
+	if ( mesh->hasPositions && data->hasPositions )
 	{
-		m->vertices.insert(  std::end( m->vertices ), std::begin( data->vertices ), std::end( data->vertices ) );
-		m->indices.insert(  std::end( m->indices ), std::begin( data->indices ), std::end( data->indices ) );
-		m->numIndices += data->numIndices;
+		mesh->vertices.insert(  std::end( mesh->vertices ), std::begin( data->vertices ), std::end( data->vertices ) );
+		mesh->indices.insert(  std::end( mesh->indices ), std::begin( data->indices ), std::end( data->indices ) );
+		mesh->numIndices += data->numIndices;
 	}
-	if ( m->hasNormals && data->hasNormals )
+	if ( mesh->hasNormals && data->hasNormals )
 	{
-		m->normals.insert(  std::end( m->normals ), std::begin( data->normals ), std::end( data->normals ) );
+		mesh->normals.insert(  std::end( mesh->normals ), std::begin( data->normals ), std::end( data->normals ) );
 	}
-	if ( m->hasUVs && data->hasUVs )
+	if ( mesh->hasUVs && data->hasUVs )
 	{
-		m->uvs.insert(  std::end( m->uvs ), std::begin( data->uvs ), std::end( data->uvs ) );
+		mesh->uvs.insert(  std::end( mesh->uvs ), std::begin( data->uvs ), std::end( data->uvs ) );
 	}
-	if ( m->hasTangentsAndBitangets && data->hasTangentsAndBitangets )
+	if ( mesh->hasTangentsAndBitangets && data->hasTangentsAndBitangets )
 	{
-		m->tangents.insert(  std::end( m->tangents ), std::begin( data->tangents ), std::end( data->tangents ) );
-		m->bitangents.insert(  std::end( m->bitangents ), std::begin( data->bitangents ), std::end( data->bitangents ) );
+		mesh->tangents.insert(  std::end( mesh->tangents ), std::begin( data->tangents ), std::end( data->tangents ) );
+		mesh->bitangents.insert(  std::end( mesh->bitangents ), std::begin( data->bitangents ), std::end( data->bitangents ) );
 	}
 }
 
 void ResourceManager::SetMeshScale( const char* name, float scale )
 {
-	Mesh* m = GetMesh(name);
-	if ( m->hasPositions )
+	Mesh* mesh = GetMesh(name);
+	if ( mesh->hasPositions )
 	{
-		m->scaleFactor = scale;
-		std::vector< glm::vec3 >::iterator it = m->vertices.begin();
-		std::vector< glm::vec3 >::iterator end = m->vertices.end();
+		mesh->scaleFactor = scale;
+		std::vector< glm::vec3 >::iterator it = mesh->vertices.begin();
+		std::vector< glm::vec3 >::iterator end = mesh->vertices.end();
 		for ( ; it != end; ++it)
 		{
 			(*it) *= scale;
@@ -145,13 +146,14 @@ void ResourceManager::InsertMesh( const char* name, Mesh* data )
 bool ResourceManager::MeshExists( const char* name ) const
 {
 	std::map< string, Mesh* >::const_iterator iter_mesh = meshes.find(name);
-	if ( iter_mesh != meshes.end() )
+	if ( iter_mesh == meshes.end() )
 	{
-		// Mesh exists
-		return true;
+		// Mesh does not exists
+		return false;
 	}
-	// Mesh does not exists
-	return false;
+
+	// Mesh exists
+	return true;
 }
 
 // Model Instances
@@ -205,14 +207,14 @@ bool ResourceManager::ImportImage( const char* name, bool vertical_flip )
 		Terminal.Warning( "Image already imported. Aborting redundant loading" );
 		return false;
 	}
-	return imp.ImportImage( name, vertical_flip );
+	return importer.ImportImage( name, vertical_flip );
 }
 
 bool ResourceManager::ReImportImage( const char* name, bool vertical_flip )
 {
 	if ( ImageExists(name) )
 	{
-		ImageData* data = imp.ReImportImage( name, vertical_flip );
+		ImageData* data = importer.ReImportImage( name, vertical_flip );
 		ImageData* old = GetImageData(name);
 		// ???? !!!!! ????
 		old->pixelData = data->pixelData;
@@ -223,18 +225,18 @@ bool ResourceManager::ReImportImage( const char* name, bool vertical_flip )
 	return false;
 }
 
-bool ResourceManager::ImportImage( const std::vector< string >& files, std::vector< string >& err_f, bool vertical_flip )
+bool ResourceManager::ImportImage( const std::vector< string >& files, std::vector< string >& failedFile, bool vertical_flip )
 {
-	bool final = true;
+	bool success = true;
 	for (auto item : files)
 	{
 		if ( !ImportImage( item.c_str(), vertical_flip ) )
 		{
-			err_f.push_back( item );
-			final = false;
+			failedFile.push_back( item );
+			success = false;
 		}
 	}
-	return final;
+	return success;
 }
 
 void ResourceManager::InsertImage( const char* name, ImageData* data )
@@ -491,7 +493,7 @@ void ResourceManager::CreateShaderProgram( const char* name, const char* shaders
 {
 	ShaderProgram* prog = new ShaderProgram();
 	prog->name = name;
-	Assets.InsertShaderProgram( name, prog);
+	InsertShaderProgram( name, prog);
 	int32 i;
 	uint32* shaders = new uint32[count];
 	for ( i = 0; i < count; ++i )
@@ -514,30 +516,31 @@ void ResourceManager::CreateShaderProgram( const char* name, const char* shaders
 
 void ResourceManager::UpdateShaderProgram( const char* name, GLSLShaderType type, const char* source )
 {
-	ShaderObject* _old = GetShaderObject( name );
-	ShaderProgram* p = GetShaderProgram( _old->program->name.c_str() );
+	ShaderObject* oldObject = GetShaderObject( name );
+	ShaderProgram* prog = GetShaderProgram( oldObject->program->name.c_str() );
 
 	ShaderObject _new;
 	_new.shaderType = GetGLShaderEnum(type);
 	CreateShader( _new.shader, _new.shaderType, source );
 
 	uint32 i;
-	uint32 count = (uint32)p->shaders.size();
+	uint32 count = (uint32)prog->shaders.size();
 	uint32* shaders = new uint32[count];
 	for ( i = 0; i < count; ++i )
 	{
-		if ( IsAttached(p->program, p->shaders[i]->shader) )
+		if ( IsAttached(prog->program, prog->shaders[i]->shader) )
 		{
-			DetachShader( p->program, p->shaders[i]->shader );
+			DetachShader( prog->program, prog->shaders[i]->shader );
 		}
 	}
-	DeleteShaderObject( _old->shader );
-	_old->shader = _new.shader;
+	DeleteShaderObject( oldObject->shader );
+	oldObject->shader = _new.shader;
 	for ( i = 0; i < count; ++i )
 	{
-		shaders[i] = p->shaders[i]->shader;
+		shaders[i] = prog->shaders[i]->shader;
 	}
-	RemakeProgram(p->program, shaders, count);
+	RemakeProgram(prog->program, shaders, count);
+	delete[] shaders;
 }
 
 void ResourceManager::InsertShaderObject( const char* name, ShaderObject* data )
@@ -547,6 +550,7 @@ void ResourceManager::InsertShaderObject( const char* name, ShaderObject* data )
 		shaderObjects.insert( std::make_pair( string(name), data ) );
 		return;
 	}
+	//else leaking
 	Terminal.Warning( "Shader " + string(name) + " already exists." );
 }
 
@@ -557,7 +561,8 @@ void ResourceManager::InsertShaderProgram( const char* name, ShaderProgram* data
 		shaderPrograms.insert( std::make_pair( string(name), data ) );
 		return;
 	}
-	Terminal.Warning( "Program " + string(name) + " already exists." );
+	//else leaking
+	Terminal.Warning("Program " + string(name) + " already exists.");
 }
 
 ShaderObject* ResourceManager::GetShaderObject( const char* name ) const

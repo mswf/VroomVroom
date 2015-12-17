@@ -24,7 +24,6 @@ class HelperFunctions
 		static bool FileExists(const char* file);
 		static tm GetTime();
 		static string GetTimeString();
-		//everything below here is untested
 		static int16 VoidPtrToInt16(void* data, const int size);
 		static int32 VoidPtrToInt32(void* data, const int size);
 		static int64 VoidPtrToInt64(void* data, const int size);

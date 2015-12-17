@@ -10,9 +10,9 @@
 #include "../DataStructure/material.h"
 
 ImporterImp::ImporterImp() :
-	importFlags( aiProcessPreset_TargetRealtime_Quality ),
 	import_scene_failure_reason( "No errors logged." ),
-	import_image_failure_reason( "No errors logged." )
+	import_image_failure_reason( "No errors logged." ),
+	importFlags( aiProcessPreset_TargetRealtime_Quality )
 {}
 
 ImporterImp::~ImporterImp()
@@ -268,7 +268,8 @@ void ImporterImp::ExtractMaterial( const aiMaterial* mtl, Material* material, st
 	{
 		uint32 i;
 		aiString path;
-		for ( i = 0; i < mtl->GetTextureCount(type); ++i )
+		int materialCount = mtl->GetTextureCount(type);
+		for (i = 0; i < materialCount; ++i)
 		{
 			if ( AI_SUCCESS == mtl->GetTexture( type, i, &path ) )
 			{

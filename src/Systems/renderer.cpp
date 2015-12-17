@@ -88,6 +88,7 @@ void Renderer::ScreenGrab()
 	}
 	string filename( "Screenshot_" + HelperFunctions::GetTimeString() + ".png" );
 	HelperFunctions::WritePixels( filename.c_str(), ImageFileFormat::PNG, pixels, width, height, components );
+	delete[] pixels;
 	Terminal.LogRender("Screenshot taken: " + filename, true);
 }
 	

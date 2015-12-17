@@ -124,7 +124,6 @@ void HelperFunctions::WritePixels( const char* filename, ImageFileFormat format,
 		}
 		fclose(f);
 	}
-	delete [] pixels;
 }
 
 struct tm HelperFunctions::GetTime()

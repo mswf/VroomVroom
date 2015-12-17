@@ -71,7 +71,8 @@ void sLuaSystem::Init()
 	lua_atpanic(lState, LuaPanic);
 
 	//try to parse main.lua
-	Call(lState, 0, 0);}
+	Call(lState, 0, 0);
+}
 
 //TODO(robin): safeguard in case Game.main does not exist
 void sLuaSystem::Main()

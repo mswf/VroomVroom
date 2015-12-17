@@ -7,7 +7,7 @@
 //
 
 #include "mInput.h"
-#include "Input.hpp"
+#include "../IO/Input.hpp"
 #include "../Utilities/standardIncludes.h"
 
 Input* mInput::input = NULL;

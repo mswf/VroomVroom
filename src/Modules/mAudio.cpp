@@ -9,6 +9,7 @@
 #include "mAudio.h"
 #include "../Engine.h"
 #include "../Content.h"
+#include <iostream>
 
 void mAudio::Bind(lua_State* L)
 {

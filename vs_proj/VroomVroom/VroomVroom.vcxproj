@@ -183,10 +183,10 @@
     <ClInclude Include="..\..\src\ImGUI\stb_rect_pack.h" />
     <ClInclude Include="..\..\src\ImGUI\stb_textedit.h" />
     <ClInclude Include="..\..\src\ImGUI\stb_truetype.h" />
-    <ClInclude Include="..\..\src\Input.hpp" />
     <ClInclude Include="..\..\src\IO\file.h" />
     <ClInclude Include="..\..\src\IO\importer.h" />
     <ClInclude Include="..\..\src\IO\importer_imp.h" />
+    <ClInclude Include="..\..\src\IO\Input.hpp" />
     <ClInclude Include="..\..\src\IO\RtMidi.h" />
     <ClInclude Include="..\..\src\IO\stb_image.h" />
     <ClInclude Include="..\..\src\IO\stb_image_write.h" />
@@ -254,10 +254,10 @@
     <ClCompile Include="..\..\src\ImGUI\imgui_demo.cpp" />
     <ClCompile Include="..\..\src\ImGUI\imgui_draw.cpp" />
     <ClCompile Include="..\..\src\ImGUI\imgui_impl_sdl.cpp" />
-    <ClCompile Include="..\..\src\Input.cpp" />
     <ClCompile Include="..\..\src\IO\file.cpp" />
     <ClCompile Include="..\..\src\IO\importer.cpp" />
     <ClCompile Include="..\..\src\IO\importer_imp.cpp" />
+    <ClCompile Include="..\..\src\IO\Input.cpp" />
     <ClCompile Include="..\..\src\IO\RtMidi.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\Modules\mAudio.cpp" />

@@ -72,9 +72,6 @@
     <ClInclude Include="..\..\src\Engine.h">
       <Filter>VroomVroom</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Input.hpp">
-      <Filter>VroomVroom</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\ImGUI\imconfig.h">
       <Filter>VroomVroom\ImGUI</Filter>
     </ClInclude>
@@ -708,6 +705,9 @@
     <ClInclude Include="..\..\src\Modules\mWindow.h">
       <Filter>VroomVroom\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\IO\Input.hpp">
+      <Filter>VroomVroom\IO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Networking\TCPData.cpp">
@@ -720,9 +720,6 @@
       <Filter>VroomVroom</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Engine.cpp">
-      <Filter>VroomVroom</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\Input.cpp">
       <Filter>VroomVroom</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\main.cpp">
@@ -889,6 +886,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Modules\mWindow.cpp">
       <Filter>VroomVroom\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\IO\Input.cpp">
+      <Filter>VroomVroom\IO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

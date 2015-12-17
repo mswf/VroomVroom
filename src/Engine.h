@@ -1,19 +1,14 @@
 #ifndef engine_h
 #define engine_h
 
-#include <map>
-#include <vector>
-#include <lua.hpp>
 #include <SDL2/SDL_video.h>
 #include <fmod.hpp>
 #include <fmod_studio.hpp>
-#include "Input.hpp"
-#include "glm/mat4x4.hpp"
-#include "Components/entity.h"
-#include "DataStructure/resource_manager.h"
 #include "Utilities/typedef.h"
 #include "Utilities/FileWatcher/file_watcher_impl.h"
 #include "Systems/renderer.h"
+#include "glm/vec2.hpp"
+#include "IO/Input.hpp"
 
 class Entity;
 
@@ -37,16 +32,18 @@ class Engine
 		static glm::vec2 GetWindowSize();
 		static void SetWindowSize(glm::vec2 dimensions);
 
-		static FMOD::System* systemLowLevel;
 
 		static uint32 GetTicks();
 		
+public:
+		static FMOD::System* systemLowLevel;
 		static SDL_Window* window;
+		const int WINDOW_WIDTH = 1280;
+		const int WINDOW_HEIGHT = 720;
+		
 
 	private:
-
-		void SetSeed();
-		void FilewatcherUpdate() const;
+		void FilewatcherUpdate();
 		void ImportAssets();
 		void WeikieTestCode();
 		void WindowEvent( SDL_WindowEvent window );
@@ -56,9 +53,9 @@ class Engine
 		FMOD::Studio::System* systemStudio;
 	
 		FW::FileWatcher* fileWatcher;
-		Renderer::RenderSystem* renderer;
-		UpdateListener* listener;
-		Input* inputManager;
+		Renderer renderer;
+		UpdateListener listener;
+		Input inputManager;
 
 		unsigned int skybox_map;
 		bool takeScreen;

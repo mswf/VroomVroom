@@ -12,7 +12,7 @@
 #include "../components/cLua.h"
 #include "../components/entity.h"
 
-Renderer::RenderSystem* mCamera::renderer = NULL;
+Renderer* mCamera::renderer = NULL;
 
 void mCamera::Bind(lua_State* L)
 {
@@ -37,7 +37,7 @@ void mCamera::Bind(lua_State* L)
 	lua_setfield(L, -2, "baseCamera");
 }
 
-void mCamera::SetRenderer(Renderer::RenderSystem* R)
+void mCamera::SetRenderer(Renderer* R)
 {
 	renderer = R;
 }

@@ -18,9 +18,9 @@ class mCamera
 {
 public:
 	static void Bind(lua_State*);
-	static void SetRenderer(Renderer::RenderSystem*);
+	static void SetRenderer(Renderer*);
 private:
-	static Renderer::RenderSystem* renderer;
+	static Renderer* renderer;
 	
 	lFuncDef(getActiveCamera);
 	

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug Weikie|Win32">
       <Configuration>Debug Weikie</Configuration>
@@ -411,19 +411,19 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Weikie|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -457,7 +457,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\Framework\Win32Libraries\x86d;..\..\Framework\LJIT\lib;..\..\Framework\assimp\Debug;..\..\Framework\FMOD\Win;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>fmod_vc.lib;fmod64_vc.lib;fmodL_vc.lib;fmodL64_vc.lib;fmodstudio_vc.lib;fmodstudio64_vc.lib;fmodstudioL_vc.lib;fmodstudioL64_vc.lib;SDL2_net.lib;assimpd.lib;lua51.lib;opengl32.lib;glew32d.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmod_vc.lib;fmodL_vc.lib;fmodstudio_vc.lib;fmodstudioL_vc.lib;SDL2_net.lib;assimpd.lib;lua51.lib;opengl32.lib;glew32d.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
     <PostBuildEvent>
@@ -468,13 +468,9 @@ copy $(ProjectDir)..\..\Framework\Win32Libraries\x86d\SDL2_net.dll $(OutDir)
 copy $(ProjectDir)..\..\Framework\assimp\Debug\assimpd.dll $(OutDir)
 copy $(ProjectDir)..\..\config.lua $(OutDir)
 copy $(ProjectDir)..\..\Framework\FMOD\Win\fmod.dll $(OutDir)
-copy $(ProjectDir)..\..\Framework\FMOD\Win\fmod64.dll $(OutDir)
 copy $(ProjectDir)..\..\Framework\FMOD\Win\fmodL.dll $(OutDir)
-copy $(ProjectDir)..\..\Framework\FMOD\Win\fmodL64.dll $(OutDir)
 copy $(ProjectDir)..\..\Framework\FMOD\Win\fmodstudio.dll $(OutDir)
-copy $(ProjectDir)..\..\Framework\FMOD\Win\fmodstudio64.dll $(OutDir)
-copy $(ProjectDir)..\..\Framework\FMOD\Win\fmodstudioL.dll $(OutDir)
-copy $(ProjectDir)..\..\Framework\FMOD\Win\fmodstudioL64.dll $(OutDir)</Command>
+copy $(ProjectDir)..\..\Framework\FMOD\Win\fmodstudioL.dll $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Weikie|Win32'">

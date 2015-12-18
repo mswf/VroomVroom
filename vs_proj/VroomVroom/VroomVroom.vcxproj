@@ -465,6 +465,7 @@
 copy $(ProjectDir)..\..\Framework\Win32Libraries\x86d\glew32d.dll $(OutDir)
 copy $(ProjectDir)..\..\Framework\Win32Libraries\x86d\SDL2.dll $(OutDir)
 copy $(ProjectDir)..\..\Framework\Win32Libraries\x86d\SDL2_net.dll $(OutDir)
+copy $(ProjectDir)..\..\Framework\Win32Libraries\msvcr120d.dll $(OutDir)
 copy $(ProjectDir)..\..\Framework\assimp\Debug\assimpd.dll $(OutDir)
 copy $(ProjectDir)..\..\config.lua $(OutDir)
 copy $(ProjectDir)..\..\Framework\FMOD\Win\fmod.dll $(OutDir)

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2305011C1C21696700E2B2B2 /* mAudio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2305011A1C21696700E2B2B2 /* mAudio.cpp */; };
+		23115D541C3A7F110082E1A2 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23115D531C3A7F110082E1A2 /* Input.cpp */; };
+		23115D571C3A7FC30082E1A2 /* mWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23115D551C3A7FC30082E1A2 /* mWindow.cpp */; };
 		233B2A5C1BE8E11F0032447A /* mUi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 233B2A5A1BE8E11F0032447A /* mUi.cpp */; };
 		234C8B281BB96A3B00E61132 /* libassimpd.3.1.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */; };
 		234C8B291BB96A4600E61132 /* libassimpd.3.1.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */; };
@@ -30,7 +32,6 @@
 		23EE7EE41BC6C2B90006581F /* console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23EE7EE21BC6C2B90006581F /* console.cpp */; };
 		23FEEEA51BF0EE8600A83377 /* command.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23FEEEA41BF0EE8600A83377 /* command.cpp */; };
 		E50344251C1EFBD300AAE1BD /* cCollider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E50344231C1EFBD300AAE1BD /* cCollider.cpp */; };
-		E50529251BE8CD650017400B /* engine_event_system.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E505291F1BE8CD650017400B /* engine_event_system.cpp */; };
 		E50529261BE8CD650017400B /* luaSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E50529211BE8CD650017400B /* luaSystem.cpp */; };
 		E50529271BE8CD650017400B /* renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E50529231BE8CD650017400B /* renderer.cpp */; };
 		E50529431BE8CDBA0017400B /* shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E505293F1BE8CDBA0017400B /* shader.cpp */; };
@@ -65,7 +66,6 @@
 		E59E13381BC04C3800DBD349 /* libluajit-5.1.2.0.4.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */; };
 		E59FDC901BBAC0EE008935C5 /* helperFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E59FDC8C1BBAC0EE008935C5 /* helperFunctions.cpp */; };
 		E59FDC911BBAC0EE008935C5 /* random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E59FDC8E1BBAC0EE008935C5 /* random.cpp */; };
-		E5B282801BCAE76500759348 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B2827E1BCAE76500759348 /* Input.cpp */; };
 		E5B2828A1BCD4DA300759348 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5B282891BCD4DA300759348 /* CoreMIDI.framework */; };
 		E5D664DC1BC16C390042350B /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D664DB1BC16C390042350B /* SDL2.framework */; };
 		E5D9F8E51BE247C7005AFAB1 /* mEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5D9F8E41BE247C7005AFAB1 /* mEntity.cpp */; };
@@ -110,6 +110,10 @@
 		23040E021BDF78E800662A1B /* mAll.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = mAll.h; path = src/Modules/mAll.h; sourceTree = SOURCE_ROOT; };
 		2305011A1C21696700E2B2B2 /* mAudio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mAudio.cpp; path = src/Modules/mAudio.cpp; sourceTree = SOURCE_ROOT; };
 		2305011B1C21696700E2B2B2 /* mAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mAudio.h; path = src/Modules/mAudio.h; sourceTree = SOURCE_ROOT; };
+		23115D521C3A7F110082E1A2 /* Input.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Input.hpp; path = ../src/IO/Input.hpp; sourceTree = "<group>"; };
+		23115D531C3A7F110082E1A2 /* Input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Input.cpp; path = ../src/IO/Input.cpp; sourceTree = "<group>"; };
+		23115D551C3A7FC30082E1A2 /* mWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mWindow.cpp; path = ../src/Modules/mWindow.cpp; sourceTree = "<group>"; };
+		23115D561C3A7FC30082E1A2 /* mWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mWindow.h; path = ../src/Modules/mWindow.h; sourceTree = "<group>"; };
 		233B2A5A1BE8E11F0032447A /* mUi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mUi.cpp; path = src/Modules/mUi.cpp; sourceTree = SOURCE_ROOT; };
 		233B2A5B1BE8E11F0032447A /* mUi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mUi.h; path = src/Modules/mUi.h; sourceTree = SOURCE_ROOT; };
 		234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimpd.3.1.1.dylib; path = Framework/assimp/Debug/libassimpd.3.1.1.dylib; sourceTree = "<group>"; };
@@ -153,8 +157,6 @@
 		E50344231C1EFBD300AAE1BD /* cCollider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cCollider.cpp; path = src/Components/cCollider.cpp; sourceTree = SOURCE_ROOT; };
 		E50344241C1EFBD300AAE1BD /* cCollider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cCollider.h; path = src/Components/cCollider.h; sourceTree = SOURCE_ROOT; };
 		E505291E1BE8CD650017400B /* componentSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = componentSystem.h; path = src/Systems/componentSystem.h; sourceTree = SOURCE_ROOT; };
-		E505291F1BE8CD650017400B /* engine_event_system.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = engine_event_system.cpp; path = src/Systems/engine_event_system.cpp; sourceTree = SOURCE_ROOT; };
-		E50529201BE8CD650017400B /* engine_event_system.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = engine_event_system.h; path = src/Systems/engine_event_system.h; sourceTree = SOURCE_ROOT; };
 		E50529211BE8CD650017400B /* luaSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = luaSystem.cpp; path = src/Systems/luaSystem.cpp; sourceTree = SOURCE_ROOT; };
 		E50529221BE8CD650017400B /* luaSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = luaSystem.h; path = src/Systems/luaSystem.h; sourceTree = SOURCE_ROOT; };
 		E50529231BE8CD650017400B /* renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = renderer.cpp; path = src/Systems/renderer.cpp; sourceTree = SOURCE_ROOT; };
@@ -229,8 +231,6 @@
 		E59FDC8D1BBAC0EE008935C5 /* helperFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = helperFunctions.h; sourceTree = "<group>"; };
 		E59FDC8E1BBAC0EE008935C5 /* random.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = random.cpp; sourceTree = "<group>"; };
 		E59FDC8F1BBAC0EE008935C5 /* random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = random.h; sourceTree = "<group>"; };
-		E5B2827E1BCAE76500759348 /* Input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Input.cpp; path = src/Input.cpp; sourceTree = SOURCE_ROOT; };
-		E5B2827F1BCAE76500759348 /* Input.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Input.hpp; path = src/Input.hpp; sourceTree = SOURCE_ROOT; };
 		E5B282891BCD4DA300759348 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		E5B4685A1BF23FA400429772 /* stb_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_image.h; path = src/IO/stb_image.h; sourceTree = SOURCE_ROOT; };
 		E5D664DB1BC16C390042350B /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = Framework/SDL2.framework; sourceTree = "<group>"; };
@@ -282,6 +282,8 @@
 		23C2AAFA1BCBD8050043F141 /* IO */ = {
 			isa = PBXGroup;
 			children = (
+				23115D521C3A7F110082E1A2 /* Input.hpp */,
+				23115D531C3A7F110082E1A2 /* Input.cpp */,
 				E5ED45B81C05F93C0009BD5A /* importer_imp.cpp */,
 				E5ED45B91C05F93C0009BD5A /* importer_imp.h */,
 				E5ED45BA1C05F93C0009BD5A /* importer.cpp */,
@@ -299,6 +301,8 @@
 		23C59A2F1BCD2F6C00A37E29 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				23115D551C3A7FC30082E1A2 /* mWindow.cpp */,
+				23115D561C3A7FC30082E1A2 /* mWindow.h */,
 				E5D9F8E41BE247C7005AFAB1 /* mEntity.cpp */,
 				E5D9F8E61BE247DF005AFAB1 /* mEntity.h */,
 				23C59A301BCD305B00A37E29 /* mLog.cpp */,
@@ -404,8 +408,6 @@
 				23A4AF541BB2DE3100948D72 /* content.h */,
 				23EE7EC11BC686020006581F /* Engine.cpp */,
 				23EE7EC21BC686020006581F /* Engine.h */,
-				E5B2827E1BCAE76500759348 /* Input.cpp */,
-				E5B2827F1BCAE76500759348 /* Input.hpp */,
 				E567A8EF1BB1470200B8F6C3 /* main.cpp */,
 			);
 			path = VroomVroom;
@@ -517,8 +519,6 @@
 			isa = PBXGroup;
 			children = (
 				E505291E1BE8CD650017400B /* componentSystem.h */,
-				E505291F1BE8CD650017400B /* engine_event_system.cpp */,
-				E50529201BE8CD650017400B /* engine_event_system.h */,
 				E50529211BE8CD650017400B /* luaSystem.cpp */,
 				E50529221BE8CD650017400B /* luaSystem.h */,
 				E50529231BE8CD650017400B /* renderer.cpp */,
@@ -608,7 +608,6 @@
 				E50529431BE8CDBA0017400B /* shader.cpp in Sources */,
 				E54726101BC6A78F00316B26 /* base64.cpp in Sources */,
 				23C8BF471C0DA07A000EFD05 /* mMeshRenderer.cpp in Sources */,
-				E5B282801BCAE76500759348 /* Input.cpp in Sources */,
 				233B2A5C1BE8E11F0032447A /* mUi.cpp in Sources */,
 				E53CB2321BECC529004B0F58 /* file_watcher_impl.cpp in Sources */,
 				E50529441BE8CDBA0017400B /* texture.cpp in Sources */,
@@ -637,6 +636,8 @@
 				E53CB22D1BECA88C004B0F58 /* FileWatcherLinux.cpp in Sources */,
 				E59FDC911BBAC0EE008935C5 /* random.cpp in Sources */,
 				E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */,
+				23115D541C3A7F110082E1A2 /* Input.cpp in Sources */,
+				23115D571C3A7FC30082E1A2 /* mWindow.cpp in Sources */,
 				23C59A321BCD305B00A37E29 /* mLog.cpp in Sources */,
 				23C59A361BCD3ACA00A37E29 /* mInput.cpp in Sources */,
 				23E1BD8B1C0C8DBF00F49BCF /* mShader.cpp in Sources */,
@@ -654,7 +655,6 @@
 				E5ED45BD1C05F93C0009BD5A /* importer.cpp in Sources */,
 				E5ED45BC1C05F93C0009BD5A /* importer_imp.cpp in Sources */,
 				23E1BD881C0C7A7900F49BCF /* mModel.cpp in Sources */,
-				E50529251BE8CD650017400B /* engine_event_system.cpp in Sources */,
 				23E1BD851C0C784C00F49BCF /* mMaterial.cpp in Sources */,
 				E53CB22E1BECA88C004B0F58 /* FileWatcherOSX.cpp in Sources */,
 				E5ED45C31C05F95B0009BD5A /* mesh.cpp in Sources */,

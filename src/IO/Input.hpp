@@ -4,8 +4,8 @@
 #include <map>
 #include <string>
 #include <SDL2/SDL_events.h>
-#include "glm/vec2.hpp"
-#include "IO/RtMidi.h"
+#include "../glm/vec2.hpp"
+#include "RtMidi.h"
 
 class Input
 {

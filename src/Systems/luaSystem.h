@@ -26,6 +26,7 @@ class sLuaSystem : public Singleton<sLuaSystem>
 		void Main();
 		void Update(float);
 		void SendReloadCallback( const string& filePath );
+		void WindowResize(int, int);
         void Dump(lua_State*);
     
         void Attempt(string);

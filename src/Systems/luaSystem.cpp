@@ -140,6 +140,19 @@ void sLuaSystem::SendReloadCallback( const string& filePath )
 	lua_settop(lState, 0);
 }
 
+//TODO(robin): safeguard in case onWindowChanged does not exist
+void sLuaSystem::WindowResize(int width, int height)
+{
+	lua_getglobal(lState, "Game");
+	lua_getfield(lState, -1, "onWindowResized");
+	lua_pushnumber(lState, width);
+	lua_pushnumber(lState, height);
+	
+	Call(lState, 2, 0);
+	
+	lua_settop(lState, 0);
+}
+
 
 void sLuaSystem::Attempt(string command)
 {

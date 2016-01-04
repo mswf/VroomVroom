@@ -329,7 +329,24 @@ void Engine::PollEvent()
 			running = false;
 			//TODO: don't exit instantly, rather disrupt the game loop and exit through a controlled flow
 		}
-		inputManager.Update(&event);
+		else if (event.type == SDL_WINDOWEVENT)
+		{
+			switch (event.window.event)
+			{
+				case SDL_WINDOWEVENT_RESIZED:	//This event is always preceded by SIZE_CHANGED, but only occurs if not changed through API calls (thus, by a user)
+					
+					break;
+				case SDL_WINDOWEVENT_SIZE_CHANGED:
+					LuaSystem.WindowResize(event.window.data1, event.window.data2);
+					break;
+			}
+			//TODO: add other window events here (move, maximize, minimize, focus gain/lose, etc.)
+		}
+		else
+		{
+			inputManager.Update(&event);
+		}
+		
 	}
 	//inputManager->MidiListener();
 	inputManager.StateReset();

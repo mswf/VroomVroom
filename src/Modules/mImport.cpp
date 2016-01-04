@@ -31,6 +31,18 @@ void mImport::Bind(lua_State* L)
 
 	lua_pushcfunction(L, lw_reloadShader__);
 	lua_setfield(L, -2, "reloadShader");
+	
+	lua_pushcfunction(L, lw_isModelLoaded__);
+	lua_setfield(L, -2, "isModelLoaded");
+	
+	lua_pushcfunction(L, lw_isTextureLoaded__);
+	lua_setfield(L, -2, "isTextureLoaded");
+	
+	lua_pushcfunction(L, lw_isMaterialLoaded__);
+	lua_setfield(L, -2, "isMaterialLoaded");
+	
+	lua_pushcfunction(L, lw_isShaderLoaded__);
+	lua_setfield(L, -2, "isShaderLoaded");
 }
 
 lFuncImp(mImport, importModel)
@@ -97,4 +109,40 @@ lFuncImp(mImport, reloadShader)
 	Assets.ReImportShader(path.c_str(), shaderType);
 
 	return 0;
+}
+
+lFuncImp(mImport, isModelLoaded)
+{
+	lua_settop(L,1);
+	lgString(name, 1, "undefined");
+	bool exists = Assets.MeshExists(name.c_str());
+	lua_pushboolean(L, exists);
+	return 1;
+}
+
+lFuncImp(mImport, isTextureLoaded)
+{
+	lua_settop(L,1);
+	lgString(name, 1, "undefined");
+	bool exists = Assets.ImageExists(name.c_str());
+	lua_pushboolean(L, exists);
+	return 1;
+}
+
+lFuncImp(mImport, isMaterialLoaded)
+{
+	lua_settop(L,1);
+	lgString(name, 1, "undefined");
+	bool exists = Assets.MaterialExists(name.c_str());
+	lua_pushboolean(L, exists);
+	return 1;
+}
+
+lFuncImp(mImport, isShaderLoaded)
+{
+	lua_settop(L,1);
+	lgString(name, 1, "undefined");
+	bool exists = Assets.ShaderObjectExists(name.c_str());
+	lua_pushboolean(L, exists);
+	return 1;
 }

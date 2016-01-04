@@ -24,6 +24,11 @@ class mImport {
 	
 		lFuncDef(reloadTexture);
 		lFuncDef(reloadShader);
+	
+		lFuncDef(isModelLoaded);
+		lFuncDef(isTextureLoaded);
+		lFuncDef(isMaterialLoaded);
+		lFuncDef(isShaderLoaded);
 };
 
 #endif /* mImport_hpp */

@@ -74,13 +74,17 @@ void sLuaSystem::Init()
 	Call(lState, 0, 0);
 }
 
-//TODO(robin): safeguard in case Game.main does not exist
 void sLuaSystem::Main()
 {
 	if (!hasMainBeenCalled)
 	{
 		lua_getglobal(lState, "Game");
 		lua_getfield(lState, -1, "main");
+		if( lua_isnil(lState, -1))
+		{
+			Terminal.Warning("Game.main does not exist!");
+			return;
+		}
 		
         Call(lState, 0, 0);
         
@@ -89,11 +93,18 @@ void sLuaSystem::Main()
 	}
 }
 
-//TODO(robin): safeguard in case Game.update does not exist
 void sLuaSystem::Update(float dt)
 {
 	lua_getglobal(lState, "Game");
 	lua_getfield(lState, -1, "update");
+	
+	if( lua_isnil(lState, -1))
+	{
+		Terminal.Warning("Game.update does not exist!");
+		Halt();
+		return;
+	}
+	
 	lua_pushnumber(lState, dt);
     
     Call(lState, 1, 0);
@@ -140,15 +151,26 @@ void sLuaSystem::SendReloadCallback( const string& filePath )
 	lua_settop(lState, 0);
 }
 
-//TODO(robin): safeguard in case onWindowChanged does not exist
-void sLuaSystem::WindowResize(int width, int height)
+void sLuaSystem::EventCallback(const char* name, int argCount, int* args)
 {
 	lua_getglobal(lState, "Game");
-	lua_getfield(lState, -1, "onWindowResized");
-	lua_pushnumber(lState, width);
-	lua_pushnumber(lState, height);
+	lua_getfield(lState, -1, name);
 	
-	Call(lState, 2, 0);
+	if( lua_isnil(lState, -1))
+	{
+		Terminal.Warning("Game."+string(name)+" does not exist!");
+		return;
+	}
+	
+	int ii = 0;
+	while(ii < argCount)
+	{
+		lua_pushnumber(lState, *args);
+		args++;
+		ii++;
+	}
+	
+	Call(lState, argCount, 0);
 	
 	lua_settop(lState, 0);
 }

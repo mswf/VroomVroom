@@ -337,7 +337,10 @@ void Engine::PollEvent()
 					
 					break;
 				case SDL_WINDOWEVENT_SIZE_CHANGED:
-					LuaSystem.WindowResize(event.window.data1, event.window.data2);
+					int dimensions[2];
+					dimensions[0] = event.window.data1;
+					dimensions[1] = event.window.data2;
+					LuaSystem.EventCallback("onWindowResized", 2, dimensions);
 					break;
 			}
 			//TODO: add other window events here (move, maximize, minimize, focus gain/lose, etc.)

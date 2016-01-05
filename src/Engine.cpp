@@ -342,6 +342,33 @@ void Engine::PollEvent()
 					dimensions[1] = event.window.data2;
 					LuaSystem.EventCallback("onWindowResized", 2, dimensions);
 					break;
+				case SDL_WINDOWEVENT_ENTER:		//Gained mouse focus
+					LuaSystem.EventCallback("onMouseEntered", 0, NULL);
+					break;
+				case SDL_WINDOWEVENT_LEAVE:		//Lost mouse focus
+					LuaSystem.EventCallback("onMouseLeft", 0, NULL);
+					break;
+				case SDL_WINDOWEVENT_FOCUS_GAINED:	//Gained keyboard focus
+					LuaSystem.EventCallback("onFocusGained", 0, NULL);
+					break;
+				case SDL_WINDOWEVENT_FOCUS_LOST:		//Lost keyboard focus
+					LuaSystem.EventCallback("onFocusLost", 0, NULL);
+					break;
+				case SDL_WINDOWEVENT_MINIMIZED:
+					LuaSystem.EventCallback("onWindowMinimized", 0, NULL);
+					break;
+				case SDL_WINDOWEVENT_MAXIMIZED:
+					LuaSystem.EventCallback("onWindowMaximized", 0, NULL);
+					break;
+				case SDL_WINDOWEVENT_RESTORED:
+					LuaSystem.EventCallback("onWindowRestored", 0, NULL);
+					break;
+				case SDL_WINDOWEVENT_SHOWN:
+					LuaSystem.EventCallback("onWindowShown", 0, NULL);
+					break;
+				case SDL_WINDOWEVENT_HIDDEN:
+					LuaSystem.EventCallback("onWindowHidden", 0, NULL);
+					break;
 			}
 			//TODO: add other window events here (move, maximize, minimize, focus gain/lose, etc.)
 		}

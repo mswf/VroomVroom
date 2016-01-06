@@ -197,6 +197,7 @@
     <ClInclude Include="..\..\src\Modules\mEntity.h" />
     <ClInclude Include="..\..\src\Modules\mImport.h" />
     <ClInclude Include="..\..\src\Modules\mInput.h" />
+    <ClInclude Include="..\..\src\Modules\mLight.h" />
     <ClInclude Include="..\..\src\Modules\mLog.h" />
     <ClInclude Include="..\..\src\Modules\mMaterial.h" />
     <ClInclude Include="..\..\src\Modules\mMeshRenderer.h" />
@@ -265,6 +266,7 @@
     <ClCompile Include="..\..\src\Modules\mEntity.cpp" />
     <ClCompile Include="..\..\src\Modules\mImport.cpp" />
     <ClCompile Include="..\..\src\Modules\mInput.cpp" />
+    <ClCompile Include="..\..\src\Modules\mLight.cpp" />
     <ClCompile Include="..\..\src\Modules\mLog.cpp" />
     <ClCompile Include="..\..\src\Modules\mMaterial.cpp" />
     <ClCompile Include="..\..\src\Modules\mMeshRenderer.cpp" />

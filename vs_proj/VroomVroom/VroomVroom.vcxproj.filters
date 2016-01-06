@@ -705,6 +705,9 @@
     <ClInclude Include="..\..\src\IO\Input.hpp">
       <Filter>VroomVroom\IO</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Modules\mLight.h">
+      <Filter>VroomVroom\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Networking\TCPData.cpp">
@@ -883,6 +886,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\IO\Input.cpp">
       <Filter>VroomVroom\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Modules\mLight.cpp">
+      <Filter>VroomVroom\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

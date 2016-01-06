@@ -293,7 +293,8 @@ void Renderer::SetWindowSize( const int& w, const int& h )
 	glGetIntegerv(GL_VIEWPORT, dims);
 	GLint fbWidth = dims[2];
 	GLint fbHeight = dims[3];
-	SetFramebufferScale( (float)fbWidth/w_width, (float)fbHeight/w_height );
+	// TODO: Valentinas, what was this trying to do?
+	//SetFramebufferScale( (float)fbWidth/w_width, (float)fbHeight/w_height );
 }
 	
 void Renderer::SetFramebufferScale( const float& scaleX, const float& scaleY )

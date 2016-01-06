@@ -21,6 +21,7 @@
 #include "../Components/cMeshRenderer.h"
 #include "../Components/cTransform.h"
 #include "../Components/cDebugRenderer.h"
+#include "../Components/cLight.h"
 
 #include "../engine.h"
 
@@ -210,6 +211,13 @@ lFuncImp(mEntity, addComponent)
 		lua_pushvalue(L, 2);
 		lua_setfield(L, 1, "debugRenderer");
 	}
+	if(familyId == (int)ComponentTypes::LIGHT)
+	{
+		Entity::AddComponent(core->entity, (CLight*)comp);
+		lua_pushvalue(L, 2);
+		lua_setfield(L, 1, "light");
+	}
+	
 	
 	return 0;
 }

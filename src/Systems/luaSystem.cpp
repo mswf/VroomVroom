@@ -58,6 +58,7 @@ void sLuaSystem::Init()
 	mImport::Bind(lState);
 	mAudio::Bind(lState);
 	mWindow::Bind(lState);
+	mLight::Bind(lState);
 
 	string path;
 	Content::CreateFilePath("main.lua", &path);

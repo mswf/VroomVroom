@@ -255,64 +255,44 @@ void Engine::WindowEvent( SDL_WindowEvent window )
 {
 	switch ( window.event )
 	{
-		case SDL_WINDOWEVENT_FOCUS_GAINED:
-		{
-			//std::cout << "Window focus gained, keyboard " << std::endl;
-			//LuaSystem
+		case SDL_WINDOWEVENT_RESIZED:	//This event is always preceded by SIZE_CHANGED, but only occurs if not changed through API calls (thus, by a user)
+			
 			break;
-		}
-		case SDL_WINDOWEVENT_FOCUS_LOST:
-		{
-			//std::cout << "Window focus lost, keyboard " << std::endl;
-			//LuaSystem.
-			break;
-		}
-		case SDL_WINDOWEVENT_ENTER:
-		{
-			//std::cout << "Window entered, mouse " << std::endl;
-			//LuaSystem.
-			break;
-		}
-		case SDL_WINDOWEVENT_LEAVE:
-		{
-			//std::cout << "Window left, mouse " << std::endl;
-			//LuaSystem.
-			break;
-		}
-		case SDL_WINDOWEVENT_CLOSE:
-		{
-			//std::cout << "Window close, exit button " << std::endl;
-			//LuaSystem.
-			break;
-		}
-		case SDL_WINDOWEVENT_HIDDEN:
-		{
-			//std::cout << "Window hidden? " << std::endl;
-			//LuaSystem.
-			break;
-		}
-		case SDL_WINDOWEVENT_MAXIMIZED:
-		{
-			//std::cout << "Window MAXIMIZED! " << std::endl;
-			//LuaSystem.
-			break;
-		}
-		case SDL_WINDOWEVENT_MINIMIZED:
-		{
-			//std::cout << "Window minimized.. " << std::endl;
-			//LuaSystem.
-			break;
-		}
-		case SDL_WINDOWEVENT_RESIZED:
 		case SDL_WINDOWEVENT_SIZE_CHANGED:
-		{
-			//std::cout << "Window size changed to -> " << window.data1 << "x" << window.data2 << std::endl;
-			//LuaSystem.
 			renderer.SetWindowSize(window.data1, window.data2);
+			
+			int dimensions[2];
+			dimensions[0] = window.data1;
+			dimensions[1] = window.data2;
+			LuaSystem.EventCallback("onWindowResized", 2, dimensions);
 			break;
-		}
-		default:
+		case SDL_WINDOWEVENT_ENTER:		//Gained mouse focus
+			LuaSystem.EventCallback("onMouseEntered", 0, NULL);
 			break;
+		case SDL_WINDOWEVENT_LEAVE:		//Lost mouse focus
+			LuaSystem.EventCallback("onMouseLeft", 0, NULL);
+			break;
+		case SDL_WINDOWEVENT_FOCUS_GAINED:	//Gained keyboard focus
+			LuaSystem.EventCallback("onFocusGained", 0, NULL);
+			break;
+		case SDL_WINDOWEVENT_FOCUS_LOST:		//Lost keyboard focus
+			LuaSystem.EventCallback("onFocusLost", 0, NULL);
+			break;
+		case SDL_WINDOWEVENT_MINIMIZED:
+			LuaSystem.EventCallback("onWindowMinimized", 0, NULL);
+			break;
+		case SDL_WINDOWEVENT_MAXIMIZED:
+			LuaSystem.EventCallback("onWindowMaximized", 0, NULL);
+			break;
+		case SDL_WINDOWEVENT_RESTORED:
+			LuaSystem.EventCallback("onWindowRestored", 0, NULL);
+			break;
+		case SDL_WINDOWEVENT_SHOWN:
+			LuaSystem.EventCallback("onWindowShown", 0, NULL);
+			break;
+		case SDL_WINDOWEVENT_HIDDEN:
+			LuaSystem.EventCallback("onWindowHidden", 0, NULL);
+		break;
 	}
 }
 
@@ -328,49 +308,6 @@ void Engine::PollEvent()
 			//exit(EXIT_SUCCESS);
 			running = false;
 			//TODO: don't exit instantly, rather disrupt the game loop and exit through a controlled flow
-		}
-		else if (event.type == SDL_WINDOWEVENT)
-		{
-			switch (event.window.event)
-			{
-				case SDL_WINDOWEVENT_RESIZED:	//This event is always preceded by SIZE_CHANGED, but only occurs if not changed through API calls (thus, by a user)
-					
-					break;
-				case SDL_WINDOWEVENT_SIZE_CHANGED:
-					int dimensions[2];
-					dimensions[0] = event.window.data1;
-					dimensions[1] = event.window.data2;
-					LuaSystem.EventCallback("onWindowResized", 2, dimensions);
-					break;
-				case SDL_WINDOWEVENT_ENTER:		//Gained mouse focus
-					LuaSystem.EventCallback("onMouseEntered", 0, NULL);
-					break;
-				case SDL_WINDOWEVENT_LEAVE:		//Lost mouse focus
-					LuaSystem.EventCallback("onMouseLeft", 0, NULL);
-					break;
-				case SDL_WINDOWEVENT_FOCUS_GAINED:	//Gained keyboard focus
-					LuaSystem.EventCallback("onFocusGained", 0, NULL);
-					break;
-				case SDL_WINDOWEVENT_FOCUS_LOST:		//Lost keyboard focus
-					LuaSystem.EventCallback("onFocusLost", 0, NULL);
-					break;
-				case SDL_WINDOWEVENT_MINIMIZED:
-					LuaSystem.EventCallback("onWindowMinimized", 0, NULL);
-					break;
-				case SDL_WINDOWEVENT_MAXIMIZED:
-					LuaSystem.EventCallback("onWindowMaximized", 0, NULL);
-					break;
-				case SDL_WINDOWEVENT_RESTORED:
-					LuaSystem.EventCallback("onWindowRestored", 0, NULL);
-					break;
-				case SDL_WINDOWEVENT_SHOWN:
-					LuaSystem.EventCallback("onWindowShown", 0, NULL);
-					break;
-				case SDL_WINDOWEVENT_HIDDEN:
-					LuaSystem.EventCallback("onWindowHidden", 0, NULL);
-					break;
-			}
-			//TODO: add other window events here (move, maximize, minimize, focus gain/lose, etc.)
 		}
 		else
 		{

@@ -10,6 +10,7 @@
 		2305011C1C21696700E2B2B2 /* mAudio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2305011A1C21696700E2B2B2 /* mAudio.cpp */; };
 		23115D541C3A7F110082E1A2 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23115D531C3A7F110082E1A2 /* Input.cpp */; };
 		23115D571C3A7FC30082E1A2 /* mWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23115D551C3A7FC30082E1A2 /* mWindow.cpp */; };
+		2321BFEE1C3C07FA00B60EA8 /* mLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2321BFEC1C3C07FA00B60EA8 /* mLight.cpp */; };
 		233B2A5C1BE8E11F0032447A /* mUi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 233B2A5A1BE8E11F0032447A /* mUi.cpp */; };
 		234C8B281BB96A3B00E61132 /* libassimpd.3.1.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */; };
 		234C8B291BB96A4600E61132 /* libassimpd.3.1.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */; };
@@ -114,6 +115,8 @@
 		23115D531C3A7F110082E1A2 /* Input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Input.cpp; path = ../src/IO/Input.cpp; sourceTree = "<group>"; };
 		23115D551C3A7FC30082E1A2 /* mWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mWindow.cpp; path = ../src/Modules/mWindow.cpp; sourceTree = "<group>"; };
 		23115D561C3A7FC30082E1A2 /* mWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mWindow.h; path = ../src/Modules/mWindow.h; sourceTree = "<group>"; };
+		2321BFEC1C3C07FA00B60EA8 /* mLight.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mLight.cpp; path = src/Modules/mLight.cpp; sourceTree = SOURCE_ROOT; };
+		2321BFED1C3C07FA00B60EA8 /* mLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mLight.h; path = src/Modules/mLight.h; sourceTree = SOURCE_ROOT; };
 		233B2A5A1BE8E11F0032447A /* mUi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mUi.cpp; path = src/Modules/mUi.cpp; sourceTree = SOURCE_ROOT; };
 		233B2A5B1BE8E11F0032447A /* mUi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mUi.h; path = src/Modules/mUi.h; sourceTree = SOURCE_ROOT; };
 		234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimpd.3.1.1.dylib; path = Framework/assimp/Debug/libassimpd.3.1.1.dylib; sourceTree = "<group>"; };
@@ -331,6 +334,8 @@
 				23D3B9351C171F0B00CAB85F /* mCamera.h */,
 				2305011A1C21696700E2B2B2 /* mAudio.cpp */,
 				2305011B1C21696700E2B2B2 /* mAudio.h */,
+				2321BFEC1C3C07FA00B60EA8 /* mLight.cpp */,
+				2321BFED1C3C07FA00B60EA8 /* mLight.h */,
 			);
 			name = Modules;
 			sourceTree = "<group>";
@@ -613,6 +618,7 @@
 				E50529441BE8CDBA0017400B /* texture.cpp in Sources */,
 				23EE7EC31BC686020006581F /* Engine.cpp in Sources */,
 				23B31B581C05E3B6004E31C9 /* cLua.cpp in Sources */,
+				2321BFEE1C3C07FA00B60EA8 /* mLight.cpp in Sources */,
 				E547260A1BC6A74E00316B26 /* TCPClient.cpp in Sources */,
 				E55F88E01BEBA48C00433973 /* cMeshRenderer.cpp in Sources */,
 				E50529561BE8CDD50017400B /* RtMidi.cpp in Sources */,

@@ -16,7 +16,8 @@ enum class GLSLShaderType
 	GEOMETRY,
 	FRAGMENT,
 	TESS_CONTROL,
-	TESS_EVALUATION
+	TESS_EVALUATION,
+	UNKNOWN
 };
 	
 void UseProgram( GLuint program );

@@ -105,6 +105,10 @@ lFuncImp(mImport, reloadShader)
 	{
 		shaderType = GLSLShaderType::TESS_EVALUATION;
 	}
+	else
+	{
+		shaderType = GLSLShaderType::UNKNOWN;
+	}
 
 	Assets.ReImportShader(path.c_str(), shaderType);
 

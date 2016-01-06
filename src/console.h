@@ -33,7 +33,8 @@ class sTerminal : public Singleton<sTerminal>
 		void LogRender(const string, bool = false);
 	
 		void Update(int);
-    
+		void Clear();
+	
         bool IsConnected() const;
         void ReattemptConnection(int);
 	private:

@@ -8,6 +8,7 @@
 
 #include "mSystem.h"
 #include "../content.h"
+#include "../console.h"
 
 void mSystem::Bind(lua_State* L)
 {
@@ -19,4 +20,14 @@ void mSystem::Bind(lua_State* L)
 	lua_setfield(L, -2, "contentPath");
 	
 	lua_setfield(L, -2, "system");
+	
+	//TODO(robin): this is probably better of in mLog. It's not in any table anyway
+	lua_pushcfunction(L, lw_clearConsole__);
+	lua_setfield(L, -2, "clearConsole");
+}
+
+lFuncImp(mSystem, clearConsole)
+{
+	Terminal.Clear();
+	return 0;
 }

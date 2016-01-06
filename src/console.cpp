@@ -26,10 +26,6 @@ sTerminal::sTerminal():
 	{
 		ReattemptConnection(10000);
 	}
-	else
-	{
-		socket->SendMessage(string("AUTOCLEAR[|]<///>"));
-	}
 
 	CreateLogFile();
 	Log("Terminal initialized", true);
@@ -189,14 +185,18 @@ void sTerminal::ReattemptConnection(int delay)
 			//try again in 10 seconds
 			ReattemptConnection(5000);
 		}
-		else
-		{
-			socket->SendMessage(string("MSG[|]AUTOCLEAR[|]<///>"));
-		}
 	}
 	else
 	{
 		reconnectDelay = delay;
+	}
+}
+
+void sTerminal::Clear()
+{
+	if(socket->IsConnected())
+	{
+		socket->SendMessage(string("AUTOCLEAR[|]<///>"));
 	}
 }
 

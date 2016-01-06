@@ -42,6 +42,7 @@ class mUi {
 		lFuncDef(addInputText);
 		lFuncDef(addCheckbox);
 		lFuncDef(addSlider);
+		lFuncDef(addDrag);
 		lFuncDef(addRegion);
 		lFuncDef(addHorizontalLayout);
 	

@@ -51,6 +51,7 @@ void mUi::Bind(lua_State* L){
 		lBind(addInputText)
 		lBind(addCheckbox)
 		lBind(addSlider)
+		lBind(addDrag)
 		lBind(addRegion)
 		lBind(addHorizontalLayout)
 		lBind(remove)
@@ -474,8 +475,42 @@ lFuncImp(mUi, addSlider)
 	lstNumber("minValue", slider->minValue);
 	lstNumber("maxValue", slider->maxValue);
 	lstNumber("value", slider->value);
+	lstNumber("power", slider->power);
 	lstBoolean("rounded", slider->rounded);
 	lstString("format", slider->format.c_str());
+	lua_pop(L, 1);
+	
+	luaL_getmetatable(L, "__mtUiElement");
+	lua_setmetatable(L, -2);
+	
+	return 1;
+}
+
+lFuncImp(mUi, addDrag)
+{
+	lua_settop(L, 2);
+	lgString(label, 2, "butts");
+	
+	lua_getfield(L, 1, "__coreElement__");
+	uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
+	lua_pop(L, 1);
+	
+	uiDragElement* drag = UiSystem.AddDrag(container);
+	
+	drag->label = label;
+	
+	lua_newtable(L);
+	BasicElementBind(L, drag, 1);
+	
+	lua_getfield(L, -1, "__coreProperties__");
+	lstString("label", drag->label.c_str());
+	lstNumber("minValue", drag->minValue);
+	lstNumber("maxValue", drag->maxValue);
+	lstNumber("value", drag->value);
+	lstBoolean("rounded", drag->rounded);
+	lstString("format", drag->format.c_str());
+	lstNumber("power", drag->power);
+	lstNumber("speed", drag->speed);
 	lua_pop(L, 1);
 	
 	luaL_getmetatable(L, "__mtUiElement");

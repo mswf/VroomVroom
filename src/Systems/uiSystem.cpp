@@ -204,14 +204,34 @@ uiSliderElement* sUiSystem::AddSlider(uiContainer* w)
 
 	InitBoundProperty(sl, "label", &(sl->label), string("nert"));
 	InitBoundProperty(sl, "rounded", &(sl->rounded), false);
-	InitBoundProperty(sl, "format", &(sl->format), string("0.2f"));
+	InitBoundProperty(sl, "format", &(sl->format), string("%.2f"));
 	InitBoundProperty(sl, "minValue", &(sl->minValue), 0.0);
 	InitBoundProperty(sl, "maxValue", &(sl->maxValue), 100.0);
 	InitBoundProperty(sl, "value", &(sl->value), 50.0);
+	InitBoundProperty(sl, "power", &(sl->power), 1.0);
 
 	AddElement(w, sl);
 
 	return sl;
+}
+
+uiDragElement* sUiSystem::AddDrag(uiContainer* w)
+{
+	uiDragElement* dr = new uiDragElement;
+	dr->handle = HandleDrag;
+	
+	InitBoundProperty(dr, "label", &(dr->label), string("nert"));
+	InitBoundProperty(dr, "rounded", &(dr->rounded), false);
+	InitBoundProperty(dr, "format", &(dr->format), string("%.2f"));
+	InitBoundProperty(dr, "minValue", &(dr->minValue), 0.0);
+	InitBoundProperty(dr, "maxValue", &(dr->maxValue), 100.0);
+	InitBoundProperty(dr, "value", &(dr->value), 50.0);
+	InitBoundProperty(dr, "speed", &(dr->speed), 1.0);
+	InitBoundProperty(dr, "power", &(dr->power), 1.0);
+	
+	AddElement(w, dr);
+	
+	return dr;
 }
 
 uiRegionElement* sUiSystem::AddRegion(uiContainer* w)
@@ -693,7 +713,7 @@ bool sUiSystem::HandleSlider(uiElement* e)
 	else
 	{
 		float valueBuffer = (float)sl->value;
-		ImGui::SliderFloat(sl->label.c_str(), &valueBuffer, sl->minValue, sl->maxValue, sl->format.c_str());
+		ImGui::SliderFloat(sl->label.c_str(), &valueBuffer, sl->minValue, sl->maxValue, sl->format.c_str(), sl->power);
 		if (sl->value != (double)valueBuffer)
 		{
 			sl->value = (double)valueBuffer;
@@ -702,6 +722,38 @@ bool sUiSystem::HandleSlider(uiElement* e)
 		}
 	}
 
+	return true;
+}
+
+bool sUiSystem::HandleDrag(uiElement* e)
+{
+	uiDragElement* dr = (uiDragElement*)e;
+	
+	if (dr->rounded)
+	{
+		int valueBuffer = (int)dr->value;
+		ImGui::DragInt(dr->label.c_str(), &valueBuffer, dr->speed, dr->minValue, dr->maxValue, dr->format.c_str());
+		
+		if(dr->value != (double)valueBuffer)
+		{
+			dr->value = (double)valueBuffer;
+			
+			HandleCallback(dr, "onChange");
+		}
+		
+	}
+	else
+	{
+		float valueBuffer = (float)dr->value;
+		ImGui::DragFloat(dr->label.c_str(), &valueBuffer, dr->speed, dr->minValue, dr->maxValue, dr->format.c_str(), dr->power);
+		if (dr->value != (double)valueBuffer)
+		{
+			dr->value = (double)valueBuffer;
+			
+			HandleCallback(dr, "onChange");
+		}
+	}
+	
 	return true;
 }
 

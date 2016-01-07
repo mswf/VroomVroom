@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2305011C1C21696700E2B2B2 /* mAudio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2305011A1C21696700E2B2B2 /* mAudio.cpp */; };
-		23115D541C3A7F110082E1A2 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23115D531C3A7F110082E1A2 /* Input.cpp */; };
 		23115D571C3A7FC30082E1A2 /* mWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23115D551C3A7FC30082E1A2 /* mWindow.cpp */; };
 		2321BFEE1C3C07FA00B60EA8 /* mLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2321BFEC1C3C07FA00B60EA8 /* mLight.cpp */; };
 		233B2A5C1BE8E11F0032447A /* mUi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 233B2A5A1BE8E11F0032447A /* mUi.cpp */; };
@@ -67,6 +66,7 @@
 		E59E13381BC04C3800DBD349 /* libluajit-5.1.2.0.4.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 23CBC8731BB2A8E000C02E36 /* libluajit-5.1.2.0.4.dylib */; };
 		E59FDC901BBAC0EE008935C5 /* helperFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E59FDC8C1BBAC0EE008935C5 /* helperFunctions.cpp */; };
 		E59FDC911BBAC0EE008935C5 /* random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E59FDC8E1BBAC0EE008935C5 /* random.cpp */; };
+		E5AC728E1C3E6E58005CECB5 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5AC728C1C3E6E58005CECB5 /* Input.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5B2828A1BCD4DA300759348 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5B282891BCD4DA300759348 /* CoreMIDI.framework */; };
 		E5D664DC1BC16C390042350B /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D664DB1BC16C390042350B /* SDL2.framework */; };
 		E5D9F8E51BE247C7005AFAB1 /* mEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5D9F8E41BE247C7005AFAB1 /* mEntity.cpp */; };
@@ -111,8 +111,6 @@
 		23040E021BDF78E800662A1B /* mAll.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = mAll.h; path = src/Modules/mAll.h; sourceTree = SOURCE_ROOT; };
 		2305011A1C21696700E2B2B2 /* mAudio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mAudio.cpp; path = src/Modules/mAudio.cpp; sourceTree = SOURCE_ROOT; };
 		2305011B1C21696700E2B2B2 /* mAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mAudio.h; path = src/Modules/mAudio.h; sourceTree = SOURCE_ROOT; };
-		23115D521C3A7F110082E1A2 /* Input.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Input.hpp; path = ../src/IO/Input.hpp; sourceTree = "<group>"; };
-		23115D531C3A7F110082E1A2 /* Input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Input.cpp; path = ../src/IO/Input.cpp; sourceTree = "<group>"; };
 		23115D551C3A7FC30082E1A2 /* mWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mWindow.cpp; path = ../src/Modules/mWindow.cpp; sourceTree = "<group>"; };
 		23115D561C3A7FC30082E1A2 /* mWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mWindow.h; path = ../src/Modules/mWindow.h; sourceTree = "<group>"; };
 		2321BFEC1C3C07FA00B60EA8 /* mLight.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mLight.cpp; path = src/Modules/mLight.cpp; sourceTree = SOURCE_ROOT; };
@@ -234,6 +232,8 @@
 		E59FDC8D1BBAC0EE008935C5 /* helperFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = helperFunctions.h; sourceTree = "<group>"; };
 		E59FDC8E1BBAC0EE008935C5 /* random.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = random.cpp; sourceTree = "<group>"; };
 		E59FDC8F1BBAC0EE008935C5 /* random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = random.h; sourceTree = "<group>"; };
+		E5AC728C1C3E6E58005CECB5 /* Input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Input.cpp; path = src/IO/Input.cpp; sourceTree = SOURCE_ROOT; };
+		E5AC728D1C3E6E58005CECB5 /* Input.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Input.hpp; path = src/IO/Input.hpp; sourceTree = SOURCE_ROOT; };
 		E5B282891BCD4DA300759348 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		E5B4685A1BF23FA400429772 /* stb_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_image.h; path = src/IO/stb_image.h; sourceTree = SOURCE_ROOT; };
 		E5D664DB1BC16C390042350B /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = Framework/SDL2.framework; sourceTree = "<group>"; };
@@ -285,8 +285,8 @@
 		23C2AAFA1BCBD8050043F141 /* IO */ = {
 			isa = PBXGroup;
 			children = (
-				23115D521C3A7F110082E1A2 /* Input.hpp */,
-				23115D531C3A7F110082E1A2 /* Input.cpp */,
+				E5AC728C1C3E6E58005CECB5 /* Input.cpp */,
+				E5AC728D1C3E6E58005CECB5 /* Input.hpp */,
 				E5ED45B81C05F93C0009BD5A /* importer_imp.cpp */,
 				E5ED45B91C05F93C0009BD5A /* importer_imp.h */,
 				E5ED45BA1C05F93C0009BD5A /* importer.cpp */,
@@ -642,7 +642,6 @@
 				E53CB22D1BECA88C004B0F58 /* FileWatcherLinux.cpp in Sources */,
 				E59FDC911BBAC0EE008935C5 /* random.cpp in Sources */,
 				E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */,
-				23115D541C3A7F110082E1A2 /* Input.cpp in Sources */,
 				23115D571C3A7FC30082E1A2 /* mWindow.cpp in Sources */,
 				23C59A321BCD305B00A37E29 /* mLog.cpp in Sources */,
 				23C59A361BCD3ACA00A37E29 /* mInput.cpp in Sources */,
@@ -661,6 +660,7 @@
 				E5ED45BD1C05F93C0009BD5A /* importer.cpp in Sources */,
 				E5ED45BC1C05F93C0009BD5A /* importer_imp.cpp in Sources */,
 				23E1BD881C0C7A7900F49BCF /* mModel.cpp in Sources */,
+				E5AC728E1C3E6E58005CECB5 /* Input.cpp in Sources */,
 				23E1BD851C0C784C00F49BCF /* mMaterial.cpp in Sources */,
 				E53CB22E1BECA88C004B0F58 /* FileWatcherOSX.cpp in Sources */,
 				E5ED45C31C05F95B0009BD5A /* mesh.cpp in Sources */,

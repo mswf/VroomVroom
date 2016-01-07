@@ -69,7 +69,7 @@ bool Importer::ImportObjFile( const std::string &pFile, bool importTextures )
 			Material* material = new Material();
 			std::vector< std::string > textures;
 			imp_->ExtractMaterial( mtl, material, &textures );
-			material->shader->name = material->name.c_str();
+			//material->shader->name = material->name.c_str();
 			if (importTextures)
 			{
 				std::vector< std::string >::const_iterator iter = textures.begin();

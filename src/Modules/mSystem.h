@@ -16,6 +16,8 @@ class mSystem
 {
 	public:
 		static void Bind(lua_State*);
+	private:
+		lFuncDef(clearConsole);
 };
 
 #endif /* mSystem_hpp */

@@ -21,6 +21,7 @@
 #include "../Components/cMeshRenderer.h"
 #include "../Components/cTransform.h"
 #include "../Components/cDebugRenderer.h"
+#include "../Components/cLight.h"
 
 #include "../engine.h"
 
@@ -189,27 +190,43 @@ lFuncImp(mEntity, addComponent)
 	Component* comp = (Component*)lua_touserdata(L, -1);
 	
 	lua_getfield(L, 2, "__familyId__");
+	if (lua_isnil(L, -1))
+	{
+		
+		return 0;
+	}
 	int familyId = lua_tonumber(L, -1);
 	
 	
+	lua_pushvalue(L, 2);
 	if(familyId == (int)ComponentTypes::CAMERA)
 	{
 		Entity::AddComponent(core->entity, (CCamera*)comp);
-		lua_pushvalue(L, 2);
 		lua_setfield(L, 1, "camera");
 	}
-	if(familyId == (int)ComponentTypes::MESH_RENDERER)
+	else if(familyId == (int)ComponentTypes::MESH_RENDERER)
 	{
 		Entity::AddComponent(core->entity, (CMeshRenderer*)comp);
-		lua_pushvalue(L, 2);
 		lua_setfield(L, 1, "meshRenderer");
 	}
-	if(familyId == (int)ComponentTypes::DEBUG_RENDERER)
+	else if(familyId == (int)ComponentTypes::DEBUG_RENDERER)
 	{
 		Entity::AddComponent(core->entity, (CDebugRenderer*)comp);
-		lua_pushvalue(L, 2);
 		lua_setfield(L, 1, "debugRenderer");
 	}
+	else if(familyId == (int)ComponentTypes::LIGHT)
+	{
+		Entity::AddComponent(core->entity, (CLight*)comp);
+		lua_setfield(L, 1, "light");
+	}
+	else
+	{
+		return 0;
+		//early return so we don't push the 'entity' value to this table that is not a usable component
+	}
+	lua_pushvalue(L, 1);
+	lua_setfield(L, 2, "entity");
+	
 	
 	return 0;
 }

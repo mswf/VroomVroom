@@ -91,6 +91,7 @@ struct uiTreeElement;
 struct uiInputTextElement;
 struct uiCheckboxElement;
 struct uiSliderElement;
+struct uiDragElement;
 struct uiRegionElement;
 struct uiHorizontalLayoutElement;
 
@@ -110,6 +111,7 @@ class sUiSystem : public Singleton<sUiSystem>
 		uiInputTextElement* AddInputText(uiContainer*);
 		uiCheckboxElement* AddCheckbox(uiContainer*);
 		uiSliderElement* AddSlider(uiContainer*);
+		uiDragElement* AddDrag(uiContainer*); //high speed
 		uiRegionElement* AddRegion(uiContainer*);
 		uiHorizontalLayoutElement* AddHorizontalLayout(uiContainer*);
 	
@@ -161,6 +163,7 @@ class sUiSystem : public Singleton<sUiSystem>
 		static bool HandleInputText(uiElement*);
 		static bool HandleCheckbox(uiElement *);
 		static bool HandleSlider(uiElement *);
+		static bool HandleDrag(uiElement *);
 		static bool HandleRegion(uiElement *);
 		static bool HandleHorizontalLayout(uiElement *);
 	
@@ -215,6 +218,19 @@ struct uiSliderElement : uiElement
 	double maxValue;
 	double value;
 	bool rounded;
+	double power;
+	string format;
+};
+
+struct uiDragElement : uiElement
+{
+	string label;
+	double minValue;
+	double maxValue;
+	double value;
+	bool rounded;
+	double speed;
+	double power;
 	string format;
 };
 

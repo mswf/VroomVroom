@@ -446,7 +446,7 @@ bool ResourceManager::ImportShader( const char* name, GLSLShaderType type )
 	return false;
 }
 
-bool ResourceManager::ReImportShader( const char* name, GLSLShaderType type )
+bool ResourceManager::ReImportShader( const char* name, GLSLShaderType type = GLSLShaderType::UNKNOWN )
 {
 	// Check if exists in resources
 	if ( !ShaderObjectExists( name ) )
@@ -519,8 +519,16 @@ void ResourceManager::UpdateShaderProgram( const char* name, GLSLShaderType type
 	ShaderObject* oldObject = GetShaderObject( name );
 	ShaderProgram* prog = GetShaderProgram( oldObject->program->name.c_str() );
 
+	
 	ShaderObject _new;
-	_new.shaderType = GetGLShaderEnum(type);
+	if (type == GLSLShaderType::UNKNOWN)
+	{
+		_new.shaderType = oldObject->shaderType;
+	}
+	else
+	{
+		_new.shaderType = GetGLShaderEnum(type);
+	}
 	CreateShader( _new.shader, _new.shaderType, source );
 
 	uint32 i;

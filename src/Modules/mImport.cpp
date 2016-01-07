@@ -82,7 +82,7 @@ lFuncImp(mImport, reloadShader)
 {
 	lua_settop(L, 2);
 	lgString(path, 1, "undefined");
-	lgString(type, 1, "none");
+	lgString(type, 2, "none");
 
 	GLSLShaderType shaderType = GLSLShaderType::NONE;
 	if (type == "VERTEX")
@@ -104,6 +104,10 @@ lFuncImp(mImport, reloadShader)
 	else if (type == "TESS_EVALUATION")
 	{
 		shaderType = GLSLShaderType::TESS_EVALUATION;
+	}
+	else
+	{
+		shaderType = GLSLShaderType::UNKNOWN;
 	}
 
 	Assets.ReImportShader(path.c_str(), shaderType);

@@ -58,6 +58,7 @@ void sLuaSystem::Init()
 	mImport::Bind(lState);
 	mAudio::Bind(lState);
 	mWindow::Bind(lState);
+	mLight::Bind(lState);
 
 	string path;
 	Content::CreateFilePath("main.lua", &path);
@@ -83,6 +84,7 @@ void sLuaSystem::Main()
 		if( lua_isnil(lState, -1))
 		{
 			Terminal.Warning("Game.main does not exist!");
+			lua_settop(lState, 0);
 			return;
 		}
 		
@@ -102,6 +104,7 @@ void sLuaSystem::Update(float dt)
 	{
 		Terminal.Warning("Game.update does not exist!");
 		Halt();
+		lua_settop(lState, 0);
 		return;
 	}
 	
@@ -159,6 +162,7 @@ void sLuaSystem::EventCallback(const char* name, int argCount, int* args)
 	if( lua_isnil(lState, -1))
 	{
 		Terminal.Warning("Game."+string(name)+" does not exist!");
+		lua_settop(lState, 0);
 		return;
 	}
 	
@@ -240,14 +244,14 @@ void sLuaSystem::Halt()
 
 }
 
-//TODO(robin): make this use terminal logging?
 void sLuaSystem::Dump(lua_State* L)
 {
 	int i;
 	int top = lua_gettop(L);
-
-	printf("--=[LUA STACK DUMP]=--\n");
-	printf("total in stack %d\n", top);
+	
+	string dumpString = "[LUA STACK DUMP]\n";
+	
+	dumpString += "\t\ttotal in stack "+std::to_string(top)+"\n";
 
 	for (i = 1; i <= top; i++)
 	{
@@ -256,20 +260,21 @@ void sLuaSystem::Dump(lua_State* L)
 		switch (t)
 		{
 			case LUA_TSTRING:  /* strings */
-				printf("  string: '%s'\n", lua_tostring(L, i));
+				dumpString += "...string: " + string(lua_tostring(L, i)) + "\n";
 				break;
 			case LUA_TBOOLEAN:  /* booleans */
-				printf("  boolean %s\n", lua_toboolean(L, i) ? "true" : "false");
+				dumpString += "...boolean: " + string((lua_toboolean(L, i) ? "true" : "false")) + "\n";
 				break;
 			case LUA_TNUMBER:  /* numbers */
-				printf("  number: %g\n", lua_tonumber(L, i));
+				dumpString += "...number: " + std::to_string(lua_tonumber(L, i)) + "\n";
 				break;
 			default:  /* other values */
-				printf("  %s\n", lua_typename(L, t));
+				dumpString += "..." + string(lua_typename(L, t)) + "\n";
 				break;
 		}
 	}
-	printf("----------------------\n");/* end the listing */
+	dumpString += "\t\t----------------------\n";
+	Terminal.Custom(dumpString, "#E2928E", "#fcf4f3");
 }
 
 void sLuaSystem::SetAtomPath(string path)

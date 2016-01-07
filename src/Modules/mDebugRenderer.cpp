@@ -62,7 +62,7 @@ lFuncImp(mDebugRenderer, addLine)
 	
 	glm::vec3 start(x1, y1, z1);
 	glm::vec3 end(x2, y2, z2);
-	glm::vec4 color(r, g, b, a);	//TODO, udpate this to rgba vec4
+	glm::vec4 color(r, g, b, a);
 	Line line(start, end, color);
 	
 	debug->AddPrimivite(line);

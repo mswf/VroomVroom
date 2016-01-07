@@ -23,6 +23,7 @@
 #include "mCamera.h"
 #include "mAudio.h"
 #include "mWindow.h"
+#include "mLight.h"
 
 
 #endif /* mAll_h */

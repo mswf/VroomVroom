@@ -105,9 +105,7 @@ void ImporterImp::ExtractMesh( const aiMesh* mesh, Mesh*& m )
 		m->hasPositions = true;
 		for ( i = 0; i < mesh->mNumVertices; ++i )
 		{
-			aiVector3D v = mesh->mVertices[i];
-			glm::vec3 vertex( v.x, v.y, v.z );
-			m->vertices.push_back( vertex );
+			PushToList( mesh->mVertices[i], m->vertices );
 		}
 	}
 
@@ -117,9 +115,7 @@ void ImporterImp::ExtractMesh( const aiMesh* mesh, Mesh*& m )
 		m->hasNormals = true;
 		for ( i = 0; i < mesh->mNumVertices; ++i )
 		{
-			aiVector3D n = mesh->mNormals[i];
-			glm::vec3 normal( n.x, n.y, n.z );
-			m->normals.push_back( normal );
+			PushToList( mesh->mNormals[i], m->normals );
 		}
 	}
 
@@ -129,13 +125,8 @@ void ImporterImp::ExtractMesh( const aiMesh* mesh, Mesh*& m )
 		m->hasTangentsAndBitangets = true;
 		for ( i = 0; i < mesh->mNumVertices; ++i )
 		{
-			aiVector3D bi = mesh->mBitangents[i];
-			glm::vec3 bitangent( bi.x, bi.y, bi.z );
-			m->bitangents.push_back( bitangent );
-
-			aiVector3D ta = mesh->mTangents[i];
-			glm::vec3 tangent( ta.x, ta.y, ta.z );
-			m->tangents.push_back( tangent );
+			PushToList( mesh->mBitangents[i], m->bitangents );
+			PushToList( mesh->mTangents[i], m->tangents );
 		}
 	}
 
@@ -154,7 +145,12 @@ void ImporterImp::ExtractMesh( const aiMesh* mesh, Mesh*& m )
 
 }
 
-void ImporterImp::ExtractMaterial( const aiMaterial* mtl, Material* material, std::vector< string >* textureIdMap )
+void ImporterImp::PushToList( aiVector3D v, std::vector< glm::vec3 >& list )
+{
+	glm::vec3 vec( v.x, v.y, v.z );
+	list.push_back( vec );
+}
+
 void ImporterImp::ExtractMaterial( const aiMaterial* mtl, Material*& material, std::vector< string >* textureIdMap )
 {
 	// TODO(Valentinas): THIS IS A MEMORY LEAK! FIX IT!
@@ -163,55 +159,19 @@ void ImporterImp::ExtractMaterial( const aiMaterial* mtl, Material*& material, s
 	int32 wireframe = 0;
 	int32 two_sided = 0;
 	aiString name( "No name" );
-	aiColor4D diffuse, ambient, specular, emissive, transparent, reflective;
 	float opacity = 0.0;
 	float bumpScaling = 0.0;
 	float shininess = 0.0;
 	float shininess_strenght = 0.0;
-	float color[4];
 
-
-
-	// A COUPLE OF HELPER CLOSURES/LAMBDAS
-	auto SetFloat4 = []( float * c, float r, float g, float b, float a )
-	{
-		c[0] = r;
-		c[1] = g;
-		c[2] = b;
-		c[3] = a;
-	};
-
-	auto aiColorToFloat4 = []( aiColor4D * aiColor, float * color )
-	{
-		color[0] = aiColor->r;
-		color[1] = aiColor->g;
-		color[2] = aiColor->b;
-		color[3] = aiColor->a;
-	};
-
-	/*
-	auto printFloat4 = []( float* color, const char* name )
-	{
-		printf("Material %s color: %f , %f , %f , %f \n", name, color[0], color[1], color[2], color[3] );
-	};
-	*/
-
-	// END OF HELPERS
-
-
-	if ( AI_SUCCESS == aiGetMaterialString( mtl, AI_MATKEY_NAME, &name) )
-	{
-		material->name = name.C_Str();
-	}
+	aiGetMaterialString( mtl, AI_MATKEY_NAME, &name);
+	material->name = name.C_Str();
 
 	aiGetMaterialIntegerArray( mtl, AI_MATKEY_ENABLE_WIREFRAME, &wireframe, &max );
 	material->wireframe_enabled = wireframe;
 
-	if ( AI_SUCCESS == aiGetMaterialIntegerArray( mtl, AI_MATKEY_TWOSIDED, &two_sided, &max) )
-	{
-		material->two_sided = two_sided;
-	}
-
+	aiGetMaterialIntegerArray( mtl, AI_MATKEY_TWOSIDED, &two_sided, &max);
+	material->two_sided = two_sided;
 
 	aiGetMaterialFloatArray( mtl, AI_MATKEY_OPACITY, &opacity, &max);
 	material->opacity = opacity;
@@ -224,49 +184,14 @@ void ImporterImp::ExtractMaterial( const aiMaterial* mtl, Material*& material, s
 
 	aiGetMaterialFloatArray( mtl, AI_MATKEY_SHININESS_STRENGTH, &shininess_strenght, &max);
 	material->shininess_strenght = shininess_strenght;
-
-	SetFloat4(color, 1.0f, 1.0f, 1.0f, 1.0f);
-	if ( AI_SUCCESS == aiGetMaterialColor( mtl, AI_MATKEY_COLOR_DIFFUSE, &diffuse ) )
-	{
-		aiColorToFloat4(&diffuse, color);
-	}
-	memcpy(material->diffuse, color, sizeof(color));
-
-	SetFloat4(color, 0.5f, 0.5f, 0.5f, 1.0f);
-	if ( AI_SUCCESS == aiGetMaterialColor( mtl, AI_MATKEY_COLOR_AMBIENT, &ambient ) )
-	{
-		aiColorToFloat4(&ambient, color);
-	}
-	memcpy(material->ambient, color, sizeof(color));
-
-	SetFloat4(color, 0.5f, 0.5f, 0.5f, 1.0f);
-	if ( AI_SUCCESS == aiGetMaterialColor( mtl, AI_MATKEY_COLOR_SPECULAR, &specular ) )
-	{
-		aiColorToFloat4(&specular, color);
-	}
-	memcpy(material->specular, color, sizeof(color));
-
-	SetFloat4(color, 0.0f, 0.0f, 0.0f, 1.0f);
-	if ( AI_SUCCESS == aiGetMaterialColor( mtl, AI_MATKEY_COLOR_EMISSIVE, &emissive ) )
-	{
-		aiColorToFloat4(&emissive, color);
-	}
-	memcpy(material->emissive, color, sizeof(color));
-
-	SetFloat4(color, 0.0f, 0.0f, 0.0f, 1.0f);
-	if ( AI_SUCCESS == aiGetMaterialColor( mtl, AI_MATKEY_COLOR_TRANSPARENT, &transparent ) )
-	{
-		aiColorToFloat4(&transparent, color);
-	}
-	memcpy(material->transparent, color, sizeof(color));
-
-	SetFloat4(color, 0.0f, 0.0f, 0.0f, 1.0f);
-	if ( AI_SUCCESS == aiGetMaterialColor( mtl, AI_MATKEY_COLOR_REFLECTIVE, &reflective ) )
-	{
-		aiColorToFloat4(&reflective, color);
-	}
-	memcpy(material->reflective, color, sizeof(color));
-
+	
+	SetColour(mtl, "$clr.diffuse", material->diffuse );
+	SetColour(mtl, "$clr.ambient", material->ambient );
+	SetColour(mtl, "$clr.specular", material->specular );
+	SetColour(mtl, "$clr.emissive", material->emissive );
+	SetColour(mtl, "$clr.transparent", material->transparent );
+	SetColour(mtl, "$clr.reflective", material->reflective );
+	
 	auto FindTextures = []( const aiMaterial * mtl, aiTextureType type, uint32 & textureCount, std::vector< string >* textureIdMap )
 	{
 		uint32 i;
@@ -285,4 +210,18 @@ void ImporterImp::ExtractMaterial( const aiMaterial* mtl, Material*& material, s
 	FindTextures( mtl, aiTextureType_DIFFUSE, material->textureCount, textureIdMap );
 	FindTextures( mtl, aiTextureType_SPECULAR, material->textureCount, textureIdMap );
 	FindTextures( mtl, aiTextureType_HEIGHT, material->textureCount, textureIdMap );
+}
+
+void ImporterImp::SetColour( const aiMaterial* mtl, const char* attribute, float* mtl_colour )
+{
+	float assign_color[4] = { 0.0, 0.0, 0.0, 1.0 };
+	aiColor4D colour;
+	if ( AI_SUCCESS == aiGetMaterialColor( mtl, attribute, 0, 0, &colour ) )
+	{
+		assign_color[0] = colour.r;
+		assign_color[1] = colour.g;
+		assign_color[2] = colour.b;
+		assign_color[3] = colour.a;
+	}
+	memcpy( mtl_colour, assign_color, sizeof(assign_color) );
 }

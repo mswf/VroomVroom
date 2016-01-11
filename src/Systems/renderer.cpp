@@ -95,7 +95,6 @@ void Renderer::ScreenGrab()
 void Renderer::Render()
 {
 	if (camera == NULL) return;
-	SetViewportRect();
 	ClearFlag();
 	RenderScene();
 	RenderDebugLines();
@@ -103,6 +102,7 @@ void Renderer::Render()
 
 void Renderer::SetViewportRect()
 {
+	if (camera == NULL) return;
 	glm::vec4 rect = camera->GetViewportRectangle();
 	float w = w_width * framebufferScaleX;
 	float h = w_height * framebufferScaleY;
@@ -294,7 +294,8 @@ void Renderer::SetWindowSize( const int& w, const int& h )
 	GLint fbWidth = dims[2];
 	GLint fbHeight = dims[3];
 	// TODO: Valentinas, what was this trying to do?
-	//SetFramebufferScale( (float)fbWidth/w_width, (float)fbHeight/w_height );
+	SetFramebufferScale( (float)fbWidth/w_width, (float)fbHeight/w_height );
+	SetViewportRect();
 }
 	
 void Renderer::SetFramebufferScale( const float& scaleX, const float& scaleY )

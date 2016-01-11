@@ -5,6 +5,7 @@
 #include "../content.h"
 #include "../console.h"
 
+const uint8 NAME_BUFFER = 255;
 
 /*
 
@@ -115,7 +116,7 @@ bool ShaderInfoLog( GLuint program, GLenum status )
 	glGetShaderiv( program, status, &log);
 	if (log == GL_FALSE)
 	{
-		GLchar message[255];
+		GLchar message[NAME_BUFFER];
 		glGetShaderInfoLog( program, sizeof(message), 0, &message[0]);
 		Terminal.LogOpenGL( "ShaderLog: " + std::string( message ), true );
 		return false;
@@ -165,7 +166,7 @@ bool ProgramInfoLog( GLuint program, GLenum status )
 	glGetProgramiv( program, status, &log);
 	if (log == GL_FALSE)
 	{
-		GLchar message[255];
+		GLchar message[NAME_BUFFER];
 		glGetProgramInfoLog( program, sizeof(message), 0, &message[0]);
 		Terminal.LogOpenGL( "ProgramLog: " + std::string( message ), true );
 		return false;
@@ -247,7 +248,7 @@ void LogActiveAttributes( GLuint program )
 {
 	GLint num_properties, size;
 	int i;
-	GLchar property_name[256];
+	GLchar property_name[NAME_BUFFER];
 	GLsizei length;
 	GLenum type;
 	
@@ -264,7 +265,7 @@ void LogActiveUniforms( GLuint program )
 {
 	GLint num_properties, size;
 	int i;
-	GLchar property_name[256];
+	GLchar property_name[NAME_BUFFER];
 	GLsizei length;
 	GLenum type;
 
@@ -324,11 +325,11 @@ void LogActiveUniformBlocks( GLuint program )
 	{
 		//GL_UNIFORM_BLOCK_NAME_LENGTH
 		GLsizei activeUniformLength = 0;
-		GLchar uniformName[256];
+		GLchar uniformName[NAME_BUFFER];
 		glGetActiveUniformBlockiv( program, i, GL_UNIFORM_BLOCK_NAME_LENGTH, &activeUniformLength);
 		CheckGlError("activeUniformBinding");
 		
-		glGetActiveUniformBlockName( program, i, 256, &activeUniformLength, uniformName );
+		glGetActiveUniformBlockName( program, i, NAME_BUFFER, &activeUniformLength, uniformName );
 		CheckGlError("glGetActiveUniformBlockName");
 		
 		//GL_UNIFORM_BLOCK_DATA_SIZE
@@ -390,7 +391,7 @@ void LogActiveUniformBlocks( GLuint program )
 void LogActiveSubroutines( GLuint program, GLenum shaderType )
 {
 	int i, j, length, numCompatibleSubroutines, maxSubroutines, maxSubroutineUniforms, activeSubroutines, numActiveSubroutineUniforms;
-	char name[256];
+	char name[NAME_BUFFER];
  
 	glGetIntegerv( GL_MAX_SUBROUTINES, &maxSubroutines );
 	glGetIntegerv( GL_MAX_SUBROUTINE_UNIFORM_LOCATIONS, &maxSubroutineUniforms );
@@ -404,7 +405,7 @@ void LogActiveSubroutines( GLuint program, GLenum shaderType )
 	
 	for ( i = 0; i < numActiveSubroutineUniforms; ++i )
 	{
-		glGetActiveSubroutineUniformName( program, shaderType, i, 256, &length, name );
+		glGetActiveSubroutineUniformName( program, shaderType, i, NAME_BUFFER, &length, name );
 		
 		Terminal.LogOpenGL( std::string( "Subroutine Uniform: " + std::to_string(i) + " name: " + name ) );
 		glGetActiveSubroutineUniformiv( program, shaderType, i, GL_NUM_COMPATIBLE_SUBROUTINES, &numCompatibleSubroutines );
@@ -414,7 +415,7 @@ void LogActiveSubroutines( GLuint program, GLenum shaderType )
 		Terminal.LogOpenGL( "Compatible Subroutines:" );
 		for ( j=0; j < numCompatibleSubroutines; ++j )
 		{
-			glGetActiveSubroutineName( program, shaderType, s[j], 256, &length, name);
+			glGetActiveSubroutineName( program, shaderType, s[j], NAME_BUFFER, &length, name);
 			Terminal.LogOpenGL( "\t" + std::to_string( s[j] ) + " - " + name );
 		}
 		Terminal.LogOpenGL( "---------" );
@@ -569,9 +570,9 @@ void SetSubroutineUniformLocations( GLuint program, GLuint shader, Subroutines& 
 		for ( int i = 0; i < numActiveSubroutineUniforms; ++i )
 		{
 			int length;
-			char name[256];
+			char name[NAME_BUFFER];
 			// Get subroutine uniform name
-			glGetActiveSubroutineUniformName(program, shader, i, 256, &length, name );
+			glGetActiveSubroutineUniformName(program, shader, i, NAME_BUFFER, &length, name );
 			//printf( "%s uniform.\n", name );
 			routines.locations.insert( std::pair<std::string, unsigned int>( name, i ) );
 			routines.subroutines[i] = 0;

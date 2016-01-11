@@ -294,7 +294,7 @@ void Renderer::SetWindowSize( const int& w, const int& h )
 	GLint fbWidth = dims[2];
 	GLint fbHeight = dims[3];
 	// TODO: Valentinas, what was this trying to do?
-	SetFramebufferScale( (float)fbWidth/w_width, (float)fbHeight/w_height );
+	// SetFramebufferScale( (float)fbWidth/w_width, (float)fbHeight/w_height );
 	SetViewportRect();
 }
 	

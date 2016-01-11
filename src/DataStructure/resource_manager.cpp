@@ -72,11 +72,12 @@ bool ResourceManager::ImportMesh( const char* name )
 	return importer.ImportObjFile( name );
 }
 
-bool ResourceManager::ImportMesh( const std::vector< string >& files, std::vector< string >& err_f )
+bool ResourceManager::ImportMesh( const StringVector& files, StringVector& err_f )
 {
 	bool final = true;
-	std::vector<std::basic_string<char>>::const_iterator end = files.end();
-	for (std::vector<string>::const_iterator it = files.begin(); it != end; ++it)
+	StringVector::const_iterator it = files.begin();
+	StringVector::const_iterator end = files.end();
+	for (; it != end; ++it )
 	{
 		if ( !importer.ImportObjFile( *it ) )
 		{
@@ -89,11 +90,13 @@ bool ResourceManager::ImportMesh( const std::vector< string >& files, std::vecto
 
 void ResourceManager::UpdateMeshBuffer()
 {
-	for ( auto it : meshes )
+	Meshes::const_iterator it = meshes.begin();
+	Meshes::const_iterator end = meshes.end();
+	for ( ; it != end; ++it )
 	{
-		if ( it.second->hasBufferChanged )
+		if ( it->second->hasBufferChanged )
 		{
-			printf( "Changed %s\n", it.first.c_str() );
+			printf( "Changed %s\n", it->first.c_str() );
 		}
 	}
 }
@@ -130,7 +133,7 @@ void ResourceManager::SetMeshScale( const char* name, float scale )
 	{
 		mesh->scaleFactor = scale;
 		std::vector< glm::vec3 >::iterator it = mesh->vertices.begin();
-		std::vector< glm::vec3 >::iterator end = mesh->vertices.end();
+		std::vector< glm::vec3 >::const_iterator end = mesh->vertices.end();
 		for ( ; it != end; ++it)
 		{
 			(*it) *= scale;
@@ -145,8 +148,8 @@ void ResourceManager::InsertMesh( const char* name, Mesh* data )
 
 bool ResourceManager::MeshExists( const char* name ) const
 {
-	std::map< string, Mesh* >::const_iterator iter_mesh = meshes.find(name);
-	if ( iter_mesh == meshes.end() )
+	Meshes::const_iterator it_mesh = meshes.find(name);
+	if ( it_mesh == meshes.end() )
 	{
 		// Mesh does not exists
 		return false;
@@ -160,23 +163,23 @@ bool ResourceManager::MeshExists( const char* name ) const
 
 ModelInstance* ResourceManager::GetModel( const char* name )
 {
-	std::map< string, ModelInstance* >::const_iterator iter_model = models.find(name);
-	std::map< string, Mesh* >::const_iterator iter_mesh = meshes.find(name);
+	Models::const_iterator it_model = models.find(name);
+	Meshes::const_iterator it_mesh = meshes.find(name);
 
-	if ( iter_model == models.end() )
+	if ( it_model == models.end() )
 	{
-		if ( iter_mesh != meshes.end() && !(*iter_mesh).second->isBuffered)
+		if ( it_mesh != meshes.end() && !(*it_mesh).second->isBuffered)
 		{
 			//Terminal.Log( string(name) + " has not been buffered yet." );
 
 			//Buffer ModelInstance & add to resource list
 			ModelInstance* newInstance = new ModelInstance();
-			unsigned int mtl = (*iter_mesh).second->materialId;
+			unsigned int mtl = (*it_mesh).second->materialId;
 			newInstance->materialId = mtl;
-			BufferMesh( (*iter_mesh).second, newInstance );
+			BufferMesh( (*it_mesh).second, newInstance );
 
 			// Set the mesh's buffer to true
-			(*iter_mesh).second->isBuffered = true;
+			(*it_mesh).second->isBuffered = true;
 
 			InsertModelInstance( name, newInstance );
 
@@ -184,13 +187,13 @@ ModelInstance* ResourceManager::GetModel( const char* name )
 		}
 
 		// Checking if the mesh is imported
-		if ( iter_mesh == meshes.end() )
+		if ( it_mesh == meshes.end() )
 		{
 			Terminal.Warning( "No mesh by the name of" + string(name) + " has been found in resources." );
 			return NULL;
 		}
 	}
-	return (*iter_model).second;
+	return (*it_model).second;
 }
 
 void ResourceManager::InsertModelInstance( const char* name, ModelInstance* instance )
@@ -225,14 +228,16 @@ bool ResourceManager::ReImportImage( const char* name, bool vertical_flip )
 	return false;
 }
 
-bool ResourceManager::ImportImage( const std::vector< string >& files, std::vector< string >& failedFile, bool vertical_flip )
+bool ResourceManager::ImportImage( const StringVector& files, StringVector& failedFile, bool vertical_flip )
 {
 	bool success = true;
-	for (auto item : files)
+	StringVector::const_iterator item = files.begin();
+	StringVector::const_iterator end = files.end();
+	for ( ; item != end; ++item )
 	{
-		if ( !ImportImage( item.c_str(), vertical_flip ) )
+		if ( !ImportImage( item->c_str(), vertical_flip ) )
 		{
-			failedFile.push_back( item );
+			failedFile.push_back( *item );
 			success = false;
 		}
 	}
@@ -246,8 +251,8 @@ void ResourceManager::InsertImage( const char* name, ImageData* data )
 
 uint32 ResourceManager::GetImageId( const char *name )
 {
-	std::map< string, unsigned int >::const_iterator iter_image = imageIds.find(name);
-	if ( iter_image == imageIds.end() )
+	StringToID::const_iterator it_image = imageIds.find(name);
+	if ( it_image == imageIds.end() )
 	{
 		//Terminal.Warning( "Image: " + string(name) + " not buffered." );
 		if ( BufferImage2D(name) )
@@ -280,9 +285,9 @@ bool ResourceManager::BufferImage1D( const char* name )
 	{
 		return false;
 	}
-	std::map< string, unsigned int >::const_iterator iter_imageId = imageIds.find(name);
+	StringToID::const_iterator it_imageId = imageIds.find(name);
 
-	if ( !img->isBuffered || iter_imageId == imageIds.end() )
+	if ( !img->isBuffered || it_imageId == imageIds.end() )
 	{
 		img->imageId = BufferTexture1D( GL_RGB, img->width, GL_RGB, GL_UNSIGNED_BYTE, img->pixelData, false );
 		img->isBuffered = true;
@@ -299,9 +304,9 @@ bool ResourceManager::BufferImage2D( const char* name )
 	{
 		return false;
 	}
-	std::map< string, uint32 >::const_iterator iter_imageId = imageIds.find(name);
+	StringToID::const_iterator it_imageId = imageIds.find(name);
 
-	if ( !img->isBuffered || iter_imageId == imageIds.end() )
+	if ( !img->isBuffered || it_imageId == imageIds.end() )
 	{
 		img->imageId = BufferTexture2D( GL_RGB, img->width, img->height, GL_RGB, GL_UNSIGNED_BYTE,
 										img->pixelData, img->magFilter, img->minFilter, img->wrap, img->mipmapping);
@@ -326,8 +331,8 @@ bool ResourceManager::UpdateImage2DBuffer( const char* name )
 		Terminal.Warning("Requested texture not found.");
 		return false;
 	}
-	std::map< string, uint32 >::const_iterator iter_imageId = imageIds.find(name);
-	if ( img->isBuffered || iter_imageId != imageIds.end() )
+	StringToID::const_iterator it_imageId = imageIds.find(name);
+	if ( img->isBuffered || it_imageId != imageIds.end() )
 	{
 		UpdateBufferImage2D( img->imageId, 0, 0, img->width, img->width, GL_RGB, GL_UNSIGNED_BYTE, img->pixelData, img->mipmapping );
 		return true;
@@ -340,10 +345,13 @@ unsigned int ResourceManager::CreateCubeMap( const std::vector< std::pair< uint8
 	uint32 cubeMapId;
 	glGenTextures( 1, &cubeMapId );
 
-	for (auto it : *textures )
+	std::vector< std::pair< uint8*, uint32 > >::const_iterator it = textures->begin();
+	std::vector< std::pair< uint8*, uint32 > >::const_iterator end = textures->end();
+	
+	for ( ; it != end; ++it )
 	{
-		BufferTextureCubeMap(cubeMapId, it.second, GL_RGB, width, height, GL_RGB, GL_UNSIGNED_BYTE, it.first);
-		delete[] it.first;
+		BufferTextureCubeMap(cubeMapId, it->second, GL_RGB, width, height, GL_RGB, GL_UNSIGNED_BYTE, it->first);
+		delete[] it->first;
 
 	}
 	return cubeMapId;
@@ -352,8 +360,8 @@ unsigned int ResourceManager::CreateCubeMap( const std::vector< std::pair< uint8
 
 bool ResourceManager::ImageExists( const char* name ) const
 {
-	std::map< string, ImageData* >::const_iterator iter_image = images.find(name);
-	if ( iter_image != images.end() )
+	Images::const_iterator it_image = images.find(name);
+	if ( it_image != images.end() )
 	{
 		// Image exists
 		return true;
@@ -400,8 +408,8 @@ void ResourceManager::InsertMaterial( uint32 id, const char* name, Material* dat
 
 bool ResourceManager::MaterialExists( const char* name ) const
 {
-	std::map< string, uint32 >::const_iterator iter_mtl = materialIds.find(name);
-	if ( iter_mtl != materialIds.end() )
+	StringToID::const_iterator it_mtl = materialIds.find(name);
+	if ( it_mtl != materialIds.end() )
 	{
 		// Material exists
 		return true;
@@ -412,8 +420,8 @@ bool ResourceManager::MaterialExists( const char* name ) const
 
 bool ResourceManager::MaterialExists( const uint32 id ) const
 {
-	std::map< uint32, Material* >::const_iterator iter_mtl = materials.find(id);
-	if ( iter_mtl != materials.end() )
+	Materials::const_iterator it_mtl = materials.find(id);
+	if ( it_mtl != materials.end() )
 	{
 		// Material exists
 		return true;
@@ -467,14 +475,16 @@ bool ResourceManager::ReImportShader( const char* name, GLSLShaderType type = GL
 }
 
 
-bool ResourceManager::ImportShader( const std::vector< std::pair< string, GLSLShaderType > >& list, std::vector< string >& err_f )
+bool ResourceManager::ImportShader( const std::vector< std::pair< string, GLSLShaderType > >& list, StringVector& err_f )
 {
 	bool final = true;
-	for ( auto it : list )
+	std::vector< std::pair< string, GLSLShaderType > >::const_iterator it = list.begin();
+	std::vector< std::pair< string, GLSLShaderType > >::const_iterator end = list.end();
+	for ( ; it != end; ++it )
 	{
-		if ( !ImportShader( it.first.c_str(), it.second ) )
+		if ( !ImportShader( it->first.c_str(), it->second ) )
 		{
-			err_f.push_back( it.first );
+			err_f.push_back( it->first );
 			final = false;
 		}
 	}
@@ -483,6 +493,12 @@ bool ResourceManager::ImportShader( const std::vector< std::pair< string, GLSLSh
 
 void ResourceManager::CreateShaderObject( const char* name, const char* source, GLSLShaderType type )
 {
+	if ( ShaderObjectExists( name ) )
+	{
+		Terminal.Warning( "Shader " + string(name) + " already exists." );
+		return;
+	}
+	
 	ShaderObject* shader_obj = new ShaderObject();
 	shader_obj->shaderType = GetGLShaderEnum(type);
 	InsertShaderObject( name, shader_obj );
@@ -491,10 +507,16 @@ void ResourceManager::CreateShaderObject( const char* name, const char* source, 
 
 void ResourceManager::CreateShaderProgram( const char* name, const char* shaders_objects[], int32 count )
 {
+	if ( ShaderProgramExists( name ) )
+	{
+		Terminal.Warning("Program " + string(name) + " already exists.");
+		return;
+	}
+	
 	ShaderProgram* prog = new ShaderProgram();
 	prog->name = name;
 	InsertShaderProgram( name, prog);
-	int32 i;
+	uint32 i;
 	uint32* shaders = new uint32[count];
 	for ( i = 0; i < count; ++i )
 	{
@@ -520,16 +542,16 @@ void ResourceManager::UpdateShaderProgram( const char* name, GLSLShaderType type
 	ShaderProgram* prog = GetShaderProgram( oldObject->program->name.c_str() );
 
 	
-	ShaderObject _new;
+	ShaderObject newObject;
 	if (type == GLSLShaderType::UNKNOWN)
 	{
-		_new.shaderType = oldObject->shaderType;
+		newObject.shaderType = oldObject->shaderType;
 	}
 	else
 	{
-		_new.shaderType = GetGLShaderEnum(type);
+		newObject.shaderType = GetGLShaderEnum(type);
 	}
-	CreateShader( _new.shader, _new.shaderType, source );
+	CreateShader( newObject.shader, newObject.shaderType, source );
 
 	uint32 i;
 	uint32 count = (uint32)prog->shaders.size();
@@ -542,7 +564,7 @@ void ResourceManager::UpdateShaderProgram( const char* name, GLSLShaderType type
 		}
 	}
 	DeleteShaderObject( oldObject->shader );
-	oldObject->shader = _new.shader;
+	oldObject->shader = newObject.shader;
 	for ( i = 0; i < count; ++i )
 	{
 		shaders[i] = prog->shaders[i]->shader;
@@ -553,24 +575,12 @@ void ResourceManager::UpdateShaderProgram( const char* name, GLSLShaderType type
 
 void ResourceManager::InsertShaderObject( const char* name, ShaderObject* data )
 {
-	if ( !ShaderObjectExists( name ) )
-	{
-		shaderObjects.insert( std::make_pair( string(name), data ) );
-		return;
-	}
-	//else leaking
-	Terminal.Warning( "Shader " + string(name) + " already exists." );
+	shaderObjects.insert( std::make_pair( string(name), data ) );
 }
 
 void ResourceManager::InsertShaderProgram( const char* name, ShaderProgram* data )
 {
-	if ( !ShaderProgramExists( name ) )
-	{
-		shaderPrograms.insert( std::make_pair( string(name), data ) );
-		return;
-	}
-	//else leaking
-	Terminal.Warning("Program " + string(name) + " already exists.");
+	shaderPrograms.insert( std::make_pair( string(name), data ) );
 }
 
 ShaderObject* ResourceManager::GetShaderObject( const char* name ) const
@@ -596,8 +606,8 @@ ShaderProgram* ResourceManager::GetShaderProgram( const char* name ) const
 
 bool ResourceManager::ShaderObjectExists( const char* name ) const
 {
-	std::map< string, ShaderObject* >::const_iterator iter_shader = shaderObjects.find(name);
-	if ( iter_shader != shaderObjects.end() )
+	ShaderObjects::const_iterator it_shader = shaderObjects.find(name);
+	if ( it_shader != shaderObjects.end() )
 	{
 		// Shader exists
 		return true;
@@ -608,8 +618,8 @@ bool ResourceManager::ShaderObjectExists( const char* name ) const
 
 bool ResourceManager::ShaderProgramExists( const char* name ) const
 {
-	std::map< string, ShaderProgram* >::const_iterator iter_program = shaderPrograms.find(name);
-	if ( iter_program != shaderPrograms.end() )
+	ShaderPrograms::const_iterator it_program = shaderPrograms.find(name);
+	if ( it_program != shaderPrograms.end() )
 	{
 		// Program exists
 		return true;

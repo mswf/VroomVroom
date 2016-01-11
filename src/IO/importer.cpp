@@ -21,11 +21,9 @@ void Importer::SetSceneImportFlags( int flags )
 
 bool Importer::ImportObjFile( const std::string &pFile, bool importTextures )
 {
-	ResourceManager& rm = Assets;
-	
-	if ( rm.MeshExists( pFile.c_str() ) )
+	if ( Assets.MeshExists( pFile.c_str() ) )
 	{
-		Terminal.Warning("Obj already imported. Aborting redundant loading");
+		Terminal.Warning("Object already imported. Aborting redundant loading");
 		return false;
 	}
 	
@@ -55,62 +53,70 @@ bool Importer::ImportObjFile( const std::string &pFile, bool importTextures )
 	
 	for ( n = 0; n < scene->mNumMeshes; ++n )
 	{
+		Mesh* mesh;
+		Material* material;
+		std::vector< std::string > textures;
+		
 		// Mesh
-		const aiMesh* m = scene->mMeshes[n];
-		Mesh* mesh = new Mesh();
-		imp_->ExtractMesh(m, mesh);
-		mesh->materialId = 0;
-		// Material
-		// TODO(Valentinas): THIS CHECK IS A HACK AND SHOULD BE FIXED, ASSIMP ALWAYS HAS MATERIAL!
-		if ( scene->HasMaterials() && scene->mMaterials[0]->mNumProperties > 9 )
-		{
-			aiMaterial *mtl = scene->mMaterials[ m->mMaterialIndex ];
-			// TODO(Valentinas): THIS IS A MEMORY LEAK! FIX IT!
-			Material* material = new Material();
-			std::vector< std::string > textures;
-			imp_->ExtractMaterial( mtl, material, &textures );
-			//material->shader->name = material->name.c_str();
-			if (importTextures)
-			{
-				std::vector< std::string >::const_iterator iter = textures.begin();
-				std::vector< std::string >::const_iterator end = textures.end();
-				for ( ; iter != end; ++iter )
-				{
-					std::string name = (*iter);
-					if ( ImportImage( name.c_str() ) )
-					{
-						// Set diffuse by to material default
-						if ( name.find("_D") != std::string::npos )
-						{
-							//Terminal.Log("Found diffuse texture, setting to material.");
-							material->SetDiffuseTexture( name.c_str() );
-						}
-						
-						// Set normal by to material default
-						if ( name.find("_N") != std::string::npos )
-						{
-							//Terminal.Log("Found normal texture, setting to material.");
-							material->SetNormalTexture( name.c_str() );
-						}
-					}
-				}
-			}
-			mesh->materialId = ResourceManager::materialId++;
-			rm.InsertMaterial( mesh->materialId, material->name.c_str(), material );
-		}
-		if ( !rm.MeshExists( pFile.c_str() ) )
-		{
-			rm.InsertMesh( pFile.c_str(), mesh);
-		}
-		else
-		{
-			Terminal.Warning("Trying to insert mesh with an already taken name, skipping import!");
-			//rm.MergeToExistingMesh( pFile.c_str(), mesh );
-			delete mesh;
-		}
+		ImportMesh(scene, n, mesh, pFile.c_str() );
+		
+		// Material & Textures
+		ImportMaterial( material, scene, mesh, textures );
+		if ( importTextures ) ImportTextures( textures, material );
+		
 	}
 	imp_->FreeScene(scene);
 	return true;
+}
+
+void Importer::ImportMesh( aiScene *scene, const uint32& index, Mesh*& mesh, const char* name )
+{
+	const aiMesh* m = scene->mMeshes[index];
+	mesh = new Mesh();
+	imp_->ExtractMesh(m, mesh);
+	mesh->materialId = m->mMaterialIndex;
+	Assets.InsertMesh( name, mesh);
+}
+
+void Importer::ImportMaterial( Material*& material, aiScene* scene, Mesh* mesh, std::vector< std::string >& textures )
+{
+	aiMaterial *mtl = scene->mMaterials[ mesh->materialId ];
+	mesh->materialId = ResourceManager::materialId++;
+	// TODO(Valentinas): THIS IS A MEMORY LEAK! FIX IT!
+	material = new Material();
+	imp_->ExtractMaterial( mtl, material, &textures );
+	Assets.InsertMaterial( mesh->materialId, material->name.c_str(), material );
+}
+
+void Importer::ImportTextures( const std::vector< std::string >& textures, Material* material )
+{
+	std::vector< std::string >::const_iterator iter = textures.begin();
+	std::vector< std::string >::const_iterator end = textures.end();
+	for ( ; iter != end; ++iter )
+	{
+		std::string name = (*iter);
+		if ( ImportImage( name.c_str() ) )
+		{
+			SetTextureToMaterial( material, name );
+		}
+	}
+}
+
+void Importer::SetTextureToMaterial( Material* material, std::string name )
+{
+	// Set diffuse by to material default
+	if ( name.find("_D") != std::string::npos )
+	{
+		//Terminal.Log("Found diffuse texture, setting to material.");
+		material->SetDiffuseTexture( name.c_str() );
+	}
+	
+	// Set normal by to material default
+	if ( name.find("_N") != std::string::npos )
+	{
+		//Terminal.Log("Found normal texture, setting to material.");
+		material->SetNormalTexture( name.c_str() );
+	}
 }
 
 bool Importer::ImportImage( const char* filename, bool vertical_flip, FilterType minFilter, FilterType magFilter, WrapType wrapping )
@@ -140,7 +146,7 @@ ImageData* Importer::ReImportImage( const char* filename, bool vertical_flip )
 {
 	std::string file( Content::GetPath() + "/" + filename );
 	ImageData* image = new ImageData();
-	image->components = 4;
+	image->components = 3;
 	IMPORTER_MESSAGE imp_err = IMPORTER_MESSAGE::FILE_OK;
 	image->pixelData = imp_->ImportImage( file.c_str(), image->width, image->height, image->components, imp_err, vertical_flip );
 	if ( imp_err == IMPORTER_MESSAGE::IMAGE_FAILED_TO_LOAD )

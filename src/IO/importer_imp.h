@@ -24,8 +24,8 @@ class ImporterImp
 		~ImporterImp();
 
 		void FreeScene( aiScene* sc );
-		void ExtractMesh( const aiMesh* mesh, Mesh* m );
-		void ExtractMaterial( const aiMaterial* mtl, Material* material, std::vector< string >* textureIdMap );
+		void ExtractMesh( const aiMesh* mesh, Mesh*& m );
+		void ExtractMaterial( const aiMaterial* mtl, Material*& material, std::vector< string >* textureIdMap );
 		aiScene* ImportObjFile( const string& pFile, IMPORTER_MESSAGE& message );
 		unsigned char* ImportImage( const char* filename, uint32& width, uint32& height, uint32 requiring_components, IMPORTER_MESSAGE& message, bool vertical_flip = true );
 		inline void SetSceneImportFlags( const int32& flags ) { importFlags = flags; }

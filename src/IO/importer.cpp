@@ -72,7 +72,6 @@ bool Importer::ImportObjFile( const std::string &pFile, bool importTextures )
 void Importer::ImportMesh( aiScene *scene, const uint32& index, Mesh*& mesh, const char* name )
 {
 	const aiMesh* m = scene->mMeshes[index];
-	mesh = new Mesh();
 	imp_->ExtractMesh(m, mesh);
 	mesh->materialId = m->mMaterialIndex;
 	Assets.InsertMesh( name, mesh);
@@ -82,8 +81,6 @@ void Importer::ImportMaterial( Material*& material, aiScene* scene, Mesh* mesh, 
 {
 	aiMaterial *mtl = scene->mMaterials[ mesh->materialId ];
 	mesh->materialId = ResourceManager::materialId++;
-	// TODO(Valentinas): THIS IS A MEMORY LEAK! FIX IT!
-	material = new Material();
 	imp_->ExtractMaterial( mtl, material, &textures );
 	Assets.InsertMaterial( mesh->materialId, material->name.c_str(), material );
 }

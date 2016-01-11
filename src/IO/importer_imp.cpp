@@ -84,10 +84,11 @@ void ImporterImp::FreeScene( aiScene* sc )
 	}
 }
 
-void ImporterImp::ExtractMesh( const aiMesh* mesh, Mesh* m )
+void ImporterImp::ExtractMesh( const aiMesh* mesh, Mesh*& m )
 {
+	m = new Mesh();
+	
 	// buffer for indices
-	//m = new Mesh();
 	uint32 i;
 	m->numIndices = mesh->mNumFaces * 3;
 	for ( i = 0; i < mesh->mNumFaces; ++i )
@@ -154,8 +155,10 @@ void ImporterImp::ExtractMesh( const aiMesh* mesh, Mesh* m )
 }
 
 void ImporterImp::ExtractMaterial( const aiMaterial* mtl, Material* material, std::vector< string >* textureIdMap )
+void ImporterImp::ExtractMaterial( const aiMaterial* mtl, Material*& material, std::vector< string >* textureIdMap )
 {
-	//printf( "Number of properties: %i, expected 13. \n", material->mNumProperties );
+	// TODO(Valentinas): THIS IS A MEMORY LEAK! FIX IT!
+	material = new Material();
 	uint32 max = 1;
 	int32 wireframe = 0;
 	int32 two_sided = 0;

@@ -521,7 +521,6 @@ void Engine::UpdateLoop()
 
 	Entity::GetComponentInChildren<CMeshRenderer>(a);
 
-	/*
 		CDebugRenderer* drend = new CDebugRenderer();
 		Entity::AddComponent( ac, drend);
 		Entity::AddComponent( ac, drend);
@@ -554,13 +553,14 @@ void Engine::UpdateLoop()
 			debugRenderer->AddLine(  Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( 0.0, p, lineLength ), random_colour() ) );
 		}
 	*/
+	
 	/*
 	Entity* camera = new Entity( "Main Camera" );
 	//	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 1280.0f / 720.0f );
 	Entity::AddComponent(camera, cam);
 	camera->transform->SetPosition( glm::vec3( 4, 4, -4 ) );
 	renderer->SetCamera( cam );
-	 */
+	*/
 	/// TINAS PLAYGROUND ENDS!!!
 
 

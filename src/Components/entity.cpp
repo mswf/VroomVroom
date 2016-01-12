@@ -40,8 +40,9 @@ void Entity::ClearComponents()
 		std::map< int, Component* >::iterator end = entityComponents.end();
 		for( ; it != end; ++it )
 		{
-			delete (*it).second;
-			(*it).second = NULL;
+			RemoveComponent(this, (*it).second);
+			//delete (*it).second;
+			//(*it).second = NULL;
 		}
 		entityComponents.clear();
 	}

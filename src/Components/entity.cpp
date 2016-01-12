@@ -40,10 +40,20 @@ void Entity::ClearComponents()
 		std::map< int, Component* >::iterator end = entityComponents.end();
 		for( ; it != end; ++it )
 		{
-			RemoveComponent(this, (*it).second);
-			//delete (*it).second;
-			//(*it).second = NULL;
+			delete (*it).second;
+			(*it).second = NULL;
 		}
+		
+		std::multimap< int, Entity* >::iterator sti = componentStorage.begin();
+		std::multimap< int, Entity* >::iterator send = componentStorage.end();
+		for( ; sti != send; ++sti )
+		{
+			if ( (*sti).second->name == this->name )
+			{
+				componentStorage.erase(sti);
+			}
+		}
+		
 		entityComponents.clear();
 	}
 }

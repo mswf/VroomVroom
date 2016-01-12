@@ -399,14 +399,24 @@ void Engine::ImportAssets()
 	std::vector< std::string > cube_map, errors;
 	std::vector< std::pair< std::string, GLSLShaderType > > shaders;
 
-	// Cube map
 
-	cube_map.push_back( "images/LancellottiChapel/negx.jpg" );
-	cube_map.push_back( "images/LancellottiChapel/negy.jpg" );
-	cube_map.push_back( "images/LancellottiChapel/negz.jpg" );
-	cube_map.push_back( "images/LancellottiChapel/posx.jpg" );
-	cube_map.push_back( "images/LancellottiChapel/posy.jpg" );
-	cube_map.push_back( "images/LancellottiChapel/posz.jpg" );
+
+	// Cube map
+	//rm.ImportImage("images/Meadow/negx.jpg", false);
+	//rm.ImportImage("images/Meadow/negy.jpg", false);
+	//rm.ImportImage("images/Meadow/negz.jpg", false);
+	//rm.ImportImage("images/Meadow/posx.jpg", false);
+	//rm.ImportImage("images/Meadow/posy.jpg", false);
+	//rm.ImportImage("images/Meadow/posz.jpg", false);
+
+	cube_map.push_back( "images/Meadow/negx.jpg" );
+	cube_map.push_back( "images/Meadow/negy.jpg" );
+	cube_map.push_back( "images/Meadow/negz.jpg" );
+	cube_map.push_back( "images/Meadow/posx.jpg" );
+	cube_map.push_back( "images/Meadow/posy.jpg" );
+	cube_map.push_back( "images/Meadow/posz.jpg" );
+
+
 
 	rm.ImportShader( "shaders/line_vert.glsl", GLSLShaderType::VERTEX );
 	rm.ImportShader( "shaders/line_frag.glsl", GLSLShaderType::FRAGMENT );
@@ -432,14 +442,15 @@ void Engine::ImportAssets()
 		//if (false)
 	{
 		int width, height;
-		width = height = rm.GetImageData("images/LancellottiChapel/negx.jpg")->width;
+		width = height = rm.GetImageData("images/Meadow/negx.jpg")->width;
 		std::vector< std::pair< uint8*, uint32 > > textures;
-		textures.push_back( std::make_pair( rm.GetImageData("images/LancellottiChapel/negx.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_X ) );
-		textures.push_back( std::make_pair( rm.GetImageData("images/LancellottiChapel/negy.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y ) );
-		textures.push_back( std::make_pair( rm.GetImageData("images/LancellottiChapel/negz.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z ) );
-		textures.push_back( std::make_pair( rm.GetImageData("images/LancellottiChapel/posx.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_X ) );
-		textures.push_back( std::make_pair( rm.GetImageData("images/LancellottiChapel/posy.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Y ) );
-		textures.push_back( std::make_pair( rm.GetImageData("images/LancellottiChapel/posz.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Z ) );
+		textures.push_back( std::make_pair( rm.GetImageData("images/Meadow/negx.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_X ) );
+		textures.push_back( std::make_pair( rm.GetImageData("images/Meadow/negy.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y ) );
+		textures.push_back( std::make_pair( rm.GetImageData("images/Meadow/negz.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z ) );
+		textures.push_back( std::make_pair( rm.GetImageData("images/Meadow/posx.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_X ) );
+		textures.push_back( std::make_pair( rm.GetImageData("images/Meadow/posy.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Y ) );
+		textures.push_back( std::make_pair( rm.GetImageData("images/Meadow/posz.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Z ) );
+
 		skybox_map = rm.CreateCubeMap(&textures, width, height);
 	}
 

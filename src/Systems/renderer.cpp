@@ -271,6 +271,9 @@ void Renderer::RenderEnvironment()
 	glUseProgram(skyboxProgram->program);
 	
 	glm::mat4 modelMatrix = glm::inverse( camera->GetViewMatrix() ) * glm::mat4_cast(camera->entity->transform->GetRotation());
+	// rotate 
+	modelMatrix = glm::rotate(modelMatrix, glm::radians(90.0f), glm::vec3(1, 0, 0));
+
 	SetUniform( skyboxProgram->program, "model", modelMatrix );
 	SetUniform( skyboxProgram->program,	"view", 		camera->GetViewMatrix() );
 	SetUniform( skyboxProgram->program,	"projection", 	camera->GetProjectionMatrix() );

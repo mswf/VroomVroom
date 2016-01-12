@@ -46,11 +46,14 @@ void Entity::ClearComponents()
 		
 		std::multimap< int, Entity* >::iterator sti = componentStorage.begin();
 		std::multimap< int, Entity* >::iterator send = componentStorage.end();
-		for( ; sti != send; ++sti )
+		while(sti != send)
 		{
 			if ( (*sti).second->name == this->name )
 			{
-				componentStorage.erase(sti);
+				sti = componentStorage.erase(sti);
+			}
+			else {
+				sti++;
 			}
 		}
 		
@@ -60,14 +63,11 @@ void Entity::ClearComponents()
 
 void Entity::DestroyChildren()
 {
-	std::vector<CTransform* >::iterator it = transform->GetChildren().begin();
-	std::vector<CTransform* >::iterator end = transform->GetChildren().end();
-	for( ; it != end ; ++it )
+	while (transform->GetChildren().size() > 0)
 	{
-		(*it)->entity->ClearComponents();
-		delete (*it)->entity;
-		// TODO(Valentinas): FIX THIS PLEASE!
-		break;
+		CTransform* t = transform->GetChildren().front();
+		t->entity->ClearComponents();
+		delete t->entity;
 	}
 }
 

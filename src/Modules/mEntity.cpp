@@ -36,6 +36,9 @@ void mEntity::Bind(lua_State* L)
 	
 		lBind(getChildren)
 		lBind(removeChild)
+	
+		lBind(destroy)
+		lBind(destroyChildren)
 
 	
 		//GETTERS
@@ -91,7 +94,7 @@ void mEntity::Bind(lua_State* L)
 	lua_setfield(L, -2, "baseEntity");
 	
 	
-	
+	/*
 	//metatable
     luaL_newmetatable(L, "_mtEntity");
     lua_pushstring(L, "__index");
@@ -105,6 +108,7 @@ void mEntity::Bind(lua_State* L)
     };
     
     luaL_openlib(L, 0, Entity_methods, 0);
+	 */
 }
 
 void mEntity::UnreferenceTable(int tableKey)
@@ -113,6 +117,9 @@ void mEntity::UnreferenceTable(int tableKey)
 	
 	lua_pushnumber(L, tableKey);
 	lua_gettable(L, LUA_REGISTRYINDEX);
+	
+	lua_pushlightuserdata(L, NULL);
+	lua_setfield(L, -2, "__coreComponent__");
 	
 	luaL_unref(L, LUA_REGISTRYINDEX, tableKey);
 	lua_settop(L, 0);
@@ -139,10 +146,9 @@ lFuncImp(mEntity, __engineInit)
 	//TODO(robin): change to light userdata
     //create a userdata with the size of an entity, and create a new entity at that point in memory
     //set the metatable of this userdata to _metaEntityUser
-    CLua* comp = new (lua_newuserdata(L, sizeof(CLua))) CLua();
-    luaL_getmetatable(L, "_mtEntity");
-    lua_setmetatable(L, -2);
-    
+	CLua* comp = new CLua();
+	
+	lua_pushlightuserdata(L, comp);
     //now add the userdata to our table
     lua_setfield(L, -2, "__coreComponent__");
 	
@@ -165,11 +171,8 @@ lFuncImp(mEntity, addChild)
 {
 	lua_settop(L, 2);
 	
-	lua_getfield(L, 1, "__coreComponent__");
-	CLua* parent = (CLua*)lua_touserdata(L, -1);
-	
-	lua_getfield(L, 2, "__coreComponent__");
-	CLua* child = (CLua*)lua_touserdata(L, -1);
+	lgComp(parent, 1, CLua);
+	lgComp(child, 2, CLua);
 	
 	parent->entity->AddChild(child->entity);
 	
@@ -183,11 +186,8 @@ lFuncImp(mEntity, addComponent)
 {
 	lua_settop(L, 2);
 	
-	lua_getfield(L, 1, "__coreComponent__");
-	CLua* core = (CLua*)lua_touserdata(L, -1);
-	
-	lua_getfield(L, 2, "__coreComponent__");
-	Component* comp = (Component*)lua_touserdata(L, -1);
+	lgComp(core, 1, CLua);
+	lgComp(comp, 2, Component);
 	
 	lua_getfield(L, 2, "__familyId__");
 	if (lua_isnil(L, -1))
@@ -234,8 +234,7 @@ lFuncImp(mEntity, addComponent)
 lFuncImp(mEntity, getChildren) {
 	lua_settop(L, 1);
 	
-	lua_getfield(L, 1, "__coreComponent__");
-	CLua* luaComp = (CLua*)lua_touserdata(L, -1);
+	lgComp(luaComp, 1, CLua);
 	
 	std::vector<Entity*> children = luaComp->entity->GetChildren();
 	
@@ -246,15 +245,11 @@ lFuncImp(mEntity, getChildren) {
 	int ii = 1;
 	for( ; iter_comp != end_comp; ++iter_comp )
 	{
-		LuaSystem.Dump(L);
 		CLua* lua = Entity::GetComponent<CLua>(*iter_comp);
 		lua_pushnumber(L, ii);
 		lua_pushnumber(L, lua->GetTableKey());
-		LuaSystem.Dump(L);
 		lua_gettable(L, LUA_REGISTRYINDEX);
-		LuaSystem.Dump(L);
 		lua_settable(L, -3);
-		LuaSystem.Dump(L);
 		ii++;
 	}
 	
@@ -265,29 +260,32 @@ lFuncImp(mEntity, getChildren) {
 lFuncImp(mEntity, removeChild) {
 	lua_settop(L, 2);
 	
-	lua_getfield(L, 1, "__coreComponent__");
-	CLua* parent = (CLua*)lua_touserdata(L, -1);
-	
-	lua_getfield(L, 2, "__coreComponent__");
-	CLua* child = (CLua*)lua_touserdata(L, -1);
+	lgComp(parent, 1, CLua);
+	lgComp(child, 2, CLua);
 	
 	parent->entity->RemoveChild(child->entity);
 	
 	return 0;
 }
 
-//bound to __gc, thus called by lua when the userdata is destroyed
-lFuncImp(mEntity, gcDestroy)
-{
-   	if(lua_type(L, 1) != LUA_TUSERDATA)
-	{
-		Terminal.Warning("Lua gc tried to call <gcDestroy> on a table that is not proper userdata");
-		return 0;
-	}
-    CLua* component = reinterpret_cast<CLua*>(lua_touserdata(L, 1));
-	delete component;
+lFuncImp(mEntity, destroy) {
+	lua_settop(L, 1);
 	
-    return 0;
+	lgComp(comp, 1, CLua);
+	
+	Entity::Destroy(comp->entity);
+	
+	return 0;
+}
+
+lFuncImp(mEntity, destroyChildren) {
+	lua_settop(L, 1);
+	
+	lgComp(parent, 1, CLua);
+	
+	parent->entity->DestroyChildren();
+	
+	return 0;
 }
 
 #define lTransformGet(FUNC, CALL)\

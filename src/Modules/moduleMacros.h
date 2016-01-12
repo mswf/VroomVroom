@@ -75,6 +75,13 @@
 		NAME = FALLBACK;\
 	}
 
+#define lgComp(NAME, IDX, TYPE)\
+	lua_getfield(L, IDX, "__coreComponent__");\
+	TYPE* NAME = (TYPE*)lua_touserdata(L, -1);\
+	if(NAME == NULL) {\
+		return 0;\
+	}
+
 #define lstString(NAME, VALUE)\
     lua_pushstring(L, VALUE);\
     lua_setfield(L, -2, NAME);

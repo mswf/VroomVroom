@@ -55,6 +55,32 @@ void CCamera::Call()
 	//return glm::inverse( entity->GetTransform() );
 }
 
+glm::vec3 CCamera::ScreenToWorldPosition( const glm::ivec2& position )
+{
+	printf("Hello, shooting ray at : %i x %i \n", position.x, position.y );
+	//Debugging values
+	float width = 1280.0f;
+	float height = 720.0f;
+	
+	//Step 1
+	float x = ( 2.0 * position.x ) / width - 1.0;
+	float y = 1.0 - ( 2.0 * position.y ) / height;
+	float z = 1.0;
+	glm::vec3 ray_nds( x, y, z );
+	
+	//Step 2
+	glm::vec4 ray_clip( ray_nds.x, ray_nds.y, -1.0, 1.0 );
+	
+	//Step 3
+	glm::vec4 ray_eye = glm::inverse(projectionMatrix) * ray_clip;
+	ray_eye = glm::vec4( ray_eye.x, ray_eye.y, -1.0, 1.0 );
+	
+	//Step 4
+	glm::vec3 ray_world = glm::normalize( glm::vec3( glm::inverse(viewMatrix) * ray_eye ) );
+	
+	return ray_world;
+}
+
 void CCamera::SetAspectRatio( float ratio )
 {
 	aspectRatio = ratio;

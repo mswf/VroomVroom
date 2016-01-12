@@ -23,7 +23,7 @@ bool Importer::ImportObjFile( const std::string &pFile, bool importTextures )
 {
 	if ( Assets.MeshExists( pFile.c_str() ) )
 	{
-		Terminal.Warning("Object already imported. Aborting redundant loading");
+		Terminal.Warning(pFile + " already imported. Aborting redundant loading");
 		return false;
 	}
 	

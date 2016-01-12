@@ -3,6 +3,7 @@
 
 #include "component.h"
 #include "../glm/vec3.hpp"
+#include "../glm/vec4.hpp"
 #include "../glm/mat4x4.hpp"
 #include "../glm/gtc/matrix_transform.hpp"
 
@@ -21,6 +22,7 @@ class CCamera : public Component
 		CCamera( Projection proj, float aspectRatio, float near = 0.1f, float far = 1000.0f, float fov = 90.0f );
 		~CCamera();
 		void Call();
+		glm::vec3 ScreenToWorldPosition( const glm::ivec2& position );
 		void SetProjectionType( Projection type );
 		void SetAspectRatio( float ratio );
 		void SetFOV( float value );

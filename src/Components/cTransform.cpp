@@ -76,6 +76,7 @@ void CTransform::AddChild( CTransform* c )
 	}
 	children.push_back(c);
 	c->parent = this;
+	c->Update();
 }
 
 void CTransform::RemoveChild( CTransform *c )

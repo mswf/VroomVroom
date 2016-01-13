@@ -171,10 +171,8 @@ void Input::Update( SDL_Event* event )
     //SDL_Keycode keyVCode = event->key.keysym.sym;
     SDL_Scancode keyCode = event->key.keysym.scancode;
     uint8_t mouseButton = event->button.button;
-    
-    mousePosition.x = event->button.x;
-    mousePosition.y = event->button.y;
-    
+	
+	SDL_GetMouseState(&mousePosition.x, &mousePosition.y);
     
     switch (event->type)
     {

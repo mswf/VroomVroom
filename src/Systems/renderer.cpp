@@ -94,8 +94,9 @@ void Renderer::ScreenGrab()
 	
 void Renderer::Render()
 {
-	if (camera == NULL) return;
 	ClearFlag();
+	if (camera == NULL) return;
+	RenderEnvironment();
 	RenderScene();
 	RenderDebugLines();
 }
@@ -113,7 +114,6 @@ void Renderer::ClearFlag()
 {
 	glClearColor( backgroundColour[0], backgroundColour[1], backgroundColour[2], backgroundColour[3] );
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-	RenderEnvironment();
 }
 	
 void Renderer::RenderScene()
@@ -314,4 +314,15 @@ void Renderer::SetBackgroundColor( float r, float g, float b, float a )
 	backgroundColour[2] = b;
 	backgroundColour[3] = a;
 }
-	
+void Renderer::SetCamera( CCamera* c )
+{
+	if ( camera != NULL )
+	{
+		camera->SetRenderer(NULL);
+		camera = c;
+	}
+	if (c != NULL )
+	{
+		c->SetRenderer(this);
+	}
+}

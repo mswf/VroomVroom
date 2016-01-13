@@ -18,7 +18,12 @@ CCamera::CCamera( Projection proj, float aspectRatio, float near, float far, flo
 
 CCamera::~CCamera()
 {
-	
+	entity = NULL;
+	if (renderer != NULL)
+	{
+		renderer->SetCamera( NULL );
+	}
+	renderer = NULL;
 }
 
 void CCamera::SetProjectionType( Projection type )
@@ -108,6 +113,11 @@ void CCamera::SetFarPlaneDistance( float value )
 void CCamera::SetViewportRectangle( const glm::vec4& rect )
 {
 	viewportRectangle = rect;
+}
+
+void CCamera::SetRenderer( Renderer* r )
+{
+	renderer = r;
 }
 
 const float& CCamera::GetAspectRatio() const

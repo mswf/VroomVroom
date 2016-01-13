@@ -6,6 +6,7 @@
 #include "../glm/vec4.hpp"
 #include "../glm/mat4x4.hpp"
 #include "../glm/gtc/matrix_transform.hpp"
+#include "renderer.h"
 
 enum class Projection
 {
@@ -29,6 +30,7 @@ class CCamera : public Component
 		void SetNearPlaneDistance( float zNear );
 		void SetFarPlaneDistance( float zFar );
 		void SetViewportRectangle( const glm::vec4& rect );
+		void SetRenderer( Renderer* renderer );
 		const Projection& GetProjectionType() const;
 		const float& GetAspectRatio() const;
 		const float& GetFOV() const;
@@ -42,6 +44,7 @@ class CCamera : public Component
 	
 		void UpdateView( const glm::vec3& eye, const glm::vec3& center, const glm::vec3& up );
 	
+		Renderer* renderer;
 		Projection type;
 		glm::mat4 projectionMatrix;
 		glm::mat4 viewMatrix;

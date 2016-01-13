@@ -44,7 +44,7 @@ class Renderer : public ComponentSystem
 		inline void SetMeshRendererList( std::vector< CMeshRenderer* >* list ) { renderables = list; }
 		inline void SetDebugRendererList( std::vector< CDebugRenderer* >* list ) { debugPrimitives = list; }
 		inline void SetLightList( std::vector< CLight* >* list ) { lights = list; }
-		inline void SetCamera( CCamera* c ) { camera = c; }
+		void SetCamera( CCamera* c );
 		inline void SetTime( const uint32& t ) { time = t; }
 		
 		inline const int& GetWindowWidth() const { return w_width; }

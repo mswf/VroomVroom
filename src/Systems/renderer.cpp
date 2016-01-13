@@ -319,8 +319,9 @@ void Renderer::SetCamera( CCamera* c )
 	if ( camera != NULL )
 	{
 		camera->SetRenderer(NULL);
-		camera = c;
 	}
+	camera = c;
+
 	if (c != NULL )
 	{
 		c->SetRenderer(this);

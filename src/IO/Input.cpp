@@ -15,8 +15,6 @@ Input::Input()
         mouseState[i].state = MouseEvent::NOTHING;
         mouseState[i].usedInCurrentFrame = false;
     }
-    
-    //bindings = new std::map< std::string, int >();
 }
 
 Input::~Input()
@@ -29,6 +27,16 @@ Input::~Input()
 const glm::ivec2 Input::GetMousePosition()
 {
     return glm::ivec2(mousePosition.x, mousePosition.y);
+}
+
+const glm::ivec2 Input::GetMouseWheelScroll()
+{
+	return glm::ivec2( mouseWheel.horizontalScroll, mouseWheel.verticalScroll );
+}
+
+const glm::ivec2 Input::GetMouseRelativeMotion()
+{
+	return mouseMotion.relativeMotion;
 }
 
 bool Input::OnMouseDown(uint8_t button)
@@ -46,37 +54,19 @@ bool Input::OnKeyDown(SDL_Keycode key)
     SDL_Scancode scanKey = SDL_GetScancodeFromKey(key);
     return keyState[scanKey].triggerEvent == KeyEvent::DOWN;
 }
-/*
-bool Input::OnKeyDown( std::string name )
-{
-    SDL_Scancode key = (SDL_Scancode)(*bindings)[name];
-    return OnKeyDown(key);
-}
-*/
+
 bool Input::OnKeyUp(SDL_Keycode key)
 {
     SDL_Scancode scanKey = SDL_GetScancodeFromKey(key);
     return keyState[scanKey].triggerEvent == KeyEvent::RELEASE;
 }
-/*
-bool Input::OnKeyUp( std::string name )
-{
-    SDL_Scancode key = (SDL_Scancode)(*bindings)[name];
-    return OnKeyUp(key);
-}
-*/
+
 bool Input::OnKey(SDL_Keycode key)
 {
     SDL_Scancode scanKey = SDL_GetScancodeFromKey(key);
     return keyState[scanKey].triggerEvent == KeyEvent::HOLD || keyState[scanKey].triggerEvent == KeyEvent::RELEASE;
 }
-/*
-bool Input::OnKey( std::string name )
-{
-    SDL_Scancode key = (SDL_Scancode)(*bindings)[name];
-    return OnKey(key);
-}
-*/
+
 void Input::StateReset()
 {
     for (int i = 0; i < SDL_NUM_SCANCODES; ++i)
@@ -112,59 +102,8 @@ void Input::StateReset()
 
     }
 }
-/*
-void Input::BindKey( std::string name, int key )
-{
-    if ( name.empty() && key == SDL_SCANCODE_UNKNOWN)
-    {
-        return;
-    }
-    
-    bindings->insert( std::pair<std::string, int>( name, key ) );
-}
 
-void Input::UnbindKey( std::string name )
-{
-    if (BindExists(name))
-    {
-        bindings->erase(name);
-    }
-}
-
-bool Input::BindExists( std::string key )
-{
-    return ( bindings->find(key) != bindings->end() );
-}
-
-bool Input::IsBound( int key )
-{
-    if ( bindings->empty() )
-    {
-        return false;
-    }
-
-    for ( auto &it : *bindings )
-    {
-        if (it.second == key)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-int Input::GetBind( std::string name )
-{
-    // If #key is not binded to anything...
-    if ( bindings->find( name ) == bindings->end() )
-    {
-        return SDL_SCANCODE_UNKNOWN;
-    }
-    return ( *bindings )[name];
-}
- */
-
-// TODO: Implement Modifier support, Motion getter, Wheel getter
+// TODO: Implement Modifier support
 // TODO: Support Keycode
 void Input::Update( SDL_Event* event )
 {

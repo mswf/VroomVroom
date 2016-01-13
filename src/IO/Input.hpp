@@ -55,20 +55,14 @@ class Input
 		Input();
 		~Input();
 
-		//void BindKey( std::string name, int key );
-		//void UnbindKey( std::string name );
-		//int GetBind( std::string name );
-		//bool BindExists( std::string name );
-		//bool IsBound( int key );
 		bool OnKey( SDL_Keycode key );
-		//bool OnKey( std::string name );
 		bool OnKeyDown( SDL_Keycode key );
-		//bool OnKeyDown( std::string name );
 		bool OnKeyUp( SDL_Keycode key );
-		//bool OnKeyUp( std::string name );
 		bool OnMouseDown( uint8_t button );
 		bool OnMouseUp( uint8_t button );
 		const glm::ivec2 GetMousePosition();
+		const glm::ivec2 GetMouseWheelScroll();
+		const glm::ivec2 GetMouseRelativeMotion();
 		void Update( SDL_Event* event );
 		void StateReset();
 		void MidiTest();
@@ -76,7 +70,6 @@ class Input
 
 	private:
 
-		//std::map< std::string, int > * bindings;
 		KeyState keyState[SDL_NUM_SCANCODES];
 		MouseButtonState mouseState[6];
 		MouseMotionState mouseMotion;
@@ -84,7 +77,6 @@ class Input
 		glm::ivec2 mousePosition;
 
 		// Experamental code for midi controller
-		// It works, btw
 		RtMidiIn*   midiin;
 		RtMidiOut*  midiout;
 		std::vector<unsigned char> midiMessage;

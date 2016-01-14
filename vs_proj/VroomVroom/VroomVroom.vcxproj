@@ -15,6 +15,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\Colliders\boxCollider.h" />
+    <ClInclude Include="..\..\src\Colliders\sphereCollider.h" />
     <ClInclude Include="..\..\src\Components\cCamera.h" />
     <ClInclude Include="..\..\src\Components\cCollider.h" />
     <ClInclude Include="..\..\src\Components\cDebugRenderer.h" />
@@ -233,6 +235,8 @@
     <ClInclude Include="mWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\Colliders\boxCollider.cpp" />
+    <ClCompile Include="..\..\src\Colliders\sphereCollider.cpp" />
     <ClCompile Include="..\..\src\Components\cCamera.cpp" />
     <ClCompile Include="..\..\src\Components\cCollider.cpp" />
     <ClCompile Include="..\..\src\Components\cDebugRenderer.cpp" />

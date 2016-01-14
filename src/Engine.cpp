@@ -43,7 +43,8 @@
 #include "Components/entity.h"
 #include "DataStructure/resource_manager.h"
 
-
+#include "Colliders/boxCollider.h"
+#include "Colliders/sphereCollider.h"
 
 FMOD::System* Engine::systemLowLevel = NULL;
 SDL_Window* Engine::window = NULL;
@@ -470,34 +471,39 @@ void Engine::WeikieTestCode()
 	a->transform->SetPosition(c, c, c);
 	b->transform->SetPosition(d, d, d);
 
-	CCollider* col1 = new CCollider();
-	CCollider* col2 = new CCollider();
+	CCollider *col1 = new SphereCollider();
+	CCollider* col2 = new BoxCollider();
+	CCollider* col3 = new BoxCollider();
+	CCollider *col4 = new SphereCollider();
 
 	float radius = 1;
 	float boxSize = 2;
 
-	col1->SetCollisionType(CollisionType::BOX);
-	col2->SetCollisionType(CollisionType::SPHERE);
 
-	col1->SetRadius(radius);
-	col2->SetRadius(radius);
+	//col1->SetRadius(radius);
+	//col2->SetRadius(radius);
+	//
+	//col1->SetCollisionBox(boxSize, boxSize, boxSize);
+	//col2->SetCollisionBox(boxSize, boxSize, boxSize);
 
-	col1->SetCollisionBox(boxSize, boxSize, boxSize);
-	col2->SetCollisionBox(boxSize, boxSize, boxSize);
 
 	Entity::AddComponent(a, col1);
 	Entity::AddComponent(b, col2);
 
-	//bool asd = col1->SphereToSphere(col2);
-	bool asd = col1->SphereToBox(col2);
+	bool asd = col1->Collide(*col2);
+	bool asd2 = col2->Collide(*col1);
+	bool asd3 = col1->Collide(*col4);
+	bool asd4 = col2->Collide(*col3);
+
 	printf( "%i \n ", asd);
+	printf( "%i \n ", asd2);
 }
 
 void Engine::UpdateLoop()
 {
-#ifdef WEIKIE
+	//#ifdef WEIKIE
 	WeikieTestCode();
-#endif
+	//#endif
 
 	/// TINAS PLAYGROUND!!!
 

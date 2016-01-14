@@ -3,14 +3,9 @@
 
 #include "component.h"
 #include <vector>
-#include "../glm/vec3.hpp"
 
-enum class CollisionType
-{
-	SPHERE,
-	BOX,
-	NONE
-};
+class SphereCollider;
+class BoxCollider;
 
 class CCollider : public Component
 {
@@ -20,21 +15,14 @@ class CCollider : public Component
 
 		CCollider();
 		~CCollider();
-
 		void Call();
-		bool SphereToSphere(const CCollider* other) const;
-		void SetRadius(float radius);
-		float GetRadius() const;
-		void SetCollisionBox(float width, float height, float length);
-		glm::vec3 GetCollisionBox() const;
-		bool SphereToBox(const CCollider* other) const;
-		bool BoxToBox(const CCollider* other) const;
-		void SetCollisionType(CollisionType type);
+
+		virtual bool Collide(const BoxCollider& other) const = 0;
+		virtual bool Collide(const SphereCollider& other) const = 0;
+		virtual bool Collide(const CCollider& other) const = 0;
+
 	private:
 		static std::vector< CCollider* > list;
-		CollisionType collisionType;
-		float radius;
-		float width, height, length;
 };
 
 

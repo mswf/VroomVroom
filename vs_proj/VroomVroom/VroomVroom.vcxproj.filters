@@ -58,6 +58,9 @@
     <Filter Include="VroomVroom\DataStructure">
       <UniqueIdentifier>{f01ed218-a430-41a0-b325-b08d3f1d1bff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="VroomVroom\Colliders">
+      <UniqueIdentifier>{b5ef6498-44b4-4670-8160-5720cabfdbb9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Networking\TCPData.h">
@@ -708,6 +711,12 @@
     <ClInclude Include="..\..\src\Modules\mLight.h">
       <Filter>VroomVroom\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Colliders\boxCollider.h">
+      <Filter>VroomVroom\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Colliders\sphereCollider.h">
+      <Filter>VroomVroom\Colliders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Networking\TCPData.cpp">
@@ -889,6 +898,12 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Modules\mLight.cpp">
       <Filter>VroomVroom\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Colliders\boxCollider.cpp">
+      <Filter>VroomVroom\Colliders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Colliders\sphereCollider.cpp">
+      <Filter>VroomVroom\Colliders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

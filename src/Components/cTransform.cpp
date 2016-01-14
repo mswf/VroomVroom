@@ -107,17 +107,17 @@ std::vector< CTransform* >& CTransform::GetChildren()
 
 const glm::vec3 CTransform::VectorRight()
 {
-	return glm::vec3(1.0f, 0.0f, 0.0f);
+	return glm::vec3( glm::inverse(localTransform)[0] );
 }
 
 const glm::vec3 CTransform::VectorUp()
 {
-	return glm::vec3(0.0f, 1.0f, 0.0f);
+	return glm::vec3( glm::inverse(localTransform)[1] );
 }
 
 const glm::vec3 CTransform::VectorForward()
 {
-	return glm::vec3(0.0f, 0.0f, 1.0f);
+	return glm::vec3( glm::inverse(localTransform)[2] );
 }
 
 // POSITION

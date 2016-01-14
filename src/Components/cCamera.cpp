@@ -52,20 +52,17 @@ void CCamera::SetProjectionType( Projection type )
 void CCamera::Call()
 {
 	// Needs a debug camera for testing purposes
-	glm::vec3 eye = entity->transform->GetPosition();
-	glm::vec3 target = entity->transform->GetEulerAngles();
+	glm::vec4 position = entity->transform->GetWorldTransform()[3];
+	glm::vec3 eye = glm::vec3( position.x, position.y, position.z );
+	glm::vec3 target = eye + entity->transform->VectorForward();
 	
-	entity->transform->SetWorldTransform( glm::inverse( glm::lookAt( eye , target, glm::vec3(0.0, 1.0, 0.0) ) ) );
-	viewMatrix = entity->GetTransform();
-	//return glm::inverse( entity->GetTransform() );
+	viewMatrix =  glm::lookAt( eye , target, entity->transform->VectorUp() );
 }
 
 glm::vec3 CCamera::ScreenToWorldPosition( const glm::ivec2& position )
 {
-	printf("Hello, shooting ray at : %i x %i \n", position.x, position.y );
-	//Debugging values
-	float width = 1280.0f;
-	float height = 720.0f;
+	float width = renderer->GetWindowWidth();
+	float height = renderer->GetWindowHeight();
 	
 	//Step 1
 	float x = ( 2.0 * position.x ) / width - 1.0;

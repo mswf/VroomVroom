@@ -133,7 +133,7 @@ namespace FW
 	{
 		FD_SET(mFD, &mDescriptorSet);
 
-		int ret = select(mFD + 1, &mDescriptorSet, NULL, NULL, &mTimeOut);
+		int ret = select(mFD + 1, &mDescriptorSet, nullptr, nullptr, &mTimeOut);
 		if(ret < 0)
 		{
 			perror("select");

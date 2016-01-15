@@ -5,7 +5,7 @@
 
 TCPServer::TCPServer(uint16 port)
 {
-	if (SDLNet_ResolveHost(&ip, NULL, port) == -1)
+	if (SDLNet_ResolveHost(&ip, nullptr, port) == -1)
 	{
 		printf("SDLNet_ResolveHost: %s\n", SDLNet_GetError());
 		printf("Cannot connect to host/port \n");
@@ -31,7 +31,7 @@ TCPServer::~TCPServer()
 void TCPServer::AcceptConnections()
 {
 	TCPsocket new_tcpsock = SDLNet_TCP_Accept(serverSocket);
-	if (new_tcpsock == NULL)
+	if (new_tcpsock == nullptr)
 	{
 		//printf("SDLNet_TCP_Accept: %s\n", SDLNet_GetError());
 	}

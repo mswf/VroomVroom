@@ -23,7 +23,7 @@
 string sLuaSystem::atomPath("");
 
 sLuaSystem::sLuaSystem():
-	lState(NULL),
+	lState(nullptr),
     hasMainBeenCalled(false),
 	allowCalls(true)
 {

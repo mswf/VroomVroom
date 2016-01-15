@@ -33,7 +33,7 @@ uint8* ImporterImp::ImportImage( const char* filename, uint32& width, uint32& he
 	{
 		import_image_failure_reason = std::string(stbi__g_failure_reason);
 		err_msg = IMPORTER_MESSAGE::IMAGE_FAILED_TO_LOAD;
-		return NULL;
+		return nullptr;
 	}
 
 	size_t size = w * h * requiring_components;
@@ -58,7 +58,7 @@ aiScene* ImporterImp::ImportObjFile( const string& pFile, IMPORTER_MESSAGE& msg 
 	else
 	{
 		msg = IMPORTER_MESSAGE::FILE_NOT_FOUND;
-		return NULL;
+		return nullptr;
 	}
 
 	const aiScene* sc = importer.ReadFile( pFile, importFlags );
@@ -68,7 +68,7 @@ aiScene* ImporterImp::ImportObjFile( const string& pFile, IMPORTER_MESSAGE& msg 
 		// If the import failed, save error for request
 		import_scene_failure_reason = importer.GetErrorString();
 		msg = IMPORTER_MESSAGE::FILE_CORRUPT;
-		return NULL;
+		return nullptr;
 	}
 
 	msg = IMPORTER_MESSAGE::FILE_OK;
@@ -77,17 +77,17 @@ aiScene* ImporterImp::ImportObjFile( const string& pFile, IMPORTER_MESSAGE& msg 
 
 void ImporterImp::FreeScene( aiScene*& sc )
 {
-	if ( sc != NULL )
+	if ( sc != nullptr )
 	{
 		delete sc;
-		sc = NULL;
+		sc = nullptr;
 	}
 }
 
 void ImporterImp::ExtractMesh( const aiMesh* mesh, Mesh*& m )
 {
 	m = new Mesh();
-	
+
 	// buffer for indices
 	uint32 i;
 	m->numIndices = mesh->mNumFaces * 3;
@@ -184,14 +184,14 @@ void ImporterImp::ExtractMaterial( const aiMaterial* mtl, Material*& material, s
 
 	aiGetMaterialFloatArray( mtl, AI_MATKEY_SHININESS_STRENGTH, &shininess_strenght, &max);
 	material->shininess_strenght = shininess_strenght;
-	
+
 	SetColour(mtl, "$clr.diffuse", material->diffuse );
 	SetColour(mtl, "$clr.ambient", material->ambient );
 	SetColour(mtl, "$clr.specular", material->specular );
 	SetColour(mtl, "$clr.emissive", material->emissive );
 	SetColour(mtl, "$clr.transparent", material->transparent );
 	SetColour(mtl, "$clr.reflective", material->reflective );
-	
+
 	auto FindTextures = []( const aiMaterial * mtl, aiTextureType type, uint32 & textureCount, std::vector< string >* textureIdMap )
 	{
 		uint32 i;

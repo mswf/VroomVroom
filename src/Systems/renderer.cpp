@@ -29,14 +29,14 @@ Renderer::Renderer() :
 	w_height(0),
 	framebufferScaleX(1.0f),
 	framebufferScaleY(1.0f), 
-	backgroundColour(NULL),
-	camera(NULL), 
-	renderables(NULL),
-	lights(NULL),
-	debugPrimitives(NULL),
-	debugProgram(NULL),
-	skybox(NULL),
-	skyboxProgram(NULL)
+	backgroundColour(nullptr),
+	camera(nullptr), 
+	renderables(nullptr),
+	lights(nullptr),
+	debugPrimitives(nullptr),
+	debugProgram(nullptr),
+	skybox(nullptr),
+	skyboxProgram(nullptr)
 {
 }
 	
@@ -95,7 +95,7 @@ void Renderer::ScreenGrab() const
 void Renderer::Render()
 {
 	ClearFlag();
-	if (camera == NULL) return;
+	if (camera == nullptr) return;
 	RenderEnvironment();
 	RenderScene();
 	RenderDebugLines();
@@ -103,7 +103,7 @@ void Renderer::Render()
 
 void Renderer::SetViewportRect() const
 {
-	if (camera == NULL) return;
+	if (camera == nullptr) return;
 	glm::vec4 rect = camera->GetViewportRectangle();
 	float w = w_width * framebufferScaleX;
 	float h = w_height * framebufferScaleY;
@@ -144,7 +144,7 @@ void Renderer::RenderScene() const
 	{
 			
 		const ModelInstance* model = (*it)->GetModelInstace();
-		if (model == NULL || (*it)->entity == NULL)
+		if (model == nullptr || (*it)->entity == nullptr)
 		{
 			continue;
 		}
@@ -315,13 +315,13 @@ void Renderer::SetBackgroundColor( float r, float g, float b, float a ) const
 }
 void Renderer::SetCamera( CCamera* c )
 {
-	if ( camera != NULL )
+	if ( camera != nullptr )
 	{
-		camera->SetRenderer(NULL);
+		camera->SetRenderer(nullptr);
 	}
 	camera = c;
 
-	if (c != NULL )
+	if (c != nullptr )
 	{
 		c->SetRenderer(this);
 	}

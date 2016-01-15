@@ -90,9 +90,9 @@ void TestCode::FillRandomStringList()
 	lipsumList.push_back("consectetur adipiscing elit. Proin sed\n");
 	lipsumList.push_back("ultricies elit. Aliquam eget turpis massa.\n");
 	lipsumList.push_back("Nunc commodo, dolor non condimentum dictum, purus purus tincidunt magna, eget laoreet\n");
-	lipsumList.push_back("erat diam ac nulla. Curabitur feugiat neque at lorem sagittis porta.\n");
+	lipsumList.push_back("erat diam ac nullptra. Curabitur feugiat neque at lorem sagittis porta.\n");
 	lipsumList.push_back("Nam accumsan iaculis est nec finibus. Pellentesque facilisis diam sed augue vulputate, sed bibendum ex sagittis.\n");
-	lipsumList.push_back("Nulla turpis justo, volutpat id\n");
+	lipsumList.push_back("nullptra turpis justo, volutpat id\n");
 	lipsumList.push_back("nunc id, placerat luctus magna. Morbi\n");
 	lipsumList.push_back("lacinia rutrum purus in mattis. \n");
 }
@@ -119,8 +119,8 @@ void TestCode::RunTCPTest()
 	server = new TCPServer(6113);
 	client = new TCPClient("localhost", 6113);
 
-	SDL_Thread* thread1 = SDL_CreateThread(ServerLoop, "serverThread", NULL);
-	//SDL_Thread* thread2 = SDL_CreateThread(ClientLoop, "clientThread", NULL);
+	SDL_Thread* thread1 = SDL_CreateThread(ServerLoop, "serverThread", nullptr);
+	//SDL_Thread* thread2 = SDL_CreateThread(ClientLoop, "clientThread", nullptr);
 
 	StringTest();
 	//IntTest();

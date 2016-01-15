@@ -24,7 +24,7 @@ lFuncImp(mLog, log)
     string bg = "transparent";
     string clr = "#eee";
     
-    //set our lua stack to hold exactly 3 values. If the lua caller only provided one argument for example, our stack would be <"some message", NULL, NULL>
+    //set our lua stack to hold exactly 3 values. If the lua caller only provided one argument for example, our stack would be <"some message", nullptr, nullptr>
     lua_settop(L, 3);
     if (lua_isstring(L, 1))
     {

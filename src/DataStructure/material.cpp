@@ -4,7 +4,7 @@
 #include "resource_manager.h"
 
 Material::Material() :
-	shader(NULL),
+	shader(nullptr),
 	diffuseTextureId(0),
 	specularTextureId(0),
 	normalTextureId(0),

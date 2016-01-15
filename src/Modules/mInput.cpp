@@ -10,7 +10,7 @@
 #include "../IO/Input.hpp"
 #include "../Utilities/standardIncludes.h"
 
-Input* mInput::input = NULL;
+Input* mInput::input = nullptr;
 
 void mInput::Bind(lua_State* L)
 {

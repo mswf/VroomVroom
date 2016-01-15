@@ -31,7 +31,7 @@ IPaddress UDPMessage::StringToIP(std::string stringIP, int16 port)
 	{
 		printf("SDLNet_ResolveHost: %s\n", SDLNet_GetError());
 		SDL_assert(false);
-		//return NULL;
+		//return nullptr;
 	}
 	return ip;
 }

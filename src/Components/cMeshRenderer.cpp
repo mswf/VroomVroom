@@ -9,11 +9,11 @@ const int CMeshRenderer::familyId = static_cast<int>(ComponentTypes::MESH_RENDER
 std::vector< CMeshRenderer* > CMeshRenderer::list;
 
 CMeshRenderer::CMeshRenderer() :
-	material(NULL),
-	model(NULL)
+	material(nullptr),
+	model(nullptr)
 {
 	list.push_back( this );
-	entity = NULL;
+	entity = nullptr;
 	material = Assets.GetMaterialByName( "Default" );
 }
 
@@ -39,7 +39,7 @@ void CMeshRenderer::Call()
 void CMeshRenderer::SetModel( const char* name )
 {
 	model = Assets.GetModel(name);
-	if (model != NULL)
+	if (model != nullptr)
 	{
 		SetMaterial( Assets.GetMaterialById( model->materialId ) );
 	}
@@ -48,7 +48,7 @@ void CMeshRenderer::SetModel( const char* name )
 void CMeshRenderer::SetModel( ModelInstance* instance )
 {
 	model = instance;
-	if (model != NULL)
+	if (model != nullptr)
 	{
 		SetMaterial( Assets.GetMaterialById( model->materialId ) );
 	}

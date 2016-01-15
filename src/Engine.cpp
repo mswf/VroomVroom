@@ -46,15 +46,15 @@
 #include "Colliders/boxCollider.h"
 #include "Colliders/sphereCollider.h"
 
-FMOD::System* Engine::systemLowLevel = NULL;
-SDL_Window* Engine::window = NULL;
+FMOD::System* Engine::systemLowLevel = nullptr;
+SDL_Window* Engine::window = nullptr;
 
 Engine::Engine() :
-	systemStudio(NULL),
-	fileWatcher(NULL),
+	systemStudio(nullptr),
+	fileWatcher(nullptr),
 	skybox_map(0),
-	takeScreen(false), 
-	glcontext(NULL), 
+	takeScreen(false),
+	glcontext(nullptr),
 	running(false)
 {
 }
@@ -133,22 +133,22 @@ void Engine::InitFMOD()
 	std::string svehicleBank(Content::GetPath() + "/sounds/media/" + "Vehicles.bank");
 
 
-	FMOD::Studio::Bank* masterBank = NULL;
+	FMOD::Studio::Bank* masterBank = nullptr;
 	result = systemStudio->loadBankFile(smasterBank.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &masterBank);
 
-	FMOD::Studio::Bank* stringsBank = NULL;
+	FMOD::Studio::Bank* stringsBank = nullptr;
 	result = systemStudio->loadBankFile(smasterBankString.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &stringsBank);
 
-	FMOD::Studio::Bank* vehiclesBank = NULL;
+	FMOD::Studio::Bank* vehiclesBank = nullptr;
 	result = systemStudio->loadBankFile(svehicleBank.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &vehiclesBank);
 
-	FMOD::Studio::EventDescription* eventDescription = NULL;
+	FMOD::Studio::EventDescription* eventDescription = nullptr;
 	result = systemStudio->getEvent("event:/Vehicles/Basic Engine", &eventDescription);
 
-	FMOD::Studio::EventInstance* eventInstance = NULL;
+	FMOD::Studio::EventInstance* eventInstance = nullptr;
 	result = eventDescription->createInstance(&eventInstance);
 
-	FMOD::Studio::ParameterInstance* rpm = NULL;
+	FMOD::Studio::ParameterInstance* rpm = nullptr;
 	result = eventInstance->getParameter("RPM", &rpm);
 
 	result = rpm->setValue(1150);
@@ -257,43 +257,43 @@ void Engine::WindowEvent( SDL_WindowEvent window )
 	switch ( window.event )
 	{
 		case SDL_WINDOWEVENT_RESIZED:	//This event is always preceded by SIZE_CHANGED, but only occurs if not changed through API calls (thus, by a user)
-			
+
 			break;
 		case SDL_WINDOWEVENT_SIZE_CHANGED:
 			renderer.SetWindowSize(window.data1, window.data2);
-			
+
 			int dimensions[2];
 			dimensions[0] = window.data1;
 			dimensions[1] = window.data2;
 			LuaSystem.EventCallback("onWindowResized", 2, dimensions);
 			break;
 		case SDL_WINDOWEVENT_ENTER:		//Gained mouse focus
-			LuaSystem.EventCallback("onMouseEntered", 0, NULL);
+			LuaSystem.EventCallback("onMouseEntered", 0, nullptr);
 			break;
 		case SDL_WINDOWEVENT_LEAVE:		//Lost mouse focus
-			LuaSystem.EventCallback("onMouseLeft", 0, NULL);
+			LuaSystem.EventCallback("onMouseLeft", 0, nullptr);
 			break;
 		case SDL_WINDOWEVENT_FOCUS_GAINED:	//Gained keyboard focus
-			LuaSystem.EventCallback("onFocusGained", 0, NULL);
+			LuaSystem.EventCallback("onFocusGained", 0, nullptr);
 			break;
 		case SDL_WINDOWEVENT_FOCUS_LOST:		//Lost keyboard focus
-			LuaSystem.EventCallback("onFocusLost", 0, NULL);
+			LuaSystem.EventCallback("onFocusLost", 0, nullptr);
 			break;
 		case SDL_WINDOWEVENT_MINIMIZED:
-			LuaSystem.EventCallback("onWindowMinimized", 0, NULL);
+			LuaSystem.EventCallback("onWindowMinimized", 0, nullptr);
 			break;
 		case SDL_WINDOWEVENT_MAXIMIZED:
-			LuaSystem.EventCallback("onWindowMaximized", 0, NULL);
+			LuaSystem.EventCallback("onWindowMaximized", 0, nullptr);
 			break;
 		case SDL_WINDOWEVENT_RESTORED:
-			LuaSystem.EventCallback("onWindowRestored", 0, NULL);
+			LuaSystem.EventCallback("onWindowRestored", 0, nullptr);
 			break;
 		case SDL_WINDOWEVENT_SHOWN:
-			LuaSystem.EventCallback("onWindowShown", 0, NULL);
+			LuaSystem.EventCallback("onWindowShown", 0, nullptr);
 			break;
 		case SDL_WINDOWEVENT_HIDDEN:
-			LuaSystem.EventCallback("onWindowHidden", 0, NULL);
-		break;
+			LuaSystem.EventCallback("onWindowHidden", 0, nullptr);
+			break;
 	}
 }
 
@@ -314,7 +314,7 @@ void Engine::PollEvent()
 		{
 			inputManager.Update(&event);
 		}
-		
+
 	}
 	//inputManager->MidiListener();
 	inputManager.StateReset();
@@ -421,16 +421,16 @@ void Engine::ImportAssets()
 
 	rm.ImportShader( "shaders/line_vert.glsl", GLSLShaderType::VERTEX );
 	rm.ImportShader( "shaders/line_frag.glsl", GLSLShaderType::FRAGMENT );
-	const char* sh_objs2[] = { "shaders/line_vert.glsl", "shaders/line_frag.glsl", NULL };
+	const char* sh_objs2[] = { "shaders/line_vert.glsl", "shaders/line_frag.glsl", nullptr };
 	Assets.CreateShaderProgram("__Debug_program", sh_objs2, 2);
 
 	rm.ImportShader( "shaders/skybox_vert.glsl", GLSLShaderType::VERTEX );
 	rm.ImportShader( "shaders/skybox_frag.glsl", GLSLShaderType::FRAGMENT );
-	const char* sh_objs[] = { "shaders/skybox_vert.glsl", "shaders/skybox_frag.glsl", NULL };
+	const char* sh_objs[] = { "shaders/skybox_vert.glsl", "shaders/skybox_frag.glsl", nullptr };
 	Assets.CreateShaderProgram("__Skybox_program", sh_objs, 2);
 	rm.ImportShader( "shaders/quad_vert.glsl", GLSLShaderType::VERTEX );
 	rm.ImportShader( "shaders/quad_frag.glsl", GLSLShaderType::FRAGMENT );
-	const char* sh_objs3[] = { "shaders/quad_vert.glsl", "shaders/quad_frag.glsl", NULL };
+	const char* sh_objs3[] = { "shaders/quad_vert.glsl", "shaders/quad_frag.glsl", nullptr };
 	Assets.CreateShaderProgram("quad", sh_objs3, 2);
 
 	bool successfulImport = rm.ImportImage( cube_map, errors, false );
@@ -501,9 +501,9 @@ void Engine::WeikieTestCode()
 
 void Engine::UpdateLoop()
 {
-	#ifdef WEIKIE
-		WeikieTestCode();
-	#endif
+#ifdef WEIKIE
+	WeikieTestCode();
+#endif
 
 	/// TINAS PLAYGROUND!!!
 
@@ -570,7 +570,7 @@ void Engine::UpdateLoop()
 			debugRenderer->AddLine(  Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( 0.0, p, lineLength ), random_colour() ) );
 		}
 	*/
-	
+
 	/*
 	Entity* camera = new Entity( "Main Camera" );
 	//	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 1280.0f / 720.0f );
@@ -655,7 +655,7 @@ void Engine::CleanUpEntities()
 				Terminal.Log( (*it)->name + " is destroyed." );
 				(*it)->ClearComponents();
 				delete (*it);
-				(*it) = NULL;
+				(*it) = nullptr;
 			}
 		}
 		Entity::shouldClean = false;

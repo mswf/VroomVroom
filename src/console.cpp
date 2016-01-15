@@ -17,8 +17,8 @@
 #define CONSOLE_PORT 1427
 
 sTerminal::sTerminal():
-	socket(NULL),
-	logFile(NULL),
+	socket(nullptr),
+	logFile(nullptr),
 	reconnectDelay(-1)
 {
 	socket = new TCPClient("localhost", CONSOLE_PORT);
@@ -174,7 +174,7 @@ void sTerminal::ReattemptConnection(int delay)
 	{
 		//TODO: delay value is never read
 		delay = -1;
-		if (socket != NULL)
+		if (socket != nullptr)
 		{
 			delete socket;
 		}

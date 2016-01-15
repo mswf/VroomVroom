@@ -170,7 +170,7 @@ namespace FW
 			EntryStruct* entry = 0;
 			struct stat attrib;			
 			
-			while((dentry = readdir(dir)) != NULL)
+			while((dentry = readdir(dir)) != nullptr)
 			{
 				String fname = mDirName + "/" + dentry->d_name;
 				stat(fname.c_str(), &attrib);
@@ -241,7 +241,7 @@ namespace FW
 			
 			struct dirent* entry;
 			struct stat attrib;
-			while((entry = readdir(dir)) != NULL)
+			while((entry = readdir(dir)) != nullptr)
 			{
                 String dname = String(entry->d_name);
 				String fname = (mDirName + "/" + dname);
@@ -266,7 +266,7 @@ namespace FW
 		
 		void removeAll()
 		{
-			KEvent* ke = NULL;
+			KEvent* ke = nullptr;
 			
 			// go through list removing each file and sending an event
 			for(int i = 0; i < mChangeListCount; ++i)

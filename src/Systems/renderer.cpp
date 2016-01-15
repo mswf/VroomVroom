@@ -217,8 +217,8 @@ void Renderer::RenderDebugLines()
 		
 	glUseProgram(debugProgram->program);
 		
-	glClearDepth(1);
-		
+	glClear(GL_DEPTH_BUFFER_BIT);
+
 	std::vector< CDebugRenderer* >::const_iterator it = debugPrimitives->begin();
 	std::vector< CDebugRenderer* >::const_iterator end = debugPrimitives->end();
 	for ( ; it != end; ++it )

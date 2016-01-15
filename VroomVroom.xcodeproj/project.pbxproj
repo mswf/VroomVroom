@@ -68,6 +68,8 @@
 		E59FDC911BBAC0EE008935C5 /* random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E59FDC8E1BBAC0EE008935C5 /* random.cpp */; };
 		E5AC728E1C3E6E58005CECB5 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5AC728C1C3E6E58005CECB5 /* Input.cpp */; };
 		E5B2828A1BCD4DA300759348 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5B282891BCD4DA300759348 /* CoreMIDI.framework */; };
+		E5B2D5CC1C48F9CB00894F2B /* boxCollider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B2D5C81C48F9CB00894F2B /* boxCollider.cpp */; settings = {ASSET_TAGS = (); }; };
+		E5B2D5CD1C48F9CB00894F2B /* sphereCollider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B2D5CA1C48F9CB00894F2B /* sphereCollider.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5D664DC1BC16C390042350B /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D664DB1BC16C390042350B /* SDL2.framework */; };
 		E5D9F8E51BE247C7005AFAB1 /* mEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5D9F8E41BE247C7005AFAB1 /* mEntity.cpp */; };
 		E5DEBDC71C0B5934009F0FB4 /* opengl_common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5DEBDC51C0B5934009F0FB4 /* opengl_common.cpp */; };
@@ -235,6 +237,10 @@
 		E5AC728C1C3E6E58005CECB5 /* Input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Input.cpp; path = src/IO/Input.cpp; sourceTree = SOURCE_ROOT; };
 		E5AC728D1C3E6E58005CECB5 /* Input.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Input.hpp; path = src/IO/Input.hpp; sourceTree = SOURCE_ROOT; };
 		E5B282891BCD4DA300759348 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
+		E5B2D5C81C48F9CB00894F2B /* boxCollider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = boxCollider.cpp; path = src/Colliders/boxCollider.cpp; sourceTree = SOURCE_ROOT; };
+		E5B2D5C91C48F9CB00894F2B /* boxCollider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = boxCollider.h; path = src/Colliders/boxCollider.h; sourceTree = SOURCE_ROOT; };
+		E5B2D5CA1C48F9CB00894F2B /* sphereCollider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sphereCollider.cpp; path = src/Colliders/sphereCollider.cpp; sourceTree = SOURCE_ROOT; };
+		E5B2D5CB1C48F9CB00894F2B /* sphereCollider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sphereCollider.h; path = src/Colliders/sphereCollider.h; sourceTree = SOURCE_ROOT; };
 		E5B4685A1BF23FA400429772 /* stb_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_image.h; path = src/IO/stb_image.h; sourceTree = SOURCE_ROOT; };
 		E5D664DB1BC16C390042350B /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = Framework/SDL2.framework; sourceTree = "<group>"; };
 		E5D9F8E41BE247C7005AFAB1 /* mEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mEntity.cpp; path = src/Modules/mEntity.cpp; sourceTree = SOURCE_ROOT; };
@@ -397,6 +403,7 @@
 		E53768711BA6D3B600D0BC14 /* VroomVroom */ = {
 			isa = PBXGroup;
 			children = (
+				E5B2D5CE1C48F9D000894F2B /* Colliders */,
 				E505295C1BE8CDF20017400B /* Components */,
 				E5F4A37E1BCFEBD6000C8876 /* Systems */,
 				E5F4A3781BCFAE66000C8876 /* Data structure */,
@@ -482,6 +489,17 @@
 			name = Utilities;
 			path = src/Utilities;
 			sourceTree = SOURCE_ROOT;
+		};
+		E5B2D5CE1C48F9D000894F2B /* Colliders */ = {
+			isa = PBXGroup;
+			children = (
+				E5B2D5C81C48F9CB00894F2B /* boxCollider.cpp */,
+				E5B2D5C91C48F9CB00894F2B /* boxCollider.h */,
+				E5B2D5CA1C48F9CB00894F2B /* sphereCollider.cpp */,
+				E5B2D5CB1C48F9CB00894F2B /* sphereCollider.h */,
+			);
+			name = Colliders;
+			sourceTree = "<group>";
 		};
 		E5F4A3771BCFADED000C8876 /* ImGUI */ = {
 			isa = PBXGroup;
@@ -630,6 +648,7 @@
 				E50529261BE8CD650017400B /* luaSystem.cpp in Sources */,
 				E50529521BE8CDC90017400B /* imgui_impl_sdl.cpp in Sources */,
 				E5EF4BBA1C1842C1001D487C /* cLight.cpp in Sources */,
+				E5B2D5CC1C48F9CB00894F2B /* boxCollider.cpp in Sources */,
 				E514AF591BD16E5800E7E2C5 /* TCPData.cpp in Sources */,
 				E50529691BE8CE0A0017400B /* cTransform.cpp in Sources */,
 				E5D9F8E51BE247C7005AFAB1 /* mEntity.cpp in Sources */,
@@ -644,6 +663,7 @@
 				E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */,
 				23115D571C3A7FC30082E1A2 /* mWindow.cpp in Sources */,
 				23C59A321BCD305B00A37E29 /* mLog.cpp in Sources */,
+				E5B2D5CD1C48F9CB00894F2B /* sphereCollider.cpp in Sources */,
 				23C59A361BCD3ACA00A37E29 /* mInput.cpp in Sources */,
 				23E1BD8B1C0C8DBF00F49BCF /* mShader.cpp in Sources */,
 				23D328D41C0F38FD00FAC4B9 /* mSystem.cpp in Sources */,

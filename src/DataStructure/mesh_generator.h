@@ -168,7 +168,7 @@ void Quad()
 	
 	glBufferSubData( GL_ARRAY_BUFFER, sizeof(glm::vec3) * 4, sizeof(glm::vec2) * 4, &texcoords );
 	glEnableVertexAttribArray (1);
-	glVertexAttribPointer (1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(glm::vec3) * 4));
+	glVertexAttribPointer (1, 2, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<void*>(sizeof(glm::vec3) * 4));
 	
 	instance->vao = vao;
 	instance->vbo = vbo;

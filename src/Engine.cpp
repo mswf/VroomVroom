@@ -375,7 +375,7 @@ void Engine::FilewatcherUpdate()
 	const std::vector< std::string >* list = listener.GetEvents();
 	for (std::vector<std::string>::const_iterator i = list->begin(); i != list->end(); ++i)
 	{
-		std::string msg = (std::string) (*i);
+		std::string msg = static_cast<std::string>(*i);
 		std::cout << msg << std::endl;
 		LuaSystem.SendReloadCallback( msg );
 	}

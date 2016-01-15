@@ -157,7 +157,7 @@ void Material::SetShaderUniform( Uniform u ) const
 	{
 		case GL_FLOAT:
 		{
-			float value = *( (float*)u.data );
+			float value = *static_cast<float*>(u.data);
 			SetUniform( p, name, value );
 		}
 		case GL_FLOAT_VEC2:
@@ -165,7 +165,7 @@ void Material::SetShaderUniform( Uniform u ) const
 //			float x = ( (float*)u.data )[0];
 //			float y = ( (float*)u.data )[1];
 //			glm::vec2( x, y );
-			glm::vec2 value = *( (glm::vec2*)u.data );
+			glm::vec2 value = *static_cast<glm::vec2*>(u.data);
 			SetUniform( p, name, value );
 		}
 		case GL_FLOAT_VEC3:
@@ -174,7 +174,7 @@ void Material::SetShaderUniform( Uniform u ) const
 //			float y = ( (float*)u.data )[1];
 //			float z = ( (float*)u.data )[2];
 //			glm::vec3( x, y, z );
-			glm::vec3 value = *( (glm::vec3*)u.data );
+			glm::vec3 value = *static_cast<glm::vec3*>(u.data);
 			SetUniform( p, name, value );
 		}
 		case GL_FLOAT_VEC4:
@@ -184,17 +184,17 @@ void Material::SetShaderUniform( Uniform u ) const
 //			float z = ( (float*)u.data )[2];
 //			float w = ( (float*)u.data )[3];
 //			glm::vec4( x, y, z, w );
-			glm::vec4 value = *( (glm::vec4*)u.data );
+			glm::vec4 value = *static_cast<glm::vec4*>(u.data);
 			SetUniform( p, name, value );
 		}
 		case GL_DOUBLE:
 		{
-			double value = *( (double*)u.data );
+			double value = *static_cast<double*>(u.data);
 			SetUniform( p, name, value );
 		}
 		case GL_INT:
 		{
-			int value = *( (int*)u.data );
+			int value = *static_cast<int*>(u.data);
 			SetUniform( p, name, value );
 		}
 		case GL_INT_VEC2:
@@ -202,7 +202,7 @@ void Material::SetShaderUniform( Uniform u ) const
 //			int x = ( (int*)u.data )[0];
 //			int y = ( (int*)u.data )[1];
 //			glm::ivec2( x, y );
-			glm::ivec2 value = *( (glm::ivec2*)u.data );
+			glm::ivec2 value = *static_cast<glm::ivec2*>(u.data);
 			SetUniform( p, name, value );
 		}
 		case GL_INT_VEC3:
@@ -211,7 +211,7 @@ void Material::SetShaderUniform( Uniform u ) const
 //			int y = ( (int*)u.data )[1];
 //			int z = ( (int*)u.data )[2];
 //			glm::ivec3( x, y, z );
-			glm::ivec3 value = *( (glm::ivec3*)u.data );
+			glm::ivec3 value = *static_cast<glm::ivec3*>(u.data);
 			SetUniform( p, name, value );
 		}
 		case GL_INT_VEC4:
@@ -221,12 +221,12 @@ void Material::SetShaderUniform( Uniform u ) const
 //			int z = ( (int*)u.data )[2];
 //			int w = ( (int*)u.data )[3];
 //			glm::ivec4( x, y, z, w );
-			glm::ivec4 value = *( (glm::ivec4*)u.data );
+			glm::ivec4 value = *static_cast<glm::ivec4*>(u.data);
 			SetUniform( p, name, value );
 		}
 		case GL_UNSIGNED_INT:
 		{
-			unsigned int value = *( (unsigned int*)u.data );
+			unsigned int value = *static_cast<unsigned int*>(u.data);
 			SetUniform( p, name, value );
 		}
 		case GL_UNSIGNED_INT_VEC2:
@@ -234,7 +234,7 @@ void Material::SetShaderUniform( Uniform u ) const
 //			unsigned int x = ( (unsigned int*)u.data )[0];
 //			unsigned int y = ( (unsigned int*)u.data )[1];
 //			glm::uvec2( x, y );
-			glm::uvec2 value = *( (glm::uvec2*)u.data );
+			glm::uvec2 value = *static_cast<glm::uvec2*>(u.data);
 			SetUniform( p, name, value );
 		}
 		case GL_UNSIGNED_INT_VEC3:
@@ -243,7 +243,7 @@ void Material::SetShaderUniform( Uniform u ) const
 //			unsigned int y = ( (unsigned int*)u.data )[1];
 //			unsigned int z = ( (unsigned int*)u.data )[2];
 //			glm::uvec3( x, y, z );
-			glm::uvec3 value = *( (glm::uvec3*)u.data );
+			glm::uvec3 value = *static_cast<glm::uvec3*>(u.data);
 			SetUniform( p, name, value );
 		}
 		case GL_UNSIGNED_INT_VEC4:
@@ -253,14 +253,14 @@ void Material::SetShaderUniform( Uniform u ) const
 //			unsigned int z = ( (unsigned int*)u.data )[2];
 //			unsigned int w = ( (unsigned int*)u.data )[3];
 //			glm::uvec4( x, y, z, w );
-			glm::uvec4 value = *( (glm::uvec4*)u.data );
+			glm::uvec4 value = *static_cast<glm::uvec4*>(u.data);
 			SetUniform( p, name, value );
 		}
 		//case GL_FLOAT_MAT2:			{ return "mat2";}
 		//case GL_FLOAT_MAT3:			{ return "mat3";}
 		case GL_FLOAT_MAT4:
 		{
-			glm::mat4 matrix = *( (glm::mat4*)u.data );
+			glm::mat4 matrix = *static_cast<glm::mat4*>(u.data);
 			SetUniform( p, name, matrix );
 		}
 		//case GL_SAMPLER_1D: 		{ return "sampler1D"; }

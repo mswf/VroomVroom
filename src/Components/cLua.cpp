@@ -12,7 +12,7 @@
 #include "../Systems/LuaSystem.h"
 #include <lua.h>
 
-const int CLua::familyId = (int)ComponentTypes::LUA;
+const int CLua::familyId = static_cast<int>(ComponentTypes::LUA);
 
 CLua::CLua() :
 	tableKey(-1)

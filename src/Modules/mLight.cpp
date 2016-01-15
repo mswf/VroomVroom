@@ -53,7 +53,7 @@ lFuncImp(mLight, setIntensity)
 {
 	lua_settop(L, 2);
 	lua_getfield(L, 1, "__coreComponent__");
-	CLight* light = (CLight*)lua_touserdata(L, -1);
+	CLight* light = static_cast<CLight*>(lua_touserdata(L, -1));
 	
 	lgFloat(intensity, 2, 1.0f);
 	
@@ -66,7 +66,7 @@ lFuncImp(mLight, setColor)
 {
 	lua_settop(L, 4);
 	lua_getfield(L, 1, "__coreComponent__");
-	CLight* light = (CLight*)lua_touserdata(L, -1);
+	CLight* light = static_cast<CLight*>(lua_touserdata(L, -1));
 	
 	lgFloat(r, 8, 1);
 	lgFloat(g, 9, 1);

@@ -5,7 +5,7 @@
 #include "console.h"
 #include "../DataStructure/resource_manager.h"
 
-const int CMeshRenderer::familyId = (int)ComponentTypes::MESH_RENDERER;
+const int CMeshRenderer::familyId = static_cast<int>(ComponentTypes::MESH_RENDERER);
 std::vector< CMeshRenderer* > CMeshRenderer::list;
 
 CMeshRenderer::CMeshRenderer() :

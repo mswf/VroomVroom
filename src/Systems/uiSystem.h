@@ -130,7 +130,7 @@ class sUiSystem : public Singleton<sUiSystem>
 				std::map<string, void*>::iterator it = target->propertyMap.find(property);
 				if(it != target->propertyMap.end())
 				{
-					T* tv = (T*)(target->propertyMap[property]);
+					T* tv = static_cast<T*>(target->propertyMap[property]);
 					*tv = value;
 				}
 			};
@@ -141,7 +141,7 @@ class sUiSystem : public Singleton<sUiSystem>
 				std::map<string, void*>::iterator it = target->propertyMap.find(property);
 				if(it != target->propertyMap.end())
 				{
-					T* tv = (T*)(target->propertyMap[property]);
+					T* tv = static_cast<T*>(target->propertyMap[property]);
 					return *tv;
 				}
 				return NULL;

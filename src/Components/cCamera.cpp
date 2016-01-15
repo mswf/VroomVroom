@@ -1,7 +1,7 @@
 #include "cCamera.h"
 #include "entity.h"
 
-const int CCamera::familyId = (int)ComponentTypes::CAMERA;
+const int CCamera::familyId = static_cast<int>(ComponentTypes::CAMERA);
 
 CCamera::CCamera( Projection proj, float aspectRatio, float near, float far, float fov )
 :	type( proj ),

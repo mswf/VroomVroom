@@ -554,7 +554,7 @@ void ResourceManager::UpdateShaderProgram( const char* name, GLSLShaderType type
 	CreateShader( newObject.shader, newObject.shaderType, source );
 
 	uint32 i;
-	uint32 count = (uint32)prog->shaders.size();
+	uint32 count = static_cast<uint32>(prog->shaders.size());
 	uint32* shaders = new uint32[count];
 	for ( i = 0; i < count; ++i )
 	{

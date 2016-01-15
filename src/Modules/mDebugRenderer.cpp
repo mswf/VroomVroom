@@ -45,7 +45,7 @@ lFuncImp(mDebugRenderer, addLine)
 {
 	lua_settop(L, 11);
 	lua_getfield(L, 1, "__coreComponent__");
-	CDebugRenderer* debug = (CDebugRenderer*)lua_touserdata(L, -1);
+	CDebugRenderer* debug = static_cast<CDebugRenderer*>(lua_touserdata(L, -1));
 
 	lgFloat(x1, 2, 0);
 	lgFloat(y1, 3, 0);
@@ -74,7 +74,7 @@ lFuncImp(mDebugRenderer, addTriangle)
 {
 	lua_settop(L, 14);
 	lua_getfield(L, 1, "__coreComponent__");
-	CDebugRenderer* debug = (CDebugRenderer*)lua_touserdata(L, -1);
+	CDebugRenderer* debug = static_cast<CDebugRenderer*>(lua_touserdata(L, -1));
 	
 	lgFloat(x1, 2, 1);
 	lgFloat(y1, 3, 0);
@@ -109,7 +109,7 @@ lFuncImp(mDebugRenderer, clear)
 {
 	lua_settop(L, 1);
 	lua_getfield(L, 1, "__coreComponent__");
-	CDebugRenderer* debug = (CDebugRenderer*)lua_touserdata(L, -1);
+	CDebugRenderer* debug = static_cast<CDebugRenderer*>(lua_touserdata(L, -1));
 	
 	debug->Clear();
 
@@ -121,7 +121,7 @@ lFuncImp(mDebugRenderer, setDrawPoints)
 
 	lua_settop(L, 2);
 	lua_getfield(L, 1, "__coreComponent__");
-	CDebugRenderer* debug = (CDebugRenderer*)lua_touserdata(L, -1);
+	CDebugRenderer* debug = static_cast<CDebugRenderer*>(lua_touserdata(L, -1));
 
 	lgBool(drawPoints, 2, true);
 
@@ -135,7 +135,7 @@ lFuncImp(mDebugRenderer, setPointSize)
 
 	lua_settop(L, 2);
 	lua_getfield(L, 1, "__coreComponent__");
-	CDebugRenderer* debug = (CDebugRenderer*)lua_touserdata(L, -1);
+	CDebugRenderer* debug = static_cast<CDebugRenderer*>(lua_touserdata(L, -1));
 
 	lgFloat(pointSize, 2, 20.0f);
 

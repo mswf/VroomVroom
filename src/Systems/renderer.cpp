@@ -170,7 +170,7 @@ void Renderer::RenderScene()
 		SetUniform( program,	"normalMatrix", normalMatrix );
 		SetUniform( program,	"mvMatrix", 	mvMatrix );
 		SetUniform( program,	"projection", 	camera->GetProjectionMatrix() );
-		SetUniform( program,	"time", 		(float)time );
+		SetUniform( program,	"time", 		static_cast<float>(time) );
 		SetUniform( program,	"lightPos", 	lightPosition);
 		SetUniform( program, 	"diffuseColor", material->GetDiffuseColor() );
 			
@@ -247,7 +247,7 @@ void Renderer::RenderDebugLines()
 		SetUniform( debugProgram->program,	"model", 		(*it)->entity->transform->GetWorldTransform() );
 		SetUniform( debugProgram->program,	"view", 		camera->GetViewMatrix() );
 		SetUniform( debugProgram->program,	"projection", 	camera->GetProjectionMatrix() );
-		SetUniform( debugProgram->program,	"time", 		(float)time );
+		SetUniform( debugProgram->program,	"time", 		static_cast<float>(time) );
 		
 		glDrawArrays( primitive, 0, (*it)->GetDrawCount() );
 		if ( (*it)->IsDrawingPoints() )

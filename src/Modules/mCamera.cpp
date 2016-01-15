@@ -81,7 +81,7 @@ lFuncImp(mCamera, setProjectionType)
 	lgString(type, 2, "none");
 	
 	lua_getfield(L, 1, "__coreComponent__");
-	CCamera* cam = (CCamera*)lua_touserdata(L, -1);
+	CCamera* cam = static_cast<CCamera*>(lua_touserdata(L, -1));
 	
 	if (type == "PERSPECTIVE")
 	{
@@ -105,7 +105,7 @@ lFuncImp(mCamera, setAspectRatio)
 	lgFloat(aspect, 2, -1);
 	
 	lua_getfield(L, 1, "__coreComponent__");
-	CCamera* cam = (CCamera*)lua_touserdata(L, -1);
+	CCamera* cam = static_cast<CCamera*>(lua_touserdata(L, -1));
 	
 	if(aspect > 0){
 		cam->SetAspectRatio(aspect);
@@ -124,7 +124,7 @@ lFuncImp(mCamera, setFOV)
 	lgFloat(fov, 2, -1);
 	
 	lua_getfield(L, 1, "__coreComponent__");
-	CCamera* cam = (CCamera*)lua_touserdata(L, -1);
+	CCamera* cam = static_cast<CCamera*>(lua_touserdata(L, -1));
 	
 	if(fov > 0 && fov <= 360){
 		cam->SetFOV(fov);
@@ -143,7 +143,7 @@ lFuncImp(mCamera, setNearPlaneDistance)
 	lgFloat(dist, 2, -1);
 	
 	lua_getfield(L, 1, "__coreComponent__");
-	CCamera* cam = (CCamera*)lua_touserdata(L, -1);
+	CCamera* cam = static_cast<CCamera*>(lua_touserdata(L, -1));
 	
 	if(dist > 0){
 		cam->SetNearPlaneDistance(dist);
@@ -162,7 +162,7 @@ lFuncImp(mCamera, setFarPlaneDistance)
 	lgFloat(dist, 2, -1);
 	
 	lua_getfield(L, 1, "__coreComponent__");
-	CCamera* cam = (CCamera*)lua_touserdata(L, -1);
+	CCamera* cam = static_cast<CCamera*>(lua_touserdata(L, -1));
 	
 	if(dist > 0){
 		cam->SetFarPlaneDistance(dist);
@@ -181,7 +181,7 @@ lFuncImp(mCamera, makeActive)
 	lgFloat(dist, 2, -1);
 	
 	lua_getfield(L, 1, "__coreComponent__");
-	CCamera* cam = (CCamera*)lua_touserdata(L, -1);
+	CCamera* cam = static_cast<CCamera*>(lua_touserdata(L, -1));
 	
 	renderer->SetCamera(cam);
 	

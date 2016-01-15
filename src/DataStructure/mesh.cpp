@@ -38,7 +38,7 @@ void BufferMesh( const Mesh* m, ModelInstance* instance )
 		// Buffer uvs
 		glBufferSubData( GL_ARRAY_BUFFER, v, m->uvs.size() * sizeof(glm::vec2), &m->uvs.front() );
 		glEnableVertexAttribArray( 1 );
-		glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(v) );
+		glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<void*>(v) );
 	}
 	
 	if (m->hasNormals)
@@ -46,7 +46,7 @@ void BufferMesh( const Mesh* m, ModelInstance* instance )
 		// Buffer normals
 		glBufferSubData( GL_ARRAY_BUFFER, v+u, m->normals.size() * sizeof(glm::vec3), &m->normals.front() );
 		glEnableVertexAttribArray( 2 );
-		glVertexAttribPointer( 2, 3, GL_FLOAT, GL_FALSE, 0, (void*)(v+u) );
+		glVertexAttribPointer( 2, 3, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<void*>(v+u) );
 	}
 
 	
@@ -55,12 +55,12 @@ void BufferMesh( const Mesh* m, ModelInstance* instance )
 		// Buffer tangents
 		glBufferSubData( GL_ARRAY_BUFFER, v+u+n, m->tangents.size() * sizeof(glm::vec3), &m->tangents.front() );
 		glEnableVertexAttribArray( 3 );
-		glVertexAttribPointer( 3, 3, GL_FLOAT, GL_FALSE, 0, (void*)(v+n+u) );
+		glVertexAttribPointer( 3, 3, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<void*>(v+n+u) );
 		
 		// Buffer bitangents
 		glBufferSubData( GL_ARRAY_BUFFER, v+u+n+t, m->bitangents.size() * sizeof(glm::vec3), &m->bitangents.front() );
 		glEnableVertexAttribArray( 4 );
-		glVertexAttribPointer( 4, 3, GL_FLOAT, GL_FALSE, 0, (void*)(v+n+u+t) );
+		glVertexAttribPointer( 4, 3, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<void*>(v+n+u+t) );
 	}
 	
 	glBindVertexArray( 0 );
@@ -97,7 +97,7 @@ void BufferPoints( unsigned int& vao, unsigned int& vbo, const std::vector< glm:
 	// Buffer colours
 	glBufferSubData( GL_ARRAY_BUFFER, sizeof(glm::vec3) * points.size(), sizeof(glm::vec4) * colours.size(), &colours.front() );
 	glEnableVertexAttribArray( 1 );
-	glVertexAttribPointer( 1, 4, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(glm::vec3) * points.size()) );
+	glVertexAttribPointer( 1, 4, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<void*>(sizeof(glm::vec3) * points.size()) );
 
 	glBindVertexArray( 0 );
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );

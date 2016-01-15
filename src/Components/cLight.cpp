@@ -1,7 +1,7 @@
 #include "cLight.h"
 #include "entity.h"
 
-const int CLight::familyId = (int)ComponentTypes::LIGHT;
+const int CLight::familyId = static_cast<int>(ComponentTypes::LIGHT);
 std::vector< CLight* > CLight::list;
 
 CLight::CLight():

@@ -198,7 +198,7 @@ void Input::MidiListener()
 	size_t i;
 	for (i = 0; i < nBytes; i++ )
 	{
-		std::cout << "Byte " << i << " = " << (int)midiMessage[i] << ", ";
+		std::cout << "Byte " << i << " = " << static_cast<int>(midiMessage[i]) << ", ";
 	}
 	if ( nBytes > 0 )
 	{

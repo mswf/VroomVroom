@@ -59,7 +59,7 @@ class Entity
 		template<typename T>
 		static T* GetComponent( Entity* e )
 		{
-			return (T*)e->entityComponents[T::familyId];
+			return static_cast<T*>(e->entityComponents[T::familyId]);
 		}
 	
 		template<typename T>

@@ -4,7 +4,7 @@
 #include "../glm/gtx/transform.hpp"
 #include "../glm/gtx/quaternion.hpp"
 
-const int CTransform::familyId = (int)ComponentTypes::TRANSFORM;
+const int CTransform::familyId = static_cast<int>(ComponentTypes::TRANSFORM);
 
 CTransform::CTransform():
 	position( glm::vec3(0) ),

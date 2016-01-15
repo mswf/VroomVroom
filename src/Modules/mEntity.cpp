@@ -152,7 +152,7 @@ lFuncImp(mEntity, __engineInit)
     //now add the userdata to our table
     lua_setfield(L, -2, "__coreComponent__");
 	
-	lua_pushnumber(L, (int)CLua::familyId);
+	lua_pushnumber(L, static_cast<int>(CLua::familyId));
 	lua_setfield(L, -2, "__familyId__");
 	
 	lua_pushnil(L);
@@ -199,24 +199,24 @@ lFuncImp(mEntity, addComponent)
 	
 	
 	lua_pushvalue(L, 2);
-	if(familyId == (int)ComponentTypes::CAMERA)
+	if(familyId == static_cast<int>(ComponentTypes::CAMERA))
 	{
-		Entity::AddComponent(core->entity, (CCamera*)comp);
+		Entity::AddComponent(core->entity, static_cast<CCamera*>(comp));
 		lua_setfield(L, 1, "camera");
 	}
-	else if(familyId == (int)ComponentTypes::MESH_RENDERER)
+	else if(familyId == static_cast<int>(ComponentTypes::MESH_RENDERER))
 	{
-		Entity::AddComponent(core->entity, (CMeshRenderer*)comp);
+		Entity::AddComponent(core->entity, static_cast<CMeshRenderer*>(comp));
 		lua_setfield(L, 1, "meshRenderer");
 	}
-	else if(familyId == (int)ComponentTypes::DEBUG_RENDERER)
+	else if(familyId == static_cast<int>(ComponentTypes::DEBUG_RENDERER))
 	{
-		Entity::AddComponent(core->entity, (CDebugRenderer*)comp);
+		Entity::AddComponent(core->entity, static_cast<CDebugRenderer*>(comp));
 		lua_setfield(L, 1, "debugRenderer");
 	}
-	else if(familyId == (int)ComponentTypes::LIGHT)
+	else if(familyId == static_cast<int>(ComponentTypes::LIGHT))
 	{
-		Entity::AddComponent(core->entity, (CLight*)comp);
+		Entity::AddComponent(core->entity, static_cast<CLight*>(comp));
 		lua_setfield(L, 1, "light");
 	}
 	else

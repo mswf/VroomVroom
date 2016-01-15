@@ -200,7 +200,7 @@ lFuncImp(mUi, setTooltip){
 lFuncImp(mUi, close)
 {
 	lua_getfield(L, 1, "__coreElement__");
-	uiWindow* window = (uiWindow*)lua_touserdata(L,-1);
+	uiWindow* window = static_cast<uiWindow*>(lua_touserdata(L,-1));
 	lua_pop(L, 1);
 
 	UiSystem.RemoveWindow(window);
@@ -222,7 +222,7 @@ lFuncImp(mUi, mtIndex)
 			lua_pop(L, 1);
 			//if it does get the value from our cpp element
 			lua_getfield(L, 1, "__coreElement__");
-			uiElement* node = (uiElement*)lua_touserdata(L,-1);
+			uiElement* node = static_cast<uiElement*>(lua_touserdata(L,-1));
 			lua_pop(L, 1);
 			
 			if(lua_type(L, -1) == LUA_TSTRING)
@@ -283,7 +283,7 @@ lFuncImp(mUi, mtNewIndex)
 			lua_pop(L, 1);
 		
 			lua_getfield(L, 1, "__coreElement__");
-			uiElement* node = (uiElement*)lua_touserdata(L,-1);
+			uiElement* node = static_cast<uiElement*>(lua_touserdata(L,-1));
 			lua_pop(L, 1);
 			
 			if(lua_type(L, 3) == LUA_TSTRING)
@@ -317,7 +317,7 @@ lFuncImp(mUi, addText)
     lgString(startText,2,"lorum ipsum");
 	
     lua_getfield(L, 1, "__coreElement__");
-    uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
+    uiContainer* container = static_cast<uiContainer*>(lua_touserdata(L,-1));
 	lua_pop(L, 1);
 	
 	
@@ -346,7 +346,7 @@ lFuncImp(mUi, addButton)
     lgString(label, 2, "butts");
 	
     lua_getfield(L, 1, "__coreElement__");
-    uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
+    uiContainer* container = static_cast<uiContainer*>(lua_touserdata(L,-1));
     lua_pop(L, 1);
 	
 	uiButtonElement* button = UiSystem.AddButton(container);
@@ -375,7 +375,7 @@ lFuncImp(mUi, addTree)
 	lgString(label, 2, "butts");
 	
 	lua_getfield(L, 1, "__coreElement__");
-	uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
+	uiContainer* container = static_cast<uiContainer*>(lua_touserdata(L,-1));
 	lua_pop(L, 1);
 	
 	uiTreeElement* tree = UiSystem.AddTree(container);
@@ -403,7 +403,7 @@ lFuncImp(mUi, addInputText)
 	lgString(text, 3, "poop");
 	
 	lua_getfield(L, 1, "__coreElement__");
-	uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
+	uiContainer* container = static_cast<uiContainer*>(lua_touserdata(L,-1));
 	lua_pop(L, 1);
 	
 	uiInputTextElement* itext = UiSystem.AddInputText(container);
@@ -432,7 +432,7 @@ lFuncImp(mUi, addCheckbox)
 	lgBool(checked, 3, false);
 	
 	lua_getfield(L, 1, "__coreElement__");
-	uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
+	uiContainer* container = static_cast<uiContainer*>(lua_touserdata(L,-1));
 	lua_pop(L, 1);
 	
 	uiCheckboxElement* box = UiSystem.AddCheckbox(container);
@@ -460,7 +460,7 @@ lFuncImp(mUi, addSlider)
 	lgString(label, 2, "butts");
 	
 	lua_getfield(L, 1, "__coreElement__");
-	uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
+	uiContainer* container = static_cast<uiContainer*>(lua_touserdata(L,-1));
 	lua_pop(L, 1);
 	
 	uiSliderElement* slider = UiSystem.AddSlider(container);
@@ -492,7 +492,7 @@ lFuncImp(mUi, addDrag)
 	lgString(label, 2, "butts");
 	
 	lua_getfield(L, 1, "__coreElement__");
-	uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
+	uiContainer* container = static_cast<uiContainer*>(lua_touserdata(L,-1));
 	lua_pop(L, 1);
 	
 	uiDragElement* drag = UiSystem.AddDrag(container);
@@ -524,7 +524,7 @@ lFuncImp(mUi, addRegion)
 	lua_settop(L, 1);
 	
 	lua_getfield(L, 1, "__coreElement__");
-	uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
+	uiContainer* container = static_cast<uiContainer*>(lua_touserdata(L,-1));
 	lua_pop(L, 1);
 	
 	uiRegionElement* region = UiSystem.AddRegion(container);
@@ -549,7 +549,7 @@ lFuncImp(mUi, addHorizontalLayout)
 	lua_settop(L, 1);
 	
 	lua_getfield(L, 1, "__coreElement__");
-	uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
+	uiContainer* container = static_cast<uiContainer*>(lua_touserdata(L,-1));
 	lua_pop(L, 1);
 	
 	uiHorizontalLayoutElement* region = UiSystem.AddHorizontalLayout(container);
@@ -571,7 +571,7 @@ lFuncImp(mUi, addHorizontalLayout)
 lFuncImp(mUi, destroy)
 {
 	lua_getfield(L, 1, "__coreElement__");
-	uiElement* element = (uiElement*)lua_touserdata(L,-1);
+	uiElement* element = static_cast<uiElement*>(lua_touserdata(L,-1));
 	lua_pop(L, 1);
 	
 	if(element->parent != NULL){
@@ -587,11 +587,11 @@ lFuncImp(mUi, destroy)
 lFuncImp(mUi, remove)
 {
 	lua_getfield(L, 1, "__coreElement__");
-	uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
+	uiContainer* container = static_cast<uiContainer*>(lua_touserdata(L,-1));
 	lua_pop(L, 1);
 	
 	lua_getfield(L, 2, "__coreElement__");
-	uiElement* element = (uiElement*)lua_touserdata(L,-1);
+	uiElement* element = static_cast<uiElement*>(lua_touserdata(L,-1));
 	lua_pop(L, 2);
 	
 	if(element->parent == container)
@@ -610,7 +610,7 @@ lFuncImp(mUi, remove)
 lFuncImp(mUi, removeChildren)
 {
 	lua_getfield(L, 1, "__coreElement__");
-	uiContainer* container = (uiContainer*)lua_touserdata(L,-1);
+	uiContainer* container = static_cast<uiContainer*>(lua_touserdata(L,-1));
 	lua_pop(L, 1);
 	
 	UiSystem.RemoveChildren(container);

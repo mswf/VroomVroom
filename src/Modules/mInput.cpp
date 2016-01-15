@@ -105,7 +105,7 @@ lFuncImp(mInput, key)
     lgInt(key, 1, 0);
     lua_settop(L,0);
     
-    bool down = input->OnKey( (SDL_Keycode)key );
+    bool down = input->OnKey( static_cast<SDL_Keycode>(key) );
     lua_pushboolean(L, down);
     
     return 1;
@@ -117,7 +117,7 @@ lFuncImp(mInput, keyDown)
     lgInt(key, 1, 0);
     lua_settop(L,0);
     
-    bool down = input->OnKeyDown( (SDL_Keycode)key );
+    bool down = input->OnKeyDown( static_cast<SDL_Keycode>(key) );
     lua_pushboolean(L, down);
     
     return 1;
@@ -130,7 +130,7 @@ lFuncImp(mInput, keyUp)
     lgInt(key, 1, 0);
     lua_settop(L,0);
     
-    bool down = input->OnKeyUp( (SDL_Keycode)key );
+    bool down = input->OnKeyUp( static_cast<SDL_Keycode>(key) );
     lua_pushboolean(L, down);
     
     return 1;

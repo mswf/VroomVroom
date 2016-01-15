@@ -2,7 +2,7 @@
 #include "../DataStructure/mesh.h"
 #include "../console.h"
 
-const int CDebugRenderer::familyId = (int)ComponentTypes::DEBUG_RENDERER;
+const int CDebugRenderer::familyId = static_cast<int>(ComponentTypes::DEBUG_RENDERER);
 std::vector< CDebugRenderer* > CDebugRenderer::list;
 
 CDebugRenderer::CDebugRenderer() :
@@ -89,9 +89,9 @@ void CDebugRenderer::UpdateBuffer()
 		BufferPoints( vao, vbo, points, colours );
 		isBuffered = true;
 	}
-	unsigned int offset = sizeof(glm::vec3) * (unsigned int)points.size();
-	BufferUpdate( vbo, 0, (unsigned int)points.size(), &points.front() );
-	BufferUpdate( vbo, offset, (unsigned int)colours.size(), &colours.front() );
+	unsigned int offset = sizeof(glm::vec3) * static_cast<unsigned int>(points.size());
+	BufferUpdate( vbo, 0, static_cast<unsigned int>(points.size()), &points.front() );
+	BufferUpdate( vbo, offset, static_cast<unsigned int>(colours.size()), &colours.front() );
 }
 
 void CDebugRenderer::Clear()
@@ -108,7 +108,7 @@ const float& CDebugRenderer::GetPointSize() const
 
 const int CDebugRenderer::GetDrawCount() const
 {
-	return (int)points.size();
+	return static_cast<int>(points.size());
 }
 
 const DrawMode& CDebugRenderer::GetDrawMode() const

@@ -76,7 +76,7 @@ void File::ReadStringInto(string* outString, Sint64 size)
     {
         return;
     }
-    char* buf = (char*)malloc(size + 1);
+    char* buf = static_cast<char*>(malloc(size + 1));
     if(buf == NULL)
     {
         return;

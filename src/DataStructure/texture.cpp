@@ -15,7 +15,7 @@ GLuint BufferTexture3D( GLint levelOfDetail, GLint internalFormat, GLint width, 
 	{
 		glTexParameteri( GL_TEXTURE_3D, (*iter).first, (*iter).second );
 	}
-	glTexImage3D( GL_TEXTURE_3D, levelOfDetail, internalFormat, width, height, depth, 0, pixelFormat, type, (GLvoid*)data );
+	glTexImage3D( GL_TEXTURE_3D, levelOfDetail, internalFormat, width, height, depth, 0, pixelFormat, type, static_cast<GLvoid*>(data) );
 	if ( generateMipMap )
 	{
 		glGenerateMipmap( GL_TEXTURE_3D );
@@ -36,7 +36,7 @@ GLuint BufferTexture2D( GLint internalFormat, GLint width, GLint height, GLint p
 	SetTextureWrapping( textureId, GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap );
 
 	// target, level of detail, internal format(RGBA), width, height, border(must be 0), pixel format(RGBA), type, data pointer
-	glTexImage2D( GL_TEXTURE_2D, 0, internalFormat, width, height, 0, pixelFormat, dataType, (GLvoid*)data );
+	glTexImage2D( GL_TEXTURE_2D, 0, internalFormat, width, height, 0, pixelFormat, dataType, static_cast<GLvoid*>(data) );
 	CheckGlError("glTexImage2D 2D");
 	if ( generateMipMap )
 	{
@@ -75,7 +75,7 @@ void BufferTextureCubeMap( GLuint mapId, GLenum sideTarget, GLint internalFormat
 	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GetWrapParameter( WrapType::CLAMP_EDGE ) );
 	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GetWrapParameter( WrapType::CLAMP_EDGE ) );
 	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GetWrapParameter( WrapType::CLAMP_EDGE ) );
-	glTexImage2D( sideTarget, 0, internalFormat, width, height, 0, pixelFormat, type, (GLvoid*)data );
+	glTexImage2D( sideTarget, 0, internalFormat, width, height, 0, pixelFormat, type, static_cast<GLvoid*>(data) );
 	CheckGlError("glTexImage2D CUBE_MAP");
 }
 

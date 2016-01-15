@@ -410,7 +410,7 @@ void LogActiveSubroutines( GLuint program, GLenum shaderType )
 		Terminal.LogOpenGL( std::string( "Subroutine Uniform: " + std::to_string(i) + " name: " + name ) );
 		glGetActiveSubroutineUniformiv( program, shaderType, i, GL_NUM_COMPATIBLE_SUBROUTINES, &numCompatibleSubroutines );
 		
-		int *s = (int*)malloc( sizeof(int) * numCompatibleSubroutines );
+		int *s = static_cast<int*>(malloc( sizeof(int) * numCompatibleSubroutines ));
 		glGetActiveSubroutineUniformiv( program, shaderType, i, GL_COMPATIBLE_SUBROUTINES, s);
 		Terminal.LogOpenGL( "Compatible Subroutines:" );
 		for ( j=0; j < numCompatibleSubroutines; ++j )
@@ -566,7 +566,7 @@ void SetSubroutineUniformLocations( GLuint program, GLuint shader, Subroutines& 
 	{
 		routines.numSubroutines = numActiveSubroutineUniforms;
 		//TODO(Valentinas): USE NEW INSTEAD OF MALLOC?
-		routines.subroutines = (GLuint*)malloc( sizeof(GLuint) * numActiveSubroutineUniforms );
+		routines.subroutines = static_cast<GLuint*>(malloc( sizeof(GLuint) * numActiveSubroutineUniforms ));
 		for ( int i = 0; i < numActiveSubroutineUniforms; ++i )
 		{
 			int length;

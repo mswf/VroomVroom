@@ -39,10 +39,10 @@ lFuncImp(mMeshRenderer, setModel)
 {
 	lua_settop(L, 2);
 	lua_getfield(L, 1, "__coreComponent__");
-	CMeshRenderer* mesh = (CMeshRenderer*)lua_touserdata(L, -1);
+	CMeshRenderer* mesh = static_cast<CMeshRenderer*>(lua_touserdata(L, -1));
 	
 	lua_getfield(L, 2, "__coreModel__");
-	ModelInstance* model = (ModelInstance*)lua_touserdata(L, -1);
+	ModelInstance* model = static_cast<ModelInstance*>(lua_touserdata(L, -1));
 	
 	mesh->SetModel(model);
 	return 0;
@@ -52,10 +52,10 @@ lFuncImp(mMeshRenderer, setMaterial)
 {
 	lua_settop(L, 2);
 	lua_getfield(L, 1, "__coreComponent__");
-	CMeshRenderer* mesh = (CMeshRenderer*)lua_touserdata(L, -1);
+	CMeshRenderer* mesh = static_cast<CMeshRenderer*>(lua_touserdata(L, -1));
 	
 	lua_getfield(L, 2, "__coreMaterial__");
-	Material* mat = (Material*)lua_touserdata(L, -1);
+	Material* mat = static_cast<Material*>(lua_touserdata(L, -1));
 	
 	mesh->SetMaterial(mat);
 	return 0;

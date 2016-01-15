@@ -108,7 +108,7 @@ lFuncImp(mMaterial, setShader)
 {
 	lua_settop(L, 2);
 	lua_getfield(L, 1, "__coreMaterial__");
-	Material* mat = (Material*)lua_touserdata(L, -1);
+	Material* mat = static_cast<Material*>(lua_touserdata(L, -1));
 
 	//TODO(bobn): make this
 	return 0;
@@ -118,7 +118,7 @@ lFuncImp(mMaterial, makeQuadShader)
 {
 	lua_settop(L, 1);
 	lua_getfield(L, 1, "__coreMaterial__");
-	Material* mat = (Material*)lua_touserdata(L, -1);
+	Material* mat = static_cast<Material*>(lua_touserdata(L, -1));
 	
 	ShaderProgram* s = ResourceManager::getInstance().GetShaderProgram("quad");
 	

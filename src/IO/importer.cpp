@@ -14,7 +14,7 @@ Importer::~Importer()
 	delete imp_;
 }
 
-void Importer::SetSceneImportFlags( int flags )
+void Importer::SetSceneImportFlags( int flags ) const
 {
 	imp_->SetSceneImportFlags( flags );
 }
@@ -69,7 +69,7 @@ bool Importer::ImportObjFile( const std::string &pFile, bool importTextures )
 	return true;
 }
 
-void Importer::ImportMesh( aiScene *scene, const uint32& index, Mesh*& mesh, const char* name )
+void Importer::ImportMesh( aiScene *scene, const uint32& index, Mesh*& mesh, const char* name ) const
 {
 	const aiMesh* m = scene->mMeshes[index];
 	imp_->ExtractMesh(m, mesh);
@@ -77,7 +77,7 @@ void Importer::ImportMesh( aiScene *scene, const uint32& index, Mesh*& mesh, con
 	Assets.InsertMesh( name, mesh);
 }
 
-void Importer::ImportMaterial( Material*& material, aiScene* scene, Mesh* mesh, std::vector< std::string >& textures )
+void Importer::ImportMaterial( Material*& material, aiScene* scene, Mesh* mesh, std::vector< std::string >& textures ) const
 {
 	aiMaterial *mtl = scene->mMaterials[ mesh->materialId ];
 	mesh->materialId = ResourceManager::materialId++;
@@ -116,7 +116,7 @@ void Importer::SetTextureToMaterial( Material* material, std::string name )
 	}
 }
 
-bool Importer::ImportImage( const char* filename, bool vertical_flip, FilterType minFilter, FilterType magFilter, WrapType wrapping )
+bool Importer::ImportImage( const char* filename, bool vertical_flip, FilterType minFilter, FilterType magFilter, WrapType wrapping ) const
 {
 	ResourceManager& rm = Assets;
 	std::string file( Content::GetPath() + "/" + filename );
@@ -139,7 +139,7 @@ bool Importer::ImportImage( const char* filename, bool vertical_flip, FilterType
 	return true;
 }
 
-ImageData* Importer::ReImportImage( const char* filename, bool vertical_flip )
+ImageData* Importer::ReImportImage( const char* filename, bool vertical_flip ) const
 {
 	std::string file( Content::GetPath() + "/" + filename );
 	ImageData* image = new ImageData();

@@ -6,12 +6,12 @@ const int CDebugRenderer::familyId = static_cast<int>(ComponentTypes::DEBUG_REND
 std::vector< CDebugRenderer* > CDebugRenderer::list;
 
 CDebugRenderer::CDebugRenderer() :
-	isBuffered(false),
-	mode( DrawMode::NONE ),
 	vao(0),
 	vbo(0),
 	numberOfPoints( 4096 ),
 	pointSize(5.0f),
+	mode( DrawMode::NONE ),
+	isBuffered(false),
 	isDrawingPoints(false)
 {
 	list.push_back( this );

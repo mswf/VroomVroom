@@ -55,14 +55,14 @@ class Input
 		Input();
 		~Input();
 
-		bool OnKey( SDL_Keycode key );
-		bool OnKeyDown( SDL_Keycode key );
-		bool OnKeyUp( SDL_Keycode key );
-		bool OnMouseDown( uint8_t button );
-		bool OnMouseUp( uint8_t button );
-		const glm::ivec2 GetMousePosition();
-		const glm::ivec2 GetMouseWheelScroll();
-		const glm::ivec2 GetMouseRelativeMotion();
+		bool OnKey( SDL_Keycode key ) const;
+		bool OnKeyDown( SDL_Keycode key ) const;
+		bool OnKeyUp( SDL_Keycode key ) const;
+		bool OnMouseDown( uint8_t button ) const;
+		bool OnMouseUp( uint8_t button ) const;
+		const glm::ivec2& GetMousePosition() const;
+		const glm::ivec2 GetMouseWheelScroll() const;
+		const glm::ivec2 GetMouseRelativeMotion() const;
 		void Update( SDL_Event* event );
 		void StateReset();
 		void MidiTest();

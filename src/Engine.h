@@ -19,14 +19,14 @@ class Engine
 		Engine();
 		~Engine();
 		void PollEvent();
-		void OpenConfig();
-		void CloseWindow(SDL_Window* window, SDL_GLContext glcontext);
+	static void OpenConfig();
+	static void CloseWindow(SDL_Window* window, SDL_GLContext glcontext);
 		void SetupWindow(SDL_Window*& window, SDL_GLContext& glcontext);
 		void InitGlew();
 		void InitFMOD();
 		void UpdateLoop();
-		void InitSDL();
-		void InitSDLNet();
+	static void InitSDL();
+	static void InitSDLNet();
 		void Init();
 		
 		static glm::vec2 GetWindowSize();
@@ -48,7 +48,7 @@ public:
 		void WeikieTestCode();
 		void WindowEvent( SDL_WindowEvent window );
 		void TakeScreenShot();
-		void CleanUpEntities();
+	static void CleanUpEntities();
 
 		FMOD::Studio::System* systemStudio;
 	

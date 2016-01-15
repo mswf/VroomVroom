@@ -79,7 +79,7 @@ std::vector< CMeshRenderer* >* CMeshRenderer::GetMeshRendererList()
 	return &list;
 }
 
-void CMeshRenderer::GetUniformValues()
+void CMeshRenderer::GetUniformValues() const
 {
 	Entity::GetComponent<CTransform>(this->entity)->GetTransform();
 	Entity::GetComponent<CCamera>(this->entity)->GetViewMatrix();

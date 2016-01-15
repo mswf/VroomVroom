@@ -14,10 +14,10 @@ class CTransform : public Component
 	
         CTransform();
         ~CTransform();
-	
-		void Call() {}
-	
-		const glm::mat4& GetTransform() const;
+
+	void Call() override;
+
+	const glm::mat4& GetTransform() const;
 		const glm::mat4& GetWorldTransform() const;
 
 		void SetWorldTransform( const glm::mat4& transform );
@@ -30,9 +30,9 @@ class CTransform : public Component
 		const CTransform* GetParent() const;
 		std::vector< CTransform* >& GetChildren();
 	
-		const glm::vec3 VectorRight();
-		const glm::vec3 VectorUp();
-		const glm::vec3 VectorForward();
+		const glm::vec3 VectorRight() const;
+		const glm::vec3 VectorUp() const;
+		const glm::vec3 VectorForward() const;
 	
 		// POSITION
 	

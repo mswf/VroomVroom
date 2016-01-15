@@ -1,7 +1,9 @@
 #include "Input.hpp"
 #include <iostream>
 
-Input::Input()
+Input::Input(): 
+midiin(nullptr), 
+midiout(nullptr)
 {
     //MidiTest();
     for (int i = 0; i < SDL_NUM_SCANCODES; ++i)
@@ -24,44 +26,44 @@ Input::~Input()
     //delete midiout;
 }
 
-const glm::ivec2 Input::GetMousePosition()
+const glm::ivec2& Input::GetMousePosition() const
 {
-    return glm::ivec2(mousePosition.x, mousePosition.y);
+    return mousePosition;
 }
 
-const glm::ivec2 Input::GetMouseWheelScroll()
+const glm::ivec2 Input::GetMouseWheelScroll() const
 {
 	return glm::ivec2( mouseWheel.horizontalScroll, mouseWheel.verticalScroll );
 }
 
-const glm::ivec2 Input::GetMouseRelativeMotion()
+const glm::ivec2 Input::GetMouseRelativeMotion() const
 {
 	return mouseMotion.relativeMotion;
 }
 
-bool Input::OnMouseDown(uint8_t button)
+bool Input::OnMouseDown(uint8_t button) const
 {
     return mouseState[button].state == MouseEvent::DOWN;
 }
 
-bool Input::OnMouseUp(uint8_t button)
+bool Input::OnMouseUp(uint8_t button) const
 {
     return mouseState[button].state == MouseEvent::RELEASE;
 }
 
-bool Input::OnKeyDown(SDL_Keycode key)
+bool Input::OnKeyDown(SDL_Keycode key) const
 {
     SDL_Scancode scanKey = SDL_GetScancodeFromKey(key);
     return keyState[scanKey].triggerEvent == KeyEvent::DOWN;
 }
 
-bool Input::OnKeyUp(SDL_Keycode key)
+bool Input::OnKeyUp(SDL_Keycode key) const
 {
     SDL_Scancode scanKey = SDL_GetScancodeFromKey(key);
     return keyState[scanKey].triggerEvent == KeyEvent::RELEASE;
 }
 
-bool Input::OnKey(SDL_Keycode key)
+bool Input::OnKey(SDL_Keycode key) const
 {
     SDL_Scancode scanKey = SDL_GetScancodeFromKey(key);
     return keyState[scanKey].triggerEvent == KeyEvent::HOLD || keyState[scanKey].triggerEvent == KeyEvent::RELEASE;

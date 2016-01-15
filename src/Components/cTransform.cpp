@@ -7,11 +7,11 @@
 const int CTransform::familyId = static_cast<int>(ComponentTypes::TRANSFORM);
 
 CTransform::CTransform():
-	position( glm::vec3(0) ),
-	scale( glm::vec3(1) ),
-	rotation( glm::quat( glm::vec3(0) ) ),
 	localTransform( glm::mat4(1.0) ),
 	worldTransform( glm::mat4(1.0) ),
+	rotation( glm::quat( glm::vec3(0) ) ),
+	position( glm::vec3(0) ),
+	scale( glm::vec3(1) ),
 	parent(NULL)
 {}
 
@@ -26,6 +26,9 @@ CTransform::~CTransform()
 	 }
 	*/
 }
+
+void CTransform::Call()
+{}
 
 const glm::mat4& CTransform::GetTransform() const
 {
@@ -105,17 +108,17 @@ std::vector< CTransform* >& CTransform::GetChildren()
 	return children;
 }
 
-const glm::vec3 CTransform::VectorRight()
+const glm::vec3 CTransform::VectorRight() const
 {
 	return glm::vec3( glm::inverse(localTransform)[0] );
 }
 
-const glm::vec3 CTransform::VectorUp()
+const glm::vec3 CTransform::VectorUp() const
 {
 	return glm::vec3( glm::inverse(localTransform)[1] );
 }
 
-const glm::vec3 CTransform::VectorForward()
+const glm::vec3 CTransform::VectorForward() const
 {
 	return glm::vec3( glm::inverse(localTransform)[2] );
 }

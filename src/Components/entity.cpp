@@ -53,7 +53,7 @@ void Entity::ClearComponents()
 				sti = componentStorage.erase(sti);
 			}
 			else {
-				sti++;
+				++sti;
 			}
 		}
 		
@@ -61,7 +61,7 @@ void Entity::ClearComponents()
 	}
 }
 
-void Entity::DestroyChildren()
+void Entity::DestroyChildren() const
 {
 	while (transform->GetChildren().size() > 0)
 	{
@@ -71,12 +71,12 @@ void Entity::DestroyChildren()
 	}
 }
 
-void Entity::AddChild( Entity* c )
+void Entity::AddChild( Entity* c ) const
 {
 	transform->AddChild( c->transform );
 }
 
-void Entity::RemoveChild( Entity *c )
+void Entity::RemoveChild( Entity *c ) const
 {
 	transform->RemoveChild( c->transform );
 }
@@ -101,7 +101,7 @@ const Entity* Entity::GetParent() const
 	return transform->GetParent()->entity;
 }
 
-const std::vector<Entity*> Entity::GetChildren() const
+std::vector<Entity*> Entity::GetChildren() const
 {
 	std::vector<Entity* > children;
 	std::vector<CTransform* >::const_iterator it = transform->GetChildren().begin();

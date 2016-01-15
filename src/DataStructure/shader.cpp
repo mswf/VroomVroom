@@ -306,7 +306,6 @@ std::string GetGLSLUniformType( GLenum type )
 		case GL_SAMPLER_2D_SHADOW: 	{ return "sampler2DShadow"; }
 		default: 					{ return "Not supported"; }
 	}
-	return "Not supported";
 }
 
 void LogActiveUniformBlocks( GLuint program )
@@ -426,7 +425,7 @@ void LogActiveSubroutines( GLuint program, GLenum shaderType )
 
 GLenum GetGLShaderEnum( GLSLShaderType type, bool separate )
 {
-	GLenum shader = 0;
+	GLenum shader;
 	switch (type)
 	{
 		case GLSLShaderType::VERTEX:

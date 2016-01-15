@@ -33,7 +33,7 @@ void SetPath(const char* path, unsigned long len)
     }
 }
     
-const std::string GetPath(){
+const std::string& GetPath(){
     return contentPath;
 }
 

@@ -27,7 +27,7 @@ class sLuaSystem : public Singleton<sLuaSystem>
 		void Update(float);
 		void SendReloadCallback( const string& filePath );
 		void EventCallback(const char*, int, int*);
-        void Dump(lua_State*);
+        void Dump(lua_State*) const;
     
         void Attempt(string);
         bool Call(lua_State*, int, int);
@@ -35,15 +35,15 @@ class sLuaSystem : public Singleton<sLuaSystem>
     
         void Resume();
         void Halt();
+
+	static void SetAtomPath(string);
     
-        void SetAtomPath(string);
-    
-        void OpenAtom(string, int = 0);
+        void OpenAtom(string, int = 0) const;
 	
 		lua_State* GetState() { return lState; }
 
 	private:
-		void SetPackagePath();
+		void SetPackagePath() const;
 
 		lua_State* lState;
 		bool hasMainBeenCalled;

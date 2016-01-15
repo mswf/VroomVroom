@@ -17,14 +17,14 @@ class Entity
 		Entity( std::string name = "Entity_Object_" + std::to_string(counter) );
 		~Entity();
 	
-		void AddChild( Entity* c );
-		void RemoveChild( Entity* c );
+		void AddChild( Entity* c ) const;
+		void RemoveChild( Entity* c ) const;
 		void ClearComponents();
-		void DestroyChildren();
+		void DestroyChildren() const;
 		void Update();
 		const glm::mat4& GetTransform() const;
 		const Entity* GetParent() const;
-		const std::vector<Entity*> GetChildren() const;
+		std::vector<Entity*> GetChildren() const;
 		// TODO(Valentinas): Adding the same component to the same entity will add it to the global list twice,
 	 	//					 removing will remove both of them, so can be fixed later
 		template<typename T>
@@ -70,9 +70,9 @@ class Entity
 			std::vector< CTransform* >::const_iterator end = e->transform->GetChildren().end();
 			for( ; it != end ; ++it )
 			{
-				Entity* e = (*it)->entity;
-				list.push_back( Entity::GetComponent<T>( e ) );
-				std::vector< T* > childList = Entity::GetComponentInChildren<T>( e );
+				Entity* entity = (*it)->entity;
+				list.push_back( Entity::GetComponent<T>( entity ) );
+				std::vector< T* > childList = Entity::GetComponentInChildren<T>( entity );
 				list.insert( std::end(list), std::begin(childList), std::end(childList) );
 			}
 			return list;
@@ -99,8 +99,8 @@ class Entity
 				(*it_c)->entity->destroy = true;
 			}
 		}
-	
-		const bool IsSetToDestroy() const { return destroy; }
+
+		bool IsSetToDestroy() const { return destroy; }
 	
 		std::string name;
 		std::map< int, Component* > entityComponents;

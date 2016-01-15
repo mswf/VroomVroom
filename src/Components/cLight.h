@@ -15,7 +15,7 @@ class CLight : public Component
 		CLight();
 		~CLight();
 		
-		void Call();
+		void Call() override;
 		glm::vec3 GetDirection();
 		glm::vec3 GetPosition();
 		void SetIntensity( float intensity );

@@ -75,7 +75,7 @@ aiScene* ImporterImp::ImportObjFile( const string& pFile, IMPORTER_MESSAGE& msg 
 	return importer.GetOrphanedScene();
 }
 
-void ImporterImp::FreeScene( aiScene* sc )
+void ImporterImp::FreeScene( aiScene*& sc )
 {
 	if ( sc != NULL )
 	{

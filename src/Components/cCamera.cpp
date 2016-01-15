@@ -5,13 +5,13 @@ const int CCamera::familyId = static_cast<int>(ComponentTypes::CAMERA);
 
 CCamera::CCamera( Projection proj, float aspectRatio, float near, float far, float fov )
 :	type( proj ),
-	fieldOfView( fov ),
-	aspectRatio( aspectRatio ),
-	zNear( near ),
-	zFar( far ),
-	viewportRectangle( glm::vec4( 0, 0, 1, 1 ) ),
 	projectionMatrix( glm::mat4(1) ),
-	viewMatrix( glm::mat4(1) )
+	viewMatrix( glm::mat4(1) ),
+	viewportRectangle( glm::vec4( 0, 0, 1, 1 ) ),
+	aspectRatio( aspectRatio ),
+	fieldOfView( fov ),
+	zNear( near ),
+	zFar( far )
 {
 	SetProjectionType( proj );
 }

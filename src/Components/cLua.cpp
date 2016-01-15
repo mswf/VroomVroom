@@ -39,7 +39,7 @@ void CLua::SetTableKey(int key)
 	tableKey = key;
 }
 
-const int& CLua::GetTableKey()
+const int& CLua::GetTableKey() const
 {
 	return tableKey;
 }
@@ -48,7 +48,7 @@ void CLua::Call()
 {
 }
 
-void CLua::Update(float delta)
+void CLua::Update(float delta) const
 {
 	if (tableKey != -1)
 	{

@@ -33,14 +33,12 @@ class Renderer : public ComponentSystem
         bool Initialize() override;
 
 		void Render();
-		void RenderCube( ModelInstance* cube, unsigned int cubeMap );
-		void RenderLines( unsigned int vao, unsigned long count );
 		
 		void SetEnvironmentMap( unsigned int map );
 		void SetWindowSize( const int& w, const int& h );
 		void SetFramebufferScale( const float& scaleX, const float& scaleY );
-		void SetBackgroundColor( float r, float g, float b, float a );
-		void ScreenGrab();
+		void SetBackgroundColor( float r, float g, float b, float a ) const;
+		void ScreenGrab() const;
 		inline void SetMeshRendererList( std::vector< CMeshRenderer* >* list ) { renderables = list; }
 		inline void SetDebugRendererList( std::vector< CDebugRenderer* >* list ) { debugPrimitives = list; }
 		inline void SetLightList( std::vector< CLight* >* list ) { lights = list; }
@@ -54,11 +52,11 @@ class Renderer : public ComponentSystem
 		
 	private:
 		
-		void ClearFlag();
-		void SetViewportRect();
-		void RenderEnvironment();
-		void RenderScene();
-		void RenderDebugLines();
+		void ClearFlag() const;
+		void SetViewportRect() const;
+		void RenderEnvironment() const;
+		void RenderScene() const;
+		void RenderDebugLines() const;
 		
 		uint32 time;
 		int w_width;

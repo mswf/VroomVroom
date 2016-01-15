@@ -14,13 +14,13 @@ class CMeshRenderer : public Component
 		CMeshRenderer();
 		~CMeshRenderer();
 	
-		void Call();
+		void Call() override;
 		void SetModel( const char* name );
 		void SetModel( ModelInstance* instance );
 		void SetMaterial( const char* name );
 		void SetMaterial( Material* mtl );
 	
-		void GetUniformValues();
+		void GetUniformValues() const;
 		static std::vector< CMeshRenderer* >* GetMeshRendererList();
 		const ModelInstance* GetModelInstace() const;
 		const Material* GetMaterial() const;

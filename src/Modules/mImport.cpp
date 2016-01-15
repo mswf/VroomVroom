@@ -84,7 +84,7 @@ lFuncImp(mImport, reloadShader)
 	lgString(path, 1, "undefined");
 	lgString(type, 2, "none");
 
-	GLSLShaderType shaderType = GLSLShaderType::NONE;
+	GLSLShaderType shaderType;
 	if (type == "VERTEX")
 	{
 		shaderType = GLSLShaderType::VERTEX;

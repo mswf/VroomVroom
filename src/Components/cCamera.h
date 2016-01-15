@@ -22,7 +22,7 @@ class CCamera : public Component
 	
 		CCamera( Projection proj, float aspectRatio, float near = 0.1f, float far = 1000.0f, float fov = 90.0f );
 		~CCamera();
-		void Call();
+		void Call() override;
 		glm::vec3 ScreenToWorldPosition( const glm::ivec2& position );
 		void SetProjectionType( Projection type );
 		void SetAspectRatio( float ratio );
@@ -41,9 +41,7 @@ class CCamera : public Component
 		const glm::mat4& GetProjectionMatrix() const;
 	
 	private:
-	
-		void UpdateView( const glm::vec3& eye, const glm::vec3& center, const glm::vec3& up );
-	
+
 		Renderer* renderer;
 		Projection type;
 		glm::mat4 projectionMatrix;

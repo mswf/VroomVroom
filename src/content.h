@@ -15,7 +15,7 @@
 namespace Content
 {
     void SetPath(const char* path, unsigned long len);
-    const std::string GetPath();
+    const std::string& GetPath();
     void PrintPath();
     void CreateFilePath(const char* filename, std::string* outResult);
 }

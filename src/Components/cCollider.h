@@ -15,7 +15,7 @@ class CCollider : public Component
 
 		CCollider();
 		~CCollider();
-		void Call();
+		virtual void Call();
 
 		virtual bool Collide(const BoxCollider& other) const = 0;
 		virtual bool Collide(const SphereCollider& other) const = 0;

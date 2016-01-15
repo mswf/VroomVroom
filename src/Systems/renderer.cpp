@@ -59,7 +59,7 @@ bool Renderer::Initialize()
 	return true;
 }
 	
-void Renderer::ScreenGrab()
+void Renderer::ScreenGrab() const
 {
 	int components = 3;
 	int width = w_width * framebufferScaleX;
@@ -101,7 +101,7 @@ void Renderer::Render()
 	RenderDebugLines();
 }
 
-void Renderer::SetViewportRect()
+void Renderer::SetViewportRect() const
 {
 	if (camera == NULL) return;
 	glm::vec4 rect = camera->GetViewportRectangle();
@@ -110,13 +110,13 @@ void Renderer::SetViewportRect()
 	glViewport( w * rect.x, h * rect.y, w * rect.z, h * rect.w );
 }
 	
-void Renderer::ClearFlag()
+void Renderer::ClearFlag() const
 {
 	glClearColor( backgroundColour[0], backgroundColour[1], backgroundColour[2], backgroundColour[3] );
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 }
 	
-void Renderer::RenderScene()
+void Renderer::RenderScene() const
 {
 	// RENDERER MODE FOR BLEND_FUNC
 	//glEnable(GL_BLEND);
@@ -210,7 +210,7 @@ void Renderer::RenderScene()
 	glUseProgram(0);
 }
 	
-void Renderer::RenderDebugLines()
+void Renderer::RenderDebugLines() const
 {
 	// Is there anything to render?
 	if ( debugPrimitives->size() == 0 ) return;
@@ -262,7 +262,7 @@ void Renderer::RenderDebugLines()
 	glBindVertexArray( 0 );
 }
 
-void Renderer::RenderEnvironment()
+void Renderer::RenderEnvironment() const
 {
 	if (skyboxMap == 0) return;
 	glDepthMask (GL_FALSE);
@@ -306,7 +306,7 @@ void Renderer::SetFramebufferScale( const float& scaleX, const float& scaleY )
 	framebufferScaleY = scaleY;
 }
 	
-void Renderer::SetBackgroundColor( float r, float g, float b, float a )
+void Renderer::SetBackgroundColor( float r, float g, float b, float a ) const
 {
 	backgroundColour[0] = r;
 	backgroundColour[1] = g;

@@ -48,7 +48,7 @@ class CDebugRenderer : public Component
 		CDebugRenderer();
 		~CDebugRenderer();
 	
-		void Call();
+		void Call() override;
 		void Initialize();
 		void AddPrimivite( Line line );
 		void AddPrimivite( Triangle triangle );

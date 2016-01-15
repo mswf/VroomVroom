@@ -23,9 +23,9 @@
 string sLuaSystem::atomPath("");
 
 sLuaSystem::sLuaSystem():
-	hasMainBeenCalled(false),
-    allowCalls(true),
-	lState(NULL)
+	lState(NULL),
+    hasMainBeenCalled(false),
+	allowCalls(true)
 {
 
 }
@@ -120,7 +120,7 @@ void sLuaSystem::Update(float dt)
 	Entity::GetEntities<CLua>(entities);
 	
 	std::vector<Entity *>::iterator it = entities.begin();
-	for (; it != entities.end(); it++)
+	for (; it != entities.end(); ++it)
 	{
 		CLua* comp = Entity::GetComponent<CLua>((*it));
 		comp->Update(dt);
@@ -244,7 +244,7 @@ void sLuaSystem::Halt()
 
 }
 
-void sLuaSystem::Dump(lua_State* L)
+void sLuaSystem::Dump(lua_State* L) const
 {
 	int i;
 	int top = lua_gettop(L);
@@ -287,7 +287,7 @@ void sLuaSystem::HandleError(lua_State* L)
 
 }
 
-void sLuaSystem::OpenAtom(string path, int lineNumber)
+void sLuaSystem::OpenAtom(string path, int lineNumber) const
 {
     if(atomPath == "")
     {
@@ -310,7 +310,7 @@ void sLuaSystem::OpenAtom(string path, int lineNumber)
 /*
  *  Tells the Lua state to look in the content directory whenever 'require' is used in Lua scripts.
  */
-void sLuaSystem::SetPackagePath()
+void sLuaSystem::SetPackagePath() const
 {
 	lua_getglobal(lState, "package");
 	lua_getfield(lState, -1, "path");

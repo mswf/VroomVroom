@@ -217,7 +217,7 @@ void Renderer::RenderDebugLines()
 		
 	glUseProgram(debugProgram->program);
 		
-	glDisable(GL_DEPTH_TEST);
+	glClearDepth(1);
 		
 	std::vector< CDebugRenderer* >::const_iterator it = debugPrimitives->begin();
 	std::vector< CDebugRenderer* >::const_iterator end = debugPrimitives->end();
@@ -257,7 +257,6 @@ void Renderer::RenderDebugLines()
 			glDrawArrays(GL_POINTS, 0, (*it)->GetDrawCount());
 		}
 	}
-	glEnable(GL_DEPTH_TEST);
 	glUseProgram(0);
 	glDisable(GL_LINE_SMOOTH);
 	glBindVertexArray( 0 );

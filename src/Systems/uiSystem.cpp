@@ -19,9 +19,9 @@ uiContainer::~uiContainer()
 
 sUiSystem::sUiSystem() :
 	idIndex(0),
-	firstWindow(NULL),
-	lastWindow(NULL),
-	cachedButton(NULL)
+	firstWindow(nullptr),
+	lastWindow(nullptr),
+	cachedButton(nullptr)
 {
 	ImGuiStyle& style = ImGui::GetStyle();
 	// non-interactive rounding
@@ -151,8 +151,8 @@ uiTextElement* sUiSystem::AddText(uiContainer* w)
 uiTreeElement* sUiSystem::AddTree(uiContainer* w)
 {
 	uiTreeElement* tt = new uiTreeElement;
-	tt->firstElement = NULL;
-	tt->lastElement = NULL;
+	tt->firstElement = nullptr;
+	tt->lastElement = nullptr;
 
 	tt->handle = HandleTree;
 
@@ -264,15 +264,15 @@ uiHorizontalLayoutElement* sUiSystem::AddHorizontalLayout(uiContainer* w)
 void sUiSystem::RemoveWindow(uiWindow* w)
 {
 	uiWindow* currentWindow = lastWindow;
-	while (currentWindow != NULL)
+	while (currentWindow != nullptr)
 	{
 		if (currentWindow == w)
 		{
-			if (currentWindow->prevElement != NULL)
+			if (currentWindow->prevElement != nullptr)
 			{
 				currentWindow->prevElement->nextElement = currentWindow->nextElement;
 			}
-			if (currentWindow->nextElement != NULL)
+			if (currentWindow->nextElement != nullptr)
 			{
 				currentWindow->nextElement->prevElement = currentWindow->prevElement;
 			}
@@ -310,29 +310,29 @@ void sUiSystem::RemoveChildren(uiContainer* ee)
 {
 	//clear all the elements properly
 	uiElement* currentChild = ee->lastElement;
-	while (currentChild != NULL)
+	while (currentChild != nullptr)
 	{
 		uiElement* temp = currentChild->prevElement;
 		RemoveElement(ee, currentChild);
 		currentChild = temp;
 	}
-	ee->firstElement = NULL;
-	ee->lastElement = NULL;
+	ee->firstElement = nullptr;
+	ee->lastElement = nullptr;
 }
 
 void sUiSystem::RemoveElement(uiContainer* ww, uiElement* ee)
 {
 	uiElement* currentElement = ww->lastElement;
-	while (currentElement != NULL)
+	while (currentElement != nullptr)
 	{
 		if (currentElement == ee)
 		{
 
-			if (currentElement->prevElement != NULL)
+			if (currentElement->prevElement != nullptr)
 			{
 				currentElement->prevElement->nextElement = currentElement->nextElement;
 			}
-			if (currentElement->nextElement != NULL)
+			if (currentElement->nextElement != nullptr)
 			{
 				currentElement->nextElement->prevElement = currentElement->prevElement;
 			}
@@ -372,7 +372,7 @@ void sUiSystem::Render()
 {
 	uiWindow* currentWindow = firstWindow;
 
-	while (currentWindow != NULL)
+	while (currentWindow != nullptr)
 	{
 		if (!currentWindow->visible)
 		{
@@ -412,7 +412,7 @@ void sUiSystem::Render()
 
 		if (currentWindow->closable == false)
 		{
-			pOpened = NULL;
+			pOpened = nullptr;
 		}
 
 		bool isExpanded = true;
@@ -477,10 +477,10 @@ void sUiSystem::Render()
 	}
 	ImGui::Render();
 
-	if (cachedButton != NULL)
+	if (cachedButton != nullptr)
 	{
 		HandleCallback(cachedButton, "onPress");
-		cachedButton = NULL;
+		cachedButton = nullptr;
 	}
 	
 	mUi::ToggleFocus(ImGui::IsAnyItemActive());
@@ -491,7 +491,7 @@ void sUiSystem::Render()
 //PRIVATE
 void sUiSystem::AddWindow(uiWindow* w)
 {
-	if (firstWindow == NULL)
+	if (firstWindow == nullptr)
 	{
 		firstWindow = w;
 		lastWindow = w;
@@ -511,12 +511,12 @@ void sUiSystem::AddElement(uiContainer* w, uiElement* e)
 	InitBoundProperty(e, "width", &(e->width), 0.0);
 
 	e->parent = w;
-	e->nextElement = NULL;
-	e->prevElement = NULL;
+	e->nextElement = nullptr;
+	e->prevElement = nullptr;
 
 	e->luaTableKey = -1;
 
-	if (w->firstElement == NULL)
+	if (w->firstElement == nullptr)
 	{
 		w->firstElement = e;
 		w->lastElement = e;
@@ -540,7 +540,7 @@ void sUiSystem::HandleCallback(uiElement* e, const char* func)
 void sUiSystem::RenderContainer(uiContainer* cc)
 {
 	uiElement* currentElement = cc->firstElement;
-	while (currentElement != NULL)
+	while (currentElement != nullptr)
 	{
 		if (!currentElement->visible)
 		{
@@ -776,7 +776,7 @@ bool sUiSystem::HandleHorizontalLayout(uiElement* e)
 	
 	//essentially the same as RenderContainer, except we have to make an extra call in there after every element
 	uiElement* currentElement = hl->firstElement;
-	while (currentElement != NULL)
+	while (currentElement != nullptr)
 	{
 		if (!currentElement->visible)
 		{
@@ -796,7 +796,7 @@ bool sUiSystem::HandleHorizontalLayout(uiElement* e)
 		}
 		
 		currentElement = currentElement->nextElement;
-		if(currentElement != NULL){
+		if(currentElement != nullptr){
 			ImGui::SameLine(hl->offset, hl->spacing);
 		}
 	}

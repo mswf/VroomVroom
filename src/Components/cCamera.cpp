@@ -18,12 +18,12 @@ CCamera::CCamera( Projection proj, float aspectRatio, float near, float far, flo
 
 CCamera::~CCamera()
 {
-	entity = NULL;
-	if (renderer != NULL)
+	entity = nullptr;
+	if (renderer != nullptr)
 	{
-		renderer->SetCamera( NULL );
+		renderer->SetCamera( nullptr );
 	}
-	renderer = NULL;
+	renderer = nullptr;
 }
 
 void CCamera::SetProjectionType( Projection type )

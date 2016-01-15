@@ -26,7 +26,7 @@ void BufferMesh( const Mesh* m, ModelInstance* instance )
 	//VBO, storing vertices, normals, uvs, tangents, bitangents
 	glGenBuffers( 1, &instance->vbo );
 	glBindBuffer( GL_ARRAY_BUFFER, instance->vbo );
-	glBufferData( GL_ARRAY_BUFFER, buf, NULL, GL_STATIC_DRAW);
+	glBufferData( GL_ARRAY_BUFFER, buf, nullptr, GL_STATIC_DRAW);
 	
 	// Buffer vertices
 	glBufferSubData( GL_ARRAY_BUFFER, 0, m->vertices.size() * sizeof(glm::vec3), &m->vertices.front() );
@@ -76,7 +76,7 @@ void CreateDynamicBuffer( unsigned int& vao, unsigned int& vbo, unsigned long bu
 	
 	glGenBuffers( 1, &vbo );
 	glBindBuffer( GL_ARRAY_BUFFER, vbo );
-	glBufferData( GL_ARRAY_BUFFER, bufferSize, NULL, GL_DYNAMIC_DRAW);
+	glBufferData( GL_ARRAY_BUFFER, bufferSize, nullptr, GL_DYNAMIC_DRAW);
 	
 	glBindVertexArray( 0 );
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );

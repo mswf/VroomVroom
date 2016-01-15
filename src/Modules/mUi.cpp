@@ -574,7 +574,7 @@ lFuncImp(mUi, destroy)
 	uiElement* element = static_cast<uiElement*>(lua_touserdata(L,-1));
 	lua_pop(L, 1);
 	
-	if(element->parent != NULL){
+	if(element->parent != nullptr){
 		UiSystem.RemoveElement(element->parent, element);
 	}
 	

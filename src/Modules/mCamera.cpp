@@ -12,7 +12,7 @@
 #include "../components/cLua.h"
 #include "../components/entity.h"
 
-Renderer* mCamera::renderer = NULL;
+Renderer* mCamera::renderer = nullptr;
 
 void mCamera::Bind(lua_State* L)
 {
@@ -47,7 +47,7 @@ lFuncImp(mCamera, getActiveCamera)
 	CCamera* cam = renderer->GetCamera();
 	
 	CLua* luaComp = Entity::GetComponent<CLua>(cam->entity);
-	if(luaComp != NULL)
+	if(luaComp != nullptr)
 	{
 		lua_pushnumber(L, luaComp->GetTableKey());
 		lua_gettable(L, LUA_REGISTRYINDEX);

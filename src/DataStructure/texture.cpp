@@ -7,7 +7,7 @@ GLuint BufferTexture3D( GLint levelOfDetail, GLint internalFormat, GLint width, 
 	unsigned int textureId;
 	glGenTextures( 1, &textureId );
 	glBindTexture( GL_TEXTURE_3D, textureId );
-	
+
 	//glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
 	std::vector< std::pair< GLenum, GLint > >::const_iterator iter = textureParameters->begin();
 	std::vector< std::pair< GLenum, GLint > >::const_iterator end = textureParameters->end();
@@ -21,7 +21,7 @@ GLuint BufferTexture3D( GLint levelOfDetail, GLint internalFormat, GLint width, 
 		glGenerateMipmap( GL_TEXTURE_3D );
 		CheckGlError("glGenerateMipMap 3D");
 	}
-	
+
 	return textureId;
 }
 
@@ -30,7 +30,7 @@ GLuint BufferTexture2D( GLint internalFormat, GLint width, GLint height, GLint p
 	unsigned int textureId;
 	glGenTextures( 1, &textureId );
 	glBindTexture( GL_TEXTURE_2D, textureId );
-	
+
 	SetTextureFilter( textureId, GL_TEXTURE_2D, minFilter, magFilter );
 	SetTextureWrapping( textureId, GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrap );
 	SetTextureWrapping( textureId, GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap );
@@ -43,7 +43,7 @@ GLuint BufferTexture2D( GLint internalFormat, GLint width, GLint height, GLint p
 		glGenerateMipmap( GL_TEXTURE_2D );
 		CheckGlError("glGenerateMipMap 2D");
 	}
-	
+
 	return textureId;
 }
 
@@ -52,10 +52,10 @@ GLuint BufferTexture1D( GLint internalFormat, GLint width, GLint pixelFormat, GL
 	unsigned int textureId;
 	glGenTextures( 1, &textureId );
 	glBindTexture( GL_TEXTURE_1D, textureId );
-	
+
 	FilterType filter = filterNearest ? FilterType::NEAREST : FilterType::LINEAR;
 	SetTextureFilter( textureId, GL_TEXTURE_1D, filter, filter );
-	
+
 	glTexImage1D( GL_TEXTURE_1D, 0, internalFormat, width, 0, pixelFormat, dataType, data );
 	CheckGlError("glTexImage2D 1D");
 	if ( generateMipMap )
@@ -63,7 +63,7 @@ GLuint BufferTexture1D( GLint internalFormat, GLint width, GLint pixelFormat, GL
 		glGenerateMipmap( GL_TEXTURE_1D );
 		CheckGlError("glGenerateMipMap 1D");
 	}
-	
+
 	return textureId;
 }
 
@@ -116,7 +116,7 @@ void BindTexture( GLenum textureUnit, GLenum target, GLuint program )
 
 void UnbindTexture( GLenum target )
 {
-	glBindTexture( target, NULL );
+	glBindTexture( target, 0 );
 }
 
 void DeleteTexture( GLuint textureId )

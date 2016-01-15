@@ -8,7 +8,7 @@
 
 TCPClient::TCPClient(const std::string hostName, const uint16 port)
 	: alive(false),
-    mutex(NULL)
+    mutex(nullptr)
 {
 	Initialize(hostName.c_str(), port);
 }
@@ -16,7 +16,7 @@ TCPClient::TCPClient(const std::string hostName, const uint16 port)
 
 TCPClient::TCPClient(const char* hostName, const uint16 port)
     : alive(false),
-    mutex(NULL)
+    mutex(nullptr)
 {
 	Initialize(hostName, port);
 }

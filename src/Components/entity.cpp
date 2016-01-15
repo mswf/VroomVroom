@@ -17,7 +17,7 @@ Entity::Entity( std::string name ) :
 	transform = new CTransform();
 	transform->entity = this;
 	
-	if( transform->GetParent() == NULL && name != root_name )
+	if( transform->GetParent() == nullptr && name != root_name )
 	{
 		Entity::root->AddChild(this);
 	}
@@ -28,7 +28,7 @@ Entity::~Entity()
 	DestroyChildren();
 	transform->GetParent()->entity->RemoveChild(this);
 	delete transform;
-	transform = NULL;
+	transform = nullptr;
 }
 
 void Entity::ClearComponents()
@@ -41,7 +41,7 @@ void Entity::ClearComponents()
 		for( ; it != end; ++it )
 		{
 			delete (*it).second;
-			(*it).second = NULL;
+			(*it).second = nullptr;
 		}
 		
 		std::multimap< int, Entity* >::iterator sti = componentStorage.begin();

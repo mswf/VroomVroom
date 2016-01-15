@@ -12,7 +12,7 @@
 
 void RunCommand(string cmd)
 {
-    if(!system(NULL))
+    if(!system(nullptr))
     {
         Terminal.Warning(cmd);
         Terminal.Warning("could not run command, system is not available");

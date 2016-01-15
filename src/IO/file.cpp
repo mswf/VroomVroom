@@ -11,13 +11,13 @@
 #include <SDL2/SDL.h>
 
 File::File() :
-    file(NULL)
+    file(nullptr)
 {
     
 }
 
 File::File(string path) :
-    file(NULL)
+    file(nullptr)
 {
     if (!Open(path))
     {
@@ -33,7 +33,7 @@ File::~File()
 bool File::Open(const string path)
 {
     file = SDL_RWFromFile(path.c_str(), "r+");
-    if(file == NULL){
+    if(file == nullptr){
         return false;
     }
     fileName = path;
@@ -49,7 +49,7 @@ void File::Create(const string path)
 
 Sint64 File::Size()
 {
-    if(file == NULL)
+    if(file == nullptr)
     {
         return 0;
     }
@@ -61,7 +61,7 @@ Sint64 File::Size()
 
 string File::ReadString()
 {
-    if(file == NULL)
+    if(file == nullptr)
     {
         return string("");
     }
@@ -72,12 +72,12 @@ string File::ReadString()
 
 void File::ReadStringInto(string* outString, Sint64 size)
 {
-    if(file == NULL)
+    if(file == nullptr)
     {
         return;
     }
     char* buf = static_cast<char*>(malloc(size + 1));
-    if(buf == NULL)
+    if(buf == nullptr)
     {
         return;
     }
@@ -100,7 +100,7 @@ void File::ReadStringInto(string* outString, Sint64 size)
 
 void File::WriteString(const string& data)
 {
-    if(file == NULL)
+    if(file == nullptr)
     {
         return;
     }
@@ -111,15 +111,15 @@ void File::WriteString(const string& data)
 
 void File::Close()
 {
-    if(file != NULL){
+    if(file != nullptr){
         SDL_RWclose(file);
-        file = NULL;
+        file = nullptr;
     }
 }
 
 void File::Clear()
 {
-    if(file != NULL){
+    if(file != nullptr){
         Close();
         
         SDL_RWops* tmp = SDL_RWFromFile(fileName.c_str(), "w");

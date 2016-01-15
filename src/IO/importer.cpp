@@ -150,7 +150,7 @@ ImageData* Importer::ReImportImage( const char* filename, bool vertical_flip ) c
 	{
 		std::string err_file( filename );
 		Terminal.Warning( "Failed to load image <" + err_file + ">, error: " + imp_->import_image_failure_reason );
-		return NULL;
+		return nullptr;
 	}
 	return image;
 }

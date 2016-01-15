@@ -118,7 +118,7 @@ void mEntity::UnreferenceTable(int tableKey)
 	lua_pushnumber(L, tableKey);
 	lua_gettable(L, LUA_REGISTRYINDEX);
 	
-	lua_pushlightuserdata(L, NULL);
+	lua_pushlightuserdata(L, nullptr);
 	lua_setfield(L, -2, "__coreComponent__");
 	
 	luaL_unref(L, LUA_REGISTRYINDEX, tableKey);

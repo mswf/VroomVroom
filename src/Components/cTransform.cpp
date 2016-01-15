@@ -12,7 +12,7 @@ CTransform::CTransform():
 	rotation( glm::quat( glm::vec3(0) ) ),
 	position( glm::vec3(0) ),
 	scale( glm::vec3(1) ),
-	parent(NULL)
+	parent(nullptr)
 {}
 
 CTransform::~CTransform()
@@ -60,7 +60,7 @@ void CTransform::Update()
 	
 	// localTransform = parentWorldTransform.inverse() * worldTransform;
 	// M_loc = M_parent_inv * M
-	glm::mat4 world = (parent != NULL ) ? ( parent->GetWorldTransform() * localTransform ) : localTransform;
+	glm::mat4 world = (parent != nullptr ) ? ( parent->GetWorldTransform() * localTransform ) : localTransform;
 	SetWorldTransform(world);
 	
 	std::vector< CTransform* >::const_iterator iter = children.begin();
@@ -73,7 +73,7 @@ void CTransform::Update()
 
 void CTransform::AddChild( CTransform* c )
 {
-	if ( c->parent != NULL )
+	if ( c->parent != nullptr )
 	{
 		c->parent->RemoveChild( c );
 	}
@@ -91,7 +91,7 @@ void CTransform::RemoveChild( CTransform *c )
 		if ( c == (*iter) )
 		{
 			children.erase(iter);
-			c->parent = NULL;
+			c->parent = nullptr;
 			c->Update();
 			break;
 		}

@@ -62,7 +62,7 @@ Mesh* ResourceManager::GetMesh( const char* name ) const
 	if ( !MeshExists( name ) )
 	{
 		Terminal.Warning( "Mesh: " + string(name) + " not imported." );
-		return NULL;
+		return nullptr;
 	}
 	return meshes.at(name);
 }
@@ -190,7 +190,7 @@ ModelInstance* ResourceManager::GetModel( const char* name )
 		if ( it_mesh == meshes.end() )
 		{
 			Terminal.Warning( "No mesh by the name of" + string(name) + " has been found in resources." );
-			return NULL;
+			return nullptr;
 		}
 	}
 	return (*it_model).second;
@@ -273,7 +273,7 @@ ImageData* ResourceManager::GetImageData( const char* name ) const
 	if ( !ImageExists( name ) )
 	{
 		Terminal.Warning( "Image: " + string(name) + " not imported." );
-		return NULL;
+		return nullptr;
 	}
 	return images.at(name);
 }
@@ -281,7 +281,7 @@ ImageData* ResourceManager::GetImageData( const char* name ) const
 bool ResourceManager::BufferImage1D( const char* name )
 {
 	ImageData* img = GetImageData( name );
-	if (img == NULL)
+	if (img == nullptr)
 	{
 		return false;
 	}
@@ -300,7 +300,7 @@ bool ResourceManager::BufferImage1D( const char* name )
 bool ResourceManager::BufferImage2D( const char* name )
 {
 	ImageData* img = GetImageData( name );
-	if (img == NULL)
+	if (img == nullptr)
 	{
 		return false;
 	}
@@ -326,7 +326,7 @@ bool ResourceManager::BufferImage3D( const char* name )
 bool ResourceManager::UpdateImage2DBuffer( const char* name )
 {
 	ImageData* img = GetImageData( name );
-	if (img == NULL)
+	if (img == nullptr)
 	{
 		Terminal.Warning("Requested texture not found.");
 		return false;
@@ -377,7 +377,7 @@ Material* ResourceManager::GetMaterialById( uint32 materialId ) const
 	if ( !MaterialExists(materialId) )
 	{
 		Terminal.Warning( "Material id <" + std::to_string(materialId) + "> not found." );
-		return NULL;
+		return nullptr;
 	}
 	return materials.at( materialId );
 }
@@ -588,7 +588,7 @@ ShaderObject* ResourceManager::GetShaderObject( const char* name ) const
 	if ( !ShaderObjectExists( name ) )
 	{
 		Terminal.Warning( "Shader Object: " + string(name) + " does not exist." );
-		return NULL;
+		return nullptr;
 	}
 	return shaderObjects.at(name);
 
@@ -599,7 +599,7 @@ ShaderProgram* ResourceManager::GetShaderProgram( const char* name ) const
 	if ( !ShaderProgramExists( name ) )
 	{
 		Terminal.Warning( "Shader Program: " + string(name) + " does not exist." );
-		return NULL;
+		return nullptr;
 	}
 	return shaderPrograms.at(name);
 }

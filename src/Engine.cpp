@@ -501,9 +501,9 @@ void Engine::WeikieTestCode()
 
 void Engine::UpdateLoop()
 {
-	//#ifdef WEIKIE
-	WeikieTestCode();
-	//#endif
+	#ifdef WEIKIE
+		WeikieTestCode();
+	#endif
 
 	/// TINAS PLAYGROUND!!!
 

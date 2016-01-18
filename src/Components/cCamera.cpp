@@ -52,7 +52,7 @@ void CCamera::SetProjectionType( Projection type )
 void CCamera::Call()
 {
 	// Needs a debug camera for testing purposes
-	glm::vec4 position = entity->transform->GetWorldTransform()[3];
+	glm::vec4 position = entity->transform->GetTransform()[3];
 	glm::vec3 eye = glm::vec3( position.x, position.y, position.z );
 	glm::vec3 target = eye + entity->transform->VectorForward();// + entity->transform->GetEulerAngles();
 	

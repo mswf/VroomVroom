@@ -28,6 +28,7 @@
 		23E1BD881C0C7A7900F49BCF /* mModel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E1BD861C0C7A7900F49BCF /* mModel.cpp */; };
 		23E1BD8B1C0C8DBF00F49BCF /* mShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E1BD891C0C8DBF00F49BCF /* mShader.cpp */; };
 		23E22F5F1BE9FEBA00987545 /* uiSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E22F5D1BE9FEBA00987545 /* uiSystem.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
+		23E829D21C4D24D0000B81AE /* mCollider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23E829D01C4D24D0000B81AE /* mCollider.cpp */; };
 		23EE7EC31BC686020006581F /* Engine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23EE7EC11BC686020006581F /* Engine.cpp */; };
 		23EE7EE41BC6C2B90006581F /* console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23EE7EE21BC6C2B90006581F /* console.cpp */; };
 		23FEEEA51BF0EE8600A83377 /* command.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23FEEEA41BF0EE8600A83377 /* command.cpp */; };
@@ -68,8 +69,8 @@
 		E59FDC911BBAC0EE008935C5 /* random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E59FDC8E1BBAC0EE008935C5 /* random.cpp */; };
 		E5AC728E1C3E6E58005CECB5 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5AC728C1C3E6E58005CECB5 /* Input.cpp */; };
 		E5B2828A1BCD4DA300759348 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5B282891BCD4DA300759348 /* CoreMIDI.framework */; };
-		E5B2D5CC1C48F9CB00894F2B /* boxCollider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B2D5C81C48F9CB00894F2B /* boxCollider.cpp */; settings = {ASSET_TAGS = (); }; };
-		E5B2D5CD1C48F9CB00894F2B /* sphereCollider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B2D5CA1C48F9CB00894F2B /* sphereCollider.cpp */; settings = {ASSET_TAGS = (); }; };
+		E5B2D5CC1C48F9CB00894F2B /* boxCollider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B2D5C81C48F9CB00894F2B /* boxCollider.cpp */; };
+		E5B2D5CD1C48F9CB00894F2B /* sphereCollider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B2D5CA1C48F9CB00894F2B /* sphereCollider.cpp */; };
 		E5D664DC1BC16C390042350B /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D664DB1BC16C390042350B /* SDL2.framework */; };
 		E5D9F8E51BE247C7005AFAB1 /* mEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5D9F8E41BE247C7005AFAB1 /* mEntity.cpp */; };
 		E5DEBDC71C0B5934009F0FB4 /* opengl_common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5DEBDC51C0B5934009F0FB4 /* opengl_common.cpp */; };
@@ -150,6 +151,8 @@
 		23E1BD8A1C0C8DBF00F49BCF /* mShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mShader.h; path = src/Modules/mShader.h; sourceTree = SOURCE_ROOT; };
 		23E22F5D1BE9FEBA00987545 /* uiSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uiSystem.cpp; path = src/Systems/uiSystem.cpp; sourceTree = SOURCE_ROOT; };
 		23E22F5E1BE9FEBA00987545 /* uiSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uiSystem.h; path = src/Systems/uiSystem.h; sourceTree = SOURCE_ROOT; };
+		23E829D01C4D24D0000B81AE /* mCollider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mCollider.cpp; path = src/Modules/mCollider.cpp; sourceTree = SOURCE_ROOT; };
+		23E829D11C4D24D0000B81AE /* mCollider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mCollider.h; path = src/Modules/mCollider.h; sourceTree = SOURCE_ROOT; };
 		23EE7EC11BC686020006581F /* Engine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Engine.cpp; path = src/Engine.cpp; sourceTree = SOURCE_ROOT; };
 		23EE7EC21BC686020006581F /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Engine.h; path = src/Engine.h; sourceTree = SOURCE_ROOT; };
 		23EE7EE21BC6C2B90006581F /* console.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = console.cpp; path = src/console.cpp; sourceTree = SOURCE_ROOT; };
@@ -342,6 +345,8 @@
 				2305011B1C21696700E2B2B2 /* mAudio.h */,
 				2321BFEC1C3C07FA00B60EA8 /* mLight.cpp */,
 				2321BFED1C3C07FA00B60EA8 /* mLight.h */,
+				23E829D01C4D24D0000B81AE /* mCollider.cpp */,
+				23E829D11C4D24D0000B81AE /* mCollider.h */,
 			);
 			name = Modules;
 			sourceTree = "<group>";
@@ -626,6 +631,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				23D328D11C0F034700FAC4B9 /* mImport.cpp in Sources */,
+				23E829D21C4D24D0000B81AE /* mCollider.cpp in Sources */,
 				E56F55861BEB4C3F0027DDF6 /* resource_manager.cpp in Sources */,
 				E53200BB1C133A2F00907818 /* cDebugRenderer.cpp in Sources */,
 				E50529431BE8CDBA0017400B /* shader.cpp in Sources */,

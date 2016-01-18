@@ -30,6 +30,8 @@ class mInput{
         lFuncDef(keyUp);
         lFuncDef(mouseDown);
         lFuncDef(mouseUp);
+		lFuncDef(getMouseWheelScroll);
+		lFuncDef(getMouseRelativeMotion);
     
         static Input* input;
 };

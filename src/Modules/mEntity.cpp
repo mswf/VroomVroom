@@ -22,6 +22,7 @@
 #include "../Components/cTransform.h"
 #include "../Components/cDebugRenderer.h"
 #include "../Components/cLight.h"
+#include "../Components/cCollider.h"
 
 #include "../engine.h"
 
@@ -218,6 +219,11 @@ lFuncImp(mEntity, addComponent)
 	{
 		Entity::AddComponent(core->entity, static_cast<CLight*>(comp));
 		lua_setfield(L, 1, "light");
+	}
+	else if(familyId == static_cast<int>(ComponentTypes::COLLIDER))
+	{
+		Entity::AddComponent(core->entity, static_cast<CCollider*>(comp));
+		lua_setfield(L, 1, "collider");
 	}
 	else
 	{

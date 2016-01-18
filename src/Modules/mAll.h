@@ -24,6 +24,7 @@
 #include "mAudio.h"
 #include "mWindow.h"
 #include "mLight.h"
+#include "mCollider.h"
 
 
 #endif /* mAll_h */

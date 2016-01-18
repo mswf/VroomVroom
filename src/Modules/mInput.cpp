@@ -25,7 +25,9 @@ void mInput::Bind(lua_State* L)
         lBind(keyDown)
         lBind(keyUp)
         lBind(mouseDown)
-        lBind(mouseUp)
+        lBind(getMouseWheelScroll)
+	 	lBind(getMouseRelativeMotion)
+	 lBind(mouseUp)
     lEnd(Input)
 	luaL_openlib(L, "Input" , Input_funcs, 0);\
 	lua_pop(L, 1);
@@ -158,5 +160,29 @@ lFuncImp(mInput, mouseUp)
     
     lua_pushboolean(L, isDown);
     return 1;
+}
 
+
+lFuncImp(mInput, getMouseWheelScroll)
+{
+	lua_settop(L, 0);
+	
+	glm::ivec2 scroll = input->GetMouseWheelScroll();
+	
+	lua_pushnumber(L, scroll.x);
+	lua_pushnumber(L, scroll.y);
+	
+	return 2;
+}
+
+lFuncImp(mInput, getMouseRelativeMotion)
+{
+	lua_settop(L, 0);
+	
+	glm::ivec2 motion = input->GetMouseRelativeMotion();
+	
+	lua_pushnumber(L, motion.x);
+	lua_pushnumber(L, motion.y);
+	
+	return 2;
 }

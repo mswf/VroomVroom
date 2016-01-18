@@ -7,47 +7,36 @@
 const int CTransform::familyId = static_cast<int>(ComponentTypes::TRANSFORM);
 
 CTransform::CTransform():
-	localTransform( glm::mat4(1.0) ),
-	worldTransform( glm::mat4(1.0) ),
+	transform( glm::mat4(1.0) ),
 	rotation( glm::quat( glm::vec3(0) ) ),
 	position( glm::vec3(0) ),
 	scale( glm::vec3(1) ),
+	update( false ),
 	parent(nullptr)
 {}
 
 CTransform::~CTransform()
 {
-	/*
-	 std::vector< CTransform* >::const_iterator iter = children.begin();
-	 std::vector< CTransform* >::const_iterator end = children.end();
-	 for ( ; iter != end; ++iter)
-	 {
-		delete ( (*iter)->entity );
-	 }
-	*/
 }
 
 void CTransform::Call()
 {}
 
-const glm::mat4& CTransform::GetTransform() const
+const glm::mat4& CTransform::GetTransform()
 {
-	return localTransform;
+	if ( update ) Update();
+	return transform;
 }
 
-const glm::mat4& CTransform::GetWorldTransform() const
+void CTransform::SetTransform( const glm::mat4 &transform )
 {
-	return worldTransform;
-}
-
-void CTransform::SetWorldTransform( const glm::mat4 &transform )
-{
-	worldTransform = transform;
+	this->transform = transform;
+	
 }
 
 void CTransform::LookAt( const glm::vec3 &target, const glm::vec3& up )
 {
-	SetWorldTransform( glm::lookAt(position, glm::normalize(target - position), up) );
+	SetTransform( glm::lookAt(position, glm::normalize(target - position), up) );
 }
 
 //Private
@@ -56,12 +45,10 @@ void CTransform::Update()
 	glm::mat4 mTranslation = glm::translate( position );
 	glm::mat4 mRotation = glm::mat4_cast( rotation );
 	glm::mat4 mScale = glm::scale( scale );
-	localTransform = (mTranslation * mRotation * mScale);
+	transform = (mTranslation * mRotation * mScale);
 	
-	// localTransform = parentWorldTransform.inverse() * worldTransform;
-	// M_loc = M_parent_inv * M
-	glm::mat4 world = (parent != nullptr ) ? ( parent->GetWorldTransform() * localTransform ) : localTransform;
-	SetWorldTransform(world);
+	transform = ( parent != nullptr ) ? ( parent->GetTransform() * transform ) : transform;
+	update = false;
 	
 	std::vector< CTransform* >::const_iterator iter = children.begin();
 	std::vector< CTransform* >::const_iterator end = children.end();
@@ -110,32 +97,29 @@ std::vector< CTransform* >& CTransform::GetChildren()
 
 const glm::vec3 CTransform::VectorRight() const
 {
-	return glm::vec3( glm::inverse(localTransform)[0] );
+	return glm::vec3( glm::inverse(transform)[0] );
 }
 
 const glm::vec3 CTransform::VectorUp() const
 {
-	return glm::vec3( glm::inverse(localTransform)[1] );
+	return glm::vec3( glm::inverse(transform)[1] );
 }
 
 const glm::vec3 CTransform::VectorForward() const
 {
-	return glm::vec3( glm::inverse(localTransform)[2] );
+	return glm::vec3( glm::inverse(transform)[2] );
 }
 
 // POSITION
 void CTransform::Translate( const glm::vec3& translation )
 {
 	this->position += translation;
-	Update();
+	update = true;
 }
 
 void CTransform::Translate( const float& x, const float& y, const float& z )
 {
-	this->position.x += x;
-	this->position.y += y;
-	this->position.z += z;
-	Update();
+	Translate( glm::vec3( x, y, z ) );
 }
 
 void CTransform::TranslateX( const float& x )
@@ -153,62 +137,62 @@ void CTransform::TranslateZ( const float& z )
 	Translate( glm::vec3( 0.0, 0.0, z ) );
 }
 
-
 glm::vec3 CTransform::GetPosition() const
 {
-	//return position;
-	return glm::vec3( worldTransform[3][0], worldTransform[3][1], worldTransform[3][2] );
+	return glm::vec3( transform[3][0], transform[3][1], transform[3][2] );
 }
 
 glm::vec3 CTransform::GetLocalPosition()
 {
-	glm::mat4 lT = glm::inverse( GetParent()->GetWorldTransform() ) * GetWorldTransform();
-	return glm::vec3( lT[3][0], lT[3][1], lT[3][2] );
+	glm::mat4 localTransform = glm::inverse( parent->GetTransform() ) * transform;
+	return glm::vec3( localTransform[3][0], localTransform[3][1], localTransform[3][2] );
 }
 
 void CTransform::SetPosition( const glm::vec3& position )
 {
 	this->position = position;
-	Update();
+	update = true;
 }
 
 void CTransform::SetPosition( const float& x, const float& y, const float& z )
 {
-	SetPosition( glm::vec3(x,y,z) );
-	Update();
+	SetPosition( glm::vec3( x, y, z ) );
 }
 
 const float CTransform::GetPositionX() const
 {
-	return position.x;
+	return  transform[3][0];
+	//return position.x;
 }
 
 const float CTransform::GetPositionY() const
 {
-	return position.y;
+	return  transform[3][1];
+	//return position.y;
 }
 
 const float CTransform::GetPositionZ() const
 {
-	return position.z;
+	return  transform[3][2];
+	//return position.z;
 }
 
 void CTransform::SetPositionX( const float& x )
 {
 	position.x = x;
-	Update();
+	update = true;
 }
 
 void CTransform::SetPositionY( const float& y )
 {
 	position.y = y;
-	Update();
+	update = true;
 }
 
 void CTransform::SetPositionZ( const float& z )
 {
 	position.z = z;
-	Update();
+	update = true;
 }
 
 // SCALE
@@ -216,7 +200,7 @@ void CTransform::SetPositionZ( const float& z )
 void CTransform::Scale( const glm::vec3& scale )
 {
 	this->scale *= scale;
-	Update();
+	update = true;
 }
 
 void CTransform::ScaleX( const float& x )
@@ -242,40 +226,43 @@ glm::vec3 CTransform::GetScale() const
 void CTransform::SetScale( const glm::vec3& scale )
 {
 	this->scale = scale;
-	Update();
+	update = true;
 }
 
 const float CTransform::GetScaleX() const
 {
-	return scale.x;
+	return transform[0][0];
+	//return scale.x;
 }
 
 const float CTransform::GetScaleY() const
 {
-	return scale.y;
+	return transform[1][1];
+	//return scale.y;
 }
 
 const float CTransform::GetScaleZ() const
 {
-	return scale.z;
+	return transform[2][2];
+	//return scale.z;
 }
 
 void CTransform::SetScaleX( const float& x )
 {
 	scale.x = x;
-	Update();
+	update = true;
 }
 
 void CTransform::SetScaleY( const float& y )
 {
 	scale.y = y;
-	Update();
+	update = true;
 }
 
 void CTransform::SetScaleZ( const float& z )
 {
 	scale.z = z;
-	Update();
+	update = true;
 }
 
 // ROTATION
@@ -283,7 +270,7 @@ void CTransform::Rotate( const float& angle, const glm::vec3& rotation )
 {
 	this->rotation = glm::rotate( this->rotation, glm::radians( angle ), rotation );
 	eulerRotation = glm::eulerAngles(this->rotation);
-	Update();
+	update = true;
 }
 
 const glm::quat CTransform::GetRotation() const
@@ -303,7 +290,7 @@ void CTransform::SetRotation( const glm::vec3& rotation )
 	newRot = glm::rotate(newRot, glm::radians( eulerRotation.y ), glm::vec3(0,1,0) );
 	newRot = glm::rotate(newRot, glm::radians( eulerRotation.x ), glm::vec3(1,0,0) );
 	this->rotation = newRot;
-	Update();
+	update = true;
 }
 
 void CTransform::Pitch( const float& angle )
@@ -340,19 +327,19 @@ void CTransform::SetPitch( const float& angle )
 {
 	eulerRotation.x = angle * 360;
 	SetRotation( eulerRotation );
-	Update();
+	update = true;
 }
 
 void CTransform::SetYaw( const float& angle )
 {
 	eulerRotation.y = angle * 360;
 	SetRotation( eulerRotation );
-	Update();
+	update = true;
 }
 
 void CTransform::SetRoll( const float& angle )
 {
 	eulerRotation.z = angle * 360;
 	SetRotation( eulerRotation );
-	Update();
+	update = true;
 }

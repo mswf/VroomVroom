@@ -17,10 +17,8 @@ class CTransform : public Component
 
 	void Call() override;
 
-	const glm::mat4& GetTransform() const;
-		const glm::mat4& GetWorldTransform() const;
-
-		void SetWorldTransform( const glm::mat4& transform );
+		const glm::mat4& GetTransform();
+		void SetTransform( const glm::mat4& transform );
 	
 		void LookAt( const glm::vec3& target, const glm::vec3& up = glm::vec3(0.0f, 1.0f, 0.0f) );
 	
@@ -98,13 +96,14 @@ class CTransform : public Component
 	
 		void Update();
 	
-		glm::mat4 localTransform;
-		glm::mat4 worldTransform;
+		glm::mat4 transform;
 	
 		glm::quat rotation;
 		glm::vec3 eulerRotation;
 		glm::vec3 position;
 		glm::vec3 scale;
+	
+		bool update;
 	
 		CTransform* parent;
 		std::vector< CTransform* > children;

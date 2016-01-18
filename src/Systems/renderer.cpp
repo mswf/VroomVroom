@@ -161,11 +161,11 @@ void Renderer::RenderScene() const
 			glEnable(GL_CULL_FACE);
 		}
 			
-		glm::mat3 mvMatrix = glm::mat3( camera->GetViewMatrix() * (*it)->entity->transform->GetWorldTransform() );
+		glm::mat3 mvMatrix = glm::mat3( camera->GetViewMatrix() * (*it)->entity->transform->GetTransform() );
 		glm::mat3 normalMatrix = glm::transpose(glm::inverse(mvMatrix));
 			
 			
-		SetUniform( program,	"model", 		(*it)->entity->transform->GetWorldTransform() );
+		SetUniform( program,	"model", 		(*it)->entity->transform->GetTransform() );
 		SetUniform( program,	"view", 		camera->GetViewMatrix() );
 		SetUniform( program,	"normalMatrix", normalMatrix );
 		SetUniform( program,	"mvMatrix", 	mvMatrix );
@@ -244,7 +244,7 @@ void Renderer::RenderDebugLines() const
 						
 		glBindVertexArray( (*it)->vao);
 		
-		SetUniform( debugProgram->program,	"model", 		(*it)->entity->transform->GetWorldTransform() );
+		SetUniform( debugProgram->program,	"model", 		(*it)->entity->transform->GetTransform() );
 		SetUniform( debugProgram->program,	"view", 		camera->GetViewMatrix() );
 		SetUniform( debugProgram->program,	"projection", 	camera->GetProjectionMatrix() );
 		SetUniform( debugProgram->program,	"time", 		static_cast<float>(time) );

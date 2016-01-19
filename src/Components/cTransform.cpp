@@ -24,7 +24,7 @@ void CTransform::Call()
 	if (update) Update();
 }
 
-const glm::mat4& CTransform::GetTransform()
+	const glm::mat4& CTransform::GetTransform()
 {
 	if ( update ) Update();
 	return transform;
@@ -33,6 +33,7 @@ const glm::mat4& CTransform::GetTransform()
 void CTransform::SetTransform( const glm::mat4 &transform )
 {
 	this->transform = transform;
+	update = true;
 }
 
 void CTransform::LookAt( const glm::vec3 &target, const glm::vec3& up )
@@ -65,8 +66,11 @@ void CTransform::AddChild( CTransform* c )
 	{
 		c->parent->RemoveChild( c );
 	}
-	children.push_back(c);
 	c->parent = this;
+
+	children.push_back(c);
+	update = true;
+
 	c->Update();
 }
 
@@ -138,8 +142,9 @@ void CTransform::TranslateZ( const float& z )
 	Translate( glm::vec3( 0.0, 0.0, z ) );
 }
 
-glm::vec3 CTransform::GetPosition() const
+glm::vec3 CTransform::GetPosition()
 {
+	if (update) Update();
 	return glm::vec3( transform[3][0], transform[3][1], transform[3][2] );
 }
 

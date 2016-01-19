@@ -41,7 +41,7 @@ class CTransform : public Component
 		void TranslateY( const float& y );
 		void TranslateZ( const float& z );
 	
-		glm::vec3 GetPosition() const;
+		glm::vec3 GetPosition();
 		glm::vec3 GetLocalPosition();
 	
 		const float GetPositionX() const;
@@ -91,7 +91,7 @@ class CTransform : public Component
 		void ScaleY( const float& y );
 		void ScaleZ( const float& z );
 	
-	
+
     private:
 	
 		void Update();

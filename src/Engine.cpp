@@ -312,6 +312,10 @@ void Engine::PollEvent()
 			running = false;
 			//TODO: don't exit instantly, rather disrupt the game loop and exit through a controlled flow
 		}
+		if (event.type == SDL_DROPFILE)
+		{
+			LuaSystem.SendDropFileCallback(static_cast<std::string>(event.drop.file));
+		}
 		else
 		{
 			inputManager.Update(&event);

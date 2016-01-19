@@ -180,6 +180,16 @@ void sLuaSystem::EventCallback(const char* name, int argCount, int* args)
 	lua_settop(lState, 0);
 }
 
+void sLuaSystem::SendDropFileCallback(const string& filePath)
+{
+	lua_getglobal(lState, "Game");
+	lua_getfield(lState, -1, "onDropFile");
+	lua_pushlstring(lState, filePath.c_str(), filePath.size());
+
+	Call(lState, 1, 0);
+
+	lua_settop(lState, 0);
+}
 
 void sLuaSystem::Attempt(string command)
 {

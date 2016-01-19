@@ -1,4 +1,5 @@
 #include "cCamera.h"
+#include "console.h"
 #include "entity.h"
 
 const int CCamera::familyId = static_cast<int>(ComponentTypes::CAMERA);
@@ -62,6 +63,12 @@ void CCamera::Call()
 
 glm::vec3 CCamera::ScreenToWorldPosition( const glm::ivec2& position )
 {
+	if ( renderer == nullptr )
+	{
+		Terminal.Log("Fuck.. ScreenToWorldDirection doesn't have renderer and can't get window dimensions.", true);
+		return glm::vec3(0);
+	}
+	
 	float width = renderer->GetWindowWidth();
 	float height = renderer->GetWindowHeight();
 	

@@ -299,6 +299,8 @@ void Engine::WindowEvent( SDL_WindowEvent window )
 
 void Engine::PollEvent()
 {
+	inputManager.resetScrollWheel();
+
 	SDL_Event event;
 	while ( SDL_PollEvent( &event ) )
 	{

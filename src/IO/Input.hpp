@@ -67,8 +67,8 @@ class Input
 		void StateReset();
 		void MidiTest();
 		void MidiListener();
-
-	private:
+		void resetScrollWheel();
+private:
 
 		KeyState keyState[SDL_NUM_SCANCODES];
 		MouseButtonState mouseState[6];

@@ -20,7 +20,9 @@ CTransform::~CTransform()
 }
 
 void CTransform::Call()
-{}
+{
+	if (update) Update();
+}
 
 const glm::mat4& CTransform::GetTransform()
 {

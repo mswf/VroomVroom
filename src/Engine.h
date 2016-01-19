@@ -32,8 +32,7 @@ class Engine
 		static glm::vec2 GetWindowSize();
 		static void SetWindowSize(glm::vec2 dimensions);
 
-
-		glm::vec3 CastRay( glm::vec3 origin, glm::vec3 direction, glm::vec3 plane, float distance );
+		static glm::vec3 CastRay( glm::vec3 origin, glm::vec3 direction, glm::vec3 plane, float distance );
 		static uint32 GetTicks();
 		
 public:

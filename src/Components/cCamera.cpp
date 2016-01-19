@@ -53,7 +53,8 @@ void CCamera::Call()
 {
 	// Needs a debug camera for testing purposes
 	glm::vec4 position = entity->transform->GetTransform()[3];
-	glm::vec3 eye = glm::vec3( position.x, position.y, position.z );
+	//glm::vec3 eye = glm::vec3( position.x, position.y, position.z );
+	glm::vec3 eye =  entity->transform->GetPosition();
 	glm::vec3 target = eye + entity->transform->VectorForward();// + entity->transform->GetEulerAngles();
 	
 	viewMatrix = glm::lookAt( eye , target, entity->transform->VectorUp() );
@@ -64,19 +65,23 @@ glm::vec3 CCamera::ScreenToWorldPosition( const glm::ivec2& position )
 	float width = renderer->GetWindowWidth();
 	float height = renderer->GetWindowHeight();
 	
-	printf( " %i %i \n", position.x, position.y );
+	//printf( " %i %i \n", position.x, position.y );
 	
 	//Step 1
 	float x = ( 2.0 * position.x ) / width - 1.0;
 	float y = 1.0 - ( 2.0 * position.y ) / height;
-	float z = -1.0;
+	float z = 1.0;
+	
+	glm::vec3 ray_nds( x, y, z );
+	glm::vec4 ray_clip(x, y, -1.0, 1.0);
 	
 	//Step 2
-	glm::vec4 ray_eye = glm::inverse(projectionMatrix) * glm::vec4(x, y, z, 1.0);
-	ray_eye = glm::vec4( ray_eye.x, ray_eye.y, -1.0, 1.0 );
+	glm::vec4 ray_eye = glm::inverse( projectionMatrix ) * ray_clip;
+	ray_eye = glm::vec4( ray_eye.x, ray_eye.y, -1.0, 0.0 );
 	
 	//Step 3
-	glm::vec3 ray_world = glm::normalize( glm::vec3( glm::inverse(viewMatrix) * ray_eye ) );
+	glm::vec4 rwt = glm::inverse(viewMatrix) * ray_eye;
+	glm::vec3 ray_world = glm::normalize( glm::vec3(rwt.x, rwt.y, rwt.z) );
 	
 	return ray_world;
 }

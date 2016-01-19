@@ -640,6 +640,18 @@ void Engine::UpdateLoop()
 	CloseWindow(window, glcontext);
 }
 
+glm::vec3 Engine::CastRay( glm::vec3 origin, glm::vec3 direction, glm::vec3 plane, float distance )
+{
+	float t = 0.0f;
+	glm::vec3 coord(0);
+	float hit = glm::dot(direction, plane);
+	if ( hit != 0 )
+	{
+		t = -( glm::dot(plane, origin) + distance ) / hit;
+		coord = origin + glm::normalize(direction) * t;
+	}
+	return coord;
+}
 void Engine::CleanUpEntities()
 {
 	if ( Entity::shouldClean )

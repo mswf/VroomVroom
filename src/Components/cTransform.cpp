@@ -11,7 +11,6 @@ CTransform::CTransform():
 	rotation( glm::quat( glm::vec3(0) ) ),
 	position( glm::vec3(0) ),
 	scale( glm::vec3(1) ),
-	update( false ),
 	parent(nullptr)
 {}
 
@@ -21,19 +20,18 @@ CTransform::~CTransform()
 
 void CTransform::Call()
 {
-	if (update) Update();
+	//Update();
 }
 
 	const glm::mat4& CTransform::GetTransform()
 {
-	if ( update ) Update();
 	return transform;
 }
 
 void CTransform::SetTransform( const glm::mat4 &transform )
 {
 	this->transform = transform;
-	update = true;
+	Update();
 }
 
 void CTransform::LookAt( const glm::vec3 &target, const glm::vec3& up )
@@ -50,7 +48,6 @@ void CTransform::Update()
 	transform = (mTranslation * mRotation * mScale);
 	
 	transform = ( parent != nullptr ) ? ( parent->GetTransform() * transform ) : transform;
-	update = false;
 	
 	std::vector< CTransform* >::const_iterator iter = children.begin();
 	std::vector< CTransform* >::const_iterator end = children.end();
@@ -69,9 +66,9 @@ void CTransform::AddChild( CTransform* c )
 	c->parent = this;
 
 	children.push_back(c);
-	update = true;
+	Update();
 
-	c->Update();
+	//c->Update();
 }
 
 void CTransform::RemoveChild( CTransform *c )
@@ -119,7 +116,7 @@ const glm::vec3 CTransform::VectorForward() const
 void CTransform::Translate( const glm::vec3& translation )
 {
 	this->position += translation;
-	update = true;
+	Update();
 }
 
 void CTransform::Translate( const float& x, const float& y, const float& z )
@@ -144,7 +141,6 @@ void CTransform::TranslateZ( const float& z )
 
 glm::vec3 CTransform::GetPosition()
 {
-	if (update) Update();
 	return glm::vec3( transform[3][0], transform[3][1], transform[3][2] );
 }
 
@@ -157,7 +153,7 @@ glm::vec3 CTransform::GetLocalPosition()
 void CTransform::SetPosition( const glm::vec3& position )
 {
 	this->position = position;
-	update = true;
+	Update();
 }
 
 void CTransform::SetPosition( const float& x, const float& y, const float& z )
@@ -183,19 +179,19 @@ const float CTransform::GetPositionZ() const
 void CTransform::SetPositionX( const float& x )
 {
 	position.x = x;
-	update = true;
+	Update();
 }
 
 void CTransform::SetPositionY( const float& y )
 {
 	position.y = y;
-	update = true;
+	Update();
 }
 
 void CTransform::SetPositionZ( const float& z )
 {
 	position.z = z;
-	update = true;
+	Update();
 }
 
 // SCALE
@@ -203,7 +199,7 @@ void CTransform::SetPositionZ( const float& z )
 void CTransform::Scale( const glm::vec3& scale )
 {
 	this->scale *= scale;
-	update = true;
+	Update();
 }
 
 void CTransform::ScaleX( const float& x )
@@ -229,7 +225,7 @@ glm::vec3 CTransform::GetScale() const
 void CTransform::SetScale( const glm::vec3& scale )
 {
 	this->scale = scale;
-	update = true;
+	Update();
 }
 
 const float CTransform::GetScaleX() const
@@ -250,19 +246,19 @@ const float CTransform::GetScaleZ() const
 void CTransform::SetScaleX( const float& x )
 {
 	scale.x = x;
-	update = true;
+	Update();
 }
 
 void CTransform::SetScaleY( const float& y )
 {
 	scale.y = y;
-	update = true;
+	Update();
 }
 
 void CTransform::SetScaleZ( const float& z )
 {
 	scale.z = z;
-	update = true;
+	Update();
 }
 
 // ROTATION
@@ -270,7 +266,7 @@ void CTransform::Rotate( const float& angle, const glm::vec3& rotation )
 {
 	this->rotation = glm::rotate( this->rotation, glm::radians( angle ), rotation );
 	eulerRotation = glm::eulerAngles(this->rotation);
-	update = true;
+	Update();
 }
 
 const glm::quat CTransform::GetRotation() const
@@ -290,7 +286,7 @@ void CTransform::SetRotation( const glm::vec3& rotation )
 	newRot = glm::rotate(newRot, glm::radians( eulerRotation.y ), glm::vec3(0,1,0) );
 	newRot = glm::rotate(newRot, glm::radians( eulerRotation.x ), glm::vec3(1,0,0) );
 	this->rotation = newRot;
-	update = true;
+	Update();
 }
 
 void CTransform::Pitch( const float& angle )
@@ -327,19 +323,19 @@ void CTransform::SetPitch( const float& angle )
 {
 	eulerRotation.x = angle * 360;
 	SetRotation( eulerRotation );
-	update = true;
+	Update();
 }
 
 void CTransform::SetYaw( const float& angle )
 {
 	eulerRotation.y = angle * 360;
 	SetRotation( eulerRotation );
-	update = true;
+	Update();
 }
 
 void CTransform::SetRoll( const float& angle )
 {
 	eulerRotation.z = angle * 360;
 	SetRotation( eulerRotation );
-	update = true;
+	Update();
 }

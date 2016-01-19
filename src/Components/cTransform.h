@@ -103,8 +103,6 @@ class CTransform : public Component
 		glm::vec3 position;
 		glm::vec3 scale;
 	
-		bool update;
-	
 		CTransform* parent;
 		std::vector< CTransform* > children;
 

@@ -28,11 +28,19 @@ void mCamera::Bind(lua_State* L)
 		lBind(setProjectionType)
 		lBind(setAspectRatio)
 		lBind(setFOV)
+		lBind(getFOV)
+
 		lBind(setNearPlaneDistance)
+		lBind(getNearPlaneDistance)
+
 		lBind(setFarPlaneDistance)
+		lBind(getFarPlaneDistance)
+
 		lBind(screenToWorldDirection)
 		
 		lBind(makeActive)
+		lBind(isActive)
+
 	lEnd(BaseEntity)
 	luaL_openlib(L, 0, BaseCamera_funcs, 0);
 	lua_setfield(L, -2, "baseCamera");
@@ -138,6 +146,18 @@ lFuncImp(mCamera, setFOV)
 	return 0;
 }
 
+lFuncImp(mCamera, getFOV)
+{
+	lua_settop(L, 1);
+
+	lua_getfield(L, 1, "__coreComponent__");
+	CCamera* cam = static_cast<CCamera*>(lua_touserdata(L, -1));
+
+	lua_pushnumber(L, cam->GetFOV());
+
+	return 1;
+}
+
 lFuncImp(mCamera, setNearPlaneDistance)
 {
 	lua_settop(L, 2);
@@ -155,6 +175,18 @@ lFuncImp(mCamera, setNearPlaneDistance)
 	}
 	
 	return 0;
+}
+
+lFuncImp(mCamera, getNearPlaneDistance)
+{
+	lua_settop(L, 1);
+
+	lua_getfield(L, 1, "__coreComponent__");
+	CCamera* cam = static_cast<CCamera*>(lua_touserdata(L, -1));
+
+	lua_pushnumber(L, cam->GetNearPlaneDistance());
+
+	return 1;
 }
 
 lFuncImp(mCamera, setFarPlaneDistance)
@@ -176,6 +208,18 @@ lFuncImp(mCamera, setFarPlaneDistance)
 	return 0;
 }
 
+lFuncImp(mCamera, getFarPlaneDistance)
+{
+	lua_settop(L, 1);
+
+	lua_getfield(L, 1, "__coreComponent__");
+	CCamera* cam = static_cast<CCamera*>(lua_touserdata(L, -1));
+
+	lua_pushnumber(L, cam->GetFarPlaneDistance());
+
+	return 1;
+}
+
 lFuncImp(mCamera, makeActive)
 {
 	lua_settop(L, 2);
@@ -187,6 +231,18 @@ lFuncImp(mCamera, makeActive)
 	renderer->SetCamera(cam);
 	
 	return 0;
+}
+
+lFuncImp(mCamera, isActive)
+{
+	lua_settop(L, 1);
+
+	lua_getfield(L, 1, "__coreComponent__");
+	CCamera* cam = static_cast<CCamera*>(lua_touserdata(L, -1));
+
+	lua_pushboolean(L, renderer->GetCamera() == cam);
+
+	return 1;
 }
 
 lFuncImp(mCamera, screenToWorldDirection)

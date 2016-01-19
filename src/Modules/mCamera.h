@@ -29,13 +29,18 @@ private:
 	lFuncDef(setProjectionType);
 	lFuncDef(setAspectRatio);
 	lFuncDef(setFOV);
+	lFuncDef(getFOV);
 	lFuncDef(setNearPlaneDistance);
+	lFuncDef(getNearPlaneDistance);
 	lFuncDef(setFarPlaneDistance);
-	
+	lFuncDef(getFarPlaneDistance);
+
 	lFuncDef(screenToWorldDirection);
 	
 	
 	lFuncDef(makeActive);
+	lFuncDef(isActive);
+
 
 };
 

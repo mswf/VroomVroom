@@ -30,6 +30,7 @@ void mCamera::Bind(lua_State* L)
 		lBind(setFOV)
 		lBind(setNearPlaneDistance)
 		lBind(setFarPlaneDistance)
+		lBind(screenToWorldDirection)
 		
 		lBind(makeActive)
 	lEnd(BaseEntity)
@@ -186,4 +187,23 @@ lFuncImp(mCamera, makeActive)
 	renderer->SetCamera(cam);
 	
 	return 0;
+}
+
+lFuncImp(mCamera, screenToWorldDirection)
+{
+	lua_settop(L, 3);
+	lgComp(cam, 1, CCamera);
+	
+	lgInt(xx, 2, 1);
+	lgInt(yy, 3, 1);
+	
+	glm::ivec2 point(xx, yy);
+	
+	glm::vec3 dir = cam->ScreenToWorldPosition(point);
+	
+	lua_pushnumber(L, dir.x);
+	lua_pushnumber(L, dir.y);
+	lua_pushnumber(L, dir.z);
+	
+	return 3;
 }

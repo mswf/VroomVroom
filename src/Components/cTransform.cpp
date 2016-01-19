@@ -31,7 +31,6 @@ const glm::mat4& CTransform::GetTransform()
 void CTransform::SetTransform( const glm::mat4 &transform )
 {
 	this->transform = transform;
-	
 }
 
 void CTransform::LookAt( const glm::vec3 &target, const glm::vec3& up )
@@ -161,20 +160,17 @@ void CTransform::SetPosition( const float& x, const float& y, const float& z )
 
 const float CTransform::GetPositionX() const
 {
-	return  transform[3][0];
-	//return position.x;
+	return position.x;
 }
 
 const float CTransform::GetPositionY() const
 {
-	return  transform[3][1];
-	//return position.y;
+	return position.y;
 }
 
 const float CTransform::GetPositionZ() const
 {
-	return  transform[3][2];
-	//return position.z;
+	return position.z;
 }
 
 void CTransform::SetPositionX( const float& x )
@@ -231,20 +227,17 @@ void CTransform::SetScale( const glm::vec3& scale )
 
 const float CTransform::GetScaleX() const
 {
-	return transform[0][0];
-	//return scale.x;
+	return scale.x;
 }
 
 const float CTransform::GetScaleY() const
 {
-	return transform[1][1];
-	//return scale.y;
+	return scale.y;
 }
 
 const float CTransform::GetScaleZ() const
 {
-	return transform[2][2];
-	//return scale.z;
+	return scale.z;
 }
 
 void CTransform::SetScaleX( const float& x )

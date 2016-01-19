@@ -14,6 +14,7 @@
 		234C8B281BB96A3B00E61132 /* libassimpd.3.1.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */; };
 		234C8B291BB96A4600E61132 /* libassimpd.3.1.1.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */; };
 		2383825F1C158EB600538D86 /* mDebugRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2383825D1C158EB600538D86 /* mDebugRenderer.cpp */; };
+		238D5C281C4E876B00B02294 /* mRaycast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 238D5C261C4E876B00B02294 /* mRaycast.cpp */; };
 		23A4AF551BB2DE3100948D72 /* content.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23A4AF531BB2DE3100948D72 /* content.cpp */; };
 		23B31B581C05E3B6004E31C9 /* cLua.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23B31B561C05E3B6004E31C9 /* cLua.cpp */; };
 		23C2AAFD1BCBD8C00043F141 /* file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23C2AAFB1BCBD8C00043F141 /* file.cpp */; };
@@ -123,6 +124,8 @@
 		234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimpd.3.1.1.dylib; path = Framework/assimp/Debug/libassimpd.3.1.1.dylib; sourceTree = "<group>"; };
 		2383825D1C158EB600538D86 /* mDebugRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mDebugRenderer.cpp; path = src/Modules/mDebugRenderer.cpp; sourceTree = SOURCE_ROOT; };
 		2383825E1C158EB600538D86 /* mDebugRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mDebugRenderer.h; path = src/Modules/mDebugRenderer.h; sourceTree = SOURCE_ROOT; };
+		238D5C261C4E876B00B02294 /* mRaycast.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mRaycast.cpp; path = src/Modules/mRaycast.cpp; sourceTree = SOURCE_ROOT; };
+		238D5C271C4E876B00B02294 /* mRaycast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mRaycast.h; path = src/Modules/mRaycast.h; sourceTree = SOURCE_ROOT; };
 		23A4AF531BB2DE3100948D72 /* content.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = content.cpp; path = src/content.cpp; sourceTree = SOURCE_ROOT; };
 		23A4AF541BB2DE3100948D72 /* content.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = content.h; path = src/content.h; sourceTree = SOURCE_ROOT; };
 		23B31B561C05E3B6004E31C9 /* cLua.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cLua.cpp; path = src/Components/cLua.cpp; sourceTree = SOURCE_ROOT; };
@@ -347,6 +350,8 @@
 				2321BFED1C3C07FA00B60EA8 /* mLight.h */,
 				23E829D01C4D24D0000B81AE /* mCollider.cpp */,
 				23E829D11C4D24D0000B81AE /* mCollider.h */,
+				238D5C261C4E876B00B02294 /* mRaycast.cpp */,
+				238D5C271C4E876B00B02294 /* mRaycast.h */,
 			);
 			name = Modules;
 			sourceTree = "<group>";
@@ -647,6 +652,7 @@
 				E55F88E01BEBA48C00433973 /* cMeshRenderer.cpp in Sources */,
 				E50529561BE8CDD50017400B /* RtMidi.cpp in Sources */,
 				E50529511BE8CDC90017400B /* imgui_draw.cpp in Sources */,
+				238D5C281C4E876B00B02294 /* mRaycast.cpp in Sources */,
 				E547260B1BC6A74E00316B26 /* TCPServer.cpp in Sources */,
 				E55F88E31BEBB22A00433973 /* material.cpp in Sources */,
 				23C2AAFD1BCBD8C00043F141 /* file.cpp in Sources */,

@@ -32,6 +32,9 @@ private:
 	lFuncDef(setNearPlaneDistance);
 	lFuncDef(setFarPlaneDistance);
 	
+	lFuncDef(screenToWorldDirection);
+	
+	
 	lFuncDef(makeActive);
 
 };

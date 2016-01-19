@@ -60,6 +60,7 @@ void sLuaSystem::Init()
 	mWindow::Bind(lState);
 	mLight::Bind(lState);
 	mCollider::Bind(lState);
+	mRaycast::Bind(lState);
 
 	string path;
 	Content::CreateFilePath("main.lua", &path);

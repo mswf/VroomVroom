@@ -720,6 +720,9 @@
     <ClInclude Include="..\..\src\Modules\mCollider.h">
       <Filter>VroomVroom\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Modules\mRaycast.h">
+      <Filter>VroomVroom\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Networking\TCPData.cpp">
@@ -909,6 +912,9 @@
       <Filter>VroomVroom\Colliders</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Modules\mCollider.cpp">
+      <Filter>VroomVroom\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Modules\mRaycast.cpp">
       <Filter>VroomVroom\Modules</Filter>
     </ClCompile>
   </ItemGroup>

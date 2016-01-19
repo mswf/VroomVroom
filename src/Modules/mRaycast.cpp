@@ -19,7 +19,7 @@ void mRaycast::Bind(lua_State* L)
 	lua_pushcfunction(L, lw_castRay__);
 	lua_setfield(L, -2, "castRay");
 	
-	lua_setfield(L, -2, "system");
+	lua_setfield(L, -2, "raycaster");
 }
 
 lFuncImp(mRaycast, castRay)

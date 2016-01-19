@@ -5,6 +5,10 @@
       <Configuration>Debug Weikie</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_Fast|Win32">
+      <Configuration>Debug_Fast</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
@@ -206,6 +210,7 @@
     <ClInclude Include="..\..\src\Modules\mMeshRenderer.h" />
     <ClInclude Include="..\..\src\Modules\mModel.h" />
     <ClInclude Include="..\..\src\Modules\moduleMacros.h" />
+    <ClInclude Include="..\..\src\Modules\mRaycast.h" />
     <ClInclude Include="..\..\src\Modules\mShader.h" />
     <ClInclude Include="..\..\src\Modules\mSystem.h" />
     <ClInclude Include="..\..\src\Modules\mUi.h" />
@@ -277,6 +282,7 @@
     <ClCompile Include="..\..\src\Modules\mMaterial.cpp" />
     <ClCompile Include="..\..\src\Modules\mMeshRenderer.cpp" />
     <ClCompile Include="..\..\src\Modules\mModel.cpp" />
+    <ClCompile Include="..\..\src\Modules\mRaycast.cpp" />
     <ClCompile Include="..\..\src\Modules\mShader.cpp" />
     <ClCompile Include="..\..\src\Modules\mSystem.cpp" />
     <ClCompile Include="..\..\src\Modules\mUi.cpp" />
@@ -422,6 +428,12 @@
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Fast|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Weikie|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
@@ -441,6 +453,9 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Fast|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug Weikie|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -449,6 +464,9 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)\..\bin\win32\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Fast|Win32'">
     <OutDir>$(SolutionDir)\..\bin\win32\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Weikie|Win32'">
@@ -467,6 +485,42 @@
       <AdditionalLibraryDirectories>..\..\Framework\Win32Libraries\x86d;..\..\Framework\LJIT\lib;..\..\Framework\assimp\Debug;..\..\Framework\FMOD\Win;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>fmod_vc.lib;fmodL_vc.lib;fmodstudio_vc.lib;fmodstudioL_vc.lib;SDL2_net.lib;assimpd.lib;lua51.lib;opengl32.lib;glew32d.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy $(ProjectDir)..\..\Framework\LJIT\lib\lua51.dll $(OutDir)
+copy $(ProjectDir)..\..\Framework\Win32Libraries\x86d\glew32d.dll $(OutDir)
+copy $(ProjectDir)..\..\Framework\Win32Libraries\x86d\SDL2.dll $(OutDir)
+copy $(ProjectDir)..\..\Framework\Win32Libraries\x86d\SDL2_net.dll $(OutDir)
+copy $(ProjectDir)..\..\Framework\Win32Libraries\msvcr120d.dll $(OutDir)
+copy $(ProjectDir)..\..\Framework\assimp\Debug\assimpd.dll $(OutDir)
+copy $(ProjectDir)..\..\config.lua $(OutDir)
+copy $(ProjectDir)..\..\Framework\FMOD\Win\fmod.dll $(OutDir)
+copy $(ProjectDir)..\..\Framework\FMOD\Win\fmodL.dll $(OutDir)
+copy $(ProjectDir)..\..\Framework\FMOD\Win\fmodstudio.dll $(OutDir)
+copy $(ProjectDir)..\..\Framework\FMOD\Win\fmodstudioL.dll $(OutDir)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Fast|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\Framework\Win32Libraries\include;..\..\Framework\LJIT\include;..\..\Framework\assimp\Include;..\..\src;..\..\Framework\Win32Libraries\include\SDL2_net;..\..\Framework\Win32Libraries\include\SDL2;..\..\Framework\FMOD\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;DEBUG;_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\..\Framework\Win32Libraries\x86d;..\..\Framework\LJIT\lib;..\..\Framework\assimp\Debug;..\..\Framework\FMOD\Win;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmod_vc.lib;fmodL_vc.lib;fmodstudio_vc.lib;fmodstudioL_vc.lib;SDL2_net.lib;assimpd.lib;lua51.lib;opengl32.lib;glew32d.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+      <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
     <PostBuildEvent>
       <Command>copy $(ProjectDir)..\..\Framework\LJIT\lib\lua51.dll $(OutDir)

@@ -717,6 +717,9 @@
     <ClInclude Include="..\..\src\Colliders\sphereCollider.h">
       <Filter>VroomVroom\Colliders</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Modules\mCollider.h">
+      <Filter>VroomVroom\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\Networking\TCPData.cpp">
@@ -904,6 +907,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Colliders\sphereCollider.cpp">
       <Filter>VroomVroom\Colliders</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Modules\mCollider.cpp">
+      <Filter>VroomVroom\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

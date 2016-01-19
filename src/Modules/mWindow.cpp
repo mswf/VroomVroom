@@ -9,7 +9,7 @@
 #include "mWindow.h"
 #include "engine.h"
 
-#include "../Utilities/typedef.h"
+//#include "../Utilities/typedef.h"
 
 void mWindow::Bind(lua_State* L)
 {

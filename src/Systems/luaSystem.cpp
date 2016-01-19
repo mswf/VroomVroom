@@ -8,13 +8,13 @@
 
 #include "luaSystem.h"
 #include "content.h"
-#include <iostream>
+//#include <iostream>
 #include <lua.hpp>
 #include "../Utilities/standardIncludes.h"
 #include "../Modules/mAll.h"
 #include <stdlib.h>
 #include "../Utilities/command.h"
-#include "../Utilities/helperFunctions.h"
+//#include "../Utilities/helperFunctions.h"
 
 #include <vector>
 #include "../Components/entity.h"

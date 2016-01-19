@@ -1,8 +1,8 @@
 #include "cTransform.h"
-#include "entity.h"
+//#include "entity.h"
 #include "../glm/gtx/euler_angles.hpp"
 #include "../glm/gtx/transform.hpp"
-#include "../glm/gtx/quaternion.hpp"
+//#include "../glm/gtx/quaternion.hpp"
 
 const int CTransform::familyId = static_cast<int>(ComponentTypes::TRANSFORM);
 

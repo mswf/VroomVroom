@@ -1,7 +1,7 @@
 #include "cMeshRenderer.h"
 #include "entity.h"
 #include "cCamera.h"
-#include "glew.h"
+//#include "glew.h"
 #include "console.h"
 #include "../DataStructure/resource_manager.h"
 

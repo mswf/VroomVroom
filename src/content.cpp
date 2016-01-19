@@ -7,8 +7,8 @@
 //
 #include "Utilities/standardIncludes.h"
 #include "content.h"
-#include <cstring>
-#include <iostream>
+//#include <cstring>
+//#include <iostream>
 
 namespace Content
 {
@@ -33,13 +33,13 @@ void SetPath(const char* path, unsigned long len)
     }
 }
     
-const std::string& GetPath(){
+const string& GetPath(){
     return contentPath;
 }
 
 void PrintPath()
 {
-	Terminal.Log( std::string("Content path is ") + contentPath );
+	Terminal.Log( string("Content path is ") + contentPath );
 }
     
 void CreateFilePath(const char* filename, string* outResult)

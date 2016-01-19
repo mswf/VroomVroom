@@ -1,6 +1,6 @@
 #include "cCollider.h"
-#include "entity.h"
-#include "SDL2/SDL_assert.h"
+//#include "entity.h"
+//#include "SDL2/SDL_assert.h"
 
 const int CCollider::familyId = static_cast<int>(ComponentTypes::COLLIDER);
 std::vector< CCollider* > CCollider::list;

@@ -9,7 +9,7 @@
 #include "mLight.h"
 #include "../console.h"
 #include "../components/cLight.h"
-#include "../components/cLua.h"
+//#include "../components/cLua.h"
 #include "../components/entity.h"
 
 void mLight::Bind(lua_State* L)

@@ -9,7 +9,7 @@
 #ifndef cLua_hpp
 #define cLua_hpp
 
-#include <stdio.h>
+//#include <stdio.h>
 #include "component.h"
 
 class CLua : public Component

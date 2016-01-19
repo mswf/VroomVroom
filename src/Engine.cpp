@@ -6,17 +6,17 @@
 #include "Engine.h"
 #include "glew.h"
 
-#include "Components/cCamera.h"
+//#include "Components/cCamera.h"
 #include "Components/cCollider.h"
 #include "Components/cTransform.h"
 #include "Components/cMeshRenderer.h"
-#include "Components/cDebugRenderer.h"
+//#include "Components/cDebugRenderer.h"
 
-#include "DataStructure/material.h"
+//#include "DataStructure/material.h"
 #include "DataStructure/mesh_generator.h"
 
-#include "DataStructure/mesh.h"
-#include "DataStructure/texture.h"
+//#include "DataStructure/mesh.h"
+//#include "DataStructure/texture.h"
 #include "DataStructure/shader.h"
 
 #include "ImGUI/imgui.h"

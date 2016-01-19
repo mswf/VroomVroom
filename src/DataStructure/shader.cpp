@@ -1,8 +1,8 @@
 #include "shader.h"
 #include "../Utilities/opengl_common.h"
-#include "../Utilities/helperFunctions.h"
+//#include "../Utilities/helperFunctions.h"
 #include "../glm/gtc/type_ptr.hpp"
-#include "../content.h"
+//#include "../content.h"
 #include "../console.h"
 
 const uint8 NAME_BUFFER = 255;

@@ -11,9 +11,9 @@
  */
 
 #include "mEntity.h"
-#include <lua.hpp>
+//#include <lua.hpp>
 #include "../Utilities/standardIncludes.h"
-#include <new>
+//#include <new>
 #include "../Components/entity.h"
 
 #include "../Components/cLua.h"

@@ -410,12 +410,12 @@ void Engine::ImportAssets()
 	//rm.ImportImage("images/Meadow/posy.jpg", false);
 	//rm.ImportImage("images/Meadow/posz.jpg", false);
 
-	cube_map.push_back( "images/Meadow/negx.jpg" );
-	cube_map.push_back( "images/Meadow/negy.jpg" );
-	cube_map.push_back( "images/Meadow/negz.jpg" );
-	cube_map.push_back( "images/Meadow/posx.jpg" );
-	cube_map.push_back( "images/Meadow/posy.jpg" );
-	cube_map.push_back( "images/Meadow/posz.jpg" );
+	cube_map.push_back( "images/Dusk/negx_custom.png" );
+	cube_map.push_back( "images/Dusk/negy_custom.png" );
+	cube_map.push_back( "images/Dusk/negz_custom.png" );
+	cube_map.push_back( "images/Dusk/posx_custom.png" );
+	cube_map.push_back( "images/Dusk/posy_custom.png" );
+	cube_map.push_back( "images/Dusk/posz_custom.png" );
 
 
 
@@ -443,14 +443,14 @@ void Engine::ImportAssets()
 		//if (false)
 	{
 		int width, height;
-		width = height = rm.GetImageData("images/Meadow/negx.jpg")->width;
+		width = height = rm.GetImageData("images/Dusk/negx_custom.png")->width;
 		std::vector< std::pair< uint8*, uint32 > > textures;
-		textures.push_back( std::make_pair( rm.GetImageData("images/Meadow/negx.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_X ) );
-		textures.push_back( std::make_pair( rm.GetImageData("images/Meadow/negy.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y ) );
-		textures.push_back( std::make_pair( rm.GetImageData("images/Meadow/negz.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z ) );
-		textures.push_back( std::make_pair( rm.GetImageData("images/Meadow/posx.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_X ) );
-		textures.push_back( std::make_pair( rm.GetImageData("images/Meadow/posy.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Y ) );
-		textures.push_back( std::make_pair( rm.GetImageData("images/Meadow/posz.jpg")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Z ) );
+		textures.push_back( std::make_pair( rm.GetImageData("images/Dusk/negx_custom.png")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_X ) );
+		textures.push_back( std::make_pair( rm.GetImageData("images/Dusk/negy_custom.png")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y ) );
+		textures.push_back( std::make_pair( rm.GetImageData("images/Dusk/negz_custom.png")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z ) );
+		textures.push_back( std::make_pair( rm.GetImageData("images/Dusk/posx_custom.png")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_X ) );
+		textures.push_back( std::make_pair( rm.GetImageData("images/Dusk/posy_custom.png")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Y ) );
+		textures.push_back( std::make_pair( rm.GetImageData("images/Dusk/posz_custom.png")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Z ) );
 
 		skybox_map = rm.CreateCubeMap(&textures, width, height);
 	}

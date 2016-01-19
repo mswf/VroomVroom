@@ -268,37 +268,39 @@ void Engine::WindowEvent( SDL_WindowEvent window )
 			LuaSystem.EventCallback("onWindowResized", 2, dimensions);
 			break;
 		case SDL_WINDOWEVENT_ENTER:		//Gained mouse focus
-			LuaSystem.EventCallback("onMouseEntered", 0, nullptr);
+			LuaSystem.EventCallback("onMouseEntered");
 			break;
 		case SDL_WINDOWEVENT_LEAVE:		//Lost mouse focus
-			LuaSystem.EventCallback("onMouseLeft", 0, nullptr);
+			LuaSystem.EventCallback("onMouseLeft");
 			break;
 		case SDL_WINDOWEVENT_FOCUS_GAINED:	//Gained keyboard focus
-			LuaSystem.EventCallback("onFocusGained", 0, nullptr);
+			LuaSystem.EventCallback("onFocusGained");
 			break;
 		case SDL_WINDOWEVENT_FOCUS_LOST:		//Lost keyboard focus
-			LuaSystem.EventCallback("onFocusLost", 0, nullptr);
+			LuaSystem.EventCallback("onFocusLost");
 			break;
 		case SDL_WINDOWEVENT_MINIMIZED:
-			LuaSystem.EventCallback("onWindowMinimized", 0, nullptr);
+			LuaSystem.EventCallback("onWindowMinimized");
 			break;
 		case SDL_WINDOWEVENT_MAXIMIZED:
-			LuaSystem.EventCallback("onWindowMaximized", 0, nullptr);
+			LuaSystem.EventCallback("onWindowMaximized");
 			break;
 		case SDL_WINDOWEVENT_RESTORED:
-			LuaSystem.EventCallback("onWindowRestored", 0, nullptr);
+			LuaSystem.EventCallback("onWindowRestored");
 			break;
 		case SDL_WINDOWEVENT_SHOWN:
-			LuaSystem.EventCallback("onWindowShown", 0, nullptr);
+			LuaSystem.EventCallback("onWindowShown");
 			break;
 		case SDL_WINDOWEVENT_HIDDEN:
-			LuaSystem.EventCallback("onWindowHidden", 0, nullptr);
+			LuaSystem.EventCallback("onWindowHidden");
 			break;
 	}
 }
 
 void Engine::PollEvent()
 {
+	inputManager.resetScrollWheel();
+
 	SDL_Event event;
 	while ( SDL_PollEvent( &event ) )
 	{
@@ -309,6 +311,12 @@ void Engine::PollEvent()
 			//exit(EXIT_SUCCESS);
 			running = false;
 			//TODO: don't exit instantly, rather disrupt the game loop and exit through a controlled flow
+		}
+		if (event.type == SDL_DROPFILE)
+		{
+			string path = static_cast<std::string>(event.drop.file);
+			string* paths[1] = {&path};
+			LuaSystem.EventCallback("onDropFile", 1, paths);
 		}
 		else
 		{

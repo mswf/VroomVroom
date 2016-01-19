@@ -128,6 +128,7 @@ void sLuaSystem::Update(float dt)
 	}
 }
 
+
 void sLuaSystem::SendReloadCallback( const string& filePath )
 {
 	lua_getglobal(lState, "Game");
@@ -152,6 +153,24 @@ void sLuaSystem::SendReloadCallback( const string& filePath )
         Resume();
     }
     
+	lua_settop(lState, 0);
+}
+ 
+
+void sLuaSystem::EventCallback(const char* name)
+{
+	lua_getglobal(lState, "Game");
+	lua_getfield(lState, -1, name);
+	
+	if( lua_isnil(lState, -1))
+	{
+		Terminal.Warning("Game."+string(name)+" does not exist!");
+		lua_settop(lState, 0);
+		return;
+	}
+	
+	Call(lState, 0, 0);
+	
 	lua_settop(lState, 0);
 }
 
@@ -180,6 +199,30 @@ void sLuaSystem::EventCallback(const char* name, int argCount, int* args)
 	lua_settop(lState, 0);
 }
 
+void sLuaSystem::EventCallback(const char* name, int argCount, string** args)
+{
+	lua_getglobal(lState, "Game");
+	lua_getfield(lState, -1, name);
+	
+	if( lua_isnil(lState, -1))
+	{
+		Terminal.Warning("Game."+string(name)+" does not exist!");
+		lua_settop(lState, 0);
+		return;
+	}
+	
+	int ii = 0;
+	while(ii < argCount)
+	{
+		lua_pushlstring(lState, (*args)->c_str(), (*args)->size());
+		args += sizeof(string*);
+		ii++;
+	}
+	
+	Call(lState, argCount, 0);
+	
+	lua_settop(lState, 0);
+}
 
 void sLuaSystem::Attempt(string command)
 {

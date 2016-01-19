@@ -114,7 +114,7 @@ void Input::Update( SDL_Event* event )
 	uint8_t mouseButton = event->button.button;
 
 	SDL_GetMouseState(&mousePosition.x, &mousePosition.y);
-
+	
 	switch (event->type)
 	{
 		case SDL_KEYDOWN:
@@ -206,5 +206,11 @@ void Input::MidiListener()
 	{
 		std::cout << "stamp = " << stamp << std::endl;
 	}
+}
+
+void Input::resetScrollWheel()
+{
+	mouseWheel.horizontalScroll = 0;
+	mouseWheel.verticalScroll = 0;
 }
 

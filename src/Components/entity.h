@@ -4,7 +4,6 @@
 #include "../Components/component.h"
 #include "cTransform.h"
 #include <string>
-#include <vector>
 #include <map>
 
 class Entity

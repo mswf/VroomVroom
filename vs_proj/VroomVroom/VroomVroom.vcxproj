@@ -195,6 +195,7 @@
     <ClInclude Include="..\..\src\Modules\mAll.h" />
     <ClInclude Include="..\..\src\Modules\mAudio.h" />
     <ClInclude Include="..\..\src\Modules\mCamera.h" />
+    <ClInclude Include="..\..\src\Modules\mCollider.h" />
     <ClInclude Include="..\..\src\Modules\mDebugRenderer.h" />
     <ClInclude Include="..\..\src\Modules\mEntity.h" />
     <ClInclude Include="..\..\src\Modules\mImport.h" />
@@ -266,6 +267,7 @@
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\Modules\mAudio.cpp" />
     <ClCompile Include="..\..\src\Modules\mCamera.cpp" />
+    <ClCompile Include="..\..\src\Modules\mCollider.cpp" />
     <ClCompile Include="..\..\src\Modules\mDebugRenderer.cpp" />
     <ClCompile Include="..\..\src\Modules\mEntity.cpp" />
     <ClCompile Include="..\..\src\Modules\mImport.cpp" />

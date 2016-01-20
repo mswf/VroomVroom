@@ -83,6 +83,7 @@ void Importer::ImportMaterial( Material*& material, aiScene* scene, Mesh* mesh, 
 	mesh->materialId = ResourceManager::materialId++;
 	imp_->ExtractMaterial( mtl, material, &textures );
 	Assets.InsertMaterial( mesh->materialId, material->name.c_str(), material );
+	Terminal.Log("Material " + material->name + " has been created.", true);
 }
 
 void Importer::ImportTextures( const std::vector< std::string >& textures, Material* material )
@@ -132,7 +133,7 @@ bool Importer::ImportImage( const char* filename, bool vertical_flip, FilterType
 	if ( imp_err == IMPORTER_MESSAGE::IMAGE_FAILED_TO_LOAD )
 	{
 		std::string err_file( filename );
-		Terminal.Warning( "Failed to load image <" + err_file + ">, error: " + imp_->import_image_failure_reason );
+		Terminal.Warning( "Failed to load image [" + err_file + "], error: " + imp_->import_image_failure_reason );
 		return false;
 	}
 	rm.InsertImage( filename, image );
@@ -149,7 +150,7 @@ ImageData* Importer::ReImportImage( const char* filename, bool vertical_flip ) c
 	if ( imp_err == IMPORTER_MESSAGE::IMAGE_FAILED_TO_LOAD )
 	{
 		std::string err_file( filename );
-		Terminal.Warning( "Failed to load image <" + err_file + ">, error: " + imp_->import_image_failure_reason );
+		Terminal.Warning( "Failed to load image [" + err_file + "], error: " + imp_->import_image_failure_reason );
 		return nullptr;
 	}
 	return image;

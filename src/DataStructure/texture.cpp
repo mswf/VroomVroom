@@ -41,6 +41,9 @@ GLuint BufferTexture2D( GLint internalFormat, GLint width, GLint height, GLint p
 	if ( generateMipMap )
 	{
 		glGenerateMipmap( GL_TEXTURE_2D );
+		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0 );
+		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 4 );
+		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, 16 );
 		CheckGlError("glGenerateMipMap 2D");
 	}
 

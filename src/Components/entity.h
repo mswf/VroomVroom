@@ -16,6 +16,8 @@ class Entity
 		Entity( std::string name = "Entity_Object_" + std::to_string(counter) );
 		~Entity();
 	
+		void SetName( const std::string& name );
+		const std::string& GetName() const;
 		void AddChild( Entity* c ) const;
 		void RemoveChild( Entity* c ) const;
 		void ClearComponents();
@@ -101,12 +103,12 @@ class Entity
 
 		bool IsSetToDestroy() const { return destroy; }
 	
-		std::string name;
 		std::map< int, Component* > entityComponents;
 		CTransform* transform;
 	
 	private:
 	
+		std::string name;
 		static std::multimap< int, Entity* > componentStorage;
 		static const char* root_name;
 		static unsigned int counter;

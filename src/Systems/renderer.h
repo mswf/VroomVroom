@@ -45,14 +45,16 @@ class Renderer : public ComponentSystem
 		inline void SetLightList( std::vector< CLight* >* list ) { lights = list; }
 		void SetCamera( CCamera* c );
 		inline void SetTime( const uint32& t ) { time = t; }
-		
+	
 		inline const int& GetWindowWidth() const { return w_width; }
 		inline const int& GetWindowHeight() const { return w_height; }
 		inline CCamera* GetCamera() const { return camera; }
 		unsigned int skyboxMap;
 		
 	private:
-		
+	
+		void InitializeShaders();
+	
 		void ClearFlag() const;
 		void SetViewportRect() const;
 		void RenderEnvironment() const;

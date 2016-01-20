@@ -28,6 +28,16 @@ enum class WrapType
 	MIRRORED_REPEAT
 };
 
+enum class CubeMap
+{
+	NX,
+	NY,
+	NZ,
+	PX,
+	PY,
+	PZ
+};
+
 struct ShaderProgram;
 
 struct Uniform

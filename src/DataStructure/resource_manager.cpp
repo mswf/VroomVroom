@@ -207,12 +207,13 @@ bool ResourceManager::ImportImage( const char* name, bool vertical_flip )
 {
 	if ( ImageExists(name) )
 	{
-		Terminal.Warning( "Image already imported. Aborting redundant loading" );
+		Terminal.Warning( "Image [" + string(name) + "] already imported. Aborting redundant loading" );
 		return false;
 	}
 	return importer.ImportImage( name, vertical_flip );
 }
 
+// TODO(Valentinas): THIS FUNCTION IS LEAKING MEMORY
 bool ResourceManager::ReImportImage( const char* name, bool vertical_flip )
 {
 	if ( ImageExists(name) )
@@ -254,14 +255,14 @@ uint32 ResourceManager::GetImageId( const char *name )
 	StringToID::const_iterator it_image = imageIds.find(name);
 	if ( it_image == imageIds.end() )
 	{
-		//Terminal.Warning( "Image: " + string(name) + " not buffered." );
+		
 		if ( BufferImage2D(name) )
 		{
 			return GetImageId(name);
 		}
 		else
 		{
-			Terminal.Warning( "Image not buffered, returning 0." );
+			Terminal.Warning( "Image: " + string(name) + " not buffered. Returning 0." );
 			return 0;
 		}
 	}

@@ -16,7 +16,7 @@ Entity::Entity( std::string name ) :
 	transform = new CTransform();
 	transform->entity = this;
 	
-	if( transform->GetParent() == nullptr && name != root_name )
+	if( name != root_name )
 	{
 		Entity::root->AddChild(this);
 	}
@@ -112,5 +112,13 @@ std::vector<Entity*> Entity::GetChildren() const
 	return children;
 }
 
+void Entity::SetName( const std::string& name )
+{
+	this->name = name;
+}
 
+const std::string& Entity::GetName() const
+{
+	return name;
+}
 

@@ -672,7 +672,7 @@ void Engine::CleanUpEntities()
 		{
 			if ( (*it)->IsSetToDestroy() )
 			{
-				Terminal.Log( (*it)->name + " is destroyed." );
+				Terminal.Log( (*it)->GetName() + " is destroyed." );
 				(*it)->ClearComponents();
 				delete (*it);
 				(*it) = nullptr;

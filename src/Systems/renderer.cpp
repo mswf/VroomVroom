@@ -267,6 +267,7 @@ void Renderer::RenderEnvironment() const
 	if (skyboxMap == 0) return;
 	glDepthMask (GL_FALSE);
 		
+	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 	glUseProgram(skyboxProgram->program);
 	
 	glm::mat4 modelMatrix = glm::inverse( camera->GetViewMatrix() ) * glm::mat4_cast(camera->entity->transform->GetRotation());

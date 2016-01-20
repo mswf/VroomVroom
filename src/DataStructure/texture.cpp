@@ -70,7 +70,28 @@ GLuint BufferTexture1D( GLint internalFormat, GLint width, GLint pixelFormat, GL
 	return textureId;
 }
 
-void BufferTextureCubeMap( GLuint mapId, GLenum sideTarget, GLint internalFormat, GLint width, GLint height, GLint pixelFormat, GLenum type, unsigned char* data )
+GLuint BufferCubeMap( GLint size, bool mipmap, uint8* nx, uint8* ny, uint8* nz, uint8* px, uint8* py, uint8* pz )
+{
+	uint32 cubeMapId;
+	glGenTextures( 1, &cubeMapId );
+	
+	GLenum internalFormat = GL_RGB;
+	GLenum pixelFormat = GL_RGB;
+	GLenum type = GL_UNSIGNED_BYTE;
+	bool MM = true;
+	
+	BufferTextureCubeMap(cubeMapId, GetCubeMapFace(CubeMap::NX), internalFormat, size, size, pixelFormat, type, MM, nx);
+	BufferTextureCubeMap(cubeMapId, GetCubeMapFace(CubeMap::NY), internalFormat, size, size, pixelFormat, type, MM, ny);
+	BufferTextureCubeMap(cubeMapId, GetCubeMapFace(CubeMap::NZ), internalFormat, size, size, pixelFormat, type, MM, nz);
+	BufferTextureCubeMap(cubeMapId, GetCubeMapFace(CubeMap::PX), internalFormat, size, size, pixelFormat, type, MM, px);
+	BufferTextureCubeMap(cubeMapId, GetCubeMapFace(CubeMap::PY), internalFormat, size, size, pixelFormat, type, MM, py);
+	BufferTextureCubeMap(cubeMapId, GetCubeMapFace(CubeMap::PZ), internalFormat, size, size, pixelFormat, type, MM, pz);
+	
+	return cubeMapId;
+}
+
+
+void BufferTextureCubeMap( GLuint mapId, GLenum sideTarget, GLint internalFormat, GLint width, GLint height, GLint pixelFormat, GLenum type, bool generateMipMap, unsigned char* data )
 {
 	glBindTexture( GL_TEXTURE_CUBE_MAP, mapId );
 	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GetFilterParameter( FilterType::LINEAR ) );
@@ -79,6 +100,14 @@ void BufferTextureCubeMap( GLuint mapId, GLenum sideTarget, GLint internalFormat
 	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GetWrapParameter( WrapType::CLAMP_EDGE ) );
 	glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GetWrapParameter( WrapType::CLAMP_EDGE ) );
 	glTexImage2D( sideTarget, 0, internalFormat, width, height, 0, pixelFormat, type, static_cast<GLvoid*>(data) );
+	if ( generateMipMap )
+	{
+		glGenerateMipmap( GL_TEXTURE_2D );
+		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0 );
+		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 4 );
+		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, 16 );
+		CheckGlError("glGenerateMipMap 2D");
+	}
 	CheckGlError("glTexImage2D CUBE_MAP");
 }
 
@@ -207,4 +236,48 @@ GLenum GetWrapParameter( WrapType type )
 	}
 	return glType;
 
+}
+
+GLenum GetCubeMapFace( CubeMap type )
+{
+	GLenum glType;
+	switch (type)
+	{
+		case CubeMap::NX:
+		{
+			glType = GL_TEXTURE_CUBE_MAP_NEGATIVE_X;
+			break;
+		}
+		case CubeMap::NY:
+		{
+			glType = GL_TEXTURE_CUBE_MAP_NEGATIVE_Y;
+			break;
+		}
+		case CubeMap::NZ:
+		{
+			glType = GL_TEXTURE_CUBE_MAP_NEGATIVE_Z;
+			break;
+		}
+		case CubeMap::PX:
+		{
+			glType = GL_TEXTURE_CUBE_MAP_POSITIVE_X;
+			break;
+		}
+		case CubeMap::PY:
+		{
+			glType = GL_TEXTURE_CUBE_MAP_POSITIVE_Y;
+			break;
+		}
+		case CubeMap::PZ:
+		{
+			glType = GL_TEXTURE_CUBE_MAP_POSITIVE_Z;
+			break;
+		}
+		default:
+		{
+			glType = 0;
+			break;
+		}
+	}
+	return glType;
 }

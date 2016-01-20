@@ -341,20 +341,24 @@ bool ResourceManager::UpdateImage2DBuffer( const char* name )
 	return false;
 }
 
-unsigned int ResourceManager::CreateCubeMap( const std::vector< std::pair< uint8*, uint32 > >* textures, int32 width, int32 height )
+unsigned int ResourceManager::CreateCubeMap( const char* textures[], uint32 size, bool mipmap = false )
 {
-	uint32 cubeMapId;
-	glGenTextures( 1, &cubeMapId );
-
-	std::vector< std::pair< uint8*, uint32 > >::const_iterator it = textures->begin();
-	std::vector< std::pair< uint8*, uint32 > >::const_iterator end = textures->end();
+	uint8* nx = GetImageData( textures[0] )->pixelData;
+	uint8* ny = GetImageData( textures[1] )->pixelData;
+	uint8* nz = GetImageData( textures[2] )->pixelData;
+	uint8* px = GetImageData( textures[3] )->pixelData;
+	uint8* py = GetImageData( textures[4] )->pixelData;
+	uint8* pz = GetImageData( textures[5] )->pixelData;
 	
-	for ( ; it != end; ++it )
-	{
-		BufferTextureCubeMap(cubeMapId, it->second, GL_RGB, width, height, GL_RGB, GL_UNSIGNED_BYTE, it->first);
-		delete[] it->first;
+	uint32 cubeMapId = BufferCubeMap( size, mipmap, nx, ny, nz, px, py, pz );
+	
+	delete[] nx;
+	delete[] ny;
+	delete[] nz;
+	delete[] px;
+	delete[] py;
+	delete[] pz;
 
-	}
 	return cubeMapId;
 }
 

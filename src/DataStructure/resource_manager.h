@@ -64,7 +64,7 @@ class ResourceManager : public Singleton<ResourceManager>
 		void InsertImage( const char* name, ImageData* data );
 		bool ImageExists( const char* name ) const;
 
-		uint32 CreateCubeMap( const std::vector< std::pair< uint8*, uint32 > >* textures, int32 width, int32 height );
+		uint32 CreateCubeMap( const char* textures[], uint32 size, bool mipmap );
 
 		// Materials
 		static uint32 materialId;

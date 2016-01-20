@@ -450,17 +450,17 @@ void Engine::ImportAssets()
 	if (true)
 		//if (false)
 	{
-		int width, height;
-		width = height = rm.GetImageData("images/Dusk/negx_custom.png")->width;
-		std::vector< std::pair< uint8*, uint32 > > textures;
-		textures.push_back( std::make_pair( rm.GetImageData("images/Dusk/negx_custom.png")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_X ) );
-		textures.push_back( std::make_pair( rm.GetImageData("images/Dusk/negy_custom.png")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y ) );
-		textures.push_back( std::make_pair( rm.GetImageData("images/Dusk/negz_custom.png")->pixelData, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z ) );
-		textures.push_back( std::make_pair( rm.GetImageData("images/Dusk/posx_custom.png")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_X ) );
-		textures.push_back( std::make_pair( rm.GetImageData("images/Dusk/posy_custom.png")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Y ) );
-		textures.push_back( std::make_pair( rm.GetImageData("images/Dusk/posz_custom.png")->pixelData, GL_TEXTURE_CUBE_MAP_POSITIVE_Z ) );
-
-		skybox_map = rm.CreateCubeMap(&textures, width, height);
+		uint32 size = rm.GetImageData("images/Dusk/negx_custom.png")->width;
+		const char* textures[] =
+		{
+			"images/Dusk/negx_custom.png",
+			"images/Dusk/negy_custom.png",
+			"images/Dusk/negz_custom.png",
+			"images/Dusk/posx_custom.png",
+			"images/Dusk/posy_custom.png",
+			"images/Dusk/posz_custom.png"
+		};
+		skybox_map = rm.CreateCubeMap(textures, size, true);
 	}
 
 	EnvironmentCube();

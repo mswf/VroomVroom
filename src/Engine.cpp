@@ -23,6 +23,7 @@
 
 #include "Modules/mInput.h"
 #include "Modules/mCamera.h"
+#include "Modules/mSystem.h"
 
 #include <SDL2/SDL.h>
 #include "SDL2/SDL_opengl.h"
@@ -77,6 +78,7 @@ void Engine::Init()
 
 	mCamera::SetRenderer(&renderer);
 	mInput::SetInput(&inputManager);
+	mSystem::SetRenderer(&renderer);
 	LuaSystem.Init();
 
 	fileWatcher = new FW::FileWatcher();

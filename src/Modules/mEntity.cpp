@@ -35,6 +35,9 @@ void mEntity::Bind(lua_State* L)
 		lBind(addChild)
 		lBind(addComponent)
 	
+		lBind(getName)
+		lBind(setName)
+	
 		lBind(getChildren)
 		lBind(removeChild)
 	
@@ -159,11 +162,16 @@ lFuncImp(mEntity, __engineInit)
 	lua_pushnil(L);
 	lua_setfield(L, -2, "parent");
 	
-	
 	comp->SetTableKey( luaL_ref(L, LUA_REGISTRYINDEX) );
 	
 	Entity* e = new Entity();
 	Entity::AddComponent(e, comp);
+	
+	const char* name = comp->entity->GetName().c_str();
+	
+	lua_pushstring(L, name);
+	lua_setfield(L, -2, "name");
+
     
     return 0;
 }
@@ -179,6 +187,36 @@ lFuncImp(mEntity, addChild)
 	
 	lua_pushvalue(L, 1);
 	lua_setfield(L, 2, "parent");
+	
+	return 0;
+}
+
+lFuncImp(mEntity, getName)
+{
+	lua_settop(L, 1);
+	
+	lgComp(core, 1, CLua);
+	
+	const char* name = core->entity->GetName().c_str();
+	
+	lua_pushstring(L, name);
+	lua_setfield(L, 1, "name");
+	lua_pushstring(L, name);
+	
+	return 1;
+}
+
+lFuncImp(mEntity, setName)
+{
+	lua_settop(L, 2);
+	
+	lgComp(core, 1, CLua);
+	lgString(name, 2, "undefined");
+	
+	core->entity->SetName(name);
+	
+	lua_pushstring(L, name.c_str());
+	lua_setfield(L, 1, "name");
 	
 	return 0;
 }

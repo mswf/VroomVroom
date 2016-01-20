@@ -25,6 +25,9 @@ class mEntity {
 		lFuncDef(addChild);
 		lFuncDef(addComponent);
 	
+		lFuncDef(getName);
+		lFuncDef(setName);
+	
 		lFuncDef(getChildren);
 		lFuncDef(removeChild);
 	

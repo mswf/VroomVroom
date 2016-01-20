@@ -189,7 +189,7 @@ ModelInstance* ResourceManager::GetModel( const char* name )
 		// Checking if the mesh is imported
 		if ( it_mesh == meshes.end() )
 		{
-			Terminal.Warning( "No mesh by the name of" + string(name) + " has been found in resources." );
+			Terminal.Warning( "No mesh by the name of " + string(name) + " has been found in resources." );
 			return nullptr;
 		}
 	}

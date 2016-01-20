@@ -166,14 +166,14 @@ lFuncImp(mEntity, __engineInit)
 	
 	Entity* e = new Entity();
 	Entity::AddComponent(e, comp);
-	
-	const char* name = comp->entity->GetName().c_str();
-	
-	lua_pushstring(L, name);
-	lua_setfield(L, -2, "name");
 
-    
-    return 0;
+	//const char* name = comp->entity->GetName().c_str();
+	//
+	//lua_pushstring(L, name);
+	//lua_setfield(L, -2, "name");
+
+
+	return 0;
 }
 
 lFuncImp(mEntity, addChild)

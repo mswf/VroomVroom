@@ -22,8 +22,11 @@ class mMaterial
 		~mMaterial();
 	
 		lFuncDef(getMaterial);
+		lFuncDef(storeMaterial);
 	
 		lFuncDef(__engineInit);
+	
+		lFuncDef(clone);
 
 		lFuncDef(setShader);
 		lFuncDef(makeQuadShader);

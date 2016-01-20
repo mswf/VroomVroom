@@ -15,8 +15,12 @@
 void mMaterial::Bind(lua_State* L)
 {
 	lua_getglobal(L, "Engine");
+	
 	lua_pushcfunction(L, lw_getMaterial__);
 	lua_setfield(L, -2, "getMaterial");
+	
+	lua_pushcfunction(L, lw_storeMaterial__);
+	lua_setfield(L, -2, "storeMaterial");
 	
 	
 	lua_newtable(L);
@@ -93,6 +97,27 @@ lFuncImp(mMaterial, getMaterial)
 	return 1;
 }
 
+lFuncImp(mMaterial, storeMaterial)
+{
+	lua_settop(L, 2);
+	
+	lua_getfield(L, 1, "__coreMaterial__");
+	Material* mat = static_cast<Material*>(lua_touserdata(L, -1));
+	
+	if(!lua_isstring(L, 2))
+	{
+		Terminal.Warning("Invalid parameter for Engine.storeMaterial");
+		return 0;
+	}
+	const char* name = lua_tostring(L, 1);
+	
+	uint32 id = ++Assets.materialId;
+	
+	Assets.InsertMaterial(id, name, mat);
+	
+	return 0;
+}
+
 lFuncImp(mMaterial, __engineInit)
 {
 	lua_settop(L, 1);
@@ -102,6 +127,30 @@ lFuncImp(mMaterial, __engineInit)
 	lua_pushlightuserdata(L, mat);
 	lua_setfield(L, -2, "__coreMaterial__");
 	return 0;
+}
+
+lFuncImp(mMaterial, clone)
+{
+	lua_settop(L, 1);
+	
+	lua_getfield(L, 1, "__coreMaterial__");
+	Material* mat = static_cast<Material*>(lua_touserdata(L, -1));
+	
+	Material* clone = mat->Clone();
+	
+	lua_newtable(L);
+	
+	lua_pushlightuserdata(L, clone);
+	lua_setfield(L, -2, "__coreMaterial__");
+	
+	lua_getglobal(L, "Engine");
+	lua_newtable(L);
+	lua_getfield(L, -2, "baseMaterial");
+	lua_setfield(L, -2, "__index");
+	lua_setmetatable(L, 2);
+	lua_settop(L, 2);
+	return 1;
+
 }
 
 lFuncImp(mMaterial, setShader)

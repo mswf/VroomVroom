@@ -84,7 +84,7 @@ void Engine::Init()
 	fileWatcher = new FW::FileWatcher();
 	fileWatcher->addWatch(Content::GetPath(), &listener, true);
 
-	ImportAssets();
+	Assets.Initialize();
 	renderer.Initialize();
 }
 
@@ -389,26 +389,6 @@ void Engine::FilewatcherUpdate()
 		LuaSystem.SendReloadCallback( msg );
 	}
 	listener.ClearEvents();
-}
-
-void Engine::ImportAssets()
-{
-	Assets.Initialize();
-
-	Assets.ImportAndCreateShader( "shaders/simple_quad_vert.glsl", "shaders/simple_quad_frag.glsl", "simple_quad" );
-
-	const char* textures[] =
-	{
-		"images/Dusk/negx_custom.png",
-		"images/Dusk/negy_custom.png",
-		"images/Dusk/negz_custom.png",
-		"images/Dusk/posx_custom.png",
-		"images/Dusk/posy_custom.png",
-		"images/Dusk/posz_custom.png"
-	};
-	Assets.ImportCubeMap(textures, "Dusk", true);
-	
-	renderer.SetSkybox("Dusk");
 }
 
 void Engine::WeikieTestCode()

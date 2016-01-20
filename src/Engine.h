@@ -44,7 +44,6 @@ public:
 
 	private:
 		void FilewatcherUpdate();
-		void ImportAssets();
 		void WeikieTestCode();
 		void WindowEvent( SDL_WindowEvent window );
 		void TakeScreenShot();

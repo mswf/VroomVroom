@@ -1,8 +1,9 @@
 #include "resource_manager.h"
 #include "data_types.h"
 #include "texture.h"
-#include "mesh.h"
 #include "material.h"
+#include "mesh.h"
+#include "mesh_generator.h"
 #include "shader.h"
 #include "../content.h"
 #include "../console.h"
@@ -16,6 +17,7 @@ const char * DEFAULT_FRAGMENT = "shaders/default_frag.glsl";
 
 ResourceManager::ResourceManager()
 {}
+
 ResourceManager::~ResourceManager()
 {
 	images.clear();
@@ -27,19 +29,13 @@ ResourceManager::~ResourceManager()
 
 void ResourceManager::Initialize()
 {
-	bool vertexDefault = ImportShader( DEFAULT_VERTEX, GLSLShaderType::VERTEX );
-	bool fragmentDefault = ImportShader( DEFAULT_FRAGMENT, GLSLShaderType::FRAGMENT );
-	if ( !(vertexDefault && fragmentDefault) )
+	if ( !ImportAndCreateShader(DEFAULT_VERTEX, DEFAULT_FRAGMENT, "Default") )
 	{
 		Terminal.Warning( "Default shaders were missing. Loading builtin shaders." );
 		LoadBuiltinShader();
 	}
-	else
-	{
-		const char* shaders[2] = { DEFAULT_VERTEX, DEFAULT_FRAGMENT };
-		CreateShaderProgram( "Default", shaders, 2);
-	}
-
+	
+	LoadDefaultMeshes();
 	Material* defaultMat = new Material();
 	defaultMat->SetShader( GetShaderProgram("Default") );
 	defaultMat->name = "Default";
@@ -53,6 +49,17 @@ void ResourceManager::LoadBuiltinShader()
 	CreateShaderObject( DEFAULT_FRAGMENT, builtin_fragment, GLSLShaderType::FRAGMENT );
 	const char* shaders[2] = { DEFAULT_VERTEX, DEFAULT_FRAGMENT };
 	CreateShaderProgram( "Default", shaders, 2);
+}
+
+void ResourceManager::LoadDefaultMeshes()
+{
+	ModelInstance* skybox;
+	EnvironmentCube( skybox );
+	InsertModelInstance("__Skybox_model", skybox);
+	
+	ModelInstance* quad;
+	Quad( quad );
+	InsertModelInstance( "quad", quad );
 }
 
 // Meshes
@@ -72,7 +79,7 @@ bool ResourceManager::ImportMesh( const char* name )
 	return importer.ImportObjFile( name );
 }
 
-bool ResourceManager::ImportMesh( const StringVector& files, StringVector& err_f )
+bool ResourceManager::ImportMesh( const StringVector& files )
 {
 	bool final = true;
 	StringVector::const_iterator it = files.begin();
@@ -81,7 +88,7 @@ bool ResourceManager::ImportMesh( const StringVector& files, StringVector& err_f
 	{
 		if ( !importer.ImportObjFile( *it ) )
 		{
-			err_f.push_back( *it );
+			Terminal.Warning("Failed to load mesh [" + *it + "]" );
 			final = false;
 		}
 	}
@@ -229,7 +236,7 @@ bool ResourceManager::ReImportImage( const char* name, bool vertical_flip )
 	return false;
 }
 
-bool ResourceManager::ImportImage( const StringVector& files, StringVector& failedFile, bool vertical_flip )
+bool ResourceManager::ImportImage( const StringVector& files, bool vertical_flip )
 {
 	bool success = true;
 	StringVector::const_iterator item = files.begin();
@@ -238,7 +245,7 @@ bool ResourceManager::ImportImage( const StringVector& files, StringVector& fail
 	{
 		if ( !ImportImage( item->c_str(), vertical_flip ) )
 		{
-			failedFile.push_back( *item );
+			Terminal.Warning("Failed to load image [" + *item + "]" );
 			success = false;
 		}
 	}
@@ -341,28 +348,6 @@ bool ResourceManager::UpdateImage2DBuffer( const char* name )
 	return false;
 }
 
-unsigned int ResourceManager::CreateCubeMap( const char* textures[], uint32 size, bool mipmap = false )
-{
-	uint8* nx = GetImageData( textures[0] )->pixelData;
-	uint8* ny = GetImageData( textures[1] )->pixelData;
-	uint8* nz = GetImageData( textures[2] )->pixelData;
-	uint8* px = GetImageData( textures[3] )->pixelData;
-	uint8* py = GetImageData( textures[4] )->pixelData;
-	uint8* pz = GetImageData( textures[5] )->pixelData;
-	
-	uint32 cubeMapId = BufferCubeMap( size, mipmap, nx, ny, nz, px, py, pz );
-	
-	delete[] nx;
-	delete[] ny;
-	delete[] nz;
-	delete[] px;
-	delete[] py;
-	delete[] pz;
-
-	return cubeMapId;
-}
-
-
 bool ResourceManager::ImageExists( const char* name ) const
 {
 	Images::const_iterator it_image = images.find(name);
@@ -374,6 +359,69 @@ bool ResourceManager::ImageExists( const char* name ) const
 	// Image does not exists
 	return false;
 }
+
+uint32 ResourceManager::GetCubeMapId( const char* name )
+{
+	if ( !CubeMapExists( name ) )
+	{
+		Terminal.Warning( "CubeMap: " + string(name) + " not imported." );
+		return 0;
+	}
+	return cubeMapIds.at(name);
+}
+
+bool ResourceManager::ImportCubeMap( const char* textures[], const char* name, bool mipmap = false )
+{
+	if ( CubeMapExists(name) )
+	{
+		return false;
+	}
+	
+	int i;
+	for ( i = 0; i < 6; ++i)
+	{
+		ImportImage( textures[i] );
+	}
+	
+	uint32 size = GetImageData( textures[0] )->width;
+	uint8* nx = GetImageData( textures[0] )->pixelData;
+	uint8* ny = GetImageData( textures[1] )->pixelData;
+	uint8* nz = GetImageData( textures[2] )->pixelData;
+	uint8* px = GetImageData( textures[3] )->pixelData;
+	uint8* py = GetImageData( textures[4] )->pixelData;
+	uint8* pz = GetImageData( textures[5] )->pixelData;
+	
+	uint32 cubeMapId = BufferCubeMap( size, mipmap, nx, ny, nz, px, py, pz );
+	
+	InsertCubeMap(name, cubeMapId);
+	
+	delete[] nx;
+	delete[] ny;
+	delete[] nz;
+	delete[] px;
+	delete[] py;
+	delete[] pz;
+	
+	return true;
+}
+
+void ResourceManager::InsertCubeMap( const char* name, uint32 id )
+{
+	cubeMapIds.insert( std::make_pair( string(name), id ) );
+}
+
+bool ResourceManager::CubeMapExists( const char* name ) const
+{
+	StringToID::const_iterator it_cubemap = cubeMapIds.find(name);
+	if ( it_cubemap != cubeMapIds.end() )
+	{
+		// Cubemap exists
+		return true;
+	}
+	// Cubemap does not exists
+	return false;
+}
+
 
 // Materials
 
@@ -479,8 +527,7 @@ bool ResourceManager::ReImportShader( const char* name, GLSLShaderType type = GL
 	return false;
 }
 
-
-bool ResourceManager::ImportShader( const std::vector< std::pair< string, GLSLShaderType > >& list, StringVector& err_f )
+bool ResourceManager::ImportShader( const std::vector< std::pair< string, GLSLShaderType > >& list )
 {
 	bool final = true;
 	std::vector< std::pair< string, GLSLShaderType > >::const_iterator it = list.begin();
@@ -489,11 +536,20 @@ bool ResourceManager::ImportShader( const std::vector< std::pair< string, GLSLSh
 	{
 		if ( !ImportShader( it->first.c_str(), it->second ) )
 		{
-			err_f.push_back( it->first );
+			Terminal.Warning("Failed to load shader [" + it->first + "]" );
 			final = false;
 		}
 	}
 	return final;
+}
+
+bool ResourceManager::ImportAndCreateShader( const char* vertex, const char* fragment, const char* program_name )
+{
+	ImportShader( vertex, GLSLShaderType::VERTEX );
+	ImportShader( fragment, GLSLShaderType::FRAGMENT );
+	const char* shaders[] = { vertex, fragment };
+	CreateShaderProgram( program_name, shaders, 2);
+	return true;
 }
 
 void ResourceManager::CreateShaderObject( const char* name, const char* source, GLSLShaderType type )

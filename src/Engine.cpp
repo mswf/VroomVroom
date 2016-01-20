@@ -13,7 +13,6 @@
 //#include "Components/cDebugRenderer.h"
 
 //#include "DataStructure/material.h"
-#include "DataStructure/mesh_generator.h"
 
 //#include "DataStructure/mesh.h"
 //#include "DataStructure/texture.h"
@@ -392,80 +391,22 @@ void Engine::FilewatcherUpdate()
 
 void Engine::ImportAssets()
 {
-	auto printErr = []( std::vector<std::string>& errors )
+	Assets.Initialize();
+
+	Assets.ImportAndCreateShader( "shaders/simple_quad_vert.glsl", "shaders/simple_quad_frag.glsl", "simple_quad" );
+
+	const char* textures[] =
 	{
-		std::vector<std::string>::const_iterator iter = errors.begin();
-		std::vector<std::string>::const_iterator end = errors.end();
-		for ( ; iter != end; ++iter)
-		{
-			Terminal.Warning( (*iter) );
-		}
-		errors.clear();
-		Terminal.Log("Import failed", true);
+		"images/Dusk/negx_custom.png",
+		"images/Dusk/negy_custom.png",
+		"images/Dusk/negz_custom.png",
+		"images/Dusk/posx_custom.png",
+		"images/Dusk/posy_custom.png",
+		"images/Dusk/posz_custom.png"
 	};
-	ResourceManager& rm = Assets;
-	rm.Initialize();
-	std::vector< std::string > cube_map, errors;
-	std::vector< std::pair< std::string, GLSLShaderType > > shaders;
-
-
-
-	// Cube map
-	//rm.ImportImage("images/Meadow/negx.jpg", false);
-	//rm.ImportImage("images/Meadow/negy.jpg", false);
-	//rm.ImportImage("images/Meadow/negz.jpg", false);
-	//rm.ImportImage("images/Meadow/posx.jpg", false);
-	//rm.ImportImage("images/Meadow/posy.jpg", false);
-	//rm.ImportImage("images/Meadow/posz.jpg", false);
-
-	cube_map.push_back( "images/Dusk/negx_custom.png" );
-	cube_map.push_back( "images/Dusk/negy_custom.png" );
-	cube_map.push_back( "images/Dusk/negz_custom.png" );
-	cube_map.push_back( "images/Dusk/posx_custom.png" );
-	cube_map.push_back( "images/Dusk/posy_custom.png" );
-	cube_map.push_back( "images/Dusk/posz_custom.png" );
-
-
-
-	rm.ImportShader( "shaders/line_vert.glsl", GLSLShaderType::VERTEX );
-	rm.ImportShader( "shaders/line_frag.glsl", GLSLShaderType::FRAGMENT );
-	const char* sh_objs2[] = { "shaders/line_vert.glsl", "shaders/line_frag.glsl", nullptr };
-	Assets.CreateShaderProgram("__Debug_program", sh_objs2, 2);
-
-	rm.ImportShader( "shaders/skybox_vert.glsl", GLSLShaderType::VERTEX );
-	rm.ImportShader( "shaders/skybox_frag.glsl", GLSLShaderType::FRAGMENT );
-	const char* sh_objs[] = { "shaders/skybox_vert.glsl", "shaders/skybox_frag.glsl", nullptr };
-	Assets.CreateShaderProgram("__Skybox_program", sh_objs, 2);
-	rm.ImportShader( "shaders/quad_vert.glsl", GLSLShaderType::VERTEX );
-	rm.ImportShader( "shaders/quad_frag.glsl", GLSLShaderType::FRAGMENT );
-	const char* sh_objs3[] = { "shaders/quad_vert.glsl", "shaders/quad_frag.glsl", nullptr };
-	Assets.CreateShaderProgram("quad", sh_objs3, 2);
-
-	bool successfulImport = rm.ImportImage( cube_map, errors, false );
-	if (!successfulImport)
-	{
-		printErr(errors);
-	}
-
-	if (true)
-		//if (false)
-	{
-		uint32 size = rm.GetImageData("images/Dusk/negx_custom.png")->width;
-		const char* textures[] =
-		{
-			"images/Dusk/negx_custom.png",
-			"images/Dusk/negy_custom.png",
-			"images/Dusk/negz_custom.png",
-			"images/Dusk/posx_custom.png",
-			"images/Dusk/posy_custom.png",
-			"images/Dusk/posz_custom.png"
-		};
-		skybox_map = rm.CreateCubeMap(textures, size, true);
-	}
-
-	EnvironmentCube();
-	Quad();
-	renderer.skyboxMap = skybox_map;
+	Assets.ImportCubeMap(textures, "Dusk", true);
+	
+	renderer.SetSkybox("Dusk");
 }
 
 void Engine::WeikieTestCode()
@@ -514,53 +455,12 @@ void Engine::UpdateLoop()
 #endif
 
 	/// TINAS PLAYGROUND!!!
-
 	/*
-	auto random_vec3 = []( int min, int max ) -> glm::vec3
-	{
-		float modif = 0.5f;
-		return glm::vec3( Random::Next(min, max) * modif, Random::Next(min, max) * modif, Random::Next(min, max) * modif );
-	};
-
 	Assets.ImportMesh("objects/Teapot/teapot.obj");
 	Assets.SetMeshScale("objects/Teapot/teapot.obj", 0.01f);
-	Entity* a = new Entity( "testA" );
-	Entity* ac = new Entity( "testAChild" );
-	a->AddChild(ac);
-	Entity* ac2 = new Entity( "testA2Child" );
-	ac->AddChild(ac2);
-
-	Entity::Destroy( a );
-
-	//Entity* b =  new Entity( "testB" );
-	//Entity* bc =  new Entity( "testBChild", b );
-	Entity* list[3] = { a, ac, ac2 };
-
-	for (int i = 0; i < 3; ++i )
-	{
-		CMeshRenderer* rend = new CMeshRenderer();
-		Entity::AddComponent( list[i], rend);
-		rend->SetModel( "objects/Teapot/teapot.obj" );
-		list[i]->transform->SetPosition( random_vec3( -2, 2 ) );
-	}
-
-	Entity::GetComponentInChildren<CMeshRenderer>(a);
-
-		CDebugRenderer* drend = new CDebugRenderer();
-		Entity::AddComponent( ac, drend);
-		Entity::AddComponent( ac, drend);
-		Entity::RemoveComponent( ac, drend);
-	*/
+	Entity* teapot = new Entity( "Teapot" );
 
 
-	/*
-
-		Entity* debugObject = new Entity( "Debugger" );
-		CDebugRenderer* debugRenderer = new CDebugRenderer();
-		Entity::AddComponent(debugObject, debugRenderer);
-		debugObject->transform->SetPosition(glm::vec3(-1,-1,-1));
-		debugRenderer->SetDrawPoints(true);
-		debugRenderer->SetPointSize(10.0f);
 
 		float lineLength = 1.0f;
 		int lineAmount = 10;
@@ -578,13 +478,12 @@ void Engine::UpdateLoop()
 			debugRenderer->AddLine(  Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( 0.0, p, lineLength ), random_colour() ) );
 		}
 	*/
-
 	/*
-	Entity* camera = new Entity( "Main Camera" );
-	//	CCamera* cam = new CCamera( Projection::PERSPECTIVE, 1280.0f / 720.0f );
-	Entity::AddComponent(camera, cam);
-	camera->transform->SetPosition( glm::vec3( 4, 4, -4 ) );
-	renderer->SetCamera( cam );
+		Entity* camera = new Entity( "Main Camera" );
+		CCamera* cam = new CCamera( Projection::PERSPECTIVE, 1280.0f / 720.0f );
+		Entity::AddComponent(camera, cam);
+		camera->transform->SetPosition( glm::vec3( 0, 0, -1 ) );
+		renderer.SetCamera( cam );
 	*/
 	/// TINAS PLAYGROUND ENDS!!!
 

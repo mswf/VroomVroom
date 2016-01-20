@@ -24,6 +24,7 @@ CLua::~CLua()
 {
 	if(tableKey != -1)
 	{
+		mEntity::HandleCallback(tableKey, "onDestroy");
 		int tmp = tableKey;
 		tableKey = - 1;
 		mEntity::UnreferenceTable(tmp);

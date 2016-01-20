@@ -38,6 +38,7 @@ class Renderer : public ComponentSystem
 		void SetWindowSize( const int& w, const int& h );
 		void SetFramebufferScale( const float& scaleX, const float& scaleY );
 		void SetBackgroundColor( float r, float g, float b, float a ) const;
+		void SetSkybox( const char* name );
 		void ScreenGrab() const;
 		inline void SetMeshRendererList( std::vector< CMeshRenderer* >* list ) { renderables = list; }
 		inline void SetDebugRendererList( std::vector< CDebugRenderer* >* list ) { debugPrimitives = list; }

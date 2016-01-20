@@ -314,6 +314,12 @@ void Renderer::SetBackgroundColor( float r, float g, float b, float a ) const
 	backgroundColour[2] = b;
 	backgroundColour[3] = a;
 }
+
+void Renderer::SetSkybox( const char* name )
+{
+	skyboxMap = Assets.GetCubeMapId( name );
+}
+
 void Renderer::SetCamera( CCamera* c )
 {
 	if ( camera != nullptr )

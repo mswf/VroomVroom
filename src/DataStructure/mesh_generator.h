@@ -2,7 +2,6 @@
 #define mesh_generator_h
 
 #include "data_types.h"
-#include "resource_manager.h"
 
 /*
      0		  3
@@ -55,10 +54,11 @@ void CreateCube( Mesh* mesh, const float offset = 0.0f )
 	mesh->numIndices = indiceCount;
 }
 
-void EnvironmentCube()
+void EnvironmentCube( ModelInstance*& instance )
 {
-	ModelInstance* instance = new ModelInstance();
+	instance = new ModelInstance();
 	float scale = 20.0f;
+	
 	glm::vec3 points[] =
 	{
 		glm::vec3(-1.0f,  1.0f, -1.0f ) * scale,
@@ -119,12 +119,11 @@ void EnvironmentCube()
 	instance->vao = vao;
 	instance->vbo = vbo;
 	instance->numIndices = 36;
-	Assets.InsertModelInstance( "__Skybox_model", instance );
 }
 
-void Quad()
+void Quad( ModelInstance*& instance )
 {
-	ModelInstance* instance = new ModelInstance();
+	instance = new ModelInstance();
 	glm::vec2 texcoords[4] =
 	{
 		glm::vec2( 0.0, 1.0 ),
@@ -174,7 +173,6 @@ void Quad()
 	instance->vbo = vbo;
 	instance->indiceBuffer = ebo;
 	instance->numIndices = 6;
-	Assets.InsertModelInstance( "quad", instance );
 }
 
 

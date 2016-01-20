@@ -40,7 +40,7 @@ class ResourceManager : public Singleton<ResourceManager>
 		// Meshes
 		Mesh* GetMesh( const char* name ) const;
 		bool ImportMesh( const char* name );
-		bool ImportMesh( const StringVector& list, StringVector& errors );
+		bool ImportMesh( const StringVector& list );
 		void UpdateMeshBuffer();
 		void InsertMesh( const char* name, Mesh* data );
 		void SetMeshScale( const char* name, float scale );
@@ -55,7 +55,7 @@ class ResourceManager : public Singleton<ResourceManager>
 		ImageData* GetImageData( const char* name ) const;
 		uint32 GetImageId( const char* name );
 		bool ImportImage( const char* name, bool vertical_flip = true );
-		bool ImportImage( const StringVector& list, StringVector& failedFile, bool vertical_flip = true );
+		bool ImportImage( const StringVector& list, bool vertical_flip = true );
 		bool ReImportImage( const char* name, bool vertical_flip = true );
 		bool BufferImage1D( const char* name );
 		bool BufferImage2D( const char* name );
@@ -64,8 +64,12 @@ class ResourceManager : public Singleton<ResourceManager>
 		void InsertImage( const char* name, ImageData* data );
 		bool ImageExists( const char* name ) const;
 
-		uint32 CreateCubeMap( const char* textures[], uint32 size, bool mipmap );
-
+		// Cube Maps
+		uint32 GetCubeMapId( const char* name );
+		bool ImportCubeMap( const char* textures[], const char* name, bool mipmap );
+		void InsertCubeMap( const char* name, uint32 id );
+		bool CubeMapExists( const char* name ) const;
+	
 		// Materials
 		static uint32 materialId;
 		Material* GetMaterialByName( const char* name ) const;
@@ -79,12 +83,14 @@ class ResourceManager : public Singleton<ResourceManager>
 		ShaderProgram* GetShaderProgram( const char* name ) const;
 		ShaderObject* GetShaderObject( const char* name ) const;
 		bool ImportShader( const char* name, GLSLShaderType type );
-		bool ImportShader( const std::vector< std::pair< string, GLSLShaderType > >& list, StringVector& err_f );
+		bool ImportShader( const std::vector< std::pair< string, GLSLShaderType > >& list );
 		bool ReImportShader( const char* name, GLSLShaderType type );
 		void CreateShaderObject( const char* name, const char* source, GLSLShaderType type );
 		void CreateShaderProgram( const char* name, const char* shaders_objects[], int count );
 		void UpdateShaderProgram( const char* name, GLSLShaderType type, const char* source );
 
+		bool ImportAndCreateShader( const char* vertex, const char* fragment, const char* program_name );
+	
 		void InsertShaderObject( const char* name, ShaderObject* data );
 		void InsertShaderProgram( const char* name, ShaderProgram* data );
 		bool ShaderObjectExists( const char* name ) const;
@@ -96,6 +102,7 @@ class ResourceManager : public Singleton<ResourceManager>
 
 		void Initialize();
 		void LoadBuiltinShader();
+		void LoadDefaultMeshes();
 
 	private:
 
@@ -111,6 +118,7 @@ class ResourceManager : public Singleton<ResourceManager>
 		// Image information
 		Images images;
 		StringToID imageIds;
+		StringToID cubeMapIds;
 
 		// Material information
 		Materials materials;

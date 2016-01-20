@@ -7,6 +7,7 @@
 //
 
 #include "mImport.h"
+#include "../console.h"
 #include "../dataStructure/resource_manager.h"
 #include "../dataStructure/shader.h"
 
@@ -25,6 +26,9 @@ void mImport::Bind(lua_State* L)
 
 	lua_pushcfunction(L, lw_importTexture__);
 	lua_setfield(L, -2, "importTexture");
+	
+	lua_pushcfunction(L, lw_importCubeMap__);
+	lua_setfield(L, -2, "importCubeMap");
 
 	lua_pushcfunction(L, lw_reloadTexture__);
 	lua_setfield(L, -2, "reloadTexture");
@@ -64,6 +68,31 @@ lFuncImp(mImport, importTexture)
 
 	Assets.ImportImage(path.c_str(), flipped);
 
+	return 0;
+}
+
+lFuncImp(mImport, importCubeMap)
+{
+	lua_settop(L, 8);
+	
+	const char* paths[6];
+	
+	for (int ii =0; ii < 6; ++ii)
+	{
+		if(lua_isnil(L, 1+ii))
+		{
+			Terminal.Warning("Not enough textures provided to create cubemap!");
+			return 0;
+		}
+		paths[ii] = lua_tostring(L, 1+ii);
+	}
+	
+	lgString(name, 7, "undefined");
+	lgBool(mipmap, 8, true);
+	
+	
+	Assets.ImportCubeMap(paths, name.c_str(), mipmap);
+	
 	return 0;
 }
 

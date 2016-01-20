@@ -38,20 +38,23 @@ class Renderer : public ComponentSystem
 		void SetWindowSize( const int& w, const int& h );
 		void SetFramebufferScale( const float& scaleX, const float& scaleY );
 		void SetBackgroundColor( float r, float g, float b, float a ) const;
+		void SetSkybox( const char* name );
 		void ScreenGrab() const;
 		inline void SetMeshRendererList( std::vector< CMeshRenderer* >* list ) { renderables = list; }
 		inline void SetDebugRendererList( std::vector< CDebugRenderer* >* list ) { debugPrimitives = list; }
 		inline void SetLightList( std::vector< CLight* >* list ) { lights = list; }
 		void SetCamera( CCamera* c );
 		inline void SetTime( const uint32& t ) { time = t; }
-		
+	
 		inline const int& GetWindowWidth() const { return w_width; }
 		inline const int& GetWindowHeight() const { return w_height; }
 		inline CCamera* GetCamera() const { return camera; }
 		unsigned int skyboxMap;
 		
 	private:
-		
+	
+		void InitializeShaders();
+	
 		void ClearFlag() const;
 		void SetViewportRect() const;
 		void RenderEnvironment() const;

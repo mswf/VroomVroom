@@ -12,12 +12,21 @@
 #include <stdio.h>
 #include "moduleMacros.h"
 
+class Renderer;
+
 class mSystem
 {
 	public:
 		static void Bind(lua_State*);
+	
+		static void SetRenderer(Renderer*);
+	
 	private:
+		static Renderer* renderer;
+	
 		lFuncDef(clearConsole);
+	
+		lFuncDef(setSkybox);
 };
 
 #endif /* mSystem_hpp */

@@ -50,15 +50,24 @@ bool Renderer::Initialize()
 	SetMeshRendererList( CMeshRenderer::GetMeshRendererList() );
 	SetDebugRendererList( CDebugRenderer::GetDebugRendererList() );
 	SetLightList( CLight::GetLightList() );
-	ResourceManager& rm = Assets;
-	skybox = rm.GetModel("__Skybox_model");
-	skyboxProgram = rm.GetShaderProgram("__Skybox_program");
-	debugProgram = rm.GetShaderProgram("__Debug_program");
+	skybox = Assets.GetModel("__Skybox_model");
+	InitializeShaders();
 	backgroundColour = new float[4];
 	SetBackgroundColor(0.91f, 0.91f, 0.91f, 1.0f);
 	return true;
 }
+
+void Renderer::InitializeShaders()
+{
+	Assets.ImportAndCreateShader( "shaders/skybox_vert.glsl", "shaders/skybox_frag.glsl", "Skybox");
+	skyboxProgram = Assets.GetShaderProgram("Skybox");
 	
+	Assets.ImportAndCreateShader( "shaders/line_vert.glsl", "shaders/line_frag.glsl", "DebugLine" );
+	debugProgram = Assets.GetShaderProgram("DebugLine");
+	
+	Assets.ImportAndCreateShader( "shaders/quad_vert.glsl", "shaders/quad_frag.glsl", "quad");
+}
+
 void Renderer::ScreenGrab() const
 {
 	int components = 3;
@@ -314,6 +323,12 @@ void Renderer::SetBackgroundColor( float r, float g, float b, float a ) const
 	backgroundColour[2] = b;
 	backgroundColour[3] = a;
 }
+
+void Renderer::SetSkybox( const char* name )
+{
+	skyboxMap = Assets.GetCubeMapId( name );
+}
+
 void Renderer::SetCamera( CCamera* c )
 {
 	if ( camera != nullptr )

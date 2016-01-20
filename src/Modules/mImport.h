@@ -21,6 +21,7 @@ class mImport {
 		//lFuncDef(importMaterial);
 		lFuncDef(importTexture);
 		//lFuncDef(importShader);
+		lFuncDef(importCubeMap);
 	
 		lFuncDef(reloadTexture);
 		lFuncDef(reloadShader);

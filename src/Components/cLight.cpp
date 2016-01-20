@@ -31,22 +31,22 @@ void CLight::SetColour( glm::vec4 c )
 	colour = c;
 }
 
-glm::vec4 CLight::GetColour()
+glm::vec4 CLight::GetColour() const
 {
 	return colour;
 }
 
-float CLight::GetIntensity()
+float CLight::GetIntensity() const
 {
 	return intensity;
 }
 
-glm::vec3 CLight::GetDirection()
+glm::vec3 CLight::GetDirection() const
 {
 	return glm::eulerAngles(entity->transform->GetRotation());
 }
 
-glm::vec3 CLight::GetPosition()
+glm::vec3 CLight::GetPosition() const
 {
 	return entity->transform->GetPosition();
 }

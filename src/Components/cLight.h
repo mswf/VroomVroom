@@ -16,12 +16,12 @@ class CLight : public Component
 		~CLight();
 		
 		void Call() override;
-		glm::vec3 GetDirection();
-		glm::vec3 GetPosition();
+		glm::vec3 GetDirection() const;
+		glm::vec3 GetPosition() const;
 		void SetIntensity( float intensity );
 		void SetColour( glm::vec4 colour );
-		glm::vec4 GetColour();
-		float GetIntensity();
+		glm::vec4 GetColour() const;
+		float GetIntensity() const;
 		static std::vector< CLight* >* GetLightList();
 
 	private:

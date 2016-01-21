@@ -74,6 +74,7 @@
 		E5B2D5CD1C48F9CB00894F2B /* sphereCollider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B2D5CA1C48F9CB00894F2B /* sphereCollider.cpp */; };
 		E5D664DC1BC16C390042350B /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5D664DB1BC16C390042350B /* SDL2.framework */; };
 		E5D9F8E51BE247C7005AFAB1 /* mEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5D9F8E41BE247C7005AFAB1 /* mEntity.cpp */; };
+		E5DC08F11C51172100E51F05 /* mesh_generator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5DC08F01C51172100E51F05 /* mesh_generator.cpp */; settings = {ASSET_TAGS = (); }; };
 		E5DEBDC71C0B5934009F0FB4 /* opengl_common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5DEBDC51C0B5934009F0FB4 /* opengl_common.cpp */; };
 		E5ED45BC1C05F93C0009BD5A /* importer_imp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5ED45B81C05F93C0009BD5A /* importer_imp.cpp */; };
 		E5ED45BD1C05F93C0009BD5A /* importer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5ED45BA1C05F93C0009BD5A /* importer.cpp */; };
@@ -251,6 +252,7 @@
 		E5D664DB1BC16C390042350B /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = Framework/SDL2.framework; sourceTree = "<group>"; };
 		E5D9F8E41BE247C7005AFAB1 /* mEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mEntity.cpp; path = src/Modules/mEntity.cpp; sourceTree = SOURCE_ROOT; };
 		E5D9F8E61BE247DF005AFAB1 /* mEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mEntity.h; path = src/Modules/mEntity.h; sourceTree = SOURCE_ROOT; };
+		E5DC08F01C51172100E51F05 /* mesh_generator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mesh_generator.cpp; path = src/DataStructure/mesh_generator.cpp; sourceTree = SOURCE_ROOT; };
 		E5DEBDC51C0B5934009F0FB4 /* opengl_common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = opengl_common.cpp; path = src/Utilities/opengl_common.cpp; sourceTree = SOURCE_ROOT; };
 		E5DEBDC61C0B5934009F0FB4 /* opengl_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = opengl_common.h; path = src/Utilities/opengl_common.h; sourceTree = SOURCE_ROOT; };
 		E5ED45B81C05F93C0009BD5A /* importer_imp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = importer_imp.cpp; path = src/IO/importer_imp.cpp; sourceTree = SOURCE_ROOT; };
@@ -533,6 +535,7 @@
 			isa = PBXGroup;
 			children = (
 				E5ED45BF1C05F95B0009BD5A /* mesh_generator.h */,
+				E5DC08F01C51172100E51F05 /* mesh_generator.cpp */,
 				E5ED45C01C05F95B0009BD5A /* mesh.cpp */,
 				E5ED45C11C05F95B0009BD5A /* mesh.h */,
 				E55F88E11BEBB22A00433973 /* material.cpp */,
@@ -657,6 +660,7 @@
 				E55F88E31BEBB22A00433973 /* material.cpp in Sources */,
 				23C2AAFD1BCBD8C00043F141 /* file.cpp in Sources */,
 				2383825F1C158EB600538D86 /* mDebugRenderer.cpp in Sources */,
+				E5DC08F11C51172100E51F05 /* mesh_generator.cpp in Sources */,
 				E50529261BE8CD650017400B /* luaSystem.cpp in Sources */,
 				E50529521BE8CDC90017400B /* imgui_impl_sdl.cpp in Sources */,
 				E5EF4BBA1C1842C1001D487C /* cLight.cpp in Sources */,

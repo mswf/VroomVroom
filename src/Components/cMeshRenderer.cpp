@@ -1,7 +1,6 @@
 #include "cMeshRenderer.h"
 #include "entity.h"
 #include "cCamera.h"
-//#include "glew.h"
 #include "console.h"
 #include "../DataStructure/resource_manager.h"
 
@@ -14,7 +13,7 @@ CMeshRenderer::CMeshRenderer() :
 {
 	list.push_back( this );
 	entity = nullptr;
-	material = Assets.GetMaterialByName( "Default" );
+	material = Assets.GetMaterialByName( DEFAULT_MATERIAL );
 }
 
 CMeshRenderer::~CMeshRenderer()

@@ -216,7 +216,7 @@ bool IsAttached( GLuint program, GLuint shader )
 	}
 	CheckGlError("IsAttached");
 
-	delete shaders;
+	delete[] shaders;
 	return false;
 }
 

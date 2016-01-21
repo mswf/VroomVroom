@@ -42,6 +42,14 @@ bool Importer::ImportObjFile( const std::string &pFile, bool importTextures )
 	if ( imp_err == IMPORTER_MESSAGE::FILE_CORRUPT )
 	{
 		Terminal.Log( imp_->import_scene_failure_reason );
+		imp_->FreeScene(scene);
+		return false;
+	}
+	
+	if ( scene->mNumMeshes <= 0 )
+	{
+		Terminal.Warning("Mesh: " + pFile + " contains no meshes!");
+		imp_->FreeScene(scene);
 		return false;
 	}
 	
@@ -83,6 +91,7 @@ void Importer::ImportMaterial( Material*& material, aiScene* scene, Mesh* mesh, 
 	imp_->ExtractMaterial( mtl, material, &textures );
 	if ( Assets.MaterialExists( material->name.c_str() ) )
 	{
+		Terminal.Log("Material " + material->name + " already exists.", true);
 		delete material;
 		return;
 	}

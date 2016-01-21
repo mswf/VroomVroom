@@ -13,7 +13,7 @@ enum class IMPORTER_MESSAGE
 	FILE_NOT_FOUND = 1,
 	FILE_CORRUPT = 2,
 	IMAGE_LOAD_OK = 3,
-	IMAGE_FAILED_TO_LOAD = 4
+	IMAGE_FAILED_TO_LOAD = 4,
 };
 
 class ImporterImp
@@ -23,11 +23,11 @@ class ImporterImp
 		ImporterImp();
 		~ImporterImp();
 
-	static void FreeScene( aiScene*& sc );
+		static void FreeScene( aiScene*& sc );
 		void ExtractMesh( const aiMesh* mesh, Mesh*& m );
-	static void PushToList( aiVector3D v, std::vector< glm::vec3 >& list );
+		static void PushToList( aiVector3D v, std::vector< glm::vec3 >& list );
 		void ExtractMaterial( const aiMaterial* mtl, Material*& material, std::vector< string >* textureIdMap );
-	static void SetColour( const aiMaterial* mtl, const char* attribute, float* mtl_colour );
+		static void SetColour( const aiMaterial* mtl, const char* attribute, float* mtl_colour );
 		aiScene* ImportObjFile( const string& pFile, IMPORTER_MESSAGE& message );
 		unsigned char* ImportImage( const char* filename, uint32& width, uint32& height, uint32 requiring_components, IMPORTER_MESSAGE& message, bool vertical_flip = true );
 		inline void SetSceneImportFlags( const int32& flags ) { importFlags = flags; }

@@ -18,7 +18,7 @@ Entity::Entity( std::string name ) :
 	
 	if( name != root_name )
 	{
-		Entity::root->AddChild(this);
+		root->AddChild(this);
 	}
 }
 

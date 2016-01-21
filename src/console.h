@@ -33,13 +33,13 @@ class sTerminal : public Singleton<sTerminal>
 		void LogRender(const string, bool = false);
 	
 		void Update(int);
-		void Clear();
+		void Clear() const;
 	
         bool IsConnected() const;
         void ReattemptConnection(int);
 	private:
-		void WriteToFile(string);
-		void SendToExternal(string, string, string);
+		void WriteToFile(string) const;
+		void SendToExternal(string, string, string) const;
         void CreateLogFile();
 
 		TCPClient* socket;

@@ -20,11 +20,11 @@ class File {
         ~File();
         bool Open(const string);
         void Create(const string);
-        Sint64 Size();
+        Sint64 Size() const;
     
         string ReadString();
-        void ReadStringInto(string*, Sint64);
-        void WriteString(const string &);
+        void ReadStringInto(string*, Sint64) const;
+        void WriteString(const string &) const;
     
         void Close();
         void Clear();

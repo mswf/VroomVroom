@@ -23,8 +23,8 @@ void CTransform::Call()
 	//Update();
 }
 
-	const glm::mat4& CTransform::GetTransform()
-{
+	const glm::mat4& CTransform::GetTransform() const
+	{
 	return transform;
 }
 
@@ -144,7 +144,7 @@ glm::vec3 CTransform::GetPosition()
 	return glm::vec3( transform[3][0], transform[3][1], transform[3][2] );
 }
 
-glm::vec3 CTransform::GetLocalPosition()
+glm::vec3 CTransform::GetLocalPosition() const
 {
 	glm::mat4 localTransform = glm::inverse( parent->GetTransform() ) * transform;
 	return glm::vec3( localTransform[3][0], localTransform[3][1], localTransform[3][2] );

@@ -41,7 +41,7 @@ class Engine
 
 		static glm::vec3 CastRay( glm::vec3 origin, glm::vec3 direction, glm::vec3 plane, float distance );
 		static uint32 GetTicks();
-		
+
 public:
 		static FMOD::System* systemLowLevel;
 		static SDL_Window* window;

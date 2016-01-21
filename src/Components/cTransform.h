@@ -17,7 +17,7 @@ class CTransform : public Component
 
 	void Call() override;
 
-		const glm::mat4& GetTransform();
+		const glm::mat4& GetTransform() const;
 		void SetTransform( const glm::mat4& transform );
 	
 		void LookAt( const glm::vec3& target, const glm::vec3& up = glm::vec3(0.0f, 1.0f, 0.0f) );
@@ -42,7 +42,7 @@ class CTransform : public Component
 		void TranslateZ( const float& z );
 	
 		glm::vec3 GetPosition();
-		glm::vec3 GetLocalPosition();
+		glm::vec3 GetLocalPosition() const;
 	
 		const float GetPositionX() const;
 		const float GetPositionY() const;

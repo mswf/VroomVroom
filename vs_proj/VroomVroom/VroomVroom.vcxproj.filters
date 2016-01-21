@@ -917,6 +917,9 @@
     <ClCompile Include="..\..\src\Modules\mRaycast.cpp">
       <Filter>VroomVroom\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\DataStructure\mesh_generator.cpp">
+      <Filter>VroomVroom\DataStructure</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\glm\detail\func_common.inl">

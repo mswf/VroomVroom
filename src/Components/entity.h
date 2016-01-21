@@ -31,7 +31,7 @@ class Entity
 		template<typename T>
 		static void AddComponent( Entity* e, T* comp )
 		{
-			Entity::componentStorage.insert( std::pair< int, Entity* >( T::familyId, e ) );
+			componentStorage.insert( std::pair< int, Entity* >( T::familyId, e ) );
 			e->entityComponents.insert( std::pair< int, Component* >( T::familyId, comp ) );
 			comp->IncrementAddedToEntity();
 			comp->entity = e;
@@ -82,7 +82,7 @@ class Entity
 		template<typename T>
 		static void GetEntities( std::vector< Entity* > &result )
 		{
-			auto iterPair = Entity::componentStorage.equal_range( T::familyId );
+			auto iterPair = componentStorage.equal_range( T::familyId );
 			for ( auto iter = iterPair.first; iter != iterPair.second; ++iter )
 			{
 				result.push_back( iter->second );

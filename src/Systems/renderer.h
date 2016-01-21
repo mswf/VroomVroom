@@ -45,6 +45,7 @@ class Renderer : public ComponentSystem
 		inline void SetLightList( std::vector< CLight* >* list ) { lights = list; }
 		void SetCamera( CCamera* c );
 		inline void SetTime( const uint32& t ) { time = t; }
+		inline void CaptureScreen() { captureScreen = true; };
 	
 		inline const int& GetWindowWidth() const { return w_width; }
 		inline const int& GetWindowHeight() const { return w_height; }
@@ -60,7 +61,8 @@ class Renderer : public ComponentSystem
 		void RenderEnvironment() const;
 		void RenderScene() const;
 		void RenderDebugLines() const;
-		
+	
+		bool captureScreen;
 		uint32 time;
 		int w_width;
 		int w_height;

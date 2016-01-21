@@ -71,9 +71,15 @@ void Renderer::InitializeShaders()
 void Renderer::ScreenGrab() const
 {
 	int components = 3;
-	int width = w_width * framebufferScaleX;
-	int height = w_height * framebufferScaleY;
-		
+	int width = w_width;
+	int height = w_height;
+
+	// TODO(Valentinas): Test if scaling is need on Windows
+#if __APPLE__
+	width *= framebufferScaleX;
+	height *= framebufferScaleY;
+#endif
+	
 	uint32 size = components * width * height;
 	uint8* pixels = new uint8[size];
 	glReadBuffer( GL_BACK );
@@ -108,6 +114,11 @@ void Renderer::Render()
 	RenderEnvironment();
 	RenderScene();
 	RenderDebugLines();
+	if ( captureScreen )
+	{
+		ScreenGrab();
+		captureScreen = false;
+	}
 }
 
 void Renderer::SetViewportRect() const
@@ -244,7 +255,7 @@ void Renderer::RenderDebugLines() const
 			case DrawMode::TRIANGLES:	{ primitive = GL_TRIANGLES; break; }
 			case DrawMode::LINES:		{ primitive = GL_LINES; glEnable(GL_LINE_SMOOTH); break; }
 			case DrawMode::POINTS:		{ primitive = GL_LINE_LOOP; break; }
-			default: break;
+			default: 					{ primitive = GL_POINTS;  break; }
 		}
 		
 		(*it)->UpdateBuffer();

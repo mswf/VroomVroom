@@ -8,6 +8,7 @@
 
 //#include "Components/cCamera.h"
 #include "Components/cCollider.h"
+#include "Components/entity.h"
 #include "Components/cTransform.h"
 #include "Components/cMeshRenderer.h"
 //#include "Components/cDebugRenderer.h"
@@ -15,6 +16,8 @@
 //#include "DataStructure/material.h"
 
 //#include "DataStructure/mesh.h"
+#include "DataStructure/resource_manager.h"
+#include "DataStructure/mesh_generator.h"
 //#include "DataStructure/texture.h"
 #include "DataStructure/shader.h"
 
@@ -33,18 +36,11 @@
 #include "Systems/luaSystem.h"
 #include "Systems/uiSystem.h"
 
-
 #include "Utilities/helperFunctions.h"
 #include "Utilities/random.h"
 #include "Utilities/standardIncludes.h"
 
 #include "Utilities/command.h"
-
-#include "Components/entity.h"
-#include "DataStructure/resource_manager.h"
-
-#include "Colliders/boxCollider.h"
-#include "Colliders/sphereCollider.h"
 
 FMOD::System* Engine::systemLowLevel = nullptr;
 SDL_Window* Engine::window = nullptr;
@@ -52,8 +48,6 @@ SDL_Window* Engine::window = nullptr;
 Engine::Engine() :
 	systemStudio(nullptr),
 	fileWatcher(nullptr),
-	skybox_map(0),
-	takeScreen(false),
 	glcontext(nullptr),
 	running(false)
 {
@@ -219,7 +213,7 @@ void Engine::InitGlew()
 	Terminal.LogOpenGL(glslVersion, true);
 	Terminal.LogOpenGL("GLEW version " + majorGlew + "." + minorGlew, true);
 
-	//#define LOG_EXTENSIONS
+//#define LOG_EXTENSIONS
 #ifdef LOG_EXTENSIONS
 	int NumberOfExtensions, i;
 	glGetIntegerv(GL_NUM_EXTENSIONS, &NumberOfExtensions);
@@ -394,82 +388,37 @@ void Engine::FilewatcherUpdate()
 	listener.ClearEvents();
 }
 
-void Engine::WeikieTestCode()
-{
-	Entity* a =  new Entity( "testB" );
-	Entity* b =  new Entity( "testB" );
-
-	float c = 0;
-	float d = 0.5f;
-
-	a->transform->SetPosition(c, c, c);
-	b->transform->SetPosition(d, d, d);
-
-	CCollider *col1 = new SphereCollider();
-	CCollider* col2 = new BoxCollider();
-	CCollider* col3 = new BoxCollider();
-	CCollider *col4 = new SphereCollider();
-
-	float radius = 1;
-	float boxSize = 2;
-
-
-	//col1->SetRadius(radius);
-	//col2->SetRadius(radius);
-	//
-	//col1->SetCollisionBox(boxSize, boxSize, boxSize);
-	//col2->SetCollisionBox(boxSize, boxSize, boxSize);
-
-
-	Entity::AddComponent(a, col1);
-	Entity::AddComponent(b, col2);
-
-	bool asd = col1->Collide(*col2);
-	bool asd2 = col2->Collide(*col1);
-	bool asd3 = col1->Collide(*col4);
-	bool asd4 = col2->Collide(*col3);
-
-	printf( "%i \n ", asd);
-	printf( "%i \n ", asd2);
-}
-
 void Engine::UpdateLoop()
 {
-#ifdef WEIKIE
-	WeikieTestCode();
-#endif
+
 
 	/// TINAS PLAYGROUND!!!
+	
 	/*
+	
 	Assets.ImportMesh("objects/Teapot/teapot.obj");
 	Assets.SetMeshScale("objects/Teapot/teapot.obj", 0.01f);
 	Entity* teapot = new Entity( "Teapot" );
 
-
-
-		float lineLength = 1.0f;
-		int lineAmount = 10;
-		for (int i = 0; i < lineAmount + 1; ++i)
-		{
-			float p = (i * 0.1f);
-			// Along x axis
-			debugRenderer->AddLine(  Line( glm::vec3( 0.0, 0.0, p ), glm::vec3( lineLength, 0.0, p ), random_colour() ) );
-			debugRenderer->AddLine(  Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( lineLength, p, 0.0 ), random_colour() ) );
-			// Along y axis
-			debugRenderer->AddLine(  Line( glm::vec3( p, 0.0, 0.0 ), glm::vec3( p, lineLength, 0.0 ), random_colour() ) );
-			debugRenderer->AddLine(  Line( glm::vec3( p, 0.0, 0.0 ), glm::vec3( p, 0.0, lineLength ), random_colour() ) );
-			// Along z axis
-			debugRenderer->AddLine(  Line( glm::vec3( 0.0, 0.0, p ), glm::vec3( 0.0, lineLength, p ), random_colour() ) );
-			debugRenderer->AddLine(  Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( 0.0, p, lineLength ), random_colour() ) );
-		}
 	*/
 	/*
-		Entity* camera = new Entity( "Main Camera" );
-		CCamera* cam = new CCamera( Projection::PERSPECTIVE, 1280.0f / 720.0f );
-		Entity::AddComponent(camera, cam);
-		camera->transform->SetPosition( glm::vec3( 0, 0, -1 ) );
-		renderer.SetCamera( cam );
+	float lineLength = 1.0f;
+	int lineAmount = 10;
+	for (int i = 0; i < lineAmount + 1; ++i)
+	{
+		float p = (i * 0.1f);
+		// Along x axis
+		debugRenderer->AddLine(  Line( glm::vec3( 0.0, 0.0, p ), glm::vec3( lineLength, 0.0, p ), random_colour() ) );
+		debugRenderer->AddLine(  Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( lineLength, p, 0.0 ), random_colour() ) );
+		// Along y axis
+		debugRenderer->AddLine(  Line( glm::vec3( p, 0.0, 0.0 ), glm::vec3( p, lineLength, 0.0 ), random_colour() ) );
+		debugRenderer->AddLine(  Line( glm::vec3( p, 0.0, 0.0 ), glm::vec3( p, 0.0, lineLength ), random_colour() ) );
+		// Along z axis
+		debugRenderer->AddLine(  Line( glm::vec3( 0.0, 0.0, p ), glm::vec3( 0.0, lineLength, p ), random_colour() ) );
+		debugRenderer->AddLine(  Line( glm::vec3( 0.0, p, 0.0 ), glm::vec3( 0.0, p, lineLength ), random_colour() ) );
+	}
 	*/
+	
 	/// TINAS PLAYGROUND ENDS!!!
 
 
@@ -481,7 +430,7 @@ void Engine::UpdateLoop()
 	uint32 prevTicks = currentTicks;
 	running = true;
 	LuaSystem.Main();
-
+	
 	while (running)
 	{
 		currentTicks = GetTicks();
@@ -509,8 +458,9 @@ void Engine::UpdateLoop()
 				}
 				if ( inputManager.OnKeyDown(SDLK_F1) )
 				{
-					takeScreen = true;
+					renderer.CaptureScreen();
 				}
+				
 				prevTicks = currentTicks;
 				prevTicks -= deltaTimeGame;
 			}
@@ -524,8 +474,7 @@ void Engine::UpdateLoop()
 		renderer.Render();
 
 		UiSystem.Render();
-
-		TakeScreenShot();
+		
 		SDL_GL_SwapWindow(window);
 
 	}
@@ -563,15 +512,6 @@ void Engine::CleanUpEntities()
 			}
 		}
 		Entity::shouldClean = false;
-	}
-}
-
-void Engine::TakeScreenShot()
-{
-	if ( takeScreen )
-	{
-		takeScreen = false;
-		renderer.ScreenGrab();
 	}
 }
 

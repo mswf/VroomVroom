@@ -19,14 +19,14 @@ class Engine
 		Engine();
 		~Engine();
 		void PollEvent();
-	static void OpenConfig();
-	static void CloseWindow(SDL_Window* window, SDL_GLContext glcontext);
+		static void OpenConfig();
+		static void CloseWindow(SDL_Window* window, SDL_GLContext glcontext);
 		void SetupWindow(SDL_Window*& window, SDL_GLContext& glcontext);
 		void InitGlew();
 		void InitFMOD();
 		void UpdateLoop();
-	static void InitSDL();
-	static void InitSDLNet();
+		static void InitSDL();
+		static void InitSDLNet();
 		void Init();
 		
 		static glm::vec2 GetWindowSize();
@@ -50,11 +50,10 @@ public:
 		
 
 	private:
+	
 		void FilewatcherUpdate();
-		void WeikieTestCode();
 		void WindowEvent( SDL_WindowEvent window );
-		void TakeScreenShot();
-	static void CleanUpEntities();
+		static void CleanUpEntities();
 
 		FMOD::Studio::System* systemStudio;
 	
@@ -63,16 +62,9 @@ public:
 		UpdateListener listener;
 		Input inputManager;
 
-		unsigned int skybox_map;
-		bool takeScreen;
 		SDL_GLContext glcontext;
 		bool running;
 };
-
-//	rendering
-//	float normalizedInterpolationValue = deltaTimeGame / gameUpdateInterval
-//	//Do something with locking
-//	render.draw(normalizedInterpolationValue)
 
 
 #endif

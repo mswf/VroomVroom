@@ -246,6 +246,8 @@ void Engine::SetupWindow(SDL_Window*& window, SDL_GLContext& glcontext)
 	window = SDL_CreateWindow("VroomVroom", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_SHOWN); //SDL_WINDOW_ALLOW_HIGHDPI
 	glcontext = SDL_GL_CreateContext(window);
 	InitGlew();
+
+	SDL_SetHint("SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS", "0");
 }
 
 uint32 Engine::GetTicks()

@@ -13,7 +13,7 @@ CMeshRenderer::CMeshRenderer() :
 {
 	list.push_back( this );
 	entity = nullptr;
-	material = Assets.GetMaterialByName( DEFAULT_MATERIAL );
+	material = Assets.GetMaterialByName( ResourceManager::DEFAULT_MATERIAL );
 }
 
 CMeshRenderer::~CMeshRenderer()

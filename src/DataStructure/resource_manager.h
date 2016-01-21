@@ -29,8 +29,6 @@ typedef std::map< string, ShaderProgram* > ShaderPrograms;
 typedef std::map< string, uint32 > StringToID;
 typedef std::vector< string > StringVector;
 
-const char * DEFAULT_MATERIAL = "DefaultMaterial";
-
 class ResourceManager : public Singleton<ResourceManager>
 {
 	public:
@@ -105,6 +103,8 @@ class ResourceManager : public Singleton<ResourceManager>
 		void LoadBuiltinShader();
 		void LoadDefaultMeshes();
 
+		static const char* DEFAULT_MATERIAL;
+	
 	private:
 
 		uint32 GetMaterialId( const char* name ) const;

@@ -103,7 +103,7 @@ void File::WriteString(const string& data) const
     }
     Sint64 size = data.size();
 	//TODO(Robin): Check for errors!
-    size_t len = SDL_RWwrite(file, data.c_str(), 1, size);
+    SDL_RWwrite(file, data.c_str(), 1, size);
 }
 
 void File::Close()

@@ -42,9 +42,9 @@ int Random::Next(const int min, const int max)
 	{
 		rnd = rand() % max;
 	}
-	assert(rnd >= min);
-	assert(rnd < max);
-	assert(min != max);
+	SDL_assert(rnd >= min);
+	SDL_assert(rnd < max);
+	SDL_assert(min != max);
 	return rnd;
 }
 

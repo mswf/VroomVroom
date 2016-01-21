@@ -1,6 +1,7 @@
 #include "cCamera.h"
 #include "console.h"
 #include "entity.h"
+#include "../glm/gtc/matrix_transform.hpp"
 
 const int CCamera::familyId = static_cast<int>(ComponentTypes::CAMERA);
 
@@ -52,12 +53,8 @@ void CCamera::SetProjectionType( Projection type )
 
 void CCamera::Call()
 {
-	// Needs a debug camera for testing purposes
-	//glm::vec4 position = entity->transform->GetTransform()[3];
-	//glm::vec3 eye = glm::vec3( position.x, position.y, position.z );
 	glm::vec3 eye =  entity->transform->GetPosition();
 	glm::vec3 target = eye + entity->transform->VectorForward();// + entity->transform->GetEulerAngles();
-	
 	viewMatrix = glm::lookAt( eye , target, entity->transform->VectorUp() );
 }
 
@@ -71,8 +68,6 @@ glm::vec3 CCamera::ScreenToWorldPosition( const glm::ivec2& position )
 	
 	float width = renderer->GetWindowWidth();
 	float height = renderer->GetWindowHeight();
-	
-	//printf( " %i %i \n", position.x, position.y );
 	
 	//Step 1
 	float x = ( 2.0 * position.x ) / width - 1.0;

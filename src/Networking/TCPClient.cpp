@@ -57,7 +57,7 @@ void TCPClient::SendData(const void* data, const uint32 length) const
 {
 	if (length >= MAX_MESSAGE_LENGTH)
 	{
-		assert(false);
+		SDL_assert(false);
 	}
 
 	uint32 result = SDLNet_TCP_Send(socket, data, length);
@@ -65,7 +65,7 @@ void TCPClient::SendData(const void* data, const uint32 length) const
 	{
 		printf("SDLNet_TCP_Send: %s\n", SDLNet_GetError());
 		printf("serverSocket has been disconnected\n");
-		assert(false);
+		SDL_assert(false);
 	}
 }
 
@@ -107,7 +107,7 @@ int TCPClient::ListenForMessages(void* tcpClient)
 			// An error may have occured, but sometimes you can just ignore it
 			// It may be good to disconnect sock because it is likely invalid now.
 			client->alive = false;
-			assert("client disconnected");
+			SDL_assert("client disconnected");
 			return 1;
 		}
 

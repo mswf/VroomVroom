@@ -80,8 +80,13 @@ void Importer::ImportMesh( aiScene *scene, const uint32& index, Mesh*& mesh, con
 void Importer::ImportMaterial( Material*& material, aiScene* scene, Mesh* mesh, std::vector< std::string >& textures ) const
 {
 	aiMaterial *mtl = scene->mMaterials[ mesh->materialId ];
-	mesh->materialId = ResourceManager::materialId++;
 	imp_->ExtractMaterial( mtl, material, &textures );
+	if ( Assets.MaterialExists( material->name.c_str() ) )
+	{
+		delete material;
+		return;
+	}
+	mesh->materialId = ResourceManager::materialId++;
 	Assets.InsertMaterial( mesh->materialId, material->name.c_str(), material );
 	Terminal.Log("Material " + material->name + " has been created.", true);
 }

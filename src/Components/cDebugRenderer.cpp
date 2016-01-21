@@ -5,10 +5,12 @@
 const int CDebugRenderer::familyId = static_cast<int>(ComponentTypes::DEBUG_RENDERER);
 std::vector< CDebugRenderer* > CDebugRenderer::list;
 
+const int POINT_COUNT = 4096;
+
 CDebugRenderer::CDebugRenderer() :
 	vao(0),
 	vbo(0),
-	numberOfPoints( 4096 ),
+	numberOfPoints( POINT_COUNT ),
 	pointSize(5.0f),
 	mode( DrawMode::NONE ),
 	isBuffered(false),
@@ -38,11 +40,35 @@ void CDebugRenderer::Call()
 
 void CDebugRenderer::Initialize()
 {
-	int primitive = (mode == DrawMode::LINES) ? 2 : 3;
+	int primitive = 0;
+	switch (mode)
+	{
+		
+		case DrawMode::POINTS: 		{ primitive = 1; break; }
+		case DrawMode::LINES: 		{ primitive = 2; break; }
+		case DrawMode::TRIANGLES:	{ primitive = 3; break; }
+		case DrawMode::NONE:
+		default: break;
+	}
 	int count = int( numberOfPoints / primitive );
 	bufferSizeAmount = count;
 	unsigned long bSize = sizeof(glm::vec3) * count + sizeof(glm::vec4) * count;
 	CreateDynamicBuffer(vao, vbo, bSize);
+}
+
+void CDebugRenderer::AddPrimivite( glm::vec3 point, glm::vec4 colour )
+{
+	if ( mode == DrawMode::NONE)
+	{
+		mode = DrawMode::POINTS;
+		Initialize();
+	}
+	if ( bufferSizeAmount < points.size() )
+	{
+		Terminal.Warning( "DebugRenderer is trying to have more data than the buffer is initialized!" );
+	}
+	points.push_back(point);
+	colours.push_back(colour);
 }
 
 void CDebugRenderer::AddPrimivite( Line line )

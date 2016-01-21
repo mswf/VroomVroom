@@ -239,16 +239,14 @@ void Renderer::RenderDebugLines() const
 			
 		// Assign render primitive
 		GLenum primitive;
-		if ( (*it)->GetDrawMode() == DrawMode::TRIANGLES )
+		switch ( (*it)->GetDrawMode() )
 		{
-			primitive = GL_TRIANGLES;
+			case DrawMode::TRIANGLES:	{ primitive = GL_TRIANGLES; break; }
+			case DrawMode::LINES:		{ primitive = GL_LINES; glEnable(GL_LINE_SMOOTH); break; }
+			case DrawMode::POINTS:		{ primitive = GL_LINE_LOOP; break; }
+			default: break;
 		}
-		else
-		{
-			primitive = GL_LINES;
-			glEnable(GL_LINE_SMOOTH);
-		}
-			
+		
 		(*it)->UpdateBuffer();
 						
 		glBindVertexArray( (*it)->vao);

@@ -134,6 +134,7 @@ bool Importer::ImportImage( const char* filename, bool vertical_flip, FilterType
 	{
 		std::string err_file( filename );
 		Terminal.Warning( "Failed to load image [" + err_file + "], error: " + imp_->import_image_failure_reason );
+		delete image;
 		return false;
 	}
 	rm.InsertImage( filename, image );
@@ -151,6 +152,7 @@ ImageData* Importer::ReImportImage( const char* filename, bool vertical_flip ) c
 	{
 		std::string err_file( filename );
 		Terminal.Warning( "Failed to load image [" + err_file + "], error: " + imp_->import_image_failure_reason );
+		delete image;
 		return nullptr;
 	}
 	return image;

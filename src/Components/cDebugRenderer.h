@@ -9,6 +9,7 @@
 enum class DrawMode
 {
 	NONE,
+	POINTS,
 	LINES,
 	TRIANGLES
 };
@@ -50,6 +51,7 @@ class CDebugRenderer : public Component
 	
 		void Call() override;
 		void Initialize();
+		void AddPrimivite( glm::vec3 point, glm::vec4 colour );
 		void AddPrimivite( Line line );
 		void AddPrimivite( Triangle triangle );
 		void UpdateBuffer();

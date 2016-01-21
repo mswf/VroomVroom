@@ -37,7 +37,6 @@ uint8* ImporterImp::ImportImage( const char* filename, uint32& width, uint32& he
 	}
 
 	size_t size = w * h * requiring_components;
-	// TODO(Valentinas): Memory leak, Fix me!
 	uint8* data = new uint8[size];
 	memcpy(data, image, size);
 	stbi_image_free(image);
@@ -153,7 +152,6 @@ void ImporterImp::PushToList( aiVector3D v, std::vector< glm::vec3 >& list )
 
 void ImporterImp::ExtractMaterial( const aiMaterial* mtl, Material*& material, std::vector< string >* textureIdMap )
 {
-	// TODO(Valentinas): THIS IS A MEMORY LEAK! FIX IT!
 	material = new Material();
 	uint32 max = 1;
 	int32 wireframe = 0;

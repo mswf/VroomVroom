@@ -21,7 +21,9 @@ ImporterImp::~ImporterImp()
 uint8* ImporterImp::ImportImage( const char* filename, uint32& width, uint32& height, uint32 requiring_components, IMPORTER_MESSAGE& err_msg, bool vertical_flip )
 {
 	stbi_set_flip_vertically_on_load(vertical_flip);
-	int32 comp, w, h;
+	int32 comp = 3;
+	int32 w = 0;
+ 	int32 h = 0;
 	int32 rc = STBI_rgb;
 
 	uint8* image = stbi_load( filename, &w, &h, &comp, rc);

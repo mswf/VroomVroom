@@ -47,7 +47,7 @@ void CDebugRenderer::Initialize()
 		case DrawMode::POINTS: 		{ primitive = 1; break; }
 		case DrawMode::LINES: 		{ primitive = 2; break; }
 		case DrawMode::TRIANGLES:	{ primitive = 3; break; }
-		case DrawMode::NONE:
+		case DrawMode::NONE: 		{ primitive = 1; break; }
 		default: break;
 	}
 	int count = int( numberOfPoints / primitive );

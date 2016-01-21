@@ -115,9 +115,10 @@ void Engine::InitFMOD()
 	FMOD::ChannelGroup * group = 0;
 	FMOD::Channel    *channel = 0;
 	FMOD::DSP		 *dspecho;
-	FMOD_RESULT result = FMOD::Studio::System::create(&systemStudio);
+	FMOD_RESULT result;
+	FMOD::Studio::System::create(&systemStudio);
 	systemStudio->getLowLevelSystem(&systemLowLevel);
-	result = systemLowLevel->getVersion(&version);
+	systemLowLevel->getVersion(&version);
 	if (version < FMOD_VERSION)
 	{
 		Terminal.Error("Error version is not the FMOD version");
@@ -135,24 +136,24 @@ void Engine::InitFMOD()
 
 
 	FMOD::Studio::Bank* masterBank = nullptr;
-	result = systemStudio->loadBankFile(smasterBank.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &masterBank);
+	systemStudio->loadBankFile(smasterBank.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &masterBank);
 
 	FMOD::Studio::Bank* stringsBank = nullptr;
-	result = systemStudio->loadBankFile(smasterBankString.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &stringsBank);
+	systemStudio->loadBankFile(smasterBankString.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &stringsBank);
 
 	FMOD::Studio::Bank* vehiclesBank = nullptr;
-	result = systemStudio->loadBankFile(svehicleBank.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &vehiclesBank);
+	systemStudio->loadBankFile(svehicleBank.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &vehiclesBank);
 
 	FMOD::Studio::EventDescription* eventDescription = nullptr;
-	result = systemStudio->getEvent("event:/Vehicles/Basic Engine", &eventDescription);
+	systemStudio->getEvent("event:/Vehicles/Basic Engine", &eventDescription);
 
 	FMOD::Studio::EventInstance* eventInstance = nullptr;
-	result = eventDescription->createInstance(&eventInstance);
+	eventDescription->createInstance(&eventInstance);
 
 	FMOD::Studio::ParameterInstance* rpm = nullptr;
-	result = eventInstance->getParameter("RPM", &rpm);
+	eventInstance->getParameter("RPM", &rpm);
 
-	result = rpm->setValue(1150);
+	rpm->setValue(1150);
 
 	//result = eventInstance->start();
 
@@ -171,8 +172,8 @@ void Engine::InitFMOD()
 	{
 		std::cout << "Error: FMOD did not create digital signal processor type echo" << std::endl;
 	}
-	result = dspecho->setParameterFloat(FMOD_DSP_ECHO_DELAY, 150.0f);
-	result = dspecho->setParameterFloat(FMOD_DSP_ECHO_WETLEVEL, 150.0f);
+	dspecho->setParameterFloat(FMOD_DSP_ECHO_DELAY, 150.0f);
+	dspecho->setParameterFloat(FMOD_DSP_ECHO_WETLEVEL, 150.0f);
 	result = systemLowLevel->getMasterChannelGroup(&group);
 	//group->addDSP(FMOD_CHANNELCONTROL_DSP_HEAD, dspecho);
 	if (result != FMOD_OK)
@@ -188,11 +189,11 @@ void Engine::InitFMOD()
 	{
 		std::cout << "Error: FMOD did not find the file" << std::endl;
 	}
-	result = sound1->setMode(FMOD_LOOP_OFF);
+	sound1->setMode(FMOD_LOOP_OFF);
 	bool play = false;
 	if (play)
 	{
-		result = systemLowLevel->playSound(sound1, 0, false, &channel);
+		systemLowLevel->playSound(sound1, 0, false, &channel);
 	}
 }
 

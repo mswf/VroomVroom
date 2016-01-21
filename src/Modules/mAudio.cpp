@@ -33,7 +33,7 @@ lFuncImp(mAudio, play)
 		std::cout <<  "Error: FMOD did not find the file" << std::endl;
 		return 0;
 	}
-	result = sound1->setMode(FMOD_LOOP_OFF);
+	sound1->setMode(FMOD_LOOP_OFF);
 	Engine::systemLowLevel->playSound(sound1, 0, false, &channel);
 
 	

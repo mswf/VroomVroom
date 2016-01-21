@@ -173,7 +173,7 @@ void sTerminal::ReattemptConnection(int delay)
 	if (delay <= 0)
 	{
 		//TODO: delay value is never read
-		delay = -1;
+		//delay = -1;
 		if (socket != nullptr)
 		{
 			delete socket;

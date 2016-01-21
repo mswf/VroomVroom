@@ -90,10 +90,7 @@ bool HelperFunctions::FileExists( const char *file )
 		fclose(f);
 		return true;
 	}
-	else
-	{
-		return false;
-	}
+	return false;
 }
 
 void HelperFunctions::WritePixels( const char* filename, ImageFileFormat format, uint8* pixels, int width, int height, int components )
@@ -145,7 +142,7 @@ string HelperFunctions::GetTimeString()
 {
 	string line = "<";
 	
-	struct tm time_info = HelperFunctions::GetTime();
+	struct tm time_info = GetTime();
 	if (time_info.tm_hour < 10)
 	{
 		line += "0";

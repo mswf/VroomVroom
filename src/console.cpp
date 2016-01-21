@@ -192,7 +192,7 @@ void sTerminal::ReattemptConnection(int delay)
 	}
 }
 
-void sTerminal::Clear()
+void sTerminal::Clear() const
 {
 	if(socket->IsConnected())
 	{
@@ -202,7 +202,7 @@ void sTerminal::Clear()
 
 
 //PRIVATE
-void sTerminal::WriteToFile(const string msg)
+void sTerminal::WriteToFile(const string msg) const
 {
 	if (!logFile)
 	{
@@ -212,7 +212,7 @@ void sTerminal::WriteToFile(const string msg)
 	logFile->WriteString( HelperFunctions::GetTimeString() + msg + "\r\n");
 }
 
-void sTerminal::SendToExternal(const string msg, const string background, const string color)
+void sTerminal::SendToExternal(const string msg, const string background, const string color) const
 {
 	string timedMessage = HelperFunctions::GetTimeString() + msg;
 	string consoleString = "MSG[|]";

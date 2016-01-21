@@ -47,16 +47,13 @@ void File::Create(const string path)
     Open(path);
 }
 
-Sint64 File::Size()
+Sint64 File::Size() const
 {
-    if(file == nullptr)
+	if(file == nullptr)
     {
         return 0;
     }
-    else
-    {
-        return SDL_RWsize(file);
-    }
+	return SDL_RWsize(file);
 }
 
 string File::ReadString()
@@ -70,7 +67,7 @@ string File::ReadString()
     return result;
 }
 
-void File::ReadStringInto(string* outString, Sint64 size)
+void File::ReadStringInto(string* outString, Sint64 size) const
 {
     if(file == nullptr)
     {
@@ -98,7 +95,7 @@ void File::ReadStringInto(string* outString, Sint64 size)
     free(res);
 }
 
-void File::WriteString(const string& data)
+void File::WriteString(const string& data) const
 {
     if(file == nullptr)
     {

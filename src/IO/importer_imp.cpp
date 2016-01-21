@@ -190,16 +190,16 @@ void ImporterImp::ExtractMaterial( const aiMaterial* mtl, Material*& material, s
 	SetColour(mtl, "$clr.transparent", material->transparent );
 	SetColour(mtl, "$clr.reflective", material->reflective );
 
-	auto FindTextures = []( const aiMaterial * mtl, aiTextureType type, uint32 & textureCount, std::vector< string >* textureIdMap )
+	auto FindTextures = []( const aiMaterial * material_to_match, aiTextureType type, uint32 & textureCount, std::vector< string >* textureIdMap_to_find )
 	{
 		uint32 i;
 		aiString path;
-		int materialCount = mtl->GetTextureCount(type);
+		int materialCount = material_to_match->GetTextureCount(type);
 		for (i = 0; i < materialCount; ++i)
 		{
-			if ( AI_SUCCESS == mtl->GetTexture( type, i, &path ) )
+			if ( AI_SUCCESS == material_to_match->GetTexture( type, i, &path ) )
 			{
-				textureIdMap->push_back( std::string( &path.data[0] ) );
+				textureIdMap_to_find->push_back( std::string( &path.data[0] ) );
 				++textureCount;
 			}
 		}

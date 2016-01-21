@@ -23,7 +23,7 @@ bool Importer::ImportObjFile( const std::string &pFile, bool importTextures )
 {
 	if ( Assets.MeshExists( pFile.c_str() ) )
 	{
-		Terminal.Warning(pFile + " already imported. Aborting redundant loading");
+		Terminal.Warning("Mesh " + pFile + " already imported. Aborting redundant loading");
 		return false;
 	}
 	
@@ -117,41 +117,39 @@ void Importer::SetTextureToMaterial( Material* material, std::string name )
 	}
 }
 
-bool Importer::ImportImage( const char* filename, bool vertical_flip, FilterType minFilter, FilterType magFilter, WrapType wrapping ) const
+bool Importer::ImportImage( const char* filename, int comp, bool vert_flip, FilterType min, FilterType mag, WrapType wrap ) const
 {
-	ResourceManager& rm = Assets;
-	std::string file( Content::GetPath() + "/" + filename );
-	// TODO(Valentinas): Memory leak here, fix me!!
+	string file( Content::GetPath() + "/" + filename );
+	
 	ImageData* image = new ImageData();
-	image->magFilter = magFilter;
-	image->minFilter = minFilter;
-	image->wrap = wrapping;
+	image->magFilter = mag;
+	image->minFilter = min;
+	image->wrap = wrap;
 	image->mipmapping = false;
-	image->components = 3;
+	image->components = comp;
 	IMPORTER_MESSAGE imp_err = IMPORTER_MESSAGE::FILE_OK;
-	image->pixelData = imp_->ImportImage( file.c_str(), image->width, image->height, image->components, imp_err, vertical_flip );
+	image->pixelData = imp_->ImportImage( file.c_str(), image->width, image->height, image->components, imp_err, vert_flip );
 	if ( imp_err == IMPORTER_MESSAGE::IMAGE_FAILED_TO_LOAD )
 	{
-		std::string err_file( filename );
-		Terminal.Warning( "Failed to load image [" + err_file + "], error: " + imp_->import_image_failure_reason );
+		Terminal.Warning( "Failed to load image [" + string(filename) + "], error: " + imp_->import_image_failure_reason );
 		delete image;
 		return false;
 	}
-	rm.InsertImage( filename, image );
+	Assets.InsertImage( filename, image );
 	return true;
 }
 
-ImageData* Importer::ReImportImage( const char* filename, bool vertical_flip ) const
+ImageData* Importer::ReImportImage( const char* filename, int components, bool vertical_flip ) const
 {
-	std::string file( Content::GetPath() + "/" + filename );
+	string file( Content::GetPath() + "/" + filename );
+	
 	ImageData* image = new ImageData();
-	image->components = 3;
+	image->components = components;
 	IMPORTER_MESSAGE imp_err = IMPORTER_MESSAGE::FILE_OK;
 	image->pixelData = imp_->ImportImage( file.c_str(), image->width, image->height, image->components, imp_err, vertical_flip );
 	if ( imp_err == IMPORTER_MESSAGE::IMAGE_FAILED_TO_LOAD )
 	{
-		std::string err_file( filename );
-		Terminal.Warning( "Failed to load image [" + err_file + "], error: " + imp_->import_image_failure_reason );
+		Terminal.Warning( "Failed to load image [" + string( filename ) + "], error: " + imp_->import_image_failure_reason );
 		delete image;
 		return nullptr;
 	}

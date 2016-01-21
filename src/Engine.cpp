@@ -6,19 +6,13 @@
 #include "Engine.h"
 #include "glew.h"
 
-//#include "Components/cCamera.h"
-#include "Components/cCollider.h"
 #include "Components/entity.h"
 #include "Components/cTransform.h"
 #include "Components/cMeshRenderer.h"
-//#include "Components/cDebugRenderer.h"
+#include "Components/cDebugRenderer.h"
 
-//#include "DataStructure/material.h"
-
-//#include "DataStructure/mesh.h"
 #include "DataStructure/resource_manager.h"
 #include "DataStructure/mesh_generator.h"
-//#include "DataStructure/texture.h"
 #include "DataStructure/shader.h"
 
 #include "ImGUI/imgui.h"
@@ -306,9 +300,7 @@ void Engine::PollEvent()
 		WindowEvent( event.window );
 		if ( event.type == SDL_QUIT )
 		{
-			//exit(EXIT_SUCCESS);
 			running = false;
-			//TODO: don't exit instantly, rather disrupt the game loop and exit through a controlled flow
 		}
 		if (event.type == SDL_DROPFILE)
 		{

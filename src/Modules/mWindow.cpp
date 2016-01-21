@@ -21,6 +21,13 @@ void mWindow::Bind(lua_State* L)
 		lBind(getWidth)
 		lBind(getHeight)
 		lBind(setSize)
+
+		lBind(getPosition)
+		lBind(setPosition)
+
+		lBind(getFullscreenMode)
+		lBind(setFullscreenMode)
+
 	lEnd(Window)
 	luaL_openlib(L, 0, Window_funcs, 0);
 	lua_setfield(L, -2, "window");
@@ -68,6 +75,52 @@ lFuncImp(mWindow, setSize)
 	lgInt(height, 2, 720);
 
 	Engine::SetWindowSize(glm::vec2(width, height));
+
+	return 0;
+}
+
+
+
+lFuncImp(mWindow, getPosition)
+{
+	lua_settop(L, 1);
+
+	glm::vec2 position = Engine::GetWindowPosition();
+
+	lua_pushnumber(L, position.x);
+	lua_pushnumber(L, position.y);
+
+	return 2;
+}
+
+lFuncImp(mWindow, setPosition)
+{
+	lua_settop(L, 3);
+
+	lgInt(x, 1, 0);
+	lgInt(y, 2, 0);
+
+	Engine::SetWindowPosition(glm::vec2(x, y));
+
+	return 0;
+}
+
+lFuncImp(mWindow, getFullscreenMode)
+{
+	lua_settop(L, 1);
+
+	lua_pushnumber(L, Engine::GetWindowFullscreenMode());
+	
+	return 1;
+}
+
+lFuncImp(mWindow, setFullscreenMode)
+{
+	lua_settop(L, 2);
+
+	lgInt(fullscreenMode, 1, 0);
+
+	Engine::SetWindowFullscreenMode(fullscreenMode);
 
 	return 0;
 }

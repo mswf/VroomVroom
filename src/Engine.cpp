@@ -584,3 +584,32 @@ void Engine::SetWindowSize(glm::vec2 dimensions)
 {
 	SDL_SetWindowSize(window, dimensions.x, dimensions.y);
 }
+
+glm::vec2 Engine::GetWindowPosition()
+{
+	int x, y;
+	SDL_GetWindowPosition(window, &x, &y);
+
+	return glm::vec2(x, y);
+}
+
+void Engine::SetWindowPosition(glm::vec2 position)
+{
+	SDL_SetWindowPosition(window, position.x, position.y);
+}
+
+void Engine::SetWindowFullscreenMode(int fullscreenMode)
+{
+	if (fullscreenMode == 2)
+		SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+	else if (fullscreenMode == 1)
+		SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+	else
+		SDL_SetWindowFullscreen(window, 0);
+}
+
+int Engine::GetWindowFullscreenMode()
+{
+	//TODO: implement this
+	return 0;
+}

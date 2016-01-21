@@ -22,6 +22,13 @@ private:
 	lFuncDef(getHeight);
 
 	lFuncDef(setSize);
+
+	lFuncDef(getPosition);
+	lFuncDef(setPosition);
+
+	lFuncDef(getFullscreenMode);
+	lFuncDef(setFullscreenMode);
+
 };
 
 #endif /* mWindow_hpp */

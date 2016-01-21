@@ -32,6 +32,13 @@ class Engine
 		static glm::vec2 GetWindowSize();
 		static void SetWindowSize(glm::vec2 dimensions);
 
+		static glm::vec2 GetWindowPosition();
+		static void SetWindowPosition(glm::vec2 position);
+
+		static void SetWindowFullscreenMode(int fullscreenMode);
+		static int GetWindowFullscreenMode();
+
+
 		static glm::vec3 CastRay( glm::vec3 origin, glm::vec3 direction, glm::vec3 plane, float distance );
 		static uint32 GetTicks();
 		

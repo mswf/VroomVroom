@@ -301,12 +301,13 @@ void Renderer::SetWindowSize( const int& w, const int& h )
 {
 	w_width = w;
 	w_height = h;
+#if __APPLE__
 	GLint dims[4] = {0};
 	glGetIntegerv(GL_VIEWPORT, dims);
 	GLint fbWidth = dims[2];
 	GLint fbHeight = dims[3];
-	// TODO: Valentinas, what was this trying to do?
-	// SetFramebufferScale( (float)fbWidth/w_width, (float)fbHeight/w_height );
+	SetFramebufferScale( (float)fbWidth/w_width, (float)fbHeight/w_height );
+#endif
 	SetViewportRect();
 }
 	

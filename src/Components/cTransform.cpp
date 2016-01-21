@@ -282,9 +282,9 @@ const glm::vec3 CTransform::GetEulerAngles() const
 void CTransform::SetRotation( const glm::vec3& rotation )
 {
 	glm::quat newRot;
-	newRot = glm::rotate(newRot, glm::radians( eulerRotation.z ), glm::vec3(0,0,1) );
-	newRot = glm::rotate(newRot, glm::radians( eulerRotation.y ), glm::vec3(0,1,0) );
-	newRot = glm::rotate(newRot, glm::radians( eulerRotation.x ), glm::vec3(1,0,0) );
+	newRot = glm::rotate(newRot, glm::radians( rotation.z ), glm::vec3(0,0,1) );
+	newRot = glm::rotate(newRot, glm::radians( rotation.y ), glm::vec3(0,1,0) );
+	newRot = glm::rotate(newRot, glm::radians( rotation.x ), glm::vec3(1,0,0) );
 	this->rotation = newRot;
 	Update();
 }

@@ -43,7 +43,7 @@ float CLight::GetIntensity() const
 
 glm::vec3 CLight::GetDirection() const
 {
-	return glm::eulerAngles(entity->transform->GetRotation());
+	return entity->transform->VectorForward() * -1.0f;
 }
 
 glm::vec3 CLight::GetPosition() const

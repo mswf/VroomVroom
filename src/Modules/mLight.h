@@ -18,8 +18,13 @@ class mLight {
 	lFuncDef(__engineInit);
 	
 	lFuncDef(setIntensity);
+	lFuncDef(getIntensity);
+
 	lFuncDef(setColor);
+	lFuncDef(getColor);
+
 	lFuncDef(setType);
+	lFuncDef(getType);
 };
 
 #endif /* mLight_hpp */

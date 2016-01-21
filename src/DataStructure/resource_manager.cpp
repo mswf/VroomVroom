@@ -38,8 +38,8 @@ void ResourceManager::Initialize()
 	LoadDefaultMeshes();
 	Material* defaultMat = new Material();
 	defaultMat->SetShader( GetShaderProgram("Default") );
-	defaultMat->name = "Default";
-	InsertMaterial(0, "Default", defaultMat );
+	defaultMat->name = "DefaultMaterial";
+	InsertMaterial(0, "DefaultMaterial", defaultMat );
 	++materialId;
 }
 

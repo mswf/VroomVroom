@@ -23,7 +23,7 @@ bool Importer::ImportObjFile( const std::string &pFile, bool importTextures )
 {
 	if ( Assets.MeshExists( pFile.c_str() ) )
 	{
-		Terminal.Warning(pFile + " already imported. Aborting redundant loading");
+		Terminal.Warning("Mesh " + pFile + " already imported. Aborting redundant loading");
 		return false;
 	}
 	
@@ -132,6 +132,7 @@ bool Importer::ImportImage( const char* filename, bool vertical_flip, FilterType
 	image->pixelData = imp_->ImportImage( file.c_str(), image->width, image->height, image->components, imp_err, vertical_flip );
 	if ( imp_err == IMPORTER_MESSAGE::IMAGE_FAILED_TO_LOAD )
 	{
+		Terminal.Warning( "Failed to load image [" + string(filename) + "], error: " + imp_->import_image_failure_reason );
 		std::string err_file( filename );
 		Terminal.Warning( "Failed to load image [" + err_file + "], error: " + imp_->import_image_failure_reason );
 		delete image;

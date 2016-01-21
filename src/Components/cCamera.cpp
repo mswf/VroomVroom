@@ -65,7 +65,7 @@ glm::vec3 CCamera::ScreenToWorldPosition( const glm::ivec2& position )
 {
 	if ( renderer == nullptr )
 	{
-		Terminal.Log("Fuck.. ScreenToWorldDirection doesn't have renderer and can't get window dimensions.", true);
+		Terminal.Log("ScreenToWorldDirection calls renderer is null.", true);
 		return glm::vec3(0);
 	}
 	

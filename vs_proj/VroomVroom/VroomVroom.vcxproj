@@ -255,6 +255,7 @@
     <ClCompile Include="..\..\src\content.cpp" />
     <ClCompile Include="..\..\src\DataStructure\material.cpp" />
     <ClCompile Include="..\..\src\DataStructure\mesh.cpp" />
+    <ClCompile Include="..\..\src\DataStructure\mesh_generator.cpp" />
     <ClCompile Include="..\..\src\DataStructure\resource_manager.cpp" />
     <ClCompile Include="..\..\src\DataStructure\shader.cpp" />
     <ClCompile Include="..\..\src\DataStructure\texture.cpp" />

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2305011C1C21696700E2B2B2 /* mAudio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2305011A1C21696700E2B2B2 /* mAudio.cpp */; };
-		23115D571C3A7FC30082E1A2 /* mWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23115D551C3A7FC30082E1A2 /* mWindow.cpp */; };
 		2321BFEE1C3C07FA00B60EA8 /* mLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2321BFEC1C3C07FA00B60EA8 /* mLight.cpp */; };
 		233B2A5C1BE8E11F0032447A /* mUi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 233B2A5A1BE8E11F0032447A /* mUi.cpp */; };
 		234C8B281BB96A3B00E61132 /* libassimpd.3.1.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 234C8B271BB96A3B00E61132 /* libassimpd.3.1.1.dylib */; };
@@ -61,6 +60,7 @@
 		E547260C1BC6A74E00316B26 /* UDPMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E54726081BC6A74E00316B26 /* UDPMessage.cpp */; };
 		E54726101BC6A78F00316B26 /* base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E547260E1BC6A78F00316B26 /* base64.cpp */; settings = {COMPILER_FLAGS = "-w"; }; };
 		E54D30911BB29675006FBC68 /* libGLEW.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E54D30901BB29675006FBC68 /* libGLEW.dylib */; };
+		E55939931C52401300EFB23B /* mWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E55939911C52401300EFB23B /* mWindow.cpp */; settings = {ASSET_TAGS = (); }; };
 		E55F88E01BEBA48C00433973 /* cMeshRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E55F88DE1BEBA48C00433973 /* cMeshRenderer.cpp */; };
 		E55F88E31BEBB22A00433973 /* material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E55F88E11BEBB22A00433973 /* material.cpp */; };
 		E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E567A8EF1BB1470200B8F6C3 /* main.cpp */; };
@@ -116,8 +116,6 @@
 		23040E021BDF78E800662A1B /* mAll.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = mAll.h; path = src/Modules/mAll.h; sourceTree = SOURCE_ROOT; };
 		2305011A1C21696700E2B2B2 /* mAudio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mAudio.cpp; path = src/Modules/mAudio.cpp; sourceTree = SOURCE_ROOT; };
 		2305011B1C21696700E2B2B2 /* mAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mAudio.h; path = src/Modules/mAudio.h; sourceTree = SOURCE_ROOT; };
-		23115D551C3A7FC30082E1A2 /* mWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mWindow.cpp; path = ../src/Modules/mWindow.cpp; sourceTree = "<group>"; };
-		23115D561C3A7FC30082E1A2 /* mWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mWindow.h; path = ../src/Modules/mWindow.h; sourceTree = "<group>"; };
 		2321BFEC1C3C07FA00B60EA8 /* mLight.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mLight.cpp; path = src/Modules/mLight.cpp; sourceTree = SOURCE_ROOT; };
 		2321BFED1C3C07FA00B60EA8 /* mLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mLight.h; path = src/Modules/mLight.h; sourceTree = SOURCE_ROOT; };
 		233B2A5A1BE8E11F0032447A /* mUi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mUi.cpp; path = src/Modules/mUi.cpp; sourceTree = SOURCE_ROOT; };
@@ -229,6 +227,8 @@
 		E547260F1BC6A78F00316B26 /* base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = base64.h; path = src/Utilities/base64.h; sourceTree = SOURCE_ROOT; };
 		E54D30901BB29675006FBC68 /* libGLEW.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.dylib; path = Framework/glew/Release/libGLEW.dylib; sourceTree = "<group>"; };
 		E54D309B1BB2D9C6006FBC68 /* glm */ = {isa = PBXFileReference; lastKnownFileType = folder; name = glm; path = src/glm; sourceTree = SOURCE_ROOT; };
+		E55939911C52401300EFB23B /* mWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mWindow.cpp; path = src/Modules/mWindow.cpp; sourceTree = SOURCE_ROOT; };
+		E55939921C52401300EFB23B /* mWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mWindow.h; path = src/Modules/mWindow.h; sourceTree = SOURCE_ROOT; };
 		E55F88DE1BEBA48C00433973 /* cMeshRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cMeshRenderer.cpp; path = src/Components/cMeshRenderer.cpp; sourceTree = SOURCE_ROOT; };
 		E55F88DF1BEBA48C00433973 /* cMeshRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cMeshRenderer.h; path = src/Components/cMeshRenderer.h; sourceTree = SOURCE_ROOT; };
 		E55F88E11BEBB22A00433973 /* material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = material.cpp; path = src/DataStructure/material.cpp; sourceTree = SOURCE_ROOT; };
@@ -318,8 +318,8 @@
 		23C59A2F1BCD2F6C00A37E29 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				23115D551C3A7FC30082E1A2 /* mWindow.cpp */,
-				23115D561C3A7FC30082E1A2 /* mWindow.h */,
+				E55939911C52401300EFB23B /* mWindow.cpp */,
+				E55939921C52401300EFB23B /* mWindow.h */,
 				E5D9F8E41BE247C7005AFAB1 /* mEntity.cpp */,
 				E5D9F8E61BE247DF005AFAB1 /* mEntity.h */,
 				23C59A301BCD305B00A37E29 /* mLog.cpp */,
@@ -671,13 +671,13 @@
 				23E22F5F1BE9FEBA00987545 /* uiSystem.cpp in Sources */,
 				E547260C1BC6A74E00316B26 /* UDPMessage.cpp in Sources */,
 				E53CB22C1BECA88C004B0F58 /* FileWatcher.cpp in Sources */,
+				E55939931C52401300EFB23B /* mWindow.cpp in Sources */,
 				E53CB22F1BECA88C004B0F58 /* FileWatcherWin32.cpp in Sources */,
 				2305011C1C21696700E2B2B2 /* mAudio.cpp in Sources */,
 				23FEEEA51BF0EE8600A83377 /* command.cpp in Sources */,
 				E53CB22D1BECA88C004B0F58 /* FileWatcherLinux.cpp in Sources */,
 				E59FDC911BBAC0EE008935C5 /* random.cpp in Sources */,
 				E567A8F91BB1470200B8F6C3 /* main.cpp in Sources */,
-				23115D571C3A7FC30082E1A2 /* mWindow.cpp in Sources */,
 				23C59A321BCD305B00A37E29 /* mLog.cpp in Sources */,
 				E5B2D5CD1C48F9CB00894F2B /* sphereCollider.cpp in Sources */,
 				23C59A361BCD3ACA00A37E29 /* mInput.cpp in Sources */,

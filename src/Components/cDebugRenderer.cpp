@@ -41,7 +41,7 @@ void CDebugRenderer::Call()
 
 void CDebugRenderer::Initialize()
 {
-	bufferSizeAmount = int( numberOfPoints / GetCountPerPrimitive() );
+	SetBufferSize();
 	CreateDynamicBuffer(vao, vbo, GetBufferSize() );
 }
 
@@ -152,8 +152,8 @@ const int CDebugRenderer::GetCountPerPrimitive() const
 		case DrawMode::POINTS: 		{ primitive = 1; break; }
 		case DrawMode::LINES: 		{ primitive = 2; break; }
 		case DrawMode::TRIANGLES:	{ primitive = 3; break; }
-		case DrawMode::NONE: 		{ primitive = 1; break; }
-		default: break;
+		case DrawMode::NONE:
+		default: primitive = 1; break;
 	}
 	return primitive;
 }

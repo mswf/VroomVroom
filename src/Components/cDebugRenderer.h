@@ -81,6 +81,7 @@ class CDebugRenderer : public Component
 		const DrawMode& GetDrawMode() const;
 		inline bool IsDrawingPoints() { return isDrawingPoints; }
 		inline bool IsBuffered() { return isBuffered; }
+		inline void SetBufferSize() { bufferSizeAmount = int( numberOfPoints / GetCountPerPrimitive() ); }
 		inline unsigned long GetBufferSize()
  		{
 			return sizeof(glm::vec3) * bufferSizeAmount + sizeof(glm::vec4) * bufferSizeAmount;

@@ -22,6 +22,7 @@ private:
 	lFuncDef(addLine);
 	lFuncDef(addTriangle);
 	lFuncDef(clear);
+	lFuncDef(setBufferSize);
 	lFuncDef(setDrawPoints);
 	lFuncDef(setPointSize);
 

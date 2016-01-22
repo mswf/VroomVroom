@@ -20,6 +20,7 @@ void mDebugRenderer::Bind(lua_State* L)
 		lBind(__engineInit)
 		lBind(addLine)
 		lBind(addTriangle)
+		lBind(setBufferSize)
 		lBind(setDrawPoints)
 		lBind(setPointSize)
 		lBind(clear)
@@ -141,5 +142,19 @@ lFuncImp(mDebugRenderer, setPointSize)
 
 	debug->SetPointSize(pointSize);
 
+	return 0;
+}
+
+lFuncImp(mDebugRenderer, setBufferSize)
+{
+	
+	lua_settop(L, 2);
+	lua_getfield(L, 1, "__coreComponent__");
+	CDebugRenderer* debug = static_cast<CDebugRenderer*>(lua_touserdata(L, -1));
+	
+	lgInt(pointNumber, 2, 4096);
+	
+	debug->SetNumberOfPoints(pointNumber);
+	
 	return 0;
 }

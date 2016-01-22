@@ -6,6 +6,7 @@ const int CDebugRenderer::familyId = static_cast<int>(ComponentTypes::DEBUG_REND
 std::vector< CDebugRenderer* > CDebugRenderer::list;
 
 const int POINT_COUNT = 4096;
+const char* WARNING_BUFFER_SIZE = "DebugRenderer is trying to have more data than the buffer is initialized!";
 
 CDebugRenderer::CDebugRenderer() :
 	vao(0),
@@ -40,23 +41,17 @@ void CDebugRenderer::Call()
 
 void CDebugRenderer::Initialize()
 {
-	int primitive = 0;
-	switch (mode)
-	{
-		
-		case DrawMode::POINTS: 		{ primitive = 1; break; }
-		case DrawMode::LINES: 		{ primitive = 2; break; }
-		case DrawMode::TRIANGLES:	{ primitive = 3; break; }
-		case DrawMode::NONE: 		{ primitive = 1; break; }
-		default: break;
-	}
-	int count = int( numberOfPoints / primitive );
-	bufferSizeAmount = count;
-	unsigned long bSize = sizeof(glm::vec3) * count + sizeof(glm::vec4) * count;
-	CreateDynamicBuffer(vao, vbo, bSize);
+	bufferSizeAmount = int( numberOfPoints / GetCountPerPrimitive() );
+	CreateDynamicBuffer(vao, vbo, GetBufferSize() );
 }
 
-void CDebugRenderer::AddPrimivite( glm::vec3 point, glm::vec4 colour )
+void CDebugRenderer::AddPoint( glm::vec3 point, glm::vec4 colour )
+{
+	points.push_back( point );
+	colours.push_back( colour );
+}
+
+void CDebugRenderer::AddPrimivite( Point p )
 {
 	if ( mode == DrawMode::NONE)
 	{
@@ -65,10 +60,9 @@ void CDebugRenderer::AddPrimivite( glm::vec3 point, glm::vec4 colour )
 	}
 	if ( bufferSizeAmount < points.size() )
 	{
-		Terminal.Warning( "DebugRenderer is trying to have more data than the buffer is initialized!" );
+		Terminal.Warning( WARNING_BUFFER_SIZE );
 	}
-	points.push_back(point);
-	colours.push_back(colour);
+	AddPoint( p.point, p.colour );
 }
 
 void CDebugRenderer::AddPrimivite( Line line )
@@ -80,12 +74,10 @@ void CDebugRenderer::AddPrimivite( Line line )
 	}
 	if ( bufferSizeAmount < points.size() )
 	{
-		Terminal.Warning( "DebugRenderer is trying to have more data than the buffer is initialized!" );
+		Terminal.Warning( WARNING_BUFFER_SIZE );
 	}
-	points.push_back(line.start);
-	colours.push_back(line.colour);
-	points.push_back(line.end);
-	colours.push_back(line.colour);
+	AddPoint(line.start, line.colour);
+	AddPoint(line.end, line.colour);
 }
 
 void CDebugRenderer::AddPrimivite( Triangle triangle )
@@ -95,12 +87,13 @@ void CDebugRenderer::AddPrimivite( Triangle triangle )
 		mode = DrawMode::TRIANGLES;
 		Initialize();
 	}
-	points.push_back(triangle.v1);
-	colours.push_back(triangle.colour);
-	points.push_back(triangle.v2);
-	colours.push_back(triangle.colour);
-	points.push_back(triangle.v3);
-	colours.push_back(triangle.colour);
+	if ( bufferSizeAmount < points.size() )
+	{
+		Terminal.Warning( WARNING_BUFFER_SIZE );
+	}
+	AddPoint(triangle.v1, triangle.colour);
+	AddPoint(triangle.v2, triangle.colour);
+	AddPoint(triangle.v3, triangle.colour);
 }
 
 const bool CDebugRenderer::ContainsPrimitives() const
@@ -118,6 +111,15 @@ void CDebugRenderer::UpdateBuffer()
 	unsigned int offset = sizeof(glm::vec3) * static_cast<unsigned int>(points.size());
 	BufferUpdate( vbo, 0, static_cast<unsigned int>(points.size()), &points.front() );
 	BufferUpdate( vbo, offset, static_cast<unsigned int>(colours.size()), &colours.front() );
+}
+
+void CDebugRenderer::ResizeBuffer()
+{
+	DeleteVertexArray( vao );
+	DeleteArrayBuffer( vbo );
+	CreateDynamicBuffer(vao, vbo, GetBufferSize() );
+	isBuffered = false;
+	UpdateBuffer();
 }
 
 void CDebugRenderer::Clear()
@@ -142,6 +144,20 @@ const DrawMode& CDebugRenderer::GetDrawMode() const
 	return mode;
 }
 
+const int CDebugRenderer::GetCountPerPrimitive() const
+{
+	int primitive = 0;
+	switch (mode)
+	{
+		case DrawMode::POINTS: 		{ primitive = 1; break; }
+		case DrawMode::LINES: 		{ primitive = 2; break; }
+		case DrawMode::TRIANGLES:	{ primitive = 3; break; }
+		case DrawMode::NONE: 		{ primitive = 1; break; }
+		default: break;
+	}
+	return primitive;
+}
+
 void CDebugRenderer::SetDrawPoints( bool enabled )
 {
 	isDrawingPoints = enabled;
@@ -150,6 +166,12 @@ void CDebugRenderer::SetDrawPoints( bool enabled )
 void CDebugRenderer::SetPointSize( float size )
 {
 	pointSize = size;
+}
+
+void CDebugRenderer::SetNumberOfPoints( int number )
+{
+	numberOfPoints = number;
+	ResizeBuffer();
 }
 
 std::vector< CDebugRenderer* >* CDebugRenderer::GetDebugRendererList()

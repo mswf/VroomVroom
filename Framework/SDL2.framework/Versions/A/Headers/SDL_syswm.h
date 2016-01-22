@@ -150,6 +150,7 @@ struct SDL_SysWMmsg
         struct
         {
             /* No Cocoa window events yet */
+			int dummy;
         } cocoa;
 #endif
 #if defined(SDL_VIDEO_DRIVER_UIKIT)

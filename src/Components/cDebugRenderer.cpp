@@ -9,6 +9,7 @@ const int POINT_COUNT = 4096;
 const char* WARNING_BUFFER_SIZE = "DebugRenderer is trying to have more data than the buffer is initialized!";
 
 CDebugRenderer::CDebugRenderer() :
+	isInitialised(false),
 	vao(0),
 	vbo(0),
 	numberOfPoints( POINT_COUNT ),
@@ -41,6 +42,7 @@ void CDebugRenderer::Call()
 
 void CDebugRenderer::Initialize()
 {
+	isInitialised = true;
 	SetBufferSize();
 	CreateDynamicBuffer(vao, vbo, GetBufferSize() );
 }
@@ -115,8 +117,11 @@ void CDebugRenderer::UpdateBuffer()
 
 void CDebugRenderer::ResizeBuffer()
 {
-	DeleteVertexArray( vao );
-	DeleteArrayBuffer( vbo );
+	if (isInitialised)
+	{
+		DeleteVertexArray(vao);
+		DeleteArrayBuffer(vbo);
+	}
 	CreateDynamicBuffer(vao, vbo, GetBufferSize() );
 	isBuffered = false;
 	UpdateBuffer();

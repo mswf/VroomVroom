@@ -92,6 +92,7 @@ class CDebugRenderer : public Component
 	
 	
 	private:
+		bool isInitialised;
 	
 		unsigned int vbo;
 		unsigned int numberOfPoints;

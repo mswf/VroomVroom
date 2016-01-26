@@ -141,7 +141,7 @@ bool Importer::ImportImage( const char* filename, bool vertical_flip, FilterType
 	image->minFilter = minFilter;
 	image->wrap = wrapping;
 	image->mipmapping = false;
-	image->components = 3;
+	image->components = 4;
 	IMPORTER_MESSAGE imp_err = IMPORTER_MESSAGE::FILE_OK;
 	image->pixelData = imp_->ImportImage( file.c_str(), image->width, image->height, image->components, imp_err, vertical_flip );
 	if ( imp_err == IMPORTER_MESSAGE::IMAGE_FAILED_TO_LOAD )
@@ -160,7 +160,7 @@ ImageData* Importer::ReImportImage( const char* filename, bool vertical_flip ) c
 {
 	std::string file( Content::GetPath() + "/" + filename );
 	ImageData* image = new ImageData();
-	image->components = 3;
+	image->components = 4;
 	IMPORTER_MESSAGE imp_err = IMPORTER_MESSAGE::FILE_OK;
 	image->pixelData = imp_->ImportImage( file.c_str(), image->width, image->height, image->components, imp_err, vertical_flip );
 	if ( imp_err == IMPORTER_MESSAGE::IMAGE_FAILED_TO_LOAD )

@@ -317,7 +317,7 @@ bool ResourceManager::BufferImage2D( const char* name )
 
 	if ( !img->isBuffered || it_imageId == imageIds.end() )
 	{
-		img->imageId = BufferTexture2D( GL_RGB, img->width, img->height, GL_RGB, GL_UNSIGNED_BYTE,
+		img->imageId = BufferTexture2D( GL_RGBA, img->width, img->height, GL_RGBA, GL_UNSIGNED_BYTE,
 										img->pixelData, img->magFilter, img->minFilter, img->wrap, img->mipmapping);
 		img->isBuffered = true;
 		imageIds.insert( std::make_pair( string(name), img->imageId ) );
@@ -343,7 +343,7 @@ bool ResourceManager::UpdateImage2DBuffer( const char* name )
 	StringToID::const_iterator it_imageId = imageIds.find(name);
 	if ( img->isBuffered || it_imageId != imageIds.end() )
 	{
-		UpdateBufferImage2D( img->imageId, 0, 0, img->width, img->width, GL_RGB, GL_UNSIGNED_BYTE, img->pixelData, img->mipmapping );
+		UpdateBufferImage2D( img->imageId, 0, 0, img->width, img->width, GL_RGBA, GL_UNSIGNED_BYTE, img->pixelData, img->mipmapping );
 		return true;
 	}
 	return false;

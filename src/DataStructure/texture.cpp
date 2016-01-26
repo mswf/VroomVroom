@@ -75,8 +75,8 @@ GLuint BufferCubeMap( GLint size, bool mipmap, uint8* nx, uint8* ny, uint8* nz, 
 	uint32 cubeMapId;
 	glGenTextures( 1, &cubeMapId );
 	
-	GLenum internalFormat = GL_RGB;
-	GLenum pixelFormat = GL_RGB;
+	GLenum internalFormat = GL_RGBA;
+	GLenum pixelFormat = GL_RGBA;
 	GLenum type = GL_UNSIGNED_BYTE;
 	bool MM = true;
 	

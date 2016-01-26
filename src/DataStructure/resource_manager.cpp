@@ -381,7 +381,7 @@ bool ResourceManager::ImportCubeMap( const char* textures[], const char* name, b
 	int i;
 	for ( i = 0; i < 6; ++i)
 	{
-		ImportImage( textures[i] );
+		ImportImage( textures[i] , false);
 	}
 	
 	uint32 size = GetImageData( textures[0] )->width;

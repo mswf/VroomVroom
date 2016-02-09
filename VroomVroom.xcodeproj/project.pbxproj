@@ -42,7 +42,6 @@
 		E50529521BE8CDC90017400B /* imgui_impl_sdl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E50529481BE8CDC90017400B /* imgui_impl_sdl.cpp */; };
 		E50529531BE8CDC90017400B /* imgui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E505294B1BE8CDC90017400B /* imgui.cpp */; };
 		E50529561BE8CDD50017400B /* RtMidi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E50529541BE8CDD50017400B /* RtMidi.cpp */; };
-		E505295B1BE8CDE50017400B /* Clock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E50529571BE8CDE50017400B /* Clock.cpp */; };
 		E50529661BE8CE0A0017400B /* cCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E505295D1BE8CE0A0017400B /* cCamera.cpp */; };
 		E50529691BE8CE0A0017400B /* cTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E50529641BE8CE0A0017400B /* cTransform.cpp */; };
 		E505296C1BE8EF020017400B /* entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E505296A1BE8EF020017400B /* entity.cpp */; };
@@ -186,8 +185,6 @@
 		E505294F1BE8CDC90017400B /* stb_truetype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_truetype.h; path = src/ImGUI/stb_truetype.h; sourceTree = SOURCE_ROOT; };
 		E50529541BE8CDD50017400B /* RtMidi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RtMidi.cpp; path = src/IO/RtMidi.cpp; sourceTree = SOURCE_ROOT; };
 		E50529551BE8CDD50017400B /* RtMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RtMidi.h; path = src/IO/RtMidi.h; sourceTree = SOURCE_ROOT; };
-		E50529571BE8CDE50017400B /* Clock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Clock.cpp; sourceTree = "<group>"; };
-		E50529581BE8CDE50017400B /* Clock.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Clock.hpp; sourceTree = "<group>"; };
 		E50529591BE8CDE50017400B /* standardIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = standardIncludes.h; sourceTree = "<group>"; };
 		E505295A1BE8CDE50017400B /* typedef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = typedef.h; sourceTree = "<group>"; };
 		E505295D1BE8CE0A0017400B /* cCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cCamera.cpp; path = src/Components/cCamera.cpp; sourceTree = SOURCE_ROOT; };
@@ -483,8 +480,6 @@
 			isa = PBXGroup;
 			children = (
 				E53CB2221BECA880004B0F58 /* FileWatcher */,
-				E50529571BE8CDE50017400B /* Clock.cpp */,
-				E50529581BE8CDE50017400B /* Clock.hpp */,
 				E50529591BE8CDE50017400B /* standardIncludes.h */,
 				E505295A1BE8CDE50017400B /* typedef.h */,
 				E547260E1BC6A78F00316B26 /* base64.cpp */,
@@ -692,7 +687,6 @@
 				E50344251C1EFBD300AAE1BD /* cCollider.cpp in Sources */,
 				E50529501BE8CDC90017400B /* imgui_demo.cpp in Sources */,
 				E50529661BE8CE0A0017400B /* cCamera.cpp in Sources */,
-				E505295B1BE8CDE50017400B /* Clock.cpp in Sources */,
 				E5ED45BD1C05F93C0009BD5A /* importer.cpp in Sources */,
 				E5ED45BC1C05F93C0009BD5A /* importer_imp.cpp in Sources */,
 				23E1BD881C0C7A7900F49BCF /* mModel.cpp in Sources */,

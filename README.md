@@ -15,30 +15,30 @@ Distributed under the GNU GPL 3.0 License.
 This project used the following libraries:  
 
 #### SDL2
-Copyright © 1995-2004 [Jean-loup Gailly] and [Mark Adler]
+Copyright © 1995-2004 Jean-loup Gailly and Mark Adler
 This software is provided 'as-is'
 
 #### SDL_NET
-Copyright (C) 1997-2016 [Sam Lantinga] (slouken@libsdl.org)
+Copyright (C) 1997-2016 Sam Lantinga
 This software is provided 'as-is'
 
 #### GLEW
-Copyright © 2002-2007, [Milan Ikits] (milan ikits[]ieee org)
-Copyright © 2002-2007, [Marcelo E. Magallon] (mmagallo[]debian org)
-Copyright © 2002, [Lev Povalahev]
-Copyright © 1999-2007  [Brian Paul]   All Rights Reserved.
+Copyright © 2002-2007, Milan Ikits
+Copyright © 2002-2007, Marcelo E. Magallon
+Copyright © 2002, Lev Povalahev
+Copyright © 1999-2007  Brian Paul   All Rights Reserved.
 Copyright © 2007 The Khronos Group Inc.
 
 #### GLM
-Copyright © 2005 - 2014 G-Truc Creation
+Copyright © 2005 - 2014 [G-Truc Creation] (http://glm.g-truc.net/0.9.7/index.html)
 Distributed under The Happy Bunny License and MIT License
 
 #### Assimp
-Copyright © 2006-2015 assimp team All rights reserved.
+Copyright © 2006-2015 [assimp team] (https://github.com/assimp/assimp) All rights reserved.
 This software is provided 'as-is'
 
 #### FMOD
-Copyright © 2004-2016 Firelight Technologies Pty, Ltd.
+Copyright © 2004-2016 [Firelight Technologies Pty, Ltd.] (http://www.fmod.org)
 
 #### LuaJIT
 Copyright © 2005-2015 [Mike Pall] (http://luajit.org/)
@@ -51,10 +51,10 @@ Doug Lea and released to the public domain, as explained at
 http://creativecommons.org/licenses/publicdomain
 
 #### Lua
-Copyright © 1994-2012 Lua.org, PUC-Rio.
+Copyright © 1994-2012 [Lua.org] (http://www.lua.org), PUC-Rio.
 
 #### FileWatcher
-Copyright © 2009 [James Wynn] (james@jameswynn.com)
+Copyright © 2009 [James Wynn] (https://github.com/jameswynn/simplefilewatcher)
 Distributed under the MIT License.
 
 #### ImGUI

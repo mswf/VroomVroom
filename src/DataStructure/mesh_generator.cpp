@@ -74,13 +74,16 @@ void Quad( ModelInstance*& instance )
 {
 	instance = new ModelInstance();
 	
+	float scale = 16.0f/9.0f;
+
 	glm::vec3 vertices[4] =
 	{
-		glm::vec3( -1.0,  1.0, 0.0 ),
-		glm::vec3( -1.0, -1.0, 0.0 ),
-		glm::vec3(  1.0, -1.0, 0.0 ),
-		glm::vec3(  1.0,  1.0, 0.0 )
+		glm::vec3( -1.0*scale,  1.0, 0.0 ),
+		glm::vec3( -1.0*scale, -1.0, 0.0 ),
+		glm::vec3(  1.0*scale, -1.0, 0.0 ),
+		glm::vec3(  1.0*scale,  1.0, 0.0 )
 	};
+
 	
 	unsigned int indices[6] = { 0,1,2, 2,3,0 };
 	
